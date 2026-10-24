@@ -1,0 +1,21 @@
+{
+ "product": "ЯBOWZR",
+ "id": "rbowzr-android",
+ "platform": "android",
+ "bundleId": "local.rizal.yabowzr",
+ "lineVersion": "2.1.9",
+ "installed": {
+  "version": "0.1.3",
+  "build": "-"
+ },
+ "signed": false,
+ "note": "UNSIGNED - no update offered (no real egg yet); ed25519 after GO + Face ID",
+ "previousUpdateMethod": "updateFeed rizal.info/rbowzr/android/updates/index.json",
+ "items": [],
+ "mirrors": [
+  "https://raw.githubusercontent.com/RIZALEON/RZL-EGG/main/rbowzr/android/appcast.json",
+  "https://rizaleon.github.io/RZL-EGG/rbowzr/android/appcast.json",
+  "http://rizals-macbook-neo.local:8341/rbowzr/android/appcast.json"
+ ],
+ "updated": "2026-10-24T13:05:00-06:00"
+}

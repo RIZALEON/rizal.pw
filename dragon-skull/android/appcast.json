@@ -1,0 +1,21 @@
+{
+ "product": "DRAGON SKULL",
+ "id": "dragon-skull-android",
+ "platform": "android",
+ "bundleId": "-",
+ "lineVersion": "2.1.9",
+ "installed": {
+  "version": "1.0.2",
+  "build": "-"
+ },
+ "signed": false,
+ "note": "UNSIGNED - no update offered (no real egg yet); ed25519 after GO + Face ID",
+ "previousUpdateMethod": "APK on Drive, no feed known",
+ "items": [],
+ "mirrors": [
+  "https://raw.githubusercontent.com/RIZALEON/RZL-EGG/main/dragon-skull/android/appcast.json",
+  "https://rizaleon.github.io/RZL-EGG/dragon-skull/android/appcast.json",
+  "http://rizals-macbook-neo.local:8341/dragon-skull/android/appcast.json"
+ ],
+ "updated": "2026-10-24T13:05:00-06:00"
+}

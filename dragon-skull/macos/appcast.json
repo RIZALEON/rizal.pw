@@ -1,0 +1,21 @@
+{
+ "product": "DRAGON SKULL",
+ "id": "dragon-skull-macos",
+ "platform": "macos",
+ "bundleId": "com.rzl.dragonskull",
+ "lineVersion": "2.1.9",
+ "installed": {
+  "version": "1.0.4",
+  "build": "10"
+ },
+ "signed": false,
+ "note": "UNSIGNED - no update offered (no real egg yet); ed25519 after GO + Face ID",
+ "previousUpdateMethod": "none found in Info.plist",
+ "items": [],
+ "mirrors": [
+  "https://raw.githubusercontent.com/RIZALEON/RZL-EGG/main/dragon-skull/macos/appcast.json",
+  "https://rizaleon.github.io/RZL-EGG/dragon-skull/macos/appcast.json",
+  "http://rizals-macbook-neo.local:8341/dragon-skull/macos/appcast.json"
+ ],
+ "updated": "2026-10-24T13:05:00-06:00"
+}

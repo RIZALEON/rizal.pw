@@ -1,0 +1,21 @@
+{
+ "product": "DRAGON SKULL",
+ "id": "dragon-skull-linux",
+ "platform": "linux",
+ "bundleId": "-",
+ "lineVersion": "2.1.9",
+ "installed": {
+  "version": "1.0.0",
+  "build": "-"
+ },
+ "signed": false,
+ "note": "UNSIGNED - no update offered (no real egg yet); ed25519 after GO + Face ID",
+ "previousUpdateMethod": ".deb on Drive acct2, no feed known",
+ "items": [],
+ "mirrors": [
+  "https://raw.githubusercontent.com/RIZALEON/RZL-EGG/main/dragon-skull/linux/appcast.json",
+  "https://rizaleon.github.io/RZL-EGG/dragon-skull/linux/appcast.json",
+  "http://rizals-macbook-neo.local:8341/dragon-skull/linux/appcast.json"
+ ],
+ "updated": "2026-10-24T13:05:00-06:00"
+}

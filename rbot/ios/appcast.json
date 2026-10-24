@@ -1,0 +1,21 @@
+{
+ "product": "ЯBOT",
+ "id": "rbot-ios",
+ "platform": "ios",
+ "bundleId": "io.github.rizaleon.yaaim",
+ "lineVersion": "2.1.9",
+ "installed": {
+  "version": "2.1.9",
+  "build": "2026101902"
+ },
+ "signed": false,
+ "note": "UNSIGNED - no update offered (no real egg yet); ed25519 after GO + Face ID",
+ "previousUpdateMethod": "update badge + Mac relay feed (REggKit)",
+ "items": [],
+ "mirrors": [
+  "https://raw.githubusercontent.com/RIZALEON/RZL-EGG/main/rbot/ios/appcast.json",
+  "https://rizaleon.github.io/RZL-EGG/rbot/ios/appcast.json",
+  "http://rizals-macbook-neo.local:8341/rbot/ios/appcast.json"
+ ],
+ "updated": "2026-10-24T13:05:00-06:00"
+}

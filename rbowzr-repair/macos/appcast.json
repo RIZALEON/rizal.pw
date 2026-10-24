@@ -1,0 +1,21 @@
+{
+ "product": "ЯBOWZR Repair",
+ "id": "rbowzr-repair-macos",
+ "platform": "macos",
+ "bundleId": "info.rizal.rbowzr.repair-launcher",
+ "lineVersion": "2.1.9",
+ "installed": {
+  "version": "-",
+  "build": "-"
+ },
+ "signed": false,
+ "note": "UNSIGNED - no update offered (no real egg yet); ed25519 after GO + Face ID",
+ "previousUpdateMethod": "none (launcher droplet)",
+ "items": [],
+ "mirrors": [
+  "https://raw.githubusercontent.com/RIZALEON/RZL-EGG/main/rbowzr-repair/macos/appcast.json",
+  "https://rizaleon.github.io/RZL-EGG/rbowzr-repair/macos/appcast.json",
+  "http://rizals-macbook-neo.local:8341/rbowzr-repair/macos/appcast.json"
+ ],
+ "updated": "2026-10-24T13:05:00-06:00"
+}

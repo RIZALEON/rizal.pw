@@ -1,0 +1,21 @@
+{
+ "product": "DRAGOSKUL",
+ "id": "dragoskul-macos",
+ "platform": "macos",
+ "bundleId": "info.rizal.dragoskul.rvm",
+ "lineVersion": "2.1.9",
+ "installed": {
+  "version": "0.2.2",
+  "build": "2026102201"
+ },
+ "signed": false,
+ "note": "UNSIGNED - no update offered (no real egg yet); ed25519 after GO + Face ID",
+ "previousUpdateMethod": "per-skill appcast-signed.json inside web/skills",
+ "items": [],
+ "mirrors": [
+  "https://raw.githubusercontent.com/RIZALEON/RZL-EGG/main/dragoskul/macos/appcast.json",
+  "https://rizaleon.github.io/RZL-EGG/dragoskul/macos/appcast.json",
+  "http://rizals-macbook-neo.local:8341/dragoskul/macos/appcast.json"
+ ],
+ "updated": "2026-10-24T13:05:00-06:00"
+}
