@@ -139,3 +139,6 @@ body>#csp-panel{position:fixed;left:0;top:0;bottom:0;width:340px;z-index:900;ove
 #csp-panel .rc-sub{margin-top:8px;color:#b388ff;font-size:11px}#csp-panel .rc-hist{margin:4px 0 0 16px;padding:0;font-size:11px}#csp-panel .rc-test{font-size:10px;margin-top:4px}
 #csp-panel .rc-prof .rc-back{cursor:pointer;color:#b388ff;font-size:12px}#csp-panel .rc-pbig{position:relative;width:120px;height:120px;margin:10px auto;border:2px solid #39ff14}#csp-panel .rc-big{inset:6px;opacity:.9}
 @media (prefers-reduced-motion:reduce){#csp-panel .rc-cube.rc-auto{animation:none}}
+/* ЯSYNC bar */
+#csp-panel .rs-bar{font-size:11px;margin:6px 0;padding:4px 6px;border:1px dashed #b388ff;border-radius:4px;color:#b388ff}
+#csp-panel .rs-b{cursor:pointer;border:1px solid #39ff14;color:#39ff14;border-radius:10px;padding:0 6px;margin-left:4px;white-space:nowrap}

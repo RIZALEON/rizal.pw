@@ -72,6 +72,31 @@
  function persist(){try{localStorage.setItem(CK,JSON.stringify(EV))}catch(e){toast("storage full")}}
  function verifyLocal(){var bad=[];return EV.reduce(function(pr,e,i){return pr.then(function(){if(e.seq!==i)bad.push(i+": seq");if(i&&e.prev!==EV[i-1].hash)bad.push(i+": prev link");var c=Object.assign({},e);delete c.hash;return crypto.subtle.digest("SHA-256",new TextEncoder().encode(canon(c))).then(function(b){if(hx(b)!==e.hash)bad.push(i+": hash")})})},Promise.resolve()).then(function(){return{ok:!bad.length,events:EV.length,problems:bad}})}
  if(STORE)fetch(STORE+"/api/events").then(function(r){return r.json()}).then(function(rs){var have={};EV.forEach(function(e){have[e.id]=1});rs.forEach(function(e){if(!have[e.id])EV.push(e);if(e.t==="post"&&!RGOK[e.id])rgenCheck(e.id)});render()}).catch(function(){});
+ /* ===== ЯSYNC (rsync-core.js): peer-to-peer, multi-master sync of signed permanent entries across devices.
+    Merge = union by id + verify (content id + RGEN seal), so tampered, forged or unsigned peer entries are rejected.
+    Transports: same-device tabs (BroadcastChannel), an offline bundle file (export/import), and any EXISTING peer in RDRAGON_CONFIG.peers (GET/POST /api/rsync/entries). This site opens no server of its own. */
+ var RS=null,RSI={peers:[],last:null,rej:0};
+ function rsSigner(){return S.me&&S.me.sign&&S.me.pub?{pub:S.me.pub,sign:S.me.sign}:null}
+ function rsAdopt(added){var have={},n=0;EV.forEach(function(e){have[e.id]=1});added.forEach(function(e){if(e.rgen&&e.signer)RGOK[e.id]=1;if(have[e.id])return;var o=Object.assign({},e);delete o.rgen;delete o.cid;o.seq=EV.length;o.prev=EV.length?EV[EV.length-1].hash:"0".repeat(64);o.peer=1;EV.push(o);n++});
+  try{localStorage.setItem(RGK,JSON.stringify(RGOK))}catch(e){}if(n)persist();return n}
+ if(window.RSync&&crypto.subtle){RS=RSync.create({storage:RSync.adapters.localStorage("rdragon.csp.rsync.v1")});
+  RS.ready.then(function(){rsAdopt(RS.entries());var bc=RSync.adapters.broadcast("rdragon.csp.rsync");if(bc){RS.attach(bc);RSI.peers.push("tabs")}
+   (CFG.peers||[]).forEach(function(u){RSI.peers.push(u);RS.attach(RSync.adapters.httpPeer(u))});
+   RS.onChange(function(r){RSI.last=new Date();RSI.rej+=r.rejected.length;if(rsAdopt(r.added)||r.rejected.length)render()});render()})}
+ var _addEv=addEv;addEv=function(ev){if(S.me&&S.me.handle&&!ev.by)ev.by=S.me.handle;var r=_addEv(ev),sg=rsSigner();if(RS&&sg&&r.t!=="view"){var b=Object.assign({},r);delete b.seq;delete b.prev;delete b.hash;b.by=S.me.handle||b.by;
+   RS.append(b,sg).then(function(x){if(x.added[0]){RGOK[r.id]=1;try{localStorage.setItem(RGK,JSON.stringify(RGOK))}catch(e){}render()}})}return r};
+ /* zero-login device profile: a non-extractable P-256 key made by WebCrypto and kept in IndexedDB on this device. It never leaves the device and there is no server. */
+ function idb(){return new Promise(function(ok,no){var q=indexedDB.open("rdragon.csp.keys",1);q.onupgradeneeded=function(){q.result.createObjectStore("k")};q.onsuccess=function(){ok(q.result)};q.onerror=no})}
+ function idbGet(){return idb().then(function(d){return new Promise(function(ok){var t=d.transaction("k").objectStore("k").get("device");t.onsuccess=function(){ok(t.result||null)};t.onerror=function(){ok(null)}})})}
+ function idbPut(v){return idb().then(function(d){return new Promise(function(ok){var t=d.transaction("k","readwrite");t.objectStore("k").put(v,"device");t.oncomplete=ok})})}
+ function useDevice(rec){return RSync.deviceSigner(rec.kp).then(function(sg){S.me={handle:rec.handle,profile:"RDEV-"+sg.pub.slice(0,12),pub:sg.pub,sign:sg.sign,device:1};render()})}
+ function makeDevice(){var h=(prompt("Choose your handle (e.g. @you)","@")||"").trim();if(!/^@[A-Za-z0-9_]{2,30}$/.test(h)){toast("handle must look like @name");return}
+  RSync.deviceSigner().then(function(sg){var rec={handle:h,kp:sg.keyPair,created:new Date().toISOString()};return idbPut(rec).then(function(){return useDevice(rec)})}).then(function(){toast("device profile "+h+" created · entries are now RGEN-signed on this device")}).catch(function(){toast("this browser cannot store a device key")})}
+ if(window.RSync&&window.indexedDB&&!S.me)idbGet().then(function(r){if(r&&r.kp&&!S.me)useDevice(r)}).catch(function(){});
+ function rsExport(){if(!RS)return;var b=new Blob([JSON.stringify(RS.bundle())],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="rsync-bundle-"+Date.now()+".json";document.body.appendChild(a);a.click();a.remove()}
+ function rsImport(){var i=document.createElement("input");i.type="file";i.accept="application/json,.json";i.onchange=function(){var f=i.files[0];if(!f)return;f.text().then(function(t){return RS.importBundle(JSON.parse(t),"bundle")}).then(function(r){toast("ЯSYNC: +"+r.added.length+" entries, "+r.rejected.length+" rejected")}).catch(function(){toast("not an ЯSYNC bundle")})};i.click()}
+ function syncBar(){if(!RS)return "";return '<div class="rs-bar"><span title="peer-to-peer sync: union + RGEN verify">ЯSYNC</span> '+RS.size()+' signed · peers: '+E(RSI.peers.join(", ")||"none")+(RSI.rej?' · <b>'+RSI.rej+' rejected</b>':'')+
+  ' <span class="rs-b" data-rs="export">export</span><span class="rs-b" data-rs="import">import</span>'+(S.me?' · <span class="csp-dim">'+E(S.me.handle)+(S.me.device?' (device key)':'')+'</span>':' <span class="rs-b" data-rs="device">create device profile</span>')+'</div>'}
  /* one-time migration of legacy localStorage posts/replies into events (they are kept, never dropped) */
  if(!S.migrated){S.posts.forEach(function(o){addEv({t:"post",id:o.id,text:o.t,media:o.media||[]});(o.c||[]).forEach(function(c){addEv({t:"comment",id:c.id,parent:o.id,post:o.id,text:c.t})})});S.replies.forEach(function(r){addEv({t:"comment",id:r.id,parent:PIN,post:PIN,text:r.t})});if(S.prof.ptext)addEv({t:"revise",target:PIN,text:S.prof.ptext});S.migrated=1;save()}
  function fold(){var P={},C={},R={},order=[];P[PIN]={id:PIN,pinned:1,revs:[{text:lines.map(function(l){return "✓ "+l.replace(/&amp;/g,"&")}).join("\n"),ts:"legacy"}],media:[{key:"asset:post.jpg",type:"image",name:"post.jpg",src:base+"assets/post.jpg"}],kids:[],likes:{},reposts:{},views:{}};
@@ -138,7 +163,7 @@
   '<div class="csp-tabs">'+["Posts","Video","Articles","Projects","Cubes"].map(function(t){return '<span data-a="tab" data-t="'+t+'" class="'+(t===S.tab&&S.nav==="home"?'on':'')+'">'+t+'</span>'}).join("")+'</div>'+
   '<div class="csp-view">'+view()+'</div>'+
   '<div class="csp-nav">'+[["home","⌂"],["search","⌕"],["compose","+"],["alerts",'<svg class="csp-bell" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>'],["msgs","✉"]].map(function(n){return '<span data-a="nav" data-n="'+n[0]+'" class="'+(n[0]==="compose"?'plus ':'')+(S.nav===n[0]?'on':'')+'" title="'+{home:"Home",search:"Search",compose:"New post",alerts:"Alerts",msgs:"Messages"}[n[0]]+'">'+n[1]+'</span>'}).join("")+'</div>'+
-  (S.me?'':'<div class="csp-gate" style="display:none">🔐 <b>Make a profile</b> or log in with your wallet (RLogin) to post or reply. Reading is open to everyone.</div>')+'<div class="csp-ready"><b>C:\\SOCIAL&gt;</b><br>READY.</div><div class="csp-toast" style="display:none"></div>';
+  syncBar()+(S.me?'':'<div class="csp-gate" style="display:none">🔐 <b>Make a profile</b> or log in with your wallet (RLogin) to post or reply. Reading is open to everyone.'+(RS?' <span class="rs-b" data-rs="device">create device profile (zero login)</span>':'')+'</div>')+'<div class="csp-ready"><b>C:\\SOCIAL&gt;</b><br>READY.</div><div class="csp-toast" style="display:none"></div>';
   p.classList.toggle("csp-off",!S.on);p.scrollTop=keepScroll;
   var q=p.querySelector("#csp-q");if(q){q.oninput=function(){var s=q.value.toLowerCase(),out=[];if(s){people.forEach(function(x){if((x[0]+x[1]).toLowerCase().indexOf(s)>-1)out.push("👤 "+x[0]+" · "+x[1])});
    [S.prof.name,S.prof.handle,S.prof.bio,S.prof.ptext||""].concat(lines,EV.filter(function(x){return x.t==="post"||x.t==="comment"}).map(function(x){return x.text})).forEach(function(l){if(l.toLowerCase().indexOf(s)>-1)out.push("✓ "+l)});[].concat(stub.Video,stub.Articles,stub.Projects).forEach(function(l){if(l.toLowerCase().indexOf(s)>-1)out.push("• "+l)})}
@@ -194,12 +219,23 @@
     Data: storeEndpoint /api/rcube/* (proto: RGENERATOR egg4 Mint/Rid/RFID/Tracker via rcube.js, LOCAL TEST ledger). Each face = a linked profile; click opens it. */
  var RC={list:null,sel:null,cube:null,rx:-22,ry:35,spin:true,err:"",prof:null};
  function rcGet(u){return fetch(STORE+u).then(function(r){return r.json()})}
- function rcLoad(rid){if(!STORE){RC.err="no store connected";return render()}
+ function rcLoad(rid){if(!STORE)return rcLocal(rid);
   return rcGet("/api/rcube/cubes").then(function(l){RC.list=l.slice().reverse();RC.err="";var r=rid||RC.sel||(RC.list[0]&&RC.list[0].rid);RC.sel=r;if(!r){RC.cube=null;return render()}
    return rcGet("/api/rcube/cube/"+encodeURIComponent(r)).then(function(c){RC.cube=c;render()})}).catch(function(){RC.err="store unreachable";render()})}
  function rcode(hex,cls){var o='<svg class="'+(cls||"rc-code")+'" viewBox="0 0 8 8" shape-rendering="crispEdges" aria-hidden="true">';for(var i=0;i<64;i++){var v=parseInt(hex[i%hex.length]||"0",16);if(v>=8)o+='<rect x="'+(i%8)+'" y="'+(i>>3)+'" width="1" height="1"/>'}return o+'</svg>'}
  function rhex(s){var h=0,o="";for(var k=0;k<8;k++){h=0;for(var i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i)+k*7)>>>0;o+=("00000000"+h.toString(16)).slice(-8)}return o}
  function rcT(t){var d=new Date(t);if(isNaN(d))return E(String(t||""));try{return E(d.toLocaleString("en-US",{timeZone:"America/Denver",month:"short",day:"numeric",hour:"numeric",minute:"2-digit",second:"2-digit",timeZoneName:"short"}))}catch(e){return E(d.toISOString())}}
+
+ /* Offline / peer mode (no proto store): a cube is a signed ЯSYNC entry t:"rcube.assemble" with faces = your profile plus the profiles you follow.
+    Its ЯID is computed in the browser (Я-LOCAL-…). Stamp and RFID need the RGENERATOR issuer and RFID authority, so they show as pending. */
+ function rcFacesLocal(){var me=(S.me&&S.me.handle)||S.prof.handle,f=[me],m={};EV.forEach(function(e){if(e.by===me&&(e.t==="follow"||e.t==="unfollow"))m[e.target]=e.t==="follow"});Object.keys(m).forEach(function(h){if(m[h]&&f.indexOf(h)<0&&f.length<6)f.push(h)});return f}
+ function rcLocalAssemble(){if(!S.me)return gate();addEv({t:"rcube.assemble",title:"R cube · "+S.me.handle,faces:rcFacesLocal()});toast("R cube assembled + RGEN-signed on this device");setTimeout(function(){RC.list=null;rcLocal()},300)}
+ function rcLocal(rid){var cs=EV.filter(function(e){return e.t==="rcube.assemble"});var mk=function(e){var h=rhex((e.id||"")+(e.hash||e.ts||""));return{rid:"Я-LOCAL-"+h.slice(0,10).toUpperCase(),title:e.title||"R cube",ev:e,local:1}};
+  RC.list=cs.map(mk).reverse();RC.err="";var pick=RC.list.find(function(x){return x.rid===(rid||RC.sel)})||RC.list[0];
+  if(!pick){var fs=rcFacesLocal();pick={rid:"Я-PREVIEW-"+rhex(fs.join("|")).slice(0,10).toUpperCase(),title:"Preview · "+fs[0],ev:{faces:fs,ts:"",by:fs[0]},local:1,preview:1}}
+  RC.sel=pick.rid;var e=pick.ev;
+  RC.cube={rid:pick.rid,title:pick.title,local:1,preview:pick.preview,holder:e.by,faces:(e.faces||[]).map(function(h){return{tokenId:h,handle:h,name:h,owner:"",profileRid:"profile "+h,code:rhex("Rcode|"+h+"|"+pick.rid)}}),
+   verify:{ok:!!RGOK[e.id],local:1},track:EV.filter(function(x){return x.id===e.id||((x.t==="follow"||x.t==="unfollow")&&(e.faces||[]).indexOf(x.target)>=0)}).map(function(x){return{op:x.t,seq:x.seq,ts:x.ts}}),handoffs:[]};render();return Promise.resolve()}
  var FACES=["front","right","back","left","top","bottom"];
  function cubeView(){if(RC.list===null){rcLoad();return '<div class="csp-dim">loading R cubes…</div>'}
   if(RC.err)return '<div class="csp-card"><b>R CUBES</b><div class="csp-dim">'+E(RC.err)+'</div></div>';
@@ -211,13 +247,13 @@
   return '<div class="rc-wrap">'+(RC.list.length>1?'<div class="rc-pick">'+RC.list.map(function(x){return '<span data-rc="pick" data-r="'+E(x.rid)+'" class="'+(x.rid===c.rid?"on":"")+'">'+E(x.title)+'</span>'}).join("")+'</div>':'')+
    '<div class="rc-scene" data-rc="scene"><div class="rc-cube'+(RC.spin?' rc-auto':'')+'" style="--rx:'+RC.rx+'deg;--ry:'+RC.ry+'deg">'+fs+'</div></div>'+
    '<div class="rc-ctl"><span data-rc="rot" data-d="l">◀</span><span data-rc="rot" data-d="u">▲</span><span data-rc="spin">'+(RC.spin?"❚❚ stop":"↻ spin")+'</span><span data-rc="rot" data-d="d">▼</span><span data-rc="rot" data-d="r">▶</span></div>'+
-   '<div class="csp-card rc-info"><div class="rc-title">'+E(c.title)+' <span class="rc-badge '+(v.ok?"ok":"bad")+'">'+(v.ok?"✔ RGEN verified":"✖ not verified")+'</span></div>'+
+   '<div class="csp-card rc-info"><div class="rc-title">'+E(c.title)+' <span class="rc-badge '+(v.ok?"ok":"bad")+'">'+(v.ok?(v.local?"✔ RGEN signed (verified in browser)":"✔ RGEN verified"):(c.preview?"preview · not signed yet":"✖ not verified"))+'</span></div>'+
    '<div class="rc-row"><span>ЯID</span><code class="rc-rid">'+E(c.rid)+'</code></div>'+
-   '<div class="rc-row"><span>STAMP</span><code>'+(st?'stamped · ledger #'+st.seq+' · America/Denver · Utah':'— not stamped')+'</code></div>'+
-   '<div class="rc-row"><span>RFID</span><code class="rc-rfid">'+(rf?E(rf.tag_uid)+' → '+E(rf.rfid)+(rf.valid?' ✔':' ✖'):'— no tag bound')+'</code></div>'+
-   '<div class="rc-row"><span>HOLDER</span><code>'+E((c.holder||"").slice(0,6)+"…"+(c.holder||"").slice(-4))+'</code></div>'+
+   '<div class="rc-row"><span>STAMP</span><code>'+(st?'stamped · ledger #'+st.seq+' · America/Denver · Utah':(c.local?'pending · needs the RGENERATOR issuer node':'— not stamped'))+'</code></div>'+
+   '<div class="rc-row"><span>RFID</span><code class="rc-rfid">'+(rf?E(rf.tag_uid)+' → '+E(rf.rfid)+(rf.valid?' ✔':' ✖'):(c.local?'pending · needs the RFID authority':'— no tag bound'))+'</code></div>'+
+   '<div class="rc-row"><span>HOLDER</span><code>'+E(c.local?(c.holder||""):(c.holder||"").slice(0,6)+"…"+(c.holder||"").slice(-4))+'</code></div>'+
    '<div class="rc-row"><span>FACES</span><code>'+c.faces.length+' linked profile'+(c.faces.length===1?'':'s')+'</code></div>'+
-   '<div class="csp-dim rc-test">TEST ledger · local only · not the real Ghost Chain</div>'+
+   (c.local?'<div class="csp-dim rc-test">ЯSYNC peer cube · signed on device, synced peer-to-peer · not on any chain'+(c.preview?' · <span class="rs-b" data-rs="assemble">assemble + sign this cube</span>':'')+'</div>':'<div class="csp-dim rc-test">TEST ledger · local only · not the real Ghost Chain</div>')+
    '<div class="rc-sub">TRACKER HISTORY</div><ol class="rc-hist">'+hist+'</ol></div></div>'}
  function rprofView(){var f=RC.prof||{};return '<div class="csp-card rc-prof"><span class="rc-back" data-rc="back">← cube</span><div class="rc-pbig">'+rcode(f.code||rhex(f.tokenId||"x"),"rc-code rc-big")+'</div>'+
   '<div class="rc-title">'+E(f.name||f.handle||"")+'</div><div class="csp-dim">'+E(f.handle||"")+'</div>'+
@@ -225,7 +261,7 @@
  var _view=view;view=function(){if(S.nav==="rprof")return rprofView();if(S.nav==="home"&&S.tab==="Cubes")return cubeView();return _view()};
  function rcApply(){var k=p.querySelector(".rc-cube");if(k){k.style.setProperty("--rx",RC.rx+"deg");k.style.setProperty("--ry",RC.ry+"deg")}}
  var _build=build;build=function(){_build();
-  p.addEventListener("click",function(ev){if(ev.target.closest('[data-a="tab"][data-t="Cubes"]')){RC.list=null;return rcLoad()}var el=ev.target.closest("[data-rc]");if(!el)return;var a=el.dataset.rc;
+  p.addEventListener("click",function(ev){var rs=ev.target.closest("[data-rs]");if(rs){var k=rs.dataset.rs;if(k==="export")rsExport();else if(k==="import")rsImport();else if(k==="device")makeDevice();else if(k==="assemble")rcLocalAssemble();return}if(ev.target.closest('[data-a="tab"][data-t="Cubes"]')){RC.list=null;return rcLoad()}var el=ev.target.closest("[data-rc]");if(!el)return;var a=el.dataset.rc;
    if(a==="face"){if(RC.moved)return;RC.prof=RC.cube.faces.find(function(f){return f.tokenId===el.dataset.t});S.nav="rprof";render()}
    else if(a==="back"){S.nav="home";S.tab="Cubes";render()}
    else if(a==="pick"){RC.sel=el.dataset.r;rcLoad(RC.sel)}
@@ -234,6 +270,6 @@
   var drag=null;p.addEventListener("pointerdown",function(ev){if(!ev.target.closest(".rc-scene"))return;drag={x:ev.clientX,y:ev.clientY,rx:RC.rx,ry:RC.ry};RC.moved=false});
   window.addEventListener("pointermove",function(ev){if(!drag)return;var dx=ev.clientX-drag.x,dy=ev.clientY-drag.y;if(Math.abs(dx)+Math.abs(dy)>4){RC.moved=true;if(RC.spin){RC.spin=false;var k=p.querySelector(".rc-cube");if(k)k.classList.remove("rc-auto")}}RC.ry=drag.ry+dx*0.6;RC.rx=drag.rx-dy*0.6;rcApply()});
   window.addEventListener("pointerup",function(){drag=null;setTimeout(function(){RC.moved=false},0)})};
- window.RDRAGON_CSP.rcube={load:rcLoad,state:function(){return RC}};
+ window.RDRAGON_CSP.rsync=function(){return RS};window.RDRAGON_CSP.rcube={load:rcLoad,state:function(){return RC}};
  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",build);else build();
 })();
