@@ -63,7 +63,7 @@
   return v}
  function render(){var keepScroll=p.scrollTop;
   p.innerHTML='<div class="csp-top">'+F("title")+'<button class="csp-x" data-a="toggle" title="collapse (Cmd/Ctrl+Shift+K)">'+(S.on?'×':'+')+'</button></div>'+
-  '<div class="csp-banner" data-a="pickbanner" title="click to change banner" style="background-image:'+img("banner","banner.jpg")+'"><img class="csp-gm" src="'+base+'assets/ghostmachine-logo.jpg" alt="GHOSTMACHINE" title="GHOSTMACHINE"><button class="csp-b csp-bv" data-a="verified" title="'+E(S.prof.verified)+' · click to edit badge">✔ Verified</button><button class="csp-b csp-bw" data-a="wallet" title="RDG wallet · double-click to set balance">&gt; Wallet</button></div>'+
+  '<div class="csp-banner" data-a="pickbanner" title="click to change banner" style="background-image:'+img("banner","banner.jpg")+'"><img class="csp-gm" src="'+base+'assets/ghostmachine-logo.jpg" alt="GHOSTMACHINE" title="GHOSTMACHINE"><button class="csp-b csp-bv" data-a="verified" title="'+E(S.prof.verified)+' · click to edit badge">✔ Verified</button><a class="csp-b csp-bw" href="https://rizal.info/" title="Wallet · rizal.info">&gt; Wallet</a></div>'+
   '<div class="csp-av" data-a="pickavatar" title="click to change profile picture" style="background-image:'+img("avatar","avatar.jpg")+'"></div>'+
   '<div class="csp-name">'+F("name")+'</div><div class="csp-handle">'+F("handle")+'</div>'+
   (S.wopen?'<div class="csp-wx"><div>balance <b>'+S.rdg+' RDG</b> <span class="csp-dim">(local ledger · offline · no keys)</span></div><div style="margin:4px 0"><a href="'+CASH+'" target="_blank" rel="noopener">send via cash.app/$chaserizal ↗</a></div><button data-a="copyhandle">copy $chaserizal</button> <button data-a="wallet">close</button></div>':'')+
