@@ -135,7 +135,7 @@
   '<div class="csp-metarow"><div class="csp-meta"><div>location · '+F("location")+'</div><div>link · '+F("link")+'</div><div>joined · '+F("joined")+'</div></div>'+
   '<div class="csp-pbtns"><button class="csp-pill csp-msgbtn" data-a="dm">✉ Message</button><button class="csp-pill csp-follow'+(FS.iFollow?' on':'')+'" data-a="pfollow">'+(FS.iFollow?'✓ Following':'+ Follow')+'</button></div></div>'+
   '<div class="csp-ff"><span data-a="people"><b class="csp-nfollowing">'+FS.following+'</b> Following</span> · <span data-a="people"><b class="csp-nfollowers">'+FS.followers+'</b> Followers</span></div></div>'+
-  '<div class="csp-tabs">'+["Posts","Video","Articles","Projects"].map(function(t){return '<span data-a="tab" data-t="'+t+'" class="'+(t===S.tab&&S.nav==="home"?'on':'')+'">'+t+'</span>'}).join("")+'</div>'+
+  '<div class="csp-tabs">'+["Posts","Video","Articles","Projects","Cubes"].map(function(t){return '<span data-a="tab" data-t="'+t+'" class="'+(t===S.tab&&S.nav==="home"?'on':'')+'">'+t+'</span>'}).join("")+'</div>'+
   '<div class="csp-view">'+view()+'</div>'+
   '<div class="csp-nav">'+[["home","⌂"],["search","⌕"],["compose","+"],["alerts",'<svg class="csp-bell" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>'],["msgs","✉"]].map(function(n){return '<span data-a="nav" data-n="'+n[0]+'" class="'+(n[0]==="compose"?'plus ':'')+(S.nav===n[0]?'on':'')+'" title="'+{home:"Home",search:"Search",compose:"New post",alerts:"Alerts",msgs:"Messages"}[n[0]]+'">'+n[1]+'</span>'}).join("")+'</div>'+
   (S.me?'':'<div class="csp-gate" style="display:none">🔐 <b>Make a profile</b> or log in with your wallet (RLogin) to post or reply. Reading is open to everyone.</div>')+'<div class="csp-ready"><b>C:\\SOCIAL&gt;</b><br>READY.</div><div class="csp-toast" style="display:none"></div>';
@@ -190,5 +190,50 @@
   render()}
  setTimeout(retry,1500);window.RDRAGON_CSP={events:function(){return EV.slice()},verify:verifyLocal,botReply:bot,attachData:function(m){S.draft=(S.draft||[]).concat([m])},toggle:function(v){S.on=v===undefined?!S.on:!!v;save();render()},setRDG:function(n){S.rdg=(+n||0).toFixed(2);save();render()},reset:function(){toast("reset disabled: posts are permanent")},signin:function(me){S.me=me||null;try{sessionStorage.setItem('rdragon.csp.me',JSON.stringify(me&&{handle:me.handle,profile:me.profile,session:me.session}))}catch(e){}if(me&&me.handle)S.prof.handle=me.handle;render()},signout:function(){S.me=null;sessionStorage.removeItem('rdragon.csp.me');render()},me:function(){return S.me}};
  document.addEventListener("keydown",function(e){if((e.metaKey||e.ctrlKey)&&e.shiftKey&&(e.key==="K"||e.key==="k")){e.preventDefault();window.RDRAGON_CSP.toggle()}});
+ /* ---------- R CUBE viewer (spinnable CSS-3D cube of R digital code; no CDN, no WebGL lib) ----------
+    Data: storeEndpoint /api/rcube/* (proto: RGENERATOR egg4 Mint/Rid/RFID/Tracker via rcube.js, LOCAL TEST ledger). Each face = a linked profile; click opens it. */
+ var RC={list:null,sel:null,cube:null,rx:-22,ry:35,spin:true,err:"",prof:null};
+ function rcGet(u){return fetch(STORE+u).then(function(r){return r.json()})}
+ function rcLoad(rid){if(!STORE){RC.err="no store connected";return render()}
+  return rcGet("/api/rcube/cubes").then(function(l){RC.list=l.slice().reverse();RC.err="";var r=rid||RC.sel||(RC.list[0]&&RC.list[0].rid);RC.sel=r;if(!r){RC.cube=null;return render()}
+   return rcGet("/api/rcube/cube/"+encodeURIComponent(r)).then(function(c){RC.cube=c;render()})}).catch(function(){RC.err="store unreachable";render()})}
+ function rcode(hex,cls){var o='<svg class="'+(cls||"rc-code")+'" viewBox="0 0 8 8" shape-rendering="crispEdges" aria-hidden="true">';for(var i=0;i<64;i++){var v=parseInt(hex[i%hex.length]||"0",16);if(v>=8)o+='<rect x="'+(i%8)+'" y="'+(i>>3)+'" width="1" height="1"/>'}return o+'</svg>'}
+ function rhex(s){var h=0,o="";for(var k=0;k<8;k++){h=0;for(var i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i)+k*7)>>>0;o+=("00000000"+h.toString(16)).slice(-8)}return o}
+ function rcT(t){var d=new Date(t);if(isNaN(d))return E(String(t||""));try{return E(d.toLocaleString("en-US",{timeZone:"America/Denver",month:"short",day:"numeric",hour:"numeric",minute:"2-digit",second:"2-digit",timeZoneName:"short"}))}catch(e){return E(d.toISOString())}}
+ var FACES=["front","right","back","left","top","bottom"];
+ function cubeView(){if(RC.list===null){rcLoad();return '<div class="csp-dim">loading R cubes…</div>'}
+  if(RC.err)return '<div class="csp-card"><b>R CUBES</b><div class="csp-dim">'+E(RC.err)+'</div></div>';
+  if(!RC.cube)return '<div class="csp-card"><b>R CUBES</b><div class="csp-dim">No cubes yet. A cube is assembled from linked profiles (rcube.assemble) and gets its own ЯID.</div></div>';
+  var c=RC.cube,v=c.verify||{},st=(c.track||[]).find(function(x){return x.op==="stamp"}),rf=v.rfid,fs="";
+  FACES.forEach(function(nm,i){var f=c.faces[i];fs+=f?'<div class="rc-face rc-'+nm+'" data-rc="face" data-t="'+E(f.tokenId)+'" title="open '+E(f.handle)+'">'+rcode(f.code)+'<div class="rc-glyph">Я</div><div class="rc-h">'+E(f.handle)+'</div></div>'
+   :'<div class="rc-face rc-'+nm+' rc-fill">'+rcode(rhex(c.rid+nm))+'<div class="rc-glyph">Я</div></div>'});
+  var hist=(c.track||[]).map(function(x){return '<li><b>'+E(x.op)+'</b>'+(x.symbol?' · '+E(x.symbol):'')+' <span class="csp-dim">#'+x.seq+' '+rcT(x.ts)+'</span></li>'}).concat((c.handoffs||[]).map(function(h){return '<li><b>handoff</b> → '+E(h.to.slice(0,6)+"…"+h.to.slice(-4))+' <span class="csp-dim">#'+h.seq+' '+rcT(h.ts)+'</span></li>'})).join("");
+  return '<div class="rc-wrap">'+(RC.list.length>1?'<div class="rc-pick">'+RC.list.map(function(x){return '<span data-rc="pick" data-r="'+E(x.rid)+'" class="'+(x.rid===c.rid?"on":"")+'">'+E(x.title)+'</span>'}).join("")+'</div>':'')+
+   '<div class="rc-scene" data-rc="scene"><div class="rc-cube'+(RC.spin?' rc-auto':'')+'" style="--rx:'+RC.rx+'deg;--ry:'+RC.ry+'deg">'+fs+'</div></div>'+
+   '<div class="rc-ctl"><span data-rc="rot" data-d="l">◀</span><span data-rc="rot" data-d="u">▲</span><span data-rc="spin">'+(RC.spin?"❚❚ stop":"↻ spin")+'</span><span data-rc="rot" data-d="d">▼</span><span data-rc="rot" data-d="r">▶</span></div>'+
+   '<div class="csp-card rc-info"><div class="rc-title">'+E(c.title)+' <span class="rc-badge '+(v.ok?"ok":"bad")+'">'+(v.ok?"✔ RGEN verified":"✖ not verified")+'</span></div>'+
+   '<div class="rc-row"><span>ЯID</span><code class="rc-rid">'+E(c.rid)+'</code></div>'+
+   '<div class="rc-row"><span>STAMP</span><code>'+(st?'stamped · ledger #'+st.seq+' · America/Denver · Utah':'— not stamped')+'</code></div>'+
+   '<div class="rc-row"><span>RFID</span><code class="rc-rfid">'+(rf?E(rf.tag_uid)+' → '+E(rf.rfid)+(rf.valid?' ✔':' ✖'):'— no tag bound')+'</code></div>'+
+   '<div class="rc-row"><span>HOLDER</span><code>'+E((c.holder||"").slice(0,6)+"…"+(c.holder||"").slice(-4))+'</code></div>'+
+   '<div class="rc-row"><span>FACES</span><code>'+c.faces.length+' linked profile'+(c.faces.length===1?'':'s')+'</code></div>'+
+   '<div class="csp-dim rc-test">TEST ledger · local only · not the real Ghost Chain</div>'+
+   '<div class="rc-sub">TRACKER HISTORY</div><ol class="rc-hist">'+hist+'</ol></div></div>'}
+ function rprofView(){var f=RC.prof||{};return '<div class="csp-card rc-prof"><span class="rc-back" data-rc="back">← cube</span><div class="rc-pbig">'+rcode(f.code||rhex(f.tokenId||"x"),"rc-code rc-big")+'</div>'+
+  '<div class="rc-title">'+E(f.name||f.handle||"")+'</div><div class="csp-dim">'+E(f.handle||"")+'</div>'+
+  '<div class="rc-row"><span>PROFILE</span><code>'+E(f.tokenId||"")+'</code></div><div class="rc-row"><span>ЯID</span><code>'+E(f.profileRid||"")+'</code></div><div class="rc-row"><span>OWNER</span><code>'+E((f.owner||"").slice(0,6)+"…"+(f.owner||"").slice(-4))+'</code></div></div>'}
+ var _view=view;view=function(){if(S.nav==="rprof")return rprofView();if(S.nav==="home"&&S.tab==="Cubes")return cubeView();return _view()};
+ function rcApply(){var k=p.querySelector(".rc-cube");if(k){k.style.setProperty("--rx",RC.rx+"deg");k.style.setProperty("--ry",RC.ry+"deg")}}
+ var _build=build;build=function(){_build();
+  p.addEventListener("click",function(ev){if(ev.target.closest('[data-a="tab"][data-t="Cubes"]')){RC.list=null;return rcLoad()}var el=ev.target.closest("[data-rc]");if(!el)return;var a=el.dataset.rc;
+   if(a==="face"){if(RC.moved)return;RC.prof=RC.cube.faces.find(function(f){return f.tokenId===el.dataset.t});S.nav="rprof";render()}
+   else if(a==="back"){S.nav="home";S.tab="Cubes";render()}
+   else if(a==="pick"){RC.sel=el.dataset.r;rcLoad(RC.sel)}
+   else if(a==="spin"){RC.spin=!RC.spin;render()}
+   else if(a==="rot"){RC.spin=false;var d=el.dataset.d;if(d==="l")RC.ry-=90;if(d==="r")RC.ry+=90;if(d==="u")RC.rx+=90;if(d==="d")RC.rx-=90;render()}});
+  var drag=null;p.addEventListener("pointerdown",function(ev){if(!ev.target.closest(".rc-scene"))return;drag={x:ev.clientX,y:ev.clientY,rx:RC.rx,ry:RC.ry};RC.moved=false});
+  window.addEventListener("pointermove",function(ev){if(!drag)return;var dx=ev.clientX-drag.x,dy=ev.clientY-drag.y;if(Math.abs(dx)+Math.abs(dy)>4){RC.moved=true;if(RC.spin){RC.spin=false;var k=p.querySelector(".rc-cube");if(k)k.classList.remove("rc-auto")}}RC.ry=drag.ry+dx*0.6;RC.rx=drag.rx-dy*0.6;rcApply()});
+  window.addEventListener("pointerup",function(){drag=null;setTimeout(function(){RC.moved=false},0)})};
+ window.RDRAGON_CSP.rcube={load:rcLoad,state:function(){return RC}};
  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",build);else build();
 })();

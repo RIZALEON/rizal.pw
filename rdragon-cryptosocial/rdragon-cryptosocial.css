@@ -117,3 +117,25 @@ body>#csp-panel{position:fixed;left:0;top:0;bottom:0;width:340px;z-index:900;ove
 #csp-panel .csp-links{display:flex;flex-direction:column;gap:2px;margin:4px 0}
 #csp-panel .csp-links a{color:#39ff14;font-size:12px;word-break:break-all}
 #csp-panel .csp-cover{height:140px;border-radius:6px}
+/* R CUBE viewer: CSS 3D, no external assets */
+#csp-panel .rc-wrap{padding:6px 2px}
+#csp-panel .rc-pick{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}#csp-panel .rc-pick span{cursor:pointer;border:1px solid #39ff14;border-radius:12px;padding:2px 8px;font-size:11px}#csp-panel .rc-pick span.on{background:#39ff14;color:#000}
+#csp-panel .rc-scene{--s:170px;width:var(--s);height:var(--s);margin:34px auto 58px;perspective:800px;touch-action:none;cursor:grab;user-select:none}
+#csp-panel .rc-cube{position:relative;width:100%;height:100%;transform-style:preserve-3d;transform:rotateX(var(--rx)) rotateY(var(--ry));transition:transform .35s ease}
+#csp-panel .rc-cube.rc-auto{animation:rc-spin 14s linear infinite;transition:none}
+@keyframes rc-spin{from{transform:rotateX(-22deg) rotateY(0)}to{transform:rotateX(-22deg) rotateY(360deg)}}
+#csp-panel .rc-face{position:absolute;inset:0;border:2px solid #39ff14;background:rgba(0,20,0,.88);box-shadow:inset 0 0 18px rgba(57,255,20,.35),0 0 10px rgba(179,136,255,.35);display:flex;align-items:center;justify-content:center;flex-direction:column;cursor:pointer;backface-visibility:visible}
+#csp-panel .rc-face.rc-fill{cursor:default;opacity:.8;border-color:#b388ff}
+#csp-panel .rc-front{transform:translateZ(calc(var(--s)/2))}#csp-panel .rc-back{transform:rotateY(180deg) translateZ(calc(var(--s)/2))}
+#csp-panel .rc-right{transform:rotateY(90deg) translateZ(calc(var(--s)/2))}#csp-panel .rc-left{transform:rotateY(-90deg) translateZ(calc(var(--s)/2))}
+#csp-panel .rc-top{transform:rotateX(90deg) translateZ(calc(var(--s)/2))}#csp-panel .rc-bottom{transform:rotateX(-90deg) translateZ(calc(var(--s)/2))}
+#csp-panel .rc-code{position:absolute;inset:10px;width:calc(100% - 20px);height:calc(100% - 20px);fill:#39ff14;opacity:.28}
+#csp-panel .rc-fill .rc-code{fill:#b388ff}
+#csp-panel .rc-glyph{position:relative;font:bold 54px/1 monospace;color:#39ff14;text-shadow:0 0 8px #39ff14}
+#csp-panel .rc-h{position:relative;font-size:10px;max-width:90%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;background:#000;padding:1px 4px;margin-top:6px;color:#fff}
+#csp-panel .rc-ctl{display:flex;justify-content:center;gap:10px;margin-bottom:10px}#csp-panel .rc-ctl span{cursor:pointer;border:1px solid #39ff14;border-radius:4px;padding:2px 8px;font-size:12px}
+#csp-panel .rc-title{font-weight:bold;margin-bottom:6px}#csp-panel .rc-badge{font-size:10px;border-radius:10px;padding:1px 7px;border:1px solid}#csp-panel .rc-badge.ok{color:#39ff14}#csp-panel .rc-badge.bad{color:#ff5470}
+#csp-panel .rc-row{display:flex;gap:8px;font-size:11px;margin:3px 0}#csp-panel .rc-row span{min-width:58px;color:#b388ff}#csp-panel .rc-row code{word-break:break-all}
+#csp-panel .rc-sub{margin-top:8px;color:#b388ff;font-size:11px}#csp-panel .rc-hist{margin:4px 0 0 16px;padding:0;font-size:11px}#csp-panel .rc-test{font-size:10px;margin-top:4px}
+#csp-panel .rc-prof .rc-back{cursor:pointer;color:#b388ff;font-size:12px}#csp-panel .rc-pbig{position:relative;width:120px;height:120px;margin:10px auto;border:2px solid #39ff14}#csp-panel .rc-big{inset:6px;opacity:.9}
+@media (prefers-reduced-motion:reduce){#csp-panel .rc-cube.rc-auto{animation:none}}
