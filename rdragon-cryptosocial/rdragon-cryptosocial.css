@@ -98,3 +98,5 @@ body>#csp-panel{position:fixed;left:0;top:0;bottom:0;width:340px;z-index:900;ove
 #csp-panel .csp-follow{background:#8a2be2;color:#fff;border:1px solid #b388ff;box-shadow:0 0 8px #8a2be2}
 #csp-panel .csp-follow.on{background:#1a0630;color:#b388ff}
 @media (max-width:600px){#csp-panel .csp-metarow{flex-direction:column;align-items:stretch}#csp-panel .csp-pbtns{width:100%}#csp-panel .csp-pill{flex:1}}
+
+#csp-panel .csp-rgen{display:inline-block;margin-left:6px;padding:0 6px;border:1px solid #39ff14;border-radius:999px;color:#39ff14;font-size:10px;line-height:16px;vertical-align:middle}
