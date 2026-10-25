@@ -11,11 +11,29 @@
  "signed": false,
  "note": "UNSIGNED - no update offered (no real egg yet); ed25519 after GO + Face ID",
  "previousUpdateMethod": "APK on Drive, no feed known",
- "items": [],
+ "items": [
+  {
+   "hosts": [
+    "dragonskull"
+   ],
+   "id": "social-autoreply-dragonskull-android",
+   "kind": "egg",
+   "name": "social-autoreply-dragonskull-android-1.0.4-8-sar1.rzl",
+   "platforms": [
+    "android"
+   ],
+   "sha256": "67f92a5ab32b20e70071a07ba0a642775186cb6696c3d5bdcb4dfe8cfa81ef6d",
+   "size": 34133,
+   "title": "Social auto-reply (RDRAGON + Cryptosocial) · Decider GO 2026-10-25 · ed25519 pending Face ID",
+   "url": "eggs/social-autoreply-dragonskull-android-1.0.4-8-sar1.rzl",
+   "version": "1.0.4-8-sar1",
+   "signed": false
+  }
+ ],
  "mirrors": [
   "https://raw.githubusercontent.com/RIZALEON/RZL-EGG/main/dragon-skull/android/appcast.json",
   "https://rizaleon.github.io/RZL-EGG/dragon-skull/android/appcast.json",
   "http://rizals-macbook-neo.local:8341/dragon-skull/android/appcast.json"
  ],
- "updated": "2026-10-24T13:05:00-06:00"
+ "updated": "2026-10-25T10:10:00-06:00"
 }
