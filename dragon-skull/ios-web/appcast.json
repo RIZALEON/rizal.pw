@@ -1,79 +1,81 @@
 {
- "product": "DRAGON SKULL iOS",
- "id": "dragon-skull-ios",
- "feed": "RIZALEON multi-mirror",
- "signed": false,
- "note": "UNSIGNED - current build only, no new egg offered; ed25519 added via RDRAGON/SIGNING-METHOD/sign.sh after GO + Face ID",
- "app": {
-  "version": "1.0.4",
-  "build": "8",
-  "minimumSystemVersion": "16.4"
- },
- "items": [
-  {
-   "hosts": [
-    "dragonskull"
-   ],
-   "id": "shot-sense-dragonskull-ios",
-   "kind": "egg",
-   "minHostVersion": "2.1.9",
-   "name": "shot-sense-dragonskull-ios-2.1.9-s2.rzl",
-   "platforms": [
-    "ios",
-    "ipados"
-   ],
-   "sha256": "ea5f36dbf87d2377a5b5f78acb9ef0f53651911b9621f3784113d9ad1eefa55e",
-   "size": 4287,
-   "title": "shot-sense dragonskull-ios 2.1.9-s2 · SHOT/SSHOT/SEE relay via BOTBRIDGE :4873/shot-sense · signed e5833fdfbbfe (ЯCASKET Face ID) pending Face ID",
-   "url": "eggs/shot-sense-dragonskull-ios-2.1.9-s2.rzl",
-   "version": "2.1.9-s2",
-   "ed25519": "iOnSesVkgQcpInYXGLZLxcyakm2L2+KC4myX4oluLFxcNpng89QcKoJ1VmBUqPBw5d5ebAf/Rh5bBAtJBDotAw==",
-   "keyId": "e5833fdfbbfe",
-   "signed": true
+  "product": "DRAGON SKULL iOS",
+  "id": "dragon-skull-ios",
+  "feed": "RIZALEON multi-mirror",
+  "signed": false,
+  "note": "UNSIGNED - current build only, no new egg offered; ed25519 added via RDRAGON/SIGNING-METHOD/sign.sh after GO + Face ID",
+  "app": {
+    "version": "1.0.4",
+    "build": "8",
+    "minimumSystemVersion": "16.4"
   },
-  {
-   "hosts": [
-    "dragonskull"
-   ],
-   "id": "social-autoreply-dragonskull-ios",
-   "kind": "egg",
-   "name": "social-autoreply-dragonskull-ios-1.0.4-8-sar1.rzl",
-   "platforms": [
-    "ios",
-    "ipados"
-   ],
-   "sha256": "cc608e158a2bd1fdac9b048a9a06575886e9dba2baae81d63fc24f39bebb850b",
-   "size": 34117,
-   "title": "Social auto-reply (RDRAGON + Cryptosocial) · Decider GO 2026-10-25 · ed25519 pending Face ID",
-   "url": "eggs/social-autoreply-dragonskull-ios-1.0.4-8-sar1.rzl",
-   "version": "1.0.4-8-sar1",
-   "signed": false
-  },
-  {
-   "id": "rdragon-ios-ipa",
-   "kind": "egg",
-   "name": "RDRAGON-1.0.4-8-social-autoreply.ipa",
-   "platforms": [
-    "ios"
-   ],
-   "sha256": "77540599ac4fafaf233507dd5e93dd70e3a6959fd13c817dd13fa92f58b2d276",
-   "size": 902729694,
-   "title": "RDRAGON iOS 1.0.4 (8) IPA · Social auto-reply bake (RDRAGON replies to every post/comment, offline+online) · name RDRAGON · feed RIZALEON · approve to install",
-   "url": "https://github.com/RIZALEON/RZL-EGG/releases/download/rdragon-ios-1.0.4-8/RDRAGON-1.0.4-8-social-autoreply.ipa",
-   "version": "1.0.4.8",
-   "ed25519": "m6t3GsXy7vcxVFdUIQJy4bNFpw9tC5A1ze691YsZHe9Vqb7Ngs3ahbPEggLpAWiV3WfnONxEFL4FvL9e29kQDQ==",
-   "keyId": "e5833fdfbbfe",
-   "signed": true,
-   "hosts": [
-    "dragonskull"
-   ],
-   "ghostSeq": 255
-  }
- ],
- "mirrors": [
-  "https://raw.githubusercontent.com/RIZALEON/RZL-EGG/main/dragon-skull/ios-web/appcast.json",
-  "https://rizaleon.github.io/RZL-EGG/dragon-skull/ios-web/appcast.json"
- ],
- "updated": "2026-10-25T10:30:00-06:00",
- "itemsSigned": "shot-sense 2.1.9-s2 signed ed25519 e5833fdfbbfe (ЯCASKET Face ID 2026-10-24) · RDRAGON 1.0.4 (8) IPA signed ed25519 e5833fdfbbfe Ghost 255"
+  "items": [
+    {
+      "hosts": [
+        "dragonskull"
+      ],
+      "id": "shot-sense-dragonskull-ios",
+      "kind": "egg",
+      "minHostVersion": "2.1.9",
+      "name": "shot-sense-dragonskull-ios-2.1.9-s2.rzl",
+      "platforms": [
+        "ios",
+        "ipados"
+      ],
+      "sha256": "ea5f36dbf87d2377a5b5f78acb9ef0f53651911b9621f3784113d9ad1eefa55e",
+      "size": 4287,
+      "title": "shot-sense dragonskull-ios 2.1.9-s2 · SHOT/SSHOT/SEE relay via BOTBRIDGE :4873/shot-sense · signed e5833fdfbbfe (ЯCASKET Face ID) pending Face ID",
+      "url": "https://rizaleon.github.io/RZL-EGG/dragon-skull/ios-web/eggs/shot-sense-dragonskull-ios-2.1.9-s2.rzl",
+      "version": "2.1.9-s2",
+      "ed25519": "iOnSesVkgQcpInYXGLZLxcyakm2L2+KC4myX4oluLFxcNpng89QcKoJ1VmBUqPBw5d5ebAf/Rh5bBAtJBDotAw==",
+      "keyId": "e5833fdfbbfe",
+      "signed": true
+    },
+    {
+      "hosts": [
+        "dragonskull"
+      ],
+      "id": "social-autoreply-dragonskull-ios",
+      "kind": "egg",
+      "name": "social-autoreply-dragonskull-ios-1.0.4-8-sar1.rzl",
+      "platforms": [
+        "ios",
+        "ipados"
+      ],
+      "sha256": "cc608e158a2bd1fdac9b048a9a06575886e9dba2baae81d63fc24f39bebb850b",
+      "size": 34117,
+      "title": "Social auto-reply (RDRAGON + Cryptosocial) · Decider GO 2026-10-25 · signed e5833fdfbbfe (ЯCASKET Face ID)",
+      "url": "https://rizaleon.github.io/RZL-EGG/dragon-skull/ios-web/eggs/social-autoreply-dragonskull-ios-1.0.4-8-sar1.rzl",
+      "version": "1.0.4-8-sar1",
+      "signed": true,
+      "ed25519": "hlXcuQY4QLWRR4aQ3XeNqlducttEbjBfN/yR8m71l8VbWXZIsW/XzO3uKYtWcpUWE39eNP+PnBPKPr/LTxRKDg==",
+      "keyId": "e5833fdfbbfe"
+    },
+    {
+      "id": "rdragon-ios-ipa",
+      "kind": "egg",
+      "name": "RDRAGON-1.0.4-8-social-autoreply.ipa",
+      "platforms": [
+        "ios"
+      ],
+      "sha256": "77540599ac4fafaf233507dd5e93dd70e3a6959fd13c817dd13fa92f58b2d276",
+      "size": 902729694,
+      "title": "RDRAGON iOS 1.0.4 (8) IPA · Social auto-reply bake (RDRAGON replies to every post/comment, offline+online) · name RDRAGON · feed RIZALEON · approve to install",
+      "url": "https://github.com/RIZALEON/RZL-EGG/releases/download/rdragon-ios-1.0.4-8/RDRAGON-1.0.4-8-social-autoreply.ipa",
+      "version": "1.0.4.8",
+      "ed25519": "m6t3GsXy7vcxVFdUIQJy4bNFpw9tC5A1ze691YsZHe9Vqb7Ngs3ahbPEggLpAWiV3WfnONxEFL4FvL9e29kQDQ==",
+      "keyId": "e5833fdfbbfe",
+      "signed": true,
+      "hosts": [
+        "dragonskull"
+      ],
+      "ghostSeq": 255
+    }
+  ],
+  "mirrors": [
+    "https://raw.githubusercontent.com/RIZALEON/RZL-EGG/main/dragon-skull/ios-web/appcast.json",
+    "https://rizaleon.github.io/RZL-EGG/dragon-skull/ios-web/appcast.json"
+  ],
+  "updated": "2026-10-25T16:16:00Z",
+  "itemsSigned": "shot-sense 2.1.9-s2 signed ed25519 e5833fdfbbfe (ЯCASKET Face ID 2026-10-24) · RDRAGON 1.0.4 (8) IPA signed ed25519 e5833fdfbbfe Ghost 255"
 }

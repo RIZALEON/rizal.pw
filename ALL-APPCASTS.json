@@ -25,10 +25,12 @@
         ],
         "sha256": "67f92a5ab32b20e70071a07ba0a642775186cb6696c3d5bdcb4dfe8cfa81ef6d",
         "size": 34133,
-        "title": "Social auto-reply (RDRAGON + Cryptosocial) · Decider GO 2026-10-25 · ed25519 pending Face ID",
+        "title": "Social auto-reply (RDRAGON + Cryptosocial) · Decider GO 2026-10-25 · signed e5833fdfbbfe (ЯCASKET Face ID)",
         "url": "https://rizaleon.github.io/RZL-EGG/dragon-skull/android/eggs/social-autoreply-dragonskull-android-1.0.4-8-sar1.rzl",
         "version": "1.0.4-8-sar1",
-        "signed": false
+        "signed": true,
+        "ed25519": "mckZjrBXUI3F/eE1QSKjitvh6RCtBJN6+HRQ9HOOpYs6eS9l3uyvSeoD3xxElrtOt4IdtqNajOZJVcZ7nlf6DA==",
+        "keyId": "e5833fdfbbfe"
       }
     ],
     "mirrors": [
@@ -36,7 +38,7 @@
       "https://rizaleon.github.io/RZL-EGG/dragon-skull/android/appcast.json",
       "http://rizals-macbook-neo.local:8341/dragon-skull/android/appcast.json"
     ],
-    "updated": "2026-10-25T10:10:00-06:00"
+    "updated": "2026-10-25T16:16:00Z"
   },
   "dragon-skull/ios-web": {
     "product": "DRAGON SKULL iOS",
@@ -84,10 +86,12 @@
         ],
         "sha256": "cc608e158a2bd1fdac9b048a9a06575886e9dba2baae81d63fc24f39bebb850b",
         "size": 34117,
-        "title": "Social auto-reply (RDRAGON + Cryptosocial) · Decider GO 2026-10-25 · ed25519 pending Face ID",
+        "title": "Social auto-reply (RDRAGON + Cryptosocial) · Decider GO 2026-10-25 · signed e5833fdfbbfe (ЯCASKET Face ID)",
         "url": "https://rizaleon.github.io/RZL-EGG/dragon-skull/ios-web/eggs/social-autoreply-dragonskull-ios-1.0.4-8-sar1.rzl",
         "version": "1.0.4-8-sar1",
-        "signed": false
+        "signed": true,
+        "ed25519": "hlXcuQY4QLWRR4aQ3XeNqlducttEbjBfN/yR8m71l8VbWXZIsW/XzO3uKYtWcpUWE39eNP+PnBPKPr/LTxRKDg==",
+        "keyId": "e5833fdfbbfe"
       },
       {
         "id": "rdragon-ios-ipa",
@@ -114,7 +118,7 @@
       "https://raw.githubusercontent.com/RIZALEON/RZL-EGG/main/dragon-skull/ios-web/appcast.json",
       "https://rizaleon.github.io/RZL-EGG/dragon-skull/ios-web/appcast.json"
     ],
-    "updated": "2026-10-25T10:30:00-06:00",
+    "updated": "2026-10-25T16:16:00Z",
     "itemsSigned": "shot-sense 2.1.9-s2 signed ed25519 e5833fdfbbfe (ЯCASKET Face ID 2026-10-24) · RDRAGON 1.0.4 (8) IPA signed ed25519 e5833fdfbbfe Ghost 255"
   },
   "dragon-skull/linux": {
