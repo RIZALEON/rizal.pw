@@ -9,7 +9,7 @@
  function F(k){return '<span class="csp-ed" contenteditable="plaintext-only" spellcheck="false" data-e="'+k+'" title="click to edit">'+E(S.prof[k])+'</span>'}
  function linkify(s){return E(s).match(/(?:https?:\/\/)?(?:a\.co|cash\.app)\/[^\s|]+/g)||[]}
  function links(s){return linkify(s).map(function(u){return '<a href="'+(/^http/.test(u)?u:"https://"+u)+'" target="_blank" rel="noopener">'+u+' ↗</a>'}).join(" ")}
- function save(){try{localStorage.setItem(LS,JSON.stringify(S))}catch(e){toast("storage full — image too big?")}}
+ function save(){try{localStorage.setItem(LS,JSON.stringify(S,function(k,v){return k==="me"?undefined:v}))}catch(e){toast("storage full — image too big?")}}
  function E(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
  var CASH="https://cash.app/$chaserizal";
  var people=[["@chaserizal","Rizal the Younger"],["@IGLESIARIZAL","Iglesia Rizal"],["@grok","Grok"],["@RDRAGON","RDRAGON"]];
@@ -39,7 +39,7 @@
   Promise.all(all.map(describe)).then(function(){var q=(par?"PARENT POST:\n"+par.t+(pm.length?"\nPARENT POST MEDIA: "+mline(pm):"")+"\n\nUSER COMMENT on that post:\n":"USER POST:\n")+b.q+(b.m&&b.m.length?"\nATTACHED MEDIA: "+mline(b.m):"");
    if(!AI)return Promise.reject(new Error("no endpoint"));return fetch(AI,{method:"POST",signal:to(30000),headers:{"Content-Type":"application/json"},body:JSON.stringify({messages:[{role:"system",content:"You are RDRAGON, the dragon-skull AI of the CryptoSocial panel. Reply to the post or comment below in one or two short in-character sentences (max 220 chars). Your reply MUST be specifically about its words and about what its attached media shows (use the media description); for a comment, tie it to the parent post. Never generic. Speak directly to the poster as you; never say \"the user\". No hashtags, no @mentions."},{role:"user",content:q}],max_tokens:90,temperature:0.7})})})
   .then(function(r){return r.json()}).then(function(j){var t=((j.choices||[])[0]||{}).message;t=t&&String(t.content||"").replace(/^\s*(RDRAGON|ASSISTANT)\s*[:>-]\s*/i,"").split(/\b(?:USER\s*(?:POST|COMMENT)?\s*:|PARENT POST|ATTACHED MEDIA|USER COMMENT)/i)[0].replace(/^["\s]+|["\s]+$/g,"").slice(0,280);if(t&&t.replace(/\W/g,"").length>=12&&S.bot[id]){S.bot[id].t=t;S.bot[id].src="model";save();render()}}).catch(function(){}).then(function(){delete busy[id]})}
- function bk(id){var b=S.bot[id];return b?'<div class="csp-row csp-bot"><span><b>RDRAGON</b> <span class="csp-dim">@RDRAGON · auto'+(b.src==="model"?'':' · offline')+'</span><br>↳ '+E(b.t)+'</span></div>':''}
+ function bk(id,d){var b=S.bot[id];if(!b)return '';var F=fold(),rk=F.R[id]||[];return '<div class="csp-row csp-bot"><span><b>RDRAGON</b> <span class="csp-dim">@RDRAGON · auto'+(b.src==="model"?'':' · offline')+'</span><br>↳ '+E(b.t)+'<div class="acts"><span data-a="reply-to" data-id="rd:'+id+'">↳ reply to RDRAGON</span>'+(rk.length?' <span class="csp-dim">'+rk.length+(rk.length===1?' reply':' replies')+'</span>':'')+'</div><div class="csp-replybox" data-for="rd:'+id+'" style="display:none"><textarea class="csp-in" placeholder="reply to RDRAGON…" maxlength="500"></textarea><button data-a="send-comment" data-id="rd:'+id+'">reply</button></div></span></div>'+rk.map(function(x){return cmt(F,x,(d||0)+1)}).join('')}
  function retry(){Object.keys(S.bot).forEach(ai)}window.addEventListener("online",retry);setInterval(retry,60000);
  function attach(){var i=document.createElement("input");i.type="file";i.accept="image/*,video/*";i.onchange=function(){var f=i.files&&i.files[0];if(!f)return;var m={id:uid(),name:f.name,type:/^video/.test(f.type)?"video":"image"};
   function done(u){m.src=u;S.draft=(S.draft||[]).concat([m]);var ta=p.querySelector("#csp-new"),keep=ta?ta.value:"";render();var t2=p.querySelector("#csp-new");if(t2)t2.value=keep;toast(m.type+" attached · "+f.name)}
@@ -58,32 +58,36 @@
  var chainQ=Promise.resolve();
  function addEv(ev){ev.id=ev.id||uid();ev.ts=new Date().toISOString();ev.by=ev.by||S.prof.handle;ev.seq=EV.length;ev.prev=EV.length?EV[EV.length-1].hash||"pending":"0".repeat(64);EV.push(ev);var me=ev;
   chainQ=chainQ.then(function(){var c=Object.assign({},me);delete c.hash;return crypto.subtle?crypto.subtle.digest("SHA-256",new TextEncoder().encode(canon(c))).then(function(b){me.hash=hx(b)}):null}).then(function(){var n=EV.indexOf(me);if(EV[n+1])EV[n+1].prev=me.hash;persist()});persist();
-  if(STORE)fetch(STORE+"/api/events",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(ev)}).catch(function(){});return ev}
+  if(STORE&&ev.t!=="view"&&S.me&&S.me.sign){var sv=Object.assign({},ev);delete sv.seq;delete sv.prev;delete sv.hash;Promise.resolve(S.me.sign(canon(sv))).then(function(sig){return fetch(STORE+"/api/events",{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+S.me.session},body:JSON.stringify({event:sv,sig:sig})})}).then(function(r){if(!r.ok)toast("store refused: "+r.status)}).catch(function(){})}return ev}
+ /* profile-required gate: viewing is open, writing needs a profile (RLogin) */
+ S.me=null;try{S.me=JSON.parse(sessionStorage.getItem('rdragon.csp.me')||'null')}catch(e){}
+ function gate(){toast('Make a profile or log in (RLogin) to post, comment, reply or react');var g=p&&p.querySelector('.csp-gate');if(g)g.style.display='block'}
  function persist(){try{localStorage.setItem(CK,JSON.stringify(EV))}catch(e){toast("storage full")}}
  function verifyLocal(){var bad=[];return EV.reduce(function(pr,e,i){return pr.then(function(){if(e.seq!==i)bad.push(i+": seq");if(i&&e.prev!==EV[i-1].hash)bad.push(i+": prev link");var c=Object.assign({},e);delete c.hash;return crypto.subtle.digest("SHA-256",new TextEncoder().encode(canon(c))).then(function(b){if(hx(b)!==e.hash)bad.push(i+": hash")})})},Promise.resolve()).then(function(){return{ok:!bad.length,events:EV.length,problems:bad}})}
  if(STORE)fetch(STORE+"/api/events").then(function(r){return r.json()}).then(function(rs){var have={};EV.forEach(function(e){have[e.id]=1});rs.forEach(function(e){if(!have[e.id])EV.push(e)});render()}).catch(function(){});
  /* one-time migration of legacy localStorage posts/replies into events (they are kept, never dropped) */
  if(!S.migrated){S.posts.forEach(function(o){addEv({t:"post",id:o.id,text:o.t,media:o.media||[]});(o.c||[]).forEach(function(c){addEv({t:"comment",id:c.id,parent:o.id,post:o.id,text:c.t})})});S.replies.forEach(function(r){addEv({t:"comment",id:r.id,parent:PIN,post:PIN,text:r.t})});if(S.prof.ptext)addEv({t:"revise",target:PIN,text:S.prof.ptext});S.migrated=1;save()}
- function fold(){var P={},C={},order=[];P[PIN]={id:PIN,pinned:1,revs:[{text:lines.map(function(l){return "✓ "+l.replace(/&amp;/g,"&")}).join("\n"),ts:"legacy"}],media:[{key:"asset:post.jpg",type:"image",name:"post.jpg",src:base+"assets/post.jpg"}],kids:[],likes:{},reposts:{},views:{}};
+ function fold(){var P={},C={},R={},order=[];P[PIN]={id:PIN,pinned:1,revs:[{text:lines.map(function(l){return "✓ "+l.replace(/&amp;/g,"&")}).join("\n"),ts:"legacy"}],media:[{key:"asset:post.jpg",type:"image",name:"post.jpg",src:base+"assets/post.jpg"}],kids:[],likes:{},reposts:{},views:{}};
   EV.forEach(function(e){var x;if(e.t==="post"){P[e.id]={id:e.id,by:e.by,ts:e.ts,revs:[{text:e.text,ts:e.ts}],media:e.media||[],kids:[],likes:{},reposts:{},views:{}};order.push(e.id)}
-   else if(e.t==="comment"){C[e.id]={id:e.id,by:e.by,ts:e.ts,parent:e.parent,post:e.post,revs:[{text:e.text,ts:e.ts}],kids:[]};x=P[e.parent]||C[e.parent];if(x)x.kids.push(e.id)}
+   else if(e.t==="comment"){C[e.id]={id:e.id,by:e.by,ts:e.ts,parent:e.parent,post:e.post,revs:[{text:e.text,ts:e.ts}],kids:[]};x=P[e.parent]||C[e.parent];if(x)x.kids.push(e.id);else if(/^rd:/.test(e.parent))(R[e.parent.slice(3)]=R[e.parent.slice(3)]||[]).push(e.id)}
    else if(e.t==="revise"){x=P[e.target]||C[e.target];if(x)x.revs.push({text:e.text,ts:e.ts})}
    else if(/^(un)?(like|repost)$/.test(e.t)){x=P[e.target];if(x)x[/like/.test(e.t)?"likes":"reposts"][e.viewer]=!/^un/.test(e.t)}
-   else if(e.t==="view"){x=P[e.target];if(x)x.views[e.viewer]=1}});return{P:P,C:C,order:order}}
+   else if(e.t==="view"){x=P[e.target];if(x)x.views[e.viewer]=1}});return{P:P,C:C,R:R,order:order}}
  function cnt(o){return Object.keys(o).filter(function(k){return o[k]}).length}
- function total(F,node){return node.kids.reduce(function(n,k){return n+1+(S.bot[k]?1:0)+total(F,F.C[k])},0)} /* comments + RDRAGON replies, derived from the stored thread */
+ function rdc(F,id){return (F.R[id]||[]).reduce(function(n,k){return n+1+(S.bot[k]?1:0)+total(F,F.C[k])+rdc(F,k)},0)}
+ function total(F,node){return node.kids.reduce(function(n,k){return n+1+(S.bot[k]?1:0)+total(F,F.C[k])+rdc(F,k)},0)} /* comments + RDRAGON replies, derived from the stored thread */
  function seen(id){if(SESSV[id])return;SESSV[id]=1;var F=fold();if(F.P[id]&&!F.P[id].views[VIEWER])addEv({t:"view",target:id,viewer:VIEWER})}
  function lt(ts){var d=new Date(ts);return isNaN(d)?String(ts):d.toLocaleString([], {dateStyle:'short',timeStyle:'short'})}
  function cur(n){return n.revs[n.revs.length-1].text}
  function engRow(F,n){var lk=cnt(n.likes)+(n.pinned?LEGACY.like:0),rp=cnt(n.reposts)+(n.pinned?LEGACY.repost:0),vw=cnt(n.views)+(n.pinned?LEGACY.views:0);
-  return '<div class="csp-eng"><span data-a="open-thread" data-id="'+n.id+'" title="open thread">💬 '+(total(F,n)+(S.bot[n.id]?1:0))+'</span><span data-a="repost" data-id="'+n.id+'" class="rp'+(n.reposts[VIEWER]?' on':'')+'">🔁 '+rp+'</span><span data-a="like" data-id="'+n.id+'" class="'+(n.likes[VIEWER]?'on':'')+'">♥ '+lk+'</span><span data-a="views" data-id="'+n.id+'" title="unique viewers">📊 '+vw+'</span></div>'}
+  return '<div class="csp-eng"><span data-a="open-thread" data-id="'+n.id+'" title="open thread">💬 '+(total(F,n)+(S.bot[n.id]?1:0)+rdc(F,n.id))+'</span><span data-a="repost" data-id="'+n.id+'" class="rp'+(n.reposts[VIEWER]?' on':'')+'">🔁 '+rp+'</span><span data-a="like" data-id="'+n.id+'" class="'+(n.likes[VIEWER]?'on':'')+'">♥ '+lk+'</span><span data-a="views" data-id="'+n.id+'" title="unique viewers">📊 '+vw+'</span></div>'}
  function cardHead(n){return n.pinned?'<div class="l w">'+F("pname")+'</div><div class="rep">'+F("preply")+'</div>':'<div class="l w">'+E(S.prof.name)+' <span class="csp-dim">'+E(n.by||S.prof.handle)+'</span></div>'}
  function feedCard(F,n){seen(n.id);return '<div class="csp-card" data-pid="'+n.id+'">'+cardHead(n)+'<div class="csp-ptext csp-open" data-a="open-thread" data-id="'+n.id+'" title="open thread · edit post">'+E(cur(n))+'</div>'+(n.revs.length>1?'<div class="csp-dim" style="font-size:10px">edited · '+n.revs.length+' revisions</div>':'')+mhtml(n.pinned?[]:n.media)+(n.pinned?'<div class="csp-img" style="background-image:url('+base+'assets/post.jpg)"></div>':'')+engRow(F,n)+'</div>'}
- function cmt(F,id,d){var c=F.C[id],open=!S.fold[id],k=c.kids.length+(S.bot[id]?1:0);
+ function cmt(F,id,d){var c=F.C[id],open=!S.fold[id],k=c.kids.length+(S.bot[id]?1:0)+(F.R[id]||[]).length;
   return '<div class="csp-c" style="margin-left:'+Math.min(d,5)*10+'px"><div class="who"><b>'+E(c.by||"")+'</b> <span class="csp-dim">'+E(lt(c.ts))+'</span></div><div style="white-space:pre-wrap">'+E(cur(c))+'</div>'+
    '<div class="acts"><span data-a="reply-to" data-id="'+id+'">↳ reply</span>'+(k?'<span data-a="fold" data-id="'+id+'">'+(open?'▾ ':'▸ ')+k+(k===1?' reply':' replies')+'</span>':'<span class="csp-dim">0 replies</span>')+'</div>'+
    '<div class="csp-replybox" data-for="'+id+'" style="display:none"><textarea class="csp-in" placeholder="reply…" maxlength="500"></textarea><button data-a="send-comment" data-id="'+id+'">reply</button></div>'+
-   (open?bk(id)+c.kids.map(function(x){return cmt(F,x,d+1)}).join(""):"")+'</div>'}
+   (open?bk(id,d)+c.kids.map(function(x){return cmt(F,x,d+1)}).join(""):"")+'</div>'}
  function threadView(){if(S.open)seen(S.open);var F=fold(),n=F.P[S.open];if(!n){S.nav="home";return view()}
   return '<div class="csp-thr-h"><button data-a="home">← back</button><span class="csp-dim">thread · permanent</span></div><div class="csp-card">'+cardHead(n)+
    (S.editing?'<textarea class="csp-in" id="csp-edit" rows="6">'+E(cur(n))+'</textarea><button data-a="save-rev">save as new revision</button> <button data-a="cancel-edit">cancel</button>':'<div class="csp-ptext csp-open" data-a="edit-post" title="click to edit post (saves a new revision)">'+E(cur(n))+'</div>')+
@@ -114,7 +118,7 @@
   '<div class="csp-tabs">'+["Posts","Video","Articles","Projects"].map(function(t){return '<span data-a="tab" data-t="'+t+'" class="'+(t===S.tab&&S.nav==="home"?'on':'')+'">'+t+'</span>'}).join("")+'</div>'+
   '<div class="csp-view">'+view()+'</div>'+
   '<div class="csp-nav">'+[["home","⌂"],["search","⌕"],["compose","+"],["alerts","🔔"],["msgs","✉"]].map(function(n){return '<span data-a="nav" data-n="'+n[0]+'" class="'+(n[0]==="compose"?'plus ':'')+(S.nav===n[0]?'on':'')+'" title="'+{home:"Home",search:"Search",compose:"New post",alerts:"Alerts",msgs:"Messages"}[n[0]]+'">'+n[1]+'</span>'}).join("")+'</div>'+
-  '<div class="csp-ready"><b>C:\\SOCIAL&gt;</b><br>READY.</div><div class="csp-toast" style="display:none"></div>';
+  (S.me?'':'<div class="csp-gate" style="display:none">🔐 <b>Make a profile</b> or log in with your wallet (RLogin) to post or reply. Reading is open to everyone.</div>')+'<div class="csp-ready"><b>C:\\SOCIAL&gt;</b><br>READY.</div><div class="csp-toast" style="display:none"></div>';
   p.classList.toggle("csp-off",!S.on);p.scrollTop=keepScroll;
   var q=p.querySelector("#csp-q");if(q){q.oninput=function(){var s=q.value.toLowerCase(),out=[];if(s){people.forEach(function(x){if((x[0]+x[1]).toLowerCase().indexOf(s)>-1)out.push("👤 "+x[0]+" · "+x[1])});
    [S.prof.name,S.prof.handle,S.prof.bio,S.prof.ptext||""].concat(lines,EV.filter(function(x){return x.t==="post"||x.t==="comment"}).map(function(x){return x.text})).forEach(function(l){if(l.toLowerCase().indexOf(s)>-1)out.push("✓ "+l)});[].concat(stub.Video,stub.Articles,stub.Projects).forEach(function(l){if(l.toLowerCase().indexOf(s)>-1)out.push("• "+l)})}
@@ -131,18 +135,18 @@
   case "wallet":S.wopen=!S.wopen;break;
   case "copyhandle":(navigator.clipboard?navigator.clipboard.writeText("$chaserizal"):Promise.reject()).then(function(){toast("copied $chaserizal")},function(){toast("$chaserizal")});return;
   case "tab":S.tab=el.dataset.t;S.nav="home";break;
-  case "nav":S.nav=el.dataset.n;if(S.nav==="home")S.tab="Posts";break;case "home":S.nav="home";S.tab="Posts";break;
+  case "nav":if(el.dataset.n==="compose"&&!S.me)return gate();S.nav=el.dataset.n;if(S.nav==="home")S.tab="Posts";break;case "home":S.nav="home";S.tab="Posts";break;
   case "open-thread":S.nav="thread";S.open=el.dataset.id;S.editing=0;S.hist=0;break;
-  case "edit-post":S.editing=1;break;case "cancel-edit":S.editing=0;break;case "toggle-hist":S.hist=!S.hist;break;
-  case "save-rev":var nt=p.querySelector("#csp-edit").value.trim();var Fq=fold();if(!nt||nt===cur(Fq.P[S.open]))return toast("no change");addEv({t:"revise",target:S.open,text:nt});S.editing=0;S.hist=1;toast("saved as a new revision · old text kept");break;
-  case "reply-to":var rb=p.querySelector('.csp-replybox[data-for="'+el.dataset.id+'"]');rb.style.display=rb.style.display==="none"?"block":"none";if(rb.style.display==="block")rb.querySelector("textarea").focus();return;
-  case "send-comment":var box=el.parentNode.querySelector("textarea"),tx=box.value.trim();if(!tx)return toast("type a comment first");var Fc=fold(),par=el.dataset.id,root=Fc.P[par]?par:Fc.C[par].post;var ce=addEv({t:"comment",parent:par,post:root,text:tx});S.fold[par]=0;
-   var pn=Fc.P[root];bot(ce.id,tx,[],root===PIN?{t:S.prof.pname+" ("+S.prof.preply+"): "+cur(pn),media:[]}:{t:cur(pn),media:pn.media||[]});S.alerts.push("You commented");break;
+  case "edit-post":if(!S.me)return gate();S.editing=1;break;case "cancel-edit":S.editing=0;break;case "toggle-hist":S.hist=!S.hist;break;
+  case "save-rev":if(!S.me)return gate();var nt=p.querySelector("#csp-edit").value.trim();var Fq=fold();if(!nt||nt===cur(Fq.P[S.open]))return toast("no change");addEv({t:"revise",target:S.open,text:nt});S.editing=0;S.hist=1;toast("saved as a new revision · old text kept");break;
+  case "reply-to":if(!S.me)return gate();var rb=p.querySelector('.csp-replybox[data-for="'+el.dataset.id+'"]');rb.style.display=rb.style.display==="none"?"block":"none";if(rb.style.display==="block")rb.querySelector("textarea").focus();return;
+  case "send-comment":if(!S.me)return gate();var box=el.parentNode.querySelector("textarea"),tx=box.value.trim();if(!tx)return toast("type a comment first");var Fc=fold(),par=el.dataset.id,bs=par.replace(/^rd:/,""),root=Fc.P[bs]?bs:Fc.C[bs].post;var ce=addEv({t:"comment",parent:par,post:root,text:tx});S.fold[par]=0;
+   var pn=Fc.P[root];if(/^rd:/.test(par)&&S.bot[bs])bot(ce.id,tx,[],{t:"RDRAGON said: "+S.bot[bs].t+"\nON POST: "+cur(pn),media:pn.media||[]});else bot(ce.id,tx,[],root===PIN?{t:S.prof.pname+" ("+S.prof.preply+"): "+cur(pn),media:[]}:{t:cur(pn),media:pn.media||[]});S.alerts.push("You commented");break;
   case "fold":S.fold[el.dataset.id]=!S.fold[el.dataset.id];break;
   case "expand-all":S.fold={};break;case "collapse-all":var Fa=fold();Object.keys(Fa.C).forEach(function(k){S.fold[k]=1});break;
-  case "repost":case "like":var Fl=fold(),nn=Fl.P[el.dataset.id],on=(a==="like"?nn.likes:nn.reposts)[VIEWER];addEv({t:(on?"un":"")+a,target:nn.id,viewer:VIEWER});break;
+  case "repost":case "like":if(!S.me)return gate();var Fl=fold(),nn=Fl.P[el.dataset.id],on=(a==="like"?nn.likes:nn.reposts)[VIEWER];addEv({t:(on?"un":"")+a,target:nn.id,viewer:VIEWER});break;
   case "views":var Fv=fold();toast("📊 "+(cnt(Fv.P[el.dataset.id].views))+" unique viewers stored"+(el.dataset.id===PIN?" + "+LEGACY.views+" legacy":""));return;
-  case "post":var t=p.querySelector("#csp-new").value.trim();var dm=S.draft||[];if(!t&&!dm.length)return toast("write something first");var pe=addEv({t:"post",text:t,media:dm});S.draft=[];bot(pe.id,t||"(media only)",dm);S.alerts.push("Posted: "+t.slice(0,40));S.nav="home";S.tab="Posts";break;
+  case "post":if(!S.me)return gate();var t=p.querySelector("#csp-new").value.trim();var dm=S.draft||[];if(!t&&!dm.length)return toast("write something first");var pe=addEv({t:"post",text:t,media:dm});S.draft=[];bot(pe.id,t||"(media only)",dm);S.alerts.push("Posted: "+t.slice(0,40));S.nav="home";S.tab="Posts";break;
   case "clearalerts":S.alerts=[];break;
   case "sendmsg":var m=p.querySelector("#csp-msg").value.trim();if(!m)return toast("type a message");S.msgs.push(m);break;
   case "open":toast(el.dataset.i+" — offline stub");return;
@@ -157,7 +161,7 @@
   p.addEventListener("focusout",function(ev){var k=ev.target.dataset&&ev.target.dataset.e;if(!k)return;var v=ev.target.innerText.trim();if(k!=="ptext"&&k!=="bio")v=v.replace(/\s+/g," ");S.prof[k]=v||D.prof[k]||"";save();if(k==="bio"||k==="link")render();toast(k+" saved · offline")});
   p.addEventListener("keydown",function(ev){if(ev.key==="Enter"&&ev.target.dataset&&ev.target.dataset.e&&ev.target.dataset.e!=="ptext"&&ev.target.dataset.e!=="bio"){ev.preventDefault();ev.target.blur();return}if(ev.key==="Enter"&&!ev.shiftKey){if(ev.target.id==="csp-msg")act("sendmsg");else if(ev.target.closest&&ev.target.closest(".csp-replybox"))act("sendreply",ev.target)}});
   render()}
- setTimeout(retry,1500);window.RDRAGON_CSP={events:function(){return EV.slice()},verify:verifyLocal,botReply:bot,attachData:function(m){S.draft=(S.draft||[]).concat([m])},toggle:function(v){S.on=v===undefined?!S.on:!!v;save();render()},setRDG:function(n){S.rdg=(+n||0).toFixed(2);save();render()},reset:function(){toast("reset disabled: posts are permanent")}};
+ setTimeout(retry,1500);window.RDRAGON_CSP={events:function(){return EV.slice()},verify:verifyLocal,botReply:bot,attachData:function(m){S.draft=(S.draft||[]).concat([m])},toggle:function(v){S.on=v===undefined?!S.on:!!v;save();render()},setRDG:function(n){S.rdg=(+n||0).toFixed(2);save();render()},reset:function(){toast("reset disabled: posts are permanent")},signin:function(me){S.me=me||null;try{sessionStorage.setItem('rdragon.csp.me',JSON.stringify(me&&{handle:me.handle,profile:me.profile,session:me.session}))}catch(e){}if(me&&me.handle)S.prof.handle=me.handle;render()},signout:function(){S.me=null;sessionStorage.removeItem('rdragon.csp.me');render()},me:function(){return S.me}};
  document.addEventListener("keydown",function(e){if((e.metaKey||e.ctrlKey)&&e.shiftKey&&(e.key==="K"||e.key==="k")){e.preventDefault();window.RDRAGON_CSP.toggle()}});
  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",build);else build();
 })();

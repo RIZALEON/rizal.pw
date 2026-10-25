@@ -88,3 +88,4 @@ body>#csp-panel{position:fixed;left:0;top:0;bottom:0;width:340px;z-index:900;ove
 #csp-panel .csp-rev{font-size:10.5px;color:#1f8f0f;border:1px dashed #1f3f1f;padding:3px;margin:3px 0}
 #csp-panel textarea.csp-in{min-height:44px;resize:vertical}
 @media (max-width:600px){#csp-panel .csp-eng{font-size:14px}#csp-panel .csp-eng span,#csp-panel .csp-c .acts span[data-a]{padding:6px 4px;display:inline-block}#csp-panel button{padding:6px 10px}}
+#csp-panel .csp-gate{border:1px solid #a020f0;color:#39ff14;padding:6px;margin:6px 0;font-size:12px}
