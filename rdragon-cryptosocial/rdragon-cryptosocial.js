@@ -61,6 +61,7 @@
   if(STORE&&ev.t!=="view"&&S.me&&S.me.sign){var sv=Object.assign({},ev);delete sv.seq;delete sv.prev;delete sv.hash;Promise.resolve(S.me.sign(canon(sv))).then(function(sig){return fetch(STORE+"/api/events",{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+S.me.session},body:JSON.stringify({event:sv,sig:sig})})}).then(function(r){if(!r.ok)toast("store refused: "+r.status)}).catch(function(){})}return ev}
  /* profile-required gate: viewing is open, writing needs a profile (RLogin) */
  S.me=null;try{S.me=JSON.parse(sessionStorage.getItem('rdragon.csp.me')||'null')}catch(e){}
+ function fstate(){var me=S.me&&S.me.handle,on={},mine={};EV.forEach(function(e){if(e.t!=='follow'&&e.t!=='unfollow')return;var v=e.t==='follow';if(e.target===S.prof.handle)on[e.by]=v;if(e.by===S.prof.handle)mine[e.target]=v});var c=function(o){return Object.keys(o).filter(function(k){return o[k]}).length};return{iFollow:!!(me&&on[me]),followers:S.followers+c(on),following:S.following+c(mine),mine:mine}}
  function gate(){toast('Make a profile or log in (RLogin) to post, comment, reply or react');var g=p&&p.querySelector('.csp-gate');if(g)g.style.display='block'}
  function persist(){try{localStorage.setItem(CK,JSON.stringify(EV))}catch(e){toast("storage full")}}
  function verifyLocal(){var bad=[];return EV.reduce(function(pr,e,i){return pr.then(function(){if(e.seq!==i)bad.push(i+": seq");if(i&&e.prev!==EV[i-1].hash)bad.push(i+": prev link");var c=Object.assign({},e);delete c.hash;return crypto.subtle.digest("SHA-256",new TextEncoder().encode(canon(c))).then(function(b){if(hx(b)!==e.hash)bad.push(i+": hash")})})},Promise.resolve()).then(function(){return{ok:!bad.length,events:EV.length,problems:bad}})}
@@ -100,21 +101,22 @@
   if(S.nav==="search")v='<input class="csp-in" id="csp-q" placeholder="search people, posts, #tags" autofocus><div id="csp-res"></div>';
   else if(S.nav==="compose")v='<textarea class="csp-in" id="csp-new" rows="4" maxlength="500" placeholder="what\'s happening?"></textarea>'+mhtml(S.draft)+'<button data-a="attach">📎 photo/video</button> <button data-a="post">post</button> <button data-a="home">cancel</button>';
   else if(S.nav==="alerts")v=S.alerts.slice().reverse().map(function(a){return '<div class="csp-row"><span>🔔 '+E(a)+'</span></div>'}).join("")+'<button data-a="clearalerts">clear</button>';
-  else if(S.nav==="msgs")v=(S.msgs.length?S.msgs.map(function(m){return '<div class="csp-row"><span>✉ '+E(m)+'</span></div>'}).join(""):'<div class="csp-dim">no messages (offline inbox)</div>')+'<input class="csp-in" id="csp-msg" placeholder="message to self / note"><button data-a="sendmsg">send</button>';
+  else if(S.nav==="msgs")v=(S.dmTo?'<div class="csp-dim csp-dmto">&gt; dm '+E(S.dmTo)+' · tied to profile '+E(S.prof.handle)+'</div>':'')+(S.msgs.length?S.msgs.map(function(m){return '<div class="csp-row"><span>✉ '+E(m)+'</span></div>'}).join(""):'<div class="csp-dim">no messages (offline inbox)</div>')+'<input class="csp-in" id="csp-msg" placeholder="'+(S.dmTo?'DM to '+E(S.dmTo):'message to self / note')+'"><button data-a="sendmsg">send</button>';
   else if(S.nav==="people")v='<div class="csp-dim">&gt; who_to_follow</div>'+people.map(function(x){var on=S.follow[x[0]];return '<div class="csp-row"><span>'+x[0]+'<br><span class="csp-dim">'+x[1]+'</span></span><button data-a="follow" data-h="'+x[0]+'">'+(on?'following':'+ follow')+'</button></div>'}).join("");
   else if(S.nav==="thread")v=threadView();
   else if(S.tab==="Posts"){fold().order.concat([PIN]).forEach(seen);var FF=fold();v=FF.order.slice().reverse().map(function(id){return feedCard(FF,FF.P[id])}).join("")+feedCard(FF,FF.P[PIN])}
   else v=stub[S.tab].map(function(t,i){return '<div class="csp-card" data-a="open" data-i="'+S.tab+': '+E(t)+'"><div class="l">'+E(t)+'</div><div class="csp-dim">'+(S.tab==="Video"?"▶ play (offline stub)":S.tab==="Articles"?"read":"open")+'</div></div>'}).join("");
   return v}
- function render(){var keepScroll=p.scrollTop;
+ function render(){var FS=fstate();var keepScroll=p.scrollTop;
   p.innerHTML='<div class="csp-top">'+F("title")+'<button class="csp-x" data-a="toggle" title="collapse (Cmd/Ctrl+Shift+K)">'+(S.on?'×':'+')+'</button></div>'+
   '<div class="csp-banner" data-a="pickbanner" title="click to change banner" style="background-image:'+img("banner","banner.jpg")+'"><img class="csp-gm" src="'+base+'assets/ghostmachine-logo.jpg" alt="GHOSTMACHINE" title="GHOSTMACHINE"><button class="csp-b csp-bv" data-a="verified" title="'+E(S.prof.verified)+' · click to edit badge">✔ Verified</button><button class="csp-b csp-bw" data-a="wallet" title="RDG wallet · double-click to set balance">&gt; Wallet</button></div>'+
   '<div class="csp-av" data-a="pickavatar" title="click to change profile picture" style="background-image:'+img("avatar","avatar.jpg")+'"></div>'+
   '<div class="csp-name">'+F("name")+'</div><div class="csp-handle">'+F("handle")+'</div>'+
   (S.wopen?'<div class="csp-wx"><div>balance <b>'+S.rdg+' RDG</b> <span class="csp-dim">(local ledger · offline · no keys)</span></div><div style="margin:4px 0"><a href="'+CASH+'" target="_blank" rel="noopener">send via cash.app/$chaserizal ↗</a></div><button data-a="copyhandle">copy $chaserizal</button> <button data-a="wallet">close</button></div>':'')+
   '<div class="csp-bm"><div>'+F("bio")+'<div class="csp-links">'+links(S.prof.bio+" "+S.prof.link)+'</div></div>'+
-  '<div class="csp-meta"><div>location · '+F("location")+'</div><div>link · '+F("link")+'</div><div>joined · '+F("joined")+'</div></div>'+
-  '<div class="csp-ff"><span data-a="people"><b>'+S.following+'</b> Following</span> · <span data-a="people"><b>'+S.followers+'</b> Followers</span></div></div>'+
+  '<div class="csp-metarow"><div class="csp-meta"><div>location · '+F("location")+'</div><div>link · '+F("link")+'</div><div>joined · '+F("joined")+'</div></div>'+
+  '<div class="csp-pbtns"><button class="csp-pill csp-msgbtn" data-a="dm">✉ Message</button><button class="csp-pill csp-follow'+(FS.iFollow?' on':'')+'" data-a="pfollow">'+(FS.iFollow?'✓ Following':'+ Follow')+'</button></div></div>'+
+  '<div class="csp-ff"><span data-a="people"><b class="csp-nfollowing">'+FS.following+'</b> Following</span> · <span data-a="people"><b class="csp-nfollowers">'+FS.followers+'</b> Followers</span></div></div>'+
   '<div class="csp-tabs">'+["Posts","Video","Articles","Projects"].map(function(t){return '<span data-a="tab" data-t="'+t+'" class="'+(t===S.tab&&S.nav==="home"?'on':'')+'">'+t+'</span>'}).join("")+'</div>'+
   '<div class="csp-view">'+view()+'</div>'+
   '<div class="csp-nav">'+[["home","⌂"],["search","⌕"],["compose","+"],["alerts","🔔"],["msgs","✉"]].map(function(n){return '<span data-a="nav" data-n="'+n[0]+'" class="'+(n[0]==="compose"?'plus ':'')+(S.nav===n[0]?'on':'')+'" title="'+{home:"Home",search:"Search",compose:"New post",alerts:"Alerts",msgs:"Messages"}[n[0]]+'">'+n[1]+'</span>'}).join("")+'</div>'+
@@ -131,7 +133,9 @@
   case "verified":var nv=prompt("Badge text (Cancel = show info)",S.prof.verified);if(nv===null){toast("✔ "+S.prof.verified+" · "+S.prof.handle+" · RDRAGON local identity");return}S.prof.verified=nv.trim()||D.prof.verified;break;
   case "pickbanner":pick("banner",1200);return;case "pickavatar":pick("avatar",400);return;
   case "people":S.nav="people";break;
-  case "follow":var h=el.dataset.h;S.follow[h]=!S.follow[h];S.following=Object.keys(S.follow).filter(function(k){return S.follow[k]}).length;S.alerts.push((S.follow[h]?"You followed ":"You unfollowed ")+h);break;
+  case "follow":if(!S.me)return gate();var h=el.dataset.h,was=fstate().mine[h];S.follow[h]=!was;addEv({t:(was?"un":"")+"follow",target:h});S.alerts.push((was?"You unfollowed ":"You followed ")+h);break;
+  case "pfollow":if(!S.me)return gate();var fw=fstate().iFollow;addEv({t:(fw?"un":"")+"follow",target:S.prof.handle,by:S.me.handle});toast((fw?"Unfollowed ":"Following ")+S.prof.handle+" · signed event appended");break;
+  case "dm":if(!S.me)return gate();S.dmTo=S.prof.handle;S.nav="msgs";break;
   case "wallet":S.wopen=!S.wopen;break;
   case "copyhandle":(navigator.clipboard?navigator.clipboard.writeText("$chaserizal"):Promise.reject()).then(function(){toast("copied $chaserizal")},function(){toast("$chaserizal")});return;
   case "tab":S.tab=el.dataset.t;S.nav="home";break;
@@ -148,7 +152,7 @@
   case "views":var Fv=fold();toast("📊 "+(cnt(Fv.P[el.dataset.id].views))+" unique viewers stored"+(el.dataset.id===PIN?" + "+LEGACY.views+" legacy":""));return;
   case "post":if(!S.me)return gate();var t=p.querySelector("#csp-new").value.trim();var dm=S.draft||[];if(!t&&!dm.length)return toast("write something first");var pe=addEv({t:"post",text:t,media:dm});S.draft=[];bot(pe.id,t||"(media only)",dm);S.alerts.push("Posted: "+t.slice(0,40));S.nav="home";S.tab="Posts";break;
   case "clearalerts":S.alerts=[];break;
-  case "sendmsg":var m=p.querySelector("#csp-msg").value.trim();if(!m)return toast("type a message");S.msgs.push(m);break;
+  case "sendmsg":if(!S.me)return gate();var m=p.querySelector("#csp-msg").value.trim();if(!m)return toast("type a message");S.msgs.push((S.dmTo?"→ "+S.dmTo+": ":"")+m);if(S.dmTo)addEv({t:"dm",to:S.dmTo,text:m,by:S.me.handle});break;
   case "open":toast(el.dataset.i+" — offline stub");return;
   default:return}
   save();render()}
