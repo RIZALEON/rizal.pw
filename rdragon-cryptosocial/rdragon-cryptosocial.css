@@ -78,3 +78,13 @@ body>#csp-panel{position:fixed;left:0;top:0;bottom:0;width:340px;z-index:900;ove
 
 /* auto-reply */
 #csp-panel .csp-bot{border-left:2px solid #c0392b;padding-left:6px;margin:4px 0 2px 10px}
+
+/* permanent threads (post-fixes) */
+#csp-panel .csp-open{cursor:pointer}#csp-panel .csp-open:hover{background:#0a1a0a}
+#csp-panel .csp-thr-h{display:flex;align-items:center;gap:8px;padding:2px 2px 6px;border-bottom:1px solid #333;margin-bottom:6px}
+#csp-panel .csp-c{border-left:2px solid #39ff14;padding:3px 0 3px 7px;margin:5px 0}
+#csp-panel .csp-c .who b{color:#ddd}
+#csp-panel .csp-c .acts{font-size:11px}#csp-panel .csp-c .acts span[data-a]{margin-right:10px;color:#7fb3ff}
+#csp-panel .csp-rev{font-size:10.5px;color:#1f8f0f;border:1px dashed #1f3f1f;padding:3px;margin:3px 0}
+#csp-panel textarea.csp-in{min-height:44px;resize:vertical}
+@media (max-width:600px){#csp-panel .csp-eng{font-size:14px}#csp-panel .csp-eng span,#csp-panel .csp-c .acts span[data-a]{padding:6px 4px;display:inline-block}#csp-panel button{padding:6px 10px}}
