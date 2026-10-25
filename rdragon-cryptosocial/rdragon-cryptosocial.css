@@ -1,0 +1,80 @@
+/* RDRAGON · CRYPTO SIDE PANEL — CryptoSocial profile structure INSIDE RDRAGON left slot (#roster). Unsigned pack 20261025. */
+body:has(#roster #csp-panel:not(.csp-off)){--ds-side:360px}
+#csp-panel{position:relative;width:auto;box-sizing:border-box;background:#000;color:#39ff14;font:12.5px/1.5 "Menlo","Consolas","Courier New",monospace;border-top:2px solid #39ff14;margin-top:8px}
+#csp-panel *{box-sizing:border-box}
+body>#csp-panel{position:fixed;left:0;top:0;bottom:0;width:340px;z-index:900;overflow:auto}
+#csp-panel button,#csp-panel [data-a]{cursor:pointer}
+#csp-panel button{background:#000;color:#39ff14;border:1px solid #39ff14;font:11px monospace;padding:2px 8px}
+#csp-panel button:hover{border-color:#8a2be2;color:#b388ff}
+#csp-panel a{color:#7fb3ff;text-decoration:none}#csp-panel a:hover{text-decoration:underline}
+.csp-top{text-align:center;font-size:12px;padding:6px 26px;position:relative}
+.csp-x{position:absolute;right:4px;top:4px;padding:0 6px!important}
+#csp-panel.csp-off>*:not(.csp-top){display:none}
+.csp-banner{position:relative;height:120px;background:#1a0630 center/cover no-repeat;border-bottom:3px solid #4fb0c6}
+.csp-banner:hover::after,.csp-av:hover::after{content:"change";position:absolute;right:4px;top:4px;font-size:10px;background:#000c;color:#39ff14;padding:0 4px;border:1px solid #8a2be2}
+.csp-sv{position:absolute;left:8px;bottom:-11px;background:#111!important;color:#fff!important;border:1px solid #c9a227!important;border-radius:10px;font:700 8px sans-serif!important;padding:3px 8px!important}
+.csp-sv::before{content:"✔ ";color:#4f8cff}
+.csp-av{display:block;position:relative;width:70px;height:70px;margin:-38px auto 0;border:2px solid #39ff14;background:#000 center/cover no-repeat}
+.csp-name{text-align:center;color:#ddd;font-size:15px;margin-top:8px}
+.csp-handle{text-align:center;margin-bottom:8px}
+.csp-bm{display:grid;grid-template-columns:1fr;gap:6px;padding:0 10px}
+.csp-meta{color:#1f8f0f}.csp-meta div::before{content:"✓ "}
+.csp-ff{color:#ddd}.csp-ff b{color:#fff}
+.csp-wallet{margin:8px 10px;border:1px solid #8a2be2;padding:4px 8px;display:flex;justify-content:space-between}
+.csp-wx{margin:0 10px 6px;border:1px dashed #8a2be2;padding:6px 8px}
+.csp-tabs{display:flex;justify-content:space-between;font-size:14px;padding:8px 10px 4px;border-bottom:1px solid #333}
+.csp-tabs span.on{text-decoration:underline;text-underline-offset:5px}
+.csp-view{min-height:120px;padding:6px 4px}
+.csp-card{border:2px solid #8a2be2;padding:5px 7px;margin-bottom:6px}
+.csp-card .l::before{content:"✓ "}.csp-card .w{color:#ddd}
+.csp-card .rep{color:#7fb3ff;font-size:11px;padding-left:12px}
+.csp-img{border:2px solid #39ff14;margin-top:4px;height:150px;background:#000 center/cover no-repeat}
+.csp-eng{display:flex;justify-content:space-between;padding:4px 4px 2px;font-size:12px}
+.csp-eng span.on{color:#ff3355}.csp-eng span.rp.on{color:#b388ff}
+.csp-in{width:100%;background:#000;color:#39ff14;border:1px solid #39ff14;font:12px monospace;padding:4px;margin:4px 0}
+.csp-row{display:flex;justify-content:space-between;align-items:center;gap:6px;padding:3px 0;border-bottom:1px dotted #1f3f1f}
+.csp-dim{color:#1f8f0f}
+.csp-nav{display:flex;justify-content:space-around;font-size:18px;padding:8px 0;border-top:1px solid #333}
+.csp-nav span.on{text-shadow:0 0 6px #39ff14}.csp-nav .plus{color:#b388ff;border:2px solid #8a2be2;border-radius:50%;width:30px;height:30px;line-height:26px;text-align:center}
+.csp-ready{padding:2px 10px 12px;font-size:11px;line-height:1.3}.csp-ready b::after{content:"_";animation:csp-blink 1s steps(1) infinite}
+@keyframes csp-blink{50%{opacity:0}}
+.csp-toast{position:sticky;bottom:4px;margin:0 10px;background:#000;border:1px solid #8a2be2;color:#b388ff;padding:4px 6px;font-size:11px}
+/* editable fields */
+.csp-ed{outline:none;border-bottom:1px dashed transparent;cursor:text}
+.csp-ed:hover{border-bottom-color:#8a2be2}.csp-ed:focus{border-bottom-color:#39ff14;background:#0a1a0a}
+.csp-ptext{display:block;white-space:pre-wrap;color:#39ff14}
+.csp-links{font-size:11px;margin-top:2px}.csp-links a{margin-right:6px}
+.csp-x{float:right;background:none;border:0;color:#8a2be2;cursor:pointer}.csp-x:hover{color:#ff3b6b}
+/* no X on top bar; one-line title */
+#csp-panel .csp-top button,#csp-panel .csp-top [data-a="toggle"]{display:none!important}
+#csp-panel .csp-top{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12px;letter-spacing:0}
+#csp-panel .csp-top .csp-ed{white-space:nowrap}
+#csp-panel .csp-top{font-size:10.5px;text-overflow:clip;padding-left:4px;padding-right:4px}
+/* Verified (left) / Wallet (right) buttons, wallet strip removed */
+#csp-panel .csp-btns{display:flex;justify-content:space-between;gap:8px;margin:6px 10px 4px}
+#csp-panel .csp-b{background:#000;color:#39ff14;border:1px solid #8a2be2;font:inherit;font-size:11px;padding:3px 10px;cursor:pointer}
+#csp-panel .csp-b:hover{background:#1a0630;box-shadow:0 0 6px #8a2be2}
+#csp-panel .csp-b b{color:#39ff14;margin-left:4px}
+
+/* Verified|Wallet replace banner SUPER VERIFIED badge + dollar bill */
+#csp-panel .csp-banner .csp-b{position:absolute;bottom:4px;z-index:2;font-size:10px;padding:2px 7px}
+#csp-panel .csp-banner .csp-bv{left:6px}
+#csp-panel .csp-banner .csp-bw{right:6px;min-width:62px;min-height:22px}
+#csp-panel .csp-banner .csp-b{bottom:0;min-height:26px;min-width:66px}
+#csp-panel .csp-banner .csp-bv{left:2px}#csp-panel .csp-banner .csp-bw{right:2px}
+
+/* GHOSTMACHINE logo overlay (old banner CRT spot: top-center) */
+#csp-panel .csp-banner .csp-gm{position:absolute;left:50%;top:12px;width:42px;height:auto;transform:translateX(-50%);z-index:1;pointer-events:none;image-rendering:pixelated}
+
+/* one distinct divider line; Verified|Wallet pair centered ON the line */
+#csp-panel .csp-banner{border-bottom:1px solid #39ff14!important;box-shadow:none}
+#csp-panel .csp-banner .csp-b{bottom:-13px;height:26px;min-height:26px;min-width:66px;z-index:3;box-sizing:border-box;display:flex;align-items:center;justify-content:center}
+#csp-panel .csp-banner .csp-bv{left:auto;right:50%;margin-right:3px}
+#csp-panel .csp-banner .csp-bw{right:auto;left:50%;margin-left:3px}
+
+/* each button centered in the gap between banner edge and avatar edge (avatar 74px incl border -> half 37px) */
+#csp-panel .csp-banner .csp-bv{right:auto;margin:0;left:calc((50% - 37px) / 2);transform:translateX(-50%)}
+#csp-panel .csp-banner .csp-bw{left:auto;margin:0;right:calc((50% - 37px) / 2);transform:translateX(50%)}
+
+/* auto-reply */
+#csp-panel .csp-bot{border-left:2px solid #c0392b;padding-left:6px;margin:4px 0 2px 10px}
