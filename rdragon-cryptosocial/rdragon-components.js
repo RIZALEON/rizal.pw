@@ -11,6 +11,7 @@ var DEVICES=[["Device","SEE","/img"],["iPhone 17e","Apple Vision on the phone + 
 var AUDIO=["MAKE VOICE","MAKE VOICE LIKE","USE VOICE","MAKE INSTRUMENTAL","MAKE INSTRUMENTAL LIKE","MAKE MUSIC LIKE","SAY","SING","RAP","RHYME","/music","/listen"];
 var STATUS={"SEE":"not ready (browser)","/img":"not ready (browser) · SD2 Turbo on Neo","/draw":"not ready (browser) · SD2 Turbo on Neo","audio":"planned · not ready (browser)",
  "/recall":"ready (this browser's memory)","/batibabox":"ready","rkrypt / RGEN":"ready (no keys held; approvals go to ЯCASKET)","ЯSYNC":"off by default","IMPORT TWEETBACK":"zip import ready · Drive REBIRTH not ready · ЯSYNC profile write not ready"};
+function neutral(s){return String(s||"").replace(/\(?\s*(?:password\s*\|\s*)?Face ID\s*(?:\/|\|)\s*fingerprint(?:\s*(?:\/|\|)\s*device passcode)?\s*\)?(?:\s*approval)?/gi,"ЯCASKET").replace(/\b(?:Face ID|Touch ID|fingerprint|biometric)\b/gi,"ЯCASKET")}
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 function table(){return '<table class="rdc-t">'+DEVICES.map(function(r,i){var t=i?"td":"th";return "<tr>"+r.map(function(x){return "<"+t+">"+esc(x)+"</"+t+">"}).join("")+"</tr>"}).join("")+"</table>"}
 function isAudio(l){var u=l.toUpperCase().replace(/^\//,""),hit="";AUDIO.forEach(function(a){var b=a.replace(/^\//,"");if((u===b||u.indexOf(b+" ")===0)&&b.length>hit.length)hit=a});return hit}
@@ -20,7 +21,7 @@ async function run(line){var l=String(line||"").trim(),h=l.split(/\s+/)[0].toLow
  var au=isAudio(l);if(au)return au+": planned — "+NR+" Audio/voice uploads as LIKE examples stay on this device.";
  if(h==="help"||h==="/help")return "<pre>"+esc(Object.keys(STATUS).map(function(k){return k+"  ·  "+STATUS[k]}).join("\n")+"\naudio: "+AUDIO.join(", "))+"</pre>"+table();
  if(h==="import"||h==="tweetback"){openTbi();return "R:\\IMPORT TWEETBACK opened below."}
- if(/^\/?(rkrypt|rgen)$/.test(h)&&w.RKRYPT){var out="";await w.RKRYPT.rdos(l,function(x){out=x});return out||"⚿ approving…"}
+ if(/^\/?(rkrypt|rgen)$/.test(h)&&w.RKRYPT){var out="";await w.RKRYPT.rdos(l,function(x){out=x});return neutral(out)||"⚿ approving…"}
  if((h==="/recall"||h==="/batibabox")&&w.RDRAGON_ENGINE&&w.RDRAGON_ENGINE.mind){try{var M=await w.RDRAGON_ENGINE.mind(),who=(w.RDRAGON_CSP&&w.RDRAGON_CSP.me&&w.RDRAGON_CSP.me.pub)||"public",r=M&&M.command?await M.command(who,l):null;if(r!=null)return "<pre>"+esc(typeof r==="string"?r:(r.text||JSON.stringify(r,null,1)))+"</pre>"}catch(e){}return h+": memory is empty on this browser."}
  if(h==="/recall"||h==="/batibabox")return h+": BATIBABOX is still loading.";
  if(w.RDRAGON_REPLY&&typeof w.RDRAGON_REPLY.ask==="function"){try{var a=await w.RDRAGON_REPLY.ask(l);if(a)return esc(a.text||a)}catch(e){}}
