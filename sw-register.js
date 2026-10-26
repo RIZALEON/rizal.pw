@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator&&/^https?:/.test(location.protocol)){navigator.serviceWorker.register('/sw.js').then(function(){return navigator.serviceWorker.ready}).then(function(r){if(r.active)r.active.postMessage({t:'cache-models'})}).catch(function(){})}

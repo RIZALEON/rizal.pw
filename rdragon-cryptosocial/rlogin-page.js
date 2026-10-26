@@ -48,7 +48,7 @@ function auto(){get().then(function(r){if(!r||!r.kp||!r.profile)throw Error("no 
 /* 2 · approval from an enrolled device */
 function showReq(){RSync.deviceSigner().then(function(sg){RQ=sg;return RSync.enrollRequest(sg,(navigator.platform||"device")+" · login page")}).then(function(req){
   var t="rsync-enroll:"+btoa(unescape(encodeURIComponent(JSON.stringify(req))));$("reqt").hidden=false;$("reqt").value=t;$("qr").innerHTML=window.RSyncQR?RSyncQR.svg(t,200):"";
-  DEV={kp:RQ.keyPair,req:req};put(DEV);return RSync.shortCode(req)}).then(function(c){$("code").textContent=c;msg("waiting for approval… arrives at the next sync or by importing a bundle")})}
+  DEV={kp:RQ.keyPair,req:req};put(DEV);return RSync.shortCode(req)}).then(function(c){$("code").textContent=c;msg("⚿ approving… arrives at the next sync or by importing a bundle")})}
 function checkEnrolled(){if(!RQ)return;var pf=profOfDev(RQ.pub);if(pf)done(RQ,pf,{kp:RQ.keyPair})}
 function imp(){var t=prompt("Paste the approval bundle (JSON)");if(!t)return;var a;try{a=JSON.parse(t);a=Array.isArray(a)?a:(a.entries||[a])}catch(e){return msg("not a bundle",1)}RS.merge(a,"bundle").then(function(){checkEnrolled();if(RQ&&!profOfDev(RQ.pub))msg("bundle imported — this device is not enrolled in it",1)})}
 /* 3 · username + password (rate-limited, offline) */

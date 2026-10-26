@@ -1,0 +1,116 @@
+{
+"v": 1,
+"kind": "rdragon.card",
+"version": "memfix-20261026",
+"note": "Public-safe: no IDs, keys, wallets, addresses or device names. Each line sourced from ЯLAB docs (see sources).",
+"intro": "RDRAGON is the reply voice of the ЯLAB / GHOSTMACHINE system. It answers posts on the GHOSTMACHINE CryptoSocial feed and in the RDRAGON apps, online or fully offline.",
+"lines": [
+{
+"k": [
+"rizal",
+"decider",
+"founder",
+"chaserizal",
+"younger"
+],
+"t": "Rizal (Rizal the Younger, @chaserizal) is the founder of ЯLAB and GHOSTMACHINE and the Decider: his orders decide what gets built, signed and published.",
+"src": "ЯLAB public notes"
+},
+{
+"k": [
+"thundr",
+"thunder",
+"cryptobot"
+],
+"t": "ThundR is the ЯLAB CRYPTOBOT: a shell bot seated in the ЯLAB apps, shown as a floating cryptobot, linked to the wallet.",
+"src": "ЯLAB public notes"
+},
+{
+"k": [
+"ghost",
+"chain",
+"ghostchain"
+],
+"t": "The Ghost Chain (Я GHOST CHAIN) is ЯLAB's own local, signed log: in the apps it is a local log file that tags Я tokens and records events. It is not a public blockchain.",
+"src": "ЯLAB public notes"
+},
+{
+"k": [
+"rkrypt",
+"rwallet",
+"wallet",
+"rtoken"
+],
+"t": "RKRYPT · RWALLET is the ЯLAB wallet: RKRYPT with a built-in R:\\ command line and ЯCASKET inside; it shows your Rtoken balance on a local signed ledger.",
+"src": "ЯLAB public notes"
+},
+{
+"k": [
+"casket",
+"rcasket",
+"яcasket"
+],
+"t": "ЯCASKET is the key casket: it seals signing keys in the device's secure hardware. Keys never leave it.",
+"src": "ЯLAB public notes"
+},
+{
+"k": [
+"r:\\",
+"r:",
+"command line",
+"bootloader"
+],
+"t": "R:\\ is the ЯLAB drive prompt: the stealth DOS-style command line (for example R:\\RKRYPT>) tied to ThundR and the RDRAGON ENJIN.",
+"src": "ЯLAB public notes"
+},
+{
+"k": [
+"rizal.pw",
+"rizalpw",
+"cryptosocial",
+"feed"
+],
+"t": "rizal.pw is the public GHOSTMACHINE CryptoSocial site on GitHub Pages: feed, profile, wallet and RDRAGON replies, and the app update feeds.",
+"src": "ЯLAB public notes"
+},
+{
+"k": [
+"rizal.info",
+"rizalinfo"
+],
+"t": "rizal.info is ЯLAB's second public site and signed update feed, and the home the TERAFORMR poster links to.",
+"src": "ЯLAB public notes"
+},
+{
+"k": [
+"teraformr",
+"terraform",
+"terraformя"
+],
+"t": "TERAFORMR (TerraformЯ) is the ЯLAB game, a Godot web build that opens full-panel in the Я GAME door; its poster sits on the RKRYPT home screen.",
+"src": "ЯLAB public notes"
+},
+{
+"k": [
+"batibabox",
+"memory",
+"recall",
+"rag"
+],
+"t": "BATIBABOX is the ЯENJIN memory organ between the MIND SPINE and the HEART: long-term memory, RAG and knowledge base, with a per-bot digest and index. Recall is vector plus keyword, with keyword-only as the fallback; nothing is ever deleted.",
+"src": "ЯLAB public notes"
+},
+{
+"k": [
+"backup",
+"backups",
+"transcripts",
+"rscribe",
+"machine mind",
+"machine-mind"
+],
+"t": "MACHINE MIND, transcripts and RSCRIBE notes are kept add-only and never deleted. The full list of backups is in the MACHINE MIND manual section \"Backups and where to find them\"; inside the RVM, RSCRIBE copies live on drive1 at /data/rscribe.",
+"src": "ЯLAB public notes"
+}
+]
+}
