@@ -1,4 +1,4 @@
-/* RDRAGON edge engine v1 · runs IBM Granite 4.0 H (GGUF Q4_K_M) in the visitor's browser with wllama (llama.cpp WASM, vendored here).
+/* RDRAGON edge engine v1.1 (mind) · runs IBM Granite 4.0 H (GGUF Q4_K_M) in the visitor's browser with wllama (llama.cpp WASM, vendored here).
    Self-hosted: every byte (runtime, wasm, weights) comes from this site; no CDN, no Hugging Face, no outside API at runtime.
    Pipeline: SPINE (JS ports: rcounter turn counter · rtoken sha256 seal · rscribe page log, NOT the RVM binaries) -> MEMORY (this device's
    IndexedDB + its own ЯSYNC chain) + LESSONS (BM25 top-k, weighted) -> HEART (Granite) -> quality check -> rdragon.reply tier:"edge".
@@ -34,11 +34,18 @@ function clean(t,cfg){var Q=(cfg&&cfg.quality)||{};t=String(t||"").replace(/<\|[
 function liveGuard(q,t,cfg){if(!isWeather(q))return t;var honest=(cfg&&cfg.liveData&&cfg.liveData.weather)||"I can't see live weather from here and won't guess.";
  if(/\d\s*(°|degrees|deg|f\b|c\b|%|mph|km\/h)|currently|right now it|today it('s| is)/i.test(t)||!/can.?t|cannot|no (live|access|real)|don.?t have/i.test(t))return honest;return t}
 function buildMessages(o,cfg){var sys=(cfg&&cfg.system)||"You are RDRAGON.",L=o.lessons||[],M=o.memory||[];
+ if(o.context){sys+="\n\n"+o.context;L=[];M=[]} /* BATIBABOX-assembled context replaces the flat lessons/memory blocks */
  if(L.length)sys+="\n\nLessons learned from Rizal's corrections (follow them):\n"+L.map(function(l,i){return (i+1)+". "+String(l.text).slice(0,240)}).join("\n");
  if(M.length)sys+="\n\nEarlier on this device:\n"+M.map(function(m){return "Q: "+String(m.q).slice(0,160)+"\nA: "+String(m.a).slice(0,200)}).join("\n");
  var msgs=[{role:"system",content:sys}];(o.thread||[]).slice(-8).forEach(function(x){msgs.push({role:x.by==="RDRAGON"?"assistant":"user",content:String(x.text||"").slice(0,600)})});
  msgs.push({role:"user",content:String(o.q||"").slice(0,1500)});return msgs}
 function pickModel(nav){nav=nav||(typeof navigator!=="undefined"?navigator:{});var mem=nav.deviceMemory||0,mob=/Android|iPhone|iPad|Mobile/i.test(nav.userAgent||"");if(root.RDRAGON_ENGINE_MODEL)return root.RDRAGON_ENGINE_MODEL;return(mob||mem&&mem<=4)?"350m":"1b"}
+/* only try 1B when models/available.json lists it (GitHub Pages ships 350M only: no wasted 1B manifest fetch) */
+var AVAIL=null;function available(){return AVAIL||(AVAIL=fetch(BASE+"models/available.json",{cache:"no-cache"}).then(function(r){return r.ok?r.json():{models:["350m"]}}).then(function(j){return j.models||["350m"]},function(){return["350m"]}))}
+function resolveModel(want){return available().then(function(av){var w=want||pickModel();return av.indexOf(w)>=0?w:"350m"})}
+/* MIND + BATIBABOX (rdragon-mind.js), lazy */
+var MIND=null;function mind(){if(MIND)return MIND;MIND=(root.RDRAGON_MIND?Promise.resolve(root.RDRAGON_MIND):(typeof document!=="undefined"?new Promise(function(ok,no){var sc=document.createElement("script");sc.src=BASE+"rdragon-mind.js?v=1";sc.onload=function(){ok(root.RDRAGON_MIND)};sc.onerror=no;document.head.appendChild(sc)}):Promise.reject(Error("no mind"))))
+ .then(function(M){var m=M.create({});root.RDRAGON_MIND_INSTANCE=m;return m});MIND.catch(function(){MIND=null});return MIND}
 /* ---- SPINE (JS ports) ---- */
 function hex(b){return Array.prototype.map.call(new Uint8Array(b),function(x){return("0"+x.toString(16)).slice(-2)}).join("")}
 function sha256(s){return crypto.subtle.digest("SHA-256",new TextEncoder().encode(s)).then(hex)}
@@ -55,23 +62,27 @@ var CFG=null;function cfg(){return CFG?Promise.resolve(CFG):getJSON("rdragon-pro
 var W=null,LOADED=null,loading=null;
 function fetchPart(url,onp){var C=typeof caches!=="undefined"?caches.open("rdragon-engine-v1"):Promise.resolve(null);
  return C.then(function(c){return(c?c.match(url):Promise.resolve(null)).then(function(hit){if(hit)return hit.blob();return fetch(url).then(function(r){if(!r.ok)throw Error("model part "+r.status);var cl=r.clone();if(c)c.put(url,cl).catch(function(){});return r.blob()})})})}
-function load(which,onProgress){if(loading&&LOADED===which)return loading;which=which||pickModel();var m=MODELS[which],dir=BASE+"models/"+m.dir+"/";LOADED=which;
+function load(which,onProgress){if(!which)return resolveModel(null).then(function(w){return load(w,onProgress)});if(loading&&LOADED===which)return loading;var m=MODELS[which],dir=BASE+"models/"+m.dir+"/";LOADED=which;
  loading=Promise.all([import(BASE+"vendor/wllama/index.js"),fetch(dir+"manifest.json").then(function(r){if(!r.ok)throw Error("no manifest for "+which);return r.json()})]).then(function(a){var mod=a[0],man=a[1],done=0;
   W=new mod.Wllama({"default":BASE+"vendor/wllama/wllama.wasm"},{suppressNativeLog:true});W.setCompat({worker:BASE+"vendor/wllama/compat/wllama.js",wasm:BASE+"vendor/wllama/compat/wllama.wasm"});
   return Promise.all(man.parts.map(function(p){return fetchPart(dir+p.file).then(function(b){if(b.size!==p.size)throw Error("bad part size "+p.file);done+=p.size;onProgress&&onProgress(done/man.size);return b})}))
    .then(function(blobs){return W.loadModel([new Blob(blobs)],{n_ctx:(CFG&&CFG.ctx)||4096})}).then(function(){return{model:m.name,which:which}})})
  .catch(function(e){if(which==="1b"){LOADED=null;loading=null;return load("350m",onProgress)}LOADED=null;loading=null;throw e});return loading}
-function answer(o){o=o||{};var turn=SPINE.count();return cfg().then(function(c){
+function answer(o){o=o||{};var turn=SPINE.count(),pf=o.profile||"anon";return cfg().then(function(c){
  var lessons=rankLessons(o.q,(o.lessons||[]),c);
- if(isWeather(o.q)&&!o.forceModel)return finish(c,o,turn,lessons,c.liveData.weather,"rules:live-data-guard");
- return recall(o.q,3).then(function(memory){return load(o.model,o.onProgress).then(function(info){
-  var base=buildMessages({q:o.q,thread:o.thread,lessons:lessons,memory:memory},c);
+ /* MIND base commands (/batibabox, /recall) answer before the heart */
+ return mind().then(function(m){return m.command(pf,o.q).then(function(t){return{m:m,t:t}})},function(){return{m:null,t:null}}).then(function(x){var M=x.m;
+ if(x.t)return finish(c,o,turn,lessons,x.t,"mind:command",M);
+ if(isWeather(o.q)&&!o.forceModel)return finish(c,o,turn,lessons,c.liveData.weather,"rules:live-data-guard",M);
+ var ctx=M?Promise.all([M.digest(pf),M.recall(pf,o.q,3)]).then(function(r){return M.assemble({digest:r[0],recalled:r[1],lessons:lessons}).text}):recall(o.q,3).then(function(memory){return{memory:memory}});
+ return ctx.then(function(cx){return load(o.model,o.onProgress).then(function(info){
+  var base=buildMessages(typeof cx==="string"?{q:o.q,thread:o.thread,context:cx}:{q:o.q,thread:o.thread,lessons:lessons,memory:cx.memory},c);
   function gen(k,why){var m=base.map(function(x){return{role:x.role,content:x.content}});if(k)m[m.length-1].content+=String((c.quality||{}).retryHint||"").replace("%s",why);
    return W.createChatCompletion({messages:m,max_tokens:c.max_tokens||120,temperature:c.temperature||.4}).then(function(r){
     var t=clean(((r.choices||[])[0]||{}).message&&r.choices[0].message.content,c);t=liveGuard(o.q,t,c);var v=qcheck(t,c,o.q);
     if(v[0])return finish(c,o,turn,lessons,t,info.model);if(k<1)return gen(k+1,v[1]);throw Error("quality check failed: "+v[1])})}
-  return gen(0,"")})})})}
-function finish(c,o,turn,lessons,text,model){var page={id:"rsp-"+Date.now().toString(36)+"-"+turn,v:1,kind:"rscribe.page",turn:turn,q:String(o.q||"").slice(0,500),a:text,model:model,lessons:lessons.length,ts:new Date().toISOString(),prompt:c.version};
- return SPINE.seal(page).then(function(h){page.seal=h;return SPINE.scribe(page)}).then(function(){return{text:text,model:model,device:"web",tier:"edge",turn:turn,seal:page.seal,lessons:lessons.length,prompt:c.version}})}
-root.RDRAGON_ENGINE={answer:answer,load:load,pickModel:pickModel,rankLessons:rankLessons,isWeather:isWeather,quality:quality,qcheck:qcheck,clean:clean,liveGuard:liveGuard,buildMessages:buildMessages,_setCfg:function(c){CFG=c},MODELS:MODELS,BASE:BASE};
+  return gen(0,"")})})})})}
+function finish(c,o,turn,lessons,text,model,M){var page={id:"rsp-"+Date.now().toString(36)+"-"+turn,v:1,kind:"rscribe.page",turn:turn,q:String(o.q||"").slice(0,500),a:text,model:model,lessons:lessons.length,ts:new Date().toISOString(),prompt:c.version};
+ return SPINE.seal(page).then(function(h){page.seal=h;return SPINE.scribe(page)}).then(function(){if(M&&!/^mind:/.test(model))return M.remember(o.profile||"anon",{id:page.id,q:page.q,a:text,ts:page.ts}).catch(function(){})}).then(function(){return{text:text,model:model,device:"web",tier:"edge",turn:turn,seal:page.seal,lessons:lessons.length,prompt:c.version}})}
+root.RDRAGON_ENGINE={answer:answer,load:load,pickModel:pickModel,rankLessons:rankLessons,isWeather:isWeather,quality:quality,qcheck:qcheck,clean:clean,liveGuard:liveGuard,buildMessages:buildMessages,mind:mind,resolveModel:resolveModel,_setCfg:function(c){CFG=c},MODELS:MODELS,BASE:BASE};
 if(typeof module==="object"&&module.exports)module.exports=root.RDRAGON_ENGINE})(typeof window!=="undefined"?window:globalThis);
