@@ -136,7 +136,7 @@
  function rsSigner(){return S.me&&S.me.sign&&S.me.pub?{pub:S.me.pub,sign:S.me.sign}:null}
  function rsAdopt(added){var have={},n=0;EV.forEach(function(e){have[e.id]=1});added.forEach(function(e){if(e.rgen&&e.signer)RGOK[e.id]=1;if(have[e.id])return;var o=Object.assign({},e);delete o.rgen;delete o.cid;o.seq=EV.length;o.prev=EV.length?EV[EV.length-1].hash:"0".repeat(64);o.peer=1;if(e.rgen)o.signer=e.rgen.pub;EV.push(o);n++});
   try{localStorage.setItem(RGK,JSON.stringify(RGOK))}catch(e){}if(n)persist();return n}
- function rdPeers(base,cb){var l=(CFG.peers||[]).concat(window.RDRAGON_PRIVATE_PEERS||[]),u=CFG.privatePeersUrl;if(!u||!window.fetch||/(^|\.)(rizal\.(pw|info)|github\.io)$/i.test(location.hostname))return cb(l); /* public hosts never carry device-local peers: no fetch, no 404 */try{u=new URL(u,base||location.href).href}catch(e){return cb(l)}fetch(u,{cache:"no-store"}).then(function(r){return r.ok?r.json():{}}).then(function(j){cb(l.concat(j&&j.peers||[]))},function(){cb(l)})}
+ function rdPeers(base,cb){var l=(CFG.peers||[]).concat(window.RDRAGON_PRIVATE_PEERS||[]),u=CFG.privatePeersUrl;try{if(localStorage.getItem("rdragon.csp.localPeer")==="1")l=l.concat(CFG.localPeers||[])}catch(e){} /* 2026-10-26 RSYNC routes: loopback peer(s) only on devices that signed in here (never asks random visitors for local-network access) */if(!u||!window.fetch||/(^|\.)(rizal\.(pw|info)|github\.io)$/i.test(location.hostname))return cb(l); /* public hosts never carry device-local peers: no fetch, no 404 */try{u=new URL(u,base||location.href).href}catch(e){return cb(l)}fetch(u,{cache:"no-store"}).then(function(r){return r.ok?r.json():{}}).then(function(j){cb(l.concat(j&&j.peers||[]))},function(){cb(l)})}
  var RSY=null;if(window.RSync&&crypto.subtle&&RSync.devicePolicy){RS=RSync.create({storage:RSync.adapters.localStorage("rdragon.csp.rsync.v1"),policy:RSync.devicePolicy({ownerKeys:CFG.ownerKeys||[]})});
   RS.ready.then(function(){rsAdopt(RS.entries());var bc=RSync.adapters.broadcast("rdragon.csp.rsync");if(bc){RS.attach(bc);RSI.peers.push("tabs")}
    rdPeers(base,function(pl){var tps=pl.filter(function(u,i){return u&&pl.indexOf(u)===i}).map(function(u){RSI.peers.push(u);return RSync.adapters.httpPeer(String(u).replace(/\/$/,""))});if(tps.length){RSY=RS.syncer({peers:tps,pollMs:CFG.syncEveryMs||20000});RSY.onStatus(function(){render()});RSY.start();render()}});
@@ -175,7 +175,7 @@
   if(LOCKED||DEV.out){S.me=null;return}
   var ss=sessOf(pf,DEV.sg.pub);if(ss&&ss.end){localOut("this device was logged out"+(ss.by&&ss.by!==DEV.sg.pub?" from another device":""));return}
   sessionStart(pf);
-  S.me={handle:pf.handle,name:pf.name,profile:pf.id,pub:DEV.sg.pub,sign:DEV.sg.sign,device:1}}
+  S.me={handle:pf.handle,name:pf.name,profile:pf.id,pub:DEV.sg.pub,sign:DEV.sg.sign,device:1};try{localStorage.setItem("rdragon.csp.localPeer","1")}catch(e){}}
  function loadDevice(rec){DEV=rec;var key=rec.kp||rec.skp;if(!key){render();return Promise.resolve()}return RSync.deviceSigner(key).then(function(sg){DEV.sg=sg;LOCKED=!!(rec.webauthn&&window.PublicKeyCredential);
    if(rec.req){DREQ=rec.req;return RSync.shortCode(rec.req).then(function(c){DCODE=c})}}).then(function(){rsAdoptMe();render()})}
  function newKey(extra){return RSync.deviceSigner().then(function(sg){var rec=Object.assign({kp:sg.keyPair,created:new Date().toISOString()},extra||{});return idbPut(rec).then(function(){DEV=rec;DEV.sg=sg;return sg})})}
