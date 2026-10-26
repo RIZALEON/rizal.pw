@@ -32,7 +32,7 @@
   if(/\b(?:\d{1,3}\.){3}\d{1,3}\b/.test(t)||/\b[0-9a-f]{0,4}(?::[0-9a-f]{0,4}){4,7}\b/i.test(t))return false; /* IPv4 / IPv6 */
   if(/-----BEGIN [A-Z ]*KEY-----|\b(?:sk|pk|ghp|gho|github_pat|xox[abp])[-_][A-Za-z0-9_]{10,}|\b(?:password|passwd|secret|token|api[_-]?key|private[_ ]?key|seed phrase)\s*[:=]/i.test(t))return false; /* secrets */
   if(/[A-Za-z0-9+/]{40,}={0,2}/.test(t)||/\b[0-9a-f]{32,}\b/i.test(t)||/\b[1-9A-HJ-NP-Za-km-z]{40,}\b/.test(t))return false; /* keys / device ids / hashes */
-  if(/\b[\w-]+\.rscale\.rlab\b|\bЯ?ID-\d{4}-\w+|\bRP-[0-9a-f]{8,}/i.test(t))return false; /* mesh names, ЯID/profile ids */
+  if(/\b[\w-]+\.(local|lan|internal|home\.arpa|[a-z]{1,8}lab)\b|\bЯ?ID-\d{4}-\w+|\bRP-[0-9a-f]{8,}/i.test(t))return false; /* mesh names, ЯID/profile ids */
   return true}
  function rdOk(e){if(!e||e.v!==1||e.kind!=="rdragon.reply"||!(e.post_id||e.par)||e.by!=="RDRAGON")return false;if(!/^(pending|answered|offline)$/.test(e.status))return false;
   if(e.status==="answered"){if(!rdSafe(e.text))return false;if(RDKEYS.length&&!(e.peer?e.signer&&RDKEYS.indexOf(e.signer)>=0:true))return false}return true}
@@ -103,9 +103,10 @@
  function rsSigner(){return S.me&&S.me.sign&&S.me.pub?{pub:S.me.pub,sign:S.me.sign}:null}
  function rsAdopt(added){var have={},n=0;EV.forEach(function(e){have[e.id]=1});added.forEach(function(e){if(e.rgen&&e.signer)RGOK[e.id]=1;if(have[e.id])return;var o=Object.assign({},e);delete o.rgen;delete o.cid;o.seq=EV.length;o.prev=EV.length?EV[EV.length-1].hash:"0".repeat(64);o.peer=1;if(e.rgen)o.signer=e.rgen.pub;EV.push(o);n++});
   try{localStorage.setItem(RGK,JSON.stringify(RGOK))}catch(e){}if(n)persist();return n}
+ function rdPeers(base,cb){var l=(CFG.peers||[]).concat(window.RDRAGON_PRIVATE_PEERS||[]),u=CFG.privatePeersUrl;if(!u||!window.fetch)return cb(l);try{u=new URL(u,base||location.href).href}catch(e){return cb(l)}fetch(u,{cache:"no-store"}).then(function(r){return r.ok?r.json():{}}).then(function(j){cb(l.concat(j&&j.peers||[]))},function(){cb(l)})}
  var RSY=null;if(window.RSync&&crypto.subtle&&RSync.devicePolicy){RS=RSync.create({storage:RSync.adapters.localStorage("rdragon.csp.rsync.v1"),policy:RSync.devicePolicy({ownerKeys:CFG.ownerKeys||[]})});
   RS.ready.then(function(){rsAdopt(RS.entries());var bc=RSync.adapters.broadcast("rdragon.csp.rsync");if(bc){RS.attach(bc);RSI.peers.push("tabs")}
-   var tps=(CFG.peers||[]).map(function(u){RSI.peers.push(u);return RSync.adapters.httpPeer(String(u).replace(/\/$/,""))});if(tps.length){RSY=RS.syncer({peers:tps,pollMs:CFG.syncEveryMs||20000});RSY.onStatus(function(){render()});RSY.start()}
+   rdPeers(base,function(pl){var tps=pl.filter(function(u,i){return u&&pl.indexOf(u)===i}).map(function(u){RSI.peers.push(u);return RSync.adapters.httpPeer(String(u).replace(/\/$/,""))});if(tps.length){RSY=RS.syncer({peers:tps,pollMs:CFG.syncEveryMs||20000});RSY.onStatus(function(){render()});RSY.start();render()}});
    RS.onChange(function(r){RSI.last=new Date();RSI.rej+=r.rejected.length;rsAdoptMe();rsAdopt(RS.entries());render()});render()})}
  var _addEv=addEv;addEv=function(ev){if(S.me&&S.me.handle&&!ev.by)ev.by=S.me.handle;if(S.me&&S.me.device){ev.profile=S.me.profile;if(S.me.name)ev.name=S.me.name}var r=_addEv(ev),sg=rsSigner();if(RS&&sg&&r.t!=="view"){var b=Object.assign({},r);delete b.seq;delete b.prev;delete b.hash;b.by=r.kind?r.by:(S.me.handle||b.by);
    RS.append(b,sg).then(function(x){if(x.added[0]){RGOK[r.id]=1;try{localStorage.setItem(RGK,JSON.stringify(RGOK))}catch(e){}render()}})}return r};

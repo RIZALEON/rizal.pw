@@ -97,7 +97,8 @@ $("b-auto").onclick=auto;$("b-req").onclick=showReq;$("b-imp").onclick=imp;$("b-
 $("s-pass").oninput=meter;$("l-pass").onkeydown=function(e){if(e.key==="Enter")login()};p0();
 RS=RSync.create({storage:RSync.adapters.localStorage("rdragon.csp.rsync.v1"),policy:RSync.devicePolicy({ownerKeys:CFG.ownerKeys||[]})});
 RS.ready.then(function(){var bc=RSync.adapters.broadcast("rdragon.csp.rsync");if(bc)RS.attach(bc);
- var tps=(CFG.peers||[]).map(function(u){return RSync.adapters.httpPeer(String(u).replace(/\/$/,""))});if(tps.length){var y=RS.syncer({peers:tps,pollMs:CFG.syncEveryMs||20000});y.start()}
+ function rdPeers(base,cb){var l=(CFG.peers||[]).concat(window.RDRAGON_PRIVATE_PEERS||[]),u=CFG.privatePeersUrl;if(!u||!window.fetch)return cb(l);try{u=new URL(u,base||location.href).href}catch(e){return cb(l)}fetch(u,{cache:"no-store"}).then(function(r){return r.ok?r.json():{}}).then(function(j){cb(l.concat(j&&j.peers||[]))},function(){cb(l)})}
+ rdPeers((document.querySelector('script[src*="rlogin-page.js"]')||{}).src,function(pl){var tps=pl.filter(function(u,i){return u&&pl.indexOf(u)===i}).map(function(u){return RSync.adapters.httpPeer(String(u).replace(/\/$/,""))});if(tps.length){var y=RS.syncer({peers:tps,pollMs:CFG.syncEveryMs||20000});y.start()}});
  RS.onChange(checkEnrolled);RS.onChange(owners);owners();rgenVerify();return get()}).then(function(r){if(r&&r.kp&&!r.req&&r.profile)$("auto-note").textContent+=" · this device has an auto-login key"});
 window.RLOGIN_PAGE={state:st,device:get,ledger:LEDGER,strength:strength,ident:IDENT,rgen:function(){return LAST},rgenVerify:rgenVerify,owners:owners,authority:function(id){return RSync.authorityOf(st(),id)},commands:RSync.RGEN.commands,founder:FND,storedPackage:function(h){return getK("pkg:"+H(h))}};
 })();
