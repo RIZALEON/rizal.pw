@@ -18,9 +18,18 @@ function rankLessons(q,lessons,cfg){cfg=cfg||{};var W=cfg.lessonWeights||{correc
  var hit=sc.filter(function(x){return x.bm>0}).sort(function(a,b){return b.s-a.s}),rest=sc.filter(function(x){return x.bm<=0}).sort(function(a,b){return b.w-a.w});
  var out=hit.slice(0,K);if(out.length<MINK)out=out.concat(rest.slice(0,MINK-out.length));return out.map(function(x){return x.l})}
 function isWeather(q){return /\b(weather|forecast|temperature|temp|rain(ing|y)?|snow(ing|y)?|sunny|cloudy|humid(ity)?|wind(y)?|storm|degrees)\b/i.test(String(q||""))}
-function quality(t,cfg){var Q=(cfg&&cfg.quality)||{minWords:2,maxWords:60,rejectCanned:[]};t=String(t||"").trim();var n=words(t).length;if(n<Q.minWords||n>Q.maxWords*1.5)return false;
- return !(Q.rejectCanned||[]).some(function(c){return t.toLowerCase().indexOf(c.toLowerCase())>=0})}
-function clean(t,cfg){t=String(t||"").replace(/<\|[^>]*\|>/g,"").replace(/^\s*(RDRAGON|ASSISTANT)\s*[:>-]\s*/i,"").trim();var Q=(cfg&&cfg.quality)||{maxWords:60},w=t.split(/\s+/);if(w.length>Q.maxWords){t=w.slice(0,Q.maxWords).join(" ");var k=t.search(/[.!?][^.!?]*$/);if(k>40)t=t.slice(0,k+1)}return t}
+var STOPW="the a an and or of to in on is are was what how why who it its this that for with be do does i you me my your at as by from can will".split(" ");
+function toks(x){return(String(x||"").toLowerCase().match(/[a-z0-9']+/g)||[]).filter(function(w){return w.length>2&&STOPW.indexOf(w)<0})}
+/* port of csanswer.py quality(): returns [ok, why] */
+function qcheck(t,cfg,q){var Q=(cfg&&cfg.quality)||{};t=String(t||"").trim();var w=t.match(/[A-Za-z0-9']+/g)||[],G=new RegExp(Q.greet||"^\\W*(hi|hey|hello|yo|gm)\\b[\\W\\w]{0,20}$","i"),C=new RegExp(Q.cannedRe||"sealed in the chain|the hoard grows","i");
+ if((Q.rejectCanned||[]).some(function(c){return t.toLowerCase().indexOf(c.toLowerCase())>=0}))return[false,"canned line"];
+ if((G.test(q||"")||G.test(t))&&w.length>=(Q.greetMin||2)&&w.length<=(Q.greetMax||60)&&!/the hoard grows|sealed in the chain/i.test(t))return[true,"greeting"];
+ if(w.length<(Q.minWords!=null?Q.minWords:15))return[false,"under "+(Q.minWords!=null?Q.minWords:15)+" words"];
+ if(C.test(t))return[false,"canned line"];
+ var qt=toks(q),tt=toks(t);if(tt.length&&qt.length&&tt.filter(function(x){return qt.indexOf(x)>=0}).length/tt.length>(Q.echoMax||0.6))return[false,"keyword echo"];
+ if(/"[^"]{1,25}"/.test(t)&&w.length<25)return[false,"quoted keyword echo"];return[true,"ok"]}
+function quality(t,cfg,q){return qcheck(t,cfg,q)[0]}
+function clean(t,cfg){var Q=(cfg&&cfg.quality)||{};t=String(t||"").replace(/<\|[^>]*\|>/g,"").replace(/^\s*(RDRAGON|ASSISTANT|DRAGOSKUL)\s*[:>-]\s*/i,"");t=t.split(/\b(?:USER|THREAD|QUESTION|LESSONS?)\s*:/)[0];t=t.replace(/^\s*@?RDRAGON[,:]?\s*/i,"").replace(/\s+/g," ").trim().replace(/^["' ]+|["' ]+$/g,"");return t.split(/(?<=[.!?])\s+/).slice(0,Q.maxSentences||5).join(" ").slice(0,Q.maxChars||700)}
 /* weather/live-data guard: never let the model invent live conditions */
 function liveGuard(q,t,cfg){if(!isWeather(q))return t;var honest=(cfg&&cfg.liveData&&cfg.liveData.weather)||"I can't see live weather from here and won't guess.";
  if(/\d\s*(°|degrees|deg|f\b|c\b|%|mph|km\/h)|currently|right now it|today it('s| is)/i.test(t)||!/can.?t|cannot|no (live|access|real)|don.?t have/i.test(t))return honest;return t}
@@ -56,9 +65,13 @@ function answer(o){o=o||{};var turn=SPINE.count();return cfg().then(function(c){
  var lessons=rankLessons(o.q,(o.lessons||[]),c);
  if(isWeather(o.q)&&!o.forceModel)return finish(c,o,turn,lessons,c.liveData.weather,"rules:live-data-guard");
  return recall(o.q,3).then(function(memory){return load(o.model,o.onProgress).then(function(info){
-  return W.createChatCompletion({messages:buildMessages({q:o.q,thread:o.thread,lessons:lessons,memory:memory},c),max_tokens:c.max_tokens||120,temperature:c.temperature||.4}).then(function(r){
-   var t=clean(((r.choices||[])[0]||{}).message&&r.choices[0].message.content,c);t=liveGuard(o.q,t,c);if(!quality(t,c))throw Error("quality check failed");return finish(c,o,turn,lessons,t,info.model)})})})})}
+  var base=buildMessages({q:o.q,thread:o.thread,lessons:lessons,memory:memory},c);
+  function gen(k,why){var m=base.map(function(x){return{role:x.role,content:x.content}});if(k)m[m.length-1].content+=String((c.quality||{}).retryHint||"").replace("%s",why);
+   return W.createChatCompletion({messages:m,max_tokens:c.max_tokens||120,temperature:c.temperature||.4}).then(function(r){
+    var t=clean(((r.choices||[])[0]||{}).message&&r.choices[0].message.content,c);t=liveGuard(o.q,t,c);var v=qcheck(t,c,o.q);
+    if(v[0])return finish(c,o,turn,lessons,t,info.model);if(k<1)return gen(k+1,v[1]);throw Error("quality check failed: "+v[1])})}
+  return gen(0,"")})})})}
 function finish(c,o,turn,lessons,text,model){var page={id:"rsp-"+Date.now().toString(36)+"-"+turn,v:1,kind:"rscribe.page",turn:turn,q:String(o.q||"").slice(0,500),a:text,model:model,lessons:lessons.length,ts:new Date().toISOString(),prompt:c.version};
  return SPINE.seal(page).then(function(h){page.seal=h;return SPINE.scribe(page)}).then(function(){return{text:text,model:model,device:"web",tier:"edge",turn:turn,seal:page.seal,lessons:lessons.length,prompt:c.version}})}
-root.RDRAGON_ENGINE={answer:answer,load:load,pickModel:pickModel,rankLessons:rankLessons,isWeather:isWeather,quality:quality,clean:clean,liveGuard:liveGuard,buildMessages:buildMessages,_setCfg:function(c){CFG=c},MODELS:MODELS,BASE:BASE};
+root.RDRAGON_ENGINE={answer:answer,load:load,pickModel:pickModel,rankLessons:rankLessons,isWeather:isWeather,quality:quality,qcheck:qcheck,clean:clean,liveGuard:liveGuard,buildMessages:buildMessages,_setCfg:function(c){CFG=c},MODELS:MODELS,BASE:BASE};
 if(typeof module==="object"&&module.exports)module.exports=root.RDRAGON_ENGINE})(typeof window!=="undefined"?window:globalThis);
