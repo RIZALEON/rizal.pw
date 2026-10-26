@@ -84,7 +84,7 @@ function toCSP(profile,mediaUrl){const m=x=>({type:x.type,src:mediaUrl?mediaUrl(
 // the ONE ЯCASKET hook — builds a request; never signs, never prompts by itself
 function casketRequest(profile){return{schema:"rzl.casket.request.v1",action:"make-profile-live",profile_id:profile.id,handle:profile.prof.handle,
   posts:profile.counts.posts,reason:"Profile REBIRTH: publish imported X archive as live GHOSTMACHINE profile",requested:new Date().toISOString(),
-  approver:"ЯCASKET chooses (Face ID / fingerprint / password last)",status:"pending"}}
+  approver:"ЯCASKET",status:"pending"}}
 const API={blobSource,urlSource,driveId,openZip,entryStream,entryBytes,entryText,ytd,isPrivate,importArchive,toCSP,casketRequest};
 if(typeof module!=="undefined")module.exports=API;else G.TBI=API;
 })(typeof window!=="undefined"?window:globalThis);
