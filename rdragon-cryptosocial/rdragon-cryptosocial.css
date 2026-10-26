@@ -142,3 +142,13 @@ body>#csp-panel{position:fixed;left:0;top:0;bottom:0;width:340px;z-index:900;ove
 /* ЯSYNC bar */
 #csp-panel .rs-bar{font-size:11px;margin:6px 0;padding:4px 6px;border:1px dashed #b388ff;border-radius:4px;color:#b388ff}
 #csp-panel .rs-b{cursor:pointer;border:1px solid #39ff14;color:#39ff14;border-radius:10px;padding:0 6px;margin-left:4px;white-space:nowrap}
+/* device sign-in + Devices panel */
+.rs-dev{border:1px solid #6f3cff;border-radius:10px;padding:10px;margin:8px 0;font-size:12px;display:flex;flex-direction:column;gap:6px;background:#0a0614}
+.rs-code{font-size:28px;letter-spacing:4px;color:#39ff14;font-weight:bold;text-align:center}
+.rs-qr{display:block;margin:4px auto;max-width:70vw;height:auto;border-radius:6px}
+.rs-req,.rs-in{width:100%;box-sizing:border-box;min-height:46px;background:#000;color:#39ff14;border:1px solid #333;font:11px monospace;border-radius:6px}
+.rs-tab{width:100%;border-collapse:collapse}.rs-tab td,.rs-tab th{padding:3px 4px;border-bottom:1px solid #222;text-align:left}
+.rs-rv td{opacity:.5;text-decoration:line-through}.rs-q{color:#ffd166}
+#csp-panel .rs-lo{margin:6px 0}#csp-panel a.rs-b{text-decoration:none}
+#csp-panel .rs-dual{background:#8a2be2;color:#fff;border-radius:999px;padding:1px 8px;font-size:11px}
+#csp-panel .rs-bar{display:flex;flex-wrap:wrap;gap:4px;align-items:center}#csp-panel .rs-bar .rs-b{white-space:nowrap}
