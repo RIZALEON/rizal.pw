@@ -16,7 +16,9 @@ var SEED={schema:"rdragon.mind.seed.v1",name:"RDRAGON",home:"rizal.pw CryptoSoci
  commands:{"/batibabox":"status and wiring","/recall <topic>":"matching memory only","/forget-view":"memory is append-only; nothing is deleted"}};
 var SECRET_RE=/(-----BEGIN [A-Z ]*PRIVATE KEY|\b(?:sk|ghp|gho|xox[abp])[-_][A-Za-z0-9_-]{10,}|\bpassword\s*[:=]|\b(?:seed|mnemonic)\s*(?:phrase|words)?\s*[:=]|\b[0-9a-f]{64}\b|\b(?:[a-z]+ ){11,23}[a-z]+\b(?=.*\b(?:seed|wallet)\b))/i;
 function scrub(s){s=String(s||"");return SECRET_RE.test(s)?"[withheld: looked like key material]":s}
-function words(s){return(String(s||"").toLowerCase().match(/[a-z0-9\u00c0-\uffff']+/g)||[]).filter(function(w){return w.length>2})}
+/* memfix 2026-10-26: keep 2+ char tokens and special ЯLAB terms (R:\\, R:, Я-names) */
+var SPECIAL=/r:\\|\br:(?=\s|$)|я[a-z0-9\u0400-\u04ff]+/gi;
+function words(s){s=String(s||"").toLowerCase();var sp=(s.match(SPECIAL)||[]);return sp.concat((s.match(/[a-z0-9\u00c0-\uffff']+/g)||[]).filter(function(w){return w.length>=2}))}
 var STOP={the:1,and:1,for:1,are:1,was:1,what:1,how:1,why:1,who:1,its:1,this:1,that:1,with:1,you:1,your:1,can:1,will:1,does:1,from:1,have:1,about:1};
 function terms(s){return words(s).filter(function(w){return !STOP[w]})}
 /* ---------- BATIBABOX index: BM25 keyword recall, weighted by recall count (consolidation: most-recalled first) ---------- */
@@ -37,14 +39,28 @@ function idbStore(){var db=new Promise(function(ok,no){if(typeof indexedDB==="un
  function tx(m,f){return db.then(function(d){return new Promise(function(ok,no){var t=d.transaction("kv",m),s=t.objectStore("kv"),r=f(s);t.oncomplete=function(){ok(r&&r.result)};t.onerror=function(){no(t.error)}})})}
  return{get:function(k){return tx("readonly",function(s){return s.get(k)}).then(function(v){return v||null})},put:function(k,v){return tx("readwrite",function(s){s.put(v,k)}).then(function(){return v})},
   all:function(pre){return tx("readonly",function(s){return s.getAll(IDBKeyRange.bound(pre,pre+"\uffff"))}).then(function(v){return v||[]})}}}
+/* RZLEMB1 parser (same layout as BATIBABOX.swift RZLEmbed / batibabox-index.py): "RZLEMB1\n"+json+"\n"+vocab+f32 scales[V]+int8[V*dim] */
+function parseEmb(buf){var u=new Uint8Array(buf);if(dec.decode(u.subarray(0,8))!=="RZLEMB1\n")return null;var nl=u.indexOf(10,8),h=JSON.parse(dec.decode(u.subarray(8,nl))),V=h.vocab,d=h.dim,v0=nl+1,s0=v0+h.vocabBytes,q0=s0+V*4;
+ var words=dec.decode(u.subarray(v0,s0)).split("\n"),W={};for(var i=0;i<V;i++)W[words[i]]=i;var sc=new Float32Array(buf.slice?buf.slice(s0,q0):u.slice(s0,q0).buffer),Q=new Int8Array(u.buffer,u.byteOffset+q0,V*d),UNK=W["[UNK]"];
+ function wp(w){var o=[],st=0;while(st<w.length){var e=w.length,f=-1;while(e>st){var sub=(st?"##":"")+w.slice(st,e);if(sub in W){f=W[sub];break}e--}if(f<0)return[];o.push(f);st=e}return o}
+ function embed(t){var ids=[];(String(t||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").match(/[\p{L}\p{N}]+|[^\p{L}\p{N}\s]/gu)||[]).forEach(function(w){wp(w).forEach(function(i){if(i!==UNK)ids.push(i)})});if(!ids.length)return null;
+  var v=new Float32Array(d),n=0;ids.forEach(function(i){var s=sc[i],b=i*d;for(var j=0;j<d;j++)v[j]+=Q[b+j]*s});for(var j=0;j<d;j++)n+=v[j]*v[j];n=Math.sqrt(n);if(!n)return null;for(j=0;j<d;j++)v[j]/=n;return v}
+ return{dim:d,model:h.model,embed:embed}}
 function create(o){o=o||{};var store=o.store||(typeof indexedDB!=="undefined"?idbStore():memStore()),every=o.consolidateEvery||6,syncHook=null,key=null,deviceTag=o.device||"web";
  function P(profile){return"p:"+(profile||"anon")+":"}
+ /* memfix: Android host mirrors memory to Android/data/.../RDRAGON-MEMORY when the mind changes (debounced 3 s); no-op elsewhere */
+ var EXT=null;function exportHint(){try{var N=(typeof window!=="undefined"&&window.DSNative);if(!N||!N.exportMemory)return;clearTimeout(EXT);EXT=setTimeout(function(){try{N.exportMemory()}catch(e){}},3000)}catch(e){}}
+ /* memfix 2026-10-26: BATIBABOX vector recall (RZLEMB1 static embeddings: WordPiece, int8 per-row, mean-pool, L2) when an embed file is present; BM25 keyword is the fallback. */
+ var EP=null,lastMode="keyword",VC={};var EURLS=o.embedUrls||["/ds/BATIBABOX-EMBED.rzl","/skills/batibabox-ds/BATIBABOX-EMBED-256-potion.rzl","/rdragon-cryptosocial/engine/BATIBABOX-EMBED.rzl"];
+ function embedder(){if(o.embed===false)return Promise.resolve(null);if(EP)return EP;EP=(o.embedBytes?Promise.resolve(o.embedBytes):(typeof fetch==="function"?EURLS.reduce(function(c,u){return c.then(function(b){return b||fetch(u).then(function(r){return r.ok?r.arrayBuffer():null},function(){return null})})},Promise.resolve(null)):Promise.resolve(null))).then(function(b){return b?parseEmb(b):null},function(){return null});return EP}
+ function hybrid(E,q,docs,k){var qv=E.embed(q);if(!qv)return bm25(q,docs,k);var kw=bm25(q,docs,docs.length),kmax=0,ks={};kw.forEach(function(d,i){var s=1/(1+i);ks[d.id]=s;if(s>kmax)kmax=s});
+  return docs.map(function(d){var v=VC[d.id]||(VC[d.id]=E.embed(d.text)),c=0;if(v)for(var j=0;j<v.length;j++)c+=v[j]*qv[j];return{doc:d,s:c+0.15*(ks[d.id]||0)}}).filter(function(x){return x.s>0.25||ks[x.doc.id]}).sort(function(a,b){return b.s-a.s}).slice(0,k).map(function(x){x.doc.score=+x.s.toFixed(3);return x.doc})}
  /* remember one turn (rscribe page) -> page store; consolidate into the digest every N pages. Additive: nothing deleted. */
  function remember(profile,page){var pg={id:page.id||("m-"+Date.now().toString(36)+Math.random().toString(36).slice(2,6)),q:scrub(page.q).slice(0,500),a:scrub(page.a).slice(0,700),ts:page.ts||new Date().toISOString(),recalls:0,device:page.device||deviceTag};
-  return store.put(P(profile)+"page:"+pg.id,pg).then(function(){return store.all(P(profile)+"page:")}).then(function(all){if(all.length%every===0)return consolidate(profile,all)}).then(function(){if(syncHook)return pushSync(profile,pg);}).then(function(){return pg})}
+  return store.put(P(profile)+"page:"+pg.id,pg).then(function(){return store.all(P(profile)+"page:")}).then(function(all){if(all.length%every===0)return consolidate(profile,all)}).then(function(){exportHint();if(syncHook)return pushSync(profile,pg);}).then(function(){return pg})}
  function consolidate(profile,all){return(all?Promise.resolve(all):store.all(P(profile)+"page:")).then(function(pages){pages.sort(function(a,b){return(b.recalls||0)-(a.recalls||0)||(a.ts<b.ts?1:-1)});
   var d=summarize(pages.slice(0,40));d.v=1;d.pages=pages.length;d.ts=new Date().toISOString();return store.put(P(profile)+"digest",d)})}
- function recall(profile,q,k){return store.all(P(profile)+"page:").then(function(pages){var hit=bm25(q,pages.map(function(p){return Object.assign({text:p.q+" "+p.a},p)}),k||4);
+ function recall(profile,q,k){return Promise.all([store.all(P(profile)+"page:"),embedder()]).then(function(r){var pages=r[0],E=r[1],docs=pages.map(function(p){return Object.assign({text:p.q+" "+p.a},p)});var hit=E?hybrid(E,q,docs,k||4):bm25(q,docs,k||4);lastMode=E?"vector+keyword":"keyword";
   return Promise.all(hit.map(function(h){h.recalls=(h.recalls||0)+1;var c=Object.assign({},h);delete c.text;return store.put(P(profile)+"page:"+h.id,c)})).then(function(){return hit})})}
  function digest(profile){return store.get(P(profile)+"digest")}
  /* BATIBABOX: assemble the context in organ order (knowledge/seed -> digest -> recalled pages -> lessons -> thread), within a char budget */
@@ -69,6 +85,6 @@ function create(o){o=o||{};var store=o.store||(typeof indexedDB!=="undefined"?id
  function ingest(entries){if(!key)return Promise.resolve(0);var n=0;return(entries||[]).filter(function(e){return e&&e.t==="rdragon.memory"&&e.v===1&&e.ct}).reduce(function(c,e){return c.then(function(){
   return C.subtle.decrypt({name:"AES-GCM",iv:unb64(e.iv)},key,unb64(e.ct)).then(function(b){var pg=JSON.parse(dec.decode(b));var k=P(e.mem_profile)+"page:"+pg.id;return store.get(k).then(function(h){if(h)return;n++;return store.put(k,pg)})},function(){})})},Promise.resolve()).then(function(){return n})}
  return{VERSION:VERSION,SEED:SEED,remember:remember,consolidate:consolidate,recall:recall,digest:digest,assemble:assemble,command:command,setPassphrase:setPassphrase,ingest:ingest,
-  onSync:function(fn){syncHook=fn},hasKey:function(){return!!key},_store:store}}
-var api={VERSION:VERSION,SEED:SEED,create:create,summarize:summarize,bm25:bm25,scrub:scrub,memStore:memStore};
+  onSync:function(fn){syncHook=fn},recallMode:function(){return lastMode},embedder:embedder,hasKey:function(){return!!key},_store:store}}
+var api={parseEmb:parseEmb,VERSION:VERSION,SEED:SEED,create:create,summarize:summarize,bm25:bm25,scrub:scrub,memStore:memStore};
 root.RDRAGON_MIND=api;if(typeof module==="object"&&module.exports)module.exports=api})(typeof window!=="undefined"?window:globalThis);
