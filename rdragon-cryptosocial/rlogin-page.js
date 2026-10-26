@@ -89,7 +89,7 @@ function dlpkg(){var p=window.__rcasketPkg;if(!p)return;var a=document.createEle
 /* wire up */
 function tab(t){[].forEach.call(document.querySelectorAll("[data-tab]"),function(b){b.classList.toggle("on",b.dataset.tab===t)});$("t-login").hidden=t!=="login";$("t-signup").hidden=t!=="signup"}
 [].forEach.call(document.querySelectorAll("[data-tab]"),function(b){b.onclick=function(){tab(b.dataset.tab)}});
-$("b-auto").onclick=auto;$("b-req").onclick=showReq;$("b-imp").onclick=imp;$("b-login").onclick=login;$("b-pkg").onclick=restorePkg;$("f-pkg").onchange=restoreFile;$("b-file").onclick=function(){$("f-pkg").click()};founderLine();$("b-signup").onclick=signup;$("b-dlpkg").onclick=dlpkg;$("b-rgen").onclick=rgenVerify;
+$("b-auto").onclick=auto;$("b-req").onclick=showReq;$("b-imp").onclick=imp;$("b-login").onclick=login;$("b-pkg").onclick=restorePkg;$("f-pkg").onchange=restoreFile;founderLine();$("b-signup").onclick=signup;$("b-dlpkg").onclick=dlpkg;$("b-rgen").onclick=rgenVerify;
 $("s-pass").oninput=meter;$("l-pass").onkeydown=function(e){if(e.key==="Enter")login()};p0();
 RS=RSync.create({storage:RSync.adapters.localStorage("rdragon.csp.rsync.v1"),policy:RSync.devicePolicy({ownerKeys:CFG.ownerKeys||[]})});
 RS.ready.then(function(){var bc=RSync.adapters.broadcast("rdragon.csp.rsync");if(bc)RS.attach(bc);
