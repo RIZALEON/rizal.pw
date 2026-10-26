@@ -1,4 +1,4 @@
-/* ЯLOGIN page — standalone login / sign-up for CryptoSocial (rsync-core 0.3 + RGENERATOR 2.1.9-egg4).
+/* ЯLOGIN page — standalone login / sign-up for CryptoSocial (rsync-core 0.3 + RKRYPT/RGENERATOR fused).
    Method order: 1 auto-login (ЯCASKET challenge: WebAuthn/Face ID gate, then a one-time nonce signed by the device key; native hook = window.RCASKET.challenge),
    2 approve from an enrolled device (short code / QR / bundle), 3 username + password (LAST RESORT; PBKDF2 unwraps the profile key, rate-limited, offline).
    The password is never stored, logged, synced or shipped: only salt + KDF params + wrapped key + verifier, inside the ЯCASKET package.
@@ -33,7 +33,7 @@ function profOfDev(pub){var P=st().profiles;for(var k in P){var d=P[k].devices&&
 /* ---- RGEN verify (egg4 record seals) + RKEY profile 0 ---- */
 function owners(){var a=st().authority||{},n=0;for(var k in a)if(a[k]==="dual")n++;var ks=(CFG.ownerKeys||[]).map(function(k){return k.id+(k.pub?"":" (pub PENDING)")});$("owners").textContent=ks.length?ks.join(" · "):"none configured";$("dual").hidden=!n;$("dual").textContent="dual-signed ×"+n;return n}
  function p0(){var p=RSync.RGEN.profile0(CFG.profile0PublicKey);$("p0").textContent=p.publicKey;$("p0").dataset.status=p.status}
-function rgenVerify(){return RSync.RGEN.verify(RS.raw()).then(function(r){LAST=r;var s=$("rg-status");s.textContent="RGEN verify ("+r.egg+"): "+r.ok+"/"+r.total+" valid egg4 seals"+(r.bad.length?" · "+r.bad.length+" INVALID":"");s.dataset.ok=String(!r.bad.length);return r})}
+function rgenVerify(){return RSync.RGEN.verify(RS.raw()).then(function(r){LAST=r;var s=$("rg-status");s.textContent="RGEN verify ("+r.egg+"): "+r.ok+"/"+r.total+" valid RGEN seals"+(r.bad.length?" · "+r.bad.length+" INVALID":"");s.dataset.ok=String(!r.bad.length);return r})}
 /* ---- finish: session.start signed by this device, then hand off to the app ---- */
 function done(sg,pf,extra){var pv=pf.sessions&&pf.sessions[sg.pub],seq=Math.max(DEV&&DEV.seq|0,pv?pv.seq:0)+1;
  return RSync.sessionId(sg.pub,seq).then(function(sid){return RS.append({id:sid,t:"session.start",profile:pf.id,device:sg.pub,session_seq:seq,ts:new Date().toISOString()},sg)})
