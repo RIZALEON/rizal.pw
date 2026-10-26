@@ -65,7 +65,7 @@
  function cspProfileApply(list,pid){pid=pid||(S.me&&S.me.profile);if(!pid)return 0;S.profTs=S.profTs||{};var n=0;
   (list||[]).filter(function(e){return e&&e.t==="profile.update"&&e.profile===pid&&e.fields}).sort(function(a,b){return a.ts<b.ts?-1:1}).forEach(function(e){Object.keys(e.fields).forEach(function(k){if(PROF_FIELDS.indexOf(k)<0)return;if(S.profTs[k]&&S.profTs[k]>=e.ts)return;var v=e.fields[k];
    if(k==="avatar"||k==="banner"){if(!v||typeof v.data!=="string"||!/^data:image\//.test(v.data)||v.data.length>PROF_AVATAR_MAX*1.37)return;S[k]=v.data}else S.prof[k]=String(v).slice(0,600);S.profTs[k]=e.ts;n++})});if(n)save();return n}
- /* PUBLIC profile for visitors: read-only hook into SCOUT's scrubbed public feed (CFG.publicProfileUrl, same feed path/format). This site never publishes it. */
+ /* PUBLIC profile for visitors: read-only hook into the scrubbed public feed (CFG.publicProfileUrl, same feed path/format). This site never publishes it. */
  function cspPublicProfile(){var u=CFG.publicProfileUrl;if(!u||S.me||!window.fetch)return;fetch(u,{cache:"no-cache"}).then(function(r){return r.ok?r.json():null}).then(function(j){var pr=j&&(j.profile||j);if(!pr)return;
   ["name","handle","bio","location","link","title"].forEach(function(k){if(typeof pr[k]==="string")S.prof[k]=pr[k].slice(0,600)});var av=pr.avatar&&(pr.avatar.url||pr.avatar.data);if(typeof av==="string"&&/^(https:\/\/|data:image\/|\/)/.test(av))S.avatar=av;render()},function(){})}
  setTimeout(cspPublicProfile,0);
