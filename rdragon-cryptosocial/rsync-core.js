@@ -122,7 +122,7 @@
     device.enroll   {profile, device, nonce, req_ts, req_sig, device_name} signed by an enrolled device OR a linked wallet key.
                     req_sig is the NEW device's own signature over enrollRequestMsg(device,nonce,req_ts) (proof it holds the key and asked).
     device.revoke   {profile, device} signed by an enrolled device or wallet. Never a deletion: old entries before the revoke stay valid.
-    profile.wallet  {profile, wallet} links an RLogin wallet key as an approver.   profile.update {profile, name?, handle?}
+    profile.wallet  {profile, wallet} links an RLogin wallet key as an approver.   profile.update {profile, name?, handle?, avatar?, banner?} (avatar/banner = https URL or sha256:<hex> blob ref, max 512 chars; no data: URLs)
     Any other entry carrying `profile` must be signed by a device enrolled in that profile at entry.ts and not revoked by then.
     The view is recomputed deterministically from the full signed set (ts, id order), so every replica reaches the same result in any arrival order. */
  var ENROLL='rsync-enroll-v1\n',REQ_TTL=24*3600*1000;
@@ -159,7 +159,7 @@
       Pf.nonces[e.nonce]=1;Pf.devices[e.device]={pub:e.device,since:ts,name:e.device_name||'device',by:role==='wallet'?'wallet':pub};ok[e.id]=true})}
     if(e.t==='device.revoke'){var d=Pf.devices[e.device];if(!d){why[e.id]='revoke of unknown device';return}if(!d.revoked)d.revoked=ts;ok[e.id]=true;return}
     if(e.t==='profile.wallet'){if(!e.wallet){why[e.id]='malformed';return}Pf.wallets[e.wallet]={since:ts};ok[e.id]=true;return}
-    if(e.t==='profile.update'){if(e.name)Pf.name=e.name;if(e.handle)Pf.handle=e.handle;ok[e.id]=true;return}
+    if(e.t==='profile.update'){var picRef=function(v){return v===''||(typeof v==='string'&&v.length<=512&&(/^https:\/\/[^\s"'<>]+$/.test(v)||/^sha256:[0-9a-f]{64}$/.test(v)))};if(e.name)Pf.name=e.name;if(e.handle)Pf.handle=e.handle;/* 2026-10-26 avatar sync: picture refs only (https URL or sha256:<64hex> blob id), never raw data; '' clears */if(e.avatar!==undefined&&picRef(e.avatar))Pf.avatar=e.avatar;if(e.banner!==undefined&&picRef(e.banner))Pf.banner=e.banner;ok[e.id]=true;return}
     if(e.t==='profile.settings'){if(typeof e.autoLogin==='boolean')Pf.autoLogin=e.autoLogin;ok[e.id]=true;return}
     /* sessions (RLINK reads device + seq): session.start by the device itself; session.end by any enrolled device of the profile (log out this / others / all) */
     if(e.t==='session.start'){if(role!=='device'&&role!=='owner'){why[e.id]='session.start must be signed by the device';return}var s0=Pf.sessions[pub];
