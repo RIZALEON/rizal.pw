@@ -1,0 +1,27 @@
+{
+ "v": 1,
+ "id": "granite-4.0-h-350m-q4km",
+ "model": "granite-4.0-h-350m-q4-web",
+ "source": "ibm-granite/granite-4.0-h-350m-GGUF Q4_K_M",
+ "license": "Apache-2.0",
+ "format": "gguf (byte shards, concatenate in order)",
+ "size": 222662560,
+ "sha256": "0a8d6a7373602fadfba274a640ba784b86cc6847f1c67f1b0a90fa2ec266b7fb",
+ "parts": [
+  {
+   "file": "part00",
+   "size": 95000000,
+   "sha256": "c336bc6bcd7549a32c2f200fc74e884036f960b60877d82a05a15e03c6a19ef1"
+  },
+  {
+   "file": "part01",
+   "size": 95000000,
+   "sha256": "64a65f1845dadcc231d297588161625184007e97ac641da1c26521e9352f9403"
+  },
+  {
+   "file": "part02",
+   "size": 32662560,
+   "sha256": "ddde3b7c5384f093fb6fa3a7581a890be46b7b0dab64555e8253614f14b0a582"
+  }
+ ]
+}
