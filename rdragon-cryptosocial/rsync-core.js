@@ -10,7 +10,7 @@
      transport {name, send(entries), onEntries(cb)}, or pull-only {name, pull():Promise<entry[]>, push(entries)} */
 (function(root,f){var m=f();if(typeof module==='object'&&module.exports)module.exports=m;else root.RSync=m})(typeof self!=='undefined'?self:this,function(){
  'use strict';
- var VERSION='0.3.0',SCOPE='yaseed.mint',PREFIX='yaseed-artifact-v1\n'+SCOPE+'\n';
+ var VERSION='0.3.2',SCOPE='yaseed.mint',PREFIX='yaseed-artifact-v1\n'+SCOPE+'\n';
  var LOCAL=['seq','prev','hash','cid','rgen','_src','_rx','cosig'];
  var C=(typeof globalThis!=='undefined'&&globalThis.crypto)||(typeof require==='function'?require('crypto').webcrypto:null);
  var subtle=C&&C.subtle;
@@ -106,13 +106,15 @@
   function pass(){return peers.reduce(function(a,p){return a.then(function(r){return one(p).then(function(v){r.push(v);return r})})},Promise.resolve([]))}
   function passes(n){return pass().then(function(r){var again=peers.some(function(p,i){return r[i]&&R.outbox(p.name).length});return again&&n>1?passes(n-1):r})}
   function now(){if(busy)return busy;busy=R.ready.then(function(){return passes(3)})
-    .then(function(r){busy=null;var anyFail=r.some(function(v){return!v}),pending=peers.some(function(p){return R.outbox(p.name).length});if(anyFail&&pending)schedule();else{delay=min;clear()}note();return status()});return busy}
+    .then(function(r){busy=null;var anyFail=r.some(function(v){return!v}),pending=peers.some(function(p){return R.outbox(p.name).length});if(anyFail)schedule();else{delay=min;clear()}note();return status()});return busy}
   function clear(){if(timer){clearTimeout(timer);timer=null}}
   function schedule(){clear();var d=delay;delay=Math.min(max,delay*2);timer=setTimeout(function(){timer=null;now()},d)}
   var off=[];function on(t,ev,f){if(t&&t.addEventListener){t.addEventListener(ev,f);off.push(function(){t.removeEventListener(ev,f)})}}
   var S={status:status,syncNow:now,onStatus:function(f){subs.push(f)},
    start:function(){on(env,'online',function(){delay=min;now()});on(env,'focus',now);if(env&&env.document)on(env.document,'visibilitychange',function(){if(env.document.visibilityState==='visible')now()});
-    var u=R.onChange(function(r){if(r.added.length&&peers.length)now()});off.push(u);return now()},
+    var u=R.onChange(function(r){if(r.added.length&&peers.length)now()});off.push(u);
+    /* auto-sync: periodic pull+push every pollMs (new profiles/entries from other devices arrive with no user action) */
+    if(o.pollMs>0&&peers.length){var iv=setInterval(function(){if(!timer)now()},o.pollMs);off.push(function(){clearInterval(iv)})}return now()},
    stop:function(){clear();off.forEach(function(f){f()});off=[]}};
   return S}
  /* ---- device enrollment policy (profiles x devices, all signed append-only entries) ----
@@ -215,7 +217,22 @@
   identity:{name:'RKEY profile 0',role:'source-origin profile id for the whole system; signs login nonces',holder:'ЯCASKET on Rizal\'s device (bots never create or hold it)'},
   verify:function(list){list=list||[];return Promise.all(list.map(function(e){return check(e).then(function(c){return{id:e&&e.id,ok:!!c.ok,why:c.reason||c.why||null}})})).then(function(r){var bad=r.filter(function(x){return!x.ok});return{cmd:'RGEN verify',egg:RGEN.version,total:r.length,ok:r.length-bad.length,bad:bad}})},
   profile0:function(cfgKey){return{name:'RKEY profile 0',publicKey:cfgKey||'PENDING (ЯCASKET)',status:cfgKey?'configured':'PENDING'}}};
+
+ /* ---- password login -> per-device key (0.3.2). The founder/password key is the profile's genesis key (full power, unchanged);
+    each device gets its OWN key, enrolled by a device.enroll signed by the founder key, and signs its own sessions.
+    Session ids are unique per device: 'ss-'+sha256(device pub)[0:20]+'-'+seq. */
+ function sessionId(pub,seq){return sha('rsync-session-v1\n'+pub).then(function(h){return'ss-'+h.slice(0,20)+'-'+(seq|0)})}
+ function founderGenesis(pkg){return{id:'pc-'+pkg.profile,t:'profile.create',profile:pkg.profile,handle:pkg.card&&pkg.card.handle,name:pkg.card&&pkg.card.name,rid:pkg.rid||null,device_name:'founder key',ts:pkg.created}}
+ function passwordDeviceLogin(R,founder,o){o=o||{};var pid=o.profile;
+  return R.ready.then(function(){var S=R.state()&&R.state().profiles||{};
+   if(S[pid]||!o.pkg)return null;return profileIdFor(founder.pub).then(function(id){if(id!==pid)return null;return R.append(founderGenesis(o.pkg),founder)})})
+  .then(function(){return o.device?Promise.resolve(o.device):deviceSigner()}).then(function(dev){var S=R.state()&&R.state().profiles||{},Pf=S[pid];
+   if(!Pf)throw Error('profile not in the local replica yet - sync or restore the package');
+   var d=Pf.devices[dev.pub];if(d&&!d.revoked)return{device:dev,enrolled:'existing'};
+   if(d&&d.revoked)return deviceSigner().then(function(nd){return passwordDeviceLogin(R,founder,Object.assign({},o,{device:nd}))});
+   return enrollRequest(dev,o.name||'device').then(function(req){return R.append(approveEntry(req,pid),founder)}).then(function(r){
+    if(!r.added.length)throw Error('device enrollment rejected: '+(r.rejected[0]&&r.rejected[0].reason));return{device:dev,enrolled:'new'}})})}
  /* in-process link for tests/simulation: link(a,b) syncs two replicas both ways */
  function sync(a,b){return a.merge(b.missingFor(a.heads()),'peer').then(function(r1){return b.merge(a.missingFor(b.heads()),'peer').then(function(r2){return{aGot:r1,bGot:r2}})})}
- return{VERSION:VERSION,RGEN:RGEN,cosign:cosign,authorityOf:authorityOf,SCOPE:SCOPE,canon:canon,cidOf:cidOf,check:check,seal:seal,verifySig:verifySig,deviceSigner:deviceSigner,create:create,sync:sync,syncer:syncer,devicePolicy:devicePolicy,enrollRequest:enrollRequest,enrollRequestMsg:enrollRequestMsg,profileIdFor:profileIdFor,shortCode:shortCode,approveEntry:approveEntry,passwordWrap:passwordWrap,passwordUnwrap:passwordUnwrap,rateLimit:rateLimit,casketChallenge:casketChallenge,casketItem:casketItem,casketPackage:casketPackage,packageCommitment:packageCommitment,verifyPackage:verifyPackage,testLedger:testLedger,
+ return{VERSION:VERSION,RGEN:RGEN,sessionId:sessionId,founderGenesis:founderGenesis,passwordDeviceLogin:passwordDeviceLogin,cosign:cosign,authorityOf:authorityOf,SCOPE:SCOPE,canon:canon,cidOf:cidOf,check:check,seal:seal,verifySig:verifySig,deviceSigner:deviceSigner,create:create,sync:sync,syncer:syncer,devicePolicy:devicePolicy,enrollRequest:enrollRequest,enrollRequestMsg:enrollRequestMsg,profileIdFor:profileIdFor,shortCode:shortCode,approveEntry:approveEntry,passwordWrap:passwordWrap,passwordUnwrap:passwordUnwrap,rateLimit:rateLimit,casketChallenge:casketChallenge,casketItem:casketItem,casketPackage:casketPackage,packageCommitment:packageCommitment,verifyPackage:verifyPackage,testLedger:testLedger,
   adapters:{memoryStorage:memoryStorage,localStorage:localStorageAdapter,broadcast:broadcastTransport,httpPeer:httpPeer}}});

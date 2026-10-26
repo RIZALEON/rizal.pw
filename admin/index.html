@@ -1,0 +1,58 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex">
+<title>CryptoSocial · ЯSYNC admin</title>
+<style>
+body{background:#000;color:#39ff14;font:13px/1.45 ui-monospace,Menlo,Consolas,monospace;margin:0;padding:18px}
+h1{font-size:18px;margin:0 0 4px}h2{font-size:14px;margin:0 0 8px;color:#7dff5c}.dim{color:#2a8f1a}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px}
+.card{border:1px solid #1d5f12;border-radius:10px;padding:12px;background:#020a02}
+.pill{display:inline-block;background:#3b0f5c;color:#e6c8ff;border:1px solid #8a2be2;border-radius:999px;padding:1px 9px;margin:2px;font-size:11px}
+.pill.bad{background:#5c0f1c;border-color:#e22b4a;color:#ffc8d2}.pill.ok{background:#3b0f5c}
+button{background:#8a2be2;color:#fff;border:0;border-radius:999px;padding:4px 12px;margin:2px;font:inherit;font-size:11px;cursor:pointer}button:disabled{opacity:.4}
+table{width:100%;border-collapse:collapse;font-size:11px}td,th{border-bottom:1px solid #0f3a0a;padding:2px 4px;text-align:left;vertical-align:top;word-break:break-all}
+.n{font-size:22px;color:#b8ff9c}input,select{background:#000;color:#39ff14;border:1px solid #1d5f12;border-radius:6px;font:inherit;font-size:11px;padding:2px 6px}
+#owner pre{white-space:pre-wrap;max-height:260px;overflow:auto;font-size:10px}
+</style></head><body>
+<h1>ЯSYNC · CryptoSocial admin <span class="pill" id="peer">peer: ?</span> <span class="pill" id="health">health ?</span></h1>
+<div class="dim">Public panels show aggregate counts and read-only monitors. Every action needs a fresh owner-key signature (ЯCASKET) and is audit-logged. Appcast / eggcast / SHA256SUMS / signatures are never written here.</div><br>
+<div class="grid">
+ <div class="card"><h2>Stats</h2><div id="stats" class="dim">loading…</div></div>
+ <div class="card"><h2>Diagnostics</h2><div id="diag" class="dim">loading…</div></div>
+ <div class="card"><h2>RGENERATOR</h2><div id="rgen"></div></div>
+ <div class="card"><h2>Repairs</h2><div id="repairs"></div></div>
+ <div class="card"><h2>ЯSYNC</h2><div id="rsync"></div></div>
+ <div class="card"><h2>Edits <span class="dim">(append-only queue)</span></h2>
+  <select id="ed-kind"><option>edit</option><option>delete-request</option></select> <select id="ed-type"><option>post</option><option>profile</option></select>
+  <input id="ed-target" placeholder="target id"> <input id="ed-text" placeholder="new text (edit)"> <button data-act="edit">queue (owner-signed)</button></div>
+ <div class="card"><h2>Appcast <span class="pill">READ-ONLY</span></h2><div id="appcast"></div></div>
+ <div class="card"><h2>Eggcast <span class="pill">READ-ONLY</span></h2><div id="eggcast"></div></div>
+ <div class="card"><h2>Updates</h2><div id="updates"></div></div>
+ <div class="card"><h2>Owner view</h2><button data-act="owner.view">unlock with owner key</button> <span id="owner-st" class="dim"></span><div id="owner"></div></div>
+</div>
+<script src="/rdragon-cryptosocial/rdragon-config.js"></script>
+<script>
+(function(){var CFG=window.RDRAGON_CONFIG||{},q=new URLSearchParams(location.search);var API=(q.get('api')||CFG.statsUrl||'http://127.0.0.1:8799').replace(/\/$/,'');
+function $(i){return document.getElementById(i)}function E(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function P(t,ok){return'<span class="pill '+(ok===false?'bad':'ok')+'">'+E(t)+'</span>'}function G(u){return fetch(API+u).then(function(r){return r.json()})}
+function canon(v){return Array.isArray(v)?'['+v.map(canon).join(',')+']':v&&typeof v==='object'?'{'+Object.keys(v).sort().filter(function(k){return v[k]!==undefined}).map(function(k){return JSON.stringify(k)+':'+canon(v[k])}).join(',')+'}':JSON.stringify(v)}
+/* owner signature: native ЯCASKET adapter {challenge(msg)->{pub,sig}} (same hook as the login page's auto-login challenge). Bots never hold owner keys. */
+function act(action,arg){var C=window.RCASKET;if(!C||!C.challenge){$('owner-st').textContent='owner key needed: open in ЯCASKET (no owner key on this device)';return Promise.resolve(null)}
+ return G('/api/admin/challenge').then(function(c){var msg='rsync-admin-v1\n'+c.nonce+'\n'+action+'\n'+canon(arg||{});return Promise.resolve(C.challenge(msg)).then(function(s){
+  return fetch(API+'/api/admin/action',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nonce:c.nonce,action:action,arg:arg||{},pub:s.pub,sig:s.sig})}).then(function(r){return r.json()})})}).then(function(j){$('owner-st').textContent=j.ok?action+' ✓ (audit-logged)':'refused: '+j.error;load();return j})}
+window.ADMIN={act:act,load:load,api:API};
+document.addEventListener('click',function(ev){var b=ev.target.closest('[data-act]');if(!b)return;var a=b.dataset.act;
+ if(a==='owner.view')act(a,{}).then(function(j){if(j&&j.ok){var r=j.result;$('owner').innerHTML='<div>'+P('edits '+r.edits.length)+P('queue '+r.queue.length)+P('audit '+r.audit.length)+'</div><pre>'+E(JSON.stringify({audit:r.audit.slice(-12),rejects:r.rejectsLog.slice(-8),queue:r.queue},null,1))+'</pre>'}});
+ else if(a==='repair')act(a,{fix:b.dataset.fix});else if(a==='rsync.resync')act(a,{});else if(a==='queue-update')act(a,{app:b.dataset.app,feed:b.dataset.feed||null,to:b.dataset.to||null});
+ else if(a==='edit'){var k=$('ed-kind').value,arg={kind:k,type:$('ed-type').value,target:$('ed-target').value};if(k==='edit')arg.patch={text:$('ed-text').value};act(a,arg)}});
+function load(){$('peer').textContent='peer: '+API;
+ G('/api/stats').then(function(s){var pt=Object.keys(s.posts).map(function(k){return P(k+' '+s.posts[k])}).join('')||'<span class="dim">no posts</span>';
+  $('stats').innerHTML='<table><tr><td>profiles</td><td class="n">'+s.profiles+'</td><td>devices</td><td class="n">'+s.devices+'</td></tr><tr><td>active sessions</td><td class="n">'+s.activeSessions+'</td><td>follows</td><td class="n">'+s.follows+'</td></tr><tr><td>views total</td><td class="n">'+s.views.total+'</td><td>unique today</td><td class="n">'+s.views.uniqueToday+'</td></tr></table><div>posts '+s.postsTotal+': '+pt+'</div>'}).catch(function(){$('stats').textContent='peer unreachable ('+API+')'});
+ G('/api/diag').then(function(d){$('health').textContent='health '+(d.ok?'OK':'ISSUES');$('health').className='pill '+(d.ok?'ok':'bad');
+  $('diag').innerHTML='<table><tr><td>version</td><td>'+E(d.version)+' · rsync-core '+E(d.rsyncCore)+'</td></tr><tr><td>uptime</td><td>'+d.uptimeSec+'s</td></tr><tr><td>log</td><td>'+d.log.entries+' entries · '+d.log.bytes+' B</td></tr><tr><td>head</td><td>'+E(d.log.head?d.log.head.id+' · '+d.log.head.cid.slice(0,16)+'…':'empty')+'</td></tr><tr><td>rejects</td><td>'+(Object.keys(d.rejects).map(function(k){return P(k+' ×'+d.rejects[k],false)}).join('')||'none')+'</td></tr></table>';
+  var r=d.rgen;$('rgen').innerHTML=P(r.egg)+P('pin '+(r.pinOk?'OK':'MISMATCH'),r.pinOk)+P('RGEN verify '+r.verify.ok+'/'+r.verify.total,r.verify.bad===0)+'<div class="dim">commands: '+E(r.commands.join(' · '))+'</div><div>'+P(r.profile0.name+': '+r.profile0.status)+'</div>'});
+ G('/api/admin/repairs').then(function(r){$('repairs').innerHTML=r.health.map(function(h){return P(h.check,h.ok)}).join('')+'<div>'+Object.keys(r.fixes).map(function(f){return'<button data-act="repair" data-fix="'+f+'" title="'+E(r.fixes[f])+'">'+f+'</button>'}).join('')+'</div>'});
+ G('/api/admin/rsync').then(function(r){$('rsync').innerHTML='<div>'+P('conflicts '+r.conflicts,r.conflicts===0)+P('resync epoch '+r.resyncEpoch)+' <button data-act="rsync.resync">request resync</button></div><table><tr><th>device</th><th>last sync</th><th>lag</th><th>+/✗</th></tr>'+r.devices.map(function(d){return'<tr><td>'+E(d.device.slice(0,16))+'…</td><td>'+E(d.ts)+'</td><td>'+d.lagSec+'s</td><td>'+d.added+'/'+d.rejected+'</td></tr>'}).join('')+'</table>'});
+ function feed(id,k){G('/api/admin/'+k).then(function(r){$(id).innerHTML='<div class="dim">SHA256SUMS: '+E(r.sha256sums)+'</div>'+(r.feeds.length?'<table><tr><th>feed</th><th>ver</th><th>sha256</th><th>verify</th></tr>'+r.feeds.map(function(f){return'<tr><td>'+E(f.path)+'</td><td>'+E(f.version)+'</td><td>'+E(f.sha256.slice(0,12))+'…</td><td>'+P(f.sumsVerify+(f.signedFlag?'':' · unsigned'),f.sumsVerify==='match')+'</td></tr>'}).join('')+'</table>':'<div class="dim">no '+k+' feed found</div>')})}
+ feed('appcast','appcast');feed('eggcast','eggcast');
+ G('/api/admin/updates').then(function(u){$('updates').innerHTML='<table><tr><th>app</th><th>installed</th><th>available</th><th></th></tr>'+u.apps.map(function(a){return'<tr><td>'+E(a.app)+'</td><td>'+E(a.installed)+'</td><td>'+E(a.available)+'</td><td>'+(a.behind?'<button data-act="queue-update" data-app="'+E(a.app)+'" data-to="'+E(a.available)+'">queue for Rizal\'s go</button>':P('current'))+'</td></tr>'}).join('')+'</table><div>'+P('queued '+u.queue.length)+'</div>'})}
+load()})();
+</script></body></html>

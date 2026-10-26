@@ -36,7 +36,7 @@ function owners(){var a=st().authority||{},n=0;for(var k in a)if(a[k]==="dual")n
 function rgenVerify(){return RSync.RGEN.verify(RS.raw()).then(function(r){LAST=r;var s=$("rg-status");s.textContent="RGEN verify ("+r.egg+"): "+r.ok+"/"+r.total+" valid egg4 seals"+(r.bad.length?" · "+r.bad.length+" INVALID":"");s.dataset.ok=String(!r.bad.length);return r})}
 /* ---- finish: session.start signed by this device, then hand off to the app ---- */
 function done(sg,pf,extra){var pv=pf.sessions&&pf.sessions[sg.pub],seq=Math.max(DEV&&DEV.seq|0,pv?pv.seq:0)+1;
- return (pf.fromPkg?function(e,s){return RS.append(e,s).catch(function(){return null})}:RS.append.bind(RS))({id:"ss-"+sg.pub.slice(0,12).replace(/[^A-Za-z0-9]/g,"")+"-"+seq,t:"session.start",profile:pf.id,device:sg.pub,session_seq:seq,ts:new Date().toISOString()},sg)
+ return RSync.sessionId(sg.pub,seq).then(function(sid){return RS.append({id:sid,t:"session.start",profile:pf.id,device:sg.pub,session_seq:seq,ts:new Date().toISOString()},sg)})
   .then(function(){DEV=Object.assign(DEV||{},extra||{},{profile:pf.id,seq:seq,out:false});delete DEV.req;return put(DEV)})
   .then(function(){document.body.dataset.signedIn=pf.handle;$("who").textContent="signed in as "+pf.handle+" ("+(pf.name||"")+") · device "+sg.pub.slice(0,12)+"…";msg("✓ signed in — session #"+seq);
    if(!CFG.noRedirect)setTimeout(function(){location.href="/"},600)})}
@@ -56,10 +56,14 @@ function pwRec(h){return get().then(function(r){return getK("pkg:"+h).then(funct
 function login(){var h=H($("l-user").value),pe=$("l-pass"),RL=J(RLK,{}),s=RL[h]||{fails:0,until:0},rl=RSync.rateLimit(s,Date.now());
  if(rl.wait())return msg("too many attempts — try again in "+Math.ceil(rl.wait()/1000)+"s",1);$("b-login").disabled=true;
  pwRec(h).then(function(x){if(!x)throw Error("wrong username or password");return RSync.passwordUnwrap(x.rec,pe.value).then(function(sg){pe.value="";rl.ok();RL[h]={fails:0,until:0};W(RLK,RL);
-   var pf=st().profiles[x.pid]||byHandle(h);if(!pf&&x.pkg)pf={id:x.pkg.profile,handle:x.pkg.card.handle,name:x.pkg.card.name,devices:x.pkg.devices||{},sessions:x.pkg.sessions||{},fromPkg:true};
-   if(!pf)throw Error("profile not in the local replica yet — sync or restore the ЯCASKET package");
+   var pid=x.pid||(x.pkg&&x.pkg.profile)||(byHandle(h)||{}).id;
    /* device-local only: never synced to peers, never uploaded */
-   return (x.pkg?putK("pkg:"+h,x.pkg).then(function(){delete PEND[h]}):Promise.resolve()).then(function(){return done(sg,pf,{skp:sg.keyPair,pw:x.rec,handle:h})})})})
+   return (x.pkg?putK("pkg:"+h,x.pkg).then(function(){delete PEND[h]}):Promise.resolve()).then(function(){return get()}).then(function(r){
+     /* this device's OWN key (reused if already enrolled in this profile), enrolled by a device.enroll signed by the founder/password key */
+     var dk=r&&r.kp&&r.profile===pid?RSync.deviceSigner(r.kp):Promise.resolve(null);
+     return dk.then(function(ds){return RSync.passwordDeviceLogin(RS,sg,{profile:pid,pkg:x.pkg,device:ds,name:(navigator.platform||"device")+" · password login"})})})
+    .then(function(L){var pf=st().profiles[pid];if(!pf)throw Error("profile not in the local replica yet — sync or restore the ЯCASKET package");
+     return done(L.device,pf,{kp:L.device.keyPair,pw:x.rec,handle:h})})})})
   .catch(function(e){if(/wrong username/.test(e.message)){RL[h]=rl.fail();W(RLK,RL)}pe.value="";msg(e.message,1)}).then(function(){$("b-login").disabled=false})}
 function restorePkg(){var t=prompt("Paste the ЯCASKET package (JSON)");if(!t)return;var p;try{p=JSON.parse(t)}catch(e){return msg("not a package",1)}
  verifyPkg(p).then(function(){PEND[H(p.card.handle)]=p;var a=J(PKK,{});a[H(p.card.handle)]=p;W(PKK,a);msg("✓ package verified against its commitment — now log in with your password")}).catch(function(e){msg(e.message,1)})}
@@ -77,9 +81,9 @@ function signup(){var h=H($("s-user").value),name=$("s-name").value.trim(),pe=$(
  if(id&&!rid)rid=id.rid;if(pe.value!==p2.value)return fail("passwords do not match");if(strength(pe.value).score<2)return fail("password too weak");if(byHandle(h))return fail("handle already taken in this replica");
  var autoL=$("s-auto").checked;$("b-signup").disabled=true;msg("deriving key (PBKDF2)…");
  RSync.passwordWrap(pe.value,CFG.pbkdf2Iter?{iter:CFG.pbkdf2Iter}:{}).then(function(w){pe.value="";p2.value="";
-  return (autoL?RSync.deviceSigner():Promise.resolve(null)).then(function(dk){return RSync.profileIdFor(w.signer.pub).then(function(pid){var now=new Date().toISOString();
+  return RSync.deviceSigner().then(function(dk){return RSync.profileIdFor(w.signer.pub).then(function(pid){var now=new Date().toISOString();
    var c={id:"pc-"+pid,t:"profile.create",profile:pid,handle:h,name:name,autoLogin:autoL,ts:now};if(rid)c.rid=rid;
-   var ch=RS.append(c,w.signer);if(dk)ch=ch.then(function(){return RSync.enrollRequest(dk,"this device (auto-login)")}).then(function(req){return RS.append(RSync.approveEntry(req,pid),w.signer)});
+   var ch=RS.append(c,w.signer);if(dk)ch=ch.then(function(){return RSync.enrollRequest(dk,autoL?"this device (auto-login)":"this device")}).then(function(req){return RS.append(RSync.approveEntry(req,pid),w.signer)});
    return ch.then(function(){var pf=st().profiles[pid];return RSync.casketPackage({profile:pid,card:{handle:h,name:name},login:w.rec,devices:pf.devices,sessions:pf.sessions,
      rid:rid||null,userId:id?id.userId:h,tag:id?id.tag:"#"+h.slice(1),binding:id?id.binding:null,cryptobot:id?id.cryptobot:undefined,root:CFG.profile0PublicKey||null},w.signer)})
    .then(function(pkg){return RSync.packageCommitment(pkg).then(function(cm){return LEDGER.write(cm)}).then(function(){window.__rcasketPkg=pkg;var a=J(PKK,{});a[h]=pkg;W(PKK,a);$("b-dlpkg").hidden=false;
@@ -93,7 +97,7 @@ $("b-auto").onclick=auto;$("b-req").onclick=showReq;$("b-imp").onclick=imp;$("b-
 $("s-pass").oninput=meter;$("l-pass").onkeydown=function(e){if(e.key==="Enter")login()};p0();
 RS=RSync.create({storage:RSync.adapters.localStorage("rdragon.csp.rsync.v1"),policy:RSync.devicePolicy({ownerKeys:CFG.ownerKeys||[]})});
 RS.ready.then(function(){var bc=RSync.adapters.broadcast("rdragon.csp.rsync");if(bc)RS.attach(bc);
- var tps=(CFG.peers||[]).map(function(u){return RSync.adapters.httpPeer(String(u).replace(/\/$/,""))});if(tps.length){var y=RS.syncer({peers:tps});y.start()}
+ var tps=(CFG.peers||[]).map(function(u){return RSync.adapters.httpPeer(String(u).replace(/\/$/,""))});if(tps.length){var y=RS.syncer({peers:tps,pollMs:CFG.syncEveryMs||20000});y.start()}
  RS.onChange(checkEnrolled);RS.onChange(owners);owners();rgenVerify();return get()}).then(function(r){if(r&&r.kp&&!r.req&&r.profile)$("auto-note").textContent+=" · this device has an auto-login key"});
 window.RLOGIN_PAGE={state:st,device:get,ledger:LEDGER,strength:strength,ident:IDENT,rgen:function(){return LAST},rgenVerify:rgenVerify,owners:owners,authority:function(id){return RSync.authorityOf(st(),id)},commands:RSync.RGEN.commands,founder:FND,storedPackage:function(h){return getK("pkg:"+H(h))}};
 })();

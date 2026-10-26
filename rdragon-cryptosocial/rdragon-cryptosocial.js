@@ -81,7 +81,7 @@
   try{localStorage.setItem(RGK,JSON.stringify(RGOK))}catch(e){}if(n)persist();return n}
  var RSY=null;if(window.RSync&&crypto.subtle&&RSync.devicePolicy){RS=RSync.create({storage:RSync.adapters.localStorage("rdragon.csp.rsync.v1"),policy:RSync.devicePolicy({ownerKeys:CFG.ownerKeys||[]})});
   RS.ready.then(function(){rsAdopt(RS.entries());var bc=RSync.adapters.broadcast("rdragon.csp.rsync");if(bc){RS.attach(bc);RSI.peers.push("tabs")}
-   var tps=(CFG.peers||[]).map(function(u){RSI.peers.push(u);return RSync.adapters.httpPeer(String(u).replace(/\/$/,""))});if(tps.length){RSY=RS.syncer({peers:tps});RSY.onStatus(function(){render()});RSY.start()}
+   var tps=(CFG.peers||[]).map(function(u){RSI.peers.push(u);return RSync.adapters.httpPeer(String(u).replace(/\/$/,""))});if(tps.length){RSY=RS.syncer({peers:tps,pollMs:CFG.syncEveryMs||20000});RSY.onStatus(function(){render()});RSY.start()}
    RS.onChange(function(r){RSI.last=new Date();RSI.rej+=r.rejected.length;rsAdoptMe();rsAdopt(r.added);render()});render()})}
  var _addEv=addEv;addEv=function(ev){if(S.me&&S.me.handle&&!ev.by)ev.by=S.me.handle;if(S.me&&S.me.device){ev.profile=S.me.profile;if(S.me.name)ev.name=S.me.name}var r=_addEv(ev),sg=rsSigner();if(RS&&sg&&r.t!=="view"){var b=Object.assign({},r);delete b.seq;delete b.prev;delete b.hash;b.by=S.me.handle||b.by;
    RS.append(b,sg).then(function(x){if(x.added[0]){RGOK[r.id]=1;try{localStorage.setItem(RGK,JSON.stringify(RGOK))}catch(e){}render()}})}return r};
@@ -102,7 +102,7 @@
  function devSigner(){return DEV?RSync.deviceSigner(DEV.kp):Promise.reject(Error("no device key"))}
  function sessOf(pf,pub){return pf&&pf.sessions&&pf.sessions[pub]||null}
  function sessionStart(pf){var s=sessOf(pf,DEV.sg.pub);if(s&&!s.end||DEV.out||SSP)return;DEV.seq=Math.max(DEV.seq|0,s?s.seq:0)+1;SSP=1;
-  RS.append({id:"ss-"+DEV.sg.pub.slice(0,12).replace(/[^A-Za-z0-9]/g,"")+"-"+DEV.seq,t:"session.start",profile:pf.id,device:DEV.sg.pub,session_seq:DEV.seq,ts:new Date().toISOString()},DEV.sg).then(function(){SSP=0;idbPut(devRec()).catch(function(){})},function(){SSP=0})}
+  RS.append({id:"ss-"+DEV.sg.pub.slice(1,33).replace(/[^A-Za-z0-9]/g,"")+"-"+DEV.seq,t:"session.start",profile:pf.id,device:DEV.sg.pub,session_seq:DEV.seq,ts:new Date().toISOString()},DEV.sg).then(function(){SSP=0;idbPut(devRec()).catch(function(){})},function(){SSP=0})}
  function localOut(why){S.me=null;DEV.out=true;delete DEV.skp;if(!DEV.kp)DEV.sg=null;idbPut(devRec()).catch(function(){});if(why)toast(why);render()}
  function logout(scope){if(!S.me)return;var pf=myProfile(S.me.pub);if(!pf)return;var me=S.me.pub,ts=new Date().toISOString(),sg=rsSigner();
   var tg=Object.keys(pf.sessions||{}).filter(function(k){var x=pf.sessions[k];return !x.end&&(scope==="all"||(scope==="self"?k===me:k!==me))});
@@ -178,7 +178,8 @@
  function cnt(o){return Object.keys(o).filter(function(k){return o[k]}).length}
  function rdc(F,id){return (F.R[id]||[]).reduce(function(n,k){return n+1+(S.bot[k]?1:0)+total(F,F.C[k])+rdc(F,k)},0)}
  function total(F,node){return node.kids.reduce(function(n,k){return n+1+(S.bot[k]?1:0)+total(F,F.C[k])+rdc(F,k)},0)} /* comments + RDRAGON replies, derived from the stored thread */
- function seen(id){if(SESSV[id])return;SESSV[id]=1;var F=fold();if(F.P[id]&&!F.P[id].views[VIEWER])addEv({t:"view",target:id,viewer:VIEWER})}
+ function beacon(page){var u=CFG.statsUrl;if(!u||!window.fetch)return;try{fetch(String(u).replace(/\/$/,"")+"/api/view",{method:"POST",keepalive:true,headers:{"Content-Type":"application/json"},body:JSON.stringify({page:String(page),profile:S.me&&S.me.profile||null})}).catch(function(){})}catch(e){}} /* view beacon: only when RDRAGON_CONFIG.statsUrl is set */
+function seen(id){if(SESSV[id])return;SESSV[id]=1;beacon("post:"+id);var F=fold();if(F.P[id]&&!F.P[id].views[VIEWER])addEv({t:"view",target:id,viewer:VIEWER})}
  function lt(ts){var d=new Date(ts);return isNaN(d)?String(ts):d.toLocaleString([], {dateStyle:'short',timeStyle:'short'})}
  function cur(n){return n.revs[n.revs.length-1].text}
  function engRow(F,n){var lk=cnt(n.likes)+(n.pinned?LEGACY.like:0),rp=cnt(n.reposts)+(n.pinned?LEGACY.repost:0),vw=cnt(n.views)+(n.pinned?LEGACY.views:0);
