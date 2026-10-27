@@ -1,0 +1,13 @@
+/* rpostmenu.css · shared with rpostmenu.js (master copy on rizal.pw) */
+.rpm-card{position:relative}
+.rpm-card>.l:first-child,.rpm-card>.csp-tag:first-child,.rpm-card>div:first-child{padding-right:36px} /* keep header/timestamp clear of the top-right ⋯ */
+.rpm-btn{position:absolute;top:4px;right:4px;z-index:5;min-width:30px;min-height:28px;letter-spacing:1px;background:transparent;border:0;color:inherit;opacity:.7;font:700 16px/1 system-ui,sans-serif;padding:4px 7px;border-radius:6px;cursor:pointer}
+.rpm-btn:hover,.rpm-btn:focus{opacity:1;background:rgba(127,127,127,.2)}
+.rpm-menu{position:absolute;top:30px;right:6px;z-index:20;min-width:120px;background:#0b0b0b;border:1px solid #39ff14;border-radius:8px;box-shadow:0 6px 24px rgba(0,0,0,.6);padding:4px;display:flex;flex-direction:column}
+.rpm-menu button{background:transparent;border:0;color:#e8e8e8;text-align:left;padding:7px 10px;font:13px system-ui,sans-serif;border-radius:6px;cursor:pointer}
+.rpm-menu button:hover{background:rgba(57,255,20,.15)}
+.rpm-danger{color:#ff5a5a!important}
+.rpm-confirm{position:fixed;inset:0;z-index:2147483000;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center}
+.rpm-box{background:#0b0b0b;color:#eee;border:1px solid #39ff14;border-radius:10px;padding:16px;max-width:300px;font:14px system-ui,sans-serif}
+.rpm-row{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
+.rpm-row button{background:#1a1a1a;color:#eee;border:1px solid #444;border-radius:6px;padding:6px 12px;cursor:pointer}
