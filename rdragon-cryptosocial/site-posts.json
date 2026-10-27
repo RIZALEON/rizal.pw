@@ -1,0 +1,19 @@
+{
+ "v": 1,
+ "note": "Owner-published public site posts (static, committed by Rizal via PR; unsigned site content, same trust as the tweet restore). Every visitor loads these.",
+ "events": [
+  {
+   "id": "site-video-0001",
+   "t": "post",
+   "ptype": "video",
+   "title": "First video",
+   "text": "My first video on rizal.pw",
+   "videoUrl": "/rdragon-cryptosocial/assets/first-video.mp4",
+   "cover": "/rdragon-cryptosocial/assets/first-video.jpg",
+   "media": [],
+   "by": "@chaserizal",
+   "ts": "2026-10-27T17:10:00.000Z",
+   "site": 1
+  }
+ ]
+}
