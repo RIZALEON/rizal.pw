@@ -1,5 +1,5 @@
 {
-"v": "liveart20261026",
+"v": "postmenu20261027",
 "files": [
 "/.gitignore",
 "/.nojekyll",
@@ -47,6 +47,8 @@
 "/rdragon-cryptosocial/rdragon-config.js",
 "/rdragon-cryptosocial/rdragon-cryptosocial.css",
 "/rdragon-cryptosocial/rdragon-cryptosocial.js",
+"/rdragon-cryptosocial/rpostmenu.js",
+"/rdragon-cryptosocial/rpostmenu.css",
 "/rdragon-cryptosocial/rdragon-reply.rzl.js",
 "/rdragon-cryptosocial/rkrypt.rzl.js",
 "/rdragon-cryptosocial/rlogin-page.js",
