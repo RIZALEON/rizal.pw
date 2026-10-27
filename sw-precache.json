@@ -1,5 +1,5 @@
 {
-"v": "a580f7aac025",
+"v": "77430bf3f9d6",
 "files": [
 "/.gitignore",
 "/.nojekyll",
@@ -26,6 +26,7 @@
 "/rdragon-cryptosocial/assets/ghostmachine-logo.jpg",
 "/rdragon-cryptosocial/assets/post.jpg",
 "/rdragon-cryptosocial/assets/verified.jpg",
+"/rdragon-cryptosocial/chaserizal-articles.js",
 "/rdragon-cryptosocial/engine/lessons-public.json",
 "/rdragon-cryptosocial/engine/models/available.json",
 "/rdragon-cryptosocial/engine/models/granite-4.0-h-350m-q4km/manifest.json",
