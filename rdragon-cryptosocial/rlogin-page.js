@@ -68,7 +68,7 @@ function login(){var h=H($("l-user").value),pe=$("l-pass"),RL=J(RLK,{}),s=RL[h]|
 function restorePkg(){var t=prompt("Paste the ЯCASKET package (JSON)");if(!t)return;var p;try{p=JSON.parse(t)}catch(e){return msg("not a package",1)}
  verifyPkg(p).then(function(){PEND[H(p.card.handle)]=p;var a=J(PKK,{});a[H(p.card.handle)]=p;W(PKK,a);msg("✓ package verified against its commitment — now log in with your password")}).catch(function(e){msg(e.message,1)})}
 function restoreFile(){var f=$("f-pkg").files&&$("f-pkg").files[0];if(!f)return;var rd=new FileReader();rd.onload=function(){var p;$("f-pkg").value="";try{p=JSON.parse(rd.result)}catch(e){return msg("not a package file",1)}
- verifyPkg(p).then(function(){var h=H(p.card.handle);PEND[h]=p;$("l-user").value=h;$("l-pass").focus();msg("✓ "+h+" package verified against its registered commitment — now enter your password")}).catch(function(e){msg(e.message,1)})};rd.readAsText(f)}
+ verifyPkg(p).then(function(){var h=H(p.card.handle);PEND[h]=p;putK("pkg:"+h,p).then(founderLine).catch(function(){}); /* 20261027: keep the verified package on THIS device right away (public login record only: salt + KDF params + wrapped key; never uploaded), so the file is needed once per device */$("l-user").value=h;$("l-pass").focus();msg("✓ "+h+" package verified against its registered commitment — now enter your password")}).catch(function(e){msg(e.message,1)})};rd.readAsText(f)}
 function founderLine(){var e=$("founder-st");if(!e||!FND)return;getK("pkg:"+H(FND.handle)).then(function(sp){e.textContent=sp?"Founder login registered — "+FND.handle+" ("+FND.rid+") is saved on this device; log in with your password":"Founder login registered — restore your package once per device";e.hidden=false})}
 /* sign up */
 function strength(p){p=p||"";var c=0;if(p.length>=8)c++;if(p.length>=12)c++;if(p.length>=16)c++;if(/[a-z]/.test(p)&&/[A-Z]/.test(p))c++;if(/\d/.test(p))c++;if(/[^A-Za-z0-9]/.test(p))c++;
@@ -93,7 +93,7 @@ function dlpkg(){var p=window.__rcasketPkg;if(!p)return;var a=document.createEle
 /* wire up */
 function tab(t){[].forEach.call(document.querySelectorAll("[data-tab]"),function(b){b.classList.toggle("on",b.dataset.tab===t)});$("t-login").hidden=t!=="login";$("t-signup").hidden=t!=="signup"}
 [].forEach.call(document.querySelectorAll("[data-tab]"),function(b){b.onclick=function(){tab(b.dataset.tab)}});
-$("b-auto").onclick=auto;$("b-req").onclick=showReq;$("b-imp").onclick=imp;$("b-login").onclick=login;$("b-pkg").onclick=restorePkg;$("f-pkg").onchange=restoreFile;founderLine();$("b-signup").onclick=signup;$("b-dlpkg").onclick=dlpkg;$("b-rgen").onclick=rgenVerify;
+$("b-auto").onclick=auto;$("b-req").onclick=showReq;$("b-imp").onclick=imp;$("b-login").onclick=login;$("b-pkg").onclick=restorePkg;$("f-pkg").onchange=restoreFile;founderLine();try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist().catch(function(){})}catch(e){}getK("pkg:"+(FND?H(FND.handle):"")).then(function(sp){if(sp&&!$("l-user").value)$("l-user").value=H(FND.handle)});$("b-signup").onclick=signup;$("b-dlpkg").onclick=dlpkg;$("b-rgen").onclick=rgenVerify;
 $("s-pass").oninput=meter;$("l-pass").onkeydown=function(e){if(e.key==="Enter")login()};p0();
 RS=RSync.create({storage:RSync.adapters.localStorage("rdragon.csp.rsync.v1"),policy:RSync.devicePolicy({ownerKeys:CFG.ownerKeys||[]})});
 RS.ready.then(function(){var bc=RSync.adapters.broadcast("rdragon.csp.rsync");if(bc)RS.attach(bc);

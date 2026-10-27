@@ -24,7 +24,7 @@
       var pinned = m.opts.isPinned ? m.opts.isPinned(id) : false;
       L.push(['pin', pinned ? 'Unpin' : 'Pin'], ['edit', 'Edit'], ['delete', 'Delete']);
     }
-    L.push(['share', 'Share']); return L;
+    L.push(['share', 'Share']); if (m.opts.embedCode && m.opts.embedCode(id, kind)) L.push(['embed', 'Embed code']); return L;
   }
   function share(m, id, kind) {
     var u = m.opts.shareUrl ? m.opts.shareUrl(id, kind) : 'https://rizal.pw/#post/' + encodeURIComponent(id);
@@ -43,6 +43,7 @@
     var it = t.closest && t.closest('.rpm-menu [data-pm]');
     if (it) { ev.preventDefault(); ev.stopPropagation(); var mm = open && open._m, id = open._id, kind = open._k, a = it.getAttribute('data-pm'); close();
       if (a === 'share') return share(mm, id, kind);
+      if (a === 'embed') { var c = mm.opts.embedCode(id, kind); return (navigator.clipboard ? navigator.clipboard.writeText(c) : Promise.reject()).then(function () { mm.opts.toast && mm.opts.toast('embed code copied'); }, function () { prompt('Copy embed code', c); }); }
       if (a === 'delete') return ask('Delete this post? It disappears on every device. Its history stays in the signed log.', function () { mm.opts.onAction('delete', id, kind); });
       return mm.opts.onAction(a, id, kind); }
     var b = t.closest && t.closest('.rpm-btn');
