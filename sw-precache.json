@@ -1,5 +1,5 @@
 {
-"v": "77430bf3f9d6",
+"v": "gmtweets20261026",
 "files": [
 "/.gitignore",
 "/.nojekyll",
@@ -59,6 +59,8 @@
 "/thundr-float/macos/appcast.json",
 "/tweetback/LICENSE-THIRD-PARTY.txt",
 "/tweetback/tbi-core.js",
-"/tweetback/tbi-panel.js"
+"/tweetback/tbi-panel.js",
+"/rdragon-cryptosocial/chaserizal-tweets.js",
+"/rdragon-cryptosocial/tweets/index.json"
 ]
 }

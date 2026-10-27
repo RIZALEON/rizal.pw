@@ -1,4 +1,4 @@
-/* rizal.pw offline service worker — RFORGE 20261026. Precaches site, engine, IBM Granite weights. */
+/* rizal.pw offline service worker — RFORGE 20261026 · gm-tweets. Precaches site, engine, IBM Granite weights. */
 var M='/sw-precache.json';
 /* offline-granite fix 20261026: model manifests are precached with the core; the large weight parts (~222 MB) are cached
    (1) when the page's engine first fetches them online (fetch handler, held by waitUntil), and
