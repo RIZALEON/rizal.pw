@@ -15,7 +15,7 @@
     var r = typeof m.root === 'function' ? m.root() : document.querySelector(m.root); if (!r) return;
     r.querySelectorAll('[data-pid],[data-menu-id]').forEach(function (c) {
       var k = (c.getAttribute('data-kind') || 'post').toLowerCase(); if (NONE[k] || !idOf(c) || c.querySelector(':scope > .rpm-btn')) return;
-      c.classList.add('rpm-card'); var b = document.createElement('button'); b.type = 'button'; b.className = 'rpm-btn'; b.setAttribute('aria-label', 'post menu'); b.textContent = '⋮'; c.appendChild(b);
+      c.classList.add('rpm-card'); var b = document.createElement('button'); b.type = 'button'; b.className = 'rpm-btn'; b.setAttribute('aria-label', 'post menu'); b.textContent = '⋯'; c.appendChild(b);
     });
   }
   function items(m, id, kind) {
