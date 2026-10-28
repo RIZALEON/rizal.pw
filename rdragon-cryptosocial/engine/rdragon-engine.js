@@ -44,7 +44,7 @@ function pickModel(nav){nav=nav||(typeof navigator!=="undefined"?navigator:{});v
 var AVAIL=null;function available(){return AVAIL||(AVAIL=fetch(BASE+"models/available.json",{cache:"no-cache"}).then(function(r){return r.ok?r.json():{models:["350m"]}}).then(function(j){return j.models||["350m"]},function(){return["350m"]}))}
 function resolveModel(want){return available().then(function(av){var w=want||pickModel();return av.indexOf(w)>=0?w:"350m"})}
 /* MIND + BATIBABOX (rdragon-mind.js), lazy */
-var MIND=null;function mind(){if(MIND)return MIND;MIND=(root.RDRAGON_MIND?Promise.resolve(root.RDRAGON_MIND):(typeof document!=="undefined"?new Promise(function(ok,no){var sc=document.createElement("script");sc.src=BASE+"rdragon-mind.js?v=1";sc.onload=function(){ok(root.RDRAGON_MIND)};sc.onerror=no;document.head.appendChild(sc)}):Promise.reject(Error("no mind"))))
+var MIND=null;function mind(){if(MIND)return MIND;MIND=(root.RDRAGON_MIND?Promise.resolve(root.RDRAGON_MIND):(typeof document!=="undefined"?new Promise(function(ok,no){var sc=document.createElement("script");sc.src=BASE+"rdragon-mind.js?v=2";sc.onload=function(){ok(root.RDRAGON_MIND)};sc.onerror=no;document.head.appendChild(sc)}):Promise.reject(Error("no mind"))))
  .then(function(M){var m=M.create({});root.RDRAGON_MIND_INSTANCE=m;return m});MIND.catch(function(){MIND=null});return MIND}
 /* ---- SPINE (JS ports) ---- */
 function hex(b){return Array.prototype.map.call(new Uint8Array(b),function(x){return("0"+x.toString(16)).slice(-2)}).join("")}

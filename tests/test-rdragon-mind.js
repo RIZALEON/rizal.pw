@@ -24,4 +24,27 @@ t('profile.update last-write-wins per field, avatar size-limited, other profiles
 t('1B only when models/available.json lists it',()=>{const av=JSON.parse(fs.readFileSync(E('engine/models/available.json')));A.deepEqual(av.models,['350m']);const es=fs.readFileSync(E('engine/rdragon-engine.js'),'utf8');A.ok(/av\.indexOf\(w\)>=0\?w:"350m"/.test(es))});
 t('shipped engine + config files leak-free, lessons-public empty',()=>{A.deepEqual(JSON.parse(fs.readFileSync(E('engine/lessons-public.json'))).lessons,[]);const blob=['engine/rdragon-mind.js','engine/rdragon-engine.js','engine/models/available.json'].map(f=>fs.readFileSync(E(f),'utf8')).join('\n');
  A.ok(!/\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b|\.local\b|ts\.net|chaserizal|ЯID-|RP-[0-9a-f]|192\.168|8799/i.test(blob))});
-q.then(()=>console.log(n,'/ 11 mind tests pass'),e=>{console.error('FAIL',e);process.exit(1)});
+
+t('/remember saves a pinned manual note; /pin and /unpin toggle',async()=>{const m=M.create({store:M.memStore()});
+ const r=await m.command('P','/remember Neo likes granite replies');A.ok(/Remembered \(pinned\)/.test(r));
+ const hit=await m.recall('P','granite');A.equal(hit.length,1);A.ok(hit[0].pinned&&hit[0].manual);
+ A.ok(/Unpinned/.test(await m.command('P','/unpin granite')));A.ok(!(await m.recall('P','granite'))[0].pinned);
+ A.ok(/Pinned/.test(await m.command('P','/pin granite')));A.ok((await m.recall('P','granite'))[0].pinned);
+ A.ok(/Not saved/.test(await m.command('P','/remember password: hunter2')))});
+t('size cap drops oldest unpinned pages, keeps pinned',async()=>{const m=M.create({store:M.memStore(),maxPages:3,consolidateEvery:99});
+ await m.remember('P',{q:'old1',a:'alpha one',ts:'2026-01-01T00:00:00Z'});
+ await m.remember('P',{q:'keep me',a:'pinned forever',ts:'2026-01-02T00:00:00Z',pinned:true});
+ await m.remember('P',{q:'old2',a:'beta two',ts:'2026-01-03T00:00:00Z'});
+ await m.remember('P',{q:'new3',a:'gamma three',ts:'2026-01-04T00:00:00Z'});
+ const all=await m._store.all('p:P:page:');A.equal(all.length,3);A.ok(all.some(x=>x.pinned&&/pinned forever/.test(x.a)));A.ok(!all.some(x=>/alpha one/.test(x.a)));
+ A.ok(/size cap/i.test(await m.command('P','/forget-view')))});
+t('/batibabox reports recall mode, pins, and page cap',async()=>{const m=M.create({store:M.memStore(),maxPages:50,embed:false});
+ await m.remember('P',{q:'x',a:'y',pinned:true});const s=await m.command('P','/batibabox');
+ A.ok(/BATIBABOX 1\.1\.0/.test(s));A.ok(/pages 1\/50/.test(s));A.ok(/pinned 1/.test(s));A.ok(/recall keyword/.test(s))});
+t('shipped BATIBABOX-EMBED.rzl parses as RZLEMB1',()=>{const f=path.join(__dirname,'..','rdragon-cryptosocial','engine','BATIBABOX-EMBED.rzl');
+ A.ok(fs.existsSync(f));const buf=fs.readFileSync(f);A.ok(buf.slice(0,8).toString()==='RZLEMB1\n');const ab=buf.buffer.slice(buf.byteOffset,buf.byteOffset+buf.byteLength);const emb=M.parseEmb(ab);A.ok(emb&&emb.dim>0&&emb.embed('dragon memory'))});
+t('engine timeouts are split script vs model in config + cryptosocial',()=>{const cfg=fs.readFileSync(E('rdragon-config.js'),'utf8');const csp=fs.readFileSync(E('rdragon-cryptosocial.js'),'utf8');
+ A.ok(/engineScriptMs:\s*20000/.test(cfg));A.ok(/engineModelMs:\s*300000/.test(cfg));A.ok(/engineRetry:\s*1/.test(cfg));
+ A.ok(/RDSCRIPT_MS/.test(csp)&&/RDMODEL_MS/.test(csp)&&/RDRETRY/.test(csp));A.ok(/rd-edge-retry/.test(csp));A.ok(!/\bRDLOAD_MS\b/.test(csp));
+ A.ok(/engine hiccup/.test(csp)&&/engine failed:/.test(csp))});
+q.then(()=>console.log(n,'/ 16 mind tests pass'),e=>{console.error('FAIL',e);process.exit(1)});
