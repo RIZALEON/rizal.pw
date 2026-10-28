@@ -80,7 +80,7 @@
  function rdEdge(id,q,attempt){attempt=attempt||0;if(busy["edge:"+id])return;busy["edge:"+id]=1;var ak="rda-"+id;S.edgeRetry=S.edgeRetry||{};S.edgeRetry[id]=q;
   rdEdgeMsg(id,attempt?"RDRAGON retrying in-browser engine…":"RDRAGON is warming up…");
   tmo(rdEngine(),RDSCRIPT_MS).then(function(eng){rdMindWire(eng);rdEdgeMsg(id,"RDRAGON is loading its in-browser engine… 0%");
-   return tmo(eng.load?eng.load(null,function(f){rdEdgeMsg(id,"RDRAGON is loading its in-browser engine… "+Math.round((f||0)*100)+"%")}:Promise.resolve(),RDMODEL_MS).then(function(){return rdLessons().then(function(lessons){
+   return tmo((eng.load?eng.load(null,function(f){rdEdgeMsg(id,"RDRAGON is loading its in-browser engine… "+Math.round((f||0)*100)+"%")}):Promise.resolve()),RDMODEL_MS).then(function(){return rdLessons().then(function(lessons){
     rdEdgeMsg(id,"RDRAGON is thinking…");
     return tmo(eng.answer({q:q,profile:S.me&&S.me.profile||"anon",lessons:lessons,onProgress:function(f){rdEdgeMsg(id,"RDRAGON is loading its in-browser engine… "+Math.round((f||0)*100)+"%")}}),RDANS_MS)})})})
   .then(function(r){var b=fold().B[id];delete S.edge[id];delete S.edgeRetry[id];if(b&&b.status==="answered")return;if(!rdSafe(r.text))throw Error("unsafe");
