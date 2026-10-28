@@ -4,16 +4,16 @@
    index, consolidation; placement SPINE -> BATIBABOX -> HEART; /batibabox, /recall), ЯKLASSROOM/BLUEPRINTS/BATIBABOX-RSCRIBE-INFORMATIONAL-2026-10-16
    (digest + live delta + most-recalled topics feed every reply; read once, remember), MACHINE-MIND/SEED/STUDY-BATIBABOX-RVM-RZL-20261013
    (base-command-before-Heart rule; no key material in any digest; hard filter on key/seed patterns).
-   NOT ported: the signed MACHINE-MIND egg, SPINE.json scaffold/genetics, journals, transcripts, identities. Embedding index stays keyword/BM25 (as in organ 2.1.5).
+   NOT ported: the signed MACHINE-MIND egg, SPINE.json scaffold/genetics, journals, transcripts, identities. Embedding index uses RZLEMB1 (BATIBABOX-EMBED.rzl) when present; BM25 keyword is the fallback.
    PRIVACY: memory lives in this browser's IndexedDB. It leaves the device ONLY as AES-GCM ciphertext in ЯSYNC entries t:"rdragon.memory" v1 scope:"private",
    and ONLY when the host page hands it a sync hook (devices with private-peers.json) AND the device has a memory sync passphrase set. Never in lessons-public.json. */
 (function(root){"use strict";
-var VERSION="1.0.0",enc=new TextEncoder(),dec=new TextDecoder();
+var VERSION="1.1.0",enc=new TextEncoder(),dec=new TextDecoder();
 var C=(typeof crypto!=="undefined"&&crypto.subtle)?crypto:null;
 /* ---------- MIND: public-safe seed (persona + rules + state). No private facts. ---------- */
 var SEED={schema:"rdragon.mind.seed.v1",name:"RDRAGON",home:"rizal.pw CryptoSocial",
  rules:["Answer plainly and briefly.","Never reveal keys, passwords, tokens, private addresses or private memory of anyone but the asker.","Say so when you don't know or can't see live data."],
- commands:{"/batibabox":"status and wiring","/recall <topic>":"matching memory only","/forget-view":"memory is append-only; nothing is deleted"}};
+ commands:{"/batibabox":"status and wiring","/recall <topic>":"matching memory only","/remember <note>":"save a manual note","/pin <topic>":"pin matching memory","/unpin <topic>":"unpin matching memory","/forget-view":"commands never delete; unpinned may drop over the size cap"}};
 var SECRET_RE=/(-----BEGIN [A-Z ]*PRIVATE KEY|\b(?:sk|ghp|gho|xox[abp])[-_][A-Za-z0-9_-]{10,}|\bpassword\s*[:=]|\b(?:seed|mnemonic)\s*(?:phrase|words)?\s*[:=]|\b[0-9a-f]{64}\b|\b(?:[a-z]+ ){11,23}[a-z]+\b(?=.*\b(?:seed|wallet)\b))/i;
 function scrub(s){s=String(s||"");return SECRET_RE.test(s)?"[withheld: looked like key material]":s}
 /* memfix 2026-10-26: keep 2+ char tokens and special ЯLAB terms (R:\\, R:, Я-names) */
@@ -34,10 +34,10 @@ function summarize(pages,max){max=max||600;var tf={};pages.forEach(function(p){t
  var top=Object.keys(tf).sort(function(a,b){return tf[b]-tf[a]}).slice(0,8);
  return{topics:top,text:scrub(out.sort(function(a,b){return a.i-b.i}).map(function(x){return x.s}).join(" ").slice(0,max))}}
 /* storage: pluggable (IndexedDB in browsers, memory map in tests) */
-function memStore(){var m={};return{get:function(k){return Promise.resolve(m[k]||null)},put:function(k,v){m[k]=v;return Promise.resolve(v)},all:function(pre){return Promise.resolve(Object.keys(m).filter(function(k){return k.indexOf(pre)===0}).map(function(k){return m[k]}))}}}
+function memStore(){var m={};return{get:function(k){return Promise.resolve(m[k]||null)},put:function(k,v){m[k]=v;return Promise.resolve(v)},del:function(k){delete m[k];return Promise.resolve()},all:function(pre){return Promise.resolve(Object.keys(m).filter(function(k){return k.indexOf(pre)===0}).map(function(k){return m[k]}))}}}
 function idbStore(){var db=new Promise(function(ok,no){if(typeof indexedDB==="undefined")return no(Error("no idb"));var r=indexedDB.open("rdragon.mind.v1",1);r.onupgradeneeded=function(){r.result.createObjectStore("kv")};r.onsuccess=function(){ok(r.result)};r.onerror=no});
  function tx(m,f){return db.then(function(d){return new Promise(function(ok,no){var t=d.transaction("kv",m),s=t.objectStore("kv"),r=f(s);t.oncomplete=function(){ok(r&&r.result)};t.onerror=function(){no(t.error)}})})}
- return{get:function(k){return tx("readonly",function(s){return s.get(k)}).then(function(v){return v||null})},put:function(k,v){return tx("readwrite",function(s){s.put(v,k)}).then(function(){return v})},
+ return{get:function(k){return tx("readonly",function(s){return s.get(k)}).then(function(v){return v||null})},put:function(k,v){return tx("readwrite",function(s){s.put(v,k)}).then(function(){return v})},del:function(k){return tx("readwrite",function(s){s.delete(k)})},
   all:function(pre){return tx("readonly",function(s){return s.getAll(IDBKeyRange.bound(pre,pre+"\uffff"))}).then(function(v){return v||[]})}}}
 /* RZLEMB1 parser (same layout as BATIBABOX.swift RZLEmbed / batibabox-index.py): "RZLEMB1\n"+json+"\n"+vocab+f32 scales[V]+int8[V*dim] */
 function parseEmb(buf){var u=new Uint8Array(buf);if(dec.decode(u.subarray(0,8))!=="RZLEMB1\n")return null;var nl=u.indexOf(10,8),h=JSON.parse(dec.decode(u.subarray(8,nl))),V=h.vocab,d=h.dim,v0=nl+1,s0=v0+h.vocabBytes,q0=s0+V*4;
@@ -46,18 +46,24 @@ function parseEmb(buf){var u=new Uint8Array(buf);if(dec.decode(u.subarray(0,8))!
  function embed(t){var ids=[];(String(t||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").match(/[\p{L}\p{N}]+|[^\p{L}\p{N}\s]/gu)||[]).forEach(function(w){wp(w).forEach(function(i){if(i!==UNK)ids.push(i)})});if(!ids.length)return null;
   var v=new Float32Array(d),n=0;ids.forEach(function(i){var s=sc[i],b=i*d;for(var j=0;j<d;j++)v[j]+=Q[b+j]*s});for(var j=0;j<d;j++)n+=v[j]*v[j];n=Math.sqrt(n);if(!n)return null;for(j=0;j<d;j++)v[j]/=n;return v}
  return{dim:d,model:h.model,embed:embed}}
-function create(o){o=o||{};var store=o.store||(typeof indexedDB!=="undefined"?idbStore():memStore()),every=o.consolidateEvery||6,syncHook=null,key=null,deviceTag=o.device||"web";
+function create(o){o=o||{};var store=o.store||(typeof indexedDB!=="undefined"?idbStore():memStore()),every=o.consolidateEvery||6,maxPages=o.maxPages!=null?o.maxPages:200,maxBytes=o.maxBytes!=null?o.maxBytes:0,syncHook=null,key=null,deviceTag=o.device||"web";
  function P(profile){return"p:"+(profile||"anon")+":"}
  /* memfix: Android host mirrors memory to Android/data/.../RDRAGON-MEMORY when the mind changes (debounced 3 s); no-op elsewhere */
  var EXT=null;function exportHint(){try{var N=(typeof window!=="undefined"&&window.DSNative);if(!N||!N.exportMemory)return;clearTimeout(EXT);EXT=setTimeout(function(){try{N.exportMemory()}catch(e){}},3000)}catch(e){}}
  /* memfix 2026-10-26: BATIBABOX vector recall (RZLEMB1 static embeddings: WordPiece, int8 per-row, mean-pool, L2) when an embed file is present; BM25 keyword is the fallback. */
- var EP=null,lastMode="keyword",VC={};var EURLS=o.embedUrls||["/ds/BATIBABOX-EMBED.rzl","/skills/batibabox-ds/BATIBABOX-EMBED-256-potion.rzl","/rdragon-cryptosocial/engine/BATIBABOX-EMBED.rzl"];
+ var EP=null,lastMode="keyword",VC={};var EURLS=o.embedUrls||["/rdragon-cryptosocial/engine/BATIBABOX-EMBED.rzl","/ds/BATIBABOX-EMBED.rzl","/skills/batibabox-ds/BATIBABOX-EMBED-256-potion.rzl"];
  function embedder(){if(o.embed===false)return Promise.resolve(null);if(EP)return EP;EP=(o.embedBytes?Promise.resolve(o.embedBytes):(typeof fetch==="function"?EURLS.reduce(function(c,u){return c.then(function(b){return b||fetch(u).then(function(r){return r.ok?r.arrayBuffer():null},function(){return null})})},Promise.resolve(null)):Promise.resolve(null))).then(function(b){return b?parseEmb(b):null},function(){return null});return EP}
  function hybrid(E,q,docs,k){var qv=E.embed(q);if(!qv)return bm25(q,docs,k);var kw=bm25(q,docs,docs.length),kmax=0,ks={};kw.forEach(function(d,i){var s=1/(1+i);ks[d.id]=s;if(s>kmax)kmax=s});
   return docs.map(function(d){var v=VC[d.id]||(VC[d.id]=E.embed(d.text)),c=0;if(v)for(var j=0;j<v.length;j++)c+=v[j]*qv[j];return{doc:d,s:c+0.15*(ks[d.id]||0)}}).filter(function(x){return x.s>0.25||ks[x.doc.id]}).sort(function(a,b){return b.s-a.s}).slice(0,k).map(function(x){x.doc.score=+x.s.toFixed(3);return x.doc})}
  /* remember one turn (rscribe page) -> page store; consolidate into the digest every N pages. Additive: nothing deleted. */
- function remember(profile,page){var pg={id:page.id||("m-"+Date.now().toString(36)+Math.random().toString(36).slice(2,6)),q:scrub(page.q).slice(0,500),a:scrub(page.a).slice(0,700),ts:page.ts||new Date().toISOString(),recalls:0,device:page.device||deviceTag};
-  return store.put(P(profile)+"page:"+pg.id,pg).then(function(){return store.all(P(profile)+"page:")}).then(function(all){if(all.length%every===0)return consolidate(profile,all)}).then(function(){exportHint();if(syncHook)return pushSync(profile,pg);}).then(function(){return pg})}
+ function pageBytes(pg){return (String(pg.q||"").length+String(pg.a||"").length+String(pg.id||"").length+24)|0}
+ function enforceCap(profile){return store.all(P(profile)+"page:").then(function(all){var pinned=all.filter(function(p){return p&&p.pinned}),free=all.filter(function(p){return !(p&&p.pinned)}).sort(function(a,b){return String(a.ts).localeCompare(String(b.ts))});
+  var drop=[];if(maxPages>0){var over=all.length-maxPages;if(over>0)drop=drop.concat(free.splice(0,Math.min(over,free.length)))}
+  if(maxBytes>0){var used=pinned.concat(free).reduce(function(n,p){return n+pageBytes(p)},0);while(used>maxBytes&&free.length){var x=free.shift();drop.push(x);used-=pageBytes(x)}}
+  return drop.reduce(function(c,p){return c.then(function(){delete VC[p.id];return store.del(P(profile)+"page:"+p.id)})},Promise.resolve()).then(function(){return drop.length})})}
+ function remember(profile,page){var pg={id:page.id||("m-"+Date.now().toString(36)+Math.random().toString(36).slice(2,6)),q:scrub(page.q).slice(0,500),a:scrub(page.a).slice(0,700),ts:page.ts||new Date().toISOString(),recalls:0,device:page.device||deviceTag,pinned:!!page.pinned,manual:!!page.manual};
+  return store.put(P(profile)+"page:"+pg.id,pg).then(function(){return enforceCap(profile)}).then(function(){return store.all(P(profile)+"page:")}).then(function(all){if(all.length&&all.length%every===0)return consolidate(profile,all)}).then(function(){exportHint();if(syncHook)return pushSync(profile,pg);}).then(function(){return pg})}
+ function setPinned(profile,q,on){return recall(profile,q,1).then(function(h){if(!h.length)return null;var pg=Object.assign({},h[0],{pinned:!!on});delete pg.text;delete pg.score;return store.put(P(profile)+"page:"+pg.id,pg).then(function(){exportHint();return pg})})}
  function consolidate(profile,all){return(all?Promise.resolve(all):store.all(P(profile)+"page:")).then(function(pages){pages.sort(function(a,b){return(b.recalls||0)-(a.recalls||0)||(a.ts<b.ts?1:-1)});
   var d=summarize(pages.slice(0,40));d.v=1;d.pages=pages.length;d.ts=new Date().toISOString();return store.put(P(profile)+"digest",d)})}
  function recall(profile,q,k){return Promise.all([store.all(P(profile)+"page:"),embedder()]).then(function(r){var pages=r[0],E=r[1],docs=pages.map(function(p){return Object.assign({text:p.q+" "+p.a},p)});var hit=E?hybrid(E,q,docs,k||4):bm25(q,docs,k||4);lastMode=E?"vector+keyword":"keyword";
@@ -71,8 +77,14 @@ function create(o){o=o||{};var store=o.store||(typeof indexedDB!=="undefined"?id
   if(a.lessons&&a.lessons.length)add("Lessons learned from Rizal's corrections (follow them):",a.lessons.map(function(l,i){return(i+1)+". "+String(l.text).slice(0,240)}).join("\n"),900);
   return{text:parts.join("\n\n"),sections:parts.length,chars:used}}
  /* MIND base commands run BEFORE the heart (no model call) */
- function command(profile,q){var t=String(q||"").trim(),m;if(/^\/?batibabox\b/i.test(t))return Promise.all([store.all(P(profile)+"page:"),digest(profile)]).then(function(r){return"BATIBABOX "+VERSION+" · SPINE → BATIBABOX → MIND → HEART · pages "+r[0].length+" · digest "+(r[1]?r[1].pages+" pages, topics "+r[1].topics.join(", "):"not yet")+" · sync "+(syncHook?(key?"on (encrypted)":"needs memory passphrase"):"this device only")});
-  if((m=t.match(/^\/?recall\s+(.+)/i)))return recall(profile,m[1],5).then(function(h){return h.length?h.map(function(x){return"• "+x.q+" → "+x.a.slice(0,160)}).join("\n"):"Nothing in memory matches \""+m[1]+"\"."});return null}
+ function command(profile,q){var t=String(q||"").trim(),m;
+  if(/^\/?batibabox\b/i.test(t))return Promise.all([store.all(P(profile)+"page:"),digest(profile),embedder()]).then(function(r){var pages=r[0],pins=pages.filter(function(p){return p&&p.pinned}).length;lastMode=r[2]?"vector+keyword":"keyword";return"BATIBABOX "+VERSION+" · SPINE → BATIBABOX → MIND → HEART · pages "+pages.length+(maxPages?"/"+maxPages:"")+" · pinned "+pins+" · recall "+lastMode+" · digest "+(r[1]?r[1].pages+" pages, topics "+r[1].topics.join(", "):"not yet")+" · sync "+(syncHook?(key?"on (encrypted)":"needs memory passphrase"):"this device only")});
+  if((m=t.match(/^\/?recall\s+(.+)/i)))return recall(profile,m[1],5).then(function(h){return h.length?h.map(function(x){return"• "+(x.pinned?"📌 ":"")+x.q+" → "+x.a.slice(0,160)}).join("\n"):"Nothing in memory matches \""+m[1]+"\"."});
+  if((m=t.match(/^\/?remember\s+(.+)/i))){var note=scrub(m[1]).slice(0,700);if(/withheld/.test(note))return Promise.resolve("Not saved — looked like key material.");return remember(profile,{q:"(remembered)",a:note,manual:true,pinned:true}).then(function(pg){return"Remembered (pinned): "+pg.a.slice(0,200)})}
+  if((m=t.match(/^\/?pin\s+(.+)/i)))return setPinned(profile,m[1],true).then(function(pg){return pg?"Pinned: "+pg.q:"Nothing in memory matches \""+m[1]+"\" to pin."});
+  if((m=t.match(/^\/?unpin\s+(.+)/i)))return setPinned(profile,m[1],false).then(function(pg){return pg?"Unpinned: "+pg.q:"Nothing in memory matches \""+m[1]+"\" to unpin."});
+  if(/^\/?forget-view\b/i.test(t))return Promise.resolve("Commands never delete memory. Unpinned pages may drop when over the size cap ("+(maxPages||"∞")+" pages"+(maxBytes?", "+maxBytes+" bytes":"")+").");
+  return null}
  /* ---------- ЯSYNC: rdragon.memory v1 (encrypted, private) ---------- */
  function setPassphrase(profile,pass){if(!C)return Promise.reject(Error("no webcrypto"));return C.subtle.importKey("raw",enc.encode(pass),"PBKDF2",false,["deriveKey"]).then(function(b){
   return C.subtle.deriveKey({name:"PBKDF2",salt:enc.encode("rdragon.memory.v1|"+profile),iterations:310000,hash:"SHA-256"},b,{name:"AES-GCM",length:256},false,["encrypt","decrypt"])}).then(function(k){key=k;return true})}
@@ -84,7 +96,7 @@ function create(o){o=o||{};var store=o.store||(typeof indexedDB!=="undefined"?id
  /* ingest synced entries from other devices (decrypt; ignore what we can't open) */
  function ingest(entries){if(!key)return Promise.resolve(0);var n=0;return(entries||[]).filter(function(e){return e&&e.t==="rdragon.memory"&&e.v===1&&e.ct}).reduce(function(c,e){return c.then(function(){
   return C.subtle.decrypt({name:"AES-GCM",iv:unb64(e.iv)},key,unb64(e.ct)).then(function(b){var pg=JSON.parse(dec.decode(b));var k=P(e.mem_profile)+"page:"+pg.id;return store.get(k).then(function(h){if(h)return;n++;return store.put(k,pg)})},function(){})})},Promise.resolve()).then(function(){return n})}
- return{VERSION:VERSION,SEED:SEED,remember:remember,consolidate:consolidate,recall:recall,digest:digest,assemble:assemble,command:command,setPassphrase:setPassphrase,ingest:ingest,
-  onSync:function(fn){syncHook=fn},recallMode:function(){return lastMode},embedder:embedder,hasKey:function(){return!!key},_store:store}}
+ return{VERSION:VERSION,SEED:SEED,remember:remember,consolidate:consolidate,recall:recall,digest:digest,assemble:assemble,command:command,setPassphrase:setPassphrase,ingest:ingest,setPinned:setPinned,enforceCap:enforceCap,
+  onSync:function(fn){syncHook=fn},recallMode:function(){return lastMode},embedder:embedder,hasKey:function(){return!!key},maxPages:maxPages,maxBytes:maxBytes,_store:store}}
 var api={parseEmb:parseEmb,VERSION:VERSION,SEED:SEED,create:create,summarize:summarize,bm25:bm25,scrub:scrub,memStore:memStore};
 root.RDRAGON_MIND=api;if(typeof module==="object"&&module.exports)module.exports=api})(typeof window!=="undefined"?window:globalThis);
