@@ -20,7 +20,7 @@
     if (!ENG) ENG = new Promise(function (ok, no) { var sc = document.createElement('script'); var cfg = root.RDRAGON_CONFIG || {}; sc.src = (cfg.engineUrl || '/rdragon-cryptosocial/engine/rdragon-engine.js') + '?v=2'; sc.onload = function () { root.RDRAGON_ENGINE ? ok(root.RDRAGON_ENGINE) : no(Error('engine missing')); }; sc.onerror = function () { ENG = null; no(Error('engine load failed')); }; document.head.appendChild(sc); });
     return ENG; }
   function ibm(post) { if (post.preview && !root.RDRAGON_ENGINE) return Promise.reject(Error('skip'));
-    return engine().then(function (E) { var q = (post.system ? post.system + '\n\n' : '') + String(post.q).slice(0, 800); return timeout(E.answer({ q: q, thread: post.thread || [], lessons: [], onProgress: post.onProgress }), 90000); })
+    return timeout(engine(), 20000).then(function (E) { var q = (post.system ? post.system + '\n\n' : '') + String(post.q).slice(0, 800); return timeout(E.answer({ q: q, thread: post.thread || [], lessons: [], onProgress: post.onProgress }), 90000); })
       .then(function (r) { var t = String(r && r.text || '').trim(); if (!t) throw Error('empty'); return { text: t.slice(0, 600), tier: 'ibm', model: r.model || 'granite' }; }); }
   function local(post) { var s = post.suggest && post.suggest.length ? 'did you mean ' + post.suggest.map(function (c) { return '`' + c + '`'; }).join(' · ') + '? ' : ''; return Promise.resolve({ text: s + RDOFF, tier: 'local', model: 'local' }); }
   function isQ(q) { q = String(q || "").trim(); return /\?\s*$/.test(q) || /^(what|who|whom|whose|why|how|when|where|which|tell|is|are|am|was|were|do|does|did|can|could|should|would|will|explain|describe)\b/i.test(q); }
