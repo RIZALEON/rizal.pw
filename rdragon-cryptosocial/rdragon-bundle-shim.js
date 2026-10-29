@@ -11,7 +11,7 @@ add(B+'rdragon-mind.js?v=1',function(){wrap();if(!w.RDRAGON_ENGINE)add(B+'rdrago
 var CARD=null,CP=null,IMAP=null,IP=null,ANS=null,AP=null;
 function card(){return CP||(CP=fetch('/rdragon-cryptosocial/engine/rdragon-card.json?v=3').then(function(r){return r.json()}).then(function(c){CARD=c;return c},function(){CARD={lines:[]};return CARD}))}
 function intentMap(){return IP||(IP=fetch('/rdragon-cryptosocial/engine/intent-card-map.json?v=1').then(function(r){return r.json()}).then(function(c){IMAP=c;return c},function(){IMAP={intents:[]};return IMAP}))}
-function answers(){return AP||(AP=fetch('/rdragon-cryptosocial/engine/answers.json?v=2').then(function(r){return r.json()}).then(function(c){ANS=c;w.RDRAGON_ANSWERS=c;return c},function(){ANS={answers:[]};return ANS}))}
+function answers(){return AP||(AP=fetch('/rdragon-cryptosocial/engine/answers.json?v=3',{cache:'no-store'}).then(function(r){return r.json()}).then(function(c){ANS=c;w.RDRAGON_ANSWERS=c;return c},function(){ANS={answers:[]};return ANS}))}
 function normQ(q){return String(q||'').toLowerCase().replace(/[^\w\sа-яёя]/gi,' ').replace(/\s+/g,' ').trim()}
 function strongKeys(mk){if(!mk||!mk.length)return false;if(mk.length>=2)return true;var k=String(mk[0]||'');if(k.length>=8)return true;if(/[\s-]/.test(k))return true;return false}
 function hits(q){q=String(q||'').toLowerCase();return ((CARD&&CARD.lines)||[]).map(function(l){var s=0,mk=[];(l.k||[]).forEach(function(k){var e=String(k).replace(/[.*+?^${}()|[\]\\]/g,'\\$&');if(new RegExp('(^|[^a-z0-9я])'+e+'($|[^a-z0-9я])','i').test(q)){s+=k.length;mk.push(k)}});return{l:l,s:s,mk:mk}}).filter(function(x){return x.s>0&&strongKeys(x.mk)}).sort(function(a,b){return b.s-a.s}).map(function(x){return x.l})}

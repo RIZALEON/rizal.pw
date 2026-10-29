@@ -1,7 +1,7 @@
 {
   "v": 1,
   "kind": "rdragon.answers",
-  "version": "local-first-20261028",
+  "version": "nostore-relay-20261028",
   "note": "Normalized-q → sealed FAQ stubs served before granite. GHOSTMACHINE fan-out stamps strong ENJIN/IBM hits into this pack on the next deploy. Keep public-safe: no IPs, keys, wallets, or device names. Empty entries allowed; loader must not throw.",
   "answers": [
     {
@@ -159,6 +159,321 @@
       ],
       "a": "24",
       "src": "fact:sanity"
+    },
+    {
+      "nq": [
+        "what is rdragon",
+        "who is rdragon",
+        "what is rdragon on rizal.pw"
+      ],
+      "a": "RDRAGON is the dragon-skull AI of Rizal's GHOSTMACHINE CryptoSocial on rizal.pw. It answers posts and comments in your browser, offline-first, with DRAGOSKUL as its second voice.",
+      "src": "pack:nostore-20261028"
+    },
+    {
+      "nq": [
+        "who is dragoskul",
+        "what is dragoskul"
+      ],
+      "a": "DRAGOSKUL is RDRAGON's second voice, the skull half. It posts a second, differently worded take when the big in-browser engine can't answer.",
+      "src": "pack:nostore-20261028"
+    },
+    {
+      "nq": [
+        "what is ghostmachine",
+        "what is the ghostmachine"
+      ],
+      "a": "GHOSTMACHINE is Rizal's source-of-truth workspace for the CryptoSocial sites: rizal.pw is published from it and backed up from it.",
+      "src": "pack:nostore-20261028"
+    },
+    {
+      "nq": [
+        "what is nostr"
+      ],
+      "a": "Nostr is an open protocol where signed notes are passed through simple public relays over WebSocket. rizal.pw uses it so comments are visible across visitors without a central server.",
+      "src": "pack:nostore-20261028"
+    },
+    {
+      "nq": [
+        "can i comment without an account",
+        "do i need an account to comment",
+        "can guests comment"
+      ],
+      "a": "Yes. Without signing in you get a TEST-ONLY guest identity for this tab only; it is never saved and is not the owner's identity.",
+      "src": "pack:nostore-20261028"
+    },
+    {
+      "nq": [
+        "does rizal.pw work in private mode",
+        "does this work in incognito",
+        "does rizal.pw work without cookies"
+      ],
+      "a": "Yes. In private mode or with storage blocked, rizal.pw runs in memory: RDRAGON and DRAGOSKUL answer from local packs and the big model download is skipped.",
+      "src": "pack:nostore-20261028"
+    },
+    {
+      "nq": [
+        "what is the speed of light"
+      ],
+      "a": "About 299,792 km per second (about 186,282 miles per second) in a vacuum.",
+      "src": "pack:nostore-20261028"
+    },
+    {
+      "nq": [
+        "what is the largest planet",
+        "what is the largest planet in the solar system"
+      ],
+      "a": "Jupiter.",
+      "src": "pack:nostore-20261028"
+    },
+    {
+      "nq": [
+        "what is the smallest planet"
+      ],
+      "a": "Mercury.",
+      "src": "pack:nostore-20261028"
+    },
+    {
+      "nq": [
+        "what is the hottest planet"
+      ],
+      "a": "Venus, because its thick carbon dioxide atmosphere traps heat.",
+      "src": "pack:nostore-20261028"
+    },
+    {
+      "nq": [
+        "how many planets are in the solar system"
+      ],
+      "a": "Eight: Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus and Neptune.",
+      "src": "pack:nostore-20261028"
+    },
+    {
+      "nq": [
+        "what is the tallest mountain",
+        "what is the tallest mountain in the world"
+      ],
+      "a": "Mount Everest, about 8,849 m (29,032 ft).",
+      "src": "pack:nostore-20261028"
+    },
+    {
+      "nq": [
+        "what is the longest river",
+        "what is the longest river in the world"
+      ],
+      "a": "The Nile and the Amazon are both about 6,400–6,650 km; the Nile is most often listed as the longest.",
+      "src": "pack:nostore-20261028"
+    },
+    {
+      "nq": [
+        "what is the largest country",
+        "what is the largest country in the world"
+      ],
+      "a": "Russia, by area.",
+      "src": "pack:nostore-20261028"
+    },
+    {
+      "nq": [
+        "what is the capital of japan"
+      ],
+      "a": "Tokyo.",
+      "src": "pack:nostore-20261028"
+    },
+    {
+      "nq": [
+        "what is the capital of canada"
+      ],
+      "a": "Ottawa.",
+      "src": "pack:nostore-20261028"
+    },
+    {
+      "nq": [
+        "what is the capital of the philippines"
+      ],
+      "a": "Manila.",
+      "src": "pack:nostore-20261028"
+    },
+    {
+      "nq": [
+        "what is the capital of italy"
+      ],
+      "a": "Rome.",
+      "src": "pack:nostore-20261028"
+    },
+    {
+      "nq": [
+        "what is the capital of germany"
+      ],
+      "a": "Berlin.",
+      "src": "pack:nostore-20261028"
+    },
+    {
+      "nq": [
+        "what is the capital of spain"
+      ],
+      "a": "Madrid.",
+      "src": "pack:nostore-20261028"
+    },
+    {
+      "nq": [
+        "what is the capital of australia"
+      ],
+      "a": "Canberra.",
+      "src": "pack:nostore-20261028"
+    },
+    {
+      "nq": [
+        "what is the capital of brazil"
+      ],
+      "a": "Brasília.",
+      "src": "pack:nostore-20261028"
+    },
+    {
+      "nq": [
+        "who painted the mona lisa"
+      ],
+      "a": "Leonardo da Vinci.",
+      "src": "pack:nostore-20261028"
+    },
+    {
+      "nq": [
+        "who discovered penicillin"
+      ],
+      "a": "Alexander Fleming, in 1928.",
+      "src": "pack:nostore-20261028"
+    },
+    {
+      "nq": [
+        "who invented the telephone"
+      ],
+      "a": "Alexander Graham Bell is credited with the first patent, in 1876.",
+      "src": "pack:nostore-20261028"
+    },
+    {
+      "nq": [
+        "who was the first person on the moon",
+        "who first walked on the moon"
+      ],
+      "a": "Neil Armstrong, on 20 July 1969.",
+      "src": "pack:nostore-20261028"
+    },
+    {
+      "nq": [
+        "what is photosynthesis"
+      ],
+      "a": "Photosynthesis is how plants use sunlight, water and carbon dioxide to make sugar, releasing oxygen.",
+      "src": "pack:nostore-20261028"
+    },
+    {
+      "nq": [
+        "what is dna"
+      ],
+      "a": "DNA is the molecule that carries genetic instructions in living things, shaped like a double helix.",
+      "src": "pack:nostore-20261028"
+    },
+    {
+      "nq": [
+        "what is gravity"
+      ],
+      "a": "Gravity is the attraction between masses; it keeps us on Earth and the planets in orbit around the Sun.",
+      "src": "pack:nostore-20261028"
+    },
+    {
+      "nq": [
+        "what is an atom"
+      ],
+      "a": "An atom is the smallest unit of a chemical element: a nucleus of protons and neutrons with electrons around it.",
+      "src": "pack:nostore-20261028"
+    },
+    {
+      "nq": [
+        "how many bones are in the human body"
+      ],
+      "a": "206 in an adult.",
+      "src": "pack:nostore-20261028"
+    },
+    {
+      "nq": [
+        "how many hearts does an octopus have"
+      ],
+      "a": "Three.",
+      "src": "pack:nostore-20261028"
+    },
+    {
+      "nq": [
+        "what is the chemical symbol for gold"
+      ],
+      "a": "Au.",
+      "src": "pack:nostore-20261028"
+    },
+    {
+      "nq": [
+        "what is the chemical formula for water"
+      ],
+      "a": "H2O.",
+      "src": "pack:nostore-20261028"
+    },
+    {
+      "nq": [
+        "how many seconds are in a minute"
+      ],
+      "a": "60",
+      "src": "pack:nostore-20261028"
+    },
+    {
+      "nq": [
+        "how many minutes are in an hour"
+      ],
+      "a": "60",
+      "src": "pack:nostore-20261028"
+    },
+    {
+      "nq": [
+        "how many months are in a year"
+      ],
+      "a": "12",
+      "src": "pack:nostore-20261028"
+    },
+    {
+      "nq": [
+        "what is pi"
+      ],
+      "a": "Pi is the ratio of a circle's circumference to its diameter, about 3.14159.",
+      "src": "pack:nostore-20261028"
+    },
+    {
+      "nq": [
+        "what is javascript"
+      ],
+      "a": "JavaScript is the programming language of the web; it runs in every browser and on servers with Node.js.",
+      "src": "pack:nostore-20261028"
+    },
+    {
+      "nq": [
+        "what is python"
+      ],
+      "a": "Python is a popular, beginner-friendly programming language used for scripting, data, AI and the web.",
+      "src": "pack:nostore-20261028"
+    },
+    {
+      "nq": [
+        "what is html"
+      ],
+      "a": "HTML is the markup language that structures web pages.",
+      "src": "pack:nostore-20261028"
+    },
+    {
+      "nq": [
+        "what is a blockchain"
+      ],
+      "a": "A blockchain is a shared, append-only log of records where each block links to the previous one by a hash, so history is hard to change.",
+      "src": "pack:nostore-20261028"
+    },
+    {
+      "nq": [
+        "how do i learn to code",
+        "how can i learn programming"
+      ],
+      "a": "Pick one language (JavaScript or Python), follow a free beginner course, and build a tiny project each week. Finishing small things beats reading big books.",
+      "src": "pack:nostore-20261028"
     }
   ]
 }

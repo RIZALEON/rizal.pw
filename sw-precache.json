@@ -1,5 +1,5 @@
 {
-"v": "twovoices20261028-race-pack",
+"v": "nostore-relay20261028-race-pack",
 "files": [
 "/.gitignore",
 "/.nojekyll",
@@ -37,6 +37,9 @@
 "/rdragon-cryptosocial/engine/ANSWERS-README.md",
 "/rdragon-cryptosocial/engine/rdragon-quick.js",
 "/rdragon-cryptosocial/engine/rdragon-open.js",
+"/rdragon-cryptosocial/rstore.js",
+"/rdragon-cryptosocial/rrelay.js",
+"/rdragon-cryptosocial/engine/vendor/nostr-tools.bundle.js",
 "/rdragon-cryptosocial/engine/answers.json",
 "/rdragon-cryptosocial/engine/intent-card-map.json",
 "/rdragon-cryptosocial/engine/rdragon-engine.js",
