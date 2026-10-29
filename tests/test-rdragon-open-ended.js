@@ -50,8 +50,18 @@ const PROMPTS=[
  // cryptosocial wiring
  const csp=fs.readFileSync(E('rdragon-cryptosocial.js'),'utf8');
  A.ok(/rdr-"\+id\+"-open"/.test(csp)&&/RDRAGON_OPEN/.test(csp),'open reply event');A.ok(/b\.tier!=="open"\)return;rdEdge/.test(csp),'granite still runs after quick take');
- A.ok(/upgraded:upg/.test(csp)&&/· upgraded/.test(csp),'upgrade marked');A.ok(/granite timed out/.test(csp),'timeout visible');pass('cryptosocial: quick take then in-place granite upgrade, timeout visible');
+ A.ok(/upgraded:upg/.test(csp)&&/· upgraded/.test(csp),'upgrade marked');A.ok(!/keeping the quick answer/.test(csp),'no failure line on quick take');pass('cryptosocial: quick take then in-place granite upgrade');
+ // TWO VOICES: granite fails/times out on a quick take -> DRAGOSKUL posts a distinct second reply
+ A.ok(/rdVoice2\(id,q\);return/.test(csp)&&/voice:"DRAGOSKUL"/.test(csp)&&/-voice2"/.test(csp),'voice2 on failure');
+ A.ok(/e\.voice==="DRAGOSKUL"\)\{if\(rdOk\(e\)/.test(csp)&&/V2:V2/.test(csp),'fold keeps voice2 separate from RDRAGON B');
+ A.ok(/💀 DRAGOSKUL/.test(csp)&&/🐉 RDRAGON/.test(csp)&&/second take/.test(csp),'two labelled rows');
+ A.ok(!/rdragon_diag|CHASERIZAL|ЯID-/.test(csp.match(/function rdVoice2[\s\S]*?function rdEdgeLater/)[0]),'voice2 never uses diag/owner identity');
+ A.ok(/S\.edge&&S\.edge\[id\]&&b\.src!=="model"\?/.test(csp),'thinking line hidden once answered');
+ for(const [q] of PROMPTS.concat([['What is the meaning of life?']])){const a=O.compose(q),b=O.compose2(q);A.strictEqual(b.voice,'DRAGOSKUL');A.ok(b.text&&b.text!==a.text&&!PLACE.test(b.text),'distinct: '+q);A.ok(!/rdragon_diag/i.test(b.text))}
+ pass('two voices: RDRAGON + DRAGOSKUL distinct takes for every prompt, wired on granite failure');
+ // :8811 hard gate even with a loopback transponderUrl configured
+ {const sb={location:{hostname:'rizal.pw',search:''},localStorage:{getItem:()=>'1',setItem(){}},RDRAGON_CONFIG:{transponderUrl:'http://127.0.0.1:8811'},console,document:{head:{appendChild(){}},createElement:()=>({}),addEventListener(){},readyState:'complete',documentElement:{}},setInterval:()=>0};sb.self=sb;sb.window=sb;sb.globalThis=sb;vm.createContext(sb);vm.runInContext(fs.readFileSync(E('rpostmenu.js'),'utf8'),sb);A.strictEqual(sb.RPostMenu.sync.url(),'');pass('rizal.pw: loopback transponderUrl ignored (no :8811)');}
  const idx=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'),pc=fs.readFileSync(path.join(ROOT,'sw-precache.json'),'utf8');
- A.ok(/engine\/rdragon-open\.js\?v=1/.test(idx)&&/rdragon-open\.js/.test(pc));pass('index + precache ship rdragon-open.js');
+ A.ok(/engine\/rdragon-open\.js\?v=2/.test(idx)&&/rdragon-open\.js/.test(pc));pass('index + precache ship rdragon-open.js');
  console.log('\n'+n+' passed');process.exit(0);
 })().catch(e=>{console.error('FAIL',e);process.exit(1)});

@@ -62,7 +62,8 @@
   /* ---- POLYTRANSPONDR client: send + receive post actions. rizal.pw's post log is the master copy. ---- */
   var TYPES = /^(post\.(pin|unpin|delete)|revise)$/, CK = 'rpostmenu.pt.cursor';
   function ptUrl() { var c = root.RDRAGON_CONFIG || {}; if (c.transponderUrl === false) return '';
-    if (c.transponderUrl) return String(c.transponderUrl).replace(/\/$/, '');
+    var pub = false; try { pub = !(location.hostname === '127.0.0.1' || location.hostname === 'localhost') && !/[?&]local=1(&|$)/.test(location.search || ''); } catch (e) {}
+    if (c.transponderUrl) { var tu = String(c.transponderUrl).replace(/\/$/, ''); if (pub && /^https?:\/\/(127\.0\.0\.1|localhost)(:|\/|$)/i.test(tu)) return ''; return tu; } /* 20261028b: loopback transponder only on localhost or ?local=1 */
     /* 20261028: a public origin (rizal.pw) never probes loopback, even on a signed-in device (localPeer=1), unless the page URL carries ?local=1. */
     try { var lh = location.hostname === '127.0.0.1' || location.hostname === 'localhost', opt = /[?&]local=1(&|$)/.test(location.search || '');
       if (lh || (opt && localStorage.getItem('rdragon.csp.localPeer') === '1')) return 'http://127.0.0.1:8811'; } catch (e) {}
