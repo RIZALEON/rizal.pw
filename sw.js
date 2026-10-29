@@ -1,5 +1,6 @@
 /* rizal.pw offline service worker — RFORGE 20261026 · gm-tweets. Precaches site, engine, IBM Granite weights. */
-/* cache botlatch20261029-openapp */
+/* cache botlatch20261029-openapp · fresh20261029: html/js/json/css revalidate (no-cache) so a deploy shows at once, not after the 10-min HTTP cache */
+function fresh(u){return /(\/|\.html|\.js|\.json|\.css)$/.test(u.pathname)}
 var M='/sw-precache.json';
 /* offline-granite fix 20261026: model manifests are precached with the core; the large weight parts (~222 MB) are cached
    (1) when the page's engine first fetches them online (fetch handler, held by waitUntil), and
@@ -18,4 +19,4 @@ self.addEventListener('fetch',function(e){var q=e.request;if(q.method!=='GET')re
  if(u.pathname.indexOf('/api/')===0)return;
  var k=u.pathname.replace(/\/$/,'/index.html');
  if(isPart(u.pathname)){e.respondWith(caches.match(u.pathname,{ignoreSearch:true}).then(function(h){return h||fetch(q).then(function(r){if(r.ok&&r.status===200){var cl=r.clone();e.waitUntil(caches.open(MC).then(function(c){return c.put(u.pathname,cl)}).catch(function(){}))}return r})}));return}
- e.respondWith(fetch(q).then(function(r){return r}).catch(function(){return caches.match(k,{ignoreSearch:true}).then(function(h){return h||caches.match(u.pathname,{ignoreSearch:true})||Response.error()})}));});
+ e.respondWith((fresh(u)?fetch(u.href,{cache:'no-cache',credentials:'same-origin'}).catch(function(){return fetch(q)}):fetch(q)).then(function(r){return r}).catch(function(){return caches.match(k,{ignoreSearch:true}).then(function(h){return h||caches.match(u.pathname,{ignoreSearch:true})||Response.error()})}));});
