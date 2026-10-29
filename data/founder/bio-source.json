@@ -7,12 +7,7 @@
  "rid": "ЯID-0001-3QQS",
  "role": "Decider / founder",
  "name": "Rizal",
- "bio_sources": [
-  {
-   "platform": "x",
-   "handle": "@chaserizal"
-  }
- ],
+ "bio_sources": [],
  "fused_with": [
   "SUPER-BOT-CARD",
   "DECIDER-ID",
