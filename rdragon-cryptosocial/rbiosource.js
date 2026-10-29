@@ -21,8 +21,11 @@ function load(){if(typeof fetch!=="function")return Promise.resolve(null);var pr
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 function href(b){if(b.url)return b.url;var h=String(b.handle||"").replace(/^@/,"");return b.platform==="x"?"https://x.com/"+h:b.platform==="github"?"https://github.com/"+h:""}
 function html(r){if(!r)return "";var st=r.v.state==="signed"?"✓ signed":r.v.state==="pending"?"pending ЯCASKET signature":"signature invalid";
- return '<div class="csp-biosrc-h">bio sources · '+esc(r.record.rid)+' · <span data-state="'+r.v.state+'">'+esc(st)+'</span></div>'+(r.record.bio_sources||[]).map(function(b){var u=href(b);return '<a target="_blank" rel="noopener" href="'+esc(u)+'">'+esc(b.platform)+' '+esc(b.handle||String(b.url).replace(/^https?:\/\//,""))+'</a>'}).join(" · ")}
+ return '<div class="csp-biosrc-h">bio sources · '+esc(r.record.rid)+' · <span data-state="'+r.v.state+'">'+esc(st)+'</span></div>'+(r.record.bio_sources||[]).map(function(b){var u=href(b);return '<a target="_blank" rel="noopener" href="'+esc(u)+'">'+esc(b.platform)+' '+esc(b.handle||String(b.url).replace(/^https?:\/\//,""))+'</a>'}).join("")}
+function line(b){return String(b.platform||"site")+" "+(b.handle||b.url||"")}
+function parse(l){var m=String(l).trim().match(/^(\S+)\s+(\S+)$/);if(!m)return null;return /^https?:\/\//i.test(m[2])?{platform:m[1],url:m[2]}:{platform:m[1],handle:m[2]}}
+function lines(){return cache&&cache.record?(cache.record.bio_sources||[]).map(line).join("\n"):""}
 var cache=null;function paint(){var d=root.document,el=d&&d.getElementById("csp-biosrc");if(el&&cache&&!el.dataset.done){el.innerHTML=html(cache);el.dataset.done="1"}var st=d&&d.getElementById("bio-st");if(st&&cache&&!st.dataset.done){st.textContent=(cache.v.state==="signed"?"signed":cache.v.state==="pending"?"pending ЯCASKET signature":"signature invalid: "+cache.v.why)+" · record sha256 "+cache.v.sha256;st.dataset.done="1"}}
 if(root.document&&typeof fetch==="function"){load().then(function(r){cache=r;paint();try{new MutationObserver(paint).observe(root.document.body,{childList:true,subtree:true})}catch(e){}})}
-return {VERSION:VERSION,SIGF:SIGF,verify:verify,load:load,html:html,href:href};
+return {VERSION:VERSION,SIGF:SIGF,verify:verify,load:load,html:html,href:href,line:line,parse:parse,lines:lines};
 });
