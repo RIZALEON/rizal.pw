@@ -33,3 +33,6 @@ Symptom: after clearing/retrying, the status bar shows e.g. **1 signed · 4 reje
 
 ## 20261028 · t105u owner-login fix (rstore 1.1, rdiag 1.1)
 Real device storage is never stubbed unless the URL has `?nostore=1`. A full or blocked localStorage no longer replaces IndexedDB (`rdragon.csp.keys`, the owner device key store). rdiag backups skip key/device/session-named entries and anything over 64 KB, and stay in memory when they would exceed 256 KB. Regression test: `tests/test-rdragon-owner-login-storage.js`.
+
+## 20261028 · t106u owner-device guard (installer v3, rlogin-page v17)
+The installer now **refuses** to replace a real (non-test) `device` record in `rdragon.csp.keys`. Run @rdragon_diag in a private window or another browser. `ownerOverwrite:true` is for test harnesses only. When the ЯLOGIN page finds a test-only `device` and a non-test `device.bak-<ts>`, it puts the newest owner backup back as `device` and keeps the diag record as `device.diag-<ts>`; nothing is deleted. Username and password also find the owner's password record inside that backup. Test: `tests/test-rdragon-owner-device-restore.js`.

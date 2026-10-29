@@ -20,6 +20,18 @@ function idb(){return new Promise(function(ok,no){var q=indexedDB.open("rdragon.
 function get(){return idb().then(function(d){return new Promise(function(ok){var t=d.transaction("k").objectStore("k").get("device");t.onsuccess=function(){ok(t.result||null)};t.onerror=function(){ok(null)}})})}
 function getK(k){return idb().then(function(d){return new Promise(function(ok){var t=d.transaction("k").objectStore("k").get(k);t.onsuccess=function(){ok(t.result||null)};t.onerror=function(){ok(null)}})})}
 function putK(k,v){return idb().then(function(d){return new Promise(function(ok){var t=d.transaction("k","readwrite");t.objectStore("k").put(v,k);t.oncomplete=ok})})}
+/* t106u 20261028: owner-device guard. The TEST-ONLY diag installer (?diag=1 → Import) replaces "device" with the
+   @rdragon_diag record and keeps the owner record as "device.bak-<ts>". If the active record is test-only and a non-test
+   backup exists, put the newest owner backup back as "device" and set the diag record aside as "device.diag-<ts>"
+   (nothing is deleted, nothing leaves this browser, no key material is read beyond the flags/handle). */
+function isTest(r){return !!(r&&(r.test_only||r.diag))}
+function allKeys(){return idb().then(function(d){return new Promise(function(ok){try{var t=d.transaction("k").objectStore("k").getAllKeys();t.onsuccess=function(){ok(t.result||[])};t.onerror=function(){ok([])}}catch(e){ok([])}})})}
+function ownerBackups(){return allKeys().then(function(ks){ks=ks.filter(function(k){return String(k).indexOf("device.bak-")===0}).sort().reverse();
+ return Promise.all(ks.map(function(k){return getK(k).then(function(v){return{k:k,v:v}})})).then(function(a){return a.filter(function(x){return x.v&&!isTest(x.v)})})})}
+function ownerRestore(){return get().then(function(cur){if(cur&&!isTest(cur))return{restored:false,reason:"owner record active"};
+ return ownerBackups().then(function(b){if(!b.length)return{restored:false,reason:cur?"test-only record, no owner backup":"no device record"};
+  var ts=new Date().toISOString().replace(/[-:]/g,"").replace(/\..*$/,"");
+  return (cur?putK("device.diag-"+ts,cur):Promise.resolve()).then(function(){return put(b[0].v)}).then(function(){return{restored:true,from:b[0].k}})})}).catch(function(e){return{restored:false,reason:String(e&&e.message||e)}})}
 function put(v){return idb().then(function(d){return new Promise(function(ok){var t=d.transaction("k","readwrite");t.objectStore("k").put(v,"device");t.oncomplete=ok})})}
 /* ---- registered founder account: public commitment only (no package contents) ---- */
 var FND=CFG.founder||null,PEND={};
@@ -52,7 +64,7 @@ function showReq(){RSync.deviceSigner().then(function(sg){RQ=sg;return RSync.enr
 function checkEnrolled(){if(!RQ)return;var pf=profOfDev(RQ.pub);if(pf)done(RQ,pf,{kp:RQ.keyPair})}
 function imp(){var t=prompt("Paste the approval bundle (JSON)");if(!t)return;var a;try{a=JSON.parse(t);a=Array.isArray(a)?a:(a.entries||[a])}catch(e){return msg("not a bundle",1)}RS.merge(a,"bundle").then(function(){checkEnrolled();if(RQ&&!profOfDev(RQ.pub))msg("bundle imported — this device is not enrolled in it",1)})}
 /* 3 · username + password (rate-limited, offline) */
-function pwRec(h){return get().then(function(r){return getK("pkg:"+h).then(function(sp){var p=PEND[h]||sp||J(PKK,{})[h]||null;if(r&&r.pw&&H(r.handle)===h)return{rec:r.pw,pid:r.profile,pkg:p};return p?{rec:p.login,pid:p.profile,pkg:p}:null})})}
+function pwRec(h){return get().then(function(r){if(r&&r.pw&&H(r.handle)===h)return r;return ownerBackups().then(function(b){var m=b.filter(function(x){return x.v.pw&&H(x.v.handle)===h})[0];return m?m.v:r})}).then(function(r){return getK("pkg:"+h).then(function(sp){var p=PEND[h]||sp||J(PKK,{})[h]||null;if(r&&r.pw&&H(r.handle)===h)return{rec:r.pw,pid:r.profile,pkg:p};return p?{rec:p.login,pid:p.profile,pkg:p}:null})})}
 function login(){var h=H($("l-user").value),pe=$("l-pass"),RL=J(RLK,{}),s=RL[h]||{fails:0,until:0},rl=RSync.rateLimit(s,Date.now());
  if(rl.wait())return msg("too many attempts — try again in "+Math.ceil(rl.wait()/1000)+"s",1);$("b-login").disabled=true;
  pwRec(h).then(function(x){if(!x)throw Error("wrong username or password");return RSync.passwordUnwrap(x.rec,pe.value).then(function(sg){pe.value="";rl.ok();RL[h]={fails:0,until:0};W(RLK,RL);
@@ -93,12 +105,12 @@ function dlpkg(){var p=window.__rcasketPkg;if(!p)return;var a=document.createEle
 /* wire up */
 function tab(t){[].forEach.call(document.querySelectorAll("[data-tab]"),function(b){b.classList.toggle("on",b.dataset.tab===t)});$("t-login").hidden=t!=="login";$("t-signup").hidden=t!=="signup"}
 [].forEach.call(document.querySelectorAll("[data-tab]"),function(b){b.onclick=function(){tab(b.dataset.tab)}});
-$("b-auto").onclick=auto;$("b-req").onclick=showReq;$("b-imp").onclick=imp;$("b-login").onclick=login;$("b-pkg").onclick=restorePkg;$("f-pkg").onchange=restoreFile;founderLine();try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist().catch(function(){})}catch(e){}getK("pkg:"+(FND?H(FND.handle):"")).then(function(sp){if(sp&&!$("l-user").value)$("l-user").value=H(FND.handle)});$("b-signup").onclick=signup;$("b-dlpkg").onclick=dlpkg;$("b-rgen").onclick=rgenVerify;
+ownerRestore().then(function(x){window.RLOGIN_OWNER_RESTORE=x;if(x.restored)msg("✓ this device's own login record is active again (TEST-ONLY diag identity set aside) — log in with your password")});$("b-auto").onclick=auto;$("b-req").onclick=showReq;$("b-imp").onclick=imp;$("b-login").onclick=login;$("b-pkg").onclick=restorePkg;$("f-pkg").onchange=restoreFile;founderLine();try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist().catch(function(){})}catch(e){}getK("pkg:"+(FND?H(FND.handle):"")).then(function(sp){if(sp&&!$("l-user").value)$("l-user").value=H(FND.handle)});$("b-signup").onclick=signup;$("b-dlpkg").onclick=dlpkg;$("b-rgen").onclick=rgenVerify;
 $("s-pass").oninput=meter;$("l-pass").onkeydown=function(e){if(e.key==="Enter")login()};p0();
 RS=RSync.create({storage:RSync.adapters.localStorage("rdragon.csp.rsync.v1"),policy:RSync.devicePolicy({ownerKeys:CFG.ownerKeys||[]})});
 RS.ready.then(function(){var bc=RSync.adapters.broadcast("rdragon.csp.rsync");if(bc)RS.attach(bc);
  function rdPeers(base,cb){var l=(CFG.peers||[]).concat(window.RDRAGON_PRIVATE_PEERS||[]),u=CFG.privatePeersUrl;if(!u||!window.fetch)return cb(l);try{u=new URL(u,base||location.href).href}catch(e){return cb(l)}fetch(u,{cache:"no-store"}).then(function(r){return r.ok?r.json():{}}).then(function(j){cb(l.concat(j&&j.peers||[]))},function(){cb(l)})}
  rdPeers((document.querySelector('script[src*="rlogin-page.js"]')||{}).src,function(pl){var tps=pl.filter(function(u,i){return u&&pl.indexOf(u)===i}).map(function(u){return RSync.adapters.httpPeer(String(u).replace(/\/$/,""))});if(tps.length){var y=RS.syncer({peers:tps,pollMs:CFG.syncEveryMs||20000});y.start()}});
  RS.onChange(checkEnrolled);RS.onChange(owners);owners();rgenVerify();return get()}).then(function(r){if(r&&r.kp&&!r.req&&r.profile)$("auto-note").textContent+=" · this device has an auto-login key"});
-window.RLOGIN_PAGE={state:st,device:get,ledger:LEDGER,strength:strength,ident:IDENT,rgen:function(){return LAST},rgenVerify:rgenVerify,owners:owners,authority:function(id){return RSync.authorityOf(st(),id)},commands:RSync.RGEN.commands,founder:FND,storedPackage:function(h){return getK("pkg:"+H(h))}};
+window.RLOGIN_PAGE={ownerRestore:ownerRestore,state:st,device:get,ledger:LEDGER,strength:strength,ident:IDENT,rgen:function(){return LAST},rgenVerify:rgenVerify,owners:owners,authority:function(id){return RSync.authorityOf(st(),id)},commands:RSync.RGEN.commands,founder:FND,storedPackage:function(h){return getK("pkg:"+H(h))}};
 })();

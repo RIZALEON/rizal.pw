@@ -48,3 +48,5 @@ Rules: no sudo; never 17e or 192.168.0.75; never clone RIZAL-VAULT; never put ke
 
 ### Relay etiquette (rrelay 1.2)
 Publishes use a token bucket (burst 4, then 1 per 2 s, exponential backoff after a rate-limit reject). 👍/👎/better votes are batched into ONE `learn` note per ~4 s (≤10 votes, latest vote wins, ≤40 per tab). Replies carry their `score`/`why` across the relay. Relay-driven re-renders run at most every 2 s and pause while someone is clicking or typing.
+
+> **20261028 t106u:** never import @rdragon_diag into a browser where the owner is signed in. The installer refuses to, and the login page restores the owner record automatically. Use a private window or a separate browser profile.

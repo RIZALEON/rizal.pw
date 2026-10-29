@@ -62,7 +62,8 @@ A.strictEqual(S.sb.RDRAGON.ENJIN_MS,300);A.strictEqual(S.sb.RDRAGON.ENJIN_CONNEC
  await A.rejects(sb.installDiagProfile(pack,{reload:false}),/TEST-ONLY/);pass('installer refuses on rizal.pw without ?diag=1');
  sb.location.search='?diag=1';const owner={kp:{privateKey:'OWNER'},me:{handle:'@rbatboxtest'}};
  await new Promise(ok=>{const q=idbOpen('rdragon.csp.keys');q.onupgradeneeded=()=>{};q.onsuccess=()=>{dbs['rdragon.csp.keys'].k.set('device',owner);ok()}});
- const res=await sb.installDiagProfile(pack,{reload:false});
+ await A.rejects(sb.installDiagProfile(pack,{reload:false}),/real \(owner\) device/);A.strictEqual(dbs['rdragon.csp.keys'].k.get('device'),owner,'owner untouched');pass('installer refuses to replace a real owner device');
+ const res=await sb.installDiagProfile(pack,{reload:false,ownerOverwrite:true});
  const site=dbs['rdragon.csp.keys'].k.get('device');A.ok(site.kp&&site.kp.privateKey&&site.kp.publicKey,'kp pair');A.strictEqual(site.me.handle,'@rdragon_diag');A.strictEqual(site.me.pub,pack.pub);A.strictEqual(site.me.profile,pack.profile);A.strictEqual(site.test_only,true);
  A.ok(res.backup&&/^device\.bak-/.test(res.backup));A.strictEqual(dbs['rdragon.csp.keys'].k.get(res.backup),owner);A.ok(dbs['rdragon.device.v1'].k.get('device').me.handle==='@rdragon_diag','legacy mirror');
  const led=JSON.parse(store['rdragon.csp.rsync.v1']);A.ok(led.some(e=>e.t==='profile.create'&&e.handle==='@rdragon_diag'&&e.rgen&&e.cid),'signed profile.create seeded unchanged');

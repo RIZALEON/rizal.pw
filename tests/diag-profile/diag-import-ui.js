@@ -5,7 +5,7 @@
   var B = '/tests/diag-profile/';
   function el(t, a, h) { var e = document.createElement(t); if (a) for (var k in a) e.setAttribute(k, a[k]); if (h != null) e.textContent = h; return e; }
   function go() {
-    var s = document.createElement('script'); s.src = B + 'install-diag-profile.js?v=2';
+    var s = document.createElement('script'); s.src = B + 'install-diag-profile.js?v=3';
     s.onload = s.onerror = function () {
       var d = el('div', { id: 'rd-diag-panel' });
       d.style.cssText = 'position:fixed;right:8px;bottom:8px;z-index:99999;background:#200;color:#fff;font:12px system-ui;padding:8px;border:1px solid #f55;border-radius:6px;width:300px;max-height:70vh;overflow:auto';
