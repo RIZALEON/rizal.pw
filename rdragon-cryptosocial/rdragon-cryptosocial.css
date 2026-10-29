@@ -160,3 +160,5 @@ body>#csp-panel{position:fixed;left:0;top:0;bottom:0;width:340px;z-index:900;ove
 .csp-viarelay{color:#7fd3ff;border:1px solid #2a5a73;border-radius:3px;padding:0 3px;font-size:10px}
 .csp-score{font-size:10px;opacity:.8}
 .csp-relaystat{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+.csp-cta{margin:8px 0}.csp-openapp{display:inline-block;background:#39ff14;color:#000!important;font-weight:800;letter-spacing:.15em;padding:8px 18px;text-decoration:none;border:2px solid #39ff14}.csp-openapp:hover{background:#000;color:#39ff14!important}
