@@ -21,7 +21,7 @@ async function login(P,user,pw){P.E['l-user'].value=user;P.E['l-pass'].value=pw;
  A.ok(/LOCKED: do not remove/.test(src)&&/rlogin\.founder-fallback\.v1/.test(src),'LOCKED marker in rlogin-page.js');
  const rr=src.slice(src.indexOf('function recoveryRec('));const ix=['RF.IDBK','RF.LSK','RF.fromSite(CFG.founderRecoveryUrl)','RF.fromRelay(RELAYS)'].map(k=>rr.indexOf(k));
  A.ok(ix.every(i=>i>0)&&ix.every((v,i)=>!i||v>ix[i-1]),'layer order idb → localStorage → site → relay');
- A.ok(/pwRec\(h\)\.then\(function\(x\)\{return x\|\|recoveryRec\(h,PW,F\)\}\)/.test(src),'password login falls through to recoveryRec');
+ A.ok(/pwRec\(h\)\.then\(function\(x\)\{return x\|\|[^;]*\.then\(function\(x\)\{return x\|\|recoveryRec\(h,PW,F\)\}\)/.test(src),'password login falls through to recoveryRec');
  A.ok(/function lockCheck\(/.test(src)&&/function cacheFounder\(/.test(src)&&/cacheFounder\(h\)/.test(src)&&/out\.founderLock=lockCheck\(\)/.test(src),'guard + cache + self-check wired');
  A.ok(/founderFallbackLock=\{id:"rlogin\.founder-fallback\.v1",status:"LOCKED: do not remove"/.test(cfg)&&/founderRecoveryUrl=c\.founderRecoveryUrl\|\|"\/data\/founder\/recovery\.json"/.test(cfg),'config manifest note + default site URL');
  for(const f of ['login/index.html','login/options/index.html']){const h=R(f);const a=h.indexOf('rfounder.js'),b=h.indexOf('rlogin-page.js');A.ok(a>0&&b>a,f+' loads rfounder.js before rlogin-page.js')}

@@ -124,7 +124,7 @@ function login(){var h=H($("l-user").value),pe=$("l-pass"),RL=J(RLK,{}),s=RL[h]|
  function F(code,text,count){var e=Error(text);e.code=code;e.count=count;return e}
  var X=null;
  var PW=pe.value,LK=lockCheck();if(!LK.ok&&FND&&h===H(FND.handle)){try{console.error("ЯLOGIN LOCK broken",LK.missing)}catch(e){}} /* LOCKED: founder fallback must stay reachable */
- pwRec(h).then(function(x){return x||recoveryRec(h,PW,F)}).then(function(x){X=x;if(!x)throw F("no-record","no login record for "+h+" on this browser (no device login and no saved ЯCASKET package for it here) — open Other options → Restore from file once, then log in");
+ pwRec(h).then(function(x){return x||(window.RSITEAUTH&&RSITEAUTH.enabled()?RSITEAUTH.rec(h,PW):null)}).then(function(x){return x||recoveryRec(h,PW,F)}) /* order: device -> site vault (rsite-auth) -> founder fallback (LOCKED) */.then(function(x){X=x;if(!x)throw F("no-record","no login record for "+h+" on this browser (no device login and no saved ЯCASKET package for it here) — open Other options → Restore from file once, then log in");
    return RSync.passwordCheck(x.rec,pe.value).then(function(okv){if(!okv)throw F("mismatch","login record found for "+h+", but this password does not match it",1);
     return RSync.passwordUnwrap(x.rec,pe.value).catch(function(){throw F("record-bad","password matches, but the saved login record on this browser could not be opened — restore your ЯCASKET package once (Other options)")})})})
   .then(function(sg){pe.value="";rl.ok();RL[h]={fails:0,until:0};W(RLK,RL);var x=X;
