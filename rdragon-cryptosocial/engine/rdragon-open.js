@@ -31,6 +31,10 @@ function haiku(topic){topic=topic||"the moment";var t=topic.toLowerCase();
  if(/sun|summer/.test(t))return "Long gold afternoon,\ncicadas stitch up the heat,\nshade pools by the wall.";
  if(/moon|night/.test(t))return "Moon over the roofs,\nquiet keeps its own lantern,\nthe night leans closer.";
  return "Thinking of "+topic+",\na small bright idea lands,\nI hold it like light."}
+/* BEST OPTIONS FIRST 20261028: candidates are scored by RDRAGON_RANK (relevance + learned option weights + prior order) and shown best first; each reply carries options[{text,score,why}] and a top score. */
+function tx(o){return o.text}
+function rankOpts(list,q){var R=root.RDRAGON_RANK;if(R&&R.rankOptions)return R.rankOptions(list,q);return list.map(function(t,i){return {text:t,score:Math.round((0.8-0.03*i)*100)/100,why:"prior order"}})}
+function withOpts(r,opts){r.options=opts;r.score=opts&&opts[0]?opts[0].score:r.score;r.why="best of "+(opts?opts.length:0)+" ranked options";return r}
 function compose(q){var raw=String(q||"").trim(),t=raw.toLowerCase().replace(/[“”]/g,'"').replace(/[‘’]/g,"'"),m,o=function(text,kind){return {text:text,tier:"open",model:"open-pack",kind:kind,by:"RDRAGON",tag:"RDRAGON · quick take"}};
  if(!t)return o("I'm here. Ask me anything and I'll give you my best quick take.","empty");
  /* identity */
@@ -51,12 +55,12 @@ function compose(q){var raw=String(q||"").trim(),t=raw.toLowerCase().replace(/[�
  /* jokes */
  if(/\b(joke|make me laugh|something funny|pun)\b/.test(t))return o(pick(JOKES,t),"joke");
  /* names / brainstorm */
- if(/\b(name|names)\b/.test(t)&&/\b(suggest|give|ideas?|pick|need|come up|what should|good|cool|for my|for a|brainstorm)\b/.test(t)){var k=/dragon/.test(t)?"dragon":/\bcat|kitten/.test(t)?"cat":/\bdog|puppy/.test(t)?"dog":"default";var L=NAMES[k];return o("A few "+(k==="default"?"":k+" ")+"name ideas: "+L.slice(0,5).join(", ")+". My pick: "+pick(L,t)+".","names")}
+ if(/\b(name|names)\b/.test(t)&&/\b(suggest|give|ideas?|pick|need|come up|what should|good|cool|for my|for a|brainstorm)\b/.test(t)){var k=/dragon/.test(t)?"dragon":/\bcat|kitten/.test(t)?"cat":/\bdog|puppy/.test(t)?"dog":"default";var RL=rankOpts(NAMES[k],t);return withOpts(o("A few "+(k==="default"?"":k+" ")+"name ideas, best first: "+RL.slice(0,5).map(tx).join(", ")+". My pick: "+RL[0].text+".","names"),RL.slice(0,5))}
  /* project ideas */
- if(/\bprojects?\b/.test(t)&&/\b(idea|ideas|suggest|beginner|weekend|build|make|start|first)\b/.test(t)||/\bwhat should i (build|code|make)\b/.test(t))return o("Try "+pick(PROJECTS,t)+". Other weekend-sized ideas: "+PROJECTS.filter(function(x){return x!==pick(PROJECTS,t)}).slice(0,2).join("; ")+". Keep it small enough to finish in two days.","project");
+ if(/\bprojects?\b/.test(t)&&/\b(idea|ideas|suggest|beginner|weekend|build|make|start|first)\b/.test(t)||/\bwhat should i (build|code|make)\b/.test(t)){var RP=rankOpts(PROJECTS,t);return withOpts(o("Try "+RP[0].text+". Next best weekend-sized ideas: "+RP.slice(1,3).map(tx).join("; ")+". Keep it small enough to finish in two days.","project"),RP.slice(0,3))}
  /* tips / how-to lists */
- if(/\b(tips?|advice|how (?:can|do|to|should) i|ways to|steps to|help me)\b/.test(t)){var tk=/sleep|insomnia|rest/.test(t)?"sleep":/focus|concentrat|productiv/.test(t)?"focus":/stress|anxi|calm|relax/.test(t)?"stress":/study|learn|exam/.test(t)?"study":"default";var n=Math.min(Math.max((nums(t)[0]|0)||3,1),3),T=TIPS[tk].slice(0,n);
-  return o(T.map(function(x,i){return (i+1)+". "+x}).join("\n"),"tips")}
+ if(/\b(tips?|advice|how (?:can|do|to|should) i|ways to|steps to|help me)\b/.test(t)){var tk=/sleep|insomnia|rest/.test(t)?"sleep":/focus|concentrat|productiv/.test(t)?"focus":/stress|anxi|calm|relax/.test(t)?"stress":/study|learn|exam/.test(t)?"study":"default";var n=Math.min(Math.max((nums(t)[0]|0)||3,1),3),RT=rankOpts(TIPS[tk],t),T=RT.slice(0,n).map(tx);
+  return withOpts(o(T.map(function(x,i){return (i+1)+". "+x}).join("\n"),"tips"),RT.slice(0,n))}
  /* greetings */
  if(/^(hi|hello|hey|yo|good (morning|afternoon|evening)|sup)\b/.test(t))return o("Hey! RDRAGON here. Ask me something and I'll answer right away.","greet");
  /* honest generic best quick take */
@@ -85,5 +89,5 @@ function compose2(q){var a=compose(q),t=String(q||"").toLowerCase(),k=a.kind,x,T
  if(k==="story")return v("The skull's version: once there was a question nobody could answer, so someone answered a smaller one first. That turned out to be enough.");
  if(k==="greet")return v("DRAGOSKUL here too. Two heads, one dragon. What do you need?");
  return v("Second take from DRAGOSKUL: I can't answer that confidently offline either, so I'll keep it honest. Try rephrasing it more narrowly, or check back after the engine reloads.")}
-var API={compose:compose,compose2:compose2,wordMath:wordMath,haiku:haiku,VERSION:"rdragon-open 1.1 two-voices 20261028",VOICES:["RDRAGON","DRAGOSKUL"]};
+var API={compose:compose,compose2:compose2,wordMath:wordMath,haiku:haiku,VERSION:"rdragon-open 1.2 best-first 20261028",rankOpts:rankOpts,VOICES:["RDRAGON","DRAGOSKUL"]};
 root.RDRAGON_OPEN=API;if(typeof module==="object"&&module.exports)module.exports=API})(typeof self!=="undefined"?self:globalThis);

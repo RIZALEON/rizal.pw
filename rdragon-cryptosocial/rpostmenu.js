@@ -63,6 +63,8 @@
   var TYPES = /^(post\.(pin|unpin|delete)|revise)$/, CK = 'rpostmenu.pt.cursor';
   function ptUrl() { var c = root.RDRAGON_CONFIG || {}; if (c.transponderUrl === false) return '';
     var pub = false; try { pub = !(location.hostname === '127.0.0.1' || location.hostname === 'localhost') && !/[?&]local=1(&|$)/.test(location.search || ''); } catch (e) {}
+    var hostPub = true; try { hostPub = !(location.hostname === '127.0.0.1' || location.hostname === 'localhost'); } catch (e) {}
+    if (hostPub) { var stg = root.RDRAGON_STORAGE; if ((stg && stg.ok === false) || /[?&]nostore=1(&|$)/.test(location.search || '')) return ''; } /* 20261028c: no-storage / fresh tab on a public origin never probes :8811 */
     if (c.transponderUrl) { var tu = String(c.transponderUrl).replace(/\/$/, ''); if (pub && /^https?:\/\/(127\.0\.0\.1|localhost)(:|\/|$)/i.test(tu)) return ''; return tu; } /* 20261028b: loopback transponder only on localhost or ?local=1 */
     /* 20261028: a public origin (rizal.pw) never probes loopback, even on a signed-in device (localPeer=1), unless the page URL carries ?local=1. */
     try { var lh = location.hostname === '127.0.0.1' || location.hostname === 'localhost', opt = /[?&]local=1(&|$)/.test(location.search || '');

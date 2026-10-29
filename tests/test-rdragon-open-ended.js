@@ -62,6 +62,6 @@ const PROMPTS=[
  // :8811 hard gate even with a loopback transponderUrl configured
  {const sb={location:{hostname:'rizal.pw',search:''},localStorage:{getItem:()=>'1',setItem(){}},RDRAGON_CONFIG:{transponderUrl:'http://127.0.0.1:8811'},console,document:{head:{appendChild(){}},createElement:()=>({}),addEventListener(){},readyState:'complete',documentElement:{}},setInterval:()=>0};sb.self=sb;sb.window=sb;sb.globalThis=sb;vm.createContext(sb);vm.runInContext(fs.readFileSync(E('rpostmenu.js'),'utf8'),sb);A.strictEqual(sb.RPostMenu.sync.url(),'');pass('rizal.pw: loopback transponderUrl ignored (no :8811)');}
  const idx=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'),pc=fs.readFileSync(path.join(ROOT,'sw-precache.json'),'utf8');
- A.ok(/engine\/rdragon-open\.js\?v=2/.test(idx)&&/rdragon-open\.js/.test(pc));pass('index + precache ship rdragon-open.js');
+ A.ok(/engine\/rdragon-open\.js\?v=\d+/.test(idx)&&/rdragon-open\.js/.test(pc));pass('index + precache ship rdragon-open.js');
  console.log('\n'+n+' passed');process.exit(0);
 })().catch(e=>{console.error('FAIL',e);process.exit(1)});
