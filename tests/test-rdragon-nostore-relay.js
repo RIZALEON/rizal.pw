@@ -23,7 +23,7 @@ const wait=ms=>new Promise(r=>setTimeout(r,ms));
   let err=0;const r=w.indexedDB.open('x',1);r.onerror=()=>err++;await wait(5);A.strictEqual(err,1);await w.caches.open('x').then(()=>A.fail('cache'),()=>0);
   w.load('rdragon-config.js');A.strictEqual(w.RDRAGON_CONFIG.edgeEngine,false);A.strictEqual(w.RDRAGON_CONFIG.preloadEngine,false);A.ok(w.RDRAGON_CONFIG.noStorage);pass('?nostore=1: memory storage, idb/caches stubs, granite skipped');}
  // 2) denied localStorage (getter throws) -> memory, no throw
- {const w=win({ls:'throw'});w.load('rstore.js');A.strictEqual(w.RDRAGON_STORAGE.reason,'localStorage denied');A.strictEqual(w.localStorage.getItem('z'),null);pass('denied localStorage -> in-memory fallback');}
+ {const w=win({ls:'throw'});w.load('rstore.js');A.ok(/localStorage blocked/.test(w.RDRAGON_STORAGE.reason));A.ok(!w.indexedDB.__stub,'idb never stubbed');A.strictEqual(w.localStorage.getItem('z'),null);pass('denied localStorage -> in-memory fallback');}
  // 3) storage OK -> persistent, granite kept; quota error on setItem does not throw
  {const ls=okLS(),s0=ls.setItem;ls.setItem=(k,v)=>{if(k==='k')throw new Error('QuotaExceededError');s0(k,v)};const w=win({ls});w.load('rstore.js');A.strictEqual(w.RDRAGON_STORAGE.ok,true);w.localStorage.setItem('k','v');w.load('rdragon-config.js');A.notStrictEqual(w.RDRAGON_CONFIG.edgeEngine,false);pass('persistent mode keeps granite; quota error swallowed');}
  // 4) no-storage reply path: both voices from rdragon-open, larger answers pack, fresh fetch
@@ -50,10 +50,10 @@ const wait=ms=>new Promise(r=>setTimeout(r,ms));
   await wait(20);A.strictEqual(got.length,3,'B received '+got.length);A.strictEqual(got[0][0].text,'TEST-ONLY hello from visitor A');A.strictEqual(got[0][1].author,g.handle);A.strictEqual(got[2][0].voice,'DRAGOSKUL');
   A.ok(net.store.every(e=>e.tags.some(t=>t[0]==='t'&&t[1]==='rizalpw-csp-v1')&&e.pubkey===g.pubkey));
   // late joiner gets history via REQ
-  const VC=win({ls:okLS(),nostr:true,WS:net.WS});VC.load('rrelay.js');const g2=[];VC.RRELAY.subscribe(p=>g2.push(p));await wait(30);A.strictEqual(g2.length,3,'late joiner '+g2.length);
+  const VC=win({ls:okLS(),nostr:true,WS:net.WS});VC.load('rrelay.js');const g2=[];VC.RRELAY.subscribe(p=>g2.push(p));for(let i=0;i<100&&g2.length<3;i++)await wait(20);A.strictEqual(g2.length,3,'late joiner '+g2.length);
   // tampered content (bad sig) and foreign app are rejected
   const t=JSON.parse(JSON.stringify(net.store[0]));t.content=t.content.replace('hello','HACKED');t.id='f'.repeat(64);const ws=new net.WS('wss://x');await wait(5);
-  const VD=win({ls:okLS(),nostr:true,WS:net.WS});VD.load('rrelay.js');const g3=[];VD.RRELAY.subscribe(p=>g3.push(p));await wait(30);const before=g3.length;ws.send(JSON.stringify(['EVENT',t]));await wait(10);A.strictEqual(g3.length,before,'tampered rejected');
+  const VD=win({ls:okLS(),nostr:true,WS:net.WS});VD.load('rrelay.js');const g3=[];VD.RRELAY.subscribe(p=>g3.push(p));for(let i=0;i<100&&g3.length<3;i++)await wait(20);await wait(30);const before=g3.length;ws.send(JSON.stringify(['EVENT',t]));await wait(10);A.strictEqual(g3.length,before,'tampered rejected');
   A.strictEqual(VA.RRELAY.valid({v:1,app:'evil',kind:'comment',id:'a',parent:'b',text:'x'}),false);A.strictEqual(VA.RRELAY.valid({v:1,app:'rizal.pw',kind:'comment',id:'a',parent:'b',text:'x'.repeat(601)}),false);
   pass('relay: publish/subscribe across visitors, history for late joiners, signatures verified, tampering/placeholders rejected');}
  // 7) graceful degrade: no WebSocket / WS throws / relay=0 -> no-op, never throws; local composer still answers
@@ -65,7 +65,7 @@ const wait=ms=>new Promise(r=>setTimeout(r,ms));
   A.ok(/if\(!ev\.relay&&window\.RRELAY&&\(ev\.t==="comment"\|\|\(ev\.kind==="rdragon\.reply"&&ev\.status==="answered"\)\)&&rdSafe/.test(csp),'publish hook');
   A.ok(/function rlIngest/.test(csp)&&/by:m\.author,relay:1/.test(csp),'ingest forces guest author');A.ok(/RRELAY\.subscribe\(rlIngest\)/.test(csp));
   A.ok(/var GU=!S\.me&&window\.RRELAY\?window\.RRELAY\.guest\(\):null;if\(!S\.me&&!GU\)return gate\(\);/.test(csp)&&/if\(GU\)\{cev\.by=GU\.handle;cev\.guest=1\}/.test(csp),'guest comment');
-  const idx=fs.readFileSync(path.join(ROOT,'index.html'),'utf8');A.ok(idx.indexOf('rstore.js?v=1')<idx.indexOf('rdragon-config.js?v=4')&&idx.search(/rrelay\.js\?v=\d+/)>0&&idx.search(/rrelay\.js\?v=\d+/)<idx.search(/rdragon-cryptosocial\.js\?v=\d+/));
+  const idx=fs.readFileSync(path.join(ROOT,'index.html'),'utf8');A.ok(idx.indexOf('rstore.js?v=2')<idx.indexOf('rdragon-config.js?v=4')&&idx.search(/rrelay\.js\?v=\d+/)>0&&idx.search(/rrelay\.js\?v=\d+/)<idx.search(/rdragon-cryptosocial\.js\?v=\d+/));
   const all=['rrelay.js','rstore.js','rdragon-cryptosocial.js'].map(f=>fs.readFileSync(E(f),'utf8')).join('');A.ok(!/nsec1[0-9a-z]{20,}|ghp_[A-Za-z0-9]{20,}/.test(all),'no secrets shipped');pass('cryptosocial: publish hook, guarded ingest, guest commenting, load order, no secrets');}
  console.log('\n'+n+' passed');process.exit(0);
 })().catch(e=>{console.error('FAIL',e);process.exit(1)});
