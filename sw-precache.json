@@ -1,5 +1,5 @@
 {
-"v": "mergemain20261027",
+"v": "mergemain20261028-embed",
 "files": [
 "/.gitignore",
 "/.nojekyll",
@@ -36,6 +36,7 @@
 "/rdragon-cryptosocial/engine/rdragon-card.json",
 "/rdragon-cryptosocial/engine/rdragon-engine.js",
 "/rdragon-cryptosocial/engine/rdragon-mind.js",
+"/rdragon-cryptosocial/engine/BATIBABOX-EMBED.rzl",
 "/rdragon-cryptosocial/engine/rdragon-prompt.json",
 "/rdragon-cryptosocial/engine/vendor/wllama/LICENSE.txt",
 "/rdragon-cryptosocial/engine/vendor/wllama/compat/wllama.js",

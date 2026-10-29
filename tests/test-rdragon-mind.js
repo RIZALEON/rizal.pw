@@ -47,4 +47,6 @@ t('engine timeouts are split script vs model in config + cryptosocial',()=>{cons
  A.ok(/engineScriptMs:\s*20000/.test(cfg));A.ok(/engineModelMs:\s*300000/.test(cfg));A.ok(/engineRetry:\s*1/.test(cfg));
  A.ok(/RDSCRIPT_MS/.test(csp)&&/RDMODEL_MS/.test(csp)&&/RDRETRY/.test(csp));A.ok(/rd-edge-retry/.test(csp));A.ok(!/\bRDLOAD_MS\b/.test(csp));
  A.ok(/engine hiccup/.test(csp)&&/engine failed:/.test(csp))});
-q.then(()=>console.log(n,'/ 16 mind tests pass'),e=>{console.error('FAIL',e);process.exit(1)});
+
+t('BATIBABOX-EMBED is in sw-precache for offline',()=>{const j=JSON.parse(fs.readFileSync(path.join(ROOT,'sw-precache.json'),'utf8'));A.ok(j.files.includes('/rdragon-cryptosocial/engine/BATIBABOX-EMBED.rzl'));A.ok(fs.existsSync(E('engine/BATIBABOX-EMBED.rzl')))});
+q.then(()=>console.log(n,'/ 17 mind tests pass'),e=>{console.error('FAIL',e);process.exit(1)});
