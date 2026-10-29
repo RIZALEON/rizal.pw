@@ -9,7 +9,7 @@
 var NR="<span class=\"rdc-nr\">not ready</span> in the browser — a public route needs the Decider's go. Nothing was sent.";
 var DEVICES=[["Device","SEE","/img"],["iPhone 17e","Apple Vision on the phone + Neo Granite (phone Granite offline)","Neo SD-Turbo route"],["Android (Moto)","Neo route over Wi-Fi; SmolVLM-256M + on-phone text recognition offline","Neo route; not ready offline"],["Linux / Windows","SmolVLM + Granite, fully local","SD-Turbo via the C++ image engine, local"],["Ubuntu Touch","Neo route; SmolVLM offline (slow)","Neo route"],["Browser (rizal.pw)","not ready — public route needs the Decider's go","not ready — public route needs the Decider's go"]];
 var AUDIO=["MAKE VOICE","MAKE VOICE LIKE","USE VOICE","MAKE INSTRUMENTAL","MAKE INSTRUMENTAL LIKE","MAKE MUSIC LIKE","SAY","SING","RAP","RHYME","/music","/listen"];
-var STATUS={"edit":"ready · owner only · edit (inline mode, Save/Cancel) · edit save · edit cancel · edit about <text> · edit links · edit link add <label> <url> · edit link <n> <label> <url> · edit link remove <n> · preview + y/n before saving","logout":"ready · ends this browser session (aliases: log out, signout, sign out, exit) · saved login stays","SEE":"not ready (browser)","/img":"not ready (browser) · SD2 Turbo on Neo","/draw":"not ready (browser) · SD2 Turbo on Neo","audio":"planned · not ready (browser)",
+var STATUS={"edit":"ready · owner only · plain English (delete/remove/erase/clear, change/set/replace, add + about/bio sources/links/name/location/link/joined or a phrase) · edit (inline mode, Save/Cancel) · edit save · edit cancel · edit about <text> · edit links · edit link add <label> <url> · edit link <n> <label> <url> · edit link remove <n> · preview + y/n before saving","logout":"ready · ends this browser session (aliases: log out, signout, sign out, exit) · saved login stays","SEE":"not ready (browser)","/img":"not ready (browser) · SD2 Turbo on Neo","/draw":"not ready (browser) · SD2 Turbo on Neo","audio":"planned · not ready (browser)",
  "/recall":"ready (this browser's memory)","/batibabox":"ready","rkrypt / RGEN":"ready (no keys held; approvals go to ЯCASKET)","ЯSYNC":"off by default","IMPORT TWEETBACK":"zip import ready · Drive REBIRTH not ready · ЯSYNC profile write not ready"};
 function neutral(s){s=String(s||"");s=s.replace(/approve\s*:\s*['"]?[^'"\n<]*ЯCASKET[^'"\n<]*/gi,"approve: ⚿ approving…").replace(/[^\n<>"]*→\s*ЯCASKET\s*→[^\n<>"]*/g,"⚿ approving…");
  s=s.replace(/\(?\s*(?:password\s*[|\/]\s*)?(?:Face ID|Touch ID|fingerprint|biometric)(?:\s*[|\/]\s*(?:Face ID|fingerprint|device passcode|password))*\s*\)?(?:\s*approval)?/gi,"⚿ approving…");
@@ -18,7 +18,7 @@ function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;
 function table(){return '<table class="rdc-t">'+DEVICES.map(function(r,i){var t=i?"td":"th";return "<tr>"+r.map(function(x){return "<"+t+">"+esc(x)+"</"+t+">"}).join("")+"</tr>"}).join("")+"</table>"}
 function isAudio(l){var u=l.toUpperCase().replace(/^\//,""),hit="";AUDIO.forEach(function(a){var b=a.replace(/^\//,"");if((u===b||u.indexOf(b+" ")===0)&&b.length>hit.length)hit=a});return hit}
 var EDP=null;
-function EH(){return "<b>edit</b> (owner only):<br>edit — inline edit mode on the profile (Save / Cancel bar)<br>edit save · edit cancel · edit help<br>subcommands below show a preview + y/n:<br>edit about &lt;text&gt; — replace the About text<br>edit links — list links<br>edit link add &lt;label&gt; &lt;url&gt;<br>edit link &lt;n&gt; &lt;label&gt; &lt;url&gt;<br>edit link remove &lt;n&gt;";}
+function EH(){return "<b>edit</b> (owner only):<br>plain English works too, with a preview + y/n: <i>delete everything from bio sources</i> · <i>remove &lt;phrase&gt; from about</i> · <i>change location to …</i> · <i>replace X with Y</i> · <i>add link Shop https://…</i><br>edit — inline edit mode on the profile (Save / Cancel bar)<br>edit save · edit cancel · edit help<br>subcommands below show a preview + y/n:<br>edit about &lt;text&gt; — replace the About text<br>edit links — list links<br>edit link add &lt;label&gt; &lt;url&gt;<br>edit link &lt;n&gt; &lt;label&gt; &lt;url&gt;<br>edit link remove &lt;n&gt;";}
 function ELS(a){return a.length?a.map(function(x,i){return (i+1)+". "+esc(x.label)+" — "+esc(x.url)}).join("<br>"):"(no links yet)";}
 function editCmd(l){var C=w.RDRAGON_CSP;if(!C||!C.editGet)return "edit not ready on this page yet · reload and try again.";var rest=l.replace(/^edit\b\s*/i,"");if(!C.canEdit())return "sign in to edit";if(/^(help|\?)$/i.test(rest))return EH();if(!rest){if(!C.editMode)return EH();var em=C.editMode();return em.ok?"edit mode on · click any text above Message/Follow (name, handle, bio, links, bio sources, location, link, joined) and change it · then press <b>Save</b> (signed + synced) or <b>Cancel</b>. Or type <code>edit save</code> / <code>edit cancel</code>.<br>"+EH():esc(em.msg);}
  if(/^save$/i.test(rest)){var sv=C.editSave();return sv.ok?(sv.changed.length?"saved "+esc(sv.changed.join(", "))+(sv.signed?" · signed ЯSYNC profile.update queued to sync":" · saved in this browser"):"no changes · edit mode off"):esc(sv.msg);}
@@ -30,7 +30,55 @@ function editCmd(l){var C=w.RDRAGON_CSP;if(!C||!C.editGet)return "edit not ready
  else if((m=rest.match(/^link\s+(\d+)\s+(.+)\s+(\S+)$/i))){var n=+m[1];if(n<1||n>L.length)return "no link "+n+" · type edit links";if(!U.test(m[3]))return "url must start with http:// or https://";L[n-1]={label:m[2].trim(),url:m[3]};}
  else return EH();
  EDP={k:"links",v:L};return "preview links:<br>"+ELS(L)+"<br>save? (y/n)";}
-function editConfirm(l){var C=w.RDRAGON_CSP,p=EDP;EDP=null;if(!/^(y|yes)$/i.test(l))return "edit cancelled · nothing saved.";var r=C&&C.editSet?C.editSet(p.k,p.v):{ok:false,msg:"edit not ready"};return r.ok?"saved"+(r.signed?" · signed ЯSYNC profile.update queued to sync":" · saved in this browser (signs + syncs when this device's ЯSYNC key is ready)")+" · profile updated.":esc(r.msg);}
+function editConfirm(l){var C=w.RDRAGON_CSP,p=EDP;EDP=null;if(!/^(y|yes)$/i.test(l))return "edit cancelled · nothing saved.";var L=p.ops||[{k:p.k,v:p.v}],r={ok:true};for(var i=0;i<L.length&&r.ok;i++){var r1=C&&C.editSet?C.editSet(L[i].k,L[i].v):{ok:false,msg:"edit not ready"};if(!r1.ok||i===L.length-1)r=r1}return r.ok?"saved"+(r.signed?" · signed ЯSYNC profile.update queued to sync":" · saved in this browser (signs + syncs when this device's ЯSYNC key is ready)")+" · profile updated.":esc(r.msg);}
+var NLT=[[/^(?:bio\s*sources?|biosources?|socials?|sources|bio\s*source\s+block)$/,"biosrc"],[/^(?:about(?:\s+me)?|bio|about\s+text)$/,"bio"],[/^links?\s+list$|^links$/,"links"],[/^(?:display\s+)?name$/,"name"],[/^location$/,"location"],[/^(?:link|website|link\s+field)$/,"link"],[/^joined(?:\s+date)?$/,"joined"]];
+var NLN={biosrc:"bio sources",bio:"About",links:"links",name:"name",location:"location",link:"link",joined:"joined"};
+function nlNorm(s){return String(s).replace(/Я/g,"R").replace(/я/g,"r").toLowerCase()}
+function nlTgt(s){s=nlNorm(s).trim().replace(/^(?:the|my|our)\s+/,"").replace(/\s+(?:section|block|list|line|lines|field|part|area)$/,"").trim();for(var i=0;i<NLT.length;i++)if(NLT[i][0].test(s))return NLT[i][1];return null}
+function nlAll(p){return /^(?:everything|all|it|all of it|all of them|anything|the whole thing|whole thing|everything in it)$/i.test(String(p).trim())}
+function nlQ(p){return String(p).trim().replace(/^["'“‘](.*)["'”’]$/,"$1").trim()}
+function nlText(W,k){return k==="links"?W.links.map(function(x){return x.label+" "+x.url}).join("\n"):String(W[k]||"")}
+function nlHas(W,k,p){return nlNorm(nlText(W,k)).indexOf(nlNorm(p))>=0}
+function nlCut(W,k,p){var n=nlNorm(p);if(k==="links"){W.links=W.links.filter(function(x){return nlNorm(x.label+" "+x.url).indexOf(n)<0});return}
+ if(k==="biosrc"){W.biosrc=W.biosrc.split("\n").filter(function(x){return nlNorm(x).indexOf(n)<0}).join("\n");return}
+ var t=String(W[k]||""),i=nlNorm(t).indexOf(n);if(i<0)return;t=(t.slice(0,i)+t.slice(i+p.length)).replace(/\s*([|·])\s*([|·])\s*/g," $1 ").replace(/^\s*[|·]\s*|\s*[|·]\s*$/g,"").replace(/\s{2,}/g," ").trim();W[k]=t}
+function nlRep(W,k,p,q){var t=nlText(W,k),i=nlNorm(t).indexOf(nlNorm(p));if(i<0)return false;t=t.slice(0,i)+q+t.slice(i+p.length);if(k==="links")W.links=t.split("\n").map(function(x){var m=x.match(/^(.*\S)\s+(https?:\/\/\S+)$/);return m?{label:m[1],url:m[2]}:null}).filter(Boolean);else W[k]=t;return true}
+var NLF=["bio","name","location","link","joined","links","biosrc"];
+function nlFind(W,p,pref){if(pref&&nlHas(W,pref,p))return pref;for(var i=0;i<NLF.length;i++)if(nlHas(W,NLF[i],p))return NLF[i];return null}
+function nlParse(line,cur){var l=String(line).trim().replace(/[.!]+$/,"").replace(/^(?:please\s+|can you\s+|could you\s+)/i,""),m,W=JSON.parse(JSON.stringify(cur)),notes=[],did=false;
+ W.links=W.links||[];W.biosrc=W.biosrc||"";
+ if((m=l.match(/^(delete|remove|erase|clear|wipe|drop|get rid of)\s+([\s\S]+)$/i))){
+  m[2].split(/\s+and\s+|\s*,\s*/i).forEach(function(part){part=part.trim();if(!part)return;var f=null,ph=part,mm=part.match(/^([\s\S]*?)\s+(?:from|in|on|out of|inside)\s+([\s\S]+)$/i);
+   if(mm&&nlTgt(mm[2])){ph=mm[1];f=nlTgt(mm[2])}
+   ph=nlQ(ph);
+   if(!ph||nlAll(ph)){if(f){W[f]=f==="links"?[]:"";did=true}else notes.push("delete what? name a section");return}
+   var t=nlTgt(ph);if(t&&!f){W[t]=t==="links"?[]:"";did=true;return}
+   var k=nlFind(W,ph,f);
+   if(k){nlCut(W,k,ph);did=true;return}
+   if(/pending|r?casket|signature|bio\s*sources?|rid-|\brid\b/i.test(nlNorm(ph))&&cur.biosrcShown!==false){W.biosrc="";did=true;notes.push("\""+ph+"\" is part of the bio sources block · that block will be removed");return}
+   notes.push("couldn't find \""+ph+"\""+(f?" in "+NLN[f]:"")+" · nothing changed for it")});
+ } else if((m=l.match(/^replace\s+([\s\S]+?)\s+with\s+([\s\S]+?)(?:\s+(?:in|on)\s+([\s\S]+))?$/i))){var f=m[3]?nlTgt(m[3]):null,p=nlQ(m[1]),q=nlQ(m[2]),k=nlTgt(p)&&!f?null:nlFind(W,p,f);
+   if(!k&&nlTgt(p)){k=nlTgt(p);W[k]=k==="links"?W[k]:q;did=k!=="links"}else if(k){did=nlRep(W,k,p,q)}else notes.push("couldn't find \""+p+"\"");
+ } else if((m=l.match(/^(?:change|set|update|make)\s+([\s\S]+?)\s+(?:to|=|as|into)\s+([\s\S]+)$/i))){var k=nlTgt(m[1]),q=nlQ(m[2]);
+   if(k&&k!=="links"){W[k]=q;did=true}else{var p=nlQ(m[1]),kk=nlFind(W,p,null);if(kk){did=nlRep(W,kk,p,q)}else notes.push(k==="links"?"use edit link <n> <label> <url> for links":"couldn't find \""+p+"\"")}
+ } else if((m=l.match(/^add\s+([\s\S]+)$/i))){var r=m[1].trim(),mm;
+   if((mm=r.match(/^(?:a\s+)?(?:new\s+)?link\s+(.+?)\s+(https?:\/\/\S+)$/i))||(mm=r.match(/^(.+?)\s+(https?:\/\/\S+)(?:\s+to\s+(?:the\s+)?links)?$/i))){W.links.push({label:nlQ(mm[1]),url:mm[2]});did=true}
+   else if((mm=r.match(/^([\s\S]+?)\s+to\s+([\s\S]+)$/i))&&nlTgt(mm[2])){var k=nlTgt(mm[2]),q=nlQ(mm[1]);if(k==="links"){notes.push("links need a url: add link <label> <https://…>")}else{W[k]=k==="biosrc"?(W.biosrc?W.biosrc+"\n":"")+q:(W[k]?W[k]+" ":"")+q;did=true}}
+   else notes.push("add what where? e.g. add link Shop https://… · add <text> to about");
+ } else return null;
+ var ops=[];NLF.forEach(function(k){var a=k==="links"?JSON.stringify(cur.links||[]):String(cur[k]||""),b=k==="links"?JSON.stringify(W.links):String(W[k]||"");if(a!==b)ops.push({k:k,v:k==="links"?W.links:W[k],was:k==="links"?cur.links:cur[k]})});
+ return {ops:ops,notes:notes};}
+
+var NLV=/^(?:please\s+|can you\s+|could you\s+)?(delete|remove|erase|clear|wipe|drop|get rid of|replace|change|set|update|make|add)\b/i;
+function nlShow(k,v){if(k==="links")return v&&v.length?v.map(function(x,i){return (i+1)+". "+esc(x.label)+" — "+esc(x.url)}).join("<br>"):"(no links)";v=String(v||"");return v?esc(v).replace(/\n/g,"<br>"):(k==="biosrc"?"(empty · bio sources block hidden)":"(empty)")}
+function nlCmd(l){var C=w.RDRAGON_CSP;if(!NLV.test(l))return null;if(!C||!C.editGet)return null;var res=nlParse(l,C.editGet());if(!res)return null;if(!C.canEdit())return "sign in to edit";
+ var nt=res.notes.length?"<br><i>"+res.notes.map(esc).join("<br>")+"</i>":"";
+ if(!res.ops.length&&/bio\s*sources?|caske?t/i.test(nlNorm(l)))return "already done · bio sources is empty and its block (incl. \"pending ЯCASKET signature\") is hidden · nothing to save.";
+ if(!res.ops.length)return "nothing to change"+nt+"<br>try: <code>delete &lt;phrase&gt; from about</code> · <code>change location to …</code> · <code>edit help</code>";
+ EDP={ops:res.ops};return "preview:<br>"+res.ops.map(function(o){return "<b>"+NLN[o.k]+"</b>: "+nlShow(o.k,o.v)+"<br><span class=\"rdc-dim\">was: "+nlShow(o.k,o.was)+"</span>"}).join("<br>")+nt+"<br>save? (y/n)";}
+var KNOWN=["help","edit","edit help","edit about","edit links","edit save","edit cancel","logout","/recall","rkrypt help","import","see","/img","audio"];
+function lev(a,b){var m=[],i,j;for(i=0;i<=a.length;i++){m[i]=[i];for(j=1;j<=b.length;j++)m[i][j]=i?Math.min(m[i-1][j]+1,m[i][j-1]+1,m[i-1][j-1]+(a[i-1]===b[j-1]?0:1)):j}return m[a.length][b.length]}
+function closest(l){var x=String(l).toLowerCase().trim(),best=null,bd=1e9;KNOWN.forEach(function(c){var d=lev(x.slice(0,c.length+3),c);if(d<bd){bd=d;best=c}});return best}
 async function run(line){var l=String(line||"").trim(),h=l.split(/\s+/)[0].toLowerCase();if(EDP&&/^(y|yes|n|no)$/i.test(l))return editConfirm(l);if(EDP)EDP=null;if(h==="edit")return editCmd(l);if(/^(logout|log out|signout|sign out|exit)(\s+--forget)?$/i.test(l)){if(/--forget/i.test(l))return "<b>--forget</b> is not available yet · your saved login on this browser was kept. Nothing was deleted.";var C=w.RDRAGON_CSP;if(!C||!C.logoutHere)return "logout not ready on this page yet · reload and try again.";var r=await C.logoutHere();return r==="none"?"you are not signed in on this browser.":"logged out on this browser · your saved login (ЯCASKET / device record) was kept · sign in again any time.";}if(!l)return "";
  if(/^(see|\/see)$/.test(h))return "SEE: "+NR+table();
  if(h==="/img"||h==="/draw")return h+" (SD2 Turbo): "+NR+table();
@@ -40,8 +88,9 @@ async function run(line){var l=String(line||"").trim(),h=l.split(/\s+/)[0].toLow
  if(/^\/?(rkrypt|rgen)$/.test(h)&&w.RKRYPT){var out="";await w.RKRYPT.rdos(l,function(x){out=x});return neutral(out)||"⚿ approving…"}
  if((h==="/recall"||h==="/batibabox")&&w.RDRAGON_ENGINE&&w.RDRAGON_ENGINE.mind){try{var M=await w.RDRAGON_ENGINE.mind(),who=(w.RDRAGON_CSP&&w.RDRAGON_CSP&&typeof w.RDRAGON_CSP.me==="function"&&w.RDRAGON_CSP.me()&&w.RDRAGON_CSP.me().pub)||"public",r=M&&M.command?await M.command(who,l):null;if(r!=null)return "<pre>"+esc(typeof r==="string"?r:(r.text||JSON.stringify(r,null,1)))+"</pre>"}catch(e){}return h+": memory is empty on this browser."}
  if(h==="/recall"||h==="/batibabox")return h+": BATIBABOX is still loading.";
+ var nq=nlCmd(l);if(nq!=null)return nq;
  if(w.RDRAGON_REPLY&&typeof w.RDRAGON_REPLY.ask==="function"){try{var a=await w.RDRAGON_REPLY.ask(l);if(a)return esc(a.text||a)}catch(e){}}
- return "unknown here. Type help.";}
+ return NLV.test(l)?"I couldn't work out that edit · try <code>delete &lt;phrase&gt; from about</code>, <code>change location to …</code>, <code>remove bio sources</code> or <code>edit help</code>":"not sure what you meant · closest command: <code>"+esc(closest(l))+"</code> · type help.";}
 var tbiLoaded=false;
 function openTbi(){var box=d.getElementById("rdc-tbi");box.style.display="block";if(tbiLoaded)return;tbiLoaded=true;
  var s1=d.createElement("script");s1.src="/tweetback/tbi-core.js";s1.onload=function(){var s2=d.createElement("script");s2.src="/tweetback/tbi-panel.js";s2.onload=function(){w.TBI_PANEL.mount(box);lockTbi(box)};d.head.appendChild(s2)};d.head.appendChild(s1)}
@@ -58,7 +107,7 @@ function mount(){if(d.getElementById("rdc"))return;var st=d.createElement("style
  inp.addEventListener("input",function(){pr.textContent=/^\/?(rkrypt|rgen)\b/i.test(inp.value)?"R:\\RKRYPT>":"R:\\>"});
  inp.addEventListener("keydown",async function(e){if(e.key!=="Enter")return;var v=inp.value;inp.value="";pr.textContent="R:\\>";var row=d.createElement("div");row.className="rdc-r";row.innerHTML="<div>R:\\&gt; "+esc(v)+"</div><b>RDRAGON</b> …";out.appendChild(row);var r=await run(v);row.innerHTML="<div>R:\\&gt; "+esc(v)+"</div><b>RDRAGON</b> "+r;p.scrollTop=1e9});
  d.body.appendChild(b);d.body.appendChild(p)}
-w.RDRAGON_COMPONENTS={run:run,status:STATUS,devices:DEVICES,audio:AUDIO,openTbi:openTbi};
+w.RDRAGON_COMPONENTS={nlParse:nlParse,run:run,status:STATUS,devices:DEVICES,audio:AUDIO,openTbi:openTbi};
 (w.RDOS_EXT=w.RDOS_EXT||[]).push({name:"rdragon-components",match:/^\/?(see|img|draw|music|listen|make|use|say|sing|rap|rhyme|tweetback)\b/i,run:function(l,add){return run(l).then(function(r){if(add)add(r);return {ok:true,html:r}})},help:["SEE","/img","/draw","MAKE VOICE …","import"]});
 if(d.readyState==="loading")d.addEventListener("DOMContentLoaded",mount);else mount();
 })(window,document);

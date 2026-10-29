@@ -20,7 +20,7 @@ function load(){if(typeof fetch!=="function")return Promise.resolve(null);var pr
   return fetch(SIG,{cache:"no-cache"}).then(function(r){return r.ok?r.json():null}).catch(function(){return null}).then(function(sig){return verify(t,sig,prof)}).then(function(v){return {record:rec,v:v}})}).catch(function(){return null})}
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 function href(b){if(b.url)return b.url;var h=String(b.handle||"").replace(/^@/,"");return b.platform==="x"?"https://x.com/"+h:b.platform==="github"?"https://github.com/"+h:""}
-function html(r){if(!r)return "";var st=r.v.state==="signed"?"✓ signed":r.v.state==="pending"?"pending ЯCASKET signature":"signature invalid";
+function html(r){if(!r||!r.record||!(r.record.bio_sources||[]).length)return "";var st=r.v.state==="signed"?"✓ signed":r.v.state==="pending"?"pending ЯCASKET signature":"signature invalid";
  return '<div class="csp-biosrc-h">bio sources · '+esc(r.record.rid)+' · <span data-state="'+r.v.state+'">'+esc(st)+'</span></div>'+(r.record.bio_sources||[]).map(function(b){var u=href(b);return '<a target="_blank" rel="noopener" href="'+esc(u)+'">'+esc(b.platform)+' '+esc(b.handle||String(b.url).replace(/^https?:\/\//,""))+'</a>'}).join("")}
 function line(b){return String(b.platform||"site")+" "+(b.handle||b.url||"")}
 function parse(l){var m=String(l).trim().match(/^(\S+)\s+(\S+)$/);if(!m)return null;return /^https?:\/\//i.test(m[2])?{platform:m[1],url:m[2]}:{platform:m[1],handle:m[2]}}

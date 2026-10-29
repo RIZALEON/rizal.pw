@@ -1,7 +1,7 @@
 // socials (bio sources) list: github/site entries removed, editable one-per-line in inline edit (20261029).
 const fs=require('fs'),path=require('path'),assert=require('assert'),root=path.join(__dirname,'..');
 const rec=JSON.parse(fs.readFileSync(path.join(root,'data/founder/bio-source.json'),'utf8'));
-assert.deepStrictEqual(rec.bio_sources,[{platform:'x',handle:'@chaserizal'}]);
+assert.deepStrictEqual(rec.bio_sources,[]);
 const B=require(path.join(root,'rdragon-cryptosocial/rbiosource.js'));
 assert.deepStrictEqual(B.parse('github RIZALEON'),{platform:'github',handle:'RIZALEON'});
 assert.deepStrictEqual(B.parse('site https://rizal.pw'),{platform:'site',url:'https://rizal.pw'});
