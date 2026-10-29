@@ -63,7 +63,9 @@
   var TYPES = /^(post\.(pin|unpin|delete)|revise)$/, CK = 'rpostmenu.pt.cursor';
   function ptUrl() { var c = root.RDRAGON_CONFIG || {}; if (c.transponderUrl === false) return '';
     if (c.transponderUrl) return String(c.transponderUrl).replace(/\/$/, '');
-    try { if (location.hostname === '127.0.0.1' || location.hostname === 'localhost' || localStorage.getItem('rdragon.csp.localPeer') === '1') return 'http://127.0.0.1:8811'; } catch (e) {}
+    /* 20261028: a public origin (rizal.pw) never probes loopback, even on a signed-in device (localPeer=1), unless the page URL carries ?local=1. */
+    try { var lh = location.hostname === '127.0.0.1' || location.hostname === 'localhost', opt = /[?&]local=1(&|$)/.test(location.search || '');
+      if (lh || (opt && localStorage.getItem('rdragon.csp.localPeer') === '1')) return 'http://127.0.0.1:8811'; } catch (e) {}
     return ''; }
   var sync = { url: ptUrl, enabled: function () { return !!ptUrl(); }, last: null, err: null,
     /* entry must already be sealed by the signed-in owner (RSync.seal). text/plain keeps it a simple request (no preflight). */

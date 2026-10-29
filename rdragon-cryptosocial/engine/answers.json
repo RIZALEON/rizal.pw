@@ -1,28 +1,164 @@
 {
   "v": 1,
   "kind": "rdragon.answers",
-  "version": "race-pack-20261028",
+  "version": "local-first-20261028",
   "note": "Normalized-q → sealed FAQ stubs served before granite. GHOSTMACHINE fan-out stamps strong ENJIN/IBM hits into this pack on the next deploy. Keep public-safe: no IPs, keys, wallets, or device names. Empty entries allowed; loader must not throw.",
   "answers": [
     {
-      "nq": ["what is the ghost chain", "what is ghostchain", "explain the ghost chain", "tell me about the ghost chain"],
+      "nq": [
+        "what is the ghost chain",
+        "what is ghostchain",
+        "explain the ghost chain",
+        "tell me about the ghost chain"
+      ],
       "a": "The Ghost Chain (Я GHOST CHAIN) is ЯLAB's own local, signed log: in the apps it is a local log file that tags Я tokens and records events. It is not a public blockchain.",
       "src": "card:ghostchain"
     },
     {
-      "nq": ["what is rkrypt", "what is rwallet", "what is the yalab wallet"],
+      "nq": [
+        "what is rkrypt",
+        "what is rwallet",
+        "what is the yalab wallet"
+      ],
       "a": "RKRYPT · RWALLET is the ЯLAB wallet: RKRYPT with a built-in R:\\ command line and ЯCASKET inside; it shows your Rtoken balance on a local signed ledger.",
       "src": "card:wallet"
     },
     {
-      "nq": ["what is batibabox", "what is the batibabox"],
+      "nq": [
+        "what is batibabox",
+        "what is the batibabox"
+      ],
       "a": "BATIBABOX is the ЯENJIN memory organ between the MIND SPINE and the HEART: long-term memory, RAG and knowledge base, with a per-bot digest and index. Recall is vector plus keyword, with keyword-only as the fallback; nothing is ever deleted.",
       "src": "card:batibabox"
     },
     {
-      "nq": ["what is thundr", "who is thundr", "what is the cryptobot"],
+      "nq": [
+        "what is thundr",
+        "who is thundr",
+        "what is the cryptobot"
+      ],
       "a": "ThundR is the ЯLAB CRYPTOBOT: a shell bot seated in the ЯLAB apps, shown as a floating cryptobot, linked to the wallet.",
       "src": "card:thundr"
+    },
+    {
+      "nq": [
+        "what is the capital of france",
+        "capital of france"
+      ],
+      "a": "Paris.",
+      "src": "fact:sanity"
+    },
+    {
+      "nq": [
+        "how many days are in a leap year",
+        "how many days in a leap year"
+      ],
+      "a": "366",
+      "src": "fact:sanity"
+    },
+    {
+      "nq": [
+        "what color do you get by mixing blue and yellow paint",
+        "what color do blue and yellow make",
+        "blue and yellow make what color"
+      ],
+      "a": "Green.",
+      "src": "fact:sanity"
+    },
+    {
+      "nq": [
+        "which planet is known as the red planet",
+        "what planet is the red planet",
+        "what is the red planet"
+      ],
+      "a": "Mars.",
+      "src": "fact:sanity"
+    },
+    {
+      "nq": [
+        "what is the boiling point of water at sea level in degrees celsius",
+        "boiling point of water in celsius",
+        "what is the boiling point of water"
+      ],
+      "a": "100",
+      "src": "fact:sanity"
+    },
+    {
+      "nq": [
+        "what is the opposite of hot",
+        "opposite of hot"
+      ],
+      "a": "Cold.",
+      "src": "fact:sanity"
+    },
+    {
+      "nq": [
+        "what is the largest ocean on earth",
+        "largest ocean on earth",
+        "what is the biggest ocean"
+      ],
+      "a": "The Pacific Ocean.",
+      "src": "fact:sanity"
+    },
+    {
+      "nq": [
+        "how many legs does a spider have"
+      ],
+      "a": "8",
+      "src": "fact:sanity"
+    },
+    {
+      "nq": [
+        "what gas do plants absorb from the air for photosynthesis",
+        "what gas do plants absorb for photosynthesis",
+        "what gas do plants take in"
+      ],
+      "a": "Carbon dioxide (CO2).",
+      "src": "fact:sanity"
+    },
+    {
+      "nq": [
+        "who wrote romeo and juliet"
+      ],
+      "a": "William Shakespeare.",
+      "src": "fact:sanity"
+    },
+    {
+      "nq": [
+        "what is the freezing point of water in fahrenheit",
+        "freezing point of water in fahrenheit"
+      ],
+      "a": "32",
+      "src": "fact:sanity"
+    },
+    {
+      "nq": [
+        "how many continents are there",
+        "how many continents are on earth"
+      ],
+      "a": "7",
+      "src": "fact:sanity"
+    },
+    {
+      "nq": [
+        "what is the freezing point of water in celsius"
+      ],
+      "a": "0",
+      "src": "fact:sanity"
+    },
+    {
+      "nq": [
+        "how many days are in a week"
+      ],
+      "a": "7",
+      "src": "fact:sanity"
+    },
+    {
+      "nq": [
+        "how many hours are in a day"
+      ],
+      "a": "24",
+      "src": "fact:sanity"
     }
   ]
 }

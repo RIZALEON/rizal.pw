@@ -49,7 +49,15 @@
  function rdWrite(id,q,media){return rdWriteQueued(id,q,media)}
  function rdWriteQueued(id,q,media){var ak="rda-"+id;
   addEv({t:"rdragon.ask",v:1,kind:"rdragon.ask",id:ak,post_id:id,q:String(q||"").slice(0,2000),media:(media||[]).map(function(m){return{key:m.key||m.id,type:m.type,name:m.name}}),par:id,root_id:(function(){var c=fold().C[id];return c?c.post:id})(),sig:null,by:S.me&&S.me.handle||S.prof.handle});
-  addEv({t:"rdragon.reply",v:1,kind:"rdragon.reply",id:"rdr-"+id+"-offline",ask:ak,post_id:id,par:id,status:"offline",text:RDOFF,by:"RDRAGON",model:"granite",device:"web",sig:null});rdEdgeLater(id,q)}
+  rdLocal(id,q).then(function(r){var bb=fold().B[id];if(bb&&bb.status==="answered")return;
+   if(r){addEv({t:"rdragon.reply",v:1,kind:"rdragon.reply",id:"rdr-"+id+"-local",ask:ak,post_id:id,par:id,status:"answered",tier:r.tier||"local",text:r.text,by:"RDRAGON",model:r.model||"local",device:"web",sig:null});render();return}
+   /* "will answer when synced" only after the whole local ladder missed */
+   addEv({t:"rdragon.reply",v:1,kind:"rdragon.reply",id:"rdr-"+id+"-offline",ask:ak,post_id:id,par:id,status:"offline",text:RDOFF,by:"RDRAGON",model:"granite",device:"web",sig:null});render();rdEdgeLater(id,q)})}
+ /* LOCAL-FIRST 20261028: quick math/rules -> intent card -> answers.json, no network beyond this site's own JSON, no model, no Neo, no 127.0.0.1. Resolves null on miss. */
+ function rdLocalQ(id,q){var t=String(q||""),m=t.match(/USER (?:COMMENT on that post|POST):\n([\s\S]*?)(?:\nATTACHED MEDIA:|$)/);if(m)t=m[1];else if(id){var F=fold(),n=F.P[id]||F.C[id];if(n&&n.revs&&n.revs[0]&&String(n.revs[0].text||"").trim())t=String(n.revs[0].text)}return t.trim()}
+ function rdLocal(id,q){var t=rdLocalQ(id,q);if(!t)return Promise.resolve(null);var C=window.RDRAGON_CARD,QK=window.RDRAGON_QUICK;
+  var p=C&&C.localAnswer?C.localAnswer(t,CFG.localAnswerMs||3000):Promise.resolve(QK&&QK.quick(t)||null);
+  return p.then(function(r){return r&&r.text&&rdSafe(r.text)?r:null},function(){return null})}
  /* EDGE ENGINE failover: peers/Neo first (they answer through ЯSYNC); if no answered reply arrives within RDEDGE_WAIT ms, this browser runs Granite itself (tier:"edge"). Offline placeholder stays if the engine can't run. */
  var RDEDGE_WAIT=CFG.edgeWaitMs!=null?CFG.edgeWaitMs:1500,RDENG=null,RDSCRIPT_MS=CFG.engineScriptMs!=null?CFG.engineScriptMs:(CFG.engineLoadMs||20000),RDMODEL_MS=CFG.engineModelMs!=null?CFG.engineModelMs:300000,RDANS_MS=CFG.engineAnswerMs||180000,RDRETRY=CFG.engineRetry!=null?CFG.engineRetry:1;
  function tmo(pr,ms){return Promise.race([pr,new Promise(function(_,no){setTimeout(function(){no(Error("timeout"))},ms)})])}
@@ -79,10 +87,11 @@
  function rdEdgeMsg(id,msg){S.edge=S.edge||{};S.edge[id]=msg;try{var el=p&&p.querySelector('.csp-bot[data-rd="'+id+'"] .csp-edge');if(el)el.textContent=msg}catch(e){}render()}
  function rdEdge(id,q,attempt){attempt=attempt||0;if(busy["edge:"+id])return;busy["edge:"+id]=1;var ak="rda-"+id;S.edgeRetry=S.edgeRetry||{};S.edgeRetry[id]=q;
   rdEdgeMsg(id,attempt?"RDRAGON retrying in-browser engine…":"RDRAGON is warming up…");
-  tmo(rdEngine(),RDSCRIPT_MS).then(function(eng){rdMindWire(eng);rdEdgeMsg(id,"RDRAGON is loading its in-browser engine… 0%");
-   return tmo((eng.load?eng.load(null,function(f){rdEdgeMsg(id,"RDRAGON is loading its in-browser engine… "+Math.round((f||0)*100)+"%")}):Promise.resolve()),RDMODEL_MS).then(function(){return rdLessons().then(function(lessons){
+  rdLocal(id,q).then(function(lr){if(lr)return lr; /* local-first: never wait on the 222 MB model for a card/math hit */
+  return tmo(rdEngine(),RDSCRIPT_MS).then(function(eng){rdMindWire(eng);
+   return rdLessons().then(function(lessons){
     rdEdgeMsg(id,"RDRAGON is thinking…");
-    return tmo(eng.answer({q:q,profile:S.me&&S.me.profile||"anon",lessons:lessons,onProgress:function(f){rdEdgeMsg(id,"RDRAGON is loading its in-browser engine… "+Math.round((f||0)*100)+"%")}}),RDANS_MS)})})})
+    return tmo(eng.answer({q:q,profile:S.me&&S.me.profile||"anon",lessons:lessons,onProgress:function(f){rdEdgeMsg(id,"RDRAGON is loading its in-browser engine… "+Math.round((f||0)*100)+"%")}}),RDMODEL_MS+RDANS_MS)})})})
   .then(function(r){var b=fold().B[id];delete S.edge[id];delete S.edgeRetry[id];if(b&&b.status==="answered")return;if(!rdSafe(r.text))throw Error("unsafe");
    addEv({t:"rdragon.reply",v:1,kind:"rdragon.reply",id:"rdr-"+id+"-edge",ask:ak,post_id:id,par:id,status:"answered",tier:"edge",text:r.text,by:"RDRAGON",model:r.model,device:"web",turn:r.turn,seal:r.seal,lessons:r.lessons,prompt:r.prompt,sig:null});render()})
   .catch(function(e){var msg=(e&&e.message)||"engine failed";try{console.warn("RDRAGON edge engine:",msg)}catch(x){}
@@ -98,7 +107,8 @@
   .then(function(d){if(d&&d.text&&!/^I couldn.t read/i.test(d.text)){S.desc[k]=(m.type==="video"?"(frame from the video) ":"")+d.text;save()}return S.desc[k]}).catch(function(){return ""})}
  function mline(ms){return ms.map(function(m){return m.type+" \""+m.name+"\""+(S.desc[m.key||m.id]?" — what it shows: "+S.desc[m.key||m.id]:" (not yet described)")}).join("; ")}
  var PM={key:"asset:post.jpg",type:"image",name:"post.jpg"};
- function bot(id,t,media,parent){if(S.bot[id])return;if(!AI){rdWrite(id,t,media);return}S.bot[id]={t:"RDRAGON is warming up…",src:"pending",q:t,m:media,par:parent||null,ts:Date.now()};save();ai(id)}
+ function bot(id,t,media,parent){if(S.bot[id])return;if(!AI){rdWrite(id,t,media);return}S.bot[id]={t:"RDRAGON is warming up…",src:"pending",q:t,m:media,par:parent||null,ts:Date.now()};save();
+  rdLocal(id,t).then(function(r){var b=S.bot[id];if(!b||b.src==="model")return;if(r){b.t=r.text;b.src="model";b.tier=r.tier;save();render();return}ai(id)})}
  function ai(id){var b=S.bot[id];if(!b||b.src==="model"||busy[id])return;busy[id]=1;var par=b.par&&b.par.pid?(function(){var n=fold().P[b.par.pid];return n?{t:cur(n),media:n.media||[]}:{t:"",media:[]}})():b.par,pm=par?(par.media&&par.media.length?par.media:[PM]):[],all=(b.m||[]).concat(pm);
   pm.forEach(function(m){if(m===PM)m.src=base+"assets/post.jpg"});
   var q0=b.q;Promise.all(all.map(describe)).then(function(){var q=(par?"PARENT POST:\n"+par.t+(pm.length?"\nPARENT POST MEDIA: "+mline(pm):"")+"\n\nUSER COMMENT on that post:\n":"USER POST:\n")+b.q+(b.m&&b.m.length?"\nATTACHED MEDIA: "+mline(b.m):"");q0=q;
@@ -182,7 +192,7 @@
  function rsSigner(){return S.me&&S.me.sign&&S.me.pub?{pub:S.me.pub,sign:S.me.sign}:null}
  function rsAdopt(added){var have={},n=0;EV.forEach(function(e){have[e.id]=1});added.forEach(function(e){if(e.rgen&&e.signer)RGOK[e.id]=1;if(have[e.id])return;var o=Object.assign({},e);delete o.rgen;delete o.cid;o.seq=EV.length;o.prev=EV.length?EV[EV.length-1].hash:"0".repeat(64);o.peer=1;if(e.rgen)o.signer=e.rgen.pub;EV.push(o);n++});
   try{localStorage.setItem(RGK,JSON.stringify(RGOK))}catch(e){}if(n)persist();return n}
- function rdPeers(base,cb){var l=(CFG.peers||[]).concat(window.RDRAGON_PRIVATE_PEERS||[]),u=CFG.privatePeersUrl;try{if(localStorage.getItem("rdragon.csp.localPeer")==="1")l=l.concat(CFG.localPeers||[])}catch(e){} /* 2026-10-26 RSYNC routes: loopback peer(s) only on devices that signed in here (never asks random visitors for local-network access) */if(!u||!window.fetch||/(^|\.)(rizal\.(pw|info)|github\.io)$/i.test(location.hostname))return cb(l); /* public hosts never carry device-local peers: no fetch, no 404 */try{u=new URL(u,base||location.href).href}catch(e){return cb(l)}fetch(u,{cache:"no-store"}).then(function(r){return r.ok?r.json():{}}).then(function(j){cb(l.concat(j&&j.peers||[]))},function(){cb(l)})}
+ function rdPeers(base,cb){var l=(CFG.peers||[]).concat(window.RDRAGON_PRIVATE_PEERS||[]),u=CFG.privatePeersUrl;try{if(localStorage.getItem("rdragon.csp.localPeer")==="1"&&(/^(localhost|127\.0\.0\.1)$/.test(location.hostname)||/[?&]local=1(&|$)/.test(location.search)))l=l.concat(CFG.localPeers||[])}catch(e){} /* 20261028: public origin never probes loopback unless ?local=1 */ /* 2026-10-26 RSYNC routes: loopback peer(s) only on devices that signed in here (never asks random visitors for local-network access) */if(!u||!window.fetch||/(^|\.)(rizal\.(pw|info)|github\.io)$/i.test(location.hostname))return cb(l); /* public hosts never carry device-local peers: no fetch, no 404 */try{u=new URL(u,base||location.href).href}catch(e){return cb(l)}fetch(u,{cache:"no-store"}).then(function(r){return r.ok?r.json():{}}).then(function(j){cb(l.concat(j&&j.peers||[]))},function(){cb(l)})}
  var RSY=null;if(window.RSync&&crypto.subtle&&RSync.devicePolicy){RS=RSync.create({storage:RSync.adapters.localStorage("rdragon.csp.rsync.v1"),policy:RSync.devicePolicy({ownerKeys:CFG.ownerKeys||[]})});
   RS.ready.then(function(){rsAdopt(RS.entries());var bc=RSync.adapters.broadcast("rdragon.csp.rsync");if(bc){RS.attach(bc);RSI.peers.push("tabs")}
    rdPeers(base,function(pl){var tps=pl.filter(function(u,i){return u&&pl.indexOf(u)===i}).map(function(u){RSI.peers.push(u);return RSync.adapters.httpPeer(String(u).replace(/\/$/,""))});if(tps.length){RSY=RS.syncer({peers:tps,pollMs:CFG.syncEveryMs||20000});RSY.onStatus(function(){render()});RSY.start();render()}});
