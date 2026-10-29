@@ -12,7 +12,7 @@ function ask(q){return new Promise(r=>{process.stdout.write(q);const i=process.s
   fs.mkdirSync(path.dirname(KP),{recursive:true,mode:0o700});fs.writeFileSync(KP,JSON.stringify(await C.subtle.exportKey("jwk",k.privateKey)),{mode:0o600});
   console.log("siteAuth.pub =",b64(await C.subtle.exportKey("raw",k.publicKey)));return}
  if(cmd==="add"&&h&&file){const payload=JSON.parse(fs.readFileSync(file,"utf8"));if(!payload.rec)throw Error("record.json needs {rec,pid,pkg}");
-  const pw=await ask("password for "+h+" (hidden): "),pw2=await ask("again: ");if(pw!==pw2||pw.length<14)throw Error("mismatch or shorter than 14 chars");
+  const pw=await ask("password for "+h+" (hidden): "),pw2=await ask("again: ");if(pw!==pw2||pw.length<13)throw Error("mismatch or shorter than 13 chars");
   const priv=await C.subtle.importKey("jwk",JSON.parse(fs.readFileSync(KP,"utf8")),{name:"Ed25519"},false,["sign"]);
   const v=fs.existsSync(VP)?JSON.parse(fs.readFileSync(VP,"utf8")):{format:A.FORMAT,entries:[]};const e=await A.seal(h,pw,payload);
   v.entries=v.entries.filter(x=>x.id!==e.id).concat(e);delete v.sig;v.updated=new Date().toISOString();await A.sign(v,priv);
