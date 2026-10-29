@@ -18,7 +18,7 @@
   function cmdOf(t) { var m = String(t || '').match(/`([^`]+)`/); return m ? m[1] : null; }
   function timeout(p, ms) { return Promise.race([p, new Promise(function (_, no) { setTimeout(function () { no(Error('timeout')); }, ms); })]); }
   function normQ(q) { return String(q || '').toLowerCase().replace(/[^\w\sа-яёя]/gi, ' ').replace(/\s+/g, ' ').trim(); }
-  function answersUrl() { var cfg = root.RDRAGON_CONFIG || {}; return (cfg.answersUrl || '/rdragon-cryptosocial/engine/answers.json') + '?v=1'; }
+  function answersUrl() { var cfg = root.RDRAGON_CONFIG || {}; return (cfg.answersUrl || '/rdragon-cryptosocial/engine/answers.json') + '?v=3'; }
   function loadAnswers() {
     if (root.RDRAGON_ANSWERS) return Promise.resolve(root.RDRAGON_ANSWERS);
     if (AP) return AP;
