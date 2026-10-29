@@ -54,6 +54,35 @@
    "by": "@chaserizal",
    "ts": "2026-10-29T06:40:00.000Z",
    "site": 1
+  },
+  {
+   "id": "site-project-botlatch",
+   "t": "post",
+   "ptype": "project",
+   "title": "BOTLATCH · RGENERATOR mint tracker",
+   "text": "BOTLATCH tracks every token minted across the lab: AI heart calls, bots, NFTs, social posts, data packages and the Ghost Chain, all linked to RGENERATOR. It includes a converter (game points ↔ R credits) and the BOTLATCH buy · sell · trade · swap page for TerraformЯ. Trading is preview-only for now. R credits are local game credit, not money.",
+   "cover": "/rdragon-cryptosocial/assets/botlatch/banner.jpg",
+   "links": [
+    "https://rizal.info/botlatch/tracker/",
+    "https://rizal.info/botlatch/exchange/"
+   ],
+   "media": [
+    {
+     "key": "botlatch-tracker",
+     "type": "image",
+     "name": "tracker.png",
+     "src": "/rdragon-cryptosocial/assets/botlatch/tracker.png"
+    },
+    {
+     "key": "botlatch-exchange",
+     "type": "image",
+     "name": "exchange.png",
+     "src": "/rdragon-cryptosocial/assets/botlatch/exchange.png"
+    }
+   ],
+   "by": "@chaserizal",
+   "ts": "2026-10-29T07:30:00.000Z",
+   "site": 1
   }
  ]
 }
