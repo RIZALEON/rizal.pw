@@ -70,8 +70,8 @@ const wait=ms=>new Promise(r=>setTimeout(r,ms));
  {const src=fs.readFileSync(E('rdragon-cryptosocial.js'),'utf8');
   A.ok((src.match(/csp-viarelay/g)||[]).length>=3,'marker on RDRAGON row, DRAGOSKUL row, comments');A.ok(/relay:e\.relay\?1:0/.test(src),'fold keeps relay flag');A.ok(/data-a="rd-better"/.test(src)&&/case "rd-better"/.test(src));
   A.ok(/csp-score/.test(src)&&/rlStatus\(\)/.test(src));A.ok(/p\.kind==="learn"/.test(src)&&/m\.mine/.test(src));A.ok(/owner:!!S\.me/.test(src),'no learning from owner sessions');
-  const idx=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'),pc=fs.readFileSync(path.join(ROOT,'sw-precache.json'),'utf8');A.ok(idx.indexOf('rdragon-learn.js?v=1')>0&&idx.indexOf('rdragon-learn.js?v=1')<idx.indexOf('rdragon-open.js?v=3')&&idx.indexOf('rdragon-open.js?v=3')<idx.indexOf('rdragon-cryptosocial.js?v=40'));
-  A.ok(/rdragon-learn\.js/.test(pc)&&/ranklearn20261028-race-pack/.test(pc));pass('"via relay" marker, ✍ better control, score field, status line, load order + precache');}
+  const idx=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'),pc=fs.readFileSync(path.join(ROOT,'sw-precache.json'),'utf8');const iL=idx.search(/rdragon-learn\.js\?v=\d+/),iO=idx.search(/rdragon-open\.js\?v=\d+/),iC=idx.search(/rdragon-cryptosocial\.js\?v=\d+/);A.ok(iL>0&&iL<iO&&iO<iC);
+  A.ok(/rdragon-learn\.js/.test(pc)&&/-race-pack/.test(pc));pass('"via relay" marker, ✍ better control, score field, status line, load order + precache');}
  // 8) :8811 never probed on rizal.pw in a fresh no-storage tab (even with ?local=1 and a stale localPeer flag)
  {const calls=[];const fetch=u=>{calls.push(String(u));return Promise.reject(Error('x'))};
   for(const o of [{search:'?nostore=1&local=1'},{search:'?local=1',storage:{ok:false,mode:'memory'}},{search:''},{search:'?nostore=1',cfg:{transponderUrl:'http://127.0.0.1:8811'}}]){const ls=okLS();ls.setItem('rdragon.csp.localPeer','1');

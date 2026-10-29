@@ -1,0 +1,26 @@
+# Runs every node test suite (tests/test-*.js) on pull requests and pushes to main. No secrets used.
+name: tests
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  node-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: syntax check
+        run: for f in rdragon-cryptosocial/*.js rdragon-cryptosocial/engine/*.js tests/diag-profile/*.js; do node --check "$f" || exit 1; done
+      - name: version manifest is current
+        run: node tests/diag-profile/make-version-manifest.js && git diff --exit-code rdragon-version.json
+      - name: test suites
+        run: |
+          fail=0
+          for f in tests/test-*.js; do echo "::group::$f"; node "$f" || fail=1; echo "::endgroup::"; done
+          exit $fail

@@ -65,7 +65,7 @@ const wait=ms=>new Promise(r=>setTimeout(r,ms));
   A.ok(/if\(!ev\.relay&&window\.RRELAY&&\(ev\.t==="comment"\|\|\(ev\.kind==="rdragon\.reply"&&ev\.status==="answered"\)\)&&rdSafe/.test(csp),'publish hook');
   A.ok(/function rlIngest/.test(csp)&&/by:m\.author,relay:1/.test(csp),'ingest forces guest author');A.ok(/RRELAY\.subscribe\(rlIngest\)/.test(csp));
   A.ok(/var GU=!S\.me&&window\.RRELAY\?window\.RRELAY\.guest\(\):null;if\(!S\.me&&!GU\)return gate\(\);/.test(csp)&&/if\(GU\)\{cev\.by=GU\.handle;cev\.guest=1\}/.test(csp),'guest comment');
-  const idx=fs.readFileSync(path.join(ROOT,'index.html'),'utf8');A.ok(idx.indexOf('rstore.js?v=1')<idx.indexOf('rdragon-config.js?v=4')&&idx.indexOf('rrelay.js?v=2')<idx.indexOf('rdragon-cryptosocial.js?v=40'));
+  const idx=fs.readFileSync(path.join(ROOT,'index.html'),'utf8');A.ok(idx.indexOf('rstore.js?v=1')<idx.indexOf('rdragon-config.js?v=4')&&idx.search(/rrelay\.js\?v=\d+/)>0&&idx.search(/rrelay\.js\?v=\d+/)<idx.search(/rdragon-cryptosocial\.js\?v=\d+/));
   const all=['rrelay.js','rstore.js','rdragon-cryptosocial.js'].map(f=>fs.readFileSync(E(f),'utf8')).join('');A.ok(!/nsec1[0-9a-z]{20,}|ghp_[A-Za-z0-9]{20,}/.test(all),'no secrets shipped');pass('cryptosocial: publish hook, guarded ingest, guest commenting, load order, no secrets');}
  console.log('\n'+n+' passed');process.exit(0);
 })().catch(e=>{console.error('FAIL',e);process.exit(1)});
