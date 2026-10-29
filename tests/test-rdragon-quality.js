@@ -122,13 +122,13 @@ pass('answers.json pack loads and matches normalized FAQ');
 // ENJIN budget in reply module: short timeout, no hang
 const replySrc=fs.readFileSync(E('rdragon-reply.rzl.js'),'utf8');
 A.ok(/ENJIN_MS/.test(replySrc));
-A.ok(/1500/.test(replySrc),'default total budget 1500ms');
-A.ok(/ENJIN_CONNECT_MS/.test(replySrc)&&/250/.test(replySrc),'connect budget 250ms');
+A.ok(/RDRAGON_ENJIN_MS : 300\)/.test(replySrc),'default total budget 300ms single try (20261028)');
+A.ok(/RDRAGON_ENJIN_CONNECT_MS : 300\)/.test(replySrc),'connect budget 300ms');
 A.ok(/AbortController/.test(replySrc),'AbortController for fast fail');
 A.ok(/onSite\(\)/.test(replySrc),'site still skips ENJIN (never probes Neo/17e)');
 A.ok(/race-pack-20261028/.test(replySrc)||/1\.2-race-pack/.test(replySrc));
 A.ok(/TIERS:.*pack/.test(replySrc)||/['"]pack['"]/.test(replySrc),'pack tier registered');
-pass('ENJIN race budget wired in reply (1.5s / 250ms connect)');
+pass('ENJIN race budget wired in reply (300ms single try)');
 
 // Simulate ENJIN timeout path: load reply in vm with fake fetch that never resolves; assert rejects within budget
 (async function(){

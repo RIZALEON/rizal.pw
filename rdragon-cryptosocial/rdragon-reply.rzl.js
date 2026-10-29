@@ -8,11 +8,12 @@
 (function(root){ if (root.RDRAGON && root.RDRAGON.reply) return;
 (function (root) {
   var ENJIN = root.RDRAGON_ENJIN_URL || 'http://127.0.0.1:4979/v1/chat/completions', RDOFF = 'RDRAGON is offline — your question is queued and will be answered when the Neo syncs.';
-  var ENJIN_MS = (root.RDRAGON_ENJIN_MS > 0 ? +root.RDRAGON_ENJIN_MS : 1500);
-  var ENJIN_CONNECT_MS = (root.RDRAGON_ENJIN_CONNECT_MS > 0 ? +root.RDRAGON_ENJIN_CONNECT_MS : 250);
+  /* 20261028: single try, 300 ms hard budget (AbortController), apps only */
+  var ENJIN_MS = (root.RDRAGON_ENJIN_MS > 0 ? +root.RDRAGON_ENJIN_MS : 300);
+  var ENJIN_CONNECT_MS = (root.RDRAGON_ENJIN_CONNECT_MS > 0 ? +root.RDRAGON_ENJIN_CONNECT_MS : 300);
   var ENG = null, AP = null, last = { tier: 'local' };
   function host() { try { return location.hostname || ''; } catch (e) { return ''; } }
-  function onSite() { return /(^|\.)rizal\.(pw|info)$/i.test(host()); }
+  function onSite() { var h = host(); return /(^|\.)rizal\.(pw|info)$/i.test(h) || (!!h && !/^(localhost|127\.0\.0\.1)$/.test(h) && !/[?&]local=1(&|$)/.test((root.location && root.location.search) || '') && typeof document !== 'undefined' && /^https?:$/.test((root.location && root.location.protocol) || '')); }
   function online() { return !(typeof navigator !== 'undefined' && navigator.onLine === false); }
   function cmdOf(t) { var m = String(t || '').match(/`([^`]+)`/); return m ? m[1] : null; }
   function timeout(p, ms) { return Promise.race([p, new Promise(function (_, no) { setTimeout(function () { no(Error('timeout')); }, ms); })]); }
@@ -38,7 +39,7 @@
   }
   function pack(post) {
     return loadAnswers().then(function (p) {
-      var hit = matchAnswer(post.q, p);
+      var hit = matchAnswer(post.q, p) || (root.RDRAGON_QUICK ? matchAnswer(root.RDRAGON_QUICK.stripAsk(post.q), p) : null);
       if (!hit || !hit.a) throw Error('none');
       return { text: String(hit.a).slice(0, 600), tier: 'pack', model: 'answers', src: hit.src || 'answers' };
     });
@@ -80,14 +81,15 @@
   function local(post) { var s = post.suggest && post.suggest.length ? 'did you mean ' + post.suggest.map(function (c) { return '`' + c + '`'; }).join(' · ') + '? ' : ''; return Promise.resolve({ text: s + RDOFF, tier: 'local', model: 'local' }); }
   function isQ(q) { q = String(q || "").trim(); return /\?\s*$/.test(q) || /^(what|who|whom|whose|why|how|when|where|which|tell|is|are|am|was|were|do|does|did|can|could|should|would|will|explain|describe)\b/i.test(q); }
   function lcmd(post) { if (isQ(post.q)) return Promise.reject(Error("question")); var f = post.localCmd || root.RDRAGON_LOCAL_CMD; if (typeof f !== "function") return Promise.reject(Error("skip")); return Promise.resolve().then(function () { return f(String(post.q || "")); }).then(function (t) { if (!t) throw Error("none"); return { text: String(t).slice(0, 600), tier: "cmd", model: "local-cmd" }; }); }
+  function quick(post) { var Q = root.RDRAGON_QUICK, r = Q && Q.quick(post.q); return r && r.text ? Promise.resolve({ text: r.text, tier: 'quick', model: r.model }) : Promise.reject(Error('none')); }
   function reply(post) { post = typeof post === "string" ? { q: post } : (post || {});
-    return lcmd(post).catch(function () { return pack(post); }).catch(function () { return enjin(post); }).catch(function () { return ibm(post); }).catch(function () { return local(post); })
+    return lcmd(post).catch(function () { return quick(post); }).catch(function () { return pack(post); }).catch(function () { return enjin(post); }).catch(function () { return ibm(post); }).catch(function () { return local(post); })
       .then(function (r) { last = r; r.by = 'RDRAGON'; r.tag = 'RDRAGON · ' + r.tier; r.command = cmdOf(r.text); return r; }); }
   root.RDRAGON = Object.assign(root.RDRAGON || {}, {
     reply: reply, local: local, last: function () { return last; }, onSite: onSite, isQuestion: isQ,
     SUGGEST_HINT: '↳ suggested — press Enter to run', autoRun: false,
     VERSION: 'rdragon-reply 1.2-race-pack-20261028',
-    TIERS: ['cmd', 'pack', 'enjin', 'ibm', 'local'],
+    TIERS: ['cmd', 'quick', 'pack', 'enjin', 'ibm', 'local'],
     ENJIN_MS: ENJIN_MS, ENJIN_CONNECT_MS: ENJIN_CONNECT_MS,
     normQ: normQ, matchAnswer: matchAnswer, loadAnswers: loadAnswers
   });
