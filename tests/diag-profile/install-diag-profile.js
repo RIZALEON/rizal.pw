@@ -49,7 +49,8 @@
     var pack = await loadPack(packOrUrl);
     var rec = await buildRecord(pack), backup = null;
     var cur = await get(SITE_DB, KEY);
-    if (cur && !(cur.diag || cur.test_only)) { backup = BAK + stamp(); await put(SITE_DB, backup, cur); }
+    /* v3 t106u: never replace a real owner device in this browser (it hid the owner login). Bots use a private window or another browser. */
+    if (cur && !(cur.diag || cur.test_only)) { if (!opt.ownerOverwrite) throw new Error('TEST-ONLY: this browser already has a real (owner) device — not replacing it. Use a private window or another browser for @rdragon_diag.'); backup = BAK + stamp(); await put(SITE_DB, backup, cur); }
     await put(SITE_DB, KEY, rec);
     try { await put(LEGACY_DB, KEY, rec); } catch (e) { /* legacy mirror is best-effort */ }
     var seeded = 0;
