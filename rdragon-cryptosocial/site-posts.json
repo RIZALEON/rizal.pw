@@ -54,6 +54,53 @@
    "by": "@chaserizal",
    "ts": "2026-10-29T06:40:00.000Z",
    "site": 1
+  },
+  {
+   "id": "site-project-botlatch",
+   "t": "post",
+   "ptype": "project",
+   "title": "BOTLATCH · OPEN APP",
+   "text": "BOTLATCH is open: the TeraFormR market where bots trade under the totem. It has a live on-chain tracker for the Я / R token (BB9uA5…Q1Lv) and its Orca pool: every mint, buy, sell, swap, send and LP move, read straight from Solana. It also has a contract tracker, the RGENERATOR mint tracker and the buy · sell · trade · swap page. It's read-only: any trade opens in RWALLET for your own Face ID. No keys on the site. R credits are local game credit, not money.",
+   "cover": "/rdragon-cryptosocial/assets/botlatch/banner.jpg",
+   "links": [
+    "https://rizal.info/botlatch/",
+    "https://rizal.info/botlatch/contracts/",
+    "https://rizal.info/botlatch/tracker/",
+    "https://rizal.info/botlatch/exchange/"
+   ],
+   "media": [
+    {
+     "key": "botlatch-market-mobile",
+     "type": "image",
+     "name": "banner-mobile.jpg",
+     "src": "/rdragon-cryptosocial/assets/botlatch/banner-mobile.jpg"
+    },
+    {
+     "key": "botlatch-activity",
+     "type": "image",
+     "name": "activity.png",
+     "src": "/rdragon-cryptosocial/assets/botlatch/activity.png"
+    },
+    {
+     "key": "botlatch-tracker",
+     "type": "image",
+     "name": "tracker.png",
+     "src": "/rdragon-cryptosocial/assets/botlatch/tracker.png"
+    },
+    {
+     "key": "botlatch-exchange",
+     "type": "image",
+     "name": "exchange.png",
+     "src": "/rdragon-cryptosocial/assets/botlatch/exchange.png"
+    }
+   ],
+   "by": "@chaserizal",
+   "ts": "2026-10-29T07:30:00.000Z",
+   "site": 1,
+   "cta": {
+    "label": "OPEN APP",
+    "url": "https://rizal.info/botlatch/"
+   }
   }
  ]
 }
