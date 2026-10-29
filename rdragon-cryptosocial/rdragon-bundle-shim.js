@@ -5,7 +5,7 @@
  * Strong hit rule (PR #22): key length≥8 OR ≥2 distinct key hits OR a multi-word key. Bare "ghost"/"chain" alone must not match. */
 (function(w){var B='/rdragon-cryptosocial/engine/';function add(src,cb){var s=document.createElement('script');s.src=src;s.onload=cb;s.onerror=cb;document.head.appendChild(s)}
 function wrap(){var M=w.RDRAGON_MIND;if(!M||M.__rforgeWrapped)return;var c=M.create;M.create=function(){var m=c.apply(this,arguments);if(m&&typeof m.command==='function'){var k=m.command;m.command=function(){return Promise.resolve(k.apply(m,arguments))}}return m};M.__rforgeWrapped=1}
-add(B+'rdragon-mind.js?v=1',function(){wrap();if(!w.RDRAGON_ENGINE)add(B+'rdragon-engine.js?v=5',function(){})})})(window);
+add(B+'rdragon-mind.js?v=1',function(){wrap();if(!w.RDRAGON_ENGINE)add(B+'rdragon-engine.js?v=6',function(){})})})(window);
 /* RFORGE race-pack 20261028: intent→card + answers pack + strong keyword retrieval + fragment/denial guard + card-line offline fallback. */
 (function(w){
 var CARD=null,CP=null,IMAP=null,IP=null,ANS=null,AP=null;
@@ -69,7 +69,7 @@ function wrapReply(){var R=w.RDRAGON;if(!R||!R.reply||R.__cardWrapped)return;var
   var qh=quickHit(q);if(qh)return qh;
   var ih=intentHit(q);if(ih&&ih.t)return{text:ih.t,tier:'local-card',model:'intent-card',tag:'RDRAGON · local-card',by:'RDRAGON'};
   var ah=answerHit(q);if(ah&&ah.a)return{text:String(ah.a).slice(0,600),tier:'pack',model:'answers',tag:'RDRAGON · pack',by:'RDRAGON',src:ah.src||'answers'};
-  return f.apply(R,arguments).then(function(r){if(r.tier!=='local')return r;return card().then(function(){var h=hits(q);if(!h.length)return r;r.text=h[0].t;r.tier='local-card';r.model='card';r.tag='RDRAGON · local-card';return r})})})};
+  return f.apply(R,arguments).then(function(r){if(r.tier!=='local'&&r.tier!=='open')return r;return card().then(function(){var h=hits(q);if(!h.length||r.tier==='open'&&!hits(q).length)return r;r.text=h[0].t;r.tier='local-card';r.model='card';r.tag='RDRAGON · local-card';return r})})})};
  R.__cardWrapped=1}
 var n=0,iv=setInterval(function(){if(w.RDRAGON_ENGINE)wrapEngine(w.RDRAGON_ENGINE);wrapReply();if((w.RDRAGON_ENGINE&&w.RDRAGON_ENGINE.__cardWrapped&&w.RDRAGON&&w.RDRAGON.__cardWrapped)||++n>600)clearInterval(iv)},100);
 Promise.all([card(),intentMap(),answers()])})(window);

@@ -73,12 +73,14 @@
     });
   }
   function engine() { if (root.RDRAGON_ENGINE) return Promise.resolve(root.RDRAGON_ENGINE); if (!onSite() || typeof document === 'undefined') return Promise.reject(Error('no engine'));
-    if (!ENG) ENG = new Promise(function (ok, no) { var sc = document.createElement('script'); var cfg = root.RDRAGON_CONFIG || {}; sc.src = (cfg.engineUrl || '/rdragon-cryptosocial/engine/rdragon-engine.js') + '?v=5'; sc.onload = function () { root.RDRAGON_ENGINE ? ok(root.RDRAGON_ENGINE) : no(Error('engine missing')); }; sc.onerror = function () { ENG = null; no(Error('engine load failed')); }; document.head.appendChild(sc); });
+    if (!ENG) ENG = new Promise(function (ok, no) { var sc = document.createElement('script'); var cfg = root.RDRAGON_CONFIG || {}; sc.src = (cfg.engineUrl || '/rdragon-cryptosocial/engine/rdragon-engine.js') + '?v=6'; sc.onload = function () { root.RDRAGON_ENGINE ? ok(root.RDRAGON_ENGINE) : no(Error('engine missing')); }; sc.onerror = function () { ENG = null; no(Error('engine load failed')); }; document.head.appendChild(sc); });
     return ENG; }
+  var OPEN_MS = (root.RDRAGON_OPEN_MS > 0 ? +root.RDRAGON_OPEN_MS : 2500);
   function ibm(post) { if (post.preview && !root.RDRAGON_ENGINE) return Promise.reject(Error('skip'));
-    return timeout(engine(), 20000).then(function (E) { var q = (post.system ? post.system + '\n\n' : '') + String(post.q).slice(0, 800); return timeout(E.answer({ q: q, thread: post.thread || [], lessons: [], onProgress: post.onProgress }), 90000); })
-      .then(function (r) { var t = String(r && r.text || '').trim(); if (!t) throw Error('empty'); return { text: t.slice(0, 600), tier: 'ibm', model: r.model || 'granite' }; }); }
-  function local(post) { var s = post.suggest && post.suggest.length ? 'did you mean ' + post.suggest.map(function (c) { return '`' + c + '`'; }).join(' · ') + '? ' : ''; return Promise.resolve({ text: s + RDOFF, tier: 'local', model: 'local' }); }
+    var dl = (root.RDRAGON_OPEN && !post.waitModel) ? OPEN_MS : 0;
+    var run = timeout(engine(), 20000).then(function (E) { var q = (post.system ? post.system + '\n\n' : '') + String(post.q).slice(0, 800); return timeout(E.answer({ q: q, thread: post.thread || [], lessons: [], onProgress: post.onProgress }), 90000); })
+      .then(function (r) { var t = String(r && r.text || '').trim(); if (!t) throw Error('empty'); return { text: t.slice(0, 600), tier: 'ibm', model: r.model || 'granite' }; }); if (post.onUpgrade) run.then(post.onUpgrade, function () {}); return dl ? timeout(run, dl) : run; }
+  function local(post) { var s = post.suggest && post.suggest.length ? 'did you mean ' + post.suggest.map(function (c) { return '`' + c + '`'; }).join(' · ') + '? ' : ''; var O = root.RDRAGON_OPEN, c = O && O.compose(post.q); if (c && c.text) return Promise.resolve({ text: s + c.text, tier: 'open', model: 'open-pack', kind: c.kind }); return Promise.resolve({ text: s + RDOFF, tier: 'local', model: 'local' }); }
   function isQ(q) { q = String(q || "").trim(); return /\?\s*$/.test(q) || /^(what|who|whom|whose|why|how|when|where|which|tell|is|are|am|was|were|do|does|did|can|could|should|would|will|explain|describe)\b/i.test(q); }
   function lcmd(post) { if (isQ(post.q)) return Promise.reject(Error("question")); var f = post.localCmd || root.RDRAGON_LOCAL_CMD; if (typeof f !== "function") return Promise.reject(Error("skip")); return Promise.resolve().then(function () { return f(String(post.q || "")); }).then(function (t) { if (!t) throw Error("none"); return { text: String(t).slice(0, 600), tier: "cmd", model: "local-cmd" }; }); }
   function quick(post) { var Q = root.RDRAGON_QUICK, r = Q && Q.quick(post.q); return r && r.text ? Promise.resolve({ text: r.text, tier: 'quick', model: r.model }) : Promise.reject(Error('none')); }
@@ -88,8 +90,8 @@
   root.RDRAGON = Object.assign(root.RDRAGON || {}, {
     reply: reply, local: local, last: function () { return last; }, onSite: onSite, isQuestion: isQ,
     SUGGEST_HINT: '↳ suggested — press Enter to run', autoRun: false,
-    VERSION: 'rdragon-reply 1.2-race-pack-20261028',
-    TIERS: ['cmd', 'quick', 'pack', 'enjin', 'ibm', 'local'],
+    VERSION: 'rdragon-reply 1.3-open-ended-20261028', OPEN_MS: OPEN_MS,
+    TIERS: ['cmd', 'quick', 'pack', 'enjin', 'ibm', 'open', 'local'],
     ENJIN_MS: ENJIN_MS, ENJIN_CONNECT_MS: ENJIN_CONNECT_MS,
     normQ: normQ, matchAnswer: matchAnswer, loadAnswers: loadAnswers
   });
