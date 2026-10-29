@@ -126,7 +126,7 @@ A.ok(/RDRAGON_ENJIN_MS : 300\)/.test(replySrc),'default total budget 300ms singl
 A.ok(/RDRAGON_ENJIN_CONNECT_MS : 300\)/.test(replySrc),'connect budget 300ms');
 A.ok(/AbortController/.test(replySrc),'AbortController for fast fail');
 A.ok(/onSite\(\)/.test(replySrc),'site still skips ENJIN (never probes Neo/17e)');
-A.ok(/race-pack-20261028/.test(replySrc)||/1\.2-race-pack/.test(replySrc));
+A.ok(/race-pack-20261028/.test(replySrc)||/1\.2-race-pack/.test(replySrc)||/open-ended-20261028/.test(replySrc));
 A.ok(/TIERS:.*pack/.test(replySrc)||/['"]pack['"]/.test(replySrc),'pack tier registered');
 pass('ENJIN race budget wired in reply (300ms single try)');
 

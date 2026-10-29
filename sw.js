@@ -11,7 +11,8 @@ self.addEventListener('install',function(e){e.waitUntil(fetch(M,{cache:'no-cache
  var core=m.files.filter(function(f){return !isPart(f)}),big=m.files.filter(isPart);
  return Promise.all(core.map(function(f){return c.add(f).catch(function(){})})).then(function(){big.forEach(function(f){c.add(f).catch(function(){})})});
 })}).then(function(){self.skipWaiting()}))});
-self.addEventListener('activate',function(e){e.waitUntil(self.clients.claim())});
+/* openended 20261028: drop stale precaches (old bundles kept firing :8811), keep current + models */
+self.addEventListener('activate',function(e){e.waitUntil(fetch(M,{cache:'no-cache'}).then(function(r){return r.json()}).then(function(m){return caches.keys().then(function(ks){return Promise.all(ks.filter(function(k){return /^rizalpw-/.test(k)&&k!==MC&&k!=='rizalpw-'+m.v}).map(function(k){return caches.delete(k)}))})}).catch(function(){}).then(function(){return self.clients.claim()}))});
 self.addEventListener('fetch',function(e){var q=e.request;if(q.method!=='GET')return;var u=new URL(q.url);if(u.origin!==location.origin)return;
  if(u.pathname.indexOf('/api/')===0)return;
  var k=u.pathname.replace(/\/$/,'/index.html');

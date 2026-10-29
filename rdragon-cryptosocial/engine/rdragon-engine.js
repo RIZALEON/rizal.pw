@@ -17,7 +17,8 @@ function rankLessons(q,lessons,cfg){cfg=cfg||{};var W=cfg.lessonWeights||{correc
   var w=W[l.kind||l.type]||(l.weight!=null?+l.weight:1);return{l:l,bm:s,s:s*w,w:w}});
  var hit=sc.filter(function(x){return x.bm>0}).sort(function(a,b){return b.s-a.s}),rest=sc.filter(function(x){return x.bm<=0}).sort(function(a,b){return b.w-a.w});
  var out=hit.slice(0,K);if(out.length<MINK)out=out.concat(rest.slice(0,MINK-out.length));return out.map(function(x){return x.l})}
-function isWeather(q){return /\b(weather|forecast|temperature|temp|rain(ing|y)?|snow(ing|y)?|sunny|cloudy|humid(ity)?|wind(y)?|storm|degrees)\b/i.test(String(q||""))}
+function isCreative(q){return /\b(haiku|poem|poetry|verse|limerick|story|tale|song|lyrics|rap|sonnet|ode|metaphor|write|compose|imagine)\b/i.test(String(q||""))}
+function isWeather(q){if(isCreative(q))return false;return /\b(weather|forecast|temperature|temp|rain(ing|y)?|snow(ing|y)?|sunny|cloudy|humid(ity)?|wind(y)?|storm|degrees)\b/i.test(String(q||""))}
 var STOPW="the a an and or of to in on is are was what how why who it its this that for with be do does i you me my your at as by from can will".split(" ");
 function toks(x){return(String(x||"").toLowerCase().match(/[a-z0-9']+/g)||[]).filter(function(w){return w.length>2&&STOPW.indexOf(w)<0})}
 /* port of csanswer.py quality(): returns [ok, why] */
@@ -86,5 +87,5 @@ function answer(o){o=o||{};var turn=SPINE.count(),pf=o.profile||"anon";return cf
   return gen(0,"")})})})})}
 function finish(c,o,turn,lessons,text,model,M){var page={id:"rsp-"+Date.now().toString(36)+"-"+turn,v:1,kind:"rscribe.page",turn:turn,q:String(o.q||"").slice(0,500),a:text,model:model,lessons:lessons.length,ts:new Date().toISOString(),prompt:c.version};
  return SPINE.seal(page).then(function(h){page.seal=h;return SPINE.scribe(page)}).then(function(){if(M&&!/^mind:/.test(model))return M.remember(o.profile||"anon",{id:page.id,q:page.q,a:text,ts:page.ts}).catch(function(){})}).then(function(){return{text:text,model:model,device:"web",tier:"edge",turn:turn,seal:page.seal,lessons:lessons.length,prompt:c.version}})}
-root.RDRAGON_ENGINE={answer:answer,load:load,pickModel:pickModel,rankLessons:rankLessons,isWeather:isWeather,quality:quality,qcheck:qcheck,clean:clean,liveGuard:liveGuard,buildMessages:buildMessages,mind:mind,resolveModel:resolveModel,_setCfg:function(c){CFG=c},MODELS:MODELS,BASE:BASE};
+root.RDRAGON_ENGINE={answer:answer,load:load,pickModel:pickModel,rankLessons:rankLessons,isWeather:isWeather,isCreative:isCreative,quality:quality,qcheck:qcheck,clean:clean,liveGuard:liveGuard,buildMessages:buildMessages,mind:mind,resolveModel:resolveModel,_setCfg:function(c){CFG=c},MODELS:MODELS,BASE:BASE};
 if(typeof module==="object"&&module.exports)module.exports=root.RDRAGON_ENGINE})(typeof window!=="undefined"?window:globalThis);
