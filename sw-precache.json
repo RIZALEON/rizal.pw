@@ -1,5 +1,5 @@
 {
-"v": "ranklearn20261028-race-pack",
+"v": "rdiag20261028-race-pack",
 "files": [
 "/.gitignore",
 "/.nojekyll",
@@ -40,6 +40,8 @@
 "/rdragon-cryptosocial/engine/rdragon-learn.js",
 "/rdragon-cryptosocial/rstore.js",
 "/rdragon-cryptosocial/rrelay.js",
+"/rdragon-cryptosocial/rdiag.js",
+"/rdragon-version.json",
 "/rdragon-cryptosocial/engine/vendor/nostr-tools.bundle.js",
 "/rdragon-cryptosocial/engine/answers.json",
 "/rdragon-cryptosocial/engine/intent-card-map.json",
