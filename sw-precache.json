@@ -1,5 +1,5 @@
 {
-"v": "mergemain20261028-quality",
+"v": "mergemain20261028-race-pack",
 "files": [
 "/.gitignore",
 "/.nojekyll",
@@ -34,6 +34,9 @@
 "/rdragon-cryptosocial/engine/models/granite-4.0-h-350m-q4km/part01",
 "/rdragon-cryptosocial/engine/models/granite-4.0-h-350m-q4km/part02",
 "/rdragon-cryptosocial/engine/rdragon-card.json",
+"/rdragon-cryptosocial/engine/ANSWERS-README.md",
+"/rdragon-cryptosocial/engine/answers.json",
+"/rdragon-cryptosocial/engine/intent-card-map.json",
 "/rdragon-cryptosocial/engine/rdragon-engine.js",
 "/rdragon-cryptosocial/engine/rdragon-mind.js",
 "/rdragon-cryptosocial/engine/BATIBABOX-EMBED.rzl",
