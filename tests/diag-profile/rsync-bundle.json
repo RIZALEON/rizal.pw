@@ -1,0 +1,23 @@
+{
+  "format": "rsync.bundle.v1",
+  "version": "0.3.2",
+  "entries": [
+    {
+      "id": "pc-RP-425238b103faacaa",
+      "t": "profile.create",
+      "profile": "RP-425238b103faacaa",
+      "handle": "@rdragon_diag",
+      "name": "RDRAGON Diag",
+      "device_name": "diag-bot",
+      "ts": "2026-10-29T01:05:01.305Z",
+      "signer": "BK9rcmzRGG2quiNaEEj1eY5wUUy17hiuIo55h+kGJE1lB71NVpXnLBT/L7K1K9orrKE0GTFWJtT9FNyOPK9YZWk=",
+      "cid": "a0a7f18d4748e084bdb5f070d2e1f9823868ea3aba40d4a25198819bcf049a84",
+      "rgen": {
+        "scope": "yaseed.mint",
+        "msg": "yaseed-artifact-v1\nyaseed.mint\na0a7f18d4748e084bdb5f070d2e1f9823868ea3aba40d4a25198819bcf049a84",
+        "pub": "BK9rcmzRGG2quiNaEEj1eY5wUUy17hiuIo55h+kGJE1lB71NVpXnLBT/L7K1K9orrKE0GTFWJtT9FNyOPK9YZWk=",
+        "value": "soQbF9nbMhWah0Pvu5+MLIEfi9IsOBh2F/g8g5GcHTlTq22n+sMWebPkdEXZbVvRzzttHcPdXW0PTin3cjUoOg=="
+      }
+    }
+  ]
+}

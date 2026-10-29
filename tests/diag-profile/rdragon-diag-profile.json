@@ -1,0 +1,90 @@
+{
+  "format": "rdragon.diag-profile.v1",
+  "warning": "TEST-ONLY diagnostic bot profile. Public on purpose for AI/bot diagnostics. NEVER use for real owner identity, vault, biometrics, cash, or production signing. Not Rizal keys. Rotate by regenerating this pack.",
+  "created_mt": "2026-10-29T01:05:01.305Z",
+  "timezone": "America/Denver",
+  "handle": "@rdragon_diag",
+  "name": "RDRAGON Diag",
+  "device_name": "diag-bot",
+  "profile": "RP-425238b103faacaa",
+  "pub": "BK9rcmzRGG2quiNaEEj1eY5wUUy17hiuIo55h+kGJE1lB71NVpXnLBT/L7K1K9orrKE0GTFWJtT9FNyOPK9YZWk=",
+  "private_key": {
+    "encoding": "pkcs8-base64 + jwk",
+    "algorithm": "ECDSA P-256",
+    "pkcs8_b64": "MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgH7PbG2o0fDKQ1ObHhFjwPSLYLmTGcVeDEUfvyDcPXRehRANCAASva3Js0RhtqrojWhBI9XmOcFFMte4YriKOeYfpBiRNZQe9TVaV5ywU/y+ytSvaK6yhNBkxVibU/RTcjjyvWGVp",
+    "jwk": {
+      "key_ops": [
+        "sign"
+      ],
+      "ext": true,
+      "kty": "EC",
+      "x": "r2tybNEYbaq6I1oQSPV5jnBRTLXuGK4ijnmH6QYkTWU",
+      "y": "B71NVpXnLBT_L7K1K9orrKE0GTFWJtT9FNyOPK9YZWk",
+      "crv": "P-256",
+      "d": "H7PbG2o0fDKQ1ObHhFjwPSLYLmTGcVeDEUfvyDcPXRc"
+    }
+  },
+  "public_key_jwk": {
+    "key_ops": [
+      "verify"
+    ],
+    "ext": true,
+    "kty": "EC",
+    "x": "r2tybNEYbaq6I1oQSPV5jnBRTLXuGK4ijnmH6QYkTWU",
+    "y": "B71NVpXnLBT_L7K1K9orrKE0GTFWJtT9FNyOPK9YZWk",
+    "crv": "P-256"
+  },
+  "idb": {
+    "db": "rdragon.device.v1",
+    "store": "k",
+    "key": "device",
+    "note": "Browser stores CryptoKeyPair under this IDB shape; use install-diag-profile.js to import pkcs8 + set DEV.me cache."
+  },
+  "rsync_storage_key": "rdragon.csp.rsync.v1",
+  "rsync_bundle": {
+    "format": "rsync.bundle.v1",
+    "version": "0.3.2",
+    "entries": [
+      {
+        "id": "pc-RP-425238b103faacaa",
+        "t": "profile.create",
+        "profile": "RP-425238b103faacaa",
+        "handle": "@rdragon_diag",
+        "name": "RDRAGON Diag",
+        "device_name": "diag-bot",
+        "ts": "2026-10-29T01:05:01.305Z",
+        "signer": "BK9rcmzRGG2quiNaEEj1eY5wUUy17hiuIo55h+kGJE1lB71NVpXnLBT/L7K1K9orrKE0GTFWJtT9FNyOPK9YZWk=",
+        "cid": "a0a7f18d4748e084bdb5f070d2e1f9823868ea3aba40d4a25198819bcf049a84",
+        "rgen": {
+          "scope": "yaseed.mint",
+          "msg": "yaseed-artifact-v1\nyaseed.mint\na0a7f18d4748e084bdb5f070d2e1f9823868ea3aba40d4a25198819bcf049a84",
+          "pub": "BK9rcmzRGG2quiNaEEj1eY5wUUy17hiuIo55h+kGJE1lB71NVpXnLBT/L7K1K9orrKE0GTFWJtT9FNyOPK9YZWk=",
+          "value": "soQbF9nbMhWah0Pvu5+MLIEfi9IsOBh2F/g8g5GcHTlTq22n+sMWebPkdEXZbVvRzzttHcPdXW0PTin3cjUoOg=="
+        }
+      }
+    ]
+  },
+  "sealed_profile_create": {
+    "id": "pc-RP-425238b103faacaa",
+    "t": "profile.create",
+    "profile": "RP-425238b103faacaa",
+    "handle": "@rdragon_diag",
+    "name": "RDRAGON Diag",
+    "device_name": "diag-bot",
+    "ts": "2026-10-29T01:05:01.305Z",
+    "signer": "BK9rcmzRGG2quiNaEEj1eY5wUUy17hiuIo55h+kGJE1lB71NVpXnLBT/L7K1K9orrKE0GTFWJtT9FNyOPK9YZWk=",
+    "cid": "a0a7f18d4748e084bdb5f070d2e1f9823868ea3aba40d4a25198819bcf049a84",
+    "rgen": {
+      "scope": "yaseed.mint",
+      "msg": "yaseed-artifact-v1\nyaseed.mint\na0a7f18d4748e084bdb5f070d2e1f9823868ea3aba40d4a25198819bcf049a84",
+      "pub": "BK9rcmzRGG2quiNaEEj1eY5wUUy17hiuIo55h+kGJE1lB71NVpXnLBT/L7K1K9orrKE0GTFWJtT9FNyOPK9YZWk=",
+      "value": "soQbF9nbMhWah0Pvu5+MLIEfi9IsOBh2F/g8g5GcHTlTq22n+sMWebPkdEXZbVvRzzttHcPdXW0PTin3cjUoOg=="
+    }
+  },
+  "seal_check": {
+    "ok": true,
+    "cid": "a0a7f18d4748e084bdb5f070d2e1f9823868ea3aba40d4a25198819bcf049a84",
+    "signed": true,
+    "pub": "BK9rcmzRGG2quiNaEEj1eY5wUUy17hiuIo55h+kGJE1lB71NVpXnLBT/L7K1K9orrKE0GTFWJtT9FNyOPK9YZWk="
+  }
+}
