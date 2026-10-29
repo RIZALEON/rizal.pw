@@ -1,5 +1,5 @@
 {
-"v": "biosource20261029-race-pack",
+"v": "biosource-teraformr20261029-race-pack",
 "files": [
 "/.gitignore",
 "/.nojekyll",
@@ -27,6 +27,11 @@
 "/rdragon-cryptosocial/assets/ghostmachine-logo.jpg",
 "/rdragon-cryptosocial/assets/post.jpg",
 "/rdragon-cryptosocial/assets/verified.jpg",
+"/rdragon-cryptosocial/assets/teraformr/banner.jpg",
+"/rdragon-cryptosocial/assets/teraformr/v5-title.jpg",
+"/rdragon-cryptosocial/assets/teraformr/v6-flora-forest.jpg",
+"/rdragon-cryptosocial/assets/teraformr/v6-crafting.jpg",
+"/rdragon-cryptosocial/assets/teraformr/v6-wildlife-rainforest.jpg",
 "/rdragon-cryptosocial/chaserizal-articles.js",
 "/rdragon-cryptosocial/engine/lessons-public.json",
 "/rdragon-cryptosocial/engine/models/available.json",
