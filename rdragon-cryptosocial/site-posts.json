@@ -14,6 +14,46 @@
    "by": "@chaserizal",
    "ts": "2026-10-27T17:10:00.000Z",
    "site": 1
+  },
+  {
+   "id": "site-project-teraformr",
+   "t": "post",
+   "ptype": "project",
+   "title": "TERAFORMR",
+   "text": "TerraformЯ 0.5.0: a claymation sandbox set in the Cordilleras. Step through the BLUEFACE door, stand on a cliff above an endless ocean and throw one penny into the abyss. That penny starts the world's economy and story. Explore · mine · craft · build · survive. Play free in your browser at rizal.info.",
+   "cover": "/rdragon-cryptosocial/assets/teraformr/banner.jpg",
+   "links": [
+    "https://rizal.info/"
+   ],
+   "media": [
+    {
+     "key": "teraformr-v5-title",
+     "type": "image",
+     "name": "v5-title.jpg",
+     "src": "/rdragon-cryptosocial/assets/teraformr/v5-title.jpg"
+    },
+    {
+     "key": "teraformr-v6-flora-forest",
+     "type": "image",
+     "name": "v6-flora-forest.jpg",
+     "src": "/rdragon-cryptosocial/assets/teraformr/v6-flora-forest.jpg"
+    },
+    {
+     "key": "teraformr-v6-crafting",
+     "type": "image",
+     "name": "v6-crafting.jpg",
+     "src": "/rdragon-cryptosocial/assets/teraformr/v6-crafting.jpg"
+    },
+    {
+     "key": "teraformr-v6-wildlife-rainforest",
+     "type": "image",
+     "name": "v6-wildlife-rainforest.jpg",
+     "src": "/rdragon-cryptosocial/assets/teraformr/v6-wildlife-rainforest.jpg"
+    }
+   ],
+   "by": "@chaserizal",
+   "ts": "2026-10-29T06:40:00.000Z",
+   "site": 1
   }
  ]
 }
