@@ -408,7 +408,7 @@ function cardHead(n){return (n.pinned||n.upin?'<div>'+PINB+'</div>':'')+(n.pinne
   '<div class="csp-av" data-a="pickavatar" title="click to change profile picture" style="background-image:'+img("avatar","avatar.jpg")+'"></div>'+
   '<div class="csp-name">'+F("name")+'</div><div class="csp-handle">'+F("handle")+'</div>'+
   (S.wopen?'<div id="csp-rw" class="csp-rwm" data-embed></div>':'')+
-  '<div class="csp-bm"><div>'+F("bio")+'<div class="csp-links">'+links(S.prof.bio+" "+S.prof.link)+'</div></div>'+
+  '<div class="csp-bm"><div>'+F("bio")+'<div class="csp-links">'+links(S.prof.bio+" "+S.prof.link)+'</div><div id="csp-biosrc" class="csp-links"></div></div>'+
   '<div class="csp-metarow"><div class="csp-meta"><div>location · '+F("location")+'</div><div>link · '+F("link")+'</div><div>joined · '+F("joined")+'</div></div>'+
   '<div class="csp-pbtns"><button class="csp-pill csp-msgbtn" data-a="dm">✉ Message</button><button class="csp-pill csp-follow'+(FS.iFollow?' on':'')+'" data-a="pfollow">'+(FS.iFollow?'✓ Following':'+ Follow')+'</button></div></div>'+
   '<div class="csp-ff"><span data-a="people"><b class="csp-nfollowing">'+FS.following+'</b> Following</span> · <span data-a="people"><b class="csp-nfollowers">'+FS.followers+'</b> Followers</span></div></div>'+
