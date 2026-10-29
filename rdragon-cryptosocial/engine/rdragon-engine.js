@@ -1,4 +1,4 @@
-/* RDRAGON edge engine v1.1 (mind) · runs IBM Granite 4.0 H (GGUF Q4_K_M) in the visitor's browser with wllama (llama.cpp WASM, vendored here).
+/* RDRAGON edge engine v1.1.1 (mind · quality 20261028) · runs IBM Granite 4.0 H (GGUF Q4_K_M) in the visitor's browser with wllama (llama.cpp WASM, vendored here).
    Self-hosted: every byte (runtime, wasm, weights) comes from this site; no CDN, no Hugging Face, no outside API at runtime.
    Pipeline: SPINE (JS ports: rcounter turn counter · rtoken sha256 seal · rscribe page log, NOT the RVM binaries) -> MEMORY (this device's
    IndexedDB + its own ЯSYNC chain) + LESSONS (BM25 top-k, weighted) -> HEART (Granite) -> quality check -> rdragon.reply tier:"edge".
@@ -26,6 +26,8 @@ function qcheck(t,cfg,q){var Q=(cfg&&cfg.quality)||{};t=String(t||"").trim();var
  if((G.test(q||"")||G.test(t))&&w.length>=(Q.greetMin||2)&&w.length<=(Q.greetMax||60)&&!/the hoard grows|sealed in the chain/i.test(t))return[true,"greeting"];
  if(w.length<(Q.minWords!=null?Q.minWords:15))return[false,"under "+(Q.minWords!=null?Q.minWords:15)+" words"];
  if(C.test(t))return[false,"canned line"];
+ var wl=(t.toLowerCase().match(/[a-z0-9']+/g)||[]),CONN={and:1,or:1,of:1,the:1,a:1,an:1,to:1};
+ for(var ri=0;ri<wl.length-1;ri++){if(wl[ri].length<3)continue;if(wl[ri+1]===wl[ri])return[false,"repeated word"];if(ri+2<wl.length&&CONN[wl[ri+1]]&&wl[ri+2]===wl[ri]&&wl[ri].length>=4)return[false,"repeated word"]}
  var qt=toks(q),tt=toks(t);if(tt.length&&qt.length&&tt.filter(function(x){return qt.indexOf(x)>=0}).length/tt.length>(Q.echoMax||0.6))return[false,"keyword echo"];
  if(/"[^"]{1,25}"/.test(t)&&w.length<25)return[false,"quoted keyword echo"];return[true,"ok"]}
 function quality(t,cfg,q){return qcheck(t,cfg,q)[0]}
