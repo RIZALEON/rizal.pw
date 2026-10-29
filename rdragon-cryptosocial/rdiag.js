@@ -9,13 +9,13 @@
  *   (tests/diag-profile/bot-upgrade.sh). Nothing here deletes user data, keys, posts or learned items.
  * The ?diag=1 panel (tests/diag-profile/diag-import-ui.js) is a thin UI over this API. No secrets in this file. */
 (function(w){"use strict";
-var VER="rdiag 1.0 20261028",MAN="/rdragon-version.json",SAN="/tests/fixtures/sanity_20.json",REPO="RIZALEON/rizal.pw",BK="rdiag.bak.",MODELS="rizalpw-models";
+var VER="rdiag 1.1 20261028",MAN="/rdragon-version.json",SAN="/tests/fixtures/sanity_20.json",REPO="RIZALEON/rizal.pw",BK="rdiag.bak.",MODELS="rizalpw-models";
 var MEM=[],last=null;
 function now(){return new Date().toISOString()}
 function pub(){try{return !/^(127\.0\.0\.1|localhost)$/.test(w.location.hostname)}catch(e){return true}}
 function tmo(p,ms,v){return Promise.race([Promise.resolve(p).catch(function(e){return {error:String(e&&e.message||e)}}),new Promise(function(ok){setTimeout(function(){ok(v!==undefined?v:{error:"timeout "+ms+"ms"})},ms)})])}
 function getJ(u){return w.fetch(u+(u.indexOf("?")<0?"?":"&")+"_="+Date.now(),{cache:"no-store"}).then(function(r){if(!r.ok)throw Error("HTTP "+r.status);return r.json()})}
-function lsKeys(){var o={};try{var L=w.localStorage;for(var i=0;i<(L.length||0);i++){var k=L.key(i);if(/^(rdragon|rpostmenu|rdiag)\./.test(k)&&k.indexOf(BK)!==0)o[k]=L.getItem(k)}}catch(e){}return o}
+function lsKeys(){var o={};try{var L=w.localStorage;for(var i=0;i<(L.length||0);i++){var k=L.key(i);if(/^(rdragon|rpostmenu|rdiag)\./.test(k)&&k.indexOf(BK)!==0&&!/key|device|pkg|casket|session|login|pw|seal/i.test(k)){var v=L.getItem(k);if(v&&v.length<=65536)o[k]=v}}}catch(e){}return o}
 /* loaded bundle versions: every same-origin script/link with ?v=N */
 function loaded(){var o={};try{var d=w.document,els=[].slice.call(d.querySelectorAll("script[src],link[href]"));els.forEach(function(e){var u=e.getAttribute("src")||e.getAttribute("href")||"",m=u.match(/^\/([^?#]+)\?v=([\w.-]+)/);if(m)o[m[1]]=m[2]})}catch(e){}return o}
 function cmpVersions(have,man){var B=man&&man.bundles||{},stale=[],missing=[],ok=0;Object.keys(B).forEach(function(f){if(!(f in have))missing.push(f);else if(String(have[f])!==String(B[f]))stale.push({file:f,loaded:have[f],live:B[f]});else ok++});return {ok:ok,stale:stale,missing:missing}}
@@ -54,7 +54,7 @@ function publish(r){r=r||last;var R=w.RRELAY;if(!r||!R)return Promise.resolve(nu
 /* ---------------- REPAIR (each action snapshots first; never deletes data) ---------------- */
 function snapshot(action){var cn=w.caches&&w.caches.keys?w.caches.keys().catch(function(){return []}):Promise.resolve([]);
  return cn.then(function(names){var L=w.RDRAGON_LEARN,b={id:BK+Date.now().toString(36),action:action,ts:now(),ls:lsKeys(),caches:names,learn:L&&L.snapshot?L.snapshot():null};MEM.push(b);
-  try{if(!(w.RDRAGON_STORAGE&&w.RDRAGON_STORAGE.ok===false))w.localStorage.setItem(b.id,JSON.stringify(b))}catch(e){b.stored="memory only: "+(e&&e.message)}return b})}
+  try{var js=JSON.stringify(b);if(w.RDRAGON_STORAGE&&w.RDRAGON_STORAGE.ok===false)b.stored="memory only";else if(js.length>262144)b.stored="memory only: too big for localStorage";else w.localStorage.setItem(b.id,js)}catch(e){b.stored="memory only: "+(e&&e.message)}return b})}
 function backups(){var out=MEM.slice();try{var L=w.localStorage;for(var i=0;i<(L.length||0);i++){var k=L.key(i);if(k&&k.indexOf(BK)===0&&!out.some(function(b){return b.id===k}))try{out.push(JSON.parse(L.getItem(k)))}catch(e){}}}catch(e){}return out.sort(function(a,b){return a.ts<b.ts?-1:1})}
 function restore(id){var b=backups().filter(function(x){return x.id===id})[0];if(!b)return Promise.resolve({ok:false,error:"no backup "+id});
  return snapshot("before-restore "+id).then(function(){Object.keys(b.ls||{}).forEach(function(k){try{w.localStorage.setItem(k,b.ls[k])}catch(e){}});if(b.learn)try{w.localStorage.setItem("rdragon.learn.v1",JSON.stringify(b.learn))}catch(e){}return {ok:true,restored:Object.keys(b.ls||{}).length,from:b.id,note:"reload to apply"}})}
