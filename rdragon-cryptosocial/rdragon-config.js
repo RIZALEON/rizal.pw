@@ -12,6 +12,7 @@ window.RDRAGON_CONFIG = { chatEndpoint: (function(){try{var u=localStorage.getIt
 
 /* t108u 20261029: FOUNDER BINDING — public references only (ids, paths, sha256 at bind time). No secrets. */
 (function(){var c=window.RDRAGON_CONFIG=window.RDRAGON_CONFIG||{};c.founderRecoveryUrl=c.founderRecoveryUrl||"/data/founder/recovery.json";
+ c.founderFallbackLock={id:"rlogin.founder-fallback.v1",status:"LOCKED: do not remove",since:"2026-10-29",order:["indexedDB","localStorage","site:/data/founder/recovery.json","nostr:#rizalpw-founder-v1"],test:"tests/test-rdragon-founder-lock.js",rule:"password login for @chaserizal always reaches this fallback on any browser or app; later versions may add layers, never remove them"}; /* LOCKED */
  c.founderBinding={role:"FOUNDER",handle:"@chaserizal",rid:"ЯID-0001-3QQS",profile:(c.founder||{}).profile||"RP-f949699f8054dff9",bound:"2026-10-29",
   cards:[{name:"RIZAL DECIDER",rid:"ЯID-0001-3QQS",path:"ЯLAB/RFORGE/SCROLLS/BOTCARD/RIZAL-PROFILE.json",key:"decider",sha256:"684277b0…5d5f"},
          {name:"SUPER BOT CARD",path:"ЯLAB/RFORGE/SCROLLS/BOTCARD/SUPER-BOT-CARD.json",sha256:"cdce573c…f71c"}],
