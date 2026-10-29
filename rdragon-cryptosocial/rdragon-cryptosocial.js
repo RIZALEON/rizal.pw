@@ -14,7 +14,7 @@
  function canEdit(){var f=(CFG.founder&&CFG.founder.profile)||null;return !!(S.me&&S.me.handle==="@chaserizal"&&(!f||!S.me.profile||S.me.profile===f))}
  function editSet(k,v){if(!canEdit())return{ok:false,msg:"sign in to edit"};if(["bio","links","name","location","link","joined","biosrc"].indexOf(k)<0)return{ok:false,msg:"that field can't be edited here"};
   if(k==="links"){if(!Array.isArray(v))return{ok:false,msg:"bad links"};v=JSON.stringify(v.filter(function(x){return x&&/^https?:\/\//i.test(x.url)}).map(function(x){return{label:String(x.label).slice(0,60),url:String(x.url).slice(0,400)}}))}else v=String(v).slice(0,600);if(k!=="bio"&&k!=="links"&&k!=="biosrc")v=v.replace(/\s+/g," ").trim();
-  S.prof[k]=v;S.profTs=S.profTs||{};S.profTs[k]=new Date().toISOString();save();cspProfilePush(k);render();return{ok:true,signed:!!(RS&&rsSigner()&&S.me.profile)}}
+  S.prof[k]=v;S.profTs=S.profTs||{};S.profTs[k]=new Date().toISOString();save();cspProfilePush(k);window.RASSM&&RASSM.sync(S.prof,[k]);render();return{ok:true,signed:!!(RS&&rsSigner()&&S.me.profile)}}
  var EDR={};function edKeep(){if(typeof document==="undefined")return;[].forEach.call(document.querySelectorAll("#csp-panel [data-e],#csp-panel [data-ee]"),function(el){var k=el.dataset.e||el.dataset.ee;if(ED_F.indexOf(k)<0)return;if(el.dataset.ee)EDR[k]=el.innerText;else S.prof[k]=el.innerText})}
  var ED0=null,ED_F=["name","handle","bio","location","link","joined","links","biosrc"];
  function hasBS(){return !!(S.profTs&&S.profTs.biosrc)}
@@ -29,7 +29,7 @@
    else v=(k==="bio"?v.trim():v.replace(/\s+/g," ").trim()).slice(0,600);
    if(k==="handle"&&!/^@/.test(v))v="@"+v.replace(/^@*/,"");
    if((k==="biosrc"?bsCur():String(S.prof[k]||""))!==v){S.prof[k]=v;S.profTs[k]=now;ch.push(k)}});
-  S.editing=false;ED0=null;EDR={};save();ch.forEach(function(k){cspProfilePush(k)});render();return{ok:true,changed:ch,signed:!!(RS&&rsSigner()&&S.me&&S.me.profile)}}
+  S.editing=false;ED0=null;EDR={};save();ch.forEach(function(k){cspProfilePush(k)});ch.length&&window.RASSM&&RASSM.sync(S.prof,ch);render();return{ok:true,changed:ch,signed:!!(RS&&rsSigner()&&S.me&&S.me.profile)}}
  function save(){try{localStorage.setItem(LS,JSON.stringify(S,function(k,v){return k==="me"?undefined:v}))}catch(e){toast("storage full — image too big?")}}
  function E(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
  var CASH="https://cash.app/$chaserizal";

@@ -55,5 +55,10 @@
   "signs": "UTF-8 text 'rizalpw.bio-source-sig.v1\\n' + sha256(hex) of the exact bytes of this file",
   "alg": "ECDSA-P256-SHA256 (raw r||s, base64)"
  },
- "updated": "2026-10-29"
+ "updated": "2026-10-29",
+ "linked_card": {
+  "card": "ASSM PROFILE CARD",
+  "path": "/data/founder/assm-profile.json",
+  "law": "LAW-PTS-1 Profile Twin Sync"
+ }
 }
