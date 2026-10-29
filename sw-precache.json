@@ -1,5 +1,5 @@
 {
-"v": "loginsimple20261028-race-pack",
+"v": "founder20261029-race-pack",
 "files": [
 "/.gitignore",
 "/.nojekyll",
@@ -67,6 +67,7 @@
 "/rdragon-cryptosocial/rdragon-reply.rzl.js",
 "/rdragon-cryptosocial/rkrypt.rzl.js",
 "/rdragon-cryptosocial/rlogin-page.js",
+"/rdragon-cryptosocial/rfounder.js",
 "/rdragon-cryptosocial/rsync-core.js",
 "/rdragon-cryptosocial/rsync-default-off.js",
 "/rdragon-cryptosocial/rsync-qr.js",

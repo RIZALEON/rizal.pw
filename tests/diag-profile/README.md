@@ -46,3 +46,7 @@ The installer now **refuses** to replace a real (non-test) `device` record in `r
 - locked out for Ns
 
 Test: `tests/test-rdragon-login-simple.js`.
+
+## t108u 20261029 — founder recovery + stay logged in
+- Founder recovery records (`founder.recovery` in IndexedDB, `rdragon.csp.founder.recovery.v1` in localStorage) are never touched by rdiag repairs or the TEST-ONLY diag installer.
+- The persistent device key (non-extractable, IndexedDB "device".kp) keeps auto-login working; tests: tests/test-rdragon-founder-recovery.js (fake password only).

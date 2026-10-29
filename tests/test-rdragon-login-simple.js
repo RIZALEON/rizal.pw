@@ -20,7 +20,7 @@ async function login(P,user,pw){P.E['l-user'].value=user;P.E['l-pass'].value=pw;
   ['l-user','l-pass','b-login','a-create','a-options','msg'].forEach(i=>A.ok(si.includes(i),i));['b-auto','f-pkg','b-pkg','b-rgen','b-req','t-signup'].forEach(i=>A.ok(!si.includes(i),'simple has no '+i));
   A.ok(/href="\/login\/options\/\?tab=signup"[^>]*>Create account/.test(s)&&/href="\/login\/options\/"[^>]*>Other options/.test(s));
   const oi=ids(o);['b-auto','f-pkg','b-pkg','b-file','b-rgen','b-req','b-imp','t-signup','s-user','s-pass','b-signup','b-dlpkg','rg-status','owners','p0','founder-st','auto-note','b-selfcheck','selfcheck','l-user','l-pass','b-login'].forEach(i=>A.ok(oi.includes(i),'options keeps '+i));
-  A.ok(/rlogin-page\.js\?v=18/.test(s)&&/rlogin-page\.js\?v=18/.test(o)&&/rsync-core\.js\?v=16/.test(s));pass('simple login page + options page (nothing removed, self-check added)');}
+  A.ok(/rlogin-page\.js\?v=19/.test(s)&&/rlogin-page\.js\?v=19/.test(o)&&/rsync-core\.js\?v=16/.test(s));pass('simple login page + options page (nothing removed, self-check added)');}
  // 2) no record anywhere -> specific reason, no lockout increment
  {const P=page('login/index.html');await wait(50);const t=await login(P,'chaserizal','Correct-Horse-9!');A.ok(/no login record for @chaserizal on this browser/.test(t),t);A.strictEqual(P.sb.RLOGIN_LAST_FAIL,'no-record');
   A.ok(!('rdragon.csp.rl.v1' in P.L)||!JSON.parse(P.L['rdragon.csp.rl.v1'])['@chaserizal']||!JSON.parse(P.L['rdragon.csp.rl.v1'])['@chaserizal'].fails,'no lockout count');pass('no record -> "no login record … Restore from file once", no lockout');}

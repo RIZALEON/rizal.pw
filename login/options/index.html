@@ -16,6 +16,9 @@ label{display:block;margin-top:6px}.n{color:var(--p);font-weight:bold;margin-rig
 [hidden]{display:none!important}a{color:var(--p)}
 </style></head><body><main>
 <h1><b>Я</b>LOGIN · other options</h1><div><a href="/login/">← simple login</a></div><div class="dim">one login per device · works offline · signed append-only (rsync-core) · keys never leave this device</div>
+<div class="box" id="founder-box"><h2>Founder recovery (one time)</h2><div class="dim">For the founder <b>@chaserizal</b> (ЯID-0001-3QQS · RIZAL DECIDER + SUPER BOT CARD). Log in (or Restore from file) on your own device first, then enter your password and tap the button. It makes a password-wrapped ЯCASKET copy (PBKDF2-SHA256 600,000 iterations + AES-GCM, signed by your founder key) and keeps it in every layer: this device, the Nostr relays, and the site file <code>data/founder/recovery.json</code>. Any browser can then log you in with just username + password.</div>
+<div class="dim"><b>Risk:</b> the site and relay copies are public ciphertext. Anyone can copy them and try passwords offline, so its safety depends entirely on your password strength. Use a long passphrase (16+ characters, several words). Your password is never stored or sent anywhere.</div>
+<input id="fr-pass" type="password" autocomplete="current-password" placeholder="your password"><div id="fr-strength" class="dim"></div><button class="pill" id="b-mkfr">Make founder recovery (one time)</button> <button class="pill sec" id="b-dlfr" hidden>Download founder-recovery.json</button><div id="fr-st" class="dim"></div></div>
 <div class="box"><h2>Login self-check</h2><div class="dim">Lists which storage NAMES and record KINDS exist on this browser for your username (never any values, keys or passwords).</div><button class="pill sec" id="b-selfcheck">Run login self-check</button><pre id="selfcheck" style="white-space:pre-wrap;font-size:12px"></pre></div>
 <div class="box kv" id="rgen"><h2>RGENERATOR · RKEY profile 0</h2>
  <div><b>egg</b> <span id="rg-egg">RKRYPT 0.1.0 + RGENERATOR egg5 (fused rkrypt.rzl.js)</span></div>
@@ -45,5 +48,5 @@ label{display:block;margin-top:6px}.n{color:var(--p);font-weight:bold;margin-rig
 <div id="msg" role="status"></div><div id="who" class="dim"></div>
 <div class="dim"><a href="/">← CryptoSocial</a> · the password is never stored, logged or synced: only salt + KDF params + wrapped key + verifier, sealed into the ЯCASKET package; the chain gets only a commitment (TEST ledger).</div>
 </main>
-<script src="/rdragon-cryptosocial/rdragon-config.js?v=15"></script><script src="/rdragon-cryptosocial/rkrypt.rzl.js?v=15"></script><script src="/rdragon-cryptosocial/rsync-core.js?v=16"></script><script src="/rdragon-cryptosocial/rsync-qr.js?v=15"></script><script src="/rdragon-cryptosocial/rlogin-page.js?v=18"></script>
+<script src="/rdragon-cryptosocial/rdragon-config.js?v=16"></script><script src="/rdragon-cryptosocial/rkrypt.rzl.js?v=15"></script><script src="/rdragon-cryptosocial/rsync-core.js?v=16"></script><script src="/rdragon-cryptosocial/rsync-qr.js?v=15"></script><script src="/rdragon-cryptosocial/rfounder.js?v=1"></script><script src="/rdragon-cryptosocial/rlogin-page.js?v=19"></script>
 </body></html>
