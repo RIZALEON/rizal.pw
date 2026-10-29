@@ -9,3 +9,10 @@ window.RDRAGON_CONFIG = { chatEndpoint: (function(){try{var u=localStorage.getIt
 
 /* storage-optional 20261028: no persistent storage (private mode / ?nostore=1) -> skip the 222 MB granite download; rdragon-open (both voices) + answers.json answer. */
 (function(){var st=window.RDRAGON_STORAGE,c=window.RDRAGON_CONFIG=window.RDRAGON_CONFIG||{};if(st&&!st.ok){c.edgeEngine=false;c.preloadEngine=false;c.noStorage=true}})();
+
+/* t108u 20261029: FOUNDER BINDING — public references only (ids, paths, sha256 at bind time). No secrets. */
+(function(){var c=window.RDRAGON_CONFIG=window.RDRAGON_CONFIG||{};c.founderRecoveryUrl=c.founderRecoveryUrl||"/data/founder/recovery.json";
+ c.founderBinding={role:"FOUNDER",handle:"@chaserizal",rid:"ЯID-0001-3QQS",profile:(c.founder||{}).profile||"RP-f949699f8054dff9",bound:"2026-10-29",
+  cards:[{name:"RIZAL DECIDER",rid:"ЯID-0001-3QQS",path:"ЯLAB/RFORGE/SCROLLS/BOTCARD/RIZAL-PROFILE.json",key:"decider",sha256:"684277b0…5d5f"},
+         {name:"SUPER BOT CARD",path:"ЯLAB/RFORGE/SCROLLS/BOTCARD/SUPER-BOT-CARD.json",sha256:"cdce573c…f71c"}],
+  recovery:{format:"rizalpw.founder-recovery.v1",kdf:"PBKDF2-SHA256",iter:600000,cipher:"AES-GCM-256",layers:["indexedDB","localStorage","site:/data/founder/recovery.json","nostr:#rizalpw-founder-v1","GHOSTMACHINE"]}}})();

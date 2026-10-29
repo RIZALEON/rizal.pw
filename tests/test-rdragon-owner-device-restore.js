@@ -28,7 +28,7 @@ const DIAG={kp:'DIAG',me:{handle:'@rdragon_diag'},diag:true,test_only:true};
  // 5) static: guard runs before the page wires login; installer v3 refuses owner overwrite; cache-busted
  {const g=SRC.indexOf('ownerRestore().then'),w=SRC.indexOf('$("b-login").onclick=login');A.ok(g>0&&g<w);
   const inst=fs.readFileSync(path.join(ROOT,'tests/diag-profile/install-diag-profile.js'),'utf8');A.ok(/if \(!opt\.ownerOverwrite\) throw/.test(inst));
-  A.ok(/rlogin-page\.js\?v=1[78]/.test(fs.readFileSync(path.join(ROOT,'login/index.html'),'utf8')));A.ok(/install-diag-profile\.js\?v=3/.test(fs.readFileSync(path.join(ROOT,'tests/diag-profile/diag-import-ui.js'),'utf8')));
+  A.ok(/rlogin-page\.js\?v=1[789]/.test(fs.readFileSync(path.join(ROOT,'login/index.html'),'utf8')));A.ok(/install-diag-profile\.js\?v=3/.test(fs.readFileSync(path.join(ROOT,'tests/diag-profile/diag-import-ui.js'),'utf8')));
   A.ok(!/deleteDatabase|\.delete\(/.test(code),'guard never deletes');pass('guard wired before login, installer refuses owner overwrite, versions bumped, no deletes');}
  console.log(n+' passed');
 })().catch(e=>{console.error('FAIL',e);process.exit(1)});
