@@ -62,5 +62,28 @@ function compose(q){var raw=String(q||"").trim(),t=raw.toLowerCase().replace(/[�
  /* honest generic best quick take */
  var subj=raw.replace(/^(please\s+)?(can you|could you|tell me|explain|describe|what is|what's|what are|who is|why|how)\s+/i,"").replace(/[?.!]+$/,"").slice(0,120);
  return o("Here's my best quick take on \""+subj+"\": I don't have a confident offline answer for that, so I won't make one up. My in-browser engine is still warming up and will refine this reply when it's ready.","generic")}
-var API={compose:compose,wordMath:wordMath,haiku:haiku,VERSION:"rdragon-open 1.0 20261028"};
+/* SECOND VOICE 20261028: DRAGOSKUL, the skull half of RDRAGON. Same facts, its own wording/picks, so the two replies are never duplicates. */
+var JOKES2=["I asked the skull for a joke. It said it has a dry sense of humor: no skin in the game.","Parallel lines have so much in common. It's a shame they'll never meet.","I'd tell you a UDP joke, but you might not get it.","Why was the math book sad? It had too many problems."];
+var TIPS2={sleep:["Get morning daylight for ten minutes to set your body clock.","Keep the bedroom for sleep: cool (around 18 °C / 65 °F), dark and phone-free.","If you can't sleep after 20 minutes, get up, do something calm in dim light, then try again."],focus:["Pick one outcome for the next hour and write it down.","Put your phone in another room.","Stop at a natural midpoint so restarting is easy."],stress:["Name the feeling out loud; it takes the edge off.","Move your body for five minutes.","Talk to one person you trust."],study:["Mix topics instead of blocking one.","Sleep on it: memory consolidates overnight.","Make questions, not highlights."],default:["Ask what done looks like before you begin.","Remove one obstacle before adding effort.","Do it badly once, then improve it."]};
+function haiku2(topic){var t=String(topic||"").toLowerCase();
+ if(/rain/.test(t))return "Grey clouds lean on hills,\nwindows trade their dust for drops,\nthe gutters start singing.";
+ if(/snow/.test(t))return "White hush on the pines,\neach flake a small cold letter,\nwinter signs its name.";
+ if(/dragon/.test(t))return "Bone crown, quiet flame,\nthe skull remembers flying,\nembers keep the dream.";
+ return "Turning "+(topic||"it")+" over,\nthe skull hums an old answer,\nsimple, slow, and true."}
+function compose2(q){var a=compose(q),t=String(q||"").toLowerCase(),k=a.kind,x,T,tp;
+ function v(text){return {text:text,tier:"open",model:"open-pack-v2",kind:k,voice:"DRAGOSKUL",by:"DRAGOSKUL",tag:"DRAGOSKUL · second take"}}
+ if(k==="identity")return v("I'm DRAGOSKUL, the skull half of RDRAGON. RDRAGON is the fire, I'm the memory: I keep what's been said on rizal.pw and give you a second, plainer take when the big engine can't answer.");
+ if(k==="joke")return v(pick(JOKES2,t));
+ if(k==="names"){x=/dragon/.test(t)?"dragon":/\bcat|kitten/.test(t)?"cat":/\bdog|puppy/.test(t)?"dog":"default";var L=NAMES[x].slice().reverse();return v("Second opinion on names: "+L.slice(0,3).join(", ")+". If it breathes fire, I'd go with "+L[0]+".")}
+ if(k==="tips"){x=/sleep|insomnia|rest/.test(t)?"sleep":/focus|concentrat|productiv/.test(t)?"focus":/stress|anxi|calm|relax/.test(t)?"stress":/study|learn|exam/.test(t)?"study":"default";T=TIPS2[x];return v("Different angle: "+T.map(function(s,i){return "("+(i+1)+") "+s}).join(" "))}
+ if(k==="haiku"){tp=topicOf(t,/haiku\s+(?:about|on|for)\s+(.+)/);return v(haiku2(tp))}
+ if(k==="poem"){tp=topicOf(t,/(?:about|on|for)\s+(.+)/)||"today";return v("My verse on "+tp+":\n"+haiku2(tp))}
+ if(k==="math"){var m=a.text.match(/^([^ ]+) \((.+) = /);return v(m?"Answer: "+m[1]+". Working: "+m[2]+" leaves "+m[1]+".":"Answer: "+a.text)}
+ if(k==="translate"){var tr=a.text.match(/is "([^"]+)"/);return v(tr?tr[1]+": that's the everyday way to say it."+(/morning/.test(t)?" Use it until about noon, then switch to \"buenas tardes\".":""):"Phrase-book gap on my side too; the full engine will handle that one.")}
+ if(k==="trivia"){var cm=a.text.match(/^The capital of (.+) is (.+)\.$/);return v(cm?cm[2]+". People often guess a bigger city, but "+cm[2]+" is the capital of "+cm[1]+".":"Short version: "+a.text)}
+ if(k==="project"){var P2=PROJECTS.filter(function(x){return a.text.indexOf("Try "+x)<0});return v("My pick for a weekend: "+pick(P2,t+"!")+". Start with the smallest version that works on Saturday, polish on Sunday.")}
+ if(k==="story")return v("The skull's version: once there was a question nobody could answer, so someone answered a smaller one first. That turned out to be enough.");
+ if(k==="greet")return v("DRAGOSKUL here too. Two heads, one dragon. What do you need?");
+ return v("Second take from DRAGOSKUL: I can't answer that confidently offline either, so I'll keep it honest. Try rephrasing it more narrowly, or check back after the engine reloads.")}
+var API={compose:compose,compose2:compose2,wordMath:wordMath,haiku:haiku,VERSION:"rdragon-open 1.1 two-voices 20261028",VOICES:["RDRAGON","DRAGOSKUL"]};
 root.RDRAGON_OPEN=API;if(typeof module==="object"&&module.exports)module.exports=API})(typeof self!=="undefined"?self:globalThis);
