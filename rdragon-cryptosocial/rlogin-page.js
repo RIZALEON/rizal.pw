@@ -5,7 +5,7 @@
    The chain gets only a COMMITMENT (sha256 of the sealed package + version) — TEST ledger only (localStorage) until Rizal's go.
    Identity: @chaserizal binds to the SAME RID as Rizal (ЯID-0001-3QQS); ThundR keeps ЯID-0014-KREH. Root = RKEY profile 0 (ЯCASKET) — PENDING. */
 (function(){"use strict";
-var CFG=window.RDRAGON_CONFIG||{},$=function(i){return document.getElementById(i)},RS=null,DEV=null,RQ=null,LAST=null;
+var CFG=window.RDRAGON_CONFIG||{},$=function(i){return document.getElementById(i)||(DUM[i]=DUM[i]||document.createElement("div"))},DUM={} /* t107u: simple page has only some elements */,RS=null,DEV=null,RQ=null,LAST=null;
 var IDENT={"@chaserizal":{rid:"ЯID-0001-3QQS",tag:"#chaserizal",userId:"@chaserizal",
   binding:{rid:"ЯID-0001-3QQS",handle:"@chaserizal",bindingSha256:CFG.chaserizalBindingSha256||"PENDING (set RDRAGON_CONFIG.chaserizalBindingSha256 to bindingHash of the final staged binding)",staged:"cryptosocial-rid/CHASERIZAL-BINDING.unsigned.json",status:"staged (unsigned)"},
   cryptobot:{op:"bot",bot_rid:"ЯID-0014-KREH",class:"EXPERT",name:"ThundR",owner:"ЯID-0001-3QQS",bound:"ЯID",linkedProfile:"@CHASERIZAL",rosterRef:"ЯKLASSROOM/BOTLINK/roster/0014-KREH.json",
@@ -66,17 +66,35 @@ function imp(){var t=prompt("Paste the approval bundle (JSON)");if(!t)return;var
 /* 3 · username + password (rate-limited, offline) */
 function pwRec(h){return get().then(function(r){if(r&&r.pw&&H(r.handle)===h)return r;return ownerBackups().then(function(b){var m=b.filter(function(x){return x.v.pw&&H(x.v.handle)===h})[0];return m?m.v:r})}).then(function(r){return getK("pkg:"+h).then(function(sp){var p=PEND[h]||sp||J(PKK,{})[h]||null;if(r&&r.pw&&H(r.handle)===h)return{rec:r.pw,pid:r.profile,pkg:p};return p?{rec:p.login,pid:p.profile,pkg:p}:null})})}
 function login(){var h=H($("l-user").value),pe=$("l-pass"),RL=J(RLK,{}),s=RL[h]||{fails:0,until:0},rl=RSync.rateLimit(s,Date.now());
- if(rl.wait())return msg("too many attempts — try again in "+Math.ceil(rl.wait()/1000)+"s",1);$("b-login").disabled=true;
- pwRec(h).then(function(x){if(!x)throw Error("wrong username or password");return RSync.passwordUnwrap(x.rec,pe.value).then(function(sg){pe.value="";rl.ok();RL[h]={fails:0,until:0};W(RLK,RL);
+ /* t107u: specific, non-secret reasons. Only a real password mismatch counts toward the lockout. */
+ if(h==="@")return msg("enter your username",1);if(!pe.value)return msg("enter your password",1);
+ if(rl.wait())return msg("locked out for "+Math.ceil(rl.wait()/1000)+"s after too many wrong passwords — wait, then try again",1);$("b-login").disabled=true;msg("checking…");
+ function F(code,text,count){var e=Error(text);e.code=code;e.count=count;return e}
+ var X=null;
+ pwRec(h).then(function(x){X=x;if(!x)throw F("no-record","no login record for "+h+" on this browser (no device login and no saved ЯCASKET package for it here) — open Other options → Restore from file once, then log in");
+   return RSync.passwordCheck(x.rec,pe.value).then(function(okv){if(!okv)throw F("mismatch","login record found for "+h+", but this password does not match it",1);
+    return RSync.passwordUnwrap(x.rec,pe.value).catch(function(){throw F("record-bad","password matches, but the saved login record on this browser could not be opened — restore your ЯCASKET package once (Other options)")})})})
+  .then(function(sg){pe.value="";rl.ok();RL[h]={fails:0,until:0};W(RLK,RL);var x=X;
    var pid=x.pid||(x.pkg&&x.pkg.profile)||(byHandle(h)||{}).id;
-   /* device-local only: never synced to peers, never uploaded */
+   /* re-seed: password verified but the profile is missing from the local ledger -> append the signed founder profile.create (rsync-core only does it if this password key IS the profile's founder key) */
+   var seed=x.pkg||(pid&&!st().profiles[pid]?{profile:pid,card:{handle:h,name:h.slice(1)},rid:(IDENT[h]||{}).rid||null,created:new Date().toISOString()}:null);
    return (x.pkg?putK("pkg:"+h,x.pkg).then(function(){delete PEND[h]}):Promise.resolve()).then(function(){return get()}).then(function(r){
-     /* this device's OWN key (reused if already enrolled in this profile), enrolled by a device.enroll signed by the founder/password key */
-     var dk=r&&r.kp&&r.profile===pid?RSync.deviceSigner(r.kp):Promise.resolve(null);
-     return dk.then(function(ds){return RSync.passwordDeviceLogin(RS,sg,{profile:pid,pkg:x.pkg,device:ds,name:(navigator.platform||"device")+" · password login"})})})
-    .then(function(L){var pf=st().profiles[pid];if(!pf)throw Error("profile not in the local replica yet — sync or restore the ЯCASKET package");
-     return done(L.device,pf,{kp:L.device.keyPair,pw:x.rec,handle:h})})})})
-  .catch(function(e){if(/wrong username/.test(e.message)){RL[h]=rl.fail();W(RLK,RL)}pe.value="";msg(e.message,1)}).then(function(){$("b-login").disabled=false})}
+     var dk=r&&r.kp&&r.profile===pid&&!isTest(r)?RSync.deviceSigner(r.kp):Promise.resolve(null);
+     return dk.then(function(ds){return RSync.passwordDeviceLogin(RS,sg,{profile:pid,pkg:seed,device:ds,name:(navigator.platform||"device")+" · password login"})})})
+    .catch(function(e){throw F("no-profile","password OK, but profile "+(pid||"?")+" is not in this browser’s ledger and could not be re-seeded ("+String(e&&e.message||e)+") — Other options → Restore from file")})
+    .then(function(Lg){var pf=st().profiles[pid];if(!pf)throw F("no-profile","password OK, but the profile is not in this browser’s ledger — Other options → Restore from file");
+     return done(Lg.device,pf,{kp:Lg.device.keyPair,pw:x.rec,handle:h})})})
+  .catch(function(e){if(e&&e.count){RL[h]=rl.fail();W(RLK,RL)}pe.value="";window.RLOGIN_LAST_FAIL=e&&e.code||"error";msg(e&&e.message||String(e),1)}).then(function(){$("b-login").disabled=false})}
+/* t107u: login self-check — store NAMES and record KINDS only, never values */
+function selfCheck(h){h=H(h||$("l-user").value||(FND&&FND.handle)||"@chaserizal");var out={origin:location.origin,handle:h,idb:{},localStorage:[],ledger:{},lockout:null,databases:null};
+ var RL=J(RLK,{})[h];if(RL){var w=RSync.rateLimit(RL,Date.now()).wait();out.lockout=w?Math.ceil(w/1000)+"s":"none (fails "+(RL.fails|0)+")"}else out.lockout="none";
+ try{for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(/^(rdragon|rpostmenu|rdiag)/.test(k))out.localStorage.push(k+" ("+(localStorage.getItem(k)||"").length+" chars)")}}catch(e){out.localStorage=["unavailable: "+e.name]}
+ out.packageList=Object.keys(J(PKK,{}));try{var st0=st();out.ledger={entries:RS?RS.raw().length:0,profiles:Object.keys(st0.profiles||{}).length,hasHandle:!!byHandle(h)}}catch(e){out.ledger={error:String(e)}}
+ var dbs=(indexedDB.databases?indexedDB.databases().then(function(a){out.databases=a.map(function(x){return x.name})},function(){}):Promise.resolve());
+ return dbs.then(function(){return allKeys()}).then(function(ks){return Promise.all(ks.map(function(k){return getK(k).then(function(v){var kind=String(k).replace(/-d.*$/,"-*");
+   out.idb[String(k)]={kind:kind,testOnly:isTest(v),hasPasswordRecord:!!(v&&(v.pw||v.login)),forThisHandle:H((v&&(v.handle||(v.me&&v.me.handle)||(v.card&&v.card.handle)))||"")===h,hasDeviceKey:!!(v&&(v.kp||v.skp))}})}))})
+  .then(function(){var r=out.idb.device,pk=out.idb["pkg:"+h];out.verdict=r&&r.hasPasswordRecord&&r.forThisHandle?"device login record present":pk?"saved ЯCASKET package present":Object.keys(out.idb).some(function(k){return out.idb[k].hasPasswordRecord&&out.idb[k].forThisHandle})?"owner backup present (login will use it)":out.packageList.indexOf(h)>=0?"package in localStorage list":"NO login record for "+h+" in this browser — Restore from file once";
+   var el=document.getElementById("selfcheck");if(el)el.textContent=JSON.stringify(out,null,1);return out})}
 function restorePkg(){var t=prompt("Paste the ЯCASKET package (JSON)");if(!t)return;var p;try{p=JSON.parse(t)}catch(e){return msg("not a package",1)}
  verifyPkg(p).then(function(){PEND[H(p.card.handle)]=p;var a=J(PKK,{});a[H(p.card.handle)]=p;W(PKK,a);msg("✓ package verified against its commitment — now log in with your password")}).catch(function(e){msg(e.message,1)})}
 function restoreFile(){var f=$("f-pkg").files&&$("f-pkg").files[0];if(!f)return;var rd=new FileReader();rd.onload=function(){var p;$("f-pkg").value="";try{p=JSON.parse(rd.result)}catch(e){return msg("not a package file",1)}
@@ -105,12 +123,12 @@ function dlpkg(){var p=window.__rcasketPkg;if(!p)return;var a=document.createEle
 /* wire up */
 function tab(t){[].forEach.call(document.querySelectorAll("[data-tab]"),function(b){b.classList.toggle("on",b.dataset.tab===t)});$("t-login").hidden=t!=="login";$("t-signup").hidden=t!=="signup"}
 [].forEach.call(document.querySelectorAll("[data-tab]"),function(b){b.onclick=function(){tab(b.dataset.tab)}});
-ownerRestore().then(function(x){window.RLOGIN_OWNER_RESTORE=x;if(x.restored)msg("✓ this device's own login record is active again (TEST-ONLY diag identity set aside) — log in with your password")});$("b-auto").onclick=auto;$("b-req").onclick=showReq;$("b-imp").onclick=imp;$("b-login").onclick=login;$("b-pkg").onclick=restorePkg;$("f-pkg").onchange=restoreFile;founderLine();try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist().catch(function(){})}catch(e){}getK("pkg:"+(FND?H(FND.handle):"")).then(function(sp){if(sp&&!$("l-user").value)$("l-user").value=H(FND.handle)});$("b-signup").onclick=signup;$("b-dlpkg").onclick=dlpkg;$("b-rgen").onclick=rgenVerify;
+ownerRestore().then(function(x){window.RLOGIN_OWNER_RESTORE=x;if(x.restored)msg("✓ this device's own login record is active again (TEST-ONLY diag identity set aside) — log in with your password")});try{if(/[?&]tab=signup/.test(location.search))tab("signup")}catch(e){}if(document.getElementById("b-selfcheck"))$("b-selfcheck").onclick=function(){selfCheck()};$("b-auto").onclick=auto;$("b-req").onclick=showReq;$("b-imp").onclick=imp;$("b-login").onclick=login;$("b-pkg").onclick=restorePkg;$("f-pkg").onchange=restoreFile;founderLine();try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist().catch(function(){})}catch(e){}getK("pkg:"+(FND?H(FND.handle):"")).then(function(sp){if(sp&&!$("l-user").value)$("l-user").value=H(FND.handle)});$("b-signup").onclick=signup;$("b-dlpkg").onclick=dlpkg;$("b-rgen").onclick=rgenVerify;
 $("s-pass").oninput=meter;$("l-pass").onkeydown=function(e){if(e.key==="Enter")login()};p0();
 RS=RSync.create({storage:RSync.adapters.localStorage("rdragon.csp.rsync.v1"),policy:RSync.devicePolicy({ownerKeys:CFG.ownerKeys||[]})});
 RS.ready.then(function(){var bc=RSync.adapters.broadcast("rdragon.csp.rsync");if(bc)RS.attach(bc);
  function rdPeers(base,cb){var l=(CFG.peers||[]).concat(window.RDRAGON_PRIVATE_PEERS||[]),u=CFG.privatePeersUrl;if(!u||!window.fetch)return cb(l);try{u=new URL(u,base||location.href).href}catch(e){return cb(l)}fetch(u,{cache:"no-store"}).then(function(r){return r.ok?r.json():{}}).then(function(j){cb(l.concat(j&&j.peers||[]))},function(){cb(l)})}
  rdPeers((document.querySelector('script[src*="rlogin-page.js"]')||{}).src,function(pl){var tps=pl.filter(function(u,i){return u&&pl.indexOf(u)===i}).map(function(u){return RSync.adapters.httpPeer(String(u).replace(/\/$/,""))});if(tps.length){var y=RS.syncer({peers:tps,pollMs:CFG.syncEveryMs||20000});y.start()}});
  RS.onChange(checkEnrolled);RS.onChange(owners);owners();rgenVerify();return get()}).then(function(r){if(r&&r.kp&&!r.req&&r.profile)$("auto-note").textContent+=" · this device has an auto-login key"});
-window.RLOGIN_PAGE={ownerRestore:ownerRestore,state:st,device:get,ledger:LEDGER,strength:strength,ident:IDENT,rgen:function(){return LAST},rgenVerify:rgenVerify,owners:owners,authority:function(id){return RSync.authorityOf(st(),id)},commands:RSync.RGEN.commands,founder:FND,storedPackage:function(h){return getK("pkg:"+H(h))}};
+window.RLOGIN_PAGE={selfCheck:selfCheck,ownerRestore:ownerRestore,state:st,device:get,ledger:LEDGER,strength:strength,ident:IDENT,rgen:function(){return LAST},rgenVerify:rgenVerify,owners:owners,authority:function(id){return RSync.authorityOf(st(),id)},commands:RSync.RGEN.commands,founder:FND,storedPackage:function(h){return getK("pkg:"+H(h))}};
 })();
