@@ -39,9 +39,9 @@
    "pack": "biobot/packs/biobot-pack-0.1.0.tar.gz",
    "sha256": "0c189b60342226b99a9e02665df21e875d60f3076d6f41f59965e9c27af95896",
    "public_only": true,
-   "sha256_at_wallet_pin": "00311d57a836c4a2c7224711944cd075158a1889d503721271c9396e6493a8aa",
+   "sha256_at_wallet_pin": "0c189b60342226b99a9e02665df21e875d60f3076d6f41f59965e9c27af95896",
    "url": "https://rizal.info/biobot/feed.json",
-   "note": "hash after 2026-10-29 backlink (rid + bio_source) was added; wallet pin is the pre-backlink hash"
+   "note": "hash after 2026-10-29 backlink (rid + bio_source); wallet BioSource.json pin matches"
   },
   {
    "card": "RIZAL DECIDER",
@@ -55,6 +55,13 @@
    "path": "RFORGE/SCROLLS/BOTCARD/SUPER-BOT-CARD.json",
    "sha256": "cdce573c337e7094e36b45462e960212ed035f7a0dd706bc800ddc04bfaaf71c",
    "public_only": true
+  },
+  {
+   "card": "DECIDER-ID",
+   "path": "RFORGE/SCROLLS/FEED-RELAYS-20261025/private/DECIDER-ID.json",
+   "sha256": "88f846147bd7664bf4572cf048b0290f206a05f3a00fe8f2002b781f37d3c0bd",
+   "ref_only": true,
+   "note": "hash reference only; contents are private and not copied"
   }
  ],
  "status": "unsigned-pending-founder",
