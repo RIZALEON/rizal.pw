@@ -1,5 +1,5 @@
 {
-"v": "teraformr20261029-race-pack",
+"v": "biosource-teraformr20261029-race-pack",
 "files": [
 "/.gitignore",
 "/.nojekyll",
@@ -84,6 +84,8 @@
 "/tweetback/tbi-core.js",
 "/tweetback/tbi-panel.js",
 "/rdragon-cryptosocial/chaserizal-tweets.js",
-"/rdragon-cryptosocial/tweets/index.json"
+"/rdragon-cryptosocial/tweets/index.json",
+"/rdragon-cryptosocial/rbiosource.js",
+"/data/founder/bio-source.json"
 ]
 }
