@@ -1,4 +1,4 @@
-/* RDRAGON · CRYPTO SIDE PANEL — CryptoSocial profile inside RDRAGON left slot (#roster). All controls functional, offline (localStorage).
+/* RDRAGON · CRYPTO SIDE PANEL · quality 20261028 — CryptoSocial profile inside RDRAGON left slot (#roster). All controls functional, offline (localStorage).
    Toggle: × / + or Cmd/Ctrl+Shift+K. ?csp=0 disables. API: window.RDRAGON_CSP */
 (function(){
  if(window.__CSP)return;window.__CSP=1;if(/[?&]csp=0/.test(location.search))return;
@@ -53,7 +53,7 @@
  /* EDGE ENGINE failover: peers/Neo first (they answer through ЯSYNC); if no answered reply arrives within RDEDGE_WAIT ms, this browser runs Granite itself (tier:"edge"). Offline placeholder stays if the engine can't run. */
  var RDEDGE_WAIT=CFG.edgeWaitMs!=null?CFG.edgeWaitMs:1500,RDENG=null,RDSCRIPT_MS=CFG.engineScriptMs!=null?CFG.engineScriptMs:(CFG.engineLoadMs||20000),RDMODEL_MS=CFG.engineModelMs!=null?CFG.engineModelMs:300000,RDANS_MS=CFG.engineAnswerMs||180000,RDRETRY=CFG.engineRetry!=null?CFG.engineRetry:1;
  function tmo(pr,ms){return Promise.race([pr,new Promise(function(_,no){setTimeout(function(){no(Error("timeout"))},ms)})])}
- function rdEngine(){if(window.RDRAGON_ENGINE)return Promise.resolve(window.RDRAGON_ENGINE);if(RDENG)return RDENG;RDENG=new Promise(function(ok,no){var sc=document.createElement("script");sc.src=(CFG.engineUrl||"/rdragon-cryptosocial/engine/rdragon-engine.js")+"?v=3";sc.onload=function(){window.RDRAGON_ENGINE?ok(window.RDRAGON_ENGINE):no(Error("engine missing"))};sc.onerror=function(){RDENG=null;no(Error("engine load failed"))};document.head.appendChild(sc)});return RDENG}
+ function rdEngine(){if(window.RDRAGON_ENGINE)return Promise.resolve(window.RDRAGON_ENGINE);if(RDENG)return RDENG;RDENG=new Promise(function(ok,no){var sc=document.createElement("script");sc.src=(CFG.engineUrl||"/rdragon-cryptosocial/engine/rdragon-engine.js")+"?v=4";sc.onload=function(){window.RDRAGON_ENGINE?ok(window.RDRAGON_ENGINE):no(Error("engine missing"))};sc.onerror=function(){RDENG=null;no(Error("engine load failed"))};document.head.appendChild(sc)});return RDENG}
  function rdLessons(){var F=fold(),out=[];Object.keys(F.LN).forEach(function(a){Object.keys(F.LN[a]).forEach(function(k){var l=F.LN[a][k];out.push({text:l.text,kind:l.lesson_kind||l.type||"teach",weight:l.weight})})});
   EV.forEach(function(e){if((e.kind||e.t)==="rdragon.feedback"&&e.correction)out.push({text:String(e.correction).slice(0,280),kind:"correction"})}); /* this device's own corrections, used locally, never shipped */
   return fetch(CFG.lessonsUrl||"/rdragon-cryptosocial/engine/lessons-public.json",{cache:"no-cache"}).then(function(r){return r.ok?r.json():{lessons:[]}}).then(function(j){return out.concat((j.lessons||[]).filter(function(l){return l&&l.text}))},function(){return out})}
