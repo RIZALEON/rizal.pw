@@ -68,6 +68,24 @@ function imp(){var t=prompt("Paste the approval bundle (JSON)");if(!t)return;var
    Each candidate must carry a valid founder-key signature for the registered founder profile; it is opened HERE with the typed password
    (PBKDF2-SHA256 600k + AES-GCM) and the package inside must match the registered commitment. Nothing secret is stored or sent. */
 var RF=window.RFOUNDER||null,RELAYS=CFG.relays||["wss://relay.damus.io","wss://nos.lol","wss://relay.primal.net","wss://relay.nostr.band"],LASTFR=null;
+/* ===== LOCKED: do not remove (t109u 20261029, Decider order) =====
+   rlogin.founder-fallback.v1 — username + password login for the founder (@chaserizal) MUST always reach the founder-recovery
+   fallback on ANY browser or app shell: IndexedDB → localStorage → /data/founder/recovery.json → Nostr relays (recoveryRec below).
+   Later versions may ADD layers, never remove or bypass these. Enforced by: lockCheck() (runs at load + before every password login,
+   shown in Login self-check), tests/test-rdragon-founder-lock.js (CI), and RDRAGON_CONFIG.founderFallbackLock (manifest note).
+   After any successful founder login the recovery record is cached into IndexedDB + localStorage (cacheFounder) so the next visit
+   works even if the site copy is unreachable. Ciphertext only — no password is ever stored. ===== */
+var LOCK={id:"rlogin.founder-fallback.v1",layers:["idb","localStorage","site","relay"],note:"LOCKED: do not remove"};
+if(!CFG.founderRecoveryUrl)CFG.founderRecoveryUrl=(RF&&RF.SITE)||"/data/founder/recovery.json"; /* LOCKED: the site layer can never be switched off */
+function lockCheck(){var miss=[];if(!RF)miss.push("RFOUNDER (rfounder.js not loaded)");else["verify","unwrap","fromSite","fromRelay","IDBK","LSK"].forEach(function(k){if(!RF[k])miss.push("RFOUNDER."+k)});
+ if(typeof recoveryRec!=="function")miss.push("recoveryRec");if(!FND||!FND.handle)miss.push("RDRAGON_CONFIG.founder");if(!CFG.founderRecoveryUrl)miss.push("founderRecoveryUrl");
+ return {ok:!miss.length,id:LOCK.id,layers:LOCK.layers.slice(),note:LOCK.note,missing:miss}}
+/* LOCKED: cache the verified founder recovery record locally after a successful founder login (never throws, ciphertext only) */
+function cacheFounder(h){if(!RF||!FND||h!==H(FND.handle))return Promise.resolve(null);
+ return getK(RF.IDBK).then(function(b){if(b){try{if(!localStorage.getItem(RF.LSK))W(RF.LSK,b)}catch(e){}return "idb"}
+  var ls=J(RF.LSK,null);return (ls?Promise.resolve(ls):RF.fromSite(CFG.founderRecoveryUrl)).then(function(c){if(!c)return null;
+   return RF.verify(c,FND,RSync.profileIdFor).then(function(v){if(!v.ok)return null;return putK(RF.IDBK,c).then(function(){try{W(RF.LSK,c)}catch(e){}return "cached"})})})})
+  .then(function(r){window.RLOGIN_FOUNDER_CACHED=r;return r},function(){return null})}
 function recoveryRec(h,pass,F){if(!RF||!FND||h!==H(FND.handle))return Promise.resolve(null);var valid=0;
  function tryList(list){var i=0;function next(){if(i>=list.length)return Promise.resolve(null);var c=list[i++];if(!c||!c.b)return next();
    return RF.verify(c.b,FND,RSync.profileIdFor).then(function(v){if(!v.ok)return next();valid++;
@@ -99,13 +117,21 @@ function dlFounder(){var b=LASTFR;if(!b)return;var a=document.createElement("a")
 function frMeter(){var e=document.getElementById("fr-strength");if(e)e.textContent="strength: "+strength($("fr-pass").value).label}
 /* 3 · username + password (rate-limited, offline) */
 function pwRec(h){return get().then(function(r){if(r&&r.pw&&H(r.handle)===h)return r;return ownerBackups().then(function(b){var m=b.filter(function(x){return x.v.pw&&H(x.v.handle)===h})[0];return m?m.v:r})}).then(function(r){return getK("pkg:"+h).then(function(sp){var p=PEND[h]||sp||J(PKK,{})[h]||null;if(r&&r.pw&&H(r.handle)===h)return{rec:r.pw,pid:r.profile,pkg:p};return p?{rec:p.login,pid:p.profile,pkg:p}:null})})}
+function exportRec(){var h=H($("l-user").value);if(h==="@")return msg("enter your username first",1);
+ return pwRec(h).then(function(x){if(!x||!x.rec)return msg("no login record for "+h+" on this browser — log in here first",1);
+  /* record is already password-wrapped (no plaintext password or key); input for tools/rsite-auth-make.js add */
+  var o={format:"rlogin.record-export.v1",handle:h,exported:new Date().toISOString(),rec:x.rec,pid:x.pid||null,pkg:x.pkg||null},
+   b=new Blob([JSON.stringify(o,null,1)],{type:"application/json"}),u=URL.createObjectURL(b),A=document.createElement("a");
+  A.href=u;A.download="rlogin-record-"+h.slice(1)+".json";document.body.appendChild(A);A.click();A.remove();setTimeout(function(){URL.revokeObjectURL(u)},5000);
+  msg("exported login record for "+h+" (encrypted) — next: node tools/rsite-auth-make.js add "+h+" <file>");return o})}
 function login(){var h=H($("l-user").value),pe=$("l-pass"),RL=J(RLK,{}),s=RL[h]||{fails:0,until:0},rl=RSync.rateLimit(s,Date.now());
  /* t107u: specific, non-secret reasons. Only a real password mismatch counts toward the lockout. */
  if(h==="@")return msg("enter your username",1);if(!pe.value)return msg("enter your password",1);
  if(rl.wait())return msg("locked out for "+Math.ceil(rl.wait()/1000)+"s after too many wrong passwords — wait, then try again",1);$("b-login").disabled=true;msg("checking…");
  function F(code,text,count){var e=Error(text);e.code=code;e.count=count;return e}
  var X=null;
- var PW=pe.value;pwRec(h).then(function(x){return x||recoveryRec(h,PW,F)}).then(function(x){X=x;if(!x)throw F("no-record","no login record for "+h+" on this browser (no device login and no saved ЯCASKET package for it here) — open Other options → Restore from file once, then log in");
+ var PW=pe.value,LK=lockCheck();if(!LK.ok&&FND&&h===H(FND.handle)){try{console.error("ЯLOGIN LOCK broken",LK.missing)}catch(e){}} /* LOCKED: founder fallback must stay reachable */
+ pwRec(h).then(function(x){return x||(window.RSITEAUTH&&RSITEAUTH.enabled()?RSITEAUTH.rec(h,PW):null)}).then(function(x){return x||recoveryRec(h,PW,F)}) /* order: device -> site vault (rsite-auth) -> founder fallback (LOCKED) */.then(function(x){X=x;if(!x)throw F("no-record","no login record for "+h+" on this browser (no device login and no saved ЯCASKET package for it here) — open Other options → Restore from file once, then log in");
    return RSync.passwordCheck(x.rec,pe.value).then(function(okv){if(!okv)throw F("mismatch","login record found for "+h+", but this password does not match it",1);
     return RSync.passwordUnwrap(x.rec,pe.value).catch(function(){throw F("record-bad","password matches, but the saved login record on this browser could not be opened — restore your ЯCASKET package once (Other options)")})})})
   .then(function(sg){pe.value="";rl.ok();RL[h]={fails:0,until:0};W(RLK,RL);var x=X;
@@ -117,10 +143,10 @@ function login(){var h=H($("l-user").value),pe=$("l-pass"),RL=J(RLK,{}),s=RL[h]|
      return dk.then(function(ds){return RSync.passwordDeviceLogin(RS,sg,{profile:pid,pkg:seed,device:ds,name:(navigator.platform||"device")+" · password login"})})})
     .catch(function(e){throw F("no-profile","password OK, but profile "+(pid||"?")+" is not in this browser’s ledger and could not be re-seeded ("+String(e&&e.message||e)+") — Other options → Restore from file")})
     .then(function(Lg){var pf=st().profiles[pid];if(!pf)throw F("no-profile","password OK, but the profile is not in this browser’s ledger — Other options → Restore from file");
-     return done(Lg.device,pf,{kp:Lg.device.keyPair,pw:x.rec,handle:h})})})
+     var dn=done(Lg.device,pf,{kp:Lg.device.keyPair,pw:x.rec,handle:h});return cacheFounder(h).then(function(){return dn})})})
   .catch(function(e){if(e&&e.count){RL[h]=rl.fail();W(RLK,RL)}pe.value="";window.RLOGIN_LAST_FAIL=e&&e.code||"error";msg(e&&e.message||String(e),1)}).then(function(){$("b-login").disabled=false})}
 /* t107u: login self-check — store NAMES and record KINDS only, never values */
-function selfCheck(h){h=H(h||$("l-user").value||(FND&&FND.handle)||"@chaserizal");var out={origin:location.origin,handle:h,idb:{},localStorage:[],ledger:{},lockout:null,databases:null};
+function selfCheck(h){h=H(h||$("l-user").value||(FND&&FND.handle)||"@chaserizal");var out={origin:location.origin,handle:h,idb:{},localStorage:[],ledger:{},lockout:null,databases:null};out.founderLock=lockCheck(); /* LOCKED */
  var RL=J(RLK,{})[h];if(RL){var w=RSync.rateLimit(RL,Date.now()).wait();out.lockout=w?Math.ceil(w/1000)+"s":"none (fails "+(RL.fails|0)+")"}else out.lockout="none";
  try{for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(/^(rdragon|rpostmenu|rdiag)/.test(k))out.localStorage.push(k+" ("+(localStorage.getItem(k)||"").length+" chars)")}}catch(e){out.localStorage=["unavailable: "+e.name]}
  out.packageList=Object.keys(J(PKK,{}));try{var st0=st();out.ledger={entries:RS?RS.raw().length:0,profiles:Object.keys(st0.profiles||{}).length,hasHandle:!!byHandle(h)}}catch(e){out.ledger={error:String(e)}}
@@ -157,12 +183,13 @@ function dlpkg(){var p=window.__rcasketPkg;if(!p)return;var a=document.createEle
 /* wire up */
 function tab(t){[].forEach.call(document.querySelectorAll("[data-tab]"),function(b){b.classList.toggle("on",b.dataset.tab===t)});$("t-login").hidden=t!=="login";$("t-signup").hidden=t!=="signup"}
 [].forEach.call(document.querySelectorAll("[data-tab]"),function(b){b.onclick=function(){tab(b.dataset.tab)}});
-ownerRestore().then(function(x){window.RLOGIN_OWNER_RESTORE=x;if(x.restored)msg("✓ this device's own login record is active again (TEST-ONLY diag identity set aside) — log in with your password")});try{if(/[?&]tab=signup/.test(location.search))tab("signup")}catch(e){}if(document.getElementById("b-selfcheck"))$("b-selfcheck").onclick=function(){selfCheck()};if(document.getElementById("b-mkfr")){$("b-mkfr").onclick=makeRecovery;$("b-dlfr").onclick=dlFounder;$("fr-pass").oninput=frMeter}$("b-auto").onclick=auto;$("b-req").onclick=showReq;$("b-imp").onclick=imp;$("b-login").onclick=login;$("b-pkg").onclick=restorePkg;$("f-pkg").onchange=restoreFile;founderLine();try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist().catch(function(){})}catch(e){}getK("pkg:"+(FND?H(FND.handle):"")).then(function(sp){if(sp&&!$("l-user").value)$("l-user").value=H(FND.handle)});$("b-signup").onclick=signup;$("b-dlpkg").onclick=dlpkg;$("b-rgen").onclick=rgenVerify;
+ownerRestore().then(function(x){window.RLOGIN_OWNER_RESTORE=x;if(x.restored)msg("✓ this device's own login record is active again (TEST-ONLY diag identity set aside) — log in with your password")});try{if(/[?&]tab=signup/.test(location.search))tab("signup")}catch(e){}if(document.getElementById("b-selfcheck"))$("b-selfcheck").onclick=function(){selfCheck()};if(document.getElementById("b-mkfr")){$("b-mkfr").onclick=makeRecovery;$("b-dlfr").onclick=dlFounder;$("fr-pass").oninput=frMeter}$("b-auto").onclick=auto;$("b-req").onclick=showReq;$("b-imp").onclick=imp;$("b-login").onclick=login;$("b-pkg").onclick=restorePkg;if($("b-exrec"))$("b-exrec").onclick=exportRec;$("f-pkg").onchange=restoreFile;founderLine();try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist().catch(function(){})}catch(e){}getK("pkg:"+(FND?H(FND.handle):"")).then(function(sp){if(sp&&!$("l-user").value)$("l-user").value=H(FND.handle)});$("b-signup").onclick=signup;$("b-dlpkg").onclick=dlpkg;$("b-rgen").onclick=rgenVerify;
 $("s-pass").oninput=meter;$("l-pass").onkeydown=function(e){if(e.key==="Enter")login()};p0();
 RS=RSync.create({storage:RSync.adapters.localStorage("rdragon.csp.rsync.v1"),policy:RSync.devicePolicy({ownerKeys:CFG.ownerKeys||[]})});
 RS.ready.then(function(){var bc=RSync.adapters.broadcast("rdragon.csp.rsync");if(bc)RS.attach(bc);
  function rdPeers(base,cb){var l=(CFG.peers||[]).concat(window.RDRAGON_PRIVATE_PEERS||[]),u=CFG.privatePeersUrl;if(!u||!window.fetch)return cb(l);try{u=new URL(u,base||location.href).href}catch(e){return cb(l)}fetch(u,{cache:"no-store"}).then(function(r){return r.ok?r.json():{}}).then(function(j){cb(l.concat(j&&j.peers||[]))},function(){cb(l)})}
  rdPeers((document.querySelector('script[src*="rlogin-page.js"]')||{}).src,function(pl){var tps=pl.filter(function(u,i){return u&&pl.indexOf(u)===i}).map(function(u){return RSync.adapters.httpPeer(String(u).replace(/\/$/,""))});if(tps.length){var y=RS.syncer({peers:tps,pollMs:CFG.syncEveryMs||20000});y.start()}});
  RS.onChange(checkEnrolled);RS.onChange(owners);owners();rgenVerify();return get()}).then(function(r){if(r&&r.kp&&!r.req&&r.profile)$("auto-note").textContent+=" · this device has an auto-login key"});
-window.RLOGIN_PAGE={selfCheck:selfCheck,makeRecovery:makeRecovery,recoveryRec:recoveryRec,founderRecovery:function(){return LASTFR},ownerRestore:ownerRestore,state:st,device:get,ledger:LEDGER,strength:strength,ident:IDENT,rgen:function(){return LAST},rgenVerify:rgenVerify,owners:owners,authority:function(id){return RSync.authorityOf(st(),id)},commands:RSync.RGEN.commands,founder:FND,storedPackage:function(h){return getK("pkg:"+H(h))}};
+window.RLOGIN_LOCK=lockCheck();if(!window.RLOGIN_LOCK.ok){try{console.error("ЯLOGIN LOCK broken",window.RLOGIN_LOCK.missing)}catch(e){}}
+window.RLOGIN_PAGE={exportRec:exportRec,lockCheck:lockCheck,cacheFounder:cacheFounder,selfCheck:selfCheck,makeRecovery:makeRecovery,recoveryRec:recoveryRec,founderRecovery:function(){return LASTFR},ownerRestore:ownerRestore,state:st,device:get,ledger:LEDGER,strength:strength,ident:IDENT,rgen:function(){return LAST},rgenVerify:rgenVerify,owners:owners,authority:function(id){return RSync.authorityOf(st(),id)},commands:RSync.RGEN.commands,founder:FND,storedPackage:function(h){return getK("pkg:"+H(h))}};
 })();

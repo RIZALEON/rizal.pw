@@ -15,3 +15,6 @@ Public bio record for @chaserizal / ЯID-0001-3QQS: social handles fused with th
 - Signature slot: `bio-source.sig.json` = {format:"rizalpw.bio-source-sig.v1", record_sha256, pub (raw P-256 b64), sig (ECDSA-P256-SHA256 raw r||s b64)} over the text `rizalpw.bio-source-sig.v1\n<record_sha256>`.
 - Verified in the browser (rbiosource.js): sha256 of the file bytes must equal record_sha256 and profileIdFor(pub) must equal the registered founder profile. Shows "signed" or "pending ЯCASKET signature".
 - Any edit to bio-source.json changes its hash and needs a new signature.
+
+## LOCKED: do not remove — rlogin.founder-fallback.v1 (2026-10-29)
+Password login for @chaserizal always reaches this fallback (IndexedDB → localStorage → `recovery.json` here → Nostr) on any browser or app. Guarded by `lockCheck()` in `rdragon-cryptosocial/rlogin-page.js`, `RDRAGON_CONFIG.founderFallbackLock`, and `tests/test-rdragon-founder-lock.js` (CI). After a successful founder login the verified record is cached into IndexedDB + localStorage. Later versions may add layers, never remove them.

@@ -48,7 +48,7 @@ async function login(P,user,pw){P.E['l-user'].value=user;P.E['l-pass'].value=pw;
   pass('wrong password -> mismatch + lockout; foreign blob ignored; non-founder handles unaffected');}
  // 4) options page: Make founder recovery (one time) -> IDB + local list + signed founder.bind (public refs only)
  {const P=page('login/options/index.html',{idb:{'pkg:@chaserizal':pkg},cfg:{founder}});await wait(50);['founder-box','fr-pass','b-mkfr','b-dlfr','fr-st','fr-strength'].forEach(i=>A.ok(P.E[i],i));
-  A.ok(/offline/.test(P.html)&&/passphrase/.test(P.html),'risk text');A.ok(/rfounder\.js\?v=1/.test(P.html)&&/rlogin-page\.js\?v=19/.test(P.html)&&/rfounder\.js\?v=1/.test(R('login/index.html')));
+  A.ok(/offline/.test(P.html)&&/passphrase/.test(P.html),'risk text');A.ok(/rfounder\.js\?v=1/.test(P.html)&&/rlogin-page\.js\?v=(19|[2-9]\d)/.test(P.html)&&/rfounder\.js\?v=1/.test(R('login/index.html')));
   P.E['fr-pass'].value='wrong-password-1';A.strictEqual(await P.sb.RLOGIN_PAGE.makeRecovery(),null);A.ok(/does not match/.test(P.E['fr-st'].textContent));
   P.E['fr-pass'].value=PW;const b=await P.sb.RLOGIN_PAGE.makeRecovery();A.ok(b,P.E['fr-st'].textContent);A.strictEqual(P.E['fr-pass'].value,'');A.strictEqual(P.E['b-dlfr'].hidden,false);
   A.strictEqual((await RF.verify(b,founder,RS.profileIdFor)).ok,true);A.strictEqual(b.kdf.iter,ITER);A.ok(P.m.get('founder.recovery'));A.ok(P.L['rdragon.csp.founder.recovery.v1']);

@@ -50,3 +50,6 @@ Test: `tests/test-rdragon-login-simple.js`.
 ## t108u 20261029 — founder recovery + stay logged in
 - Founder recovery records (`founder.recovery` in IndexedDB, `rdragon.csp.founder.recovery.v1` in localStorage) are never touched by rdiag repairs or the TEST-ONLY diag installer.
 - The persistent device key (non-extractable, IndexedDB "device".kp) keeps auto-login working; tests: tests/test-rdragon-founder-recovery.js (fake password only).
+
+## t109u 20261029 — LOCKED founder fallback
+- `rlogin.founder-fallback.v1` is LOCKED: do not remove. Login self-check shows `founderLock` {ok, layers, missing}. Test: tests/test-rdragon-founder-lock.js.
