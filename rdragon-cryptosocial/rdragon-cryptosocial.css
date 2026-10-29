@@ -156,3 +156,7 @@ body>#csp-panel{position:fixed;left:0;top:0;bottom:0;width:340px;z-index:900;ove
 /* 20261027 pinned bottom bar (nav + RSYNC strip) */
 #csp-panel .csp-dock{position:sticky;bottom:0;z-index:20;background:#000;padding-bottom:env(safe-area-inset-bottom,0px)}
 #csp-panel .csp-view{padding-bottom:16px}
+/* ranklearn 20261028: relay marker, score, relay status line */
+.csp-viarelay{color:#7fd3ff;border:1px solid #2a5a73;border-radius:3px;padding:0 3px;font-size:10px}
+.csp-score{font-size:10px;opacity:.8}
+.csp-relaystat{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}

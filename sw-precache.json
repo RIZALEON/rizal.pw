@@ -1,5 +1,5 @@
 {
-"v": "nostore-relay20261028-race-pack",
+"v": "ranklearn20261028-race-pack",
 "files": [
 "/.gitignore",
 "/.nojekyll",
@@ -37,6 +37,7 @@
 "/rdragon-cryptosocial/engine/ANSWERS-README.md",
 "/rdragon-cryptosocial/engine/rdragon-quick.js",
 "/rdragon-cryptosocial/engine/rdragon-open.js",
+"/rdragon-cryptosocial/engine/rdragon-learn.js",
 "/rdragon-cryptosocial/rstore.js",
 "/rdragon-cryptosocial/rrelay.js",
 "/rdragon-cryptosocial/engine/vendor/nostr-tools.bundle.js",

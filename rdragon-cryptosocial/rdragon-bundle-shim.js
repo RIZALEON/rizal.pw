@@ -44,16 +44,20 @@ function answerHit(q){
 }
 /* local-first 20261028: the whole no-network ladder, quick (math/rules) -> intent card -> answers.json. Resolves null on miss; never touches Neo/ENJIN/127.0.0.1. */
 function quickHit(q){var QK=w.RDRAGON_QUICK;var r=QK&&QK.quick(q);return r&&r.text?{text:r.text,tier:'quick',model:r.model,tag:'RDRAGON · local',by:'RDRAGON',device:'web'}:null}
-function localAnswer(q,ms){var raw=String(q||''),qh=quickHit(raw);if(qh)return Promise.resolve(qh);
+function pickBest(C,q){if(!C.length)return null;var R=w.RDRAGON_RANK,r=R&&R.rankSources?R.rankSources(C,q):C;if(!r.length)return null;var top=r[0];top.alts=r.slice(1).map(function(c){return {tier:c.tier,score:c.score}});return top}
+function localAnswer(q,ms){var raw=String(q||''),qh=quickHit(raw);if(qh){var R0=w.RDRAGON_RANK;if(R0){var c0=R0.conf('quick');qh.score=c0.score;qh.why=c0.why}return Promise.resolve(qh)}
   var all=Promise.all([card(),intentMap(),answers()]).then(function(){
-   var ih=intentHit(raw);if(ih&&ih.t)return{text:ih.t,tier:'local-card',model:'intent-card',tag:'RDRAGON · local-card',by:'RDRAGON',device:'web'};
-   var ah=answerHit(raw);if(ah&&ah.a)return{text:String(ah.a).slice(0,600),tier:'pack',model:'answers',tag:'RDRAGON · pack',by:'RDRAGON',device:'web',src:ah.src||'answers'};
-   return null},function(){return null});
+   /* BEST FIRST 20261028: collect every local source (intent card, answers.json, learned pack, relay-learned) and let RDRAGON_RANK pick the highest-confidence one; score/why ride along. */
+   var C=[],ih=intentHit(raw),ah=answerHit(raw),L=w.RDRAGON_LEARN,lh=null;try{lh=L&&L.lookup(raw)}catch(e){}
+   if(ih&&ih.t)C.push({text:ih.t,tier:'local-card',model:'intent-card',tag:'RDRAGON · local-card',by:'RDRAGON',device:'web'});
+   if(ah&&ah.a)C.push({text:String(ah.a).slice(0,600),tier:'pack',model:'answers',tag:'RDRAGON · pack',by:'RDRAGON',device:'web',src:ah.src||'answers'});
+   if(lh&&lh.text&&!(lh.tier==='relay-learned'&&ih&&ih.t))C.push({text:String(lh.text).slice(0,600),tier:lh.tier,model:'learned',tag:'RDRAGON · '+lh.tier,by:'RDRAGON',device:'web',key:lh.key});
+   return pickBest(C,raw)},function(){return null});
   return Promise.race([all,new Promise(function(ok){setTimeout(function(){ok(null)},ms||3000)})])}
 var DENY=/\b(not a real|isn'?t a real|not familiar|i don'?t know (what|who|about)|not a standard term|don'?t have (the necessary )?information|fictional|i'?m (sorry|unable)|i don'?t understand|not sure what)\b/i;
 var VERB=/\b(is|are|was|were|be|been|has|have|had|do|does|did|can|could|will|would|should|may|might|must|means?|runs?|works?|shows?|keeps?|lets?|holds?|answers?|uses?|seals?|links?|opens?|[a-z]{3,}(ed|es|s))\b/i;
 function frag(t){t=String(t||'').trim();var n=(t.match(/[A-Za-z0-9']+/g)||[]).length;return n<8||!/[.!?)"”]$/.test(t)||!VERB.test(t)||/^(is|are|was|and|but|or|of|to)\b/i.test(t)}
-w.RDRAGON_CARD={load:card,hits:hits,facts:facts,frag:frag,deny:function(t){return DENY.test(t)},strongKeys:strongKeys,intentHit:intentHit,answerHit:answerHit,quickHit:quickHit,localAnswer:localAnswer,normQ:normQ,intentMap:intentMap,answers:answers};
+w.RDRAGON_CARD={load:card,hits:hits,facts:facts,frag:frag,deny:function(t){return DENY.test(t)},strongKeys:strongKeys,intentHit:intentHit,answerHit:answerHit,quickHit:quickHit,localAnswer:localAnswer,pickBest:pickBest,normQ:normQ,intentMap:intentMap,answers:answers};
 function wrapEngine(E){if(!E||E.__cardWrapped)return;var A=E.answer;E.answer=function(o){o=Object.assign({},o||{});var raw=String(o.q||'');
  return Promise.all([card(),intentMap(),answers()]).then(function(){
   var qh=quickHit(raw);if(qh)return qh;
