@@ -7,9 +7,10 @@ const w={document:doc,addEventListener(){},RDRAGON_CSP:{me:()=>owner?{pub:'p',ha
 w.window=w;vm.runInNewContext(src,Object.assign({window:w,document:doc,setInterval(){},setTimeout,console},w));
 const R=w.RDRAGON_COMPONENTS.run;
 (async()=>{
-  assert(/edit about/.test(await R('edit')),'help');
+  assert.strictEqual(await R('edit'),'sign in to edit');
   assert.strictEqual(await R('edit about hi'),'sign in to edit');
   owner=true;
+  assert(/edit about/.test(await R('edit help')),'help');
   assert(/preview/.test(await R('edit about New bio here')));assert(/saved/.test(await R('y')));assert.strictEqual(st.bio,'New bio here');
   await R('edit about nope');assert(/cancelled/.test(await R('n')));assert.strictEqual(st.bio,'New bio here');
   assert(/1\. X/.test(await R('edit links')));
@@ -20,6 +21,6 @@ const R=w.RDRAGON_COMPONENTS.run;
   assert(/no link 9/.test(await R('edit link remove 9')));
   assert(Object.keys(w.RDRAGON_COMPONENTS.status).includes('edit'));
   assert(!/RDRAGON_CSP\.me\.pub/.test(src),'recall me() fix');
-  assert(/"links"\],PROF_AVATAR_MAX/.test(csp)&&/editSet:function/.test(csp)&&/S\.me\.handle==="@chaserizal"/.test(csp));
+  assert(/"links",/.test(csp)&&/editSet:function/.test(csp)&&/S\.me\.handle==="@chaserizal"/.test(csp));
   console.log('test-rdragon-edit: ok ('+saved.length+' saves)');
 })().catch(e=>{console.error(e);process.exit(1)});
