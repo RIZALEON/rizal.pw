@@ -36,3 +36,13 @@ Real device storage is never stubbed unless the URL has `?nostore=1`. A full or 
 
 ## 20261028 · t106u owner-device guard (installer v3, rlogin-page v17)
 The installer now **refuses** to replace a real (non-test) `device` record in `rdragon.csp.keys`. Run @rdragon_diag in a private window or another browser. `ownerOverwrite:true` is for test harnesses only. When the ЯLOGIN page finds a test-only `device` and a non-test `device.bak-<ts>`, it puts the newest owner backup back as `device` and keeps the diag record as `device.diag-<ts>`; nothing is deleted. Username and password also find the owner's password record inside that backup. Test: `tests/test-rdragon-owner-device-restore.js`.
+
+## 20261028 · t107u simple login
+`/login/` now has only username, password, **Log in**, **Create account** and **Other options**. Everything else (restore from file or paste, auto-login, approval, RGEN/RKEY, sign up, and the new **login self-check**, which shows names and kinds only) lives at `/login/options/`. Login failures now give a specific reason:
+- no login record
+- record found but the password doesn't match (only this one counts toward the lockout)
+- record unreadable
+- profile missing from the ledger (re-seeded automatically when the password key is the founder key)
+- locked out for Ns
+
+Test: `tests/test-rdragon-login-simple.js`.

@@ -1,5 +1,5 @@
 {
-"v": "ownerrestore20261028-race-pack",
+"v": "loginsimple20261028-race-pack",
 "files": [
 "/.gitignore",
 "/.nojekyll",
@@ -14,6 +14,7 @@
 "/dragoskul/macos/appcast.json",
 "/index.html",
 "/login/index.html",
+"/login/options/index.html",
 "/rbot/ios/appcast.json",
 "/rbot/macos/appcast.json",
 "/rbowzr-repair/macos/appcast.json",
