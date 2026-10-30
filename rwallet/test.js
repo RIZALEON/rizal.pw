@@ -1,0 +1,1 @@
+window.addEventListener("load",function(){setTimeout(function(){var U=window.RWALLET_UNIFIED||{},f=U.funcs||[];document.title="RES n="+f.length+" casket="+f.filter(function(x){return x.casket}).length+" rid="+(document.getElementById("rw-rid")||{}).textContent+" rw="+((document.getElementById("rw")||{}).innerHTML||"").length},3000)});
