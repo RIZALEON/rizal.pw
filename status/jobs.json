@@ -1,0 +1,146 @@
+{
+ "schema": "rlab.status.public/1",
+ "generated": "2026-10-30T10:52:54-0600",
+ "overall": 72,
+ "jobs": [
+  {
+   "id": "gizmo-companion",
+   "title": "GIZMO companion",
+   "owner": "RDRAGON",
+   "state": "done",
+   "note": "Merged into update-0.5.1 (5543494), all tests pass",
+   "updated": "2026-10-30T10:38:49-06:00",
+   "progress": 100
+  },
+  {
+   "id": "device-inventory-rsync",
+   "title": "Device/version inventory + RSYNC plan",
+   "owner": "KUBO",
+   "state": "waiting_rizal",
+   "note": "update-0.5.1 @5543494 linux build verified+staged in TERAFORMR (staging only); parity: Neo/live/old trial still 0.5.0/0.5.1-merkado; no deploy",
+   "updated": "2026-10-30T10:32:08-06:00",
+   "progress": 80
+  },
+  {
+   "id": "thundr-progress-monitor",
+   "title": "ThundR progress monitor",
+   "owner": "RBATIBA",
+   "state": "done",
+   "note": "STATUS/PROGRESS live",
+   "updated": "2026-10-30T09:46:05-06:00",
+   "progress": 100
+  },
+  {
+   "id": "tfr-manual-science-v03",
+   "title": "TerraformR manual SCIENCE section v0.3",
+   "owner": "RBATIBA",
+   "state": "done",
+   "note": "Manual v0.3 with SCIENCE section",
+   "updated": "2026-10-30T09:49:37-06:00",
+   "progress": 100
+  },
+  {
+   "id": "teraformr-prs-review",
+   "title": "TERAFORMR PRs #1-#4 review/merge",
+   "owner": "Rizal",
+   "state": "waiting_rizal",
+   "note": "",
+   "updated": "2026-10-30T09:44:38-06:00",
+   "progress": 80
+  },
+  {
+   "id": "signing",
+   "title": "Signing",
+   "owner": "Rizal",
+   "state": "waiting_rizal",
+   "note": "",
+   "updated": "2026-10-30T09:44:38-06:00",
+   "progress": 80
+  },
+  {
+   "id": "rwallet-receiver-deploy",
+   "title": "rizal.pw RWALLET receiver deploy",
+   "owner": "Rizal",
+   "state": "waiting_rizal",
+   "note": "",
+   "updated": "2026-10-30T09:44:38-06:00",
+   "progress": 80
+  },
+  {
+   "id": "heart-down",
+   "title": "Heart :4879 down",
+   "owner": "—",
+   "state": "blocker",
+   "note": "",
+   "updated": "2026-10-30T09:44:38-06:00",
+   "progress": 20
+  },
+  {
+   "id": "signing-placeholder",
+   "title": "Signing still placeholder",
+   "owner": "—",
+   "state": "blocker",
+   "note": "",
+   "updated": "2026-10-30T09:44:38-06:00",
+   "progress": 20
+  },
+  {
+   "id": "parallel-test",
+   "title": "parallel test",
+   "owner": "RBATIBA",
+   "state": "done",
+   "note": "test job, closed",
+   "updated": "2026-10-30T09:45:07-06:00",
+   "progress": 100
+  },
+  {
+   "id": "build-parity-debian-base-then-macos-ios-",
+   "title": "Build parity: Debian base then macOS, iOS, iPadOS, Android",
+   "owner": "KUBO+RBATIBA",
+   "state": "in_progress",
+   "note": "Ordered by Rizal 10/30",
+   "updated": "2026-10-30T09:49:42-06:00",
+   "progress": 50
+  },
+  {
+   "id": "terraformr-0-5-1-scrubbed-test-release-l",
+   "title": "TerraformR 0.5.1 scrubbed test release + live deploy",
+   "owner": "RDRAGON",
+   "state": "in_progress",
+   "note": "Scrub, GitHub prerelease, rizal.info deploy (approved 10:28)",
+   "updated": "2026-10-30T10:38:49-06:00",
+   "progress": 50
+  }
+ ],
+ "builds": {
+  "branch": "update-0.5.1",
+  "head": "2564075c97669d82c0c3dcd558e7d5c2e45f47f9",
+  "version": "0.5.1",
+  "files": [
+   {
+    "file": "linux/TerraformR-0.5.1.pck",
+    "sha256": "fe8eaa05f1237452035c0f792828b1d2c6aca2e3b854f883dca9c1f21eb04f73"
+   },
+   {
+    "file": "linux/TerraformR-0.5.1.x86_64",
+    "sha256": "d9f79ab89b5ae369aeed11c6052d402e8218cd503bf85b4a235f9c30c46a7c63"
+   },
+   {
+    "file": "web/index.html",
+    "sha256": "c646f8f490b8de39b15b6ce8466c39dbdcb7690a435af1767624763d2c282978"
+   },
+   {
+    "file": "web/index.js",
+    "sha256": "33c94cb3175f3333b82e2a3be5e8e86f77986f0aa2042b1631f6367a4e5bb6ba"
+   },
+   {
+    "file": "web/index.pck",
+    "sha256": "356651c60efcfb81faf1f5c1b2936ba7b891ca9692ad65f011cb9177fb3e4b5c"
+   },
+   {
+    "file": "web/index.wasm",
+    "sha256": "fc74679e3b97f76878947fcd4fbe1268cbfa6188182a2e33bbc3f5dc9bfa57d0"
+   }
+  ]
+ }
+}
