@@ -1,0 +1,5 @@
+{
+ "schema": "rwallet.ledger-index.v1",
+ "note": "Index of staged ledger drafts loaded by rwallet-unified.js (data/ledger/<name>/staged-manifest.json, seal-state.json, staged-entries.jsonl). No drafts published yet; GHOSTCHAIN ledger lives on the device.",
+ "drafts": []
+}
