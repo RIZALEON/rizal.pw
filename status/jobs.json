@@ -1,6 +1,6 @@
 {
  "schema": "rlab.status.public/1",
- "generated": "2026-10-30T10:52:54-0600",
+ "generated": "2026-10-30T10:59:55-0600",
  "overall": 72,
  "jobs": [
   {
@@ -17,8 +17,8 @@
    "title": "Device/version inventory + RSYNC plan",
    "owner": "KUBO",
    "state": "waiting_rizal",
-   "note": "update-0.5.1 @5543494 linux build verified+staged in TERAFORMR (staging only); parity: Neo/live/old trial still 0.5.0/0.5.1-merkado; no deploy",
-   "updated": "2026-10-30T10:32:08-06:00",
+   "note": "TerraformR 0.5.1 @2564075: Linux test tarball verified+staged; macOS universal + iOS/iPadOS exported (Godot 4.7.2), signed team 7D3P5F4V9M, staged in TERAFORMR/. No install/deploy/push.",
+   "updated": "2026-10-30T10:59:55-06:00",
    "progress": 80
   },
   {
