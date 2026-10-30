@@ -2,6 +2,8 @@
 /* cache botlatch20261029-openapp · fresh20261029: html/js/json/css revalidate (no-cache) so a deploy shows at once, not after the 10-min HTTP cache */
 function fresh(u){return /(\/|\.html|\.js|\.json|\.css)$/.test(u.pathname)}
 var M='/sw-precache.json';
+/* swfix 20261029: browsers only install a new SW when sw.js bytes change. SWV must equal sw-precache.json "v" (CI test) so every precache bump ships a new SW. */
+var SWV='ledger20261029-sw-race-pack';
 /* offline-granite fix 20261026: model manifests are precached with the core; the large weight parts (~222 MB) are cached
    (1) when the page's engine first fetches them online (fetch handler, held by waitUntil), and
    (2) by a waitUntil-held background fill when the page posts {t:'cache-models'} (sw-register.js). Install is never blocked on them. */
