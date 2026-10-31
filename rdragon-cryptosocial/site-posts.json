@@ -101,6 +101,24 @@
     "label": "OPEN APP",
     "url": "https://rizal.info/botlatch/"
    }
+  },
+  {
+   "id": "site-project-rtrackr",
+   "t": "post",
+   "ptype": "project",
+   "title": "RTRACKR · RGHOSTCHAIN EXPLORER",
+   "text": "RTRACKR is the block explorer for RGHOSTCHAIN, the local chain my game mints on (not a public blockchain). It lists every block, hash, mint and live ЯID asset, with a page per block, ЯID address views and search, like a Solana, ETH or Bitcoin tracker. Read-only snapshot, republished on every new block.",
+   "cta": {
+    "url": "/rtrackr/",
+    "label": "OPEN RTRACKR"
+   },
+   "links": [
+    "https://rizal.pw/rtrackr/"
+   ],
+   "media": [],
+   "by": "@chaserizal",
+   "ts": "2026-10-31T05:40:00.000Z",
+   "site": 1
   }
  ]
 }
