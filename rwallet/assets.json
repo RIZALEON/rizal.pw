@@ -1,0 +1,47 @@
+{
+ "generated": "2026-10-30T18:15:16-06:00",
+ "note": "see RGENERATR/ADAPTER/SPEC.md",
+ "owners": [
+  {
+   "assets": [
+    {
+     "asset_id": "rid-asset-0001-genesis",
+     "block": null,
+     "chain_verify": {
+      "blocks": 1,
+      "errors": [],
+      "nft_mint_blocks_for_rid": 0,
+      "ok": true
+     },
+     "genesis": 1,
+     "kind": "wallet.asset.rid",
+     "label": "GAME-MINTED GENESIS",
+     "owner_handle": "@chaserizal",
+     "preview_source": "GHOSTMACHINE/RGHOSTCHAIN/genesis-20261030/rid-genesis-0001.json",
+     "preview_ts": "2026-10-30T23:59:08Z",
+     "rid": "ЯID-0001-3QQS",
+     "rtracker_asset_hash": "e112f81438546746dfaf72747bb68e979ca9da3373c46400222c96c166d0414d",
+     "rtracker_status": "dry",
+     "seal_hash": "5d1eb5807c1d916c116eea384449195753147e34efd1dbaefa84a533de1aee12",
+     "seal_sig_present": false,
+     "serial": 1,
+     "status": "preview — awaiting signed seal",
+     "wallet": {
+      "badge": "PREVIEW",
+      "balance": 1,
+      "display": "GAME-MINTED GENESIS",
+      "transferable": false,
+      "unit": "RID-ASSET"
+     }
+    }
+   ],
+   "handle": "@chaserizal",
+   "rid": "ЯID-0001-3QQS"
+  }
+ ],
+ "schema": "rzl.rgeneratr.assets.v1",
+ "sources": {
+  "chain": "GHOSTMACHINE/RGHOSTCHAIN/chain/rghostchain.jsonl",
+  "registry": "GHOSTMACHINE/RGHOSTCHAIN/rtrackr/registry.json"
+ }
+}

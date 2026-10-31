@@ -28,6 +28,7 @@
   "rdragon-cryptosocial/rstore.js": "2",
   "rdragon-cryptosocial/rsync-core.js": "16",
   "rdragon-cryptosocial/rsync-qr.js": "15",
+  "rwallet/rgen-assets.js": "20261030b",
   "rwallet/rgenerator/rgenerator-ridtags.js": "20261027",
   "rwallet/rgenerator/rid.js": "20261027",
   "rwallet/rid-link.js": "20261027",
