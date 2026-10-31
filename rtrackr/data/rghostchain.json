@@ -1,10 +1,73 @@
 {
  "schema": "rzl.rtrackr.export.v1",
- "pending": true,
- "exported_at": "2026-10-31T00:09:13-06:00",
+ "pending": false,
+ "exported_at": "2026-10-31T00:12:16-06:00",
  "chain": "RGHOSTCHAIN (local, not public)",
- "source": "RTRACKR registry.json from Neo via Drive upload (registry updated 2026-10-30T23:16:37-06:00), exported 2026-10-31T00:09:13-06:00; live entries only",
- "blocks": [],
+ "source": "RGHOSTCHAIN real chain from Neo via Drive upload, snapshot 2026-10-31 12:12 AM MT (upload sha256 096a91a4…b14f)",
+ "verify": {
+  "ok": true,
+  "errors": [],
+  "blocks": 2,
+  "method": "box re-check: prev_hash links + sha256(canonical JSON minus hash,sig) recomputed for every block; reimplemented, rghostchain.py itself not run (Neo offline)"
+ },
+ "height": 1,
+ "tip": "3ce4be265ca605a5f82e1f752090b2123eed18e31549fb5cfd9e56daf210a2bd",
+ "blocks": [
+  {
+   "index": 0,
+   "hash": "536dc8a00491fae8e2fa15778310c288d7599d8b528100b1fc3176a7da4219ee",
+   "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+   "ts": "2026-10-29T09:55:25-06:00",
+   "type": "genesis",
+   "schema": "rzl.rghostchain.block.v1",
+   "sig": {
+    "alg": null,
+    "method": "pending: ЯCASKET Face ID phone gate",
+    "value": "unsigned"
+   },
+   "payload": {
+    "chain": "RGHOSTCHAIN",
+    "genesis": true,
+    "note": "local ledger; hashes and lineage only; no secrets; unsigned"
+   }
+  },
+  {
+   "index": 1,
+   "hash": "3ce4be265ca605a5f82e1f752090b2123eed18e31549fb5cfd9e56daf210a2bd",
+   "prev_hash": "536dc8a00491fae8e2fa15778310c288d7599d8b528100b1fc3176a7da4219ee",
+   "ts": "2026-10-30T23:16:37-06:00",
+   "type": "nft_mint",
+   "schema": "rzl.rghostchain.block.v1.1",
+   "sig": {
+    "alg": null,
+    "method": "pending: ЯCASKET Face ID phone gate",
+    "value": "unsigned"
+   },
+   "payload": {
+    "asset_hash": "566d70a1533be285abe56d0711e92aaf4f0bf9e12ee77a9a0ad146304744fadd",
+    "genesis": 1,
+    "handle": "@chaserizal",
+    "kind": "wallet.asset.rid",
+    "label": "GAME-MINTED GENESIS",
+    "official_game_minted": true,
+    "onchain": true,
+    "rate": "10 Rcoins = 1 Rtoken",
+    "rcoin": {
+     "amount": 0,
+     "symbol": "RCOIN"
+    },
+    "rid": "ЯID-0001-3QQS",
+    "rsign_device": "rsd-d2c47824f778ecd64b364f9e6688963e",
+    "rsign_entry_sig": "MEQCIBlN5x7QX30oGbHw2EcyRIJikQYaCMWQrq6DiTFtjieSAiBIl1b9+u8haDkkZzR4n02wjHnQl61DloZObl/IXKpsew==",
+    "rtoken": {
+     "amount": 0,
+     "symbol": "RTOKEN"
+    },
+    "serial": 1,
+    "via": "RGHOSTCHAIN submitd"
+   }
+  }
+ ],
  "assets": [
   {
    "asset_hash": "566d70a1533be285abe56d0711e92aaf4f0bf9e12ee77a9a0ad146304744fadd",
@@ -44,10 +107,11 @@
    ],
    "block": {
     "height": 1,
-    "hash": "3ce4be265ca605a5f82e1f752090b2123eed18e31549fb5cfd9e56daf210a2bd"
+    "hash": "3ce4be265ca605a5f82e1f752090b2123eed18e31549fb5cfd9e56daf210a2bd",
+    "ts": "2026-10-30T23:16:37-06:00"
    },
    "owner_handle": "@chaserizal"
   }
  ],
- "note": "Chain snapshot pending: Neo is offline and the real chain/rghostchain.jsonl has not been uploaded yet, so no blocks are shown. The live RTRACKR entry below comes from the registry only. Test (DRY) chains are never published."
+ "stripped_keys": []
 }
