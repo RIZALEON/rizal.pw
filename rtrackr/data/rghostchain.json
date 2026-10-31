@@ -1,1 +1,53 @@
-{"schema":"rzl.rtrackr.export.v1","pending":true,"blocks":[],"assets":[],"note":"Neo (the machine running RGHOSTCHAIN) was offline when this page was published. The real chain export will appear here after tools/rtrackr_export.py runs on Neo. Nothing is invented in the meantime."}
+{
+ "schema": "rzl.rtrackr.export.v1",
+ "pending": true,
+ "exported_at": "2026-10-31T00:09:13-06:00",
+ "chain": "RGHOSTCHAIN (local, not public)",
+ "source": "RTRACKR registry.json from Neo via Drive upload (registry updated 2026-10-30T23:16:37-06:00), exported 2026-10-31T00:09:13-06:00; live entries only",
+ "blocks": [],
+ "assets": [
+  {
+   "asset_hash": "566d70a1533be285abe56d0711e92aaf4f0bf9e12ee77a9a0ad146304744fadd",
+   "genesis": 1,
+   "handle": "@chaserizal",
+   "kind": "wallet.asset.rid",
+   "label": "GAME-MINTED GENESIS",
+   "official_game_minted": true,
+   "onchain": true,
+   "rate": "10 Rcoins = 1 Rtoken",
+   "rcoin": {
+    "amount": 0,
+    "symbol": "RCOIN"
+   },
+   "rid": "ЯID-0001-3QQS",
+   "rsign_device": "rsd-d2c47824f778ecd64b364f9e6688963e",
+   "rsign_entry_sig": "MEQCIBlN5x7QX30oGbHw2EcyRIJikQYaCMWQrq6DiTFtjieSAiBIl1b9+u8haDkkZzR4n02wjHnQl61DloZObl/IXKpsew==",
+   "rtoken": {
+    "amount": 0,
+    "symbol": "RTOKEN"
+   },
+   "serial": 1,
+   "via": "RGHOSTCHAIN submitd",
+   "status": "live",
+   "block_index": 1,
+   "block_hash": "3ce4be265ca605a5f82e1f752090b2123eed18e31549fb5cfd9e56daf210a2bd",
+   "ts": "2026-10-30T23:16:37-06:00",
+   "on_chain": true,
+   "chain": "RGHOSTCHAIN",
+   "registered": true,
+   "rtrackr_refs": [
+    {
+     "block_index": 1,
+     "block_hash": "3ce4be265ca605a5f82e1f752090b2123eed18e31549fb5cfd9e56daf210a2bd",
+     "mode": "live"
+    }
+   ],
+   "block": {
+    "height": 1,
+    "hash": "3ce4be265ca605a5f82e1f752090b2123eed18e31549fb5cfd9e56daf210a2bd"
+   },
+   "owner_handle": "@chaserizal"
+  }
+ ],
+ "note": "Chain snapshot pending: Neo is offline and the real chain/rghostchain.jsonl has not been uploaded yet, so no blocks are shown. The live RTRACKR entry below comes from the registry only. Test (DRY) chains are never published."
+}
