@@ -1,17 +1,17 @@
 {
  "schema": "rzl.rtrackr.export.v1",
  "pending": false,
- "exported_at": "2026-10-31T00:12:16-06:00",
- "chain": "RGHOSTCHAIN (local, not public)",
- "source": "RGHOSTCHAIN real chain from Neo via Drive upload, snapshot 2026-10-31 12:12 AM MT (upload sha256 096a91a4…b14f)",
+ "exported_at": "2026-10-31T23:36:38-06:00",
+ "chain": "RGHOSTCHAIN",
+ "source": "RGHOSTCHAIN real chain on Neo, rghostchain.py export-json 2026-10-31T23:36",
  "verify": {
   "ok": true,
   "errors": [],
-  "blocks": 2,
-  "method": "box re-check: prev_hash links + sha256(canonical JSON minus hash,sig) recomputed for every block; reimplemented, rghostchain.py itself not run (Neo offline)"
+  "blocks": 3,
+  "method": "rghostchain.py verify on Neo (prev_hash links + block hashes)"
  },
- "height": 1,
- "tip": "3ce4be265ca605a5f82e1f752090b2123eed18e31549fb5cfd9e56daf210a2bd",
+ "height": 2,
+ "tip": "56e6a940eae08b1cf8415e314c9ae56a8790883f775d01dd4e07ee018b49ddb4",
  "blocks": [
   {
    "index": 0,
@@ -57,13 +57,52 @@
      "symbol": "RCOIN"
     },
     "rid": "ЯID-0001-3QQS",
-    "rsign_device": "rsd-d2c47824f778ecd64b364f9e6688963e",
-    "rsign_entry_sig": "MEQCIBlN5x7QX30oGbHw2EcyRIJikQYaCMWQrq6DiTFtjieSAiBIl1b9+u8haDkkZzR4n02wjHnQl61DloZObl/IXKpsew==",
+    "rsign_device": "rsd-d2c47824…",
+    "rsign_entry_sig": "MEQCIBlN5x7Q…",
     "rtoken": {
      "amount": 0,
      "symbol": "RTOKEN"
     },
     "serial": 1,
+    "via": "RGHOSTCHAIN submitd"
+   }
+  },
+  {
+   "index": 2,
+   "hash": "56e6a940eae08b1cf8415e314c9ae56a8790883f775d01dd4e07ee018b49ddb4",
+   "prev_hash": "3ce4be265ca605a5f82e1f752090b2123eed18e31549fb5cfd9e56daf210a2bd",
+   "ts": "2026-10-31T23:24:41-06:00",
+   "type": "cryptobot_mint",
+   "schema": "rzl.rghostchain.block.v1.1",
+   "sig": {
+    "alg": null,
+    "method": "pending: ЯCASKET Face ID phone gate",
+    "value": "unsigned"
+   },
+   "payload": {
+    "asset_hash": "b4ba12a3f9a60b05e789e4635d58d0a89959fad9d6686d40c059021cc66cbfc1",
+    "asset_id": "cryptobot-0014-thundr",
+    "handle": "@thundr",
+    "holder_handle": "@chaserizal",
+    "holder_rid": "ЯID-0001-3QQS",
+    "kind": "cryptobot",
+    "label": "CRYPTOBOT · ThundR · ЯID-0014-KREH",
+    "official_game_minted": true,
+    "onchain": true,
+    "rate": "10 Rcoins = 1 Rtoken",
+    "rcoin": {
+     "amount": 0,
+     "symbol": "RCOIN"
+    },
+    "rid": "ЯID-0014-KREH",
+    "rsign_device": "rsd-d2c47824…",
+    "rsign_entry_hash": "c233b1ed27e6506f6f6f3318beb292d6a1f42e57426191c23a1d9d0fab0c0a99",
+    "rsign_entry_sig": "MEQCIHfotrkT…",
+    "rtoken": {
+     "amount": 0,
+     "symbol": "RTOKEN"
+    },
+    "serial": 2,
     "via": "RGHOSTCHAIN submitd"
    }
   }
@@ -83,8 +122,8 @@
     "symbol": "RCOIN"
    },
    "rid": "ЯID-0001-3QQS",
-   "rsign_device": "rsd-d2c47824f778ecd64b364f9e6688963e",
-   "rsign_entry_sig": "MEQCIBlN5x7QX30oGbHw2EcyRIJikQYaCMWQrq6DiTFtjieSAiBIl1b9+u8haDkkZzR4n02wjHnQl61DloZObl/IXKpsew==",
+   "rsign_device": "rsd-d2c47824…",
+   "rsign_entry_sig": "MEQCIBlN5x7Q…",
    "rtoken": {
     "amount": 0,
     "symbol": "RTOKEN"
@@ -109,6 +148,52 @@
     "height": 1,
     "hash": "3ce4be265ca605a5f82e1f752090b2123eed18e31549fb5cfd9e56daf210a2bd",
     "ts": "2026-10-30T23:16:37-06:00"
+   },
+   "owner_handle": "@chaserizal"
+  },
+  {
+   "asset_hash": "b4ba12a3f9a60b05e789e4635d58d0a89959fad9d6686d40c059021cc66cbfc1",
+   "asset_id": "cryptobot-0014-thundr",
+   "handle": "@thundr",
+   "holder_handle": "@chaserizal",
+   "holder_rid": "ЯID-0001-3QQS",
+   "kind": "cryptobot",
+   "label": "CRYPTOBOT · ThundR · ЯID-0014-KREH",
+   "official_game_minted": true,
+   "onchain": true,
+   "rate": "10 Rcoins = 1 Rtoken",
+   "rcoin": {
+    "amount": 0,
+    "symbol": "RCOIN"
+   },
+   "rid": "ЯID-0014-KREH",
+   "rsign_device": "rsd-d2c47824…",
+   "rsign_entry_hash": "c233b1ed27e6506f6f6f3318beb292d6a1f42e57426191c23a1d9d0fab0c0a99",
+   "rsign_entry_sig": "MEQCIHfotrkT…",
+   "rtoken": {
+    "amount": 0,
+    "symbol": "RTOKEN"
+   },
+   "serial": 2,
+   "via": "RGHOSTCHAIN submitd",
+   "status": "live",
+   "block_index": 2,
+   "block_hash": "56e6a940eae08b1cf8415e314c9ae56a8790883f775d01dd4e07ee018b49ddb4",
+   "ts": "2026-10-31T23:24:41-06:00",
+   "on_chain": true,
+   "chain": "RGHOSTCHAIN",
+   "registered": true,
+   "rtrackr_refs": [
+    {
+     "block_index": 2,
+     "block_hash": "56e6a940eae08b1cf8415e314c9ae56a8790883f775d01dd4e07ee018b49ddb4",
+     "mode": "live"
+    }
+   ],
+   "block": {
+    "height": 2,
+    "hash": "56e6a940eae08b1cf8415e314c9ae56a8790883f775d01dd4e07ee018b49ddb4",
+    "ts": "2026-10-31T23:24:41-06:00"
    },
    "owner_handle": "@chaserizal"
   }
