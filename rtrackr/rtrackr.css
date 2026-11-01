@@ -9,3 +9,6 @@ main{padding:0 14px 20px}.stats{display:grid;grid-template-columns:repeat(auto-f
 h2{color:#39ff14;font-size:14px;margin:16px 0 6px}table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:5px;border-bottom:1px solid #133;vertical-align:top}th{color:#777;font-weight:400}
 .h{word-break:break-all}pre{background:#050505;border:1px solid #133;padding:8px;overflow:auto;color:#fff}.ok{color:#39ff14}.no{color:#f44}.dim{color:#777}
 .kv td:first-child{color:#777;width:130px}footer{color:#555;font-size:11px;padding:10px 14px;border-top:1px solid #133}
+/* 20261101 kind chips · cryptoupdate */
+.k{white-space:nowrap}.k-cryptoupdate{color:#7fd7ff;font-weight:600}.k-cryptobot{color:#c9a7ff}.k-nft_mint{color:#ffd36b}
+table.upd td:first-child{color:#7fd7ff}
