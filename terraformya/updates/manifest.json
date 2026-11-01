@@ -12,5 +12,20 @@
   }
  ],
  "schema": "terraformya.updates.v1",
- "updated": "2026-10-30T17:36:49Z"
+ "updated": "2026-11-01T23:50:00Z",
+ "category": "cryptoupdate",
+ "signer_default": "ios",
+ "staged_builds": {
+  "version": "0.5.1.13",
+  "channel": "unified-rsync",
+  "note": "staged in RCRYPTOFORGE, not distributed here",
+  "items": [
+   "TerraformR-0.5.1.13-b23-signupdate-debug.apk (Android)",
+   "TerraformR-0.5.1.13-b23-audio-ios.ipa (iOS)",
+   "TerraformR-0.5.1.13-b23-audio-ios-ipad.ipa (iPadOS)"
+  ]
+ },
+ "changelog": [
+  "2026-11-01: Forge (Pandayan) station in core \u2014 crafted at Work Bench, placeable only underground / inside mountain (needs_under); forge recipes: iron bar, gold bar, torch, chest. Ships with unified 0.5.1.13 build (no separate content pack)."
+ ]
 }
