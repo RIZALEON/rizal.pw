@@ -1,0 +1,16 @@
+{
+ "channel": "test",
+ "patches": [
+  {
+   "id": "gizmo_species_nx112",
+   "min_app": "0.5.1",
+   "note": "GIZMO-created species NX-112 Palawan Peacock-pheasant (Polyplectron napoleonis), manual section 18 sprite",
+   "sha256": "e4e9602f7ce6cb1ff01b8d2cbadc6e7e0ddf5c3613b65d9bdad12f96df141da9",
+   "size": 11636,
+   "url": "gizmo_species_nx112-1.0.0.pck",
+   "version": "1.0.0"
+  }
+ ],
+ "schema": "terraformya.updates.v1",
+ "updated": "2026-10-30T17:36:49Z"
+}
