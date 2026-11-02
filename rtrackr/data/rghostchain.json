@@ -1,17 +1,17 @@
 {
  "schema": "rzl.rtrackr.export.v1",
  "pending": false,
- "exported_at": "2026-10-31T23:36:38-06:00",
+ "exported_at": "2026-11-01T18:39:30-07:00",
  "chain": "RGHOSTCHAIN",
- "source": "RGHOSTCHAIN real chain on Neo, rghostchain.py export-json 2026-10-31T23:36",
+ "source": "RGHOSTCHAIN real chain on Neo, rghostchain.py export-json 2026-11-01T18:39",
  "verify": {
   "ok": true,
   "errors": [],
-  "blocks": 3,
+  "blocks": 4,
   "method": "rghostchain.py verify on Neo (prev_hash links + block hashes)"
  },
- "height": 2,
- "tip": "56e6a940eae08b1cf8415e314c9ae56a8790883f775d01dd4e07ee018b49ddb4",
+ "height": 3,
+ "tip": "5bb1d6f0cb9d5b0d53839cfe9669a59037161aefbee5795c0a944d12f2b7eb0d",
  "blocks": [
   {
    "index": 0,
@@ -105,6 +105,34 @@
     "serial": 2,
     "via": "RGHOSTCHAIN submitd"
    }
+  },
+  {
+   "index": 3,
+   "hash": "5bb1d6f0cb9d5b0d53839cfe9669a59037161aefbee5795c0a944d12f2b7eb0d",
+   "prev_hash": "56e6a940eae08b1cf8415e314c9ae56a8790883f775d01dd4e07ee018b49ddb4",
+   "ts": "2026-11-01T18:39:30-07:00",
+   "type": "cryptobot_mint",
+   "schema": "rzl.rghostchain.block.v1.1",
+   "sig": {
+    "alg": null,
+    "method": "pending: ЯCASKET Face ID phone gate",
+    "value": "unsigned"
+   },
+   "payload": {
+    "asset_hash": "85f56353867f731a779d3643fbbc6741855a5e386e9b85c2493bf4240c59ebce",
+    "handle": "@chaserizal",
+    "holder_handle": "@chaserizal",
+    "holder_rid": "ЯID-0001-3QQS",
+    "kind": "cryptobot",
+    "label": "TERAFORMR CRYPTOGAME",
+    "official_game_minted": true,
+    "onchain": true,
+    "rid": "ЯID-0015-0HJP",
+    "rsign_device": "rsd-d2c47824…",
+    "rsign_entry_hash": "3215418eae9587523b597ca6cfca9bbaccf6dacc1d2bd312b117397d3fd047f0",
+    "rsign_entry_sig": "MEQCIBlN5x7Q…",
+    "via": "RGHOSTCHAIN submitd"
+   }
   }
  ],
  "assets": [
@@ -194,6 +222,34 @@
     "height": 2,
     "hash": "56e6a940eae08b1cf8415e314c9ae56a8790883f775d01dd4e07ee018b49ddb4",
     "ts": "2026-10-31T23:24:41-06:00"
+   },
+   "owner_handle": "@chaserizal"
+  },
+  {
+   "asset_hash": "85f56353867f731a779d3643fbbc6741855a5e386e9b85c2493bf4240c59ebce",
+   "handle": "@chaserizal",
+   "holder_handle": "@chaserizal",
+   "holder_rid": "ЯID-0001-3QQS",
+   "kind": "cryptobot",
+   "label": "TERAFORMR CRYPTOGAME",
+   "official_game_minted": true,
+   "onchain": true,
+   "rid": "ЯID-0015-0HJP",
+   "rsign_device": "rsd-d2c47824…",
+   "rsign_entry_hash": "3215418eae9587523b597ca6cfca9bbaccf6dacc1d2bd312b117397d3fd047f0",
+   "rsign_entry_sig": "MEQCIBlN5x7Q…",
+   "via": "RGHOSTCHAIN submitd",
+   "status": "live",
+   "block_index": 3,
+   "block_hash": "5bb1d6f0cb9d5b0d53839cfe9669a59037161aefbee5795c0a944d12f2b7eb0d",
+   "ts": "2026-11-01T18:39:30-07:00",
+   "on_chain": true,
+   "chain": "RGHOSTCHAIN",
+   "rtrackr_refs": [],
+   "block": {
+    "height": 3,
+    "hash": "5bb1d6f0cb9d5b0d53839cfe9669a59037161aefbee5795c0a944d12f2b7eb0d",
+    "ts": "2026-11-01T18:39:30-07:00"
    },
    "owner_handle": "@chaserizal"
   }
