@@ -167,3 +167,13 @@ body>#csp-panel{position:fixed;left:0;top:0;bottom:0;width:340px;z-index:900;ove
 #csp-panel .csp-edbar{position:fixed;left:50%;bottom:70px;transform:translateX(-50%);z-index:9999;background:#000;border:2px solid #39ff14;padding:8px 12px;border-radius:10px;color:#39ff14;box-shadow:0 0 12px #39ff14}
 #csp-panel .csp-edbar ~ * .csp-ed,#csp-panel .csp-edbar ~ .csp-name .csp-ed,#csp-panel .csp-edbar ~ .csp-handle .csp-ed{outline:1px dashed #39ff14;outline-offset:2px}
 #csp-panel .csp-edblk{display:block;white-space:pre-wrap;min-height:1.4em;outline:1px dashed #39ff14;outline-offset:2px;padding:2px}
+/* KUBO 20261103: one post per RGHOSTCHAIN block (mini spinning block + text) */
+#csp-panel .kb-head{font-size:13px;margin:4px 2px 2px;color:#39ff14}#csp-panel .kb-sub{font-size:10px;margin:0 2px 8px}
+#csp-panel .kb-post{display:flex;gap:14px;align-items:center;margin-bottom:10px}
+#csp-panel .kb-scene{--s:84px;flex:0 0 var(--s);width:var(--s);height:var(--s);margin:14px 14px 14px 8px;perspective:500px;pointer-events:none}
+#csp-panel .kb-scene .rc-face{cursor:default;border-width:1px}#csp-panel .kb-scene .rc-glyph{font-size:30px}#csp-panel .kb-scene .rc-h{font-size:9px;margin-top:2px}
+#csp-panel .kb-scene .rc-cube.rc-auto{animation-duration:10s}
+#csp-panel .kb-body{min-width:0;flex:1}#csp-panel .kb-t{margin-bottom:4px}#csp-panel .kb-ty{color:#b388ff;font-size:11px}#csp-panel .kb-d{font-size:12px;margin:4px 0 6px}
+#csp-panel .kb-link{display:inline-block;margin-top:6px;font-size:11px;color:#39ff14;border:1px solid #39ff14;border-radius:10px;padding:2px 9px;text-decoration:none}#csp-panel .kb-link:hover{background:#39ff14;color:#000}
+#csp-panel .kb-pv{margin:14px 2px 0;letter-spacing:.1em}
+@media (max-width:480px){#csp-panel .kb-post{flex-direction:column;align-items:flex-start}}
