@@ -426,7 +426,7 @@ function cardHead(n){return (n.pinned||n.upin?'<div>'+PINB+'</div>':'')+(n.pinne
   return v}
  /* RFORGE gapfix 20261026: home timeline shows the RDRAGON reply under each post (same row as the thread view). */
  var feedCardBase=feedCard;feedCard=function(F,n){var h=feedCardBase(F,n);if(!n||!hasBot(F,n.id))return h;var i=h.lastIndexOf("</div>");return i<0?h+bk(n.id):h.slice(0,i)+bk(n.id)+h.slice(i)};
- function render(){if(S.editing)edKeep();if(S.prof&&S.prof.title==="Anti Social CryptoSocial Media")S.prof.title="Anti Social Social Media";var FS=fstate();var keepScroll=p.scrollTop;
+ function render(){window.RSOCIAL_ME=S.me&&S.me.handle||"guest"; /* RSOCIAL */if(S.editing)edKeep();if(S.prof&&S.prof.title==="Anti Social CryptoSocial Media")S.prof.title="Anti Social Social Media";var FS=fstate();var keepScroll=p.scrollTop;
   p.innerHTML='<div class="csp-top">'+F("title")+'<button class="csp-x" data-a="toggle" title="collapse (Cmd/Ctrl+Shift+K)">'+(S.on?'×':'+')+'</button></div>'+rlStatus()+
   '<div class="csp-banner" data-a="pickbanner" title="click to change banner" style="background-image:'+img("banner","banner.jpg")+'"><img class="csp-gm" src="'+base+'assets/ghostmachine-logo.jpg" alt="GHOSTMACHINE" title="GHOSTMACHINE"><button class="csp-b csp-bv" data-a="verified" title="'+E(S.prof.verified)+' · click to edit badge">✔ Verified</button><button class="csp-b csp-bw" data-a="wallet" title="RDG wallet · double-click to set balance">&gt; Wallet</button></div>'+
   '<div class="csp-av" data-a="pickavatar" title="click to change profile picture" style="background-image:'+img("avatar","avatar.jpg")+'"></div>'+
@@ -459,8 +459,8 @@ function cardHead(n){return (n.pinned||n.upin?'<div>'+PINB+'</div>':'')+(n.pinne
   case "pickbanner":pick("banner",1200);return;case "pickavatar":pick("avatar",400);return;
   case "people":S.nav="people";break;
   case "follow":if(!S.me)return gate();var h=el.dataset.h,was=fstate().mine[h];S.follow[h]=!was;addEv({t:(was?"un":"")+"follow",target:h});S.alerts.push((was?"You unfollowed ":"You followed ")+h);break;
-  case "pfollow":if(!S.me)return gate();var fw=fstate().iFollow;addEv({t:(fw?"un":"")+"follow",target:S.prof.handle,by:S.me.handle});toast((fw?"Unfollowed ":"Following ")+S.prof.handle+" · signed event appended");break;
-  case "dm":if(!S.me)return gate();S.dmTo=S.prof.handle;S.nav="msgs";break;
+  case "pfollow":if(!S.me){var gf=window.RSOCIAL?RSOCIAL.follow(S.prof.handle,"guest"):null;toast(gf?(gf.t==="follow"?"Following ":"Unfollowed ")+S.prof.handle+" · on this device (sign in to sign it)":"sign in to follow");break}var fw=fstate().iFollow;addEv({t:(fw?"un":"")+"follow",target:S.prof.handle,by:S.me.handle});window.RSOCIAL&&RSOCIAL.follow(S.prof.handle,S.me.handle,!fw);toast((fw?"Unfollowed ":"Following ")+S.prof.handle+" · signed event appended");break;
+  case "dm":S.dmTo=S.prof.handle;S.nav="msgs";break; /* RMAIL 20261104: guests may message too */
   case "wallet":S.wopen=!S.wopen;break;
   case "copyhandle":(navigator.clipboard?navigator.clipboard.writeText("$chaserizal"):Promise.reject()).then(function(){toast("copied $chaserizal")},function(){toast("$chaserizal")});return;
   case "tab":S.tab=el.dataset.t;S.nav="home";break;
@@ -491,7 +491,7 @@ function cardHead(n){return (n.pinned||n.upin?'<div>'+PINB+'</div>':'')+(n.pinne
    var ev0={t:"post",text:t,media:dm};if(ty!=="post"){ev0.ptype=ty;if(ti)ev0.title=ti;if(vu)ev0.videoUrl=vu;if(cvr)ev0.cover=cvr;if(ty==="article"&&S.hdr){ev0.header=S.hdr;S.hdr=null}if(lks.length)ev0.links=lks}
    var pe=addEv(ev0);S.draft=[];S.ptype="post";bot(pe.id,(ty!=="post"?ty.toUpperCase()+(ti?' "'+ti+'"':'')+": ":"")+(t||"(media only)")+(lks.length?" LINKS: "+lks.join(" "):"")+(vu?" VIDEO: "+vu:""),dm.filter(function(m){return m.src}));S.alerts.push("Posted: "+t.slice(0,40));S.nav="home";S.tab=ty==="video"?"Video":"Posts";break;
   case "clearalerts":S.alerts=[];break;
-  case "sendmsg":if(!S.me)return gate();var m=p.querySelector("#csp-msg").value.trim();if(!m)return toast("type a message");S.msgs.push((S.dmTo?"→ "+S.dmTo+": ":"")+m);if(S.dmTo)addEv({t:"dm",to:S.dmTo,text:m,by:S.me.handle});break;
+  case "sendmsg":var m=p.querySelector("#csp-msg").value.trim();if(!m)return toast("type a message");S.msgs.push((S.dmTo?"→ "+S.dmTo+": ":"")+m);if(S.me&&S.dmTo)addEv({t:"dm",to:S.dmTo,text:m,by:S.me.handle});toast("✉ RMAIL: queued"+(S.me?"":" as guest")+" · delivers online or offline");break; /* RSOCIAL hook (rsocial-rmail.js) carries it to the transponder mailbox */
   case "open":toast(el.dataset.i+" — offline stub");return;
   default:return}
   save();render()}
