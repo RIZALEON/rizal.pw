@@ -4,7 +4,7 @@
 function J(k,d){try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}}function W(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
 function E(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return"&#"+c.charCodeAt(0)+";"})}
 function R(){return window.RSOCIAL}
-function css(){if(document.getElementById("rmail-ui-css"))return;var s=document.querySelector('script[src*="rmail-ui.js"]'),l=document.createElement("link");l.id="rmail-ui-css";l.rel="stylesheet";l.href=(s?s.src.replace(/[^/]*$/,""):"/")+"rmail-ui.css?v=1";document.head.appendChild(l)}
+function css(){if(document.getElementById("rmail-ui-css"))return;var s=document.querySelector('script[src*="rmail-ui.js"]'),l=document.createElement("link");l.id="rmail-ui-css";l.rel="stylesheet";l.href=(s?s.src.replace(/[^/]*$/,""):"/")+"rmail-ui.css?v=2";document.head.appendChild(l)}
 var S={f:"inbox",sel:null,cmp:null},el;
 function me(){var r=R();return r?r.me():{handle:"guest",addr:"guest"}}
 function myAddr(){var r=R(),I=me();return I.handle==="guest"?(r&&r.addrOf("@chaserizal"))||I.addr:I.addr}
