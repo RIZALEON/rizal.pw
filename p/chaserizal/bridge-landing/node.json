@@ -1,0 +1,20 @@
+{
+  "name": "BRIDGE-LANDING",
+  "role": "reticulum-bridge-landing",
+  "status": "staged",
+  "ids": {
+    "box_transport": "02e065917c3473c7682fe60250b59ba7",
+    "lxmf_propagation": "6ff3999dad3a9a9a6d911d292bbd23c6",
+    "neo_transport": "TBD (generated on first rnsd run)"
+  },
+  "devices": ["iphone-17e", "motorola", "macbook-neo", "tplink-router"],
+  "interfaces": [
+    {"type": "AutoInterface", "scope": "TP-Link LAN"},
+    {"type": "TCPServerInterface", "port": 4242, "host": "macbook-neo"},
+    {"type": "TCPClientInterface", "target": "amsterdam.connect.reticulum.network:4965"},
+    {"type": "TCPClientInterface", "target": "box-relay:4242", "enabled": false}
+  ],
+  "tplink_model": "TBD",
+  "secrets": "none",
+  "created": "2026-11-03T20:54:26-07:00"
+}
