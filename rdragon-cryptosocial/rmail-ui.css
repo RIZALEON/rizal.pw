@@ -1,0 +1,26 @@
+/* rmail-ui.css v1 20261104 - RMAIL crypto mail, rizal.pw terminal green/purple */
+#rmail-ui{position:fixed;inset:0;z-index:2147483000;background:rgba(5,0,12,.86);display:none;font:13px/1.4 ui-monospace,Menlo,monospace;color:#39ff14}
+#rmail-ui.open{display:flex;align-items:center;justify-content:center}
+.rmu{width:min(1100px,100vw);height:min(720px,100vh);background:#0a0014;border:1px solid #8a2be2;border-radius:14px;box-shadow:0 0 24px #8a2be255;display:grid;grid-template-columns:170px 300px 1fr;grid-template-rows:44px 1fr;overflow:hidden}
+.rmu-top{grid-column:1/-1;display:flex;align-items:center;gap:10px;padding:0 12px;border-bottom:1px solid #1a0630;background:#0a1a0a}
+.rmu-top b{color:#39ff14;letter-spacing:2px}.rmu-top .rmu-me{color:#b388ff;font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+.rmu-btn{border-radius:999px;padding:5px 14px;font:bold 12px monospace;cursor:pointer;border:1px solid #39ff14;background:transparent;color:#39ff14}
+.rmu-btn.p{border-color:#b388ff;color:#b388ff}.rmu-btn:hover{background:#39ff1422}
+.rmu-nav{border-right:1px solid #1a0630;padding:8px 0;overflow:auto}
+.rmu-f{display:flex;justify-content:space-between;padding:7px 12px;cursor:pointer;color:#7fb3ff}.rmu-f.on{background:#1a0630;color:#39ff14;border-left:2px solid #39ff14}
+.rmu-f i{font-style:normal;background:#8a2be2;color:#fff;border-radius:9px;padding:0 6px;font-size:11px}
+.rmu-h{color:#b388ff;font-size:10px;padding:10px 12px 2px;letter-spacing:1px}
+.rmu-list{border-right:1px solid #1a0630;overflow:auto}
+.rmu-it{padding:8px 10px;border-bottom:1px solid #1f3f1f;cursor:pointer}.rmu-it.on{background:#1a0630}.rmu-it.unread .rmu-s{color:#39ff14;font-weight:bold}
+.rmu-it .rmu-a{color:#b388ff;font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.rmu-s{color:#cfe;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rmu-m{display:flex;justify-content:space-between;font-size:10px;color:#7fb3ff}
+.rmu-v{border-radius:6px;padding:0 5px;font-size:10px;border:1px solid}.rmu-v.ok{color:#39ff14;border-color:#39ff14}.rmu-v.no{color:#b388ff;border-color:#8a2be2}
+.rmu-st{font-size:10px;color:#7fb3ff}.rmu-st.q{color:#ffcc66}
+.rmu-read{overflow:auto;padding:14px}.rmu-read h3{margin:0 0 6px;color:#39ff14}.rmu-read pre{white-space:pre-wrap;color:#dfe;font:13px/1.5 monospace}
+.rmu-kv{font-size:11px;color:#7fb3ff;margin:2px 0;word-break:break-all}.rmu-kv b{color:#b388ff}
+.rmu-empty{color:#1f8f0f;padding:20px;text-align:center}
+.rmu-cmp label{display:block;color:#b388ff;font-size:11px;margin:8px 0 2px}
+.rmu-cmp input,.rmu-cmp textarea{width:100%;box-sizing:border-box;background:#05000a;color:#39ff14;border:1px solid #8a2be2;border-radius:8px;padding:7px;font:13px monospace}
+.rmu-cmp textarea{height:220px}
+@media(max-width:760px){.rmu{grid-template-columns:1fr;grid-template-rows:44px auto 1fr;border-radius:0}.rmu-nav{display:flex;border:0;border-bottom:1px solid #1a0630;padding:0;overflow-x:auto}.rmu-h{display:none}.rmu-f{white-space:nowrap}
+ .rmu.reading .rmu-list,.rmu:not(.reading) .rmu-read{display:none}}
