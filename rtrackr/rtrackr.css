@@ -12,3 +12,13 @@ h2{color:#39ff14;font-size:14px;margin:16px 0 6px}table{width:100%;border-collap
 /* 20261101 kind chips · cryptoupdate */
 .k{white-space:nowrap}.k-cryptoupdate{color:#7fd7ff;font-weight:600}.k-cryptobot{color:#c9a7ff}.k-nft_mint{color:#ffd36b}
 table.upd td:first-child{color:#7fd7ff}
+/* 20261105 R TOKEN · RMAIL-style green outlined buttons */
+.rtoken{margin:18px 0 8px;padding:12px;border:1px solid #b388ff;background:#08040f;border-radius:10px}
+.rtoken h2{color:#b388ff;margin-top:0}.rtoken h2 .dim{color:#777;font-weight:400;font-size:12px}
+.rt-links{display:flex;flex-direction:column;gap:8px;margin:10px 0}
+.rt-row{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.rt-lab{color:#b388ff;min-width:64px;font-size:11px;text-transform:uppercase}
+.rt-btn{display:inline-block;border:1px solid #39ff14;color:#39ff14;background:#000;padding:5px 9px;border-radius:8px;text-decoration:none;font:11px Menlo,Consolas,monospace}
+.rt-btn:hover{background:#0a1a0a}
+.rtoken code{color:#fff;font-size:11px}
+#rt-events{margin-top:4px}

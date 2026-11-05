@@ -1,0 +1,226 @@
+{
+ "schema": "rzl.rtrackr.rtoken.v1",
+ "exported_at": "2026-11-05T00:11:32.071053-07:00",
+ "chain": "solana-mainnet",
+ "note": "Public R token trackers + recent Solana signatures for mint, crown (mint authority), and Orca pool position. No keys. Live feed on /rtrackr/ polls getSignaturesForAddress via public RPC.",
+ "token": {
+  "symbol": "R",
+  "name": "R token",
+  "mint": "BB9uA5BuacDnWyDf5Npc9nMb9yFbyThsNrQPBYJ5Q1Lv",
+  "crown_mint_authority": "BwpVNk1Rtncpv5HMTLwxB4Yfjkfv6mFaBQUTpjneH1F9",
+  "orca_pool_position": "24uKAFYiLQaycBeiVCpKQgsjUwAn9XiKsuiMAZeoaRV7",
+  "mint_tx": "2Lxr2mEZnFnwwBMQjCgRt8EJLaJbwEp61K51mdx16z8oncWg2JCXzCKnisMi78V3L4w7w2pizQ8P1p2H5XMLvx94"
+ },
+ "links": {
+  "solscan_token": "https://solscan.io/token/BB9uA5BuacDnWyDf5Npc9nMb9yFbyThsNrQPBYJ5Q1Lv",
+  "solscan_account": "https://solscan.io/account/BB9uA5BuacDnWyDf5Npc9nMb9yFbyThsNrQPBYJ5Q1Lv",
+  "solscan_crown": "https://solscan.io/account/BwpVNk1Rtncpv5HMTLwxB4Yfjkfv6mFaBQUTpjneH1F9",
+  "solscan_pool": "https://solscan.io/account/24uKAFYiLQaycBeiVCpKQgsjUwAn9XiKsuiMAZeoaRV7",
+  "solscan_mint_tx": "https://solscan.io/tx/2Lxr2mEZnFnwwBMQjCgRt8EJLaJbwEp61K51mdx16z8oncWg2JCXzCKnisMi78V3L4w7w2pizQ8P1p2H5XMLvx94",
+  "explorer": "https://explorer.solana.com/address/BB9uA5BuacDnWyDf5Npc9nMb9yFbyThsNrQPBYJ5Q1Lv",
+  "explorer_crown": "https://explorer.solana.com/address/BwpVNk1Rtncpv5HMTLwxB4Yfjkfv6mFaBQUTpjneH1F9",
+  "explorer_pool": "https://explorer.solana.com/address/24uKAFYiLQaycBeiVCpKQgsjUwAn9XiKsuiMAZeoaRV7",
+  "explorer_mint_tx": "https://explorer.solana.com/tx/2Lxr2mEZnFnwwBMQjCgRt8EJLaJbwEp61K51mdx16z8oncWg2JCXzCKnisMi78V3L4w7w2pizQ8P1p2H5XMLvx94",
+  "solanafm": "https://solana.fm/address/BB9uA5BuacDnWyDf5Npc9nMb9yFbyThsNrQPBYJ5Q1Lv",
+  "solanafm_crown": "https://solana.fm/address/BwpVNk1Rtncpv5HMTLwxB4Yfjkfv6mFaBQUTpjneH1F9",
+  "solanafm_pool": "https://solana.fm/address/24uKAFYiLQaycBeiVCpKQgsjUwAn9XiKsuiMAZeoaRV7",
+  "solanafm_mint_tx": "https://solana.fm/tx/2Lxr2mEZnFnwwBMQjCgRt8EJLaJbwEp61K51mdx16z8oncWg2JCXzCKnisMi78V3L4w7w2pizQ8P1p2H5XMLvx94",
+  "jupiter": "https://jup.ag/tokens/BB9uA5BuacDnWyDf5Npc9nMb9yFbyThsNrQPBYJ5Q1Lv",
+  "geckoterminal": "https://www.geckoterminal.com/solana/tokens/BB9uA5BuacDnWyDf5Npc9nMb9yFbyThsNrQPBYJ5Q1Lv",
+  "dexscreener": "https://dexscreener.com/solana/BB9uA5BuacDnWyDf5Npc9nMb9yFbyThsNrQPBYJ5Q1Lv",
+  "coingecko": "https://www.coingecko.com/en/coins/solana/token/BB9uA5BuacDnWyDf5Npc9nMb9yFbyThsNrQPBYJ5Q1Lv"
+ },
+ "rpc": {
+  "url": "https://api.mainnet-beta.solana.com",
+  "method": "getSignaturesForAddress",
+  "addresses": {
+   "mint": "BB9uA5BuacDnWyDf5Npc9nMb9yFbyThsNrQPBYJ5Q1Lv",
+   "crown": "BwpVNk1Rtncpv5HMTLwxB4Yfjkfv6mFaBQUTpjneH1F9",
+   "pool": "24uKAFYiLQaycBeiVCpKQgsjUwAn9XiKsuiMAZeoaRV7"
+  },
+  "poll_seconds": 60
+ },
+ "events": [
+  {
+   "source": "mint",
+   "signature": "4ttn27qtLRFTn6czNKTDZ15HobVxmoTF8BCCokZX8zVoXMLcBumYMLHvDUgde4NfeswcXwEfhpSFokXhcAkHt1GA",
+   "slot": 459269903,
+   "blockTime": 1792507975,
+   "ts_mt": "2026-10-20T08:52:55-06:00",
+   "status": "finalized",
+   "err": null
+  },
+  {
+   "source": "mint",
+   "signature": "2pvS9fEUH56pe8hNJoLn4DroqagkrmXeEQqA43scYVvzeUUMJCqMkxC1yiAJ7MApk7BzBiNQ7oixskbzgtK3LwNJ",
+   "slot": 459242078,
+   "blockTime": 1792501893,
+   "ts_mt": "2026-10-20T07:11:33-06:00",
+   "status": "finalized",
+   "err": null
+  },
+  {
+   "source": "mint",
+   "signature": "9TKwz2BmHBewVMT3Ls5FnALm3gHgdz3EUZYaQ3atFN2CybbJYWcj9Xf5X1gdCMgXxAysQFkn87sZw4ji7JyBafV",
+   "slot": 459130340,
+   "blockTime": 1792477609,
+   "ts_mt": "2026-10-20T00:26:49-06:00",
+   "status": "finalized",
+   "err": null
+  },
+  {
+   "source": "crown",
+   "signature": "5k151Yoq6chVFH9bBgcYSDDbmermqg3bcstrFCvXSY8xtcHHRKyAYHYRbPQ4Y9VrXaQPzz9TuPn93JS4vB4n7UtM",
+   "slot": 457381052,
+   "blockTime": 1792098323,
+   "ts_mt": "2026-10-15T15:05:23-06:00",
+   "status": "finalized",
+   "err": null
+  },
+  {
+   "source": "crown",
+   "signature": "5QEB7PKYeTp8NkDfgbejU6fgg6wkAK2wN9quKaAeYgJ2Tuh7VEXQU4ARAxv1ie1ByFrC9F7JJXQdoLk8oWgxFGfH",
+   "slot": 457369570,
+   "blockTime": 1792095827,
+   "ts_mt": "2026-10-15T14:23:47-06:00",
+   "status": "finalized",
+   "err": null
+  },
+  {
+   "source": "mint",
+   "signature": "XibVmqUoc6bHVNn6G833AyxhE5EM4tny5BsXZQBzPvbC669Loknch2x4nrwYiodR8FdVpg5u9rN6RAf7H2WtXQy",
+   "slot": 456738221,
+   "blockTime": 1791959165,
+   "ts_mt": "2026-10-14T00:26:05-06:00",
+   "status": "finalized",
+   "err": null
+  },
+  {
+   "source": "mint",
+   "signature": "28S2Lxc7CqRe2hA9YaMiWUWhxmczANCQ8mENdAr8um7AwFfMKrBDEGmtAUZPdWWCRkHeAG9KnXb5kZ5C2aPESuj4",
+   "slot": 456640759,
+   "blockTime": 1791937950,
+   "ts_mt": "2026-10-13T18:32:30-06:00",
+   "status": "finalized",
+   "err": null
+  },
+  {
+   "source": "mint",
+   "signature": "3J4dHTH4Prs1qPBDmC8Dxxgmq3WfzRg5LHYLbNtnSHNbcJeVxGjAcVhx8W7uo6JpwYMQom1Ab1N62SmC4ENQtnQw",
+   "slot": 456629006,
+   "blockTime": 1791935385,
+   "ts_mt": "2026-10-13T17:49:45-06:00",
+   "status": "finalized",
+   "err": null
+  },
+  {
+   "source": "crown",
+   "signature": "4wmJ6kTDjSKdqHkuoH8oocda8H9Q7FYUWjtc7yvto9tkChwXZ9yvduzE5WkSu5bgQzeqh5Hars7HxJ2ttZteTngb",
+   "slot": 456596619,
+   "blockTime": 1791928341,
+   "ts_mt": "2026-10-13T15:52:21-06:00",
+   "status": "finalized",
+   "err": null
+  },
+  {
+   "source": "mint",
+   "signature": "KBK3iS4pxkKavemN6iopRmBx82JuRNJwNDbbnmG8C4zTUmrKvsuX1C4mGojkovAWsbFRnuGZPKxgj3T672fm2P1",
+   "slot": 451502362,
+   "blockTime": 1790647648,
+   "ts_mt": "2026-09-28T20:07:28-06:00",
+   "status": "finalized",
+   "err": null
+  },
+  {
+   "source": "mint",
+   "signature": "4Nq38k9NjU7u77TXbkAvQKaJMWrV14sCWUekhB9DXHqd46urPp76hkAWQKPL8B2vXku6fHnrNb9dYDVWJYNMoKS1",
+   "slot": 451501623,
+   "blockTime": 1790647451,
+   "ts_mt": "2026-09-28T20:04:11-06:00",
+   "status": "finalized",
+   "err": null
+  },
+  {
+   "source": "crown",
+   "signature": "5vmKtUYY9jtG9xUMuEgoKMxR4TQfTrPysq7FhhVUoAabaK6uqBAgXBGjMiWKArbRESwNaMx2mCf4Zzicwx9gTJ72",
+   "slot": 451501545,
+   "blockTime": 1790647431,
+   "ts_mt": "2026-09-28T20:03:51-06:00",
+   "status": "finalized",
+   "err": null
+  },
+  {
+   "source": "crown",
+   "signature": "5GZ9zRgwoPiYMXVC3sY4DUkHRi9MDjxASFJDPCvuoqrrBNsxTNKSRXpbZyjkBWPwqCo73YFkKwyJUYo4oyLKDzcq",
+   "slot": 451467003,
+   "blockTime": 1790638175,
+   "ts_mt": "2026-09-28T17:29:35-06:00",
+   "status": "finalized",
+   "err": null
+  },
+  {
+   "source": "mint",
+   "signature": "5PL7YTDvztpqajzAM7LJp58QXBrSLKeAcKx14XWHriTSFagNCLTMyCL91ept4roz6HD1YohTZwWBe6mfqWaAqbi8",
+   "slot": 451466764,
+   "blockTime": 1790638113,
+   "ts_mt": "2026-09-28T17:28:33-06:00",
+   "status": "finalized",
+   "err": null
+  },
+  {
+   "source": "mint",
+   "signature": "wVQJqkHzNSEshxwimxviDw3TdEv7wEigPPFqet4Q61WfWQDLPxPWHM3qfuzQT6QnF8z2LZWYkEghDMXduKdXBwx",
+   "slot": 448916324,
+   "blockTime": 1789956645,
+   "ts_mt": "2026-09-20T20:10:45-06:00",
+   "status": "finalized",
+   "err": null
+  },
+  {
+   "source": "mint",
+   "signature": "5aKXsjYLvh73dB4ircC4jdQKbNNgv4yyxCgv4a4TbjZGXU3NsqumM88fboXd3iwF3jyT96n1FeKZJLrwpbv1nWX7",
+   "slot": 448791101,
+   "blockTime": 1789923160,
+   "ts_mt": "2026-09-20T10:52:40-06:00",
+   "status": "finalized",
+   "err": null
+  },
+  {
+   "source": "mint",
+   "signature": "nhVeNxtteysyCW8wDim7F6vE3Ks76P3ZRwpYr1eedUGzKq4bJwqQCmWdqbL7uEtdAMKASbpU16vSkxoiKVAv4ho",
+   "slot": 448484891,
+   "blockTime": 1789841528,
+   "ts_mt": "2026-09-19T12:12:08-06:00",
+   "status": "finalized",
+   "err": null
+  },
+  {
+   "source": "mint",
+   "signature": "2jRr6staQgpyAYDHRS5gasVu57j6qDaZ6VtPAYoCPq2eHUkf3d3zUNQ3FmNYdorqAWVzuVnNaFPwnrm3HkNiRe8H",
+   "slot": 448281418,
+   "blockTime": 1789787337,
+   "ts_mt": "2026-09-18T21:08:57-06:00",
+   "status": "finalized",
+   "err": null
+  },
+  {
+   "source": "mint",
+   "signature": "2Lxr2mEZnFnwwBMQjCgRt8EJLaJbwEp61K51mdx16z8oncWg2JCXzCKnisMi78V3L4w7w2pizQ8P1p2H5XMLvx94",
+   "slot": 448281123,
+   "blockTime": 1789787259,
+   "ts_mt": "2026-09-18T21:07:39-06:00",
+   "status": "finalized",
+   "err": null
+  },
+  {
+   "source": "crown",
+   "signature": "21UX2rDKYpgrPKma2WoktsB9CEhw7r94cPQjqaymacoTD2NMdcsxDMMCbRkojEuDkh9VVhbhNZdociEKNYnvRjSB",
+   "slot": 448278643,
+   "blockTime": 1789786600,
+   "ts_mt": "2026-09-18T20:56:40-06:00",
+   "status": "finalized",
+   "err": null
+  }
+ ],
+ "events_count": 20
+}
