@@ -11,7 +11,7 @@ function run(id){var U=window.RWALLET_UNIFIED;if(!U){log('unified registry not l
 function render(){var b=bal(),v=R()?R().vault():{locked:true},el=document.getElementById(window.RWALLET_MOUNT||'rw');if(!el)return;var q=(st.q||'').toLowerCase();
  var h='<div class="rw-title">Anti Social CryptoSocial Media</div><div class="rw-ban" style="background-image:url(banner.jpg)"><img class="gm" src="ghostmachine-logo.jpg" alt=""><button class="rw-pair v" data-f="verified">✔ Verified</button><button class="rw-pair w'+(st.w?' on':'')+'" data-w="1">&gt; Wallet</button></div><div class="rw-av" style="background-image:url(avatar.jpg)"></div><div class="rw-name">Rizal the Younger</div><div class="rw-hd">@chaserizal</div>'; var emb=el.hasAttribute('data-embed');if(emb)h='';if(!st.w&&!emb){el.innerHTML=h+'<div class="rw-foot">R:\\SOCIAL&gt; READY</div>';return} h+='<div class="rw-top"><div class="h"><b>@CHASERIZAL</b> · ЯID-0001</div><span class="rw-lock" data-f="'+(v.locked?'unlock':'lock')+'">'+(v.locked?'🔒 locked':'🔓 open')+'</span></div>'+
  '<div class="rw-bal"><div class="n">'+E(b.rdg)+' <span class="u">RDG</span></div><div class="s">local ledger · '+b.w.addresses.length+' public address(es) · no keys held</div></div>'+
- '<div class="rw-acts"><button data-f="send">⇡ Send</button><button data-f="receive">⇣ Receive</button><button data-m="open" title="ЯMINT · RGHOSTCHAIN category · price non-token assets · test to seal (preview, no live mint)">✦ Mint</button><button data-g="ledger" title="BOTLATCH · RSYNC ledger · drafts · seal · publish (gated)">⛓ BOTLATCH</button></div><div class="rw-sub"><span data-f="sign" style="cursor:pointer">✔ sign</span> · <span data-g="home" style="cursor:pointer">history ›</span></div>'+(st.mint?MINT():'')+
+ '<div class="rw-acts"><button data-f="send">⇡ Send</button><button data-f="receive">⇣ Receive</button><button data-m="open" title="ЯMINT · one tap: unlock once (Face ID / fingerprint / ASSM) → RGHOSTCHAIN + RTRACKR">✦ Mint</button><button data-g="ledger" title="BOTLATCH · RSYNC ledger · drafts · seal · publish (gated)">⛓ BOTLATCH</button></div><div class="rw-sub"><span data-f="sign" style="cursor:pointer">✔ sign</span> · <span data-g="home" style="cursor:pointer">history ›</span></div>'+(st.mint?MINT():'')+
  '<div class="rw-tok">'+(b.w.addresses.length?b.w.addresses.map(function(a){return '<div><span>'+E(a.name)+' · '+E(a.chain)+'</span><b>'+E(a.balance==null?'—':a.balance)+'</b></div>'}).join(''):'<div><span>Я · SOL seats</span><b data-f="seats" style="cursor:pointer">view ›</b></div>')+'</div>'+
  '<input class="rw-q" placeholder="search '+F.length+' functions…" value="'+E(st.q||'')+'">';
  G.forEach(function(g){var it=F.filter(function(f){return f.where===g[0]&&(!q||(f.label+' '+f.cmd).toLowerCase().indexOf(q)>=0)});if(q&&!it.length)return;var on=q||st.open[g[0]];
@@ -28,24 +28,34 @@ var MK=[['wallet.asset.rid','wallet asset (ЯID)'],['game.asset','game asset'],[
 function TOK(k){return k==='token'}
 function ML(){return st.mints=st.mints||[]}
 function MINT(){var m=st.mf||(st.mf={k:'cryptoart',n:'',d:'',p:'',u:'RDG'}),L=ML();
- return '<div class="rw-mint"><div class="rw-mh">✦ ЯMINT · RGHOSTCHAIN <i>preview · test entries only</i><b data-m="close">×</b></div>'+
+ return '<div class="rw-mint"><div class="rw-mh">✦ ЯMINT · RGHOSTCHAIN <i>one tap · RGHOSTCHAIN + RTRACKR</i><b data-m="close">×</b></div>'+
+ '<button data-m="pending" class="rw-m1">✦ MINT pending block (one tap)</button><div class="rw-mn" id="rw-mstat">'+E(st.mstat||'')+'</div>'+
  '<label>category<select data-mi="k">'+MK.map(function(c){return '<option value="'+c[0]+'"'+(m.k===c[0]?' selected':'')+'>'+E(c[1])+'</option>'}).join('')+'</select></label>'+
  '<label>item<input data-mi="n" maxlength="80" placeholder="name" value="'+E(m.n)+'"></label>'+
+ '<label>ЯID<input data-mi="r" maxlength="20" placeholder="ЯID-…" value="'+E(m.r||'')+'"></label>'+
  '<label>note<input data-mi="d" maxlength="200" placeholder="description (public)" value="'+E(m.d)+'"></label>'+
  (TOK(m.k)?'<div class="rw-mn">tokens are not priced here (R↔Я rate unpublished)</div>':'<label>price<input data-mi="p" inputmode="decimal" placeholder="0.00" value="'+E(m.p)+'"><select data-mi="u">'+['RDG','Я','SOL'].map(function(u){return '<option'+(m.u===u?' selected':'')+'>'+u+'</option>'}).join('')+'</select></label>')+
- '<button data-m="add">+ add as TEST entry</button>'+
+ '<button data-m="add">+ add entry</button>'+
  (L.length?'<div class="rw-ml">'+L.map(function(x,i){var st2=x.sealed?'sealed':x.status;return '<div class="rw-mr"><span>'+E(x.name)+' <em>'+E(x.kind)+(x.price!=null?' · '+E(x.price)+' '+E(x.unit):'')+'</em></span><b class="s-'+E(st2)+'">'+E(st2)+'</b>'+
-  (x.status==='test'?'<button data-m="seal" data-i="'+i+'">request seal</button>':'')+
-  '<button data-m="live" data-i="'+i+'"'+(x.sealed?'':' disabled title="needs approved seal (ЯCASKET · Face ID) — none attached"')+'>go live</button><button data-m="del" data-i="'+i+'">✕</button></div>'}).join('')+'</div>':'<div class="rw-mn">no test entries yet</div>')+
- '<div class="rw-mn">TEST → request seal (ЯCASKET preview) → LIVE only after seal approval. Nothing is written to the chain from this page.</div></div>'}
+  (x.status==='live'?'<em>#'+E(x.block_index)+'</em>':'<button data-m="mint1" data-i="'+i+'">✦ MINT</button>')+'<button data-m="del" data-i="'+i+'">✕</button></div>'}).join('')+'</div>':'<div class="rw-mn">no test entries yet</div>')+
+ '<div class="rw-mn">One tap: the unlock happens on your signer (this device if pinned, else routed over RPIPE to your trusted phone). No key ever touches this page; unsigned seals are refused.</div></div>'}
+var OTSRC=(document.currentScript&&document.currentScript.src)||'';
+/* 20261104 pt142u: ONE-TAP MINT via rmint-onetap.js (TerraformЯ _open_rw_mint port). */
+function OT(){if(window.RMINT_ONETAP)return Promise.resolve(window.RMINT_ONETAP);return new Promise(function(res,rej){var sc=document.createElement('script');sc.src=OTSRC.replace(/[^\/]*$/,'')+'rmint-onetap.js';
+ if(!/rmint-onetap/.test(sc.src))sc.src='/rwallet/rmint-onetap.js';sc.onload=function(){res(window.RMINT_ONETAP)};sc.onerror=function(){rej(new Error('rmint-onetap.js not loaded'))};document.head.appendChild(sc)})}
+function MS(t){st.mstat=t;save();var el=document.getElementById('rw-mstat');if(el)el.textContent=t;log('ЯMINT: '+t)}
+function MDO(x){var o={onStatus:function(s){MS(s.msg||s.state||'')}};if(x){o.asset={cat:x.kind==='cryptobot'?'cryptobot_mint':'nft_mint',rid:x.rid,label:x.name,price:x.price};}
+ MS('starting…');return OT().then(function(T){return T.mint(o)}).then(function(r){if(r.ok){MS((r.mode||'live').toUpperCase()+' · block #'+(r.block_index!=null?r.block_index:(r.result||{}).block_index)+' · '+String(r.block_hash||(r.result||{}).block_hash||'').slice(0,16)+'…'+(r.rtrackr===false?' (RTRACKR pending)':''));if(x){x.status='live';x.block_index=r.block_index!=null?r.block_index:(r.result||{}).block_index;save();render()}}
+ else MS((r.queued?'sealed · queued (chain offline)':'not minted: ')+String(r.err||JSON.stringify(r.errors||(r.result||{}).errors||'')))}).catch(function(e){MS('not minted: '+e.message)})}
 function MCLICK(e){var t=e.target.closest('[data-m]');if(!t)return false;var a=t.dataset.m,i=+t.dataset.i,L=ML(),m=st.mf||{};
  if(a==='open'){st.mint=!st.mint}else if(a==='close'){st.mint=false}
  else if(a==='add'){var n=String(m.n||'').trim(),pr=TOK(m.k)?null:parseFloat(m.p);if(!n){log('ЯMINT: item name required');return true}
   if(!TOK(m.k)&&!(pr>=0)){log('ЯMINT: price required for non-token assets');return true}
-  L.unshift({id:'test-'+Date.now().toString(36),kind:m.k,name:n,note:m.d||'',price:pr,unit:TOK(m.k)?null:m.u,status:'test',sealed:false,created:new Date().toISOString()});st.mf={k:m.k,n:'',d:'',p:'',u:m.u};log('ЯMINT TEST entry added (local only): '+n)}
- else if(a==='seal'&&L[i]){L[i].status='awaiting-seal';log('⚿ ЯCASKET seal request (preview) · '+L[i].kind+' · '+L[i].name+'\nno prompt sent; approval happens in ЯCASKET on Rizal GO');}
- else if(a==='live'&&L[i]){if(!L[i].sealed){log('ЯMINT: LIVE refused — no approved seal on '+L[i].name);return true}log('ЯMINT: sealed entry ready; live submit goes through RGHOSTCHAIN submitd (not from this page)')}
- else if(a==='del'&&L[i]){L.splice(i,1)}
+  var rid=String(m.r||'').trim();if(!/^ЯID-\d{4}-[0-9A-HJKMNP-TV-Z]{4}$/.test(rid)){log('ЯMINT: a valid ЯID is required (ЯID-0000-XXXX)');return true}
+  L.unshift({id:'m-'+Date.now().toString(36),rid:rid,kind:m.k,name:n,note:m.d||'',price:pr,unit:TOK(m.k)?null:m.u,status:'ready',sealed:false,created:new Date().toISOString()});st.mf={k:m.k,n:'',d:'',p:'',u:m.u,r:''};log('ЯMINT entry added: '+n+' · tap ✦ MINT')}
+ else if(a==='pending'){MDO(null);return true}
+ else if(a==='mint1'&&L[i]){MDO(L[i]);return true}
+  else if(a==='del'&&L[i]){L.splice(i,1)}
  save();render();return true}
 document.addEventListener('change',function(e){var t=e.target.closest&&e.target.closest('[data-mi]');if(!t)return;(st.mf=st.mf||{})[t.dataset.mi]=t.value;save();if(t.dataset.mi==='k')render()});
 document.addEventListener('input',function(e){var t=e.target.closest&&e.target.closest('[data-mi]');if(t&&t.tagName==='INPUT'){(st.mf=st.mf||{})[t.dataset.mi]=t.value;save()}});
