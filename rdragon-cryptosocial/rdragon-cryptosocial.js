@@ -554,26 +554,37 @@ function cardHead(n){return (n.pinned||n.upin?'<div>'+PINB+'</div>':'')+(n.pinne
  /* KUBO 20261103 (was Cubes). One post per real RGHOSTCHAIN block, each with its own spinning block. Data-driven: read-only, same-origin published snapshot
     /rtrackr/data/rghostchain.json (rtrackr_export / autopub; scrubbed, no keys). A new block adds a post when the snapshot is republished. Preview cube card stays below. */
  var KB={st:0,d:null,err:""},KBDEV={"rsd-d2c47824":"moto device key"};
- function kbLoad(){KB.st=1;return fetch("/rtrackr/data/rghostchain.json",{cache:"no-store"}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){KB.d=d;KB.err="";KB.st=2;render()}).catch(function(){KB.err="chain snapshot unreachable";KB.st=2;render()})}
+ /* KUBO auto 20261104: polls the published snapshot (rizal.pw same-origin, else https://rizal.pw from RDRAGON), keeps PUBLIC fields only, new blocks appear without reload. */
+ var KBPUB=["rid","label","serial","handle","holder_handle","pack_name","version","genesis","purpose","block_sha256","asset_hash","approve","methods"];
+ function kbClean(d){var o={chain:d.chain,height:d.height,tip:d.tip,exported_at:d.exported_at,verify:{ok:!!(d.verify&&d.verify.ok),blocks:d.verify&&d.verify.blocks},blocks:[]};
+  (d.blocks||[]).forEach(function(b){var p=b.payload||{},q={};KBPUB.forEach(function(k){if(p[k]==null)return;var v=p[k];if(k==="approve"&&Array.isArray(v))v=v.map(function(a){return typeof a==="string"?a:(a&&(a.slot||a.device_id||a.id))||"device"});if(typeof v==="string"&&v.length>200)v=v.slice(0,200);q[k]=v});
+   if(p.rsign_device)q.rsign_device=String(p.rsign_device).slice(0,24);if(p.rsign_entry_sig)q.rsign_entry_sig=1;
+   o.blocks.push({index:b.index,hash:b.hash,prev_hash:b.prev_hash,ts:b.ts,type:b.type,payload:q})});return o}
+ var KBURL=/(^|\.)rizal\.(pw|info)$/.test(location.hostname)?["/rtrackr/data/rghostchain.json"]:["https://rizal.pw/rtrackr/data/rghostchain.json"],KBNEW={},KBT=null;
+ function kbFetch(i){return fetch(KBURL[i]+(KBURL[i].indexOf("?")<0?"?t=":"&t=")+Date.now(),{cache:"no-store"}).then(function(r){if(!r.ok)throw 0;return r.json()}).catch(function(e){if(i+1<KBURL.length)return kbFetch(i+1);throw e})}
+ function kbLoad(){if(KB.st!==2)KB.st=1;return kbFetch(0).then(function(d){d=kbClean(d);var old=KB.d;if(old&&d.tip!==old.tip){var seen={};(old.blocks||[]).forEach(function(b){seen[b.hash]=1});d.blocks.forEach(function(b){if(!seen[b.hash]){KBNEW[b.hash]=1;try{toast("New RGHOSTCHAIN block #"+b.index+" added to Kubo")}catch(e){}}})}
+   var ch=!old||d.tip!==old.tip||d.exported_at!==old.exported_at;KB.d=d;KB.err="";KB.st=2;if(ch&&S.nav==="home"&&S.tab==="Kubo")render()}).catch(function(){if(!KB.d){KB.err="chain snapshot unreachable";KB.st=2;render()}})}
+ function kbPoll(){if(KBT)return;KBT=setInterval(function(){if(document.visibilityState==="visible"&&S.nav==="home"&&S.tab==="Kubo")kbLoad()},30000);document.addEventListener("visibilitychange",function(){if(document.visibilityState==="visible"&&S.tab==="Kubo")kbLoad()})}
  function kbSh(h){h=String(h||"");return h.length>20?h.slice(0,10)+"…"+h.slice(-6):h}
  function kbSeal(b){var p=b.payload||{};if(b.type==="genesis")return{t:"unsigned by design",c:""};if(p.rsign_device&&p.rsign_entry_sig){var k=String(p.rsign_device).replace(/….*$/,"").slice(0,12);return{t:"signed · "+(KBDEV[k]||"enrolled device key"),c:"ok"}}return{t:"seal pending",c:""}}
  function kbDesc(b){var p=b.payload||{},t=b.type,rid=p.rid||"",lb=p.label||"",s=p.serial!=null?" · serial #"+p.serial:"",hd=p.holder_handle||p.handle||"";
   if(t==="genesis")return "Genesis block. The start of RGHOSTCHAIN, a local ledger of hashes and lineage only. No secrets on chain.";
   if(t==="nft_mint")return (lb||"Asset")+" minted to "+(p.handle||"its holder")+(rid?" as "+rid:"")+s+(p.genesis?" (the genesis ЯID)":"")+".";
   if(t==="cryptobot_mint")return (lb||"Cryptobot")+(rid&&lb.indexOf(rid)<0?" ("+rid+")":"")+" minted on RGHOSTCHAIN"+(hd?", now held by "+hd:"")+s+".";
+  if(t==="rghostkey_bind")return "Trusted devices"+(p.approve?" ("+[].concat(p.approve).join(", ")+")":"")+(p.methods?" and methods "+[].concat(p.methods).join(", "):"")+" approved on RGHOSTCHAIN.";
   if(t==="cryptoupdate")return "Cryptoupdate pack "+(p.pack_name||"")+(p.version?" v"+p.version:"")+" recorded on RGHOSTCHAIN.";
   return (lb?lb+" · ":"")+String(t).replace(/_/g," ")+" block recorded on RGHOSTCHAIN."}
  function kbCube(b){var hx=String(b.hash||rhex("kb"+b.index)),fs="";FACES.forEach(function(nm,i){fs+='<div class="rc-face rc-'+nm+'">'+rcode(hx.slice(i*9)+hx.slice(0,i*9))+'<div class="rc-glyph">Я</div><div class="rc-h">#'+b.index+'</div></div>'});
   return '<div class="kb-scene"><div class="rc-cube rc-auto" style="--rx:-22deg;--ry:35deg">'+fs+'</div></div>'}
- function kuboPosts(){if(KB.st===0)kbLoad();var d=KB.d,h='<div class="kb-wrap"><div class="kb-head"><b>KUBO</b> <span class="csp-dim">· RGHOSTCHAIN blocks</span></div>';
+ function kuboPosts(){kbPoll();if(KB.st===0)kbLoad();var d=KB.d,h='<div class="kb-wrap"><div class="kb-head"><b>KUBO</b> <span class="csp-dim">· RGHOSTCHAIN blocks</span></div>';
   if(KB.err)return h+'<div class="csp-card"><div class="csp-dim">'+E(KB.err)+'</div></div></div>';
   if(!d)return h+'<div class="csp-dim">loading Kubo posts…</div></div>';
   var B=(d.blocks||[]).slice(),bad=0,i;for(i=1;i<B.length;i++)if(B[i].prev_hash!==B[i-1].hash)bad++;
   h+='<div class="csp-dim kb-sub">'+B.length+' blocks · tip '+E(kbSh(d.tip))+' · '+((d.verify&&d.verify.ok&&!bad)?'chain verified on Neo ✔':'verify FAILED ✖')+' · snapshot '+rcT(d.exported_at)+'</div>';
   B.reverse().forEach(function(b){var sl=kbSeal(b);
-   h+='<div class="csp-card kb-post" data-kb="'+E(b.index)+'">'+kbCube(b)+'<div class="kb-body"><div class="kb-t"><b>Block #'+E(b.index)+'</b> <span class="kb-ty">'+E(String(b.type).replace(/_/g," "))+'</span> <span class="rc-badge '+sl.c+'">'+E(sl.t)+'</span></div>'+
+   h+='<div class="csp-card kb-post'+(KBNEW[b.hash]?' kb-new':'')+'" data-kb="'+E(b.index)+'">'+(KBNEW[b.hash]?'<div class="rc-badge ok">NEW</div>':'')+kbCube(b)+'<div class="kb-body"><div class="kb-t"><b>Block #'+E(b.index)+'</b> <span class="kb-ty">'+E(String(b.type).replace(/_/g," "))+'</span> <span class="rc-badge '+sl.c+'">'+E(sl.t)+'</span></div>'+
     '<div class="kb-d">'+E(kbDesc(b))+'</div><div class="rc-row"><span>HASH</span><code title="'+E(b.hash)+'">'+E(kbSh(b.hash))+'</code></div><div class="rc-row"><span>TIME</span><code>'+rcT(b.ts)+'</code></div>'+
-    '<a class="kb-link" href="/rtrackr/#block/'+encodeURIComponent(b.index)+'" target="_blank" rel="noopener">view block #'+E(b.index)+' on RTRACKR ↗</a></div></div>'});
+    '<a class="kb-link" href="'+(KBURL[0].charAt(0)==="/"?"":"https://rizal.pw")+'/rtrackr/#block/'+encodeURIComponent(b.index)+'" target="_blank" rel="noopener">view block #'+E(b.index)+' on RTRACKR ↗</a></div></div>'});
   return h+'<div class="rc-sub kb-pv">PREVIEW KUBO</div></div>'}
  var _view=view;view=function(){if(S.nav==="rprof")return rprofView();if(S.nav==="home"&&S.tab==="Kubo")return kuboPosts()+cubeView();return _view()};
  function rcApply(){var k=p.querySelector(".rc-cube");if(k){k.style.setProperty("--rx",RC.rx+"deg");k.style.setProperty("--ry",RC.ry+"deg")}}
