@@ -31,7 +31,8 @@ function verify(m){if(!m.from_device||!m.sig_b64||!window.crypto||!crypto.subtle
 function post(u,m){return fetch(u,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain"},body:JSON.stringify(m)})}
 function box(a){return"rmail-"+String(a).replace(/[^A-Za-z0-9_-]/g,"_").slice(0,64)}
 function deliver(m){var r=[],body=JSON.stringify(m);if(!pub()){r.push(post(RELAY,{to:box(m.to_addr),from:m.from_addr,type:"rmail",body:body}));
-  if(window.RMAIL_RNS_TO)r.push(post(RELAY,{to:"rns-out",from:m.from_addr,type:"rmail",body:JSON.stringify({to_hash:window.RMAIL_RNS_TO,type:"rmail",body:body,from:m.from_addr})}))}
+  if(window.RMAIL_RNS_TO)r.push(post(RELAY,{to:"rns-out",from:m.from_addr,type:"rmail",body:JSON.stringify({to_hash:window.RMAIL_RNS_TO,type:"rmail",body:body,from:m.from_addr})}))
+  if(window.RMAIL_RVM_NODE&&window.RMAIL_RVM_TO)r.push(post(RELAY,{to:window.RMAIL_RVM_NODE,from:m.from_addr,type:"lxmf-send",body:JSON.stringify({to:window.RMAIL_RVM_TO,title:"RMAIL "+(m.subject||""),text:(m.from_addr||"")+": "+(m.body||"")})}))}
   if(window.RMAIL_URL)r.push(post(window.RMAIL_URL,m));
   return r.length?Promise.all(r).then(function(){return true},function(){return false}):Promise.resolve(false)}
 function keep(m){var b=J(BOX,{}),k=m.to_addr;(b[k]=b[k]||[]).push(m);b[k]=b[k].slice(-300);var f=m.from_addr;if(f!==k){(b[f]=b[f]||[]).push(m);b[f]=b[f].slice(-300)}W(BOX,b);badge()}
