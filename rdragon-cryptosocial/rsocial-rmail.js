@@ -47,8 +47,8 @@ function receive(m){if(!m||m.kind!=="rmail")return Promise.resolve(null);m.verif
 function inbox(a){a=a||ownerAddr()||me().addr;return(J(BOX,{})[a]||[]).filter(function(m){return m.to_addr===a})}
 function pending(){return J(OB,[]).filter(function(m){return!m.sent}).length}
 /* ---- RWALLET UI: inbox count on every Wallet button ---- */
-function badge(){var n=inbox().length,p=pending();document.querySelectorAll(".csp-bw,[data-a=wallet]").forEach(function(b){var s=b.querySelector(".rmail-n");if(!s){s=document.createElement("span");s.className="rmail-n";s.style.cssText="margin-left:6px;font-size:10px;opacity:.85";b.appendChild(s)}
-  s.textContent="✉"+n+(p?" ·"+p+"⇡":"");b.title=(b.title||"").replace(/ · RMAIL.*$/,"")+" · RMAIL inbox "+n+" for "+(ownerAddr()||me().addr)+(p?", "+p+" waiting to send":"")})}
+function badge(){var n=inbox().length;try{if(window.RMAIL_UI)n=RMAIL_UI.folders().inbox.u}catch(e){}var p=pending();document.querySelectorAll(".csp-bw,[data-a=wallet]").forEach(function(b){var s=b.querySelector(".rmail-n");if(!s){s=document.createElement("span");s.className="rmail-n";s.style.cssText="margin-left:6px;font-size:10px;opacity:.85";b.appendChild(s)}
+  s.textContent="✉"+n+(p?" ·"+p+"⇡":"");b.title=(b.title||"").replace(/ · RMAIL.*$/,"")+" · RMAIL unread "+n+" for "+(ownerAddr()||me().addr)+(p?", "+p+" waiting to send":"")})}
 function follows(){return J(FK,{})}
 function follow(target,by,on){var f=follows();on=on===undefined?!f[target]:!!on;f[target]=on;W(FK,f);var I=me();
   var ev={t:on?"follow":"unfollow",target:target,target_addr:addrOf(target),by:by||I.handle,by_addr:I.addr,ts:Date.now()};try{window.dispatchEvent(new CustomEvent("rsocial:follow",{detail:ev}))}catch(e){}return ev}
