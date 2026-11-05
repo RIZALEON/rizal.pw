@@ -131,7 +131,7 @@
  function devicePolicy(o){o=o||{};var vcache={},OK=(o.ownerKeys||[]).filter(function(k){return k&&k.pub}),ORID=o.ownerRid||'ЯID-0001-3QQS';
   /* Rizal's keys (RKEY profile 0 = root, e5833fdfbbfe, others): each alone is a FULL-POWER signer on his profile (login nonces, enrollment approvals, sessions, everything) — never refused or scoped.
      An entry signed by one owner key and co-signed by a DIFFERENT owner key is 'dual' = top authority level. */
-  function okey(pub){for(var i=0;i<OK.length;i++)if(OK[i].pub===pub)return OK[i];return null}
+  function okey(pub){OK=(o.ownerKeys||[]).filter(function(k){return k&&k.pub});for(var i=0;i<OK.length;i++)if(OK[i].pub===pub)return OK[i];return null}
   function vreq(e){var k=e.cid+'|'+e.device;if(k in vcache)return Promise.resolve(vcache[k]);return verifySig(enrollRequestMsg(e.device,e.nonce,e.req_ts),e.req_sig||'',e.device).then(function(v){vcache[k]=v;return v})}
   return{allowUnsigned:false,view:function(list){var ok={},why={},prof={},auth={},chain=Promise.resolve();
    function active(Pf,pub,ts){if(okey(pub)&&(Pf.rid===ORID||o.ownerAllProfiles))return'owner';var d=Pf.devices[pub];if(d&&d.since<=ts&&!(d.revoked&&ts>=d.revoked))return'device';if(Pf.wallets[pub])return'wallet';return null}

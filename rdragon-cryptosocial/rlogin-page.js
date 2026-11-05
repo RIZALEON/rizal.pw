@@ -3,7 +3,7 @@
    2 approve from an enrolled device (short code / QR / bundle), 3 username + password (LAST RESORT; PBKDF2 unwraps the profile key, rate-limited, offline).
    The password is never stored, logged, synced or shipped: only salt + KDF params + wrapped key + verifier, inside the ЯCASKET package.
    The chain gets only a COMMITMENT (sha256 of the sealed package + version) — TEST ledger only (localStorage) until Rizal's go.
-   Identity: @chaserizal binds to the SAME RID as Rizal (ЯID-0001-3QQS); ThundR keeps ЯID-0014-KREH. Root = RKEY profile 0 (ЯCASKET) — PENDING. */
+   Identity: @chaserizal binds to the SAME RID as Rizal (ЯID-0001-3QQS); ThundR keeps ЯID-0014-KREH. Root = RGHOSTKEY (published sha-pinned trusted-devices.json; ONE part assm|faceid|fingerprint from a trusted device). */
 (function(){"use strict";
 var CFG=window.RDRAGON_CONFIG||{},$=function(i){return document.getElementById(i)||(DUM[i]=DUM[i]||document.createElement("div"))},DUM={} /* t107u: simple page has only some elements */,RS=null,DEV=null,RQ=null,LAST=null;
 var IDENT={"@chaserizal":{rid:"ЯID-0001-3QQS",tag:"#chaserizal",userId:"@chaserizal",
@@ -43,7 +43,7 @@ function st(){return RS&&RS.state()||{profiles:{}}}
 function byHandle(h){var P=st().profiles;for(var k in P)if(H(P[k].handle)===h)return P[k];return null}
 function profOfDev(pub){var P=st().profiles;for(var k in P){var d=P[k].devices&&P[k].devices[pub];if(d&&!d.revoked)return P[k]}return null}
 /* ---- RGEN verify (egg4 record seals) + RKEY profile 0 ---- */
-function owners(){var a=st().authority||{},n=0;for(var k in a)if(a[k]==="dual")n++;var ks=(CFG.ownerKeys||[]).map(function(k){return k.id+(k.pub?"":" (pub PENDING)")});$("owners").textContent=ks.length?ks.join(" · "):"none configured";$("dual").hidden=!n;$("dual").textContent="dual-signed ×"+n;return n}
+function owners(){var a=st().authority||{},n=0;for(var k in a)if(a[k]==="dual")n++;var ks=(CFG.ownerKeys||[]).map(function(k){return k.id+(k.pub?"":" (unresolved)")});$("owners").textContent=ks.length?ks.join(" · "):(CFG.ownerKeysError?"RGHOSTKEY: "+CFG.ownerKeysError:"RGHOSTKEY: resolving…");$("dual").hidden=!n;$("dual").textContent="dual-signed ×"+n;return n}
  function p0(){var p=RSync.RGEN.profile0(CFG.profile0PublicKey);$("p0").textContent=p.publicKey;$("p0").dataset.status=p.status}
 function rgenVerify(){return RSync.RGEN.verify(RS.raw()).then(function(r){LAST=r;var s=$("rg-status");s.textContent="RGEN verify ("+r.egg+"): "+r.ok+"/"+r.total+" valid RGEN seals"+(r.bad.length?" · "+r.bad.length+" INVALID":"");s.dataset.ok=String(!r.bad.length);return r})}
 /* ---- finish: session.start signed by this device, then hand off to the app ---- */
@@ -189,7 +189,7 @@ RS=RSync.create({storage:RSync.adapters.localStorage("rdragon.csp.rsync.v1"),pol
 RS.ready.then(function(){var bc=RSync.adapters.broadcast("rdragon.csp.rsync");if(bc)RS.attach(bc);
  function rdPeers(base,cb){var l=(CFG.peers||[]).concat(window.RDRAGON_PRIVATE_PEERS||[]),u=CFG.privatePeersUrl;if(!u||!window.fetch)return cb(l);try{u=new URL(u,base||location.href).href}catch(e){return cb(l)}fetch(u,{cache:"no-store"}).then(function(r){return r.ok?r.json():{}}).then(function(j){cb(l.concat(j&&j.peers||[]))},function(){cb(l)})}
  rdPeers((document.querySelector('script[src*="rlogin-page.js"]')||{}).src,function(pl){var tps=pl.filter(function(u,i){return u&&pl.indexOf(u)===i}).map(function(u){return RSync.adapters.httpPeer(String(u).replace(/\/$/,""))});if(tps.length){var y=RS.syncer({peers:tps,pollMs:CFG.syncEveryMs||20000});y.start()}});
- RS.onChange(checkEnrolled);RS.onChange(owners);owners();rgenVerify();return get()}).then(function(r){if(r&&r.kp&&!r.req&&r.profile)$("auto-note").textContent+=" · this device has an auto-login key"});
+ RS.onChange(checkEnrolled);RS.onChange(owners);owners();window.addEventListener("rghostkey:owners",function(){owners()});rgenVerify();return get()}).then(function(r){if(r&&r.kp&&!r.req&&r.profile)$("auto-note").textContent+=" · this device has an auto-login key"});
 window.RLOGIN_LOCK=lockCheck();if(!window.RLOGIN_LOCK.ok){try{console.error("ЯLOGIN LOCK broken",window.RLOGIN_LOCK.missing)}catch(e){}}
 window.RLOGIN_PAGE={exportRec:exportRec,lockCheck:lockCheck,cacheFounder:cacheFounder,selfCheck:selfCheck,makeRecovery:makeRecovery,recoveryRec:recoveryRec,founderRecovery:function(){return LASTFR},ownerRestore:ownerRestore,state:st,device:get,ledger:LEDGER,strength:strength,ident:IDENT,rgen:function(){return LAST},rgenVerify:rgenVerify,owners:owners,authority:function(id){return RSync.authorityOf(st(),id)},commands:RSync.RGEN.commands,founder:FND,storedPackage:function(h){return getK("pkg:"+H(h))}};
 })();
