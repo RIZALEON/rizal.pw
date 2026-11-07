@@ -1,15 +1,20 @@
 {
  "schema": "rzl.rtrackr.rtoken.v1",
- "exported_at": "2026-11-05T00:11:32.071053-07:00",
+ "exported_at": "2026-11-07T07:54:58-07:00",
  "chain": "solana-mainnet",
- "note": "Public R token trackers + recent Solana signatures for mint, crown (mint authority), and Orca pool position. No keys. Live feed on /rtrackr/ polls getSignaturesForAddress via public RPC.",
+ "note": "Public R token trackers + recent Solana signatures for mint, crown (mint authority), Orca pool position, and watched holder wallet. No keys. Live feed on /rtrackr/ polls getSignaturesForAddress plus holder balances via public RPC, and falls back to this snapshot.",
  "token": {
   "symbol": "R",
   "name": "R token",
   "mint": "BB9uA5BuacDnWyDf5Npc9nMb9yFbyThsNrQPBYJ5Q1Lv",
   "crown_mint_authority": "BwpVNk1Rtncpv5HMTLwxB4Yfjkfv6mFaBQUTpjneH1F9",
   "orca_pool_position": "24uKAFYiLQaycBeiVCpKQgsjUwAn9XiKsuiMAZeoaRV7",
-  "mint_tx": "2Lxr2mEZnFnwwBMQjCgRt8EJLaJbwEp61K51mdx16z8oncWg2JCXzCKnisMi78V3L4w7w2pizQ8P1p2H5XMLvx94"
+  "mint_tx": "2Lxr2mEZnFnwwBMQjCgRt8EJLaJbwEp61K51mdx16z8oncWg2JCXzCKnisMi78V3L4w7w2pizQ8P1p2H5XMLvx94",
+  "holder": "12872Chwv88d9JcNnPPThtSQWJM296kpkDqm7tpBWB28",
+  "holder_token_account": "BNFLK9bU7CJ4mY87DHpgZ8wj4a1atxwRVpmSuxBUsG8Z",
+  "decimals": 9,
+  "supply_raw": "1000000000000000",
+  "supply_ui": "1000000"
  },
  "links": {
   "solscan_token": "https://solscan.io/token/BB9uA5BuacDnWyDf5Npc9nMb9yFbyThsNrQPBYJ5Q1Lv",
@@ -28,7 +33,10 @@
   "jupiter": "https://jup.ag/tokens/BB9uA5BuacDnWyDf5Npc9nMb9yFbyThsNrQPBYJ5Q1Lv",
   "geckoterminal": "https://www.geckoterminal.com/solana/tokens/BB9uA5BuacDnWyDf5Npc9nMb9yFbyThsNrQPBYJ5Q1Lv",
   "dexscreener": "https://dexscreener.com/solana/BB9uA5BuacDnWyDf5Npc9nMb9yFbyThsNrQPBYJ5Q1Lv",
-  "coingecko": "https://www.coingecko.com/en/coins/solana/token/BB9uA5BuacDnWyDf5Npc9nMb9yFbyThsNrQPBYJ5Q1Lv"
+  "coingecko": "https://www.coingecko.com/en/coins/solana/token/BB9uA5BuacDnWyDf5Npc9nMb9yFbyThsNrQPBYJ5Q1Lv",
+  "solscan_holder": "https://solscan.io/account/12872Chwv88d9JcNnPPThtSQWJM296kpkDqm7tpBWB28",
+  "explorer_holder": "https://explorer.solana.com/address/12872Chwv88d9JcNnPPThtSQWJM296kpkDqm7tpBWB28",
+  "solanafm_holder": "https://solana.fm/address/12872Chwv88d9JcNnPPThtSQWJM296kpkDqm7tpBWB28"
  },
  "rpc": {
   "url": "https://api.mainnet-beta.solana.com",
@@ -36,9 +44,14 @@
   "addresses": {
    "mint": "BB9uA5BuacDnWyDf5Npc9nMb9yFbyThsNrQPBYJ5Q1Lv",
    "crown": "BwpVNk1Rtncpv5HMTLwxB4Yfjkfv6mFaBQUTpjneH1F9",
-   "pool": "24uKAFYiLQaycBeiVCpKQgsjUwAn9XiKsuiMAZeoaRV7"
+   "pool": "24uKAFYiLQaycBeiVCpKQgsjUwAn9XiKsuiMAZeoaRV7",
+   "holder": "12872Chwv88d9JcNnPPThtSQWJM296kpkDqm7tpBWB28"
   },
-  "poll_seconds": 60
+  "poll_seconds": 60,
+  "balance_methods": [
+   "getBalance",
+   "getTokenAccountsByOwner"
+  ]
  },
  "events": [
   {
@@ -60,11 +73,20 @@
    "err": null
   },
   {
-   "source": "mint",
+   "source": "mint+holder",
    "signature": "9TKwz2BmHBewVMT3Ls5FnALm3gHgdz3EUZYaQ3atFN2CybbJYWcj9Xf5X1gdCMgXxAysQFkn87sZw4ji7JyBafV",
    "slot": 459130340,
    "blockTime": 1792477609,
    "ts_mt": "2026-10-20T00:26:49-06:00",
+   "status": "finalized",
+   "err": null
+  },
+  {
+   "source": "holder",
+   "signature": "3A41L1VKMw8KsyVVkSeXmmV7DdaWtDS9Aq7t5BydmCoZ2NbaEbZxa6rv9EByy6VUwA4FDbcmb8yZyTegVjdGD8hf",
+   "slot": 459129728,
+   "blockTime": 1792477476,
+   "ts_mt": "2026-10-20T00:24:36-06:00",
    "status": "finalized",
    "err": null
   },
@@ -222,5 +244,16 @@
    "err": null
   }
  ],
- "events_count": 20
+ "events_count": 21,
+ "holder": {
+  "address": "12872Chwv88d9JcNnPPThtSQWJM296kpkDqm7tpBWB28",
+  "token_account": "BNFLK9bU7CJ4mY87DHpgZ8wj4a1atxwRVpmSuxBUsG8Z",
+  "sol_lamports": 2958055,
+  "sol": 0.002958055,
+  "rtoken_amount": "32586.804095877",
+  "rtoken_raw": "32586804095877",
+  "decimals": 9,
+  "share": "3.25868041%",
+  "updated_at": "2026-11-07T07:54:58-07:00"
+ }
 }
