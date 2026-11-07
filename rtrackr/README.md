@@ -7,7 +7,7 @@ Static, read-only snapshot of the REAL local RGHOSTCHAIN (not a public blockchai
 - Orca pool position `24uKAFYiLQaycBeiVCpKQgsjUwAn9XiKsuiMAZeoaRV7`
 - Watched holder `12872Chwv88d9JcNnPPThtSQWJM296kpkDqm7tpBWB28` (R TOKEN account `BNFLK9bU7CJ4mY87DHpgZ8wj4a1atxwRVpmSuxBUsG8Z`)
 - Snapshot: `data/rtoken.json` (links + recent events + holder balances)
-- Live feed: browser calls `getSignaturesForAddress` on `https://api.mainnet-beta.solana.com` for mint, crown, pool, and the watched holder, and also reads the holder's SOL and R TOKEN balances; polls every 60s while the section is open; falls back to the snapshot / localStorage cache offline.
+- Live feed: browser polls every 60s while the section is open. Holder SOL and R TOKEN balances are read live via `https://solana-rpc.publicnode.com` (`getBalance` + `getAccountInfo` on the token account), falling back to `https://api.mainnet-beta.solana.com`. Signature lists use the same RPC fallback and merge into this snapshot if an RPC is blocked or returns no signatures.
 - Deep link: `#rtoken`
 
 ## Republish (one command, on Neo)

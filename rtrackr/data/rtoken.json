@@ -2,7 +2,7 @@
  "schema": "rzl.rtrackr.rtoken.v1",
  "exported_at": "2026-11-07T07:54:58-07:00",
  "chain": "solana-mainnet",
- "note": "Public R token trackers + recent Solana signatures for mint, crown (mint authority), Orca pool position, and watched holder wallet. No keys. Live feed on /rtrackr/ polls getSignaturesForAddress plus holder balances via public RPC, and falls back to this snapshot.",
+ "note": "Public R token trackers + recent Solana signatures for mint, crown (mint authority), Orca pool position, and watched holder wallet. No keys. Live feed on /rtrackr/ polls holder balances via PublicNode (getBalance + getAccountInfo on the token account) with mainnet-beta fallback, and polls getSignaturesForAddress for mint, crown, pool, and holder. New signatures merge into this snapshot; empty RPC results never replace it.",
  "token": {
   "symbol": "R",
   "name": "R token",
@@ -39,7 +39,8 @@
   "solanafm_holder": "https://solana.fm/address/12872Chwv88d9JcNnPPThtSQWJM296kpkDqm7tpBWB28"
  },
  "rpc": {
-  "url": "https://api.mainnet-beta.solana.com",
+  "url": "https://solana-rpc.publicnode.com",
+  "fallback_url": "https://api.mainnet-beta.solana.com",
   "method": "getSignaturesForAddress",
   "addresses": {
    "mint": "BB9uA5BuacDnWyDf5Npc9nMb9yFbyThsNrQPBYJ5Q1Lv",
@@ -50,7 +51,7 @@
   "poll_seconds": 60,
   "balance_methods": [
    "getBalance",
-   "getTokenAccountsByOwner"
+   "getAccountInfo"
   ]
  },
  "events": [

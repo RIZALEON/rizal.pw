@@ -6,7 +6,7 @@ function UPD(b){var p=b.payload||{},E2=function(s){return String(s==null?'':s).r
  return '<h2>⟳ Cryptoupdate</h2><table class="kv upd"><tr><td>pack</td><td>'+E2(p.pack_name)+' <span class="dim">v'+E2(p.version)+'</span></td></tr><tr><td>pack sha256</td><td class="h">'+E2(p.pack_sha256)+'</td></tr><tr><td>manifest sha256</td><td class="h">'+E2(p.manifest_sha256)+'</td></tr><tr><td>platforms</td><td>'+E2((p.platforms||[]).join(' · '))+'</td></tr><tr><td>ops</td><td>'+(Object.keys(os).map(function(k){return E2(k)+' ×'+E2(os[k])}).join(' · ')||'—')+'</td></tr><tr><td>signer</td><td>'+E2(p.signer_device)+'</td></tr><tr><td>status</td><td class="'+(p.onchain?'ok':'dim')+'">'+(p.onchain?'LIVE · manifest signature verified by submitd':'dry / test')+'</td></tr></table>'}
 /* RTRACKR explorer v1.2 · 20261107 · RGHOSTCHAIN snapshot + R TOKEN (Solana) public trackers + live getSignaturesForAddress (mint · crown · pool · holder) + holder balances. */
 (function(){"use strict";var D=null,RT=null,app=document.getElementById('app'),badge=document.getElementById('badge'),pollT=null,LSK='rtrackr.rtoken.events.v1';
-var RPC='https://api.mainnet-beta.solana.com';
+var RPCS=['https://solana-rpc.publicnode.com','https://api.mainnet-beta.solana.com'];
 var DEF={mint:'BB9uA5BuacDnWyDf5Npc9nMb9yFbyThsNrQPBYJ5Q1Lv',crown:'BwpVNk1Rtncpv5HMTLwxB4Yfjkfv6mFaBQUTpjneH1F9',pool:'24uKAFYiLQaycBeiVCpKQgsjUwAn9XiKsuiMAZeoaRV7',mint_tx:'2Lxr2mEZnFnwwBMQjCgRt8EJLaJbwEp61K51mdx16z8oncWg2JCXzCKnisMi78V3L4w7w2pizQ8P1p2H5XMLvx94',holder:'12872Chwv88d9JcNnPPThtSQWJM296kpkDqm7tpBWB28',holder_ata:'BNFLK9bU7CJ4mY87DHpgZ8wj4a1atxwRVpmSuxBUsG8Z'};
 function E(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 function mt(t){if(!t)return'—';var d=typeof t==='number'?new Date(t*1000):new Date(t);if(isNaN(d))return E(t);return E(d.toLocaleString('en-US',{timeZone:'America/Denver',year:'numeric',month:'short',day:'numeric',hour:'numeric',minute:'2-digit',second:'2-digit'}))+' MT'}
@@ -30,7 +30,7 @@ function linkBtn(href,label){if(!href)return'';return '<a class="rt-btn" href="'
 function solscanTx(sig){return 'https://solscan.io/tx/'+encodeURIComponent(sig)}
 function saveCache(evs){try{localStorage.setItem(LSK,JSON.stringify({saved_at:Date.now(),events:evs}))}catch(e){}}
 function loadCache(){try{var j=JSON.parse(localStorage.getItem(LSK)||'null');return j&&Array.isArray(j.events)?j:null}catch(e){return null}}
-function rpcSigs(addr,limit){return fetch(RPC,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',id:1,method:'getSignaturesForAddress',params:[addr,{limit:limit||12}]})}).then(function(r){if(!r.ok)throw new Error('rpc '+r.status);return r.json()}).then(function(j){if(j.error)throw new Error(j.error.message||'rpc error');return j.result||[]})}
+function rpcSigs(addr,limit){return rpcCall('getSignaturesForAddress',[addr,{limit:limit||12}]).then(function(r){return Array.isArray(r)?r:[]})}
 function normEvt(e,src){return{source:src,signature:e.signature,slot:e.slot,blockTime:e.blockTime||null,status:e.err?'failed':(e.confirmationStatus||'unknown'),err:e.err||null}}
 function mergeEvts(bags){var seen={},out=[],i,src,list,e,sig,prev;
  for(src in bags){if(!bags.hasOwnProperty(src))continue;list=bags[src]||[];
@@ -51,12 +51,12 @@ function paintHolder(H,meta){var box=document.getElementById('rt-holder');if(!bo
  box.innerHTML='<div class="stats">'+[['holder',sh(addr)],['holder SOL',fmtSol(sol)],['holder R',amt],['of supply',share]].map(function(s){return '<div class="st"><span>'+s[0]+'</span><b title="'+E(s[0]==='holder'?addr:s[1])+'">'+E(s[1])+'</b></div>'}).join('')+'</div>'+
   (H.token_account?'<p class="dim h">token account <code>'+E(H.token_account)+'</code></p>':'')+
   '<p class="dim" id="rt-holder-status">'+E((meta&&meta.msg)||'')+'</p>'}
-function rpcCall(method,params){return fetch(RPC,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',id:1,method:method,params:params})}).then(function(r){if(!r.ok)throw new Error('rpc '+r.status);return r.json()}).then(function(j){if(j.error)throw new Error(j.error.message||'rpc error');return j.result})}
-function refreshHolder(){var T=token();
- return Promise.all([rpcCall('getBalance',[T.holder]),rpcCall('getTokenAccountsByOwner',[T.holder,{mint:T.mint},{encoding:'jsonParsed'}])]).then(function(a){
-  var bal=a[0]&&a[0].value,accs=(a[1]&&a[1].value)||[],ata=null,info={},ta={};
-  if(accs[0]){ata=accs[0].pubkey;info=((((accs[0].account||{}).data||{}).parsed||{}).info)||{};ta=info.tokenAmount||{}}
-  var H={address:T.holder,token_account:ata||T.holder_ata,sol_lamports:bal,sol:typeof bal==='number'?bal/1e9:null,rtoken_amount:ta.uiAmountString||(ta.uiAmount!=null?String(ta.uiAmount):'—'),rtoken_raw:ta.amount,decimals:ta.decimals,updated_at:new Date().toISOString()};
+function rpcCall(method,params){return (function tryAt(i){if(i>=RPCS.length)return Promise.reject(new Error('rpc unavailable'));return fetch(RPCS[i],{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',id:1,method:method,params:params})}).then(function(r){if(!r.ok)throw new Error('rpc '+r.status);return r.json()}).then(function(j){if(j.error)throw new Error(j.error.message||'rpc error');if(method==='getSignaturesForAddress'&&Array.isArray(j.result)&&!j.result.length&&i+1<RPCS.length)return tryAt(i+1);return j.result}).catch(function(err){if(i+1<RPCS.length)return tryAt(i+1);throw err})})(0)}
+function refreshHolder(){var T=token(),ata=T.holder_ata||holderSnap().token_account;
+ return Promise.all([rpcCall('getBalance',[T.holder]),ata?rpcCall('getAccountInfo',[ata,{encoding:'jsonParsed'}]):Promise.resolve(null)]).then(function(a){
+  var bal=a[0]&&a[0].value,info={},ta={},tokenAccount=ata;
+  if(a[1]&&a[1].value&&a[1].value.data){info=((((a[1].value.data||{}).parsed||{}).info)||{});ta=info.tokenAmount||{}}else if(a[1]&&a[1].value){var accs=a[1].value||[];if(accs[0]){tokenAccount=accs[0].pubkey;info=((((accs[0].account||{}).data||{}).parsed||{}).info)||{};ta=info.tokenAmount||{}}}
+  var H={address:T.holder,token_account:tokenAccount||T.holder_ata,sol_lamports:bal,sol:typeof bal==='number'?bal/1e9:null,rtoken_amount:ta.uiAmountString||(ta.uiAmount!=null?String(ta.uiAmount):'—'),rtoken_raw:ta.amount,decimals:ta.decimals,updated_at:new Date().toISOString()};
   var supply=((RT&&RT.token)||{}).supply_ui;if(supply&&ta.uiAmount!=null)H.share=(100*Number(ta.uiAmount)/Number(supply)).toFixed(8)+'%';
   else if(holderSnap().share)H.share=holderSnap().share;
   if(RT)RT.holder=H;paintHolder(H,{msg:'live · last poll '+mt(Date.now()/1000)});return H
@@ -65,7 +65,8 @@ function refreshEvents(){var T=token(),addrs={mint:T.mint,crown:T.crown,pool:T.p
  paintEvents((RT&&RT.events)||[],{msg:'refreshing Solana…'});
  refreshHolder();
  return Promise.all([rpcSigs(addrs.mint,12),rpcSigs(addrs.crown,12),rpcSigs(addrs.pool,8),rpcSigs(addrs.holder,12)]).then(function(a){
-  var evs=mergeEvts({mint:a[0],crown:a[1],pool:a[2],holder:a[3]});
+  var evs=mergeEvts({mint:a[0],crown:a[1],pool:a[2],holder:a[3]}),snap=(RT&&RT.events)||[];
+  if(snap.length){var seen={};evs.forEach(function(e,i){if(e.signature)seen[e.signature]=i});snap.forEach(function(e){if(e.signature&&seen[e.signature]==null){seen[e.signature]=evs.length;evs.push(e)}});evs.sort(function(a,b){return(b.blockTime||0)-(a.blockTime||0)})}
   if(RT){RT.events=evs;RT.events_count=evs.length;RT.live_at=new Date().toISOString()}
   saveCache(evs);paintEvents(evs,{msg:evs.length+' live · last poll '+mt(Date.now()/1000)});return evs
  }).catch(function(err){var c=loadCache(),snap=(RT&&RT.events)||[],use=c&&c.events&&c.events.length?c.events:snap;
