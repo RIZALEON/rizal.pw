@@ -10,7 +10,7 @@ function log(t){var l=document.querySelector('.rw-log');if(l)l.textContent='R:\\
 function run(id){var U=window.RWALLET_UNIFIED;if(!U){log('unified registry not loaded');return}return U.run(id).then(function(r){var o=r.out;log((r.status==='casket-preview'?'⚿ ЯCASKET approval request (preview) · '+o.cmd:r.status+' · '+id)+'\n'+(typeof o==='string'?o:JSON.stringify(o,null,1)));return r})}
 function render(){var b=bal(),v=R()?R().vault():{locked:true},el=document.getElementById(window.RWALLET_MOUNT||'rw');if(!el)return;var q=(st.q||'').toLowerCase();
  var h='<div class="rw-title">Anti Social CryptoSocial Media</div><div class="rw-ban" style="background-image:url(banner.jpg)"><img class="gm" src="ghostmachine-logo.jpg" alt=""><button class="rw-pair v" data-f="verified">✔ Verified</button><button class="rw-pair w'+(st.w?' on':'')+'" data-w="1">&gt; Wallet</button></div><div class="rw-av" style="background-image:url(avatar.jpg)"></div><div class="rw-name">Rizal the Younger</div><div class="rw-hd">@chaserizal</div>'; var emb=el.hasAttribute('data-embed');if(emb)h='';if(!st.w&&!emb){el.innerHTML=h+'<div class="rw-foot">R:\\SOCIAL&gt; READY</div>';return} h+='<div class="rw-top"><div class="h"><b>@CHASERIZAL</b> · ЯID-0001</div><span class="rw-lock" data-f="'+(v.locked?'unlock':'lock')+'">'+(v.locked?'🔒 locked':'🔓 open')+'</span></div>'+
- '<div class="rw-bal"><div class="n">'+E(b.rdg)+' <span class="u">RDG</span></div><div class="s">local ledger · '+b.w.addresses.length+' public address(es) · no keys held</div></div>'+
+ '<div class="rw-bal"><div class="n">'+E(b.rdg)+' <span class="u">R</span></div><div class="s">local ledger · '+b.w.addresses.length+' public address(es) · no keys held</div></div>'+
  '<div class="rw-acts"><button data-f="send">⇡ Send</button><button data-f="receive">⇣ Receive</button><button data-m="open" title="ЯMINT · one tap: unlock once (Face ID / fingerprint / ASSM) → RGHOSTCHAIN + RTRACKR">✦ Mint</button><button data-g="ledger" title="BOTLATCH · RSYNC ledger · drafts · seal · publish (gated)">⛓ BOTLATCH</button></div><div class="rw-sub"><span data-f="sign" style="cursor:pointer">✔ sign</span> · <span data-g="home" style="cursor:pointer">history ›</span></div>'+(st.mint?MINT():'')+
  '<div class="rw-tok">'+(b.w.addresses.length?b.w.addresses.map(function(a){return '<div><span>'+E(a.name)+' · '+E(a.chain)+'</span><b>'+E(a.balance==null?'—':a.balance)+'</b></div>'}).join(''):'<div><span>Я · SOL seats</span><b data-f="seats" style="cursor:pointer">view ›</b></div>')+'</div>'+
  '<input class="rw-q" placeholder="search '+F.length+' functions…" value="'+E(st.q||'')+'">';
@@ -24,17 +24,17 @@ document.addEventListener('keydown',function(e){if((e.metaKey||e.ctrlKey)&&e.shi
 
 /* 20261101 BATIBABOT · ЯMINT flow (PREVIEW): category → item → price (non-token) → TEST entry → request seal → live only after seal approval.
    Never mints, never signs, never touches keys. "live" stays disabled unless an approved seal is attached by ЯCASKET (not this file). */
-var MK=[['wallet.asset.rid','wallet asset (ЯID)'],['game.asset','game asset'],['game.species','game species'],['cryptobot','cryptobot'],['cryptotool','cryptotool'],['cryptosocial','cryptosocial'],['cryptoscience','cryptoscience'],['cryptoart','cryptoart'],['cryptoarticle','cryptoarticle'],['cryptoupdate','cryptoupdate (update pack)'],['token','token (Я / RDG — no price)']];
+var MK=[['wallet.asset.rid','wallet asset (ЯID)'],['game.asset','game asset'],['game.species','game species'],['cryptobot','cryptobot'],['cryptotool','cryptotool'],['cryptosocial','cryptosocial'],['cryptoscience','cryptoscience'],['cryptoart','cryptoart'],['cryptoarticle','cryptoarticle'],['cryptoupdate','cryptoupdate (update pack)'],['token','token (R — no price)']];
 function TOK(k){return k==='token'}
 function ML(){return st.mints=st.mints||[]}
-function MINT(){var m=st.mf||(st.mf={k:'cryptoart',n:'',d:'',p:'',u:'RDG'}),L=ML();
+function MINT(){var m=st.mf||(st.mf={k:'cryptoart',n:'',d:'',p:'',u:'R'}),L=ML();
  return '<div class="rw-mint"><div class="rw-mh">✦ ЯMINT · RGHOSTCHAIN <i>one tap · RGHOSTCHAIN + RTRACKR</i><b data-m="close">×</b></div>'+
  '<button data-m="pending" class="rw-m1">✦ MINT pending block (one tap)</button><div class="rw-mn" id="rw-mstat">'+E(st.mstat||'')+'</div>'+
  '<label>category<select data-mi="k">'+MK.map(function(c){return '<option value="'+c[0]+'"'+(m.k===c[0]?' selected':'')+'>'+E(c[1])+'</option>'}).join('')+'</select></label>'+
  '<label>item<input data-mi="n" maxlength="80" placeholder="name" value="'+E(m.n)+'"></label>'+
  '<label>ЯID<input data-mi="r" maxlength="20" placeholder="ЯID-…" value="'+E(m.r||'')+'"></label>'+
  '<label>note<input data-mi="d" maxlength="200" placeholder="description (public)" value="'+E(m.d)+'"></label>'+
- (TOK(m.k)?'<div class="rw-mn">tokens are not priced here (R↔Я rate unpublished)</div>':'<label>price<input data-mi="p" inputmode="decimal" placeholder="0.00" value="'+E(m.p)+'"><select data-mi="u">'+['RDG','Я','SOL'].map(function(u){return '<option'+(m.u===u?' selected':'')+'>'+u+'</option>'}).join('')+'</select></label>')+
+ (TOK(m.k)?'<div class="rw-mn">tokens are not priced here (R rate unpublished)</div>':'<label>price<input data-mi="p" inputmode="decimal" placeholder="0.00" value="'+E(m.p)+'"><select data-mi="u">'+['R','SOL'].map(function(u){return '<option'+(m.u===u?' selected':'')+'>'+u+'</option>'}).join('')+'</select></label>')+
  '<button data-m="add">+ add entry</button>'+
  (L.length?'<div class="rw-ml">'+L.map(function(x,i){var st2=x.sealed?'sealed':x.status;return '<div class="rw-mr"><span>'+E(x.name)+' <em>'+E(x.kind)+(x.price!=null?' · '+E(x.price)+' '+E(x.unit):'')+'</em></span><b class="s-'+E(st2)+'">'+E(st2)+'</b>'+
   (x.status==='live'?'<em>#'+E(x.block_index)+'</em>':'<button data-m="mint1" data-i="'+i+'">✦ MINT</button>')+'<button data-m="del" data-i="'+i+'">✕</button></div>'}).join('')+'</div>':'<div class="rw-mn">no test entries yet</div>')+
@@ -61,3 +61,18 @@ document.addEventListener('change',function(e){var t=e.target.closest&&e.target.
 document.addEventListener('input',function(e){var t=e.target.closest&&e.target.closest('[data-mi]');if(t&&t.tagName==='INPUT'){(st.mf=st.mf||{})[t.dataset.mi]=t.value;save()}});
 window.RWALLET={render:render,run:run,funcs:F,open:function(g,v){st.open[g]=v!==false;save();render()}};
 document.readyState==='loading'?document.addEventListener('DOMContentLoaded',render):render();if(window.RWALLET_UNIFIED)RWALLET_UNIFIED.ready.then(render)})();
+
+/* rwallet-v2-loader 20261108-rwallet (Rizal t36u GO, add-only): unit R (was RDG) + ЯWALLET 2 one-press UI behind every "> Wallet"/RWALLET button.
+   Loads rmint-transport → rmint-session → rmint-gate → rmint-onetap → rmint-press → rwallet-linked → rwallet-ghost2 (+css) from this folder.
+   window.RWALLET_V2===false keeps the old screen. Never holds keys; never signs. */
+(function(){if(window.RWALLET_V2===false)return;var cs=document.currentScript||[].slice.call(document.scripts).filter(function(x){return /rwallet-ghost\.js/.test(x.src)})[0];
+ var base=((cs&&cs.src)||'/rwallet/rwallet-ghost.js').replace(/[^\/]*(\?.*)?$/,'');var v='?v=20261108';
+ if(!document.querySelector('link[data-rw2]')){var l=document.createElement('link');l.rel='stylesheet';l.href=base+'rwallet-ghost2.css'+v;l.setAttribute('data-rw2','1');document.head.appendChild(l)}
+ var Q=[['RMINT_TRANSPORT','rmint-transport.js'],['RMINT_SESSION','rmint-session.js'],['RMINT_GATE','rmint-gate.js'],['RMINT_ONETAP','rmint-onetap.js'],['RMINT_PRESS','rmint-press.js'],['RWALLET_LINKED','rwallet-linked.js'],['RWALLET2','rwallet-ghost2.js']];
+ (function nx(i){if(i>=Q.length)return;if(window[Q[i][0]])return nx(i+1);var s=document.createElement('script');s.src=base+Q[i][1]+v;s.onload=s.onerror=function(){nx(i+1)};document.head.appendChild(s)})(0)})();
+
+/* rwallet-v2-drift 0.1.2 (20261109, add-only): loads rwallet-drift.js from this folder; warns if served wallet files differ from RWALLET.sha256. */
+(function(){if(window.RWALLET_DRIFT)return;var cs=document.currentScript||[].slice.call(document.scripts).filter(function(x){return /rwallet-ghost\.js/.test(x.src)})[0];var base=((cs&&cs.src)||'/rwallet/rwallet-ghost.js').replace(/[^\/]*(\?.*)?$/,'');var s=document.createElement('script');s.src=base+'rwallet-drift.js?v=0.1.2';document.head.appendChild(s)})();
+
+/* rmint-cast 0.1.3 loader (20261109, add-only): loads rmint-cast.js (sign prompt cast: DISPLAY ONLY, press = unlock on a HARD device). */
+(function(){if(window.RMINT_CAST)return;var cs=document.currentScript||[].slice.call(document.scripts).filter(function(x){return /rwallet-ghost\.js/.test(x.src)})[0];var base=((cs&&cs.src)||'/rwallet/rwallet-ghost.js').replace(/[^\/]*(\?.*)?$/,'');var s=document.createElement('script');s.src=base+'rmint-cast.js?v=0.1.3';document.head.appendChild(s)})();

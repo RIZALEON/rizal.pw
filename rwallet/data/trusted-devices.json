@@ -1,26 +1,106 @@
 {
-  "kind": "rghostkey.trusted_devices.public.v1",
-  "law": "PUBLIC keys only. Private keys stay in each device's Keystore/Keychain. No IPs, MACs, tokens or secrets.",
-  "rule": "ONE part (assm|faceid|fingerprint) from a trusted device",
-  "decider": "ЯID-0001-3QQS",
-  "source_registry_sha256": "4b8b14b8885e07d28452f7d5729502f26c7b2fc0684911a2fd90a57f3a4065a4",
-  "devices": [
-    {
-      "device_id": "moto-ZN3223FVDH",
-      "label": "moto g 5G 2024",
-      "os": "Android 15",
-      "rsd_device_id": "rsd-d2c47824f778ecd64b364f9e6688963e",
-      "pubkey_spki_b64": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEnaBy6N26lNQ+RjBYiQ62hKYJrAQywlRrUVmks4wyElaZeecHeNDwU5yEtRiQyjmFIuxBjvr/Oy+JLTXmwCsnDw==",
-      "pubkey_sha256": "d2c47824f778ecd64b364f9e6688963e2f590ba68dd602d2219f208f1280329f",
-      "parts": [
-        "fingerprint",
-        "assm",
-        "faceid"
-      ],
-      "status": "active",
-      "approved": "2026-10-30T22:53:07-06:00",
-      "reconfirmed": "2026-11-04",
-      "approved_by": "ЯID-0001-3QQS"
-    }
-  ]
+ "kind": "rghostkey.trusted_devices.public.v1",
+ "law": "PUBLIC keys only. Private keys stay in each device's Keystore/Keychain. No IPs, MACs, tokens or secrets.",
+ "rule": "ONE part (assm|faceid|fingerprint) from a trusted device",
+ "decider": "ЯID-0001-3QQS",
+ "source_registry_sha256": "a4c5e3f9c59fc947d99e508adeef0c5a6b2715325844799fd2a7bec2e61060ee",
+ "devices": [
+  {
+   "device_id": "moto-ZN3223FVDH",
+   "label": "moto g 5G 2024",
+   "os": "Android 15",
+   "rsd_device_id": "rsd-d2c47824f778ecd64b364f9e6688963e",
+   "pubkey_spki_b64": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEnaBy6N26lNQ+RjBYiQ62hKYJrAQywlRrUVmks4wyElaZeecHeNDwU5yEtRiQyjmFIuxBjvr/Oy+JLTXmwCsnDw==",
+   "pubkey_sha256": "d2c47824f778ecd64b364f9e6688963e2f590ba68dd602d2219f208f1280329f",
+   "parts": [
+    "fingerprint",
+    "assm",
+    "faceid"
+   ],
+   "status": "active",
+   "approved": "2026-10-30T22:53:07-06:00",
+   "reconfirmed": "2026-11-04",
+   "approved_by": "ЯID-0001-3QQS",
+   "tier": "hard"
+  },
+  {
+   "device_id": "iphone17e-3e9e3a06-462b-4186-88c5-a760f4c09f41",
+   "label": "iPhone 17e",
+   "rsd_device_id": null,
+   "pubkey_spki_b64": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE2C9F3m8Szkhj30RhAkTDyBGPIHNfMpV36apdZng7mMLfRZRk/M3rU6WsKRLnOWSqsEVSuZvBzLbLhfCuUvjYTQ==",
+   "pubkey_sha256": "26dce018d285816ab080d907696135f97cbb78a770e86a492620898dfaa98f88",
+   "parts": [
+    "assm",
+    "faceid",
+    "fingerprint"
+   ],
+   "status": "active",
+   "tier": "hard",
+   "approved_by": "Rizal t45u/t46u 2026-11-08"
+  },
+  {
+   "device_id": "neo-rdragon",
+   "label": "Neo · RDRAGON macOS",
+   "rsd_device_id": "rsd-5752020b5092d5e381ba30872b5e7d00",
+   "pubkey_spki_b64": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE6g9STHF4Bsfp0RyRIP/lh3yghMF4xwW/hT3dgyOyQ5LgxR2tJYo3dKyVwq2U6A4ZnV/VfNxHUk88tXWc7v6dmg==",
+   "pubkey_sha256": "5752020b5092d5e381ba30872b5e7d009e66d12d54d3ac1eea4246f6881c8782",
+   "parts": [
+    "assm"
+   ],
+   "status": "active",
+   "tier": "hard",
+   "approved_by": "Rizal t45u/t46u 2026-11-08"
+  },
+  {
+   "device_id": "rvm-dragonskull-0.3.1",
+   "label": "DRAGONSKULL-RVM 0.3.1 (rklowd.rvm, bridge :8324)",
+   "status": "soft-approved",
+   "tier": "soft",
+   "can_sign": false,
+   "approved_by": "Rizal t45u/t46u 2026-11-08"
+  },
+  {
+   "device_id": "site-rizal.pw",
+   "label": "site rizal.pw",
+   "status": "soft-approved",
+   "tier": "soft",
+   "can_sign": false,
+   "origin": "https://rizal.pw",
+   "approved_by": "Rizal t45u/t46u 2026-11-08"
+  },
+  {
+   "device_id": "site-rizal.info",
+   "label": "site rizal.info",
+   "status": "soft-approved",
+   "tier": "soft",
+   "can_sign": false,
+   "origin": "https://rizal.info",
+   "approved_by": "Rizal t45u/t46u 2026-11-08"
+  },
+  {
+   "device_id": "thundr",
+   "label": "ThundR",
+   "kind": "app/cryptobot",
+   "status": "soft-approved",
+   "tier": "soft",
+   "active": true,
+   "rule": "SOFT: queue/request only; never holds rghostkey, never signs, seals or mints",
+   "added": "2026-11-09",
+   "can_sign": false,
+   "approved_by": "Rizal t61u 2026-11-09"
+  }
+ ],
+ "origins": [
+  "https://rizal.info",
+  "https://rizal.pw",
+  "https://rizaleon.github.io",
+  "https://www.rizal.info",
+  "https://www.rizal.pw"
+ ],
+ "tiers": {
+  "hard": "can seal (pinned hardware key, status active)",
+  "soft": "approved; login/view/queue/request only, never seals"
+ },
+ "decision": "Rizal t45u/t46u 2026-11-08: HARD = Neo, iphone17e, moto-ZN3223FVDH; SOFT = new RVM 0.3.1 + rizal.pw + rizal.info",
+ "not_approved": "everything else: old Neo id neo-55d92eb0…, old RVM 0.3.0 (:8321), Pixel, vortex, any other origin"
 }
