@@ -257,3 +257,72 @@
 .rcast .rcast-press[disabled]{opacity:.6;cursor:progress}
 .rcast-x{position:absolute;top:8px;right:8px;width:26px;height:26px;border-radius:999px;border:1.5px solid var(--rs-green,#39ff14);background:transparent;color:var(--rs-green,#39ff14);cursor:pointer;line-height:1}
 .rcast-status{background:#000;border:1.5px solid var(--rs-green,#39ff14);color:var(--rs-green,#39ff14);border-radius:999px;padding:6px 12px;text-align:center}
+
+/* ===== RWALLET 0.1.4 FIT (20261109, Rizal t68u: "auto adjust to fit the screen") · ADD-ONLY overrides, nothing removed.
+   Fluid: fills phones edge-to-edge (375-430), grows to a centred column on tablets/desktops, safe-area aware (notch / home bar /
+   rounded corners), 100dvh, orientation-safe, no horizontal scroll, tap targets >= 44px, button rows stack on narrow screens.
+   Same R:\SOCIAL look: black, monospace, green outline pills, purple glow primary. Works inside WKWebView / Android WebView /
+   ЯBOT sheet / ThundR window / TERAFORMR panel (all size the page to the host view). ===== */
+:root{--fit-pad:clamp(10px,3.6vw,22px);--fit-gap:clamp(6px,1.8vw,12px);--fit-max:clamp(320px,100vw,680px);
+  --fit-sat:env(safe-area-inset-top,0px);--fit-sab:env(safe-area-inset-bottom,0px);--fit-sal:env(safe-area-inset-left,0px);--fit-sar:env(safe-area-inset-right,0px)}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+html,body{max-width:100%;overflow-x:clip}
+body{min-height:100vh;min-height:100dvh;font-size:clamp(12px,0.35vw + 11.5px,15px)}
+img,svg,video,canvas,iframe{max-width:100%;height:auto}
+.app,.rw2 .app{width:100%;max-width:var(--fit-max);min-height:100vh;min-height:100dvh;overflow:visible;overflow-x:clip;
+  padding-left:var(--fit-sal);padding-right:var(--fit-sar);padding-bottom:var(--fit-sab)}
+.app .top,.rw2 .top{padding-top:calc(14px + var(--fit-sat));flex-wrap:wrap;row-gap:6px}
+.app .top img,.rw2 .top img{height:34px}
+.app .top .t,.rw2 .top .t{min-width:0;flex:1 1 140px}
+.app .top .t b,.app .top .t small,.rw2 .top .t b,.rw2 .top .t small{overflow-wrap:anywhere}
+.app .strip,.rw2 .strip,.app .flt,.rw2 .flt,.app .netsel,.rw2 .netsel,.app .nets,.rw2 .nets{flex-wrap:wrap}
+.app .tabs,.rw2 .tabs{flex-wrap:wrap;row-gap:4px;gap:var(--fit-gap) clamp(10px,3vw,16px)}
+.app .row,.rw2 .row,.app .setrow,.rw2 .setrow,.app .hrow,.rw2 .hrow{flex-wrap:wrap;min-width:0}
+.app .row > *,.rw2 .row > *{min-width:0;overflow-wrap:anywhere}
+.app .kv dd,.rw2 .kv dd,.app .card,.rw2 .card,.app .note,.rw2 .note{overflow-wrap:anywhere;min-width:0}
+.app .big,.rw2 .big{width:clamp(150px,52vw,240px);height:auto;aspect-ratio:1/1;max-width:100%}
+.app .qr,.rw2 .qr{width:clamp(150px,48vw,240px);height:auto;aspect-ratio:1/1}
+.app .bal .n,.rw2 .bal .n{font-size:clamp(26px,8vw,44px)}
+.app .sheet,.rw2 .sheet{max-width:100%;padding-bottom:calc(16px + var(--fit-sab))}
+.app .nav,.rw2 .nav{padding-bottom:calc(6px + var(--fit-sab))}
+.app .nav span,.rw2 .nav span{min-height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+/* tap targets >= 44px */
+.app .btn,.rw2 .btn,.rw2 button.btn,.rw2 .altbtn,.rw2 .logout,.rw2 .addw,.rcast-press,.rcast .rcast-x,#rw button,body > button,
+.app .meth,.rw2 .meth,.app .tile,.rw2 .tile,.app .pn .acts div,.rw2 .pn .acts div,.app .chip[data-a],.rw2 .chip[data-a]{min-height:44px}
+.app .btn,.rw2 .btn,.rw2 .altbtn,.rw2 .logout,.rw2 .addw,.rcast-press{display:flex;align-items:center;justify-content:center;text-align:center;flex-wrap:wrap;max-width:100%}
+.rcast .rcast-x{min-width:44px}
+.app .pw,.rw2 .pw{min-height:44px;font-size:16px}   /* 16px stops iOS zoom-on-focus */
+.app .methods,.rw2 .methods,.app .tiles,.rw2 .tiles,.app .pn .acts,.rw2 .pn .acts{display:flex;flex-wrap:wrap;gap:var(--fit-gap)}
+.app .methods > *,.rw2 .methods > *,.app .tiles > *,.rw2 .tiles > *{flex:1 1 120px;min-width:0}
+.app .pn .acts > *,.rw2 .pn .acts > *{flex:1 1 72px;min-width:0}
+.rcast{max-width:min(100%,var(--fit-max));margin-inline:auto;padding-bottom:var(--fit-sab)}
+/* panel mode (RDRAGON left panel, TERAFORMR / ThundR side panes): follow the host view instead of a fixed 270x770 box */
+body.panel .app,.rw2.panel .app{width:100%;max-width:100%;height:auto;min-height:100dvh}
+/* narrow phones: button rows stack, side-by-side ghost buttons go full width */
+@media (max-width:420px){
+  .app .row.acts,.rw2 .row.acts,.app .setrow,.rw2 .setrow{flex-direction:column;align-items:stretch}
+  .app .btn.ghost,.rw2 .btn.ghost{width:auto!important;margin-left:var(--fit-pad)!important;margin-right:var(--fit-pad)!important}
+  .app .methods > *,.rw2 .methods > *,.app .tiles > *,.rw2 .tiles > *{flex-basis:100%}
+}
+/* tablets / desktops: a wider centred wallet with breathing room */
+@media (min-width:768px){
+  body{align-items:center}
+  .app,.rw2 .app{border-left:1px solid var(--gm-line,#333);border-right:1px solid var(--gm-line,#333)}
+  body.panel .app{border:0}
+}
+@media (min-width:1280px){:root{--fit-max:760px}}
+/* landscape phones: keep the press button and sheet on screen */
+@media (orientation:landscape) and (max-height:500px){
+  .app .big,.rw2 .big{width:clamp(110px,28vh,170px)}
+  .app .press,.rw2 .press{padding:8px 0}
+  .app .sheet,.rw2 .sheet{max-height:100dvh;overflow-y:auto}
+}
+/* live.html loader page */
+body > p,body > .note{max-width:min(100%,640px);overflow-wrap:anywhere}
+body > button#go{min-height:44px;width:min(100%,360px)}
+#rw{max-width:100%;overflow-x:clip}
+#rw-bundle-tag{white-space:normal!important;max-width:calc(100% - 2*var(--fit-pad));text-align:center}
+/* demo badge never sits on the header pills; demo page picker stops covering the wallet on tablets */
+.app .top{padding-top:calc(24px + var(--fit-sat))}
+.app .demo{top:calc(4px + var(--fit-sat));right:calc(8px + var(--fit-sar))}
+@media (min-width:601px) and (max-width:1199px){.picker{position:static;flex-direction:row;flex-wrap:wrap;justify-content:center;padding:8px;max-width:100%}}

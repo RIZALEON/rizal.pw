@@ -9,13 +9,15 @@ function T(){return w.RMINT_TRANSPORT}function G(){return w.RMINT_GATE}function 
 var STACK=["RGHOSTCHAIN","RWALLET","RVAULT","RMINT"],BOT="botlatch:view-only";
 function now(){return new Date().toISOString().replace(/\.\d+Z$/,"Z")}
 /* factors the native signer on THIS device offers (asked, never assumed) */
-function factors(){var mh=w.webkit&&w.webkit.messageHandlers&&w.webkit.messageHandlers.rsign;
+function factors(){if(w.RGHOSTKEY&&w.RGHOSTKEY.hasNative())return w.RGHOSTKEY.methods();   /* rw014: one rghostkey API, pinned key */
+  var mh=w.webkit&&w.webkit.messageHandlers&&w.webkit.messageHandlers.rsign;
   if(mh&&mh.postMessage)return mh.postMessage({op:"factors"}).then(function(r){r=typeof r==="string"?JSON.parse(r):r;return(r&&r.factors)||["faceid","assm"]},function(){return["faceid"]});
   if(w.RSignNative&&w.RSignNative.factors)try{return Promise.resolve(JSON.parse(w.RSignNative.factors()).factors)}catch(e){}
   if(w.RSignNative&&w.RSignNative.seal)return Promise.resolve(["fingerprint"]);
   return Promise.resolve([])}
 /* sealOneOf(entry, factor, secret) → native signer; factor = "faceid"|"fingerprint"|"touchid"|"biometric"|"assm" */
-function sealOneOf(entry,factor,pw){var mh=w.webkit&&w.webkit.messageHandlers&&w.webkit.messageHandlers.rsign,js=JSON.stringify(entry);
+function sealOneOf(entry,factor,pw){if(w.RGHOSTKEY&&w.RGHOSTKEY.hasNative())return w.RGHOSTKEY.sign(entry,factor,pw);   /* rw014 */
+  var mh=w.webkit&&w.webkit.messageHandlers&&w.webkit.messageHandlers.rsign,js=JSON.stringify(entry);
   if(mh&&mh.postMessage)return mh.postMessage(factor==="assm"?{op:"sealOneOf",factor:"assm",assm_password:pw,entry:js}:{op:"sealOneOf",factor:factor,entry:js})
     .then(function(r){return typeof r==="string"?JSON.parse(r):r},function(){return factor==="assm"?{ok:false,err:"this app build has no ASSM signer yet"}:mh.postMessage({op:"seal",entry:js}).then(function(r){return typeof r==="string"?JSON.parse(r):r})});
   var a=w.RSignNative;if(a&&(a.sealOneOf||a.seal))return new Promise(function(res){var id="rs"+Date.now();w["__rsign_"+id]=function(r){delete w["__rsign_"+id];res(typeof r==="string"?JSON.parse(r):r)};

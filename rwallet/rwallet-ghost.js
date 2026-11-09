@@ -76,3 +76,6 @@ document.readyState==='loading'?document.addEventListener('DOMContentLoaded',ren
 
 /* rmint-cast 0.1.3 loader (20261109, add-only): loads rmint-cast.js (sign prompt cast: DISPLAY ONLY, press = unlock on a HARD device). */
 (function(){if(window.RMINT_CAST)return;var cs=document.currentScript||[].slice.call(document.scripts).filter(function(x){return /rwallet-ghost\.js/.test(x.src)})[0];var base=((cs&&cs.src)||'/rwallet/rwallet-ghost.js').replace(/[^\/]*(\?.*)?$/,'');var s=document.createElement('script');s.src=base+'rmint-cast.js?v=0.1.3';document.head.appendChild(s)})();
+
+/* rghostkey-api 0.1.4 loader (20261109, add-only): loads rghostkey-api.js (ONE rghostkey interface; soft pages only queue requests). */
+(function(){if(window.RGHOSTKEY)return;var cs=document.currentScript||[].slice.call(document.scripts).filter(function(x){return /rwallet-ghost\.js/.test(x.src)})[0];var base=((cs&&cs.src)||'/rwallet/rwallet-ghost.js').replace(/[^\/]*(\?.*)?$/,'');var s=document.createElement('script');s.src=base+'rghostkey-api.js?v=0.1.4';document.head.appendChild(s)})();

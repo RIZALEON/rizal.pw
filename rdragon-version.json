@@ -38,6 +38,7 @@
   "rwallet/rtrackr-button.js": "20261105",
   "rwallet/rwallet-ghost.css": "20261027",
   "rwallet/rwallet-ghost.js": "20261027",
+  "rwallet/rwallet-rmail-card.js": "0.1.2",
   "rwallet/rwallet-unified.js": "20261027",
   "sw-register.js": "2",
   "tests/diag-profile/diag-import-ui.js": "3"
