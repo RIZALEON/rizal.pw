@@ -1,0 +1,39 @@
+{
+ "schema": "rlab.labstatus.public/1",
+ "generated": "2026-11-11T15:28:16-07:00",
+ "zone": "America/Denver",
+ "source": "seed",
+ "phone": {
+  "name": "17e",
+  "reach": "down",
+  "queued": 0,
+  "apps": {
+   "rbot": "unknown",
+   "rdragon": "unknown",
+   "terraformr": "unknown"
+  }
+ },
+ "rvm": {
+  "name": "LINUX-RIZAL-1.1.1.6",
+  "state": "up",
+  "pages": {
+   "linux": "up",
+   "terraformr": "up"
+  }
+ },
+ "rklowd": {
+  "site_node": "pw",
+  "phone_node": "17e",
+  "sync": "ok"
+ },
+ "bridge": {
+  "rklowd_rvm_bridge": "up",
+  "phone_tools": "pending",
+  "write_path": "lan-only"
+ },
+ "collector": {
+  "rss_kb": 20304,
+  "interval_s": 45
+ },
+ "last_auto": "20261111-1511-MT"
+}
