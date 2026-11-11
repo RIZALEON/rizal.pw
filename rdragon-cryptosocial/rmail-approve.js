@@ -47,11 +47,15 @@ function rd(k,d){var L=ls();if(!L)return MEM[k]||d;try{return JSON.parse(L.getIt
 function wr(k,v){var L=ls();if(!L){MEM[k]=v;return}try{L.setItem(k,JSON.stringify(v))}catch(e){}}
 function decisions(){return rd("rmail.decisions",{})}
 function transport(){var R=root.RSOCIAL;return R&&typeof R.send==="function"?function(to,text,extra){return R.send(to,text,extra)}:null}
-function deliver(dec,send){var q=rd("rmail.decision.outbox",[]);q.push(dec);wr("rmail.decision.outbox",q.slice(-200));
-  send=send||transport();if(!send)return Promise.resolve({queued:true,via:"rmail.decision.outbox",decision:dec});
-  var text="Subject: rmail.decision "+dec.decision+" "+dec.req_id+"\n\n"+JSON.stringify(dec);
-  return Promise.resolve(send(dec.app||"@chaserizal",text,dec.to_node?{node:dec.to_node,to_node:dec.to_node}:{}))
-    .then(function(r){return{sent:true,via:"rmail",decision:dec,r:r}},function(e){return{queued:true,via:"rmail.decision.outbox",error:String(e&&e.message||e),decision:dec}})}
+/* MEKANICA's return leg reads ONE bare JSON object per file (schema "rmail.decision"); a Subject: line or rmail.v1 envelope is skipped.
+   So the payload is exactly JSON.stringify(decision), named rmail-dec-<req_id>.json, for nodes/rvm/inbox/ or mail/rklowd.rvm/. */
+function fileOf(dec){var node=String(dec.to_node||"rklowd.rvm"),short=node.replace(/^rklowd\./,"");
+  return{name:"rmail-dec-"+dec.req_id+".json",body:JSON.stringify(dec),node:node,dest:["nodes/"+short+"/inbox/","mail/"+node+"/"]}}
+function transport(){if(typeof root.RMAIL_DECISION_DROP==="function")return function(f){return root.RMAIL_DECISION_DROP(f.name,f.body,f)};
+  var R=root.RSOCIAL;return R&&typeof R.send==="function"?function(f,dec){return R.send(dec.app||"@chaserizal",f.body,{node:f.node,to_node:f.node,name:f.name})}:null}
+function deliver(dec,send){var f=fileOf(dec),q=rd("rmail.decision.outbox",[]);q.push(f);wr("rmail.decision.outbox",q.slice(-200));
+  send=send||transport();if(!send)return Promise.resolve({queued:true,via:"rmail.decision.outbox",decision:dec,file:f});
+  return Promise.resolve(send(f,dec)).then(function(r){return{sent:true,via:"rmail",decision:dec,file:f,r:r}},function(e){return{queued:true,via:"rmail.decision.outbox",error:String(e&&e.message||e),decision:dec,file:f}})}
 function decide(q,d,send){var err=validate(q);if(err)return Promise.reject(new Error(err));
   if(expired(q))return Promise.reject(new Error("expired · nothing signed"));
   var all=decisions();if(all[q.req_id])return Promise.reject(new Error("already-decided"));
@@ -73,6 +77,6 @@ function buttonsHTML(q){var err=validate(q),d=decisions()[q&&q.req_id];
     '<span class="rmu-st" id="rma-st">Approve opens only ASSM ЯWALLET Face ID · Deny replies "denied" · nothing is signed here</span></div>'}
 function pending(msgs){return(msgs||[]).map(fromMessage).filter(function(q){return q&&!validate(q)&&!expired(q)&&!decisions()[q.req_id]})}
 var api={v:2,spec:"RMAIL-APPROVE-DENY-SPEC-20261111 (rmail.approve v2 + rmail.decision v1)",KINDS:KINDS,fromMessage:fromMessage,validate:validate,expired:expired,
-  decision:decision,approve:approve,deny:deny,decisions:decisions,buttonsHTML:buttonsHTML,pending:pending,neverSigns:true};
+  decision:decision,fileOf:fileOf,approve:approve,deny:deny,decisions:decisions,buttonsHTML:buttonsHTML,pending:pending,neverSigns:true};
 if(typeof module==="object"&&module.exports)module.exports=api;else root.RMAIL_APPROVE=api;
 })(typeof self!=="undefined"?self:globalThis);

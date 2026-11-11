@@ -29,11 +29,12 @@ const block4={schema:'rmail.v1',id:'block4-mint-20261110205337-7498d526',from:'n
  A.ok(!/data-rapr/.test(R.buttonsHTML(R.fromMessage(card({signed:true})))));const ex=R.fromMessage(card({},{expires:Date.now()-1}));A.match(R.buttonsHTML(ex),/Expired — nothing signed/);A.ok(!/data-rapr/.test(R.buttonsHTML(ex)));
  await A.rejects(R.deny(ex,()=>0),/expired/);pass('refused and expired cards have no buttons and cannot be decided');
  // Deny
- const sent=[];out=await R.deny(q,(to,text,extra)=>{sent.push({to,text,extra});return{ok:1}});const d=out.decision;
+ const sent=[];out=await R.deny(q,(f,dec)=>{sent.push(f);return{ok:1}});const d=out.decision;
  A.deepStrictEqual(Object.keys(d).sort(),['app','by','decision','id','nonce','ref','req_id','schema','signed','to_node','ts','v']);
  A.strictEqual(d.schema,'rmail.decision');A.strictEqual(d.v,1);A.strictEqual(d.id,'dec-apr-4c7c188902db');A.strictEqual(d.ref,'rvm-approve-apr-4c7c188902db');A.strictEqual(d.nonce,'9f2c4e1a7b3d5e60');
  A.strictEqual(d.decision,'deny');A.strictEqual(d.signed,false);A.strictEqual(d.to_node,'rklowd.rvm');A.strictEqual(d.app,'rbot-linux');A.strictEqual(d.by,'@chaserizal/pw');
- A.strictEqual(sent.length,1);A.strictEqual(sent[0].to,'rbot-linux');A.strictEqual(sent[0].extra.to_node,'rklowd.rvm');A.deepStrictEqual(JSON.parse(sent[0].text.split('\n\n')[1]),d);
+ A.strictEqual(sent.length,1);const f=sent[0];A.strictEqual(f.name,'rmail-dec-apr-4c7c188902db.json');A.deepStrictEqual(f.dest,['nodes/rvm/inbox/','mail/rklowd.rvm/']);
+ A.ok(f.body.startsWith('{"schema":"rmail.decision"'));A.ok(!/Subject:|rmail\.v1/.test(f.body));const pj=JSON.parse(f.body);A.strictEqual(pj.schema,'rmail.decision');A.deepStrictEqual(pj,d);
  A.match(R.buttonsHTML(q),/Denied — nothing signed/);A.ok(!/data-rapr/.test(R.buttonsHTML(q)));A.strictEqual(R.pending([card()]).length,0);pass('Deny sends an unsigned rmail.decision deny to the requesting app node, card closes');
  await A.rejects(R.approve(q,()=>0,()=>0),/already-decided/);await A.rejects(R.deny(q,()=>0),/already-decided/);A.strictEqual(sent.length,1);pass('a card is decided once (already-decided)');
  // Approve
@@ -43,6 +44,10 @@ const block4={schema:'rmail.v1',id:'block4-mint-20261110205337-7498d526',from:'n
  R=fresh();q=R.fromMessage(card());let hook=[];globalThis.RMAIL_APPROVE_FACEID=x=>{hook.push(x);A.ok(Object.isFrozen(x));return{opened:'native'}};const op2=[];
  out=await R.approve(q,()=>0,u=>op2.push(u));A.strictEqual(hook.length,1);A.strictEqual(hook[0].nonce,'9f2c4e1a7b3d5e60');A.strictEqual(op2.length,0);delete globalThis.RMAIL_APPROVE_FACEID;pass('an app-provided Face ID hook is used instead of the link when present');
  R=fresh();q=R.fromMessage(card());out=await R.approve(q,null,()=>0);A.strictEqual(out.queued,true);A.strictEqual(R.decisions()[q.req_id].decision,'approve');pass('no RMAIL transport: decision is kept in the outbox');
+ R=fresh();q=R.fromMessage(card());const drops=[];globalThis.RMAIL_DECISION_DROP=(name,body)=>{drops.push({name,body})};await R.deny(q);delete globalThis.RMAIL_DECISION_DROP;
+ A.strictEqual(drops.length,1);A.strictEqual(drops[0].name,'rmail-dec-apr-4c7c188902db.json');A.strictEqual(JSON.parse(drops[0].body).decision,'deny');pass('host file-drop transport gets name rmail-dec-<req_id>.json and the bare JSON');
+ R=fresh();q=R.fromMessage(card());const rs=[];globalThis.RSOCIAL={send:(to,text,extra)=>{rs.push({to,text,extra})}};await R.deny(q);delete globalThis.RSOCIAL;
+ A.strictEqual(rs[0].to,'rbot-linux');A.strictEqual(rs[0].extra.to_node,'rklowd.rvm');A.strictEqual(rs[0].extra.name,'rmail-dec-apr-4c7c188902db.json');A.strictEqual(JSON.parse(rs[0].text).schema,'rmail.decision');pass('RSOCIAL fallback sends the bare JSON as the whole text, no Subject line');
  const src=fs.readFileSync(SRC,'utf8').replace(/\/\*[\s\S]*?\*\//g,'');A.ok(!/RMINT|RSIGN|RGHOSTKEY|RKRYPT|generateKey|subtle|importKey|RWALLET_UNIFIED|credentials\.get/.test(src));pass('renderer has no mint, sign, key or passkey code');
  const ui=fs.readFileSync(path.join(__dirname,'..','rdragon-cryptosocial','rmail-ui.js'),'utf8'),idx=fs.readFileSync(path.join(__dirname,'..','index.html'),'utf8');
  A.ok(idx.indexOf('rmail-approve.js')>=0&&idx.indexOf('rmail-approve.js')<idx.indexOf('rmail-ui.js'));A.match(ui,/data-rapr/);pass('index.html loads rmail-approve.js before rmail-ui.js');
