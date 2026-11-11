@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RKLOWD · rizal.pw browser node</title>
+<style>body{font:14px/1.4 system-ui;background:#0b0b10;color:#ddd;max-width:760px;margin:auto;padding:16px}h1{color:#e33}
+fieldset{border:1px solid #333;margin:12px 0}input,textarea,button,select{background:#151520;color:#eee;border:1px solid #444;padding:6px;margin:3px 0}
+textarea,input[type=text],input[type=password]{width:100%;box-sizing:border-box}pre{background:#111;padding:8px;overflow:auto;max-height:220px}.ok{color:#5d5}.bad{color:#e55}</style></head>
+<body>
+<h1>RKLOWD</h1>
+<p>Offline undercloud · browser node <b>rklowd.pw</b> · hub: <span id="hub" class="bad">probing…</span></p>
+<p><small>No public host, no relays, no tunnels. Everything goes to your own RPIPE hub (in-app 127.0.0.1:8799, then your LAN hub, then peers). Offline? It queues here (IndexedDB, hash-chained) and flushes when a hub comes back.</small></p>
+<fieldset><legend>Device setup (stored only in this browser)</legend>
+<p><small>Hub node slot: <b>rklowd.pw</b></small></p>
+<label>LAN hub base URL (e.g. http://&lt;neo-lan&gt;:8799/rscale)<input type="text" id="cfgLan"></label>
+<label>Peer hubs (comma separated)<input type="text" id="cfgPeers"></label>
+<label>RGEN rbt_ token (required for list and put, even on the Neo itself; only the hub probe works without it)<input type="password" id="cfgTok" autocomplete="off"></label>
+<button id="cfgSave">Save</button> <button id="cfgForget">Forget token</button></fieldset>
+<fieldset><legend>Put a file</legend><input type="file" id="file"> <button id="put">rklowd.put</button>
+<p>Status: <span id="status">idle</span></p>
+<p><small><b>Why uploads are slow:</b> each file goes as one base64 JSON request (about a third larger than the file), with no chunking or resume. Files over 8,000,000 bytes are refused here before anything is sent. The hub stores the file and offers it to admitted nodes; those nodes receive it only on their next sync, so "offered" is not "delivered". On another device, a public browser can't reach the in-app hub at 127.0.0.1; it needs a reachable LAN or peer hub URL and an RGEN token entered above.</small></p></fieldset>
+<fieldset><legend>Shared folder</legend><button id="list">List</button><pre id="files"></pre></fieldset>
+<fieldset><legend>RMAIL to @chaserizal (encrypted outbox, held until a hub is reachable)</legend>
+<input type="text" id="mFrom" placeholder="your name / contact"><input type="text" id="mSubj" placeholder="subject">
+<textarea id="mBody" rows="4" placeholder="message"></textarea><button id="mSend">Queue RMAIL</button></fieldset>
+<p>Queue: <span id="q">0</span> · RMAIL outbox: <span id="o">0</span> · <button id="flush">Flush now</button></p>
+<pre id="log"></pre>
+<script src="rklowd-node.js"></script>
+</body></html>
