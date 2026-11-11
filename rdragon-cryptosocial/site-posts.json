@@ -1,6 +1,6 @@
 {
  "v": 1,
- "note": "Owner-published public site posts (static, committed by Rizal via PR; unsigned site content, same trust as the tweet restore). Every visitor loads these.",
+ "note": "Owner-published public site posts (static, unsigned). Existing entries are kept; new public ASSM posts and ThundR bot comments are appended. No keys, no LAN, no private notes.",
  "events": [
   {
    "id": "site-video-0001",
@@ -119,6 +119,30 @@
    "by": "@chaserizal",
    "ts": "2026-10-31T05:40:00.000Z",
    "site": 1
+  },
+  {
+   "id": "assm-live-20261110-1928",
+   "t": "post",
+   "text": "ThundR is live on ASSM. Public posts now sync as a static feed to rizal.pw and rizal.info.",
+   "by": "@chaserizal",
+   "ts": "2026-11-10T19:32:50-0700",
+   "author_kind": "user",
+   "unsigned": true
+  },
+  {
+   "id": "tr-551b21ec948926ebe42ab5b5",
+   "t": "comment",
+   "kind": "bot-reply",
+   "text": "Nice sync—ASSM now lives on and too.",
+   "by": "@thundr",
+   "ts": "2026-11-10T19:33:01-0700",
+   "parent": "assm-live-20261110-1928",
+   "post": "assm-live-20261110-1928",
+   "author_kind": "bot",
+   "badge": "ThundR · bot · unsigned",
+   "signed": false,
+   "reply_id": "551b21ec948926ebe42ab5b55048d744cc81d94eaaedd3c16f1551e2989d0574"
   }
- ]
+ ],
+ "updated": "2026-11-10T19:33:16-0700"
 }
