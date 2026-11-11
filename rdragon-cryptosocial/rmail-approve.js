@@ -73,7 +73,7 @@ function buttonsHTML(q){var err=validate(q),d=decisions()[q&&q.req_id];
   if(d)return'<div class="rmu-approve">'+meta+'<span class="rmu-st">'+(d.decision==="deny"?"Denied — nothing signed":"Approved — ASSM ЯWALLET Face ID opened · ЯWALLET signs only after your Face ID")+'</span></div>';
   if(expired(q))return'<div class="rmu-approve">'+meta+'<span class="rmu-st">Expired — nothing signed</span></div>';
   var label=q.kind==="mint"?"Approve Mint":q.kind==="sign"?"Approve Sign":"Approve Send";
-  return'<div class="rmu-approve">'+meta+'<button class="rmu-btn go" data-rapr="approve">'+label+' · Face ID</button><button class="rmu-btn no" data-rapr="deny">Deny</button>'+
+  return'<div class="rmu-approve">'+meta+'<button class="rmu-btn go" data-rapr="approve"><img src="/rwallet/icons/walet-32.png" alt="" width="16" height="16" style="vertical-align:-3px;border-radius:3px;margin-right:5px">'+label+' · Face ID</button><button class="rmu-btn no" data-rapr="deny">Deny</button>'+
     '<span class="rmu-st" id="rma-st">Approve opens only ASSM ЯWALLET Face ID · Deny replies "denied" · nothing is signed here</span></div>'}
 function pending(msgs){return(msgs||[]).map(fromMessage).filter(function(q){return q&&!validate(q)&&!expired(q)&&!decisions()[q.req_id]})}
 var api={v:2,spec:"RMAIL-APPROVE-DENY-SPEC-20261111 (rmail.approve v2 + rmail.decision v1)",KINDS:KINDS,fromMessage:fromMessage,validate:validate,expired:expired,
