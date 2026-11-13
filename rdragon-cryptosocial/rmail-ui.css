@@ -24,3 +24,4 @@
 .rmu-cmp textarea{height:220px}
 @media(max-width:760px){.rmu{grid-template-columns:minmax(0,1fr);grid-template-rows:44px auto 1fr;border-radius:0}.rmu-nav{display:flex;border:0;border-bottom:1px solid #1a0630;padding:0;overflow-x:auto}.rmu-h{display:none}.rmu-f{white-space:nowrap}
  .rmu.reading .rmu-list,.rmu:not(.reading) .rmu-read{display:none}}
+.rmu-approve{margin:8px 0;display:flex;gap:8px;flex-wrap:wrap;align-items:center}.rmu-approve .rma-meta{width:100%;font:11px monospace;color:#cfc}.rmu-btn.go{background:#0a1a0a;font-weight:700}.rmu-btn.no{border-color:#ff5470;color:#ff5470}.rmu-btn.no:hover{background:#ff547022}.rmu-approve .rmu-st{font:11px monospace;opacity:.85}.rma-bad .rma-meta{color:#ff5470}

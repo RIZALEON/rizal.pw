@@ -1,10 +1,15 @@
-/* rmail-ui.js v1 20261104 - RMAIL crypto mail UI (Inbox/Outbox/Sent/Verified/Guest, reader, compose). Needs rsocial-rmail.js v2 (window.RSOCIAL). Public data only, no keys.
-   Opens from: the ✉ bottom-nav tab [data-a=nav][data-n=msgs], Message buttons (.csp-msgbtn, [data-a=dm]), [data-rmail], or RMAIL_UI.open(). */
+/* rmail-ui.js v1.1 20261111 - RMAIL crypto mail UI (Inbox/Outbox/Sent/Verified/Guest, reader, compose). Needs rsocial-rmail.js v2 (window.RSOCIAL). Public data only, no keys.
+   Opens from: the ✉ bottom-nav tab [data-a=nav][data-n=msgs], Message buttons (.csp-msgbtn, [data-a=dm]), [data-rmail], or RMAIL_UI.open().
+   v1.1 (RBATBOX 20261111): received mint/sign/send approve cards (rmail.approve v2) show Approve and Deny (rmail-approve.js v2, MEKANICA spec SCROLLS/RMAIL-APPROVE-DENY-SPEC-20261111.md).
+   Approve hands off only to the existing ASSM ЯWALLET Face ID path; Deny sends an unsigned rmail.decision "deny" back. Nothing is signed here. */
 (function(){if(window.RMAIL_UI)return;
 function J(k,d){try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}}function W(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
 function E(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return"&#"+c.charCodeAt(0)+";"})}
 function R(){return window.RSOCIAL}
-function css(){if(document.getElementById("rmail-ui-css"))return;var s=document.querySelector('script[src*="rmail-ui.js"]'),l=document.createElement("link");l.id="rmail-ui-css";l.rel="stylesheet";l.href=(s?s.src.replace(/[^/]*$/,""):"/")+"rmail-ui.css?v=2";document.head.appendChild(l)}
+function AP(){return window.RMAIL_APPROVE}
+function apReq(m){var A=AP();return A&&!mine(m)?A.fromMessage(m):null}
+function apTag(m){var q=apReq(m);if(!q)return"";var d=AP().decisions()[q.req_id];return' <span class="rmu-v ok">'+(d?E(d.decision==="deny"?"denied":"approved"):"Face ID")+"</span>"}
+function css(){if(document.getElementById("rmail-ui-css"))return;var s=document.querySelector('script[src*="rmail-ui.js"]'),l=document.createElement("link");l.id="rmail-ui-css";l.rel="stylesheet";l.href=(s?s.src.replace(/[^/]*$/,""):"/")+"rmail-ui.css?v=3";document.head.appendChild(l)}
 var S={f:"inbox",sel:null,cmp:null},el;
 function me(){var r=R();return r?r.me():{handle:"guest",addr:"guest"}}
 function myAddr(){var r=R(),I=me();return I.handle==="guest"?(r&&r.addrOf("@chaserizal"))||I.addr:I.addr}
@@ -28,15 +33,18 @@ function tm(t){var d=new Date(t);return d.toDateString()===new Date().toDateStri
 function draw(){if(!el)return;var F=folders(),cur=F[S.f],I=me(),sel=S.sel&&all().filter(function(m){return m.id===S.sel})[0];
   var nav='<div class="rmu-h">FOLDERS</div>'+["inbox","outbox","sent"].map(f).join("")+'<div class="rmu-h">FILTERS</div>'+["verified","guest"].map(f).join("");
   function f(k){var x=F[k],n=k==="inbox"?x.u:(k==="outbox"?x.l.length:0);return'<div class="rmu-f'+(S.f===k?" on":"")+'" data-rf="'+k+'"><span>'+x.n+'</span>'+(n?"<i>"+n+"</i>":"")+'</div>'}
-  var list=cur.l.length?cur.l.map(function(m){var p=parse(m),u=S.f==="inbox"&&!read()[m.id];return'<div class="rmu-it'+(u?" unread":"")+(S.sel===m.id?" on":"")+'" data-rm="'+E(m.id)+'"><div class="rmu-a">'+E(who(m))+'</div><div class="rmu-s">'+E(p.s)+'</div><div class="rmu-m"><span>'+tm(m.ts)+'</span>'+badge(m)+'</div></div>'}).join(""):'<div class="rmu-empty">no mail in '+E(cur.n)+'</div>';
+  var list=cur.l.length?cur.l.map(function(m){var p=parse(m),u=S.f==="inbox"&&!read()[m.id];return'<div class="rmu-it'+(u?" unread":"")+(S.sel===m.id?" on":"")+'" data-rm="'+E(m.id)+'"><div class="rmu-a">'+E(who(m))+'</div><div class="rmu-s">'+E(p.s)+apTag(m)+'</div><div class="rmu-m"><span>'+tm(m.ts)+'</span>'+badge(m)+'</div></div>'}).join(""):'<div class="rmu-empty">no mail in '+E(cur.n)+'</div>';
   var pane;if(S.cmp){pane='<div class="rmu-cmp"><h3>Compose</h3><label>From (RWALLET)</label><input readonly value="'+E(I.addr)+(I.handle==="guest"?' (guest · unverified)':'')+'"><label>To — wallet address or @handle</label><input id="rmu-to" value="'+E(S.cmp.to||"")+'"><label>Subject</label><input id="rmu-sub" value="'+E(S.cmp.sub||"")+'"><label>Body</label><textarea id="rmu-body"></textarea><p><button class="rmu-btn" data-ra="send">Send ⇡</button> <button class="rmu-btn p" data-ra="cancel">Cancel</button> <span class="rmu-st" id="rmu-cst"></span></p></div>'}
-  else if(sel){var p=parse(sel);if(!mine(sel)){var r=read();r[sel.id]=1;W("rmail.read",r)}pane='<h3>'+E(p.s)+'</h3>'+badge(sel)+'<div class="rmu-kv"><b>from</b> '+E(sel.from||"")+' '+E(sel.from_addr)+'</div><div class="rmu-kv"><b>to</b> '+E(sel.to||"")+' '+E(sel.to_addr)+'</div><div class="rmu-kv"><b>time</b> '+new Date(sel.ts).toLocaleString()+'</div><div class="rmu-kv"><b>device</b> '+E(sel.from_device||"—")+' · <b>trust</b> '+E(sel.trust||"unverified")+'</div><div class="rmu-kv"><b>status</b> <span class="rmu-st'+(sel.sent||!mine(sel)?"":" q")+'">'+E(status(sel))+'</span></div><pre>'+E(p.b)+'</pre><p><button class="rmu-btn" data-ra="reply">Reply</button> <button class="rmu-btn p" data-ra="back">Back</button></p>'}
+  else if(sel){var p=parse(sel);if(!mine(sel)){var r=read();r[sel.id]=1;W("rmail.read",r)}pane='<h3>'+E(p.s)+'</h3>'+badge(sel)+'<div class="rmu-kv"><b>from</b> '+E(sel.from||"")+' '+E(sel.from_addr)+'</div><div class="rmu-kv"><b>to</b> '+E(sel.to||"")+' '+E(sel.to_addr)+'</div><div class="rmu-kv"><b>time</b> '+new Date(sel.ts).toLocaleString()+'</div><div class="rmu-kv"><b>device</b> '+E(sel.from_device||"—")+' · <b>trust</b> '+E(sel.trust||"unverified")+'</div><div class="rmu-kv"><b>status</b> <span class="rmu-st'+(sel.sent||!mine(sel)?"":" q")+'">'+E(status(sel))+'</span></div><pre>'+E(p.b)+'</pre>'+(apReq(sel)?AP().buttonsHTML(apReq(sel)):'')+'<p><button class="rmu-btn" data-ra="reply">Reply</button> <button class="rmu-btn p" data-ra="back">Back</button></p>'}
   else pane='<div class="rmu-empty">select a message · RMAIL is keyed to your RWALLET address</div>';
   el.innerHTML='<div class="rmu'+(sel||S.cmp?" reading":"")+'"><div class="rmu-top"><b>✉ RMAIL</b><span class="rmu-me">'+E(I.handle)+' · '+E(I.addr)+'</span><button class="rmu-btn" data-ra="new">Compose</button><button class="rmu-btn p" data-ra="sync">Sync</button><button class="rmu-btn p" data-ra="close">✕</button></div><div class="rmu-nav">'+nav+'</div><div class="rmu-list">'+list+'</div><div class="rmu-read">'+pane+'</div></div>';
   navBadge(F.inbox.u)}
 function navBadge(n){document.querySelectorAll('[data-a="nav"][data-n="msgs"]').forEach(function(b){var s=b.querySelector(".rmu-nb");if(!s){s=document.createElement("sup");s.className="rmu-nb";s.style.cssText="color:#39ff14;font-size:9px;margin-left:2px";b.appendChild(s)}s.textContent=n?String(n):""})}
 function open(o){css();if(!el){el=document.createElement("div");el.id="rmail-ui";document.body.appendChild(el);
-  el.addEventListener("click",function(e){var t=e.target.closest("[data-rf],[data-rm],[data-ra]");if(e.target===el)return close();if(!t)return;
+  el.addEventListener("click",function(e){var t=e.target.closest("[data-rf],[data-rm],[data-ra],[data-rapr]");if(e.target===el)return close();if(!t)return;
+    if(t.dataset.rapr){var am=all().filter(function(x){return x.id===S.sel})[0],rq=am&&apReq(am),st=document.getElementById("rma-st");if(!rq)return;
+      if(st)st.textContent=t.dataset.rapr==="deny"?"sending denied…":"Face ID…";
+      (t.dataset.rapr==="deny"?AP().deny(rq):AP().approve(rq)).then(function(){draw()},function(er){if(st)st.textContent=String(er&&er.message||er)});return}
     if(t.dataset.rf){S.f=t.dataset.rf;S.sel=null;S.cmp=null}else if(t.dataset.rm){S.sel=t.dataset.rm;S.cmp=null}
     else{var a=t.dataset.ra;if(a==="close")return close();if(a==="new")S.cmp={};if(a==="cancel"||a==="back"){S.cmp=null;S.sel=null}
       if(a==="sync"&&R())R().flush().then(draw);
