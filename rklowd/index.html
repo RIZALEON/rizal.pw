@@ -10,7 +10,7 @@ textarea,input[type=text],input[type=password]{width:100%;box-sizing:border-box}
 <p><small>No public host, no relays, no tunnels. Everything goes to your own RPIPE hub (in-app 127.0.0.1:8799, then your LAN hub, then peers). Offline? It queues here (IndexedDB, hash-chained) and flushes when a hub comes back.</small></p>
 <fieldset><legend>Device setup (stored only in this browser)</legend>
 <p><small>Hub node slot: <b>rklowd.pw</b></small></p>
-<label>LAN hub base URL (e.g. http://&lt;neo-lan&gt;:8799/rscale)<input type="text" id="cfgLan"></label>
+<label>Hub base URL (https only, e.g. https://&lt;rpipe-relay&gt;/rscale — a LAN http:// URL is blocked as mixed content on this https page)<input type="text" id="cfgLan"></label>
 <label>Peer hubs (comma separated)<input type="text" id="cfgPeers"></label>
 <label>RGEN rbt_ token (required for list and put, even on the Neo itself; only the hub probe works without it)<input type="password" id="cfgTok" autocomplete="off"></label>
 <button id="cfgSave">Save</button> <button id="cfgForget">Forget token</button></fieldset>
