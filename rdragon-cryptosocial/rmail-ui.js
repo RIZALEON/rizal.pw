@@ -25,7 +25,7 @@ function badge(m){return m.verified?'<span class="rmu-v ok" title="signed by a t
 function short(a){a=String(a||"");return a.length>18?a.slice(0,6)+"…"+a.slice(-6):a}
 function who(m){return mine(m)?"→ "+(m.to&&m.to!==m.to_addr?m.to+" ":"")+short(m.to_addr):(m.from&&m.from!=="guest"?m.from+" ":"")+short(m.from_addr)}
 function tm(t){var d=new Date(t);return d.toDateString()===new Date().toDateString()?d.toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"}):d.toLocaleDateString()}
-function draw(){if(!el)return;var F=folders(),cur=F[S.f],I=me(),sel=S.sel&&all().filter(function(m){return m.id===S.sel})[0];
+function draw(){if(!el)return;var F=(window.RMAIL_UI&&window.RMAIL_UI.folders||folders)(),cur=F[S.f],I=me(),sel=S.sel&&all().filter(function(m){return m.id===S.sel})[0];
   var nav='<div class="rmu-h">FOLDERS</div>'+["inbox","outbox","sent"].map(f).join("")+'<div class="rmu-h">FILTERS</div>'+["verified","guest"].map(f).join("");
   function f(k){var x=F[k],n=k==="inbox"?x.u:(k==="outbox"?x.l.length:0);return'<div class="rmu-f'+(S.f===k?" on":"")+'" data-rf="'+k+'"><span>'+x.n+'</span>'+(n?"<i>"+n+"</i>":"")+'</div>'}
   var list=cur.l.length?cur.l.map(function(m){var p=parse(m),u=S.f==="inbox"&&!read()[m.id];return'<div class="rmu-it'+(u?" unread":"")+(S.sel===m.id?" on":"")+'" data-rm="'+E(m.id)+'"><div class="rmu-a">'+E(who(m))+'</div><div class="rmu-s">'+E(p.s)+'</div><div class="rmu-m"><span>'+tm(m.ts)+'</span>'+badge(m)+'</div></div>'}).join(""):'<div class="rmu-empty">no mail in '+E(cur.n)+'</div>';

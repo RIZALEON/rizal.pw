@@ -1,0 +1,22 @@
+{
+ "schema": "rklowd.mailboxes.v1",
+ "ok": true,
+ "node": "rklowd.pw",
+ "updated": "2026-11-14T22:31:00-07:00",
+ "note": "Single source of truth for @rizal.pw mailboxes. Canonical: RKLOWD nodes/pw/mailboxes/index.json. RMAIL, rizal.pw ASSM and RDRAGON carry byte-identical mirrors. Public values only: no keys, no ports, no machine addresses.",
+ "mailboxes": {
+  "ghost": {
+   "address": "ghost@rizal.pw",
+   "owner": "@chaserizal",
+   "kind": "email",
+   "role": "traditional-email",
+   "rklowd_path": "nodes/pw/mailboxes/ghost",
+   "folders": ["inbox", "sent"],
+   "created": "2026-11-14T19:36:53-07:00"
+  }
+ },
+ "identities": [
+  {"kind": "messenger", "id": "@chaserizal", "label": "Messenger @chaserizal", "role": "direct-message"},
+  {"kind": "email", "id": "ghost@rizal.pw", "label": "Email ghost@rizal.pw", "mailbox": "ghost@rizal.pw", "role": "traditional-email"}
+ ]
+}
