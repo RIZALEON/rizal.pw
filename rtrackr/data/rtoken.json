@@ -14,7 +14,10 @@
   "holder_token_account": "BNFLK9bU7CJ4mY87DHpgZ8wj4a1atxwRVpmSuxBUsG8Z",
   "decimals": 9,
   "supply_raw": "1000000000000000",
-  "supply_ui": "1000000"
+  "supply_ui": "1000000",
+  "orca_whirlpool": "HSroUxVkVKv6kX9e7dpoJtbFqKcL76BzrkuuRfAGxs9s",
+  "orca_whirlpool_pair": "Я/SOL",
+  "orca_whirlpool_tracking_only": true
  },
  "links": {
   "solscan_token": "https://solscan.io/token/BB9uA5BuacDnWyDf5Npc9nMb9yFbyThsNrQPBYJ5Q1Lv",
@@ -36,7 +39,11 @@
   "coingecko": "https://www.coingecko.com/en/coins/solana/token/BB9uA5BuacDnWyDf5Npc9nMb9yFbyThsNrQPBYJ5Q1Lv",
   "solscan_holder": "https://solscan.io/account/12872Chwv88d9JcNnPPThtSQWJM296kpkDqm7tpBWB28",
   "explorer_holder": "https://explorer.solana.com/address/12872Chwv88d9JcNnPPThtSQWJM296kpkDqm7tpBWB28",
-  "solanafm_holder": "https://solana.fm/address/12872Chwv88d9JcNnPPThtSQWJM296kpkDqm7tpBWB28"
+  "solanafm_holder": "https://solana.fm/address/12872Chwv88d9JcNnPPThtSQWJM296kpkDqm7tpBWB28",
+  "solscan_whirlpool": "https://solscan.io/account/HSroUxVkVKv6kX9e7dpoJtbFqKcL76BzrkuuRfAGxs9s",
+  "explorer_whirlpool": "https://explorer.solana.com/address/HSroUxVkVKv6kX9e7dpoJtbFqKcL76BzrkuuRfAGxs9s",
+  "geckoterminal_pool": "https://www.geckoterminal.com/solana/pools/HSroUxVkVKv6kX9e7dpoJtbFqKcL76BzrkuuRfAGxs9s",
+  "dexscreener_pool": "https://dexscreener.com/solana/HSroUxVkVKv6kX9e7dpoJtbFqKcL76BzrkuuRfAGxs9s"
  },
  "rpc": {
   "url": "https://solana-rpc.publicnode.com",
@@ -256,5 +263,6 @@
   "decimals": 9,
   "share": "3.25868041%",
   "updated_at": "2026-11-07T07:54:58-07:00"
- }
+ },
+ "pool_snapshot": "data/token-pool.json"
 }

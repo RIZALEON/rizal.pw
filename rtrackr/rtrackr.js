@@ -4,8 +4,8 @@ var RK={genesis:['◎','genesis'],nft_mint:['✦','nft mint'],cryptobot:['🤖',
 function TL(b){var t=RTYPE(b),k=RK[t]||['·',t];return '<span class="k k-'+String(t).replace(/[^a-z_]/g,'')+'">'+k[0]+' '+String(k[1]).replace(/[&<>"]/g,'')+'</span>'}
 function UPD(b){var p=b.payload||{},E2=function(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})},os=p.ops_summary||{};
  return '<h2>⟳ Cryptoupdate</h2><table class="kv upd"><tr><td>pack</td><td>'+E2(p.pack_name)+' <span class="dim">v'+E2(p.version)+'</span></td></tr><tr><td>pack sha256</td><td class="h">'+E2(p.pack_sha256)+'</td></tr><tr><td>manifest sha256</td><td class="h">'+E2(p.manifest_sha256)+'</td></tr><tr><td>platforms</td><td>'+E2((p.platforms||[]).join(' · '))+'</td></tr><tr><td>ops</td><td>'+(Object.keys(os).map(function(k){return E2(k)+' ×'+E2(os[k])}).join(' · ')||'—')+'</td></tr><tr><td>signer</td><td>'+E2(p.signer_device)+'</td></tr><tr><td>status</td><td class="'+(p.onchain?'ok':'dim')+'">'+(p.onchain?'LIVE · manifest signature verified by submitd':'dry / test')+'</td></tr></table>'}
-/* RTRACKR explorer v1.2 · 20261107 · RGHOSTCHAIN snapshot + R TOKEN (Solana) public trackers + live getSignaturesForAddress (mint · crown · pool · holder) + holder balances. */
-(function(){"use strict";var D=null,RT=null,app=document.getElementById('app'),badge=document.getElementById('badge'),pollT=null,LSK='rtrackr.rtoken.events.v1';
+/* RTRACKR explorer v1.3 · 20261114 pool panel (Orca Я/SOL, live RPC + snapshot fallback) · v1.2 20261107 · RGHOSTCHAIN snapshot + R TOKEN (Solana) public trackers + live getSignaturesForAddress (mint · crown · pool · holder) + holder balances. */
+(function(){"use strict";var D=null,RT=null,PS=null,app=document.getElementById('app'),badge=document.getElementById('badge'),pollT=null,LSK='rtrackr.rtoken.events.v1';
 var RPCS=['https://solana-rpc.publicnode.com','https://api.mainnet-beta.solana.com'];
 var DEF={mint:'BB9uA5BuacDnWyDf5Npc9nMb9yFbyThsNrQPBYJ5Q1Lv',crown:'BwpVNk1Rtncpv5HMTLwxB4Yfjkfv6mFaBQUTpjneH1F9',pool:'24uKAFYiLQaycBeiVCpKQgsjUwAn9XiKsuiMAZeoaRV7',mint_tx:'2Lxr2mEZnFnwwBMQjCgRt8EJLaJbwEp61K51mdx16z8oncWg2JCXzCKnisMi78V3L4w7w2pizQ8P1p2H5XMLvx94',holder:'12872Chwv88d9JcNnPPThtSQWJM296kpkDqm7tpBWB28',holder_ata:'BNFLK9bU7CJ4mY87DHpgZ8wj4a1atxwRVpmSuxBUsG8Z'};
 function E(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
@@ -63,7 +63,7 @@ function refreshHolder(){var T=token(),ata=T.holder_ata||holderSnap().token_acco
  }).catch(function(err){paintHolder(holderSnap(),{msg:'offline / RPC unavailable · showing snapshot · '+E(err&&err.message||err)});return holderSnap()})}
 function refreshEvents(){var T=token(),addrs={mint:T.mint,crown:T.crown,pool:T.pool,holder:T.holder};
  paintEvents((RT&&RT.events)||[],{msg:'refreshing Solana…'});
- refreshHolder();
+ refreshHolder();refreshPool();
  return Promise.all([rpcSigs(addrs.mint,12),rpcSigs(addrs.crown,12),rpcSigs(addrs.pool,8),rpcSigs(addrs.holder,12)]).then(function(a){
   var evs=mergeEvts({mint:a[0],crown:a[1],pool:a[2],holder:a[3]}),snap=(RT&&RT.events)||[];
   if(snap.length){var seen={};evs.forEach(function(e,i){if(e.signature)seen[e.signature]=i});snap.forEach(function(e){if(e.signature&&seen[e.signature]==null){seen[e.signature]=evs.length;evs.push(e)}});evs.sort(function(a,b){return(b.blockTime||0)-(a.blockTime||0)})}
@@ -72,6 +72,32 @@ function refreshEvents(){var T=token(),addrs={mint:T.mint,crown:T.crown,pool:T.p
  }).catch(function(err){var c=loadCache(),snap=(RT&&RT.events)||[],use=c&&c.events&&c.events.length?c.events:snap;
   paintEvents(use,{msg:'offline / RPC unavailable · showing '+(c&&c.events&&c.events.length?'cached':'snapshot')+' ('+use.length+') · '+E(err&&err.message||err)});return use})}
 function startPoll(){if(pollT)clearInterval(pollT);pollT=setInterval(function(){if(document.getElementById('rt-events'))refreshEvents()},60000)}
+/* 20261114 POOL-INTEGRATE (Decider t237u): Orca Я/SOL whirlpool panel. Live = public Solana RPC (getAccountInfo + vault balances); offline = data/token-pool.json snapshot. Tracking only: no swap, no liquidity actions. */
+var POOLDEF={address:'HSroUxVkVKv6kX9e7dpoJtbFqKcL76BzrkuuRfAGxs9s',label:'Orca Я/SOL splash pool',pair:'Я/SOL',dex:'Orca',program:'whirLbMiicVdio4qvUfM5KAg6Ct8VwpYzGff3uctyCc',syms:{'BB9uA5BuacDnWyDf5Npc9nMb9yFbyThsNrQPBYJ5Q1Lv':'Я','So11111111111111111111111111111111111111112':'SOL'}};
+function poolSnap(){return(PS&&PS.pools&&PS.pools[0])||null}
+function poolAddr(){var s=poolSnap(),t=(RT&&RT.token)||{};return(s&&s.address)||t.orca_whirlpool||POOLDEF.address}
+function b58e(b){var A='123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz',d=[0],i,j,c,s='';for(i=0;i<b.length;i++){c=b[i];for(j=0;j<d.length;j++){c+=d[j]<<8;d[j]=c%58;c=(c/58)|0}while(c){d.push(c%58);c=(c/58)|0}}for(i=0;i<b.length&&b[i]===0;i++)s+='1';for(j=d.length-1;j>=0;j--)s+=A[d[j]];return s}
+function u128le(u,o){var v=0,i;for(i=15;i>=0;i--)v=v*256+u[o+i];return v}
+function parseWP(u){if(u.length<261)throw new Error('not a whirlpool');var dv=new DataView(u.buffer,u.byteOffset,u.byteLength);
+ return{tick_spacing:dv.getUint16(41,true),fee_rate:dv.getUint16(45,true),liquidity:u128le(u,49),sqrt:u128le(u,65),tick:dv.getInt32(81,true),mint_a:b58e(u.subarray(101,133)),vault_a:b58e(u.subarray(133,165)),mint_b:b58e(u.subarray(181,213)),vault_b:b58e(u.subarray(213,245))}}
+function pfmt(n,d){if(n==null||n===''||isNaN(Number(n)))return'—';n=Number(n);if(n===0)return'0';if(Math.abs(n)<1e-4||Math.abs(n)>=1e9)return n.toExponential(d||4);return n.toLocaleString('en-US',{maximumFractionDigits:d||6})}
+function paintPool(P,meta){var box=document.getElementById('rt-pool');if(!box)return;
+ if(!P){box.innerHTML='<p class="dim">no pool snapshot yet · '+E((meta&&meta.msg)||'')+'</p>';return}
+ var a=P.token_a||{},b=P.token_b||{},M=P.market||{},rIsA=a.symbol==='Я',r=rIsA?a:b,sol=rIsA?b:a,pr=P.price_b_per_a,rPerSol=rIsA?(pr?1/pr:null):pr,solPerR=rPerSol?1/rPerSol:null,L=P.links||{},adr=P.address||poolAddr();
+ box.innerHTML='<div class="stats">'+[['pool',sh(adr)],['pair',P.pair||POOLDEF.pair],['dex',(P.dex||'Orca')+' · fee '+(P.fee_pct!=null?P.fee_pct:(P.fee_rate!=null?P.fee_rate/10000:'—'))+'%'],['Я in pool',pfmt(r.amount_ui,4)],['SOL in pool',pfmt(sol.amount_ui,9)],['value (SOL)',pfmt(P.tvl_sol,6)],['Я per SOL',pfmt(rPerSol,2)],['SOL per Я',pfmt(solPerR,4)],['reserve (USD)',M.reserve_usd!=null?'$'+pfmt(M.reserve_usd,2):'—'],['24h trades',M.trades_24h!=null?M.trades_24h:'—']].map(function(s){return '<div class="st"><span>'+s[0]+'</span><b title="'+E(s[0]==='pool'?adr:s[1])+'">'+E(s[1])+'</b></div>'}).join('')+'</div>'+
+  '<p class="dim h">pool <code>'+E(adr)+'</code> · tick '+E(P.tick_current_index)+' · liquidity '+E(P.liquidity)+'</p>'+
+  '<div class="rt-links"><div class="rt-row"><span class="rt-lab">pool</span>'+linkBtn(L.solscan||('https://solscan.io/account/'+adr),'Solscan')+linkBtn(L.explorer||('https://explorer.solana.com/address/'+adr),'Explorer')+linkBtn(L.geckoterminal||('https://www.geckoterminal.com/solana/pools/'+adr),'GeckoTerminal')+linkBtn(L.dexscreener||('https://dexscreener.com/solana/'+adr),'DexScreener')+'</div></div>'+
+  '<p class="dim">tracking only · no swap · no liquidity actions'+(M.fetched_at?' · USD/24h from '+E(M.source||'snapshot')+' as of '+mt(M.fetched_at):'')+' · GhostChain registry: pools.json (not a sealed block)</p>'+
+  '<p class="dim" id="rt-pool-status">'+E((meta&&meta.msg)||'')+'</p>'}
+function refreshPool(){var adr=poolAddr(),snap=poolSnap();
+ return rpcCall('getAccountInfo',[adr,{encoding:'base64',commitment:'confirmed'}]).then(function(res){var v=res&&res.value;if(!v)throw new Error('pool not found');if(v.owner!==POOLDEF.program)throw new Error('not an Orca whirlpool');
+  var raw=atob(v.data[0]),u=new Uint8Array(raw.length),i;for(i=0;i<raw.length;i++)u[i]=raw.charCodeAt(i);var w=parseWP(u);
+  return Promise.all([rpcCall('getTokenAccountBalance',[w.vault_a]),rpcCall('getTokenAccountBalance',[w.vault_b])]).then(function(bb){var va=bb[0].value,vb=bb[1].value,pr=Math.pow(w.sqrt/Math.pow(2,64),2)*Math.pow(10,va.decimals-vb.decimals),aa=Number(va.uiAmountString),ab=Number(vb.uiAmountString),solA=w.mint_a.indexOf('So1111111111')===0,solB=w.mint_b.indexOf('So1111111111')===0;
+   var P={address:adr,pair:POOLDEF.pair,dex:'Orca',label:POOLDEF.label,fee_rate:w.fee_rate,fee_pct:w.fee_rate/10000,tick_current_index:w.tick,liquidity:String(w.liquidity),price_b_per_a:pr,
+    token_a:{symbol:POOLDEF.syms[w.mint_a]||w.mint_a.slice(0,6),mint:w.mint_a,vault:w.vault_a,decimals:va.decimals,amount_ui:va.uiAmountString},token_b:{symbol:POOLDEF.syms[w.mint_b]||w.mint_b.slice(0,6),mint:w.mint_b,vault:w.vault_b,decimals:vb.decimals,amount_ui:vb.uiAmountString},
+    tvl_sol:solA?aa+(pr?ab/pr:0):(solB?ab+aa*pr:null),market:snap&&snap.market,links:snap&&snap.links,live_at:new Date().toISOString(),slot:res.context&&res.context.slot};
+   paintPool(P,{msg:'live · public Solana RPC · slot '+(P.slot||'—')+' · last poll '+mt(Date.now()/1000)});return P})
+ }).catch(function(err){paintPool(snap,{msg:'offline / RPC unavailable · showing saved snapshot'+(PS&&PS.fetched_at?' from '+mt(PS.fetched_at):'')+' · '+E(err&&err.message||err)});return snap})}
 function rtokenSection(){var T=token(),L=T.links||{},mint=T.mint,crown=T.crown,pool=T.pool,mtx=T.mint_tx,holder=T.holder,hata=T.holder_ata,H=holderSnap();
  var solscanT=L.solscan_token||('https://solscan.io/token/'+mint),solscanA=L.solscan_account||('https://solscan.io/account/'+mint);
  var expl=L.explorer||('https://explorer.solana.com/address/'+mint),sfm=L.solanafm||('https://solana.fm/address/'+mint);
@@ -90,6 +116,7 @@ function rtokenSection(){var T=token(),L=T.links||{},mint=T.mint,crown=T.crown,p
   '<div class="rt-row"><span class="rt-lab">holder</span>'+linkBtn(scHolder,'Solscan')+linkBtn(L.explorer_holder||('https://explorer.solana.com/address/'+holder),'Explorer')+linkBtn(L.solanafm_holder||('https://solana.fm/address/'+holder),'SolanaFM')+'</div>'+
   '<div class="rt-row"><span class="rt-lab">mint tx</span>'+linkBtn(scMintTx,'Solscan')+linkBtn(exMintTx,'Explorer')+linkBtn(sfmMintTx,'SolanaFM')+'</div>'+
   '<div class="rt-row"><span class="rt-lab">price</span>'+linkBtn(jup,'Jupiter')+linkBtn(gt,'GeckoTerminal')+linkBtn(dx,'DexScreener')+linkBtn(cg,'CoinGecko')+'</div></div>'+
+  '<h2>◈ Orca Я/SOL pool <span class="dim">tracking only</span></h2><div id="rt-pool"></div>'+
   '<h2>Watched holder</h2><div id="rt-holder"></div>'+
   '<h2>R TOKEN events</h2><div id="rt-events">'+eventsHTML(seed,{msg:seed.length?(seed.length+' from snapshot · live poll starting…'):'loading…'})+'</div></section>'}
 function home(){var B=blocks(),tip=B[B.length-1]||{},V=D.verify||{},bad=links(),A=D.assets||[],nm=B.filter(function(b){return RTYPE(b)==='nft_mint'}).length,cb=B.filter(function(b){return RTYPE(b)==='cryptobot'}).length,cu=B.filter(function(b){return RTYPE(b)==='cryptoupdate'}).length;
@@ -105,15 +132,16 @@ function rid(r){var q=r.toLowerCase(),B=blocks().filter(function(b){return rids(
  app.innerHTML='<h2>Address '+E(r)+'</h2><div class="stats"><div class="st"><span>blocks</span><b>'+B.length+'</b></div><div class="st"><span>live assets</span><b>'+A.length+'</b></div></div><h2>Assets</h2>'+assetsT(A)+'<h2>Blocks</h2>'+(B.length?tbl(B):'<p class="dim">no blocks for this ЯID / handle</p>')}
 function rtokenPage(){app.innerHTML=rtokenSection();setTimeout(function(){refreshEvents().then(startPoll)},0)}
 function route(){if(!D)return;var h=decodeURIComponent(location.hash.slice(1)),m;
- if(h==='rtoken'||h==='rtoken/')return rtokenPage();
+ if(h==='rtoken'||h==='rtoken/'||h==='pool'||h==='pool/')return rtokenPage();
  if((m=h.match(/^block\/(.+)$/)))return block(m[1]);if((m=h.match(/^rid\/(.+)$/)))return rid(m[1]);home()}
 document.getElementById('q').addEventListener('submit',function(e){e.preventDefault();var v=document.getElementById('qi').value.trim();if(!v)return;
- if(/^rtoken$/i.test(v)||v===token().holder||v===token().holder_ata||(v.length>=8&&(token().holder.indexOf(v)===0||token().holder_ata.indexOf(v)===0))){location.hash='rtoken';return}
+ if(/^(rtoken|pool)$/i.test(v)||v===poolAddr()||v===token().holder||v===token().holder_ata||(v.length>=8&&(token().holder.indexOf(v)===0||token().holder_ata.indexOf(v)===0))){location.hash='rtoken';return}
  if(/^\d+$/.test(v)||/^[0-9a-f]{16,}$/i.test(v)){var b=blocks().filter(function(x){return String(x.index)===v||x.hash===v||x.hash.indexOf(v.toLowerCase())===0})[0];location.hash=b?'block/'+b.index:'block/'+v}else location.hash='rid/'+encodeURIComponent(v)});
 window.addEventListener('hashchange',route);
 Promise.all([
  fetch('/rtrackr/data/rghostchain.json',{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.json()}),
- fetch('/rtrackr/data/rtoken.json',{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).catch(function(){return null})
-]).then(function(pair){D=pair[0];RT=pair[1];
+ fetch('/rtrackr/data/rtoken.json',{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).catch(function(){return null}),
+ fetch('/rtrackr/data/token-pool.json',{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).catch(function(){return null})
+]).then(function(pair){D=pair[0];RT=pair[1];PS=pair[2];
  if(D.pending||!(D.blocks||[]).length){badge.className='badge pend';badge.textContent='chain snapshot pending · no blocks shown yet · registry as of '+(D.exported_at?new Date(D.exported_at).toLocaleString('en-US',{timeZone:'America/Denver'})+' MT':'—');app.innerHTML='<p class="dim">'+E(D.note||'')+'</p><p class="dim">source: '+E(D.source||'')+'</p>'+rtokenSection()+'<h2>Assets (RTRACKR live entries)</h2>'+assetsT(D.assets||[]);setTimeout(function(){refreshEvents().then(startPoll)},0);return}
  var ok=D.verify&&D.verify.ok&&!links().length;badge.className='badge'+(ok?'':' bad');badge.innerHTML=(ok?'● LIVE':'● VERIFY FAIL')+' · snapshot as of '+mt(D.exported_at)+' · republished on every new block';route()}).catch(function(){badge.className='badge pend';badge.textContent='chain export pending · snapshot not reachable'})})();
