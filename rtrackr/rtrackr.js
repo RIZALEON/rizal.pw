@@ -5,7 +5,7 @@ function TL(b){var t=RTYPE(b),k=RK[t]||['·',t];return '<span class="k k-'+Strin
 function UPD(b){var p=b.payload||{},E2=function(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})},os=p.ops_summary||{};
  return '<h2>⟳ Cryptoupdate</h2><table class="kv upd"><tr><td>pack</td><td>'+E2(p.pack_name)+' <span class="dim">v'+E2(p.version)+'</span></td></tr><tr><td>pack sha256</td><td class="h">'+E2(p.pack_sha256)+'</td></tr><tr><td>manifest sha256</td><td class="h">'+E2(p.manifest_sha256)+'</td></tr><tr><td>platforms</td><td>'+E2((p.platforms||[]).join(' · '))+'</td></tr><tr><td>ops</td><td>'+(Object.keys(os).map(function(k){return E2(k)+' ×'+E2(os[k])}).join(' · ')||'—')+'</td></tr><tr><td>signer</td><td>'+E2(p.signer_device)+'</td></tr><tr><td>status</td><td class="'+(p.onchain?'ok':'dim')+'">'+(p.onchain?'LIVE · manifest signature verified by submitd':'dry / test')+'</td></tr></table>'}
 /* RTRACKR explorer v1.3 · 20261114 pool panel (Orca Я/SOL) + Я wallets panel (live RPC + snapshot fallback) · v1.2 20261107 · RGHOSTCHAIN snapshot + R TOKEN (Solana) public trackers + live getSignaturesForAddress (mint · crown · pool · holder) + holder balances. */
-(function(){"use strict";var D=null,RT=null,PS=null,WS=null,app=document.getElementById('app'),badge=document.getElementById('badge'),pollT=null,LSK='rtrackr.rtoken.events.v1';
+(function(){"use strict";var D=null,RT=null,PS=null,WS=null,ER=null,app=document.getElementById('app'),badge=document.getElementById('badge'),pollT=null,LSK='rtrackr.rtoken.events.v1';
 var RPCS=['https://solana-rpc.publicnode.com','https://api.mainnet-beta.solana.com'];
 var DEF={mint:'BB9uA5BuacDnWyDf5Npc9nMb9yFbyThsNrQPBYJ5Q1Lv',crown:'BwpVNk1Rtncpv5HMTLwxB4Yfjkfv6mFaBQUTpjneH1F9',pool:'24uKAFYiLQaycBeiVCpKQgsjUwAn9XiKsuiMAZeoaRV7',mint_tx:'2Lxr2mEZnFnwwBMQjCgRt8EJLaJbwEp61K51mdx16z8oncWg2JCXzCKnisMi78V3L4w7w2pizQ8P1p2H5XMLvx94',holder:'12872Chwv88d9JcNnPPThtSQWJM296kpkDqm7tpBWB28',holder_ata:'BNFLK9bU7CJ4mY87DHpgZ8wj4a1atxwRVpmSuxBUsG8Z'};
 function E(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
@@ -88,7 +88,18 @@ function paintPool(P,meta){var box=document.getElementById('rt-pool');if(!box)re
   '<p class="dim h">pool <code>'+E(adr)+'</code> · tick '+E(P.tick_current_index)+' · liquidity '+E(P.liquidity)+'</p>'+
   '<div class="rt-links"><div class="rt-row"><span class="rt-lab">pool</span>'+linkBtn(L.solscan||('https://solscan.io/account/'+adr),'Solscan')+linkBtn(L.explorer||('https://explorer.solana.com/address/'+adr),'Explorer')+linkBtn(L.geckoterminal||('https://www.geckoterminal.com/solana/pools/'+adr),'GeckoTerminal')+linkBtn(L.dexscreener||('https://dexscreener.com/solana/'+adr),'DexScreener')+'</div></div>'+
   '<p class="dim">tracking only · no swap · no liquidity actions'+(M.fetched_at?' · USD/24h from '+E(M.source||'snapshot')+' as of '+mt(M.fetched_at):'')+' · GhostChain registry: pools.json (not a sealed block)</p>'+
-  '<p class="dim" id="rt-pool-status">'+E((meta&&meta.msg)||'')+'</p>'}
+  '<p class="dim" id="rt-pool-status">'+E((meta&&meta.msg)||'')+'</p>';paintPair(P,meta)}
+/* 20261114 RATE-100 (Rizal GO 9:15 PM MT): CRYPTOGAME pair Rcoin/Я. 100 Rcoins = 1 Rtoken, floor, min 100, cap 100 Rtoken/person/day. Source data/economy-rates.json (v2) + GhostChain pairs.json. Я/SOL pool price shown for reference only. */
+var PAIRDEF={pair_id:'CRYPTOGAME:RCOIN/Я',label:'CRYPTOGAME pair Rcoin/Я',rate:{rcoins_per_rtoken:100,text:'100 Rcoins = 1 Rtoken',rounding:'floor',minimum_rcoins:100,cap_rtoken_per_person_per_day:100},effective:'2026-11-14T21:15:00-07:00',supersedes:{text:'10 Rcoins = 1 Rtoken'}};
+function pairDef(){return(ER&&ER.pair)||PAIRDEF}
+function pairConv(c){var R=pairDef().rate||PAIRDEF.rate,N=R.rcoins_per_rtoken||100,C=R.cap_rtoken_per_person_per_day||100;c=Math.floor(Number(c)||0);if(c<(R.minimum_rcoins||N))return{ok:false,msg:'refused · minimum '+(R.minimum_rcoins||N)+' Rcoins'};var r=Math.floor(c/N),k=Math.min(r,C);return{ok:true,rtoken:k,used:k*N,left:c-k*N,capped:r>C}}
+function paintPair(P,meta){var box=document.getElementById('rt-pair');if(!box)return;var Q=pairDef(),R=Q.rate||PAIRDEF.rate,a=(P&&P.token_a)||{},rIsA=a.symbol==='Я',pr=P&&P.price_b_per_a,rPerSol=P?(rIsA?(pr?1/pr:null):pr):null,solPerR=rPerSol?1/rPerSol:null,live=meta&&/^live/.test(meta.msg||'');
+ var qs=function(s){return box.querySelector?box.querySelector(s):null},prev=qs('#rt-pair-in'),val=prev&&prev.value?prev.value:'1000';
+ box.innerHTML='<div class="stats">'+[['pair',Q.label||PAIRDEF.label],['rate',R.text||PAIRDEF.rate.text],['daily cap',(R.cap_rtoken_per_person_per_day||100)+' Rtoken / person'],['minimum',(R.minimum_rcoins||100)+' Rcoins'],['rounding','down (floor)'],['Я/SOL pool · SOL per Я',pfmt(solPerR,6)],['Я/SOL pool · Я per SOL',pfmt(rPerSol,2)]].map(function(s){return '<div class="st"><span>'+s[0]+'</span><b>'+E(s[1])+'</b></div>'}).join('')+'</div>'+
+  '<p><input id="rt-pair-in" type="number" min="0" step="1" value="'+E(val)+'" style="width:9em"> Rcoins → <b id="rt-pair-out"></b></p>'+
+  '<p class="dim">Rcoin = in-game currency · Rtoken = local token linked to on-chain Я · conversions are local RGHOSTCHAIN convert blocks (onchain:false) · supersedes '+E((Q.supersedes&&Q.supersedes.text)||'10 Rcoins = 1 Rtoken')+' · effective '+(Q.effective?mt(Date.parse(Q.effective)/1000):'2026-11-14')+' (Rizal GO) · GhostChain registry: pairs.json (not a sealed block)</p>'+
+  '<p class="dim">Я/SOL price is the Orca pool price for reference only ('+(P?(live?'live':'saved snapshot'):'no pool data')+'); there is no published Я↔SOL or Я↔USD rate</p>';
+ var inp=qs('#rt-pair-in'),out=qs('#rt-pair-out');if(!inp||!out)return;function f(){var r=pairConv(inp.value);out.textContent=r.ok?(r.rtoken+' Rtoken'+(r.capped?' (capped at daily limit)':'')+' · uses '+r.used.toLocaleString('en-US')+' Rcoins · '+r.left.toLocaleString('en-US')+' left'):r.msg}inp.oninput=f;f()}
 function refreshPool(){var adr=poolAddr(),snap=poolSnap();
  return rpcCall('getAccountInfo',[adr,{encoding:'base64',commitment:'confirmed'}]).then(function(res){var v=res&&res.value;if(!v)throw new Error('pool not found');if(v.owner!==POOLDEF.program)throw new Error('not an Orca whirlpool');
   var raw=atob(v.data[0]),u=new Uint8Array(raw.length),i;for(i=0;i<raw.length;i++)u[i]=raw.charCodeAt(i);var w=parseWP(u);
@@ -134,6 +145,7 @@ function rtokenSection(){var T=token(),L=T.links||{},mint=T.mint,crown=T.crown,p
   '<div class="rt-row"><span class="rt-lab">holder</span>'+linkBtn(scHolder,'Solscan')+linkBtn(L.explorer_holder||('https://explorer.solana.com/address/'+holder),'Explorer')+linkBtn(L.solanafm_holder||('https://solana.fm/address/'+holder),'SolanaFM')+'</div>'+
   '<div class="rt-row"><span class="rt-lab">mint tx</span>'+linkBtn(scMintTx,'Solscan')+linkBtn(exMintTx,'Explorer')+linkBtn(sfmMintTx,'SolanaFM')+'</div>'+
   '<div class="rt-row"><span class="rt-lab">price</span>'+linkBtn(jup,'Jupiter')+linkBtn(gt,'GeckoTerminal')+linkBtn(dx,'DexScreener')+linkBtn(cg,'CoinGecko')+'</div></div>'+
+  '<h2 id="pair">◈ CRYPTOGAME pair Rcoin/Я <span class="dim">100 Rcoins = 1 Rtoken</span></h2><div id="rt-pair"></div>'+
   '<h2>◈ Orca Я/SOL pool <span class="dim">tracking only</span></h2><div id="rt-pool"></div>'+
   '<h2>◈ Я wallets <span class="dim">all holders · watch-only</span></h2><div id="rt-wallets"></div>'+
   '<h2>Watched holder</h2><div id="rt-holder"></div>'+
@@ -141,7 +153,7 @@ function rtokenSection(){var T=token(),L=T.links||{},mint=T.mint,crown=T.crown,p
 function home(){var B=blocks(),tip=B[B.length-1]||{},V=D.verify||{},bad=links(),A=D.assets||[],nm=B.filter(function(b){return RTYPE(b)==='nft_mint'}).length,cb=B.filter(function(b){return RTYPE(b)==='cryptobot'}).length,cu=B.filter(function(b){return RTYPE(b)==='cryptoupdate'}).length;
  app.innerHTML='<div class="stats">'+[['height',B.length?tip.index:'—'],['blocks',B.length],['tip hash',sh(tip.hash)],['nft mints',nm],['cryptobots',cb],['cryptoupdates',cu],['live assets',A.length],['chain verify (Neo)',V.ok?'OK':'FAIL'],['prev_hash links',bad.length?'BROKEN at '+bad.join(','):'OK'],['last block',tip.ts?mt(tip.ts):'—']].map(function(s){return '<div class="st"><span>'+s[0]+'</span><b>'+(s[0]==='last block'?s[1]:E(s[1]))+'</b></div>'}).join('')+'</div>'+
  (D.source?'<p class="dim">source: '+E(D.source)+'</p>':'')+rtokenSection()+'<h2>Latest blocks</h2>'+tbl(B.slice().reverse().slice(0,25))+'<h2>Assets (RTRACKR live entries)</h2>'+assetsT(A);
- setTimeout(function(){refreshEvents().then(startPoll)},0)}
+ setTimeout(function(){paintPair(poolSnap(),{msg:'saved snapshot'});refreshEvents().then(startPoll)},0)}
 function block(n){var b=blocks().filter(function(x){return String(x.index)===String(n)||x.hash===n})[0];if(!b){app.innerHTML='<p class="no">block '+E(n)+' not found</p>';return}
  var prev=blocks()[b.index-1],lk=b.index===0||(prev&&prev.hash===b.prev_hash);
  if(pollT){clearInterval(pollT);pollT=null}
@@ -149,19 +161,20 @@ function block(n){var b=blocks().filter(function(x){return String(x.index)===Str
 function rid(r){var q=r.toLowerCase(),B=blocks().filter(function(b){return rids(b).some(function(x){return x.toLowerCase()===q})||handles(b).indexOf(q)>=0}),A=(D.assets||[]).filter(function(a){return String(a.rid).toLowerCase()===q||String(a.owner_handle).toLowerCase()===q||String(a.holder_rid||'').toLowerCase()===q});
  if(pollT){clearInterval(pollT);pollT=null}
  app.innerHTML='<h2>Address '+E(r)+'</h2><div class="stats"><div class="st"><span>blocks</span><b>'+B.length+'</b></div><div class="st"><span>live assets</span><b>'+A.length+'</b></div></div><h2>Assets</h2>'+assetsT(A)+'<h2>Blocks</h2>'+(B.length?tbl(B):'<p class="dim">no blocks for this ЯID / handle</p>')}
-function rtokenPage(){app.innerHTML=rtokenSection();setTimeout(function(){refreshEvents().then(startPoll)},0)}
+function rtokenPage(){app.innerHTML=rtokenSection();setTimeout(function(){paintPair(poolSnap(),{msg:'saved snapshot'});refreshEvents().then(startPoll)},0)}
 function route(){if(!D)return;var h=decodeURIComponent(location.hash.slice(1)),m;
- if(h==='rtoken'||h==='rtoken/'||h==='pool'||h==='pool/'||h==='wallets'||h==='wallets/')return rtokenPage();
+ if(h==='rtoken'||h==='rtoken/'||h==='pool'||h==='pool/'||h==='wallets'||h==='wallets/'||h==='pair'||h==='pair/'||h==='rcoin')return rtokenPage();
  if((m=h.match(/^block\/(.+)$/)))return block(m[1]);if((m=h.match(/^rid\/(.+)$/)))return rid(m[1]);home()}
 document.getElementById('q').addEventListener('submit',function(e){e.preventDefault();var v=document.getElementById('qi').value.trim();if(!v)return;
- if(/^(rtoken|pool|wallets?)$/i.test(v)||v===poolAddr()||walletRoster().some(function(w){return w.address===v||w.token_account===v})||v===token().holder||v===token().holder_ata||(v.length>=8&&(token().holder.indexOf(v)===0||token().holder_ata.indexOf(v)===0))){location.hash='rtoken';return}
+ if(/^(rtoken|pool|wallets?|pair|rcoins?)$/i.test(v)||v===poolAddr()||walletRoster().some(function(w){return w.address===v||w.token_account===v})||v===token().holder||v===token().holder_ata||(v.length>=8&&(token().holder.indexOf(v)===0||token().holder_ata.indexOf(v)===0))){location.hash='rtoken';return}
  if(/^\d+$/.test(v)||/^[0-9a-f]{16,}$/i.test(v)){var b=blocks().filter(function(x){return String(x.index)===v||x.hash===v||x.hash.indexOf(v.toLowerCase())===0})[0];location.hash=b?'block/'+b.index:'block/'+v}else location.hash='rid/'+encodeURIComponent(v)});
 window.addEventListener('hashchange',route);
 Promise.all([
  fetch('/rtrackr/data/rghostchain.json',{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.json()}),
  fetch('/rtrackr/data/rtoken.json',{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).catch(function(){return null}),
  fetch('/rtrackr/data/token-pool.json',{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).catch(function(){return null}),
- fetch('/rtrackr/data/token-wallets.json',{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).catch(function(){return null})
-]).then(function(pair){D=pair[0];RT=pair[1];PS=pair[2];WS=pair[3];
- if(D.pending||!(D.blocks||[]).length){badge.className='badge pend';badge.textContent='chain snapshot pending · no blocks shown yet · registry as of '+(D.exported_at?new Date(D.exported_at).toLocaleString('en-US',{timeZone:'America/Denver'})+' MT':'—');app.innerHTML='<p class="dim">'+E(D.note||'')+'</p><p class="dim">source: '+E(D.source||'')+'</p>'+rtokenSection()+'<h2>Assets (RTRACKR live entries)</h2>'+assetsT(D.assets||[]);setTimeout(function(){refreshEvents().then(startPoll)},0);return}
+ fetch('/rtrackr/data/token-wallets.json',{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).catch(function(){return null}),
+ fetch('/rtrackr/data/economy-rates.json',{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).catch(function(){return null})
+]).then(function(pair){D=pair[0];RT=pair[1];PS=pair[2];WS=pair[3];ER=pair[4];
+ if(D.pending||!(D.blocks||[]).length){badge.className='badge pend';badge.textContent='chain snapshot pending · no blocks shown yet · registry as of '+(D.exported_at?new Date(D.exported_at).toLocaleString('en-US',{timeZone:'America/Denver'})+' MT':'—');app.innerHTML='<p class="dim">'+E(D.note||'')+'</p><p class="dim">source: '+E(D.source||'')+'</p>'+rtokenSection()+'<h2>Assets (RTRACKR live entries)</h2>'+assetsT(D.assets||[]);setTimeout(function(){paintPair(poolSnap(),{msg:'saved snapshot'});refreshEvents().then(startPoll)},0);return}
  var ok=D.verify&&D.verify.ok&&!links().length;badge.className='badge'+(ok?'':' bad');badge.innerHTML=(ok?'● LIVE':'● VERIFY FAIL')+' · snapshot as of '+mt(D.exported_at)+' · republished on every new block';route()}).catch(function(){badge.className='badge pend';badge.textContent='chain export pending · snapshot not reachable'})})();
