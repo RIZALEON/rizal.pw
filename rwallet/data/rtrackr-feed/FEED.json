@@ -1,0 +1,13 @@
+{
+ "schema": "rzl.rtrackr.feed.v1",
+ "at": "2026-11-14T21:06:24-07:00",
+ "source": "RTRACKR (rizal.pw/rtrackr) + GhostChain registries (RGHOSTCHAIN/rtrackr/pools.json, wallets.json)",
+ "note": "Public, watch-only data. No keys. Pool is tracking only. economy-rates.json is a reference copy of existing rates; nothing changed.",
+ "files": {
+  "pools.json": "018dbad9390cd88238365a879a7228a5419e2926a735785a24a0edc60ebb28a3",
+  "wallets.json": "d5e34e569654175ac529410ee9584e28bfd3b1bafb5d3d7fedcebbee93479025",
+  "token-pool.json": "dc382c767f04fdb5efb283e0abaa23937e71866a1d7190fc7477ded32c80369d",
+  "token-wallets.json": "9d253cda0515db79912f83450de410e638108d4f4a3de4cbc149acd9754d228e",
+  "economy-rates.json": "47a36c4da947db1e082304b0fba6cd08ac6f1ae71c5522e3bda9fd0bde2b4a2c"
+ }
+}

@@ -1,6 +1,6 @@
 {
  "schema": "rzl.rtrackr.pool.v1",
- "fetched_at": "2026-11-14T20:22:37-07:00",
+ "fetched_at": "2026-11-14T21:05:14-07:00",
  "chain": "solana-mainnet",
  "note": "Read-only snapshot of tracked pools for RTRACKR offline fallback. Live page reads the same pool over public Solana RPC. Tracking only: no swaps, no liquidity actions, no keys.",
  "ghostchain": {
@@ -18,7 +18,7 @@
    "address": "HSroUxVkVKv6kX9e7dpoJtbFqKcL76BzrkuuRfAGxs9s",
    "program": "whirLbMiicVdio4qvUfM5KAg6Ct8VwpYzGff3uctyCc",
    "lamports": 3967480,
-   "slot": 469577144,
+   "slot": 469589000,
    "rpc": "https://solana-rpc.publicnode.com",
    "tracking_only": true,
    "no_swap": true,
@@ -69,7 +69,7 @@
     "quote_price_usd": "107.5081972145",
     "fdv_usd": "36.72334606",
     "pool_created_at": "2026-10-13T23:50:16Z",
-    "fetched_at": "2026-11-14T20:22:37-07:00"
+    "fetched_at": "2026-11-14T21:05:14-07:00"
    }
   }
  ],

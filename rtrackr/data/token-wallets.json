@@ -1,6 +1,6 @@
 {
  "schema": "rzl.rtrackr.wallets.snapshot.v1",
- "fetched_at": "2026-11-14T20:22:37-07:00",
+ "fetched_at": "2026-11-14T21:05:14-07:00",
  "chain": "solana-mainnet",
  "mint": "BB9uA5BuacDnWyDf5Npc9nMb9yFbyThsNrQPBYJ5Q1Lv",
  "note": "Every Я (R token) wallet: lab-labelled roster plus on-chain holders. Public addresses only, watch-only, no keys.",

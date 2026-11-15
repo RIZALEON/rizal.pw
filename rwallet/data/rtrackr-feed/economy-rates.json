@@ -1,0 +1,25 @@
+{
+ "schema": "rzl.economy.rates.reference.v1",
+ "recorded": "2026-11-14T21:05:00-07:00",
+ "status": "REFERENCE ONLY · copied from existing sources · no rate was changed or invented",
+ "rcoin_to_rtoken": {
+  "rate": "10 Rcoins = 1 Rtoken",
+  "cap": "100 Rtoken per person per local day (counts every convert block for that user since local midnight)",
+  "minimum": "fewer than 10 Rcoins is refused",
+  "rounding": "floor: rtoken = min(rcoins // 10, 100 - used_today); only rtoken*10 Rcoins are consumed",
+  "ledger": "local RGHOSTCHAIN `convert` block, onchain:false; payload {user, rcoins, rtoken, rate, cap_day:100, used_before, onchain:false}",
+  "onchain": false,
+  "sources": [
+   "AUTOMANUAL §2.4.9.1 (U30, 2026-10-29): \"Rate: 10 Rcoins (game currency) = 1 Rtoken, capped at 100 Rtoken per person per local day.\"",
+   "cryptoapp/RWALLET/rgenerator/rgen.py: RATE=10; CAP=100",
+   "GHOSTMACHINE/RGHOSTCHAIN/rghostchain.py derive(): rate='10 Rcoins = 1 Rtoken', cap='100 Rtoken/person/day'",
+   "TerraformЯ MANUAL §14: \"10 Rcoins = 1 Rtoken, and you can earn at most 100 per person per day\" (TBD in game 0.5.1)",
+   "SCROLLS/RGHOSTCHAIN-PUBLIC-GUIDE.md: \"10 Rcoins = 1 Rtoken.\""
+  ]
+ },
+ "superseded_wording": "\"10 points = 1 local R, cap 100 R/day\" (AUTOMANUAL §2.4.9 parent bullet, kept per REQ-23; superseded by U30)",
+ "not_defined": [
+  "No published rate between in-game Rcoins/local Rtoken and the on-chain Я (Solana SPL, mint BB9uA5…Q1Lv). TerraformЯ rwallet_public.gd says: \"convert R credits ⇄ Я: no published rate yet (blocked)\".",
+  "No rate between Я and SOL/USD in any manual; market price only from the Orca pool (see token-pool.json, tracking only)."
+ ]
+}
