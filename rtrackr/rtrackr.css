@@ -22,3 +22,7 @@ table.upd td:first-child{color:#7fd7ff}
 .rt-btn:hover{background:#0a1a0a}
 .rtoken code{color:#fff;font-size:11px}
 #rt-events{margin-top:4px}
+
+/* 20261114 wallets table */
+table.wallets td{vertical-align:top}
+table.wallets td .dim{font-size:.85em}

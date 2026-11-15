@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""RTRACKR pool snapshot v1 (20261114, Decider t237u). READ-ONLY.
+"""RTRACKR pool + wallets snapshot v1.1 (20261114, Decider t237u/t239u). READ-ONLY.
+Also writes rtrackr/data/token-wallets.json: every Я wallet (lab roster rtrackr/wallets.json + on-chain holders via getProgramAccounts).
 Reads RGHOSTCHAIN/rtrackr/pools.json, pulls each tracked Orca Whirlpool's state over public Solana RPC
 (PublicNode, mainnet-beta fallback) and writes rtrackr/data/token-pool.json + refreshes SHA256SUMS.
 Optional USD/24h market numbers from the public GeckoTerminal API (labelled, never required).
@@ -9,6 +10,8 @@ import base64, datetime, hashlib, json, os, struct, sys, urllib.request
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)  # .../RGHOSTCHAIN
 POOLS = os.path.join(ROOT, 'rtrackr', 'pools.json')
+WALLETS = os.path.join(ROOT, 'rtrackr', 'wallets.json')  # 20261114 Decider t239u: all Я wallets
+TOKEN_PROGRAM = 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA'
 SITE = os.path.normpath(os.path.join(ROOT, '..', 'rizal.pw'))
 RPCS = ['https://solana-rpc.publicnode.com', 'https://api.mainnet-beta.solana.com']
 B58 = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
@@ -77,6 +80,43 @@ def market(addr):
                     trades_24h=(t.get('buys') or 0) + (t.get('sells') or 0), base_price_usd=a.get('base_token_price_usd'),
                     quote_price_usd=a.get('quote_token_price_usd'), fdv_usd=a.get('fdv_usd'), pool_created_at=a.get('pool_created_at'))
     except Exception as e: return dict(source='GeckoTerminal public API', error=str(e)[:200])
+def snap_wallets(now):
+    reg = json.load(open(WALLETS, encoding='utf-8'))
+    mint = reg['mint']; ws = [dict(w) for w in reg.get('wallets', [])]; errs = []
+    holders = None
+    try:
+        res, via = rpc('getProgramAccounts', [TOKEN_PROGRAM, {'encoding': 'jsonParsed', 'filters': [{'dataSize': 165}, {'memcmp': {'offset': 0, 'bytes': mint}}]}])
+        holders = {a['pubkey']: a['account']['data']['parsed']['info'] for a in res}
+    except Exception as e: errs.append('holder discovery: %s' % e)
+    known = {w.get('token_account') for w in ws}
+    for ta, i in (holders or {}).items():
+        if ta not in known: ws.append(dict(label=None, role='on-chain holder (unlabeled)', status='discovered', address=i['owner'], token_account=ta))
+    tas = [w['token_account'] for w in ws if w.get('token_account')]
+    tinfo = {}
+    if tas:
+        r, _ = rpc('getMultipleAccounts', [tas, {'encoding': 'jsonParsed'}])
+        for k, v in zip(tas, r['value']): tinfo[k] = (((v or {}).get('data') or {}).get('parsed') or {}).get('info') if v else None
+    owners = [w['address'] for w in ws]
+    r, _ = rpc('getMultipleAccounts', [owners, {'encoding': 'base64', 'dataSlice': {'offset': 0, 'length': 0}}])
+    lam = {k: (v or {}).get('lamports') if v else None for k, v in zip(owners, r['value'])}
+    total = 0.0
+    for w in ws:
+        i = tinfo.get(w.get('token_account')) or {}
+        ta = i.get('tokenAmount') or {}
+        if i and i.get('owner') and i['owner'] != w['address']: errs.append('%s: token account owner is %s' % (w['address'], i['owner']))
+        w['rtoken_ui'] = ta.get('uiAmountString', '0' if not w.get('token_account') else None); w['rtoken_raw'] = ta.get('amount')
+        w['sol'] = lam.get(w['address']) / 1e9 if lam.get(w['address']) is not None else None
+        w['solscan'] = 'https://solscan.io/account/' + w['address']
+        total += float(w['rtoken_ui'] or 0)
+    ws.sort(key=lambda w: -float(w.get('rtoken_ui') or 0))
+    return dict(schema='rzl.rtrackr.wallets.snapshot.v1', fetched_at=now, chain='solana-mainnet', mint=mint,
+                note='Every Я (R token) wallet: lab-labelled roster plus on-chain holders. Public addresses only, watch-only, no keys.',
+                ghostchain=dict(registry='RGHOSTCHAIN/rtrackr/wallets.json', sealed=False), holder_discovery=holders is not None,
+                onchain_token_accounts=len(holders) if holders is not None else None, total_rtoken_ui=total, wallets=ws, errors=errs)
+def write_json(out, doc):
+    data = json.dumps(doc, ensure_ascii=False, indent=1).encode()
+    os.makedirs(os.path.dirname(out), exist_ok=True); tmp = out + '.tmp'; open(tmp, 'wb').write(data); os.replace(tmp, out)
+    print('wrote', out, len(data), 'bytes'); return data
 def main():
     av = sys.argv
     site = os.path.expanduser(av[av.index('--site') + 1]) if '--site' in av else SITE
@@ -97,6 +137,9 @@ def main():
                pools=pools, errors=errs)
     data = json.dumps(doc, ensure_ascii=False, indent=1).encode()
     out = os.path.expanduser(av[av.index('--out') + 1]) if '--out' in av else os.path.join(site, 'rtrackr', 'data', 'token-pool.json')
+    if '--no-wallets' not in av:
+        try: write_json(os.path.join(os.path.dirname(out), 'token-wallets.json'), snap_wallets(now))
+        except Exception as e: print('wallets snapshot FAILED (pool snapshot still written):', e)
     os.makedirs(os.path.dirname(out), exist_ok=True)
     tmp = out + '.tmp'; open(tmp, 'wb').write(data); os.replace(tmp, out)
     print('wrote', out, len(data), 'bytes; pools', len(pools), 'errors', len(errs))
@@ -104,7 +147,7 @@ def main():
         d = os.path.dirname(out); sp = os.path.join(d, 'SHA256SUMS')
         lines = [l for l in (open(sp).read().splitlines() if os.path.exists(sp) else []) if l.strip()]
         names = {l.split(None, 1)[1].strip(): l for l in lines if len(l.split(None, 1)) == 2}
-        for n in ('rghostchain.json', 'rtoken.json', 'token-pool.json'):
+        for n in ('rghostchain.json', 'rtoken.json', 'token-pool.json', 'token-wallets.json'):
             f = os.path.join(d, n)
             if os.path.exists(f): names[n] = '%s  %s' % (hashlib.sha256(open(f, 'rb').read()).hexdigest(), n)
         open(sp, 'w').write('\n'.join(names[k] for k in sorted(names)) + '\n'); print('SHA256SUMS updated:', ', '.join(sorted(names)))
