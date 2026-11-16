@@ -1,0 +1,37 @@
+# RSCALE coordinator · ЯSYNC HOME phase (STAGED). Headscale v0.29.5 renamed (BSD-3).
+# Reachable on the home LAN only (double NAT): phones join while on home Wi-Fi.
+# No Tailscale company servers: no default DERP map, no update checks, no logtail.
+server_url: http://192.168.0.113:8080
+listen_addr: 192.168.0.113:8080
+metrics_listen_addr: 127.0.0.1:9190
+grpc_listen_addr: 127.0.0.1:50543
+grpc_allow_insecure: false
+noise: {private_key_path: /Users/rizal/.rscale/server/noise_private.key}   # made on the Neo at first start, 0600
+prefixes: {v4: 100.88.0.0/16, v6: "fd7a:115c:a1e0:88::/64", allocation: sequential}
+derp:
+  server:
+    enabled: true
+    region_id: 901
+    region_code: rderp
+    region_name: RDERP (Neo, home LAN)
+    verify_clients: true
+    stun_listen_addr: 192.168.0.113:3478
+    private_key_path: /Users/rizal/.rscale/server/derp_server_private.key
+    automatically_add_embedded_derp_region: true
+  urls: []
+  paths: []
+  auto_update_enabled: false
+disable_check_updates: true
+node: {expiry: 2160h, ephemeral: {inactivity_timeout: 30m}}
+database: {type: sqlite, sqlite: {path: /Users/rizal/.rscale/server/db.sqlite, write_ahead_log: true}}
+log: {level: info, format: text}
+policy: {mode: file, path: /Users/rizal/ЯLAB/RFORGE/RSYNC/rscale/acl.rsync.hujson}
+dns:
+  magic_dns: true
+  base_domain: rscale.rlab          # neo.rscale.rlab, pixel.rscale.rlab, iphone17e.rscale.rlab (legacy plan name: .rnet)
+  override_local_dns: false
+  nameservers: {global: []}
+  extra_records: []
+unix_socket: /Users/rizal/.rscale/server/rscale.sock
+unix_socket_permission: "0770"
+logtail: {enabled: false}

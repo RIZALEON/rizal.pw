@@ -1,0 +1,140 @@
+/* bbx-ds-core.js · BATIBABOX for DRAGON SKULL iOS 0.1.0 (staged 2026-10-18) · pure functions, no DOM, no network (node-testable).
+ * Same math as bbx-rt.js 0.1.1 / BATIBABOX.swift RZLEmbed: BERT-uncased WordPiece over an RZLEMB1 int8-per-row static model, mean-pool, L2.
+ * Model: BATIBABOX-EMBED-256-potion.rzl (potion-base-8M, MIT, 256-d, 29,528 words, 7.9 MB) — served from the BUILT-IN web/ only
+ * (web bundles cannot carry .rzl; the server falls back to built-in web/ for files a bundle lacks). Missing model → keyword-only. */
+(function (root) {
+  "use strict";
+  const C = { version: "0.1.0", organ: "rzl.organ.batibabox.v1", mind: "DRAGON-SKULL-MIND", digestEvery: 12, contextTurns: 6 };
+
+  // ── RZLEMB1 ("RZLEMB1\n" + JSON header + "\n" + vocab (\n-joined, vocabBytes) + float32 scales[n] + int8 q[n*dim]) ──
+  function parseEmb(buf) {
+    const u8 = new Uint8Array(buf); const magic = "RZLEMB1\n";
+    for (let i = 0; i < 8; i++) if (u8[i] !== magic.charCodeAt(i)) throw new Error("not RZLEMB1");
+    let nl = 8; while (u8[nl] !== 10) nl++;
+    const dec = new TextDecoder(); const h = JSON.parse(dec.decode(u8.subarray(8, nl)));
+    const v0 = nl + 1, s0 = v0 + h.vocabBytes, q0 = s0 + h.vocab * 4;
+    if (u8.length < q0 + h.vocab * h.dim) throw new Error("RZLEMB1 truncated");
+    const words = dec.decode(u8.subarray(v0, s0)).split("\n"); if (words.length !== h.vocab) throw new Error("vocab count mismatch");
+    const id = new Map(); words.forEach((w, i) => id.set(w, i));
+    const scales = new Float32Array(buf.slice(s0, q0)); const q = new Int8Array(buf, q0, h.vocab * h.dim);
+    return { h, dim: h.dim, id, scales, q, unk: id.get(h.unk || "[UNK]") };
+  }
+  function basic(t) {   // identical to bbx-rt.js basic()
+    t = String(t).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""); const out = []; let cur = "";
+    for (const ch of t) { if (/\s|\p{C}/u.test(ch)) { if (cur) { out.push(cur); cur = ""; } continue; }
+      if (/[\p{P}\p{S}]/u.test(ch) || /[\u4e00-\u9fff]/.test(ch)) { if (cur) { out.push(cur); cur = ""; } out.push(ch); } else cur += ch; }
+    if (cur) out.push(cur); return out;
+  }
+  function wordpiece(E, w) { const cs = Array.from(w); if (cs.length > 100) return []; const ids = []; let st = 0;
+    while (st < cs.length) { let e = cs.length, f = -1; while (st < e) { const sub = (st ? "##" : "") + cs.slice(st, e).join(""); const i = E.id.get(sub); if (i !== undefined) { f = i; break; } e--; }
+      if (f < 0) return ids; ids.push(f); st = e; }
+    return ids; }
+  function embed(E, text) {
+    const toks = basic(String(text).slice(0, 600)).flatMap((w) => wordpiece(E, w)).filter((i) => i !== E.unk); if (!toks.length) return null;
+    const d = E.dim, acc = new Float32Array(d);
+    for (const t of toks) { const s = E.scales[t], b = t * d; for (let j = 0; j < d; j++) acc[j] += E.q[b + j] * s; }
+    let n = 0; for (let j = 0; j < d; j++) n += acc[j] * acc[j]; n = Math.sqrt(n) || 1; for (let j = 0; j < d; j++) acc[j] /= n; return acc;
+  }
+  const dot = (a, b) => { let s = 0; for (let j = 0; j < a.length; j++) s += a[j] * b[j]; return s; };
+
+  // ── notes: chat/<bot>.jsonl lines {ts, role, text, bot} + ledger blocks {seq, ts, day, topic, kind, bot, text, …} ──
+  function parseJSONL(text) { const out = []; for (const l of String(text || "").split("\n")) { if (!l.trim()) continue; try { out.push(JSON.parse(l)); } catch (e) {} } return out; }
+  function label(n) {
+    if (n.topic === "day0") return "day 0 · " + (n.day || "");
+    const who = n.role === "bot" ? "DRAGON SKULL" : n.role === "user" ? "you" : (n.kind || "");
+    return (n.day || String(n.ts || "").slice(0, 10)) + " " + (n.topic || "chat") + (who ? " · " + who : "");
+  }
+  function notesFrom(chat, ledger, bot) {
+    const c = chat.filter((o) => !o.source || o.source === "chat").map((o) => ({   // memidx 2026-10-19: test/command/system turns are stored, never recalled
+      ts: o.ts, day: String(o.ts || "").slice(0, 10), topic: "chat", role: o.role, bot: o.bot || bot, text: o.text || "" }));
+    const l = ledger.filter((b) => b.topic !== "chat" && (b.bot === bot || b.topic !== "chat")).map((b) => ({ ts: b.ts, day: b.day, topic: b.topic, kind: b.kind, role: "", bot: b.bot, text: b.text || "" }));
+    return c.concat(l).filter((n) => n.text);
+  }
+  // vector top-k over notes; vecs cache keyed by note index (append-only, so indices are stable)
+  function vectorSearch(E, notes, cache, q, k, minScore) {
+    const qv = embed(E, q); if (!qv) return [];
+    const top = [];
+    for (let i = 0; i < notes.length; i++) {
+      let v = cache[i]; if (v === undefined) v = cache[i] = embed(E, notes[i].text) || null; if (!v) continue;
+      const s = dot(qv, v); if (s < (minScore || 0.3)) continue;
+      if (top.length < k || s > top[top.length - 1].s) { top.push({ s, i }); top.sort((a, b) => b.s - a.s); if (top.length > k) top.pop(); }
+    }
+    return top.map((t) => ({ score: +t.s.toFixed(3), ts: notes[t.i].ts, label: label(notes[t.i]), text: notes[t.i].text, via: "vector" }));
+  }
+  // hybrid merge: native keyword hits (scores normalised 0..1) + vector hits (cosine); same text → max score + small agreement bonus
+  function mergeHits(kw, vec, k) {
+    const m = new Map();
+    for (const h of kw.concat(vec)) { const key = String(h.text).slice(0, 120); const o = m.get(key);
+      if (!o) m.set(key, Object.assign({}, h, { via: h.via || "keyword" })); else { o.score = Math.min(1, Math.max(o.score, h.score) + 0.1); o.via = "hybrid"; } }
+    return Array.from(m.values()).sort((a, b) => b.score - a.score).slice(0, k || 6);
+  }
+  // ── digest (rzl.batibabox.digest.v1, per bot) ──
+  function digestDue(state, turns, idleMs) {
+    const done = state && state.turnsDigested || 0;
+    if (idleMs < 45000) return false;
+    return (!state || !state.digest) ? turns >= 4 : turns - done >= C.digestEvery;
+  }
+  function digestMessages(prev, turns) {
+    const lines = turns.slice(-40).map((t) => (t.role === "user" ? "User: " : "DRAGON SKULL: ") + String(t.text).replace(/\s+/g, " ").slice(0, 300));
+    return [{ role: "user", content:
+      "Update the long-term memory digest for DRAGON SKULL. Keep only durable facts: who the user is, preferences, decisions, ongoing work, names of projects. " +
+      "No secrets, passwords, keys or addresses. At most 6 short bullet lines, plain text.\n\nPrevious digest:\n" + (prev || "(none)") +
+      "\n\nNew conversation turns:\n" + lines.join("\n") + "\n\nUpdated digest:" }];
+  }
+  function dsHost() {   // 1.0.4 (5): shared web on Mac + iOS; a Mac reports Macintosh with no touch points (an iPad reports touch points)
+    try { const n = globalThis.navigator || {}; return /Macintosh/.test(n.userAgent || "") && !((n.maxTouchPoints || 0) > 1) ? "dragonskull-macos" : "dragonskull-ios"; } catch (e) { return "dragonskull-ios"; }
+  }
+  function digestDoc(prev, bot, text, turns, webVersion, why) {
+    const facts = String(text).split("\n").map((s) => s.replace(/^[\s\-*•\d.)]+/, "").trim()).filter((s) => s.length > 3).slice(0, 6);
+    return Object.assign({}, prev || {}, { schema: "rzl.batibabox.digest.v1", organ: C.organ, host: dsHost(), bot, version: webVersion || "?",
+      digest: facts.join(" · ").slice(0, 600), facts, turnsDigested: turns.length, lastTurnTs: turns.length ? turns[turns.length - 1].ts : "",
+      digestedAt: new Date().toISOString(), refreshedBy: why || "idle", recallCounts: (prev && prev.recallCounts) || {}, recalled: (prev && prev.recalled) || [] });
+  }
+  function reorganize(dig, labels) {   // BATIBABOX.reorganize(): most-recalled first, additive, nothing deleted
+    dig = Object.assign({ recallCounts: {} }, dig || {}); const c = Object.assign({}, dig.recallCounts);
+    for (const l of labels) if (l) c[l] = (c[l] || 0) + 1;
+    dig.recallCounts = c; dig.recalled = Object.entries(c).sort((a, b) => b[1] - a[1]).slice(0, 12).map((e) => e[0]); dig.reorganizedAt = new Date().toISOString(); return dig;
+  }
+  // ── DRAGON-SKULL-MIND: organise by day → topic → bot, Day 0 first; index; rzl.doc.v1 view (MACHINE-MIND-LIVE shape) ──
+  function organize(blocks) {
+    const day0 = [], days = new Map();
+    for (const b of blocks) {
+      if (b.topic === "day0") { day0.push(b); continue; }
+      const d = b.day || String(b.ts || "").slice(0, 10); if (!days.has(d)) days.set(d, new Map());
+      const t = days.get(d), key = (b.topic || "note") + " · " + (b.bot || "dragonskull"); if (!t.has(key)) t.set(key, []); t.get(key).push(b);
+    }
+    const order = Array.from(days.keys()).sort();
+    const index = [{ day: "Day 0", count: day0.length, topics: countBy(day0, (b) => "day0 · " + (b.sub || "history")) }]
+      .concat(order.map((d) => { const t = days.get(d); const topics = {}; for (const [k, v] of t) topics[k] = v.length; return { day: d, count: Object.values(topics).reduce((a, b) => a + b, 0), topics }; }));
+    return { day0, days: order.map((d) => ({ day: d, topics: Array.from(days.get(d).entries()).sort() })), index };
+  }
+  function countBy(a, f) { const o = {}; for (const x of a) { const k = f(x); o[k] = (o[k] || 0) + 1; } return o; }
+  function docView(blocks, meta) {
+    const g = organize(blocks), last = blocks[blocks.length - 1] || {};
+    const out = { schema: "rzl.doc.v1", name: C.mind, title: "DRAGON SKULL · machine mind transcript (private, on this iPhone)", rev: last.seq || 0, layer: "PRIVATE", lang: "und",
+      tool: "bbx-ds " + C.version, law: "append-only; hash-chained (sha256(prev + sha256(text) + seq), live-mind 0.1); redacted; no secrets; view rebuilt from the ledger",
+      base: Object.assign({ app: "DRAGON SKULL iOS", bundle: "info.rizal.dragonskull", ledger: "Application Support/memory/mind/" + C.mind + ".blocks.jsonl" }, meta || {}),
+      head: { seq: last.seq || 0, hash: last.hash || "", updated: last.ts || "" }, revisions: [], index: g.index, blocks: [] };
+    const B = out.blocks, blk = (b) => ({ type: "text", tag: b.kind, kind: b.source, topic: b.topic, bot: b.bot, seq: b.seq, ts: b.ts, text: b.text, sha256: b.sha256, hash: b.hash, prev: b.prev });
+    B.push({ type: "head", level: 1, text: C.mind + " · seq " + (last.seq || 0) + " · head " + String(last.hash || "").slice(0, 16) });
+    B.push({ type: "table", caption: "index (day → topic · bot → blocks)", columns: ["day", "topic · bot", "blocks"],
+      rows: g.index.flatMap((d) => Object.entries(d.topics).map(([k, v]) => [d.day, k, v])), tag: "observed" });
+    B.push({ type: "head", level: 2, text: "Day 0 · DRAGON SKULL history (seed from Neo notes, cleaned)" });
+    for (const [sub, list] of Object.entries(groupBy(g.day0, (b) => b.sub || "history"))) { B.push({ type: "head", level: 3, text: sub }); for (const b of list) B.push(blk(b)); }
+    for (const d of g.days) { B.push({ type: "head", level: 2, text: d.day }); for (const [k, list] of d.topics) { B.push({ type: "head", level: 3, text: k }); for (const b of list) B.push(blk(b)); } }
+    return out;
+  }
+  function groupBy(a, f) { const o = {}; for (const x of a) (o[f(x)] = o[f(x)] || []).push(x); return o; }
+  // chain check (same formula as MemoryStore.verifyChain / live-mind.py); sha = async or sync (str) → hex
+  async function verifyChain(blocks, sha, head0) {
+    let prev = head0, n = 0;
+    for (const b of blocks) {
+      const bs = await sha(b.text || "");
+      if (b.seq !== n + 1 || b.prev !== prev || b.sha256 !== bs || b.hash !== await sha(prev + bs + String(b.seq))) return { ok: false, at: b.seq, n };
+      prev = b.hash; n = b.seq;
+    }
+    return { ok: true, n };
+  }
+  const api = { C, parseEmb, basic, embed, dot, parseJSONL, label, notesFrom, vectorSearch, mergeHits, digestDue, digestMessages, digestDoc, reorganize, organize, docView, verifyChain };
+  if (typeof module !== "undefined" && module.exports) module.exports = api; else root.DS_BBX_CORE = api;
+})(typeof window !== "undefined" ? window : globalThis);

@@ -1,0 +1,55 @@
+{
+ "schema": "rlab.skill.v1",
+ "schemaAlso": "rzl.skill.v1",
+ "id": "notes-reader",
+ "version": "2.1.8",
+ "organ": "rzl.organ.batibabox.v1",
+ "title": "BATIBABOX notes + manual reader (read-only, offline)",
+ "autoload": "all-sessions",
+ "commands": [
+  "batibabox",
+  "recall <topic>",
+  "egg list",
+  "egg status <id>",
+  "ghost chain",
+  "lesson <Lnnn>",
+  "spong report",
+  "rweb",
+  "xfiles",
+  "mind status",
+  "notes",
+  "notes <q>",
+  "manual notes"
+ ],
+ "triggers": [
+  "batibabox",
+  "recall",
+  "remember",
+  "memory",
+  "egg",
+  "ghost chain",
+  "lesson",
+  "spong",
+  "rweb",
+  "xfile",
+  "machine mind",
+  "notes",
+  "manual",
+  "check phrase",
+  "яscribe"
+ ],
+ "spec": "BATIBABOX-SKILLS.rzl",
+ "systemLine": "BATIBABOX notes reader is installed: questions about the user's ЯSCRIBE notes or the MACHINE MIND manual are answered from the real local files (/notes, /notes <q>, /manual notes) with doc, rev and sha. Never invent note content.",
+ "notesReader": {
+  "file": "rzl-notes-reader.js",
+  "reads": [
+   "~/ЯLAB/MACHINE-MIND/NOTES/NOTES-LEDGER.jsonl",
+   "~/ЯLAB/MACHINE-MIND/NOTES/<doc>/<doc>@<rev>.rzl",
+   "~/ЯLAB/MACHINE-MIND/NEO-MANUAL/NEO-MANUAL.md"
+  ],
+  "primary": "rosHostRead (local file, offline)",
+  "secondary": "BOTBRIDGE /v1/notes · /v1/manual/section",
+  "readOnly": true
+ },
+ "partOf": "batibabox-embed 2.1.7 (BATIBABOX memory organ)"
+}

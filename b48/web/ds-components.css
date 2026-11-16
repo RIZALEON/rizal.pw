@@ -1,0 +1,70 @@
+/* DS-PACK · components · IDs match data-ds-id + README legend */
+*{box-sizing:border-box}
+html,body{height:100%}
+body.ds{margin:0;background:var(--ds-bg);color:var(--ds-fg);font:14px/1.45 var(--ds-font);display:grid;
+ grid-template-columns:var(--ds-side) 1fr;grid-template-rows:auto 1fr auto auto auto;grid-template-areas:"nav bar" "nav log" "nav qcmd" "nav input" "gate gate";height:100dvh;overflow:hidden}
+body.ds.ds-nav-collapsed{grid-template-columns:0 1fr}
+/* DS-NAV-01 Sidebar / Drawer */
+.ds-nav{grid-area:nav;background:var(--ds-panel);border-right:1px solid var(--ds-line);overflow:auto;padding:10px;transition:transform var(--ds-speed),opacity var(--ds-speed)}
+.ds-nav-collapsed .ds-nav{transform:translateX(-100%);opacity:0;pointer-events:none;padding:0}
+.ds-nav h2{font-size:11px;letter-spacing:.12em;color:var(--ds-gold);margin:6px 4px 10px}
+/* DS-LIST-01 Chat List */
+.ds-chatlist{list-style:none;margin:0;padding:0}
+.ds-chatlist li{display:flex;gap:8px;align-items:center;padding:8px;border-radius:8px;cursor:pointer;min-height:var(--ds-tap);transition:background var(--ds-speed)}
+.ds-chatlist li:hover{background:var(--ds-panel-2)} .ds-chatlist li[aria-current]{background:color-mix(in srgb,var(--ds-accent) 22%,transparent)}
+.ds-chatlist .dot{width:8px;height:8px;border-radius:50%;background:var(--ds-muted)} .ds-chatlist .dot.on{background:var(--ds-ok)}
+/* DS-BAR-01 Top Status Bar */
+.ds-bar-top{grid-area:bar;display:flex;align-items:center;gap:8px;padding:8px 12px;border-bottom:1px solid var(--ds-line);background:var(--ds-panel);padding-top:max(8px,env(safe-area-inset-top));flex-wrap:wrap}
+.ds-title{font-weight:700;letter-spacing:.04em;margin-right:6px}
+/* DS-CHIP-0x Status chips */
+.ds-chip{font:600 11px var(--ds-font);letter-spacing:.05em;padding:3px 9px;border-radius:999px;border:1px solid var(--ds-line);color:var(--ds-fg-dim);background:transparent;cursor:default;display:inline-flex;gap:6px;align-items:center;transition:all var(--ds-speed)}
+.ds-chip::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ds-muted)}
+.ds-chip[data-state=ok]{color:var(--ds-ok);border-color:color-mix(in srgb,var(--ds-ok) 40%,transparent)} .ds-chip[data-state=ok]::before{background:var(--ds-ok);box-shadow:0 0 6px var(--ds-ok)}
+.ds-chip[data-state=warn]{color:var(--ds-warn)} .ds-chip[data-state=warn]::before{background:var(--ds-warn);animation:ds-pulse 1.2s infinite}
+.ds-chip[data-state=err]{color:var(--ds-err)} .ds-chip[data-state=err]::before{background:var(--ds-err)}
+.ds-chip.ds-chip-bridge{background:var(--ds-accent);color:#fff;border-color:transparent;cursor:pointer} .ds-chip.ds-chip-bridge::before{display:none}
+.ds-chip.ds-chip-tag{border:0;color:var(--ds-muted);font-weight:400} .ds-chip.ds-chip-tag::before{display:none}
+@keyframes ds-pulse{50%{opacity:.3}}
+/* Buttons (DS-BTN-xx) */
+.ds-btn{font:600 13px var(--ds-font);border:1px solid var(--ds-line);background:var(--ds-panel-2);color:var(--ds-fg);border-radius:var(--ds-r);min-height:36px;min-width:36px;padding:0 12px;cursor:pointer;transition:transform .08s,background var(--ds-speed),box-shadow var(--ds-speed)}
+.ds-btn:hover{background:color-mix(in srgb,var(--ds-accent) 25%,var(--ds-panel-2))} .ds-btn:active{transform:scale(.95)}
+.ds-btn:focus-visible{outline:2px solid var(--ds-accent-2);outline-offset:2px} .ds-btn[disabled]{opacity:.45;cursor:not-allowed}
+.ds-btn.icon{padding:0;width:36px;border-radius:50%;font-size:18px}
+.ds-btn.primary{background:var(--ds-blue);border-color:transparent;color:#fff} .ds-btn.primary:hover{box-shadow:0 0 0 3px color-mix(in srgb,var(--ds-blue) 35%,transparent)}
+.ds-btn.plus{color:var(--ds-orange);border-color:var(--ds-orange);background:transparent}
+.ds-btn.stop{background:var(--ds-stop);color:#fff;border-color:transparent} .ds-btn.stop:hover{background:var(--ds-err)}
+.ds-spacer{flex:1}
+/* DS-LIST-02 Message Log + DS-MSG-0x turns */
+.ds-log{grid-area:log;overflow:auto;padding:14px 16px;min-width:0}
+.turn{margin:8px 0;white-space:pre-wrap;word-break:break-word;animation:ds-in .2s ease-out}
+.turn .who{font-weight:700;margin-right:4px} .turn.user{color:var(--ds-user)} .turn.bot{color:var(--ds-fg)} .turn.sys{color:var(--ds-sys);font-size:12px}
+.turn .src{font-size:10px;color:var(--ds-muted);margin-left:6px;border:1px solid var(--ds-line);border-radius:6px;padding:0 4px}
+@keyframes ds-in{from{opacity:0;transform:translateY(4px)}}
+/* DS-BAR-04 Quick Command Row */
+.ds-qcmd{grid-area:qcmd;display:flex;gap:6px;padding:6px 12px;overflow-x:auto;scrollbar-width:none}
+.ds-qcmd .ds-btn{font-family:var(--ds-mono);font-weight:500;color:var(--ds-gold);white-space:nowrap;min-height:30px;border-radius:999px}
+/* DS-BAR-03 Input Bar */
+.ds-input{grid-area:input;display:flex;gap:8px;align-items:center;padding:8px 12px;border-top:1px solid var(--ds-line);background:var(--ds-bg)}
+.ds-field{flex:1;min-height:40px;border-radius:var(--ds-r);border:1px solid var(--ds-line);background:#fff;color:#111;padding:0 12px;font:15px var(--ds-font)}
+[data-ds-theme] .ds-field{background:var(--ds-panel-2);color:var(--ds-fg)} .ds-field:focus{outline:2px solid var(--ds-accent-2)}
+/* DS-BAR-02 Approval Gate */
+.ds-gate{grid-area:gate;display:flex;align-items:center;gap:10px;padding:6px 12px;border-top:1px solid var(--ds-line);background:var(--ds-panel);font:700 11px var(--ds-font);letter-spacing:.1em;color:var(--ds-fg-dim);padding-bottom:max(6px,env(safe-area-inset-bottom))}
+.ds-gate .count{background:var(--ds-warn);color:#000;border-radius:999px;padding:0 7px}
+/* DS-NAV-02 Mobile Tab Bar + DS-OVL-01 scrim (hidden on laptop) */
+.ds-tabs,.ds-scrim{display:none}
+@media (max-width:900px){body.ds{grid-template-columns:0 1fr}.ds-nav{position:fixed;inset:0 auto 0 0;width:min(82vw,300px);z-index:30;transform:translateX(-100%)}
+ body.ds.ds-nav-open .ds-nav{transform:none;opacity:1;pointer-events:auto;padding:10px}
+ body.ds.ds-nav-open .ds-scrim{display:block;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:20}}
+@media (max-width:600px){
+ body.ds{grid-template-rows:auto 1fr auto auto auto auto;grid-template-areas:"bar bar" "log log" "qcmd qcmd" "input input" "gate gate" "tabs tabs"}
+ .ds-btn{min-height:var(--ds-tap);min-width:var(--ds-tap)} .ds-btn.icon{width:var(--ds-tap)} .ds-field{min-height:var(--ds-tap);font-size:16px}
+ .ds-input{position:sticky;bottom:0} .ds-chip-tag{display:none!important}
+ .ds-gate{padding-bottom:6px}
+ .ds-tabs{grid-area:tabs;display:flex;justify-content:space-around;border-top:1px solid var(--ds-line);background:var(--ds-panel);padding-bottom:env(safe-area-inset-bottom)}
+ .ds-tabs button{flex:1;min-height:52px;background:none;border:0;color:var(--ds-fg-dim);font:600 11px var(--ds-font);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+ .ds-tabs button[aria-current]{color:var(--ds-accent)} .ds-tabs button:active{transform:scale(.94)} .ds-tabs .i{font-size:18px}}
+/* DS-OVL-02 Label overlay (show labels) */
+body.ds-labels [data-ds-id]{position:relative;outline:1px dashed color-mix(in srgb,var(--ds-gold) 70%,transparent);outline-offset:-1px}
+body.ds-labels [data-ds-id]::after{content:attr(data-ds-id) " · " attr(data-ds-name);position:absolute;left:2px;top:2px;z-index:50;font:700 9px var(--ds-mono);background:var(--ds-gold);color:#000;padding:1px 4px;border-radius:4px;white-space:nowrap;pointer-events:none}
+body.ds-labels-hover [data-ds-id]::after{opacity:0} body.ds-labels-hover [data-ds-id]:hover::after{opacity:1}
+/* hidden per Rizal 20261027: Approval Gate panel */ #ds-gate,.ds-gate{display:none!important}

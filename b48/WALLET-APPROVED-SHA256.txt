@@ -1,0 +1,13 @@
+RWALLET ghost2 approved files overlaid into this package from the live tree
+2026-11-15 5:04 PM MT (America/Denver)
+
+App/web/rwallet-shared/rwallet/rwallet-ghost2.js
+App/web/ghost-machine/site/rwallet/rwallet-ghost2.js
+sha256 3f93d4e7910849e6c83ca59f35ce1c0d2a1c5a06c615d4ca7582eef4bc50d392
+
+App/web/rwallet-shared/rwallet/rwallet-ghost2.css
+App/web/ghost-machine/site/rwallet/rwallet-ghost2.css
+sha256 584c53c0069538f8dca2f585d5d252bacbeadd4bf1b090c51b088a8c2e4b1c73
+
+Pre-change backups in this package: RDRAGONSKULL/source/ios/BACKUPS-20261115-b48wallet/
+The Desktop backup RLAB-B48-BACKUP-20261115-1650 still holds the pre-approval ghost2 files (unchanged).

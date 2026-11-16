@@ -1,0 +1,81 @@
+{
+  "id": "THUNDR-DESIGN-STANDARD-20261111",
+  "title": "ThundR Design Standard",
+  "version": "1.0.0",
+  "stamp": "2026-11-11",
+  "timezone": "America/Denver",
+  "sampled": "RDRAGON / ThundR on the 17e, ENGINE 1.0.4.35–1.0.4.37, from owner screenshots on 2026-11-11. Hex values are the dominant exact pixels, not approximations.",
+  "scope": ["all-apps", "website", "rvm", "linux-rizal", "android", "ios"],
+  "law": "This is the look and interface going forward. Apply with signed incremental updates only. Do not complete-rebuild an app to adopt it. Updates may only add functions, never remove them.",
+  "supersedes_look": "YA-DESIGN-TOKENS-0.1 Stormclay claymation is not the look for new or incremental UI. Those older tokens stay on disk; this standard is what to use.",
+  "removed_from_chrome": {
+    "what": "The row of CHAT, ASSM, RMAIL, ЯWALLET, and >ThundR buttons immediately above the composer (the chat box).",
+    "owner": "Rizal, 2026-11-11 around 11:05 PM Mountain Time.",
+    "still_available": "Those seats are not removed as functions. Reach them from the hamburger menu and the GHOSTMACHINE tab."
+  },
+  "colors": {
+    "bg":              { "hex": "#000000", "use": "Twilight ground. The whole surface is black, with stars painted on top." },
+    "green":           { "hex": "#39FF14", "use": "Primary phosphor: chat text, bot-bubble border, key outlines, composer border, + button, prompt R:\\>" },
+    "greenEngine":     { "hex": "#66CC66", "use": "ENGINE label in the header when healthy." },
+    "greenDim":        { "hex": "#21850F", "use": "Dim green, anti-alias and secondary borders." },
+    "greenTab":        { "hex": "#117733", "use": "GHOSTMACHINE side-tab fill." },
+    "mint":            { "hex": "#CCFFEE", "use": "GHOSTMACHINE tab lettering; also light mint highlights." },
+    "engineAlert":     { "hex": "#EF4444", "use": "ENGINE label when it needs attention (as in ENGINE 1.0.4.36 with a pending bind)." },
+    "chrome":          { "hex": "#EEEEEE", "use": "App name (RDRAGON), body text on purple panels, keycap letters." },
+    "muted":           { "hex": "#888888", "use": "Version number, 'via parser / via casket / via local'." },
+    "purple":          { "hex": "#8A2BE2", "use": "Action purple: Send, return, EN (selected), user-bubble border. CSS name BlueViolet, exact match." },
+    "purpleHot":       { "hex": "#B388FF", "use": "Send / user-bubble highlight and glow." },
+    "purpleUserFill":  { "hex": "#1A0630", "use": "User ('You:') bubble fill." },
+    "purplePanelFill": { "hex": "#110D1C", "use": "ThundR · iOS panel fill." },
+    "purplePanelBorder": { "hex": "#2B2160", "use": "ThundR · iOS panel border." },
+    "purplePill":      { "hex": "#6B4FD8", "use": "moves / help / heal / approve pills on the ThundR panel." },
+    "purpleDeep":      { "hex": "#3A2D70", "use": "Deep purple, inner panel edges." },
+    "purpleFooter":    { "hex": "#0C0A16", "use": "ThundR panel footer strip." },
+    "gold":            { "hex": "#FFE46B", "use": "ThundR status ('ThundR - idle', 'ThundR - awake') and 'ThundR · iOS' title." },
+    "goldBolt":        { "hex": "#FFD600", "use": "Lightning bolt on ThundR." },
+    "cyan":            { "hex": "#9AD0FF", "use": "Command text inside the ThundR panel ('request approval terraformr bind')." },
+    "botBubbleFill":   { "hex": "#0A0A0A", "use": "Bot / ThundR message bubble fill, a near-black with a hint of green at the rim (#0C150A)." },
+    "rboardFrame":     { "hex": "#3F117E", "use": "RBOARD outer rounded frame." },
+    "globe":           { "hex": "#2095E2", "use": "RBOARD globe / language key." }
+  },
+  "type": {
+    "rfont": {
+      "name": "RFONT",
+      "role": "The named UI face for this standard — chat, prompts, header, RBOARD labels.",
+      "file": "fonts/RFONT.ttf or fonts/RFONT.otf — drop the official file here. It was not in the box library when this pack was made.",
+      "fallback_chat": "VT323 (bundled), then IBM Plex Mono",
+      "fallback_display": "system-ui, SF Pro Display",
+      "fallback_keys": "IBM Plex Mono, ui-rounded, system-ui"
+    },
+    "pixel": { "name": "Press Start 2P", "file": "fonts/PressStart2P-Regular.ttf", "role": "Wordmarks on icons (ЯWALLET, GHOSTMACHINE)." },
+    "baybayin": { "name": "Noto Sans Tagalog", "file": "fonts/NotoSansTagalog-Regular.ttf", "role": "Baybayin glyphs on RBOARD keys." },
+    "mono": { "name": "IBM Plex Mono", "file": "fonts/IBMPlexMono-Regular.ttf", "role": "Fallback for RFONT and keycaps." }
+  },
+  "metrics": {
+    "phoneLogical": [390, 844],
+    "bubbleRadius": 22,
+    "composerRadius": 16,
+    "keyRadius": 12,
+    "tabRadius": 14,
+    "border": 1.5,
+    "composerHeight": 48,
+    "headerHeight": 52,
+    "greenGlow": "0 0 8px rgba(57,255,20,0.45)",
+    "purpleGlow": "0 0 12px rgba(138,43,226,0.55)"
+  },
+  "chrome": {
+    "header": "Hamburger (green rounded square) · app name in #EEEEEE · app portrait · ENGINE in greenEngine or engineAlert · version in muted.",
+    "twilight": "Pure #000000 with sparse small stars: mostly white, some #39FF14, a few dim purple. No horizon line required on phone chat.",
+    "botBubble": "Green #39FF14 rounded border, fill botBubbleFill, text #39FF14 in RFONT/VT323. Gold 'ThundR - idle' or 'ThundR - awake' sits on the top-left rim.",
+    "userBubble": "Fill #1A0630, border #8A2BE2 with #B388FF highlight, chrome text, ThundR sprite at the left. Label 'You: …'.",
+    "thundrPanel": "Rounded panel, fill #110D1C, border #2B2160, gold title '⚡ ThundR · iOS', pill actions, cyan commands, muted 'via …' lines, purple 'approve…' in the footer. ThundR never approves by itself; Face ID on a HARD device signs.",
+    "ghostmachine": "Vertical tab, right edge, fill #117733, mint #CCFFEE lettering, rounded on the inner corners.",
+    "composer": "+ button (green border, green plus) · field with 'R:\\> Message your bot' in green · purple Send. No button row above this bar.",
+    "rboard": "See assets/icons/rboard-reference.jpg. Purple outer frame, green-outlined black keys, white letters, green Baybayin superscripts, purple return and selected EN, blue globe, wide RBOARD space key, 'R:\\>' prompt with a block cursor."
+  },
+  "stars": {
+    "density": "sparse",
+    "colors": ["#FFFFFF", "#EEEEEE", "#39FF14", "#3F117E"],
+    "shapes": ["dot", "occasional-plus"]
+  }
+}

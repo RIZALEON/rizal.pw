@@ -1,0 +1,111 @@
+import Foundation
+import llama
+
+/// In-process llama.cpp engine (Granite 4.0 H 1B). One request at a time.
+final class Engine {
+    static let shared = Engine()
+    static let systemPrompt = DSPrompt.base + DSPrompt.facts   // reference; generate() uses DSPrompt.system(for:)
+    private var model: OpaquePointer?
+    private var ctx: OpaquePointer?
+    private var vocab: OpaquePointer?
+    private var tmpl: UnsafePointer<CChar>?
+    private let q = DispatchQueue(label: "ds.engine")
+    static let nCtx = 4096
+    private(set) var ready = false
+
+    func load(path: String) -> Bool {
+        llama_backend_init()
+        var mp = llama_model_default_params()
+        mp.n_gpu_layers = 99
+        guard let m = llama_model_load_from_file(path, mp) else { return false }
+        var cp = llama_context_default_params()
+        cp.n_ctx = UInt32(Engine.nCtx); cp.n_batch = 512
+        cp.n_threads = 4; cp.n_threads_batch = 4
+        guard let c = llama_init_from_model(m, cp) else { return false }
+        model = m; ctx = c; vocab = llama_model_get_vocab(m)
+        tmpl = llama_model_chat_template(m, nil)
+        ready = true
+        return true
+    }
+
+    /// `memory`: BATIBABOX pack (digest + recalled notes + DRAGON-SKULL-MIND index) from MemoryStore — the engine reads its own memory.
+    func chat(_ msgs: [(String, String)], maxTokens: Int, temperature: Float, memory: MemoryStore.Pack? = nil) -> String {
+        q.sync { generate(msgs, maxTokens: maxTokens, temperature: temperature, memory: memory) }
+    }
+
+    private func tokens(_ msgs: [(String, String)]) -> [llama_token]? {
+        guard let vocab else { return nil }
+        let cstr = msgs.map { (strdup($0.0)!, strdup($0.1)!) }
+        defer { cstr.forEach { free($0.0); free($0.1) } }
+        var arr = cstr.map { llama_chat_message(role: UnsafePointer($0.0), content: UnsafePointer($0.1)) }
+        var buf = [CChar](repeating: 0, count: 16384)
+        var n = llama_chat_apply_template(tmpl, &arr, arr.count, true, &buf, Int32(buf.count))
+        if n > buf.count { buf = [CChar](repeating: 0, count: Int(n) + 1); n = llama_chat_apply_template(tmpl, &arr, arr.count, true, &buf, Int32(buf.count)) }
+        guard n > 0 else { return nil }
+        let prompt = String(decoding: buf[0..<Int(n)].map { UInt8(bitPattern: $0) }, as: UTF8.self)
+        var toks = [llama_token](repeating: 0, count: prompt.utf8.count + 16)
+        let nt = llama_tokenize(vocab, prompt, Int32(prompt.utf8.count), &toks, Int32(toks.count), true, true)
+        return nt > 0 ? Array(toks[0..<Int(nt)]) : nil
+    }
+
+    private func generate(_ inMsgs: [(String, String)], maxTokens inMax: Int, temperature: Float, memory: MemoryStore.Pack?) -> String {
+        guard let ctx, let vocab else { return "(engine not loaded)" }
+        // Context budget: n_ctx = prompt + reply. Memory block starts at MemoryStore.contextChars and is halved (lowest-scored
+        // recalled notes drop first, then the index, then the digest is cut) until it fits; only then the oldest history turns go.
+        var hist = inMsgs.filter { $0.0 != "system" }
+        var memLimit = (memory?.isEmpty ?? true) ? 0 : MemoryStore.contextChars
+        let maxTokens = max(16, min(inMax, Engine.nCtx / 2))
+        var toks: [llama_token] = []
+        while true {
+            let mem = memLimit > 0 ? (memory?.render(memLimit) ?? "") : ""
+            let msgs = [("system", DSPrompt.system(for: hist.last { $0.0 == "user" }?.1 ?? "") + (mem.isEmpty ? "" : "\n\n" + mem))] + hist
+            guard let t = tokens(msgs) else { return "(template error)" }
+            toks = t
+            if toks.count + maxTokens + 8 <= Engine.nCtx { break }
+            if memLimit > 0 { memLimit = memLimit > 320 ? memLimit / 2 : 0; continue }
+            if hist.count > 1 { hist.removeFirst(); continue }
+            return "(prompt too long for the \(Engine.nCtx)-token context)"
+        }
+        llama_memory_clear(llama_get_memory(ctx), true)
+
+        var i = 0
+        while i < toks.count {
+            let k = min(512, toks.count - i)
+            let rc = toks.withUnsafeMutableBufferPointer { p in llama_decode(ctx, llama_batch_get_one(p.baseAddress! + i, Int32(k))) }
+            if rc != 0 { return "(decode error \(rc))" }
+            i += k
+        }
+        let sp = llama_sampler_chain_default_params()
+        let smpl = llama_sampler_chain_init(sp)
+        defer { llama_sampler_free(smpl) }
+        if temperature <= 0 { llama_sampler_chain_add(smpl, llama_sampler_init_greedy()) }
+        else {
+            llama_sampler_chain_add(smpl, llama_sampler_init_top_k(40))
+            llama_sampler_chain_add(smpl, llama_sampler_init_top_p(0.95, 1))
+            llama_sampler_chain_add(smpl, llama_sampler_init_temp(temperature))
+            llama_sampler_chain_add(smpl, llama_sampler_init_dist(UInt32.random(in: 0...UInt32.max)))
+        }
+        var out = [UInt8]()
+        var piece = [CChar](repeating: 0, count: 256)
+        for _ in 0..<maxTokens {
+            var t = llama_sampler_sample(smpl, ctx, -1)
+            if llama_vocab_is_eog(vocab, t) { break }
+            let pn = llama_token_to_piece(vocab, t, &piece, Int32(piece.count), 0, false)
+            if pn > 0 { out += piece[0..<Int(pn)].map { UInt8(bitPattern: $0) } }
+            if llama_decode(ctx, llama_batch_get_one(&t, 1)) != 0 { break }
+        }
+        return String(decoding: out, as: UTF8.self).trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+}
+
+/// Sanity fix 2026-10-19: short identity prompt by default (the long facts block cut sanity 19/20 -> 15/20 on granite-1b);
+/// ЯBAT's facts (version, /rvm, drive1, app commands) are appended only when the user's message is about them. Identical on Mac/iOS.
+enum DSPrompt {
+  static let base = "You are DRAGON SKULL, a private offline assistant. Answer briefly."
+  static let facts = " Facts: you are DRAGON SKULL version 1.0.4 (build 5), built on IBM Granite 4.0 H 1B, running fully offline in the DRAGON SKULL app on this device; no internet is used. The user can run Linux commands in your RVM (a RISC-V Linux 4.15 virtual machine) by typing /rvm <command>, for example /rvm uname -a; /parts, /recall and /batibabox are app commands too, so never say you cannot run commands. drive1 is the RVM's long-term /data disk: it keeps its files across every boot and restart."
+  static let trigger = try! NSRegularExpression(pattern: "(version|build|who are you|what are you|your name|\\brvm\\b|linux|command|drive1|/data|disk|offline|internet|granite|which model|what model|/parts|/recall|batibabox|dragon skull)", options: [.caseInsensitive])
+  static func system(for lastUser: String) -> String {
+    let r = NSRange(lastUser.startIndex..., in: lastUser)
+    return trigger.firstMatch(in: lastUser, range: r) != nil ? base + facts : base
+  }
+}

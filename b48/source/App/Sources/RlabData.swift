@@ -1,0 +1,176 @@
+import Foundation
+
+// drive1 (SCOUT 2026-10-19, Decider: drive1 lives INSIDE the RVM engine's own storage).
+// Foundation only: same file builds in the iOS app and the macOS app (no UIKit/AppKit).
+// Layout: STAGING/drive1-20261019/RVM-ENGINE-LAYOUT.md. Same relative layout on iOS and macOS:
+//   <RVM engine store>/                     = engineRoot ("rvm-linux", same name as the bundled engine skills/rvm-linux)
+//     drives/drive1/drive1.img              4 MiB blank ext2 (label rlab-data, root dir + lost+found only, no seed)
+//     drives/drive1/blk.txt                 TinyEMU block manifest (block_size 256 KiB, n_block 16), written once
+//     drives/drive1/meta.json               {schema, drive, created, uuid, size, block_size, n_block, migrated_from}
+//   iOS:   Application Support/rvm-linux/...      macOS: ~/Library/Application Support/<bundle id>/rvm-linux/...
+//  - Created only if absent; never overwritten, truncated or deleted. Whole engine store excluded from backup.
+//  - Migration: an earlier staged Application Support/rlab-data/rlab-data.img is MOVED (rename) into drives/drive1/drive1.img;
+//    nothing is deleted; the old folder is left with a MOVED.txt note.
+//  - Served under the engine's own URL path: /skills/rvm-linux/drives/drive1/{blk.txt, blk000000000.bin ... blk000000015.bin}
+//    (cfg: drive1 file "../drives/drive1/blk.txt", relative to .../rvm-linux/linux/). GET serves blocks; no eth device.
+//  - SCOUT rebuild 2026-10-19: PUT /skills/rvm-linux/drives/drive1/blkNNNNNNNNN.bin persists one dirty block (put(forPath:)).
+//    The next boot's GETs read drive1.img, so persisted blocks load automatically.
+enum RlabData {
+    static let size = 4 << 20
+    static let blockSize = 256 << 10
+    static var nBlocks: Int { size / blockSize }
+    static let engineName = "rvm-linux"
+    static let driveRel = "drives/drive1"
+
+    static var appSupport: URL {
+        var base = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
+        #if os(macOS)   // unsandboxed Mac Application Support is shared by all apps: keep ours under the bundle id
+        base = base.appendingPathComponent(Bundle.main.bundleIdentifier ?? "info.rizal.dragonskull", isDirectory: true)
+        #endif
+        return base
+    }
+    /// RVM engine's own writable store (mirrors the read-only bundled engine web/skills/rvm-linux).
+    static var engineRoot: URL { appSupport.appendingPathComponent(engineName, isDirectory: true) }
+    static var url: URL { engineRoot.appendingPathComponent(driveRel, isDirectory: true).appendingPathComponent("drive1.img") }
+    /// Pre-relocation staged location (never shipped, but may exist on a test device).
+    static var legacyURL: URL { appSupport.appendingPathComponent("rlab-data", isDirectory: true).appendingPathComponent("rlab-data.img") }
+    static var manifest: String { "{\n  block_size: \(blockSize >> 10),\n  n_block: \(nBlocks),\n}\n" }
+
+    private static func excludeFromBackup(_ f: URL) { var u = f; var rv = URLResourceValues(); rv.isExcludedFromBackup = true; try? u.setResourceValues(rv) }
+    private static func writeOnce(_ s: String, _ f: URL) { try? Data(s.utf8).write(to: f, options: .withoutOverwriting) }   // never replaces
+    private static func fsUUID(_ f: URL) -> String {
+        guard let h = try? FileHandle(forReadingFrom: f) else { return "" }; defer { try? h.close() }
+        try? h.seek(toOffset: 1024 + 104); guard let d = try? h.read(upToCount: 16), d.count == 16 else { return "" }
+        return d.map { String(format: "%02x", $0) }.joined()
+    }
+    private static func sidecars(_ file: URL, migratedFrom: String?) {
+        let dir = file.deletingLastPathComponent()
+        writeOnce(manifest, dir.appendingPathComponent("blk.txt"))
+        let ts = ISO8601DateFormatter().string(from: Date())
+        let mf = migratedFrom.map { "\"\($0)\"" } ?? "null"
+        writeOnce("{\"schema\":\"rzl.rvm.drive.v1\",\"engine\":\"\(engineName)\",\"drive\":\"drive1\",\"image\":\"drive1.img\",\"fs\":\"ext2\",\"label\":\"rlab-data\",\"uuid\":\"\(fsUUID(file))\",\"size\":\(size),\"block_size\":\(blockSize),\"n_block\":\(nBlocks),\"created\":\"\(ts)\",\"migrated_from\":\(mf)}\n",
+                  dir.appendingPathComponent("meta.json"))
+    }
+
+    /// Move (never delete) a legacy rlab-data image into the engine store when the engine store has none.
+    static func migrate(to file: URL, from old: URL, log: ((String) -> Void)?) {
+        let fm = FileManager.default
+        guard fm.fileExists(atPath: old.path) else { return }
+        if fm.fileExists(atPath: file.path) { return }   // engine drive1 wins; legacy file is left untouched
+        do {
+            try fm.createDirectory(at: file.deletingLastPathComponent(), withIntermediateDirectories: true)
+            try fm.moveItem(at: old, to: file)   // rename on the same volume; fails rather than replace
+            excludeFromBackup(file); sidecars(file, migratedFrom: "rlab-data/rlab-data.img")
+            writeOnce("rlab-data.img was moved to \(engineName)/\(driveRel)/drive1.img (RVM-ENGINE-LAYOUT.md)\n", old.deletingLastPathComponent().appendingPathComponent("MOVED.txt"))
+            log?("rlab-data.img moved into \(engineName)/\(driveRel)/drive1.img")
+        } catch { log?("rlab-data.img move failed, left in place: \(error)") }
+    }
+
+    /// Create the blank image once. Returns true if it exists (new or old) and has the right size.
+    @discardableResult static func ensure(at file: URL = url, legacy: URL? = nil, log: ((String) -> Void)? = nil) -> Bool {
+        let fm = FileManager.default
+        if let old = legacy ?? (file == url ? legacyURL : nil) { migrate(to: file, from: old, log: log) }
+        if fm.fileExists(atPath: file.path) {
+            let n = (try? fm.attributesOfItem(atPath: file.path)[.size] as? NSNumber)?.intValue ?? -1
+            if n == size { sidecars(file, migratedFrom: nil) }   // write-once; no-op when present
+            if n != size { log?("drive1.img present but size \(n) != \(size); left untouched, drive1 off") }
+            return n == size
+        }
+        do {
+            try fm.createDirectory(at: file.deletingLastPathComponent(), withIntermediateDirectories: true)
+            var img = Data(count: size)
+            for (off, hex) in template { let b = bytes(hex); img.replaceSubrange(off..<(off + b.count), with: b) }
+            var uuid = UUID().uuid   // per-device fs UUID (superblock 1024+104); ext2 here has no metadata checksums
+            withUnsafeBytes(of: &uuid) { img.replaceSubrange((1024 + 104)..<(1024 + 120), with: $0) }
+            let tmp = file.appendingPathExtension("tmp-\(ProcessInfo.processInfo.processIdentifier)")
+            try img.write(to: tmp, options: .withoutOverwriting)
+            do { try fm.linkItem(at: tmp, to: file) } catch { try? fm.removeItem(at: tmp); return fm.fileExists(atPath: file.path) }  // link never replaces
+            try? fm.removeItem(at: tmp)
+            excludeFromBackup(file); sidecars(file, migratedFrom: nil)
+            if file == url { excludeFromBackup(engineRoot) }
+            log?("\(engineName)/\(driveRel)/drive1.img created (4 MiB blank ext2)")
+            return true
+        } catch { log?("drive1.img create failed: \(error)"); return false }
+    }
+
+    /// Local-server hook. nil = not a drive1 path. Engine URL: /skills/rvm-linux/drives/drive1/{blk.txt, blk000000000.bin...}
+    /// (also matches the un-normalised .../rvm-linux/linux/../drives/drive1/... form).
+    static func response(forPath path: String, file: URL = url) -> (type: String, body: Data)? {
+        let p = (path as NSString).standardizingPath
+        guard let r = p.range(of: "/\(engineName)/\(driveRel)/") else { return nil }
+        let name = String(p[r.upperBound...])
+        guard ensure(at: file) else { return ("", Data()) }   // empty -> caller 404s; guest falls back to bind /data
+        if name == "blk.txt" { return ("text/plain", Data(manifest.utf8)) }
+        guard name.count == 16, name.hasPrefix("blk"), name.hasSuffix(".bin"), let i = Int(name.dropFirst(3).prefix(9)), i >= 0, i < nBlocks,
+              let h = try? FileHandle(forReadingFrom: file) else { return ("", Data()) }
+        defer { try? h.close() }
+        try? h.seek(toOffset: UInt64(i * blockSize))
+        guard let d = try? h.read(upToCount: blockSize), d.count == blockSize else { return ("", Data()) }
+        return ("application/octet-stream", d)
+    }
+
+    // == SCOUT rebuild 2026-10-19: drive1 write-back (rebuilt TinyEMU, Module.onDriveWrite) ==
+    // Accepts ONE dirty 256 KiB block of drive1 and writes it into drives/drive1/drive1.img.
+    // Path-locked: only the exact URL /skills/rvm-linux/drives/drive1/blkNNNNNNNNN.bin (N < 16, no "..", no query);
+    // anything else under the drive dir is refused, and nothing outside drive1.img is ever written (drive0/root is
+    // bundled read-only and has no write route at all). Size-checked: body must be exactly blockSize bytes.
+    // Content-Type must be application/octet-stream (a non-simple type, so a cross-origin page needs a CORS
+    // preflight, which this server never grants). Atomic: the whole image is rewritten to a temp file in the same
+    // dir and renamed over drive1.img (Data .atomic), so a crash leaves the old or the new image, never a torn one.
+    // Serialised by one lock. Returns nil if the path is not a drive1 path (caller routes on), else an HTTP code.
+    private static let writeLock = NSLock()
+    static func put(forPath rawPath: String, contentType: String?, body: Data, file: URL = url) -> Int? {
+        let prefix = "/skills/\(engineName)/\(driveRel)/"
+        let std = (rawPath as NSString).standardizingPath
+        guard rawPath.hasPrefix(prefix) || std.contains("/\(engineName)/\(driveRel)/") else { return nil }
+        guard rawPath.hasPrefix(prefix), !rawPath.contains(".."), !rawPath.contains("?"), !rawPath.contains("%") else { return 403 }
+        let name = String(rawPath.dropFirst(prefix.count))
+        guard name.count == 16, name.hasPrefix("blk"), name.hasSuffix(".bin"),
+              let i = Int(name.dropFirst(3).prefix(9)), name.dropFirst(3).prefix(9).allSatisfy({ $0 >= "0" && $0 <= "9" }),
+              i >= 0, i < nBlocks else { return 403 }
+        guard (contentType ?? "").lowercased().hasPrefix("application/octet-stream") else { return 415 }
+        guard body.count == blockSize else { return 400 }
+        writeLock.lock(); defer { writeLock.unlock() }
+        guard ensure(at: file), var img = try? Data(contentsOf: file), img.count == size else { return 409 }
+        img.replaceSubrange((i * blockSize)..<((i + 1) * blockSize), with: body)
+        do { try img.write(to: file, options: .atomic) } catch { return 500 }
+        excludeFromBackup(file)   // a fresh inode after the atomic rename: re-apply
+        return 204
+    }
+
+    private static func bytes(_ hex: String) -> Data {
+        var d = Data(capacity: hex.count / 2); var it = hex.makeIterator()
+        while let a = it.next(), let b = it.next() { d.append(UInt8(String([a, b]), radix: 16)!) }
+        return d
+    }
+
+    // Empty ext2 metadata from `mke2fs -t ext2 -b 1024 -L rlab-data -m 0 -O ^dir_index,^resize_inode,^ext_attr` on a 4 MiB file
+    // (fake time 1, zero UUID/hash seed). Only non-zero byte runs: superblock, group descriptor, bitmaps, root + lost+found inodes/dirs. No data.
+    static let template: [(Int, String)] = [
+        (1025, "0400000010000000000000ee0e0000f503000001000000000000000000000000200000002000000004000000000000010000000000ffff53ef01000100000001000000000000000000000001000000000000000b0000000001000000000000020000000300000000000000000000000000000000000000726c61622d64617461"),
+        (1260, "b54bef129eff4cdc9ac0d469eae51b05010000000c0000000000000001"),
+        (1372, "2000200001"),
+        (1608, "0501"),
+        (2048, "030000000400000005000000ee0ef503020004"),
+        (3072, "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff01"),
+        (3583, "80ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff07"),
+        (4224, "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0000000000000000010000000100000001"),
+        (5376, "ed4100000004000001000000010000000100000000000000000003000200000000000000000000000501"),
+        (5504, "2000000000000000000000000000000001"),
+        (7680, "c0410000003000000100000001000000010000000000000000000200180000000000000000000000060100000701000008010000090100000a0100000b0100000c0100000d0100000e0100000f010000100100001101"),
+        (7808, "2000000000000000000000000000000001"),
+        (267264, "020000000c0001022e000000020000000c0002022e2e00000b000000e8030a026c6f73742b666f756e64"),
+        (268288, "0b0000000c0001022e00000002000000f40302022e2e"),
+        (269317, "04"),
+        (270341, "04"),
+        (271365, "04"),
+        (272389, "04"),
+        (273413, "04"),
+        (274437, "04"),
+        (275461, "04"),
+        (276485, "04"),
+        (277509, "04"),
+        (278533, "04"),
+        (279557, "04"),
+    ]
+}

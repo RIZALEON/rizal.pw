@@ -1,0 +1,2 @@
+tweetback — https://github.com/tweetback/tweetback — MIT License — Copyright (c) Zach Leatherman.
+Archive parsing (window.YTD.* = [...] handling, tweet/thread/media mapping) and the static archive layout follow tweetback's approach.

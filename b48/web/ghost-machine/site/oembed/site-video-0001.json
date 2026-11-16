@@ -1,0 +1,14 @@
+{
+ "version": "1.0",
+ "provider_name": "rizal.pw",
+ "provider_url": "https://rizal.pw",
+ "title": "First video",
+ "author_name": "@chaserizal",
+ "author_url": "https://rizal.pw",
+ "thumbnail_url": "https://rizal.pw/rdragon-cryptosocial/assets/first-video.jpg",
+ "url": "https://rizal.pw/p/site-video-0001/",
+ "type": "video",
+ "width": 640,
+ "height": 360,
+ "html": "<iframe src=\"https://rizal.pw/embed/site-video-0001/\" width=\"640\" height=\"360\" frameborder=\"0\" allow=\"autoplay; fullscreen; picture-in-picture\" allowfullscreen title=\"First video\"></iframe>"
+}

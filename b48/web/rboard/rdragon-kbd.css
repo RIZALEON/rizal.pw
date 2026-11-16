@@ -1,0 +1,37 @@
+/* rdragon-kbd.css · RDRAGON 1.0.4.37 (t198u) · RBOARD inline keyboard, styled after Gat's mockup. Fonts: RFONT via --rt-font (rdragon-theme.css). */
+.rbk{--kg:#39ff14;--kg2:#1f8f0f;--kp:#8a2be2;--kp2:#b388ff;--kw:#f2f2f2;box-sizing:border-box;margin:4px 4px calc(4px + env(safe-area-inset-bottom,0px));padding:8px 6px 8px;background:#000;border:1.5px solid var(--kp);border-radius:18px;box-shadow:0 0 14px #8a2be2aa,0 0 3px #b388ff inset;font-family:var(--rt-font,"RIZAL Mono","Noto Sans Tagalog","Noto Sans Mayan Numerals",Menlo,monospace);user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:manipulation;position:relative;flex:0 0 auto}
+.rbk[hidden]{display:none!important}
+.rbk-bar{display:flex;align-items:center;gap:6px;border:1px solid var(--kg);border-radius:12px;padding:5px 6px 5px 10px;margin:0 2px 7px;box-shadow:0 0 8px #39ff1433 inset}
+.rbk-prompt{flex:1 1 auto;min-width:0;color:var(--kg);font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:clip;direction:ltr}
+.rbk-ps{font-weight:700}.rbk-echo{color:#bfffb0}.rbk-cur{animation:rbkblink 1s steps(1) infinite}
+@keyframes rbkblink{50%{opacity:0}}
+.rbk-layers{display:flex;gap:5px;flex:0 0 auto}
+.rbk-layer{min-width:34px;height:28px;padding:0 6px;background:#000;color:var(--kg);border:1px solid var(--kg);border-radius:7px;font:600 13px var(--rt-font,monospace)}
+.rbk-layer.on{background:var(--kp);border-color:var(--kp2);color:#fff;box-shadow:0 0 8px #8a2be2}
+.rbk-keys{display:flex;flex-direction:column;gap:7px}
+.rbk-row{display:flex;gap:5px;justify-content:center}
+.rbk-row.rbk-inset{padding:0 4.5%}
+.rbk-k{position:relative;flex:1 1 0;min-width:0;height:44px;padding:0;background:#000;color:var(--kw);border:1px solid var(--kg2);border-radius:8px;box-shadow:0 0 4px #39ff1422 inset;font:400 19px var(--rt-font,monospace);display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent}
+.rbk-k:active{background:#0d2a07;border-color:var(--kg)}
+.rbk-digits .rbk-k{height:40px}
+.rbk-l{line-height:1}
+.rbk-bh{position:absolute;left:4px;top:2px;color:var(--kg);font:12px "Noto Sans Tagalog",var(--rt-font,monospace);line-height:1;pointer-events:none}
+.rbk-acc{position:absolute;right:3px;top:2px;color:var(--kg);font-size:9px;line-height:1;pointer-events:none;letter-spacing:-.5px}
+.rbk-mn{position:absolute;left:0;right:0;top:1px;text-align:center;color:var(--kg);font:11px "Noto Sans Mayan Numerals",var(--rt-font,monospace);line-height:1;pointer-events:none}
+.rbk-d .rbk-l{margin-top:9px;font-size:17px}
+.rbk-fn{flex:1.35 1 0;color:var(--kg)}
+.rbk-ic{color:var(--kg);font-size:21px}
+.rbk-shift.on{background:#0d2a07;border-color:var(--kg)}
+.rbk-ng .rbk-l{color:var(--kg);font-weight:700;font-size:16px}
+.rbk-globe{color:var(--kg)}
+.rbk-p{flex:0.9 1 0}
+.rbk-space{flex:4.6 1 0}
+.rbk-spl{color:var(--kg);font-size:12px;letter-spacing:4px}
+.rbk-ret{flex:2.2 1 0;background:var(--kp);border-color:var(--kp2);color:#fff;box-shadow:0 0 8px #8a2be2aa}
+.rbk-ret .rbk-l{font-size:15px}
+.rbk-g .rbk-l{font-family:"Noto Sans Tagalog","Noto Sans Mayan Numerals",var(--rt-font,monospace)}
+.rbk-sub{position:absolute;bottom:1px;left:0;right:0;text-align:center;color:var(--kg2);font-size:8px}
+.rbk-alts{position:absolute;left:8px;right:8px;top:48px;display:flex;flex-wrap:wrap;gap:6px;justify-content:center;padding:8px;background:#0a0a0a;border:1px solid var(--kp2);border-radius:12px;box-shadow:0 0 12px #8a2be2;z-index:5}
+.rbk-alts[hidden]{display:none}
+.rbk-alt{min-width:42px;height:42px;background:#000;color:var(--kw);border:1px solid var(--kg);border-radius:8px;font:20px "Noto Sans Tagalog","Noto Sans Mayan Numerals",var(--rt-font,monospace)}
+.rbk-alt.cancel{color:var(--kg)}

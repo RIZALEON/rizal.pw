@@ -1,0 +1,10 @@
+canonical_path=/Users/rizalsystem/R/ЯLAB/RKLOWD
+github_url=https://github.com/RIZALEON/RTHUNDR
+github_note=No dedicated RKLOWD GitHub repo under RIZALEON; RKLOWD/RFORGE/branches holds offline replicas (git bundles) of RTHUNDR.
+replica_branch=feature/granite-folder-supervisor
+replica_commit=90a9d74d39a12a7eee5070555cbb5650010a8ae2
+replica_commit_time=2026-11-07 16:45:03 -0700 (America/Denver)
+replica_subject=Shared engine: exact per-tool JSON grammar with registered app ids
+pull_request=https://github.com/RIZALEON/RTHUNDR/pull/5
+manifest=/tmp/rklowd-canonical-manifest-20261108.txt (local verify aid)
+linked_at=2026-11-08 (America/Denver)

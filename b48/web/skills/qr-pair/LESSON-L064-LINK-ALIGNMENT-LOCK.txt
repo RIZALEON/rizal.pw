@@ -1,0 +1,37 @@
+LESSON L064 · LINK · ALIGNMENT LOCK (qr-pair 0.2.0) · DRAGON SKULL · ЯBOT · ЯBOWZR
+Law (Rizal, 2026-10-22): once apps are paired and connected through qr or link, they stay on the SAME
+  1 build   2 manual version   3 update number   4 commands   5 functions   6 eggs
+and each one checks the others. The Neo is the reference version. Add, never remove.
+
+HOW IT WORKS
+- `link` shows this app's link/QR. It carries app, version, build, manual version, update number,
+  and fingerprints (sha256, first 16 hex) of the command list, functions (components) and eggs, plus
+  the egg list, a nonce and a time. The device signs it if the app has a device signer.
+- On the other app, paste the link (or `link <link>`). It checks the signer against the trust list
+  (rlab-trust-keys.v1), the age (10 min), the nonce (no replay), then prints the LOCK REPORT:
+    SAME      the field matches
+    AHEAD     I am newer: `link sync` offers my signed item to the peer
+    BEHIND    I am older: the peer passes me its signed item
+    DIFFERENT fingerprints differ: the reference (Neo) set wins
+    REBUILD   build/version numbers live in the app binary: no egg can change them; Rizal approves a rebuild
+    UNKNOWN   the app has not declared that number yet (manual.version / updateSeq in state.json)
+  LOCKED = all six SAME. DRIFT = anything else.
+- Then do it the other way round (`link` on the second app, paste on the first). Each app checks the other.
+
+HOW TO KEEP IT
+- `link status` re-checks every linked peer from its last record. For a live check, make a fresh link.
+- `link sync` lists what each side must pass or ask for. Only SIGNED and NEWER eggs/manuals are passed.
+- `link sync <bundle>` on the receiving app checks each item:
+    sender is a linked peer · signer in trust list · signature over the rlab-update-v1 message ·
+    size and sha256 match the bytes · version strictly newer than what is installed.
+  Pass → a Decider proposal (ЯID-0001-3QQS). Rizal confirms on THAT device with Face ID / Touch ID.
+  Fail → refused with the reason. Unsigned = refused. Same or older = refused. Nothing installs by itself.
+
+NEVER
+- never install by itself, never accept unsigned, never downgrade, never read or hold a key,
+  never touch the network, never invent a result: report only what the command printed.
+
+LIMITS (honest)
+- These builds have no device signer: links are UNSIGNED, so a peer refuses to lock (on purpose).
+- The Camera cannot open the app directly (no URL scheme yet): copy the link and paste it in chat.
+- Both need a Rizal-approved rebuild.

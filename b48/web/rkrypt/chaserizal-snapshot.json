@@ -1,0 +1,253 @@
+{
+ "status": "STAGED — unsigned, awaiting Face ID signature in ЯCASKET",
+ "signed": false,
+ "handle": "@CHASERIZAL",
+ "tag": "#CHASERIZAL",
+ "owner": {
+  "rid": "ЯID-0001-3QQS",
+  "name": "Rizal (Charles Augustus Marcum III)"
+ },
+ "linkedBots": [
+  {
+   "rid": "ЯID-0014-KREH",
+   "name": "ThundR",
+   "role": "cryptobot"
+  }
+ ],
+ "bindings": [
+  {
+   "bot": "ЯID-0014-KREH",
+   "wallet": "all records above",
+   "mode": "watch-report-only",
+   "canSpend": false,
+   "canSign": false,
+   "canMoveFunds": false,
+   "approvalExcluded": "wallets/keys/ЯCASKET excluded from ThundR standing approval"
+  }
+ ],
+ "wallets": [
+  {
+   "name": "Crown",
+   "kind": "wallet",
+   "chain": "solana-mainnet",
+   "publicAddress": "BwpVNk1Rtncpv5HMTLwxB4Yfjkfv6mFaBQUTpjneH1F9"
+  },
+  {
+   "name": "Mobile",
+   "kind": "wallet",
+   "chain": "solana-mainnet",
+   "publicAddress": "E611TFJh9y2eipt984hBjhUQ1EsrUDodbLsrpN9Zmhn"
+  },
+  {
+   "name": "Desktop / Boomerang",
+   "kind": "wallet",
+   "chain": "solana-mainnet",
+   "publicAddress": "2E4eAKWUU5akXTUfP7ZrgjebE3TPUhzZZfaRkQUpwyaj"
+  },
+  {
+   "name": "Я Pool (Orca Whirlpool, LIVE)",
+   "kind": "pool",
+   "chain": "solana-mainnet",
+   "publicAddress": "HSroUxVkVKv6kX9e7dpoJtbFqKcL76BzrkuuRfAGxs9s"
+  },
+  {
+   "name": "Я mint",
+   "kind": "mint",
+   "chain": "solana-mainnet",
+   "publicAddress": "BB9uA5BuacDnWyDf5Npc9nMb9yFbyThsNrQPBYJ5Q1Lv"
+  },
+  {
+   "name": "Pool position NFT",
+   "kind": "position-nft",
+   "chain": "solana-mainnet",
+   "publicAddress": "24uKAFYiLQaycBeiVCpKQgsjUwAn9XiKsuiMAZeoaRV7"
+  },
+  {
+   "name": "CROWN Я account (ATA)",
+   "kind": "token_account",
+   "chain": "solana-mainnet",
+   "publicAddress": "8bCnr63CTdC2YbELK3x4vxJYNt6cueGBbEvRURFZc9Q1"
+  }
+ ],
+ "primaryWallet": "Crown",
+ "fallbackChain": [
+  {
+   "id": "rcasket-mac-touchid",
+   "type": "LocalAuthentication gate (Touch ID) + rlab-sign",
+   "lives": "RFORGE/RCONTRALROOM/RAUTH-TOUCHID/rauth-gate, TOOLS/rlab-sign/rlab-sign",
+   "canSign": "approval gate for release-key signing on Neo",
+   "needsBiometric": true,
+   "expiry": null,
+   "publicId": "e5833fdfbbfe (via gate)",
+   "dryRun": "available"
+  },
+  {
+   "id": "ycasket-17e-faceid",
+   "type": "ed25519 release key, Face ID in ЯBOT ЯCASKET",
+   "lives": "iPhone 17e Secure Enclave/ЯCASKET; TOOLS/rlab-sign/rlab-phone-sign-egg",
+   "canSign": "eggs, appcasts, chain records, trust list",
+   "needsBiometric": true,
+   "expiry": null,
+   "publicId": "e5833fdfbbfe",
+   "dryRun": "available"
+  },
+  {
+   "id": "yseed-17e-device",
+   "type": "ed25519 device key",
+   "lives": "iPhone 17e (ЯSEED egg)",
+   "canSign": "ЯSEED work only",
+   "needsBiometric": false,
+   "expiry": null,
+   "publicId": "see Ghost Chain ЯSEED record",
+   "dryRun": "unknown/remote"
+  },
+  {
+   "id": "ylink-signers",
+   "type": "ЯLINK signers ЯMAX, BOTLATCH, Grok Bot",
+   "lives": "ЯLINK trust list",
+   "canSign": "attest/co-sign per ЯLINK law",
+   "needsBiometric": false,
+   "expiry": null,
+   "publicId": "ids in Ghost Chain (unresolved)",
+   "dryRun": "unknown/remote"
+  },
+  {
+   "id": "spong-seal",
+   "type": "ed25519 raw signer",
+   "lives": "ЯLAB/SPONG-SEALS/*/signer.pub",
+   "canSign": "SPONG seals",
+   "needsBiometric": false,
+   "expiry": null,
+   "publicId": "N+QaWBmT…ffXSUs=",
+   "dryRun": "available"
+  },
+  {
+   "id": "apple-dev-rizalward",
+   "type": "Apple Development cert",
+   "lives": "login keychain",
+   "canSign": "app bundles (team 88HACKXHZL)",
+   "needsBiometric": false,
+   "expiry": "2027-05-24 MT",
+   "publicId": "9BDC4BC1…980C1628",
+   "dryRun": "available"
+  },
+  {
+   "id": "apple-dev-tamangkapa",
+   "type": "Apple Development cert",
+   "lives": "login keychain",
+   "canSign": "app bundles",
+   "needsBiometric": false,
+   "expiry": "2027-09-03 MT",
+   "publicId": "93E54C5A…948E1FF5",
+   "dryRun": "available"
+  },
+  {
+   "id": "ssh-neo-rlab-phones",
+   "type": "ssh ed25519 (ssh-keygen -Y sign)",
+   "lives": "~/.ssh/rlab_phones_ed25519",
+   "canSign": "file sigs / transport",
+   "needsBiometric": false,
+   "expiry": null,
+   "publicId": "SHA256:ukGolKoi…",
+   "dryRun": "available"
+  },
+  {
+   "id": "ssh-neo-to-pixel",
+   "type": "ssh ed25519",
+   "lives": "~/.ssh/id_ed25519_pixel",
+   "canSign": "file sigs / transport",
+   "needsBiometric": false,
+   "expiry": null,
+   "publicId": "SHA256:LuYL9d79…",
+   "dryRun": "available"
+  },
+  {
+   "id": "ssh-pixel-phablet",
+   "type": "ssh ed25519",
+   "lives": "ЯLAB/KEYS/pixel-phablet_ed25519",
+   "canSign": "file sigs / transport",
+   "needsBiometric": false,
+   "expiry": null,
+   "publicId": "SHA256:UfVfXldD…",
+   "dryRun": "available"
+  },
+  {
+   "id": "gpg",
+   "type": "GPG (installed; keys not listed)",
+   "lives": "~/.gnupg",
+   "canSign": "detached sigs",
+   "needsBiometric": false,
+   "expiry": null,
+   "publicId": "none found",
+   "dryRun": "unavailable"
+  },
+  {
+   "id": "renigma",
+   "type": "RENIGMA device",
+   "lives": "NOT FOUND on Neo",
+   "canSign": "?",
+   "needsBiometric": null,
+   "expiry": null,
+   "publicId": "PLACEHOLDER",
+   "dryRun": "unknown/remote"
+  },
+  {
+   "id": "mac-password",
+   "type": "LocalAuthentication password fallback",
+   "lives": "Neo",
+   "canSign": "last resort approval",
+   "needsBiometric": false,
+   "expiry": null,
+   "publicId": "n/a",
+   "dryRun": "available"
+  }
+ ],
+ "provisioningProfiles": [
+  {
+   "name": "iOS Team Provisioning Profile: info.rizal.rbowzr.native.test",
+   "expires": "2026-10-25 12:34 AM MT",
+   "hoursLeft": 7.1
+  },
+  {
+   "name": "iOS Team Provisioning Profile: com.charlesaugustusmarcumiiipersonalteam.ghost",
+   "expires": "2026-10-26 06:55 PM MT",
+   "hoursLeft": 49.5
+  },
+  {
+   "name": "iOS Team Provisioning Profile: info.rizal.rbowzr.native",
+   "expires": "2026-10-26 07:00 PM MT",
+   "hoursLeft": 49.5
+  },
+  {
+   "name": "Mac Team Provisioning Profile: info.rizal.rbowzr.native",
+   "expires": "2026-10-26 07:02 PM MT",
+   "hoursLeft": 49.6
+  },
+  {
+   "name": "Mac Team Provisioning Profile: info.rizal.rbowzr.native.test",
+   "expires": "2026-10-26 07:07 PM MT",
+   "hoursLeft": 49.7
+  },
+  {
+   "name": "iOS Team Provisioning Profile: info.rizal.rscribe",
+   "expires": "2026-10-30 02:27 AM MT",
+   "hoursLeft": 129.0
+  },
+  {
+   "name": "iOS Team Provisioning Profile: info.rizal.rscribe.ios",
+   "expires": "2026-10-30 02:43 AM MT",
+   "hoursLeft": 129.2
+  },
+  {
+   "name": "iOS Team Provisioning Profile: info.rizal.dragonskull",
+   "expires": "2026-10-30 03:30 AM MT",
+   "hoursLeft": 130.0
+  },
+  {
+   "name": "iOS Team Provisioning Profile: io.github.rizaleon.yaaim",
+   "expires": "2026-10-30 03:42 AM MT",
+   "hoursLeft": 130.2
+  }
+ ],
+ "generated": "2026-10-24 05:28 PM MT"
+}

@@ -1,0 +1,39 @@
+/* RFONT theme palettes · 2026-11-10 America/Denver
+   Shared by RBOARD and every LINUX RIZAL app that loads rfont.css.
+   Set html[data-theme] to plum (default RBOARD), ywallet, or ghostmachine.
+   Bare :root only publishes --rfont-* tokens so other apps' --bg/--gold are not overwritten
+   until a theme is chosen. Values match live RDRAGON rdragon-theme.css / rwallet-ghost2.css
+   --gm-* and the ЯWALLET + GHOSTMACHINE ASSM app-tile samples from 2026-11-10. */
+:root{
+ --rfont-lime:#39ff14;--rfont-lime-dim:#1f8f0f;--rfont-violet:#8a2be2;--rfont-violet2:#b388ff;
+ --rfont-deep:#1a0630;--rfont-panel:#0a0a0a;--rfont-line:#333;--rfont-tx:#ddd;
+ --rfont-monitor:#002CB3;--rfont-lavender:#C695FE;--rfont-hill:#3C7B2A;--rfont-cyan:#1D95E3;
+ --rfont-plum-bg:#160e20;--rfont-plum-gold:#efcf88;--rfont-theme-name:"plum";
+}
+html[data-theme="plum"]{
+ --rfont-theme-name:"plum";
+ --bg:#160e20;--bg2:#211629;--key:#2e203b;--key2:#3a2848;--line:#68516c;--gold:#efcf88;--gold2:#f4d395;--txt:#f4e9d4;--muted:#cdb5d7;--neon:#7dffb0;--violet:#b26bff;
+ --page:#0e0814;--board1:#241532;--board2:#120a1a;--bar-bg:#120b1b;--bar-border:#5b3d7a;--bar-glow:#b26bff33;
+ --prompt:#efcf88;--prompt-glow:#efcf8866;--echo-glow:#7dffb055;--active-bg:#674459;--active-line:#e6c181;
+ --key-fg:#eee5ee;--fn1:#2a1c35;--fn2:#22172c;--ret-fg:#160e20;--ret-bg1:#f4d395;--ret-bg2:#d9b46c;--ret-line:#f4d395;
+ --alts-bg:#24162e;--alts-line:#e3bd77;--trail:#efcf88;--trail-glow:#e6c181aa;--cand-bg:#3a2438;--space-fg:#cdb5d7;
+ --monitor:transparent;--hill:transparent;--cyan:transparent;--alts-mask:#0e081766;
+}
+html[data-theme="ywallet"]{
+ --rfont-theme-name:"ywallet";
+ --bg:#000000;--bg2:#0a0a0a;--key:#0a0a0a;--key2:#0d2a07;--line:#39ff14;--gold:#39ff14;--gold2:#39ff14;--txt:#dddddd;--muted:#1f8f0f;--neon:#39ff14;--violet:#8a2be2;
+ --page:#000000;--board1:#000000;--board2:#1a0630;--bar-bg:#0a0a0a;--bar-border:#8a2be2;--bar-glow:#8a2be266;
+ --prompt:#39ff14;--prompt-glow:#39ff1466;--echo-glow:#39ff1455;--active-bg:#0d2a07;--active-line:#39ff14;
+ --key-fg:#ffffff;--fn1:#0a0a0a;--fn2:#1a0630;--ret-fg:#ffffff;--ret-bg1:#8a2be2;--ret-bg2:#5a1c96;--ret-line:#b388ff;
+ --alts-bg:#0a0a0a;--alts-line:#8a2be2;--trail:#39ff14;--trail-glow:#39ff14aa;--cand-bg:#0d2a07;--space-fg:#39ff14;
+ --monitor:#002CB3;--hill:transparent;--cyan:transparent;--alts-mask:#00000066;
+}
+html[data-theme="ghostmachine"]{
+ --rfont-theme-name:"ghostmachine";
+ --bg:#000000;--bg2:#0a0a0a;--key:#0a0a0a;--key2:#0b1f06;--line:#39ff14;--gold:#39ff14;--gold2:#39ff14;--txt:#dddddd;--muted:#1f8f0f;--neon:#39ff14;--violet:#8a2be2;
+ --page:#000000;--board1:#000000;--board2:#000000;--bar-bg:#0a0a0a;--bar-border:#8a2be2;--bar-glow:#8a2be266;
+ --prompt:#39ff14;--prompt-glow:#39ff1466;--echo-glow:#39ff1455;--active-bg:#0b1f06;--active-line:#39ff14;
+ --key-fg:#ffffff;--fn1:#0a0a0a;--fn2:#000000;--ret-fg:#000000;--ret-bg1:#1D95E3;--ret-bg2:#0a5a9a;--ret-line:#1D95E3;
+ --alts-bg:#0a0a0a;--alts-line:#8a2be2;--trail:#39ff14;--trail-glow:#1D95E3aa;--cand-bg:#0b1f06;--space-fg:#39ff14;
+ --monitor:transparent;--hill:#3C7B2A;--cyan:#1D95E3;--alts-mask:#00000066;
+}

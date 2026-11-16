@@ -1,0 +1,47 @@
+# L063 · QR-PAIR: how the Neo and the 17e stay on the same build, and how each one checks the other
+
+Egg: qr-pair 0.1.0 (data only). Hosts: DRAGON SKULL (macOS com.rzl.dragonskull, iOS info.rizal.dragonskull), ЯBOT, ЯBOWZR.
+Decider: ЯID-0001-3QQS (Rizal). Reference law: the newer build is the reference; on a tie the Neo is the reference.
+
+## 1. What happens when you type `qr`
+1. The device collects its own facts: app id, platform, version, build, device name, the list of commands,
+   the list of components/skills, and the list of eggs with versions.
+2. Each list is sorted and hashed with SHA-256. The three hashes plus one combined hash are the FINGERPRINT.
+   Two devices with the same commands, components and eggs always get the same fingerprint, byte for byte.
+3. It adds a random nonce and the time, and asks the device to sign the payload with its own key behind Face ID / Touch ID.
+   The egg never holds a key. If this app build has no device signer, the payload says UNSIGNED. Say so; never pretend.
+4. The payload is drawn as a QR code right on the device. Nothing goes online. The text form starts with `RZLQR1:`.
+
+## 2. What happens when the other device runs `qr scan`
+1. It decodes the payload and checks: right schema, made in the last 10 minutes, nonce not used before,
+   signer keyId is in the trust list (rlab-trust-keys.v1 seq 2: Neo e5833fdfbbfe, 17e ЯBOT fd723a98c3b7,
+   17e ЯBOWZR 74cd87b6425e, moto 18d60c052a15), and the signature verifies with that key's PUBLIC key.
+2. Only if every check passes does it store the peer record: device, app, version, build, fingerprints, time. No secrets.
+3. The first pairing prints the ALIGN REPORT: PASS/FAIL for app, version, build, commands, components, eggs,
+   and names the reference device.
+
+## 3. How alignment is kept from then on
+- Data parts (commands, components, skills, eggs) travel as signed eggs. Either device may OFFER the other an egg.
+- The receiving device installs nothing by itself. It checks: signer is trusted, signature verifies,
+  version is newer (same = nothing to do, older = refused, no downgrade), size and SHA-256 match.
+  If all pass it writes a Decider proposal. Rizal confirms on that device with Face ID / Touch ID. Only then is it installed.
+- After any install, run `qr` on one device and `qr scan` on the other again. Both should read ALIGNED.
+
+## 4. How each one checks the other
+- `qr check` (or `check`) compares this device with every stored peer, field by field, PASS or FAIL with the reason.
+- A stored record can be old. For a live check, show a fresh `qr` and `qr scan` it. Do both directions:
+  Neo scans 17e, then 17e scans Neo. Both reports must match.
+
+## 5. What to do on a mismatch
+- commands / components / eggs FAIL: find which egg is missing or older on which side. The reference side offers it
+  (`qr offer`). Rizal approves on the device. Re-check.
+- version or build FAIL: STOP. These numbers live in the app binary. An egg CANNOT change them.
+  Example today: Neo DRAGON SKULL is 1.0.4 (7), the 17e is 1.0.4 (8), and the Mac app's built-in text still says
+  "build 6" (hard-coded in src/macos/main.swift). Fixing any of that needs a rebuild, and a rebuild needs Rizal's go.
+  Report the mismatch; do not try to patch it.
+- signer FAIL (unknown keyId, bad signature, unsigned, old, replayed): do not pair, store nothing, tell Rizal exactly what failed.
+
+## 6. Never
+- Never install, seat, sign, publish, delete or toggle a device without Rizal's on-device biometric confirm.
+- Never show or store a private key. The trust list only holds public keys.
+- Never invent a version, build or result. Report only what the command printed.

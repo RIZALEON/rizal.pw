@@ -1,0 +1,130 @@
+{
+ "fetched": "2026-11-14 21:05:14 MST",
+ "source": "mainnet RPC (live) via RTRACKR pool_snapshot",
+ "rows": [
+  {
+   "name": "CROWN (mint/freeze authority, fee payer)",
+   "pubkey": "BwpVNk1Rtncpv5HMTLwxB4Yfjkfv6mFaBQUTpjneH1F9",
+   "kind": "sol",
+   "balance": 0.007194044,
+   "unit": "SOL"
+  },
+  {
+   "name": "CROWN Я account (ATA)",
+   "pubkey": "8bCnr63CTdC2YbELK3x4vxJYNt6cueGBbEvRURFZc9Q1",
+   "kind": "token_account",
+   "balance": 899989.000002178,
+   "unit": "token"
+  },
+  {
+   "name": "Я mint",
+   "pubkey": "BB9uA5BuacDnWyDf5Npc9nMb9yFbyThsNrQPBYJ5Q1Lv",
+   "kind": "mint",
+   "balance": 1000000.0,
+   "unit": "supply"
+  },
+  {
+   "name": "DESKTOP WALLET",
+   "pubkey": "",
+   "kind": "sol",
+   "note": "not seated yet (pubkey empty in DeviceWalletSeat.json)",
+   "balance": null
+  },
+  {
+   "name": "MOBILE WALLET",
+   "pubkey": "",
+   "kind": "sol",
+   "note": "not seated yet (pubkey empty in DeviceWalletSeat.json)",
+   "balance": null
+  },
+  {
+   "name": "BOOMERANG WALLET",
+   "pubkey": "",
+   "kind": "sol",
+   "note": "not seated yet (pubkey empty in DeviceWalletSeat.json)",
+   "balance": null
+  },
+  {
+   "name": "POOL",
+   "pubkey": "HSroUxVkVKv6kX9e7dpoJtbFqKcL76BzrkuuRfAGxs9s",
+   "kind": "pool",
+   "note": "Orca Я/SOL splash pool · tracking only · RTRACKR 2026-11-14T21:05:14-07:00",
+   "balance": 0.03051265994157812,
+   "unit": "SOL (pool value)"
+  },
+  {
+   "name": "ORCA Я/SOL POOL VAULT Я account (ATA)",
+   "pubkey": "8uYFzTDTDq18z1gPFgjaNRAxmZ3c52tbVHGBLN2CVF3G",
+   "kind": "token_account",
+   "unit": "Я",
+   "balance": 67413.195901945,
+   "note": "RTRACKR wallets feed 2026-11-14T21:05:14-07:00"
+  },
+  {
+   "name": "WATCHED HOLDER · OPENSEA Я HOLDINGS",
+   "pubkey": "12872Chwv88d9JcNnPPThtSQWJM296kpkDqm7tpBWB28",
+   "kind": "sol",
+   "unit": "SOL",
+   "balance": 0.002958055,
+   "note": "RTRACKR wallets feed 2026-11-14T21:05:14-07:00"
+  },
+  {
+   "name": "WATCHED HOLDER · OPENSEA Я HOLDINGS Я account (ATA)",
+   "pubkey": "BNFLK9bU7CJ4mY87DHpgZ8wj4a1atxwRVpmSuxBUsG8Z",
+   "kind": "token_account",
+   "unit": "Я",
+   "balance": 32586.804095877,
+   "note": "RTRACKR wallets feed 2026-11-14T21:05:14-07:00"
+  },
+  {
+   "name": "PREVIOUS RBOT DESKTOP SEAT",
+   "pubkey": "3gLUfDdw1etDGeJ2PnqUtitam5TwZAsC3BhXCQYx2Gfk",
+   "kind": "sol",
+   "unit": "SOL",
+   "balance": 0.009995,
+   "note": "RTRACKR wallets feed 2026-11-14T21:05:14-07:00"
+  },
+  {
+   "name": "PREVIOUS RBOT DESKTOP SEAT Я account (ATA)",
+   "pubkey": "3HHKmD1RT4mrL7iGfydu8jc9rceZbkoLQmWpUfbe6Cvx",
+   "kind": "token_account",
+   "unit": "Я",
+   "balance": 9.0,
+   "note": "RTRACKR wallets feed 2026-11-14T21:05:14-07:00"
+  },
+  {
+   "name": "PREVIOUS RBOT MOBILE SEAT (17E)",
+   "pubkey": "E611TFJh9y2eipt984hhBjhUQ1EsrUDodbLsrpN9Zmhn",
+   "kind": "sol",
+   "unit": "SOL",
+   "balance": 0.003,
+   "note": "RTRACKR wallets feed 2026-11-14T21:05:14-07:00"
+  },
+  {
+   "name": "PREVIOUS RBOT MOBILE SEAT (17E) Я account (ATA)",
+   "pubkey": "FyHLAiaFkQMvBRe2RUoMkH1wBk4M51E9ntoWDQrnvR9j",
+   "kind": "token_account",
+   "unit": "Я",
+   "balance": 2.0,
+   "note": "RTRACKR wallets feed 2026-11-14T21:05:14-07:00"
+  },
+  {
+   "name": "PREVIOUS DESKTOP / BOOMERANG WALLET",
+   "pubkey": "2E4eAKWUU5akXTUfP7ZrgjebE3TPUhzZZfaRkQUpwyaj",
+   "kind": "sol",
+   "unit": "SOL",
+   "balance": null,
+   "note": "RTRACKR wallets feed 2026-11-14T21:05:14-07:00"
+  }
+ ],
+ "rtrackr_feed": {
+  "at": "2026-11-14T21:05:58-07:00",
+  "wallets_fetched": "2026-11-14T21:05:14-07:00",
+  "source": "public Solana RPC via RTRACKR pool_snapshot.py (read-only)",
+  "rows_updated": 3,
+  "rows_added": 8,
+  "feed_dir": "data/rtrackr-feed/",
+  "note": "Balances refreshed from RTRACKR; original rows kept (add-only for new rows)."
+ },
+ "fetched_before_rtrackr_feed": "2026-10-23 17:21:48 MDT"
+}

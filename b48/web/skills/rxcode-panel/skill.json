@@ -1,0 +1,14 @@
+{
+  "schema": "rzl.ds.skill.v1",
+  "id": "rxcode-panel",
+  "name": "RXCODE panel",
+  "version": "0.1.0",
+  "built": "2026-11-07",
+  "summary": "Opens the RXCODE Xcode interface inside RDRAGON or RTHUNDR (in-window panel, like TERAFORMR).",
+  "entry": "rxcode-panel.js",
+  "chat_commands": [
+    "/rxcode",
+    "/rxcode rthundr",
+    "/rxcode rdragon"
+  ]
+}

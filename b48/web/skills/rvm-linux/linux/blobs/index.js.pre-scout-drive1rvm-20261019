@@ -1,0 +1,86 @@
+self.RVM_BLOB_INDEX={
+"kernel-riscv64.bin": {
+"blob": "blobs/kernel-riscv64.bin.js",
+"size": 3979556
+},
+"root-riscv64.cfg": {
+"blob": "blobs/root-riscv64.cfg.js",
+"size": 328
+},
+"riscvemu64-wasm.wasm": {
+"blob": "blobs/riscvemu64-wasm.wasm.js",
+"size": 220054
+},
+"bbl64.bin": {
+"blob": "blobs/bbl64.bin.js",
+"size": 53786
+},
+"root-riscv64/blk000000006.bin": {
+"blob": "blobs/root-riscv64__blk000000006.bin.js",
+"size": 262144
+},
+"root-riscv64/blk000000012.bin": {
+"blob": "blobs/root-riscv64__blk000000012.bin.js",
+"size": 262144
+},
+"root-riscv64/blk000000009.bin": {
+"blob": "blobs/root-riscv64__blk000000009.bin.js",
+"size": 262144
+},
+"root-riscv64/blk000000011.bin": {
+"blob": "blobs/root-riscv64__blk000000011.bin.js",
+"size": 262144
+},
+"root-riscv64/blk000000001.bin": {
+"blob": "blobs/root-riscv64__blk000000001.bin.js",
+"size": 262144
+},
+"root-riscv64/blk000000015.bin": {
+"blob": "blobs/root-riscv64__blk000000015.bin.js",
+"size": 262144
+},
+"root-riscv64/blk.txt": {
+"blob": "blobs/root-riscv64__blk.txt.js",
+"size": 38
+},
+"root-riscv64/blk000000003.bin": {
+"blob": "blobs/root-riscv64__blk000000003.bin.js",
+"size": 262144
+},
+"root-riscv64/blk000000000.bin": {
+"blob": "blobs/root-riscv64__blk000000000.bin.js",
+"size": 262144
+},
+"root-riscv64/blk000000008.bin": {
+"blob": "blobs/root-riscv64__blk000000008.bin.js",
+"size": 262144
+},
+"root-riscv64/blk000000002.bin": {
+"blob": "blobs/root-riscv64__blk000000002.bin.js",
+"size": 262144
+},
+"root-riscv64/blk000000013.bin": {
+"blob": "blobs/root-riscv64__blk000000013.bin.js",
+"size": 262144
+},
+"root-riscv64/blk000000010.bin": {
+"blob": "blobs/root-riscv64__blk000000010.bin.js",
+"size": 262144
+},
+"root-riscv64/blk000000014.bin": {
+"blob": "blobs/root-riscv64__blk000000014.bin.js",
+"size": 262144
+},
+"root-riscv64/blk000000005.bin": {
+"blob": "blobs/root-riscv64__blk000000005.bin.js",
+"size": 262144
+},
+"root-riscv64/blk000000007.bin": {
+"blob": "blobs/root-riscv64__blk000000007.bin.js",
+"size": 262144
+},
+"root-riscv64/blk000000004.bin": {
+"blob": "blobs/root-riscv64__blk000000004.bin.js",
+"size": 262144
+}
+};

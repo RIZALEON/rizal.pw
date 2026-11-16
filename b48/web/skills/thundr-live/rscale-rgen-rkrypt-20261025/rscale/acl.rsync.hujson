@@ -1,0 +1,19 @@
+// RSCALE ACL for ЯSYNC · Decider devices only (extends RNETWORK/RSCALE/neo/acl.hujson, 2026-10-24).
+// Tested on the box 2026-10-25: a tag:seat node reached only the allowed peer port; other Neo localhost ports were refused.
+{
+  "groups": { "group:decider": ["rizal@"] },
+  "tagOwners": {
+    "tag:door":  ["group:decider"],   // Neo / Pixel / far device service ports
+    "tag:seat":  ["group:decider"],   // app seats + Rizal's phones (ЯBOT, ЯBOWZR, DRAGON SKULL, iPhone 17e, moto, Vortex)
+    "tag:relay": ["group:decider"]
+  },
+  "acls": [
+    // Rizal's own logged-in devices: everything
+    { "action": "accept", "src": ["group:decider"], "dst": ["*:*"] },
+    // seats → doors: bridge 4871-4875, feed 8341, ЯSYNC peer 8799 (http, apps) and 8800 (https front, browsers)
+    { "action": "accept", "src": ["tag:seat"],  "dst": ["tag:door:4871-4875,8341,8799,8800"] },
+    // doors ↔ doors on the ЯSYNC port only (Neo peer ⇄ Pixel peer transponders)
+    { "action": "accept", "src": ["tag:door"],  "dst": ["tag:door:8799"] },
+    { "action": "accept", "src": ["tag:relay"], "dst": ["tag:door:4871-4875,8341,8799"] }
+  ]
+}

@@ -1,0 +1,3 @@
+{"schema":"rzl.ds.skill.v1","id":"ds-ui-pieces","name":"DS UI PIECES (labeled bars & buttons)","version":"0.1.0","built":"2026-10-23","mode":"reference",
+ "summary":"How to read components.json, map DS-IDs to HTML/CSS/JS, assemble layouts, add buttons/chips/quick commands, name new IDs, test and roll back.",
+ "docs":["../../PIECES-GUIDE.md","../../components.json"],"entry":[]}

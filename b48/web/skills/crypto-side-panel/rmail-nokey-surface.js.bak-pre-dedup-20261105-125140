@@ -1,0 +1,421 @@
+/* rmail-nokey-surface.js — KUBO NOKEY lane v2 (20261105)
+ * Shared RMAIL/MESSAGE/RWALLET surface for ASSM @chaserizal (guest default).
+ * No device-key APIs, unlock dialogs, enroll, sign, or chain-seal.
+ * Public owner address is content routing only — never authority.
+ *
+ * Feeds (optional, explicit):
+ *  1) window.RMAIL_PUBLIC_INDEX — URL returning either
+ *       {kind:"rmail.index.v1",public:true,boxes:{<addr>:n}}
+ *       then messages from window.RMAIL_PUBLIC_BOX_BASE + "/" + addr + "/" (objects), OR
+ *       {ok:true,addr,messages:[...full public rmail objects...]}  // preferred /api/rmail/public?addr=
+ *  2) RKLOWD_RMAIL_FETCH=1 + existing bridge token — GET /rklowd/list then /rklowd/obj/<64hex>
+ *       only names matching /^rmail-[A-Za-z0-9_-]+\.json$/; sha must match; utf8 JSON body.
+ * Guest / no-token => local-only truth. Block4 / purpose-bind objects are rejected early.
+ */
+(function (root) {
+  "use strict";
+  if (root.RMAIL_NOKEY && root.RMAIL_NOKEY.v >= 2) return;
+
+  var OWNER_HANDLE = "@chaserizal";
+  var OWNER_RID = "ЯID-0001-3QQS";
+  var OWNER_ADDR = "BwpVNk1Rtncpv5HMTLwxB4Yfjkfv6mFaBQUTpjneH1F9";
+  var BOX = "rmail.box";
+  var RMAIL_NAME_RE = /^rmail-[A-Za-z0-9_-]+\.json$/;
+  var SHA_RE = /^[0-9a-f]{64}$/;
+  var STATE = {
+    mode: "nokey",
+    authority: false,
+    enrolled: false,
+    signable: false,
+    local: 0,
+    synced: 0,
+    rejected: 0,
+    remote: "local-only",
+    detail: "Unsigned request only · Key unavailable"
+  };
+
+  function lsGet(k, d) {
+    try { return JSON.parse(root.localStorage.getItem(k)) || d; } catch (e) { return d; }
+  }
+  function isOwnerTarget(m) {
+    if (!m || typeof m !== "object") return false;
+    var to = String(m.to || "").trim();
+    var ta = String(m.to_addr || "").trim();
+    if (ta === OWNER_ADDR) return true;
+    if (/^@?chaserizal$/i.test(to)) return true;
+    return false;
+  }
+  function isBlock4OrAuthority(raw) {
+    if (!raw || typeof raw !== "object") return true;
+    var schema = String(raw.schema || "");
+    var purpose = String(raw.purpose || (raw.seal_entry && raw.seal_entry.purpose) || "");
+    var auth = String(raw.authority || "");
+    var type = String(raw.type || "");
+    if (/block4|bind\.request|rghostkey|rmint_route/i.test(schema)) return true;
+    if (/rghostkey\.bind|rmint_route/i.test(purpose)) return true;
+    if (/rmint_route|bind/i.test(auth)) return true;
+    if (raw.seal_entry || raw.req_hash || raw.rsign_seal) return true;
+    if (type === "rmail.block4.bind.request.v1") return true;
+    if (raw.trusted_internal === true) return true;
+    // bare "owner" as to without public addr is typed/internal — reject in NOKEY
+    if (String(raw.to || "").toLowerCase() === "owner" && !isOwnerTarget(raw)) return true;
+    return false;
+  }
+  function ensurePublicIdentity() {
+    if (!root.RSOCIAL_ME) root.RSOCIAL_ME = "guest";
+    root.RSOCIAL_OWNER_ADDR = root.RSOCIAL_OWNER_ADDR || OWNER_ADDR;
+    root.RSOCIAL_BOOK = root.RSOCIAL_BOOK || {};
+    if (!root.RSOCIAL_BOOK[OWNER_HANDLE]) root.RSOCIAL_BOOK[OWNER_HANDLE] = OWNER_ADDR;
+    if (!root.RSOCIAL_BOOK["chaserizal"]) root.RSOCIAL_BOOK["chaserizal"] = OWNER_ADDR;
+    if (!root.RWALLET_UNIFIED || typeof root.RWALLET_UNIFIED.addresses !== "function") {
+      root.RWALLET_UNIFIED = root.RWALLET_UNIFIED || {};
+      root.RWALLET_UNIFIED.addresses = function () {
+        return [{ name: "CROWN @chaserizal", chain: "solana", publicAddress: OWNER_ADDR, rid: OWNER_RID, handle: OWNER_HANDLE }];
+      };
+    }
+  }
+  function countLocal() {
+    var box = lsGet(BOX, {});
+    var owner = box[OWNER_ADDR] || [];
+    STATE.local = Array.isArray(owner) ? owner.length : 0;
+    return STATE.local;
+  }
+  function utf8FromB64(b64) {
+    var bin = root.atob(String(b64 || ""));
+    var bytes = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    if (typeof TextDecoder !== "undefined") return new TextDecoder("utf-8").decode(bytes);
+    // escape/decodeURIComponent path for older engines (emoji-safe)
+    var s = "";
+    for (var j = 0; j < bytes.length; j++) s += "%" + ("00" + bytes[j].toString(16)).slice(-2);
+    return decodeURIComponent(s);
+  }
+  function normalizePublicMsg(raw) {
+    if (!raw || typeof raw !== "object") return null;
+    if (isBlock4OrAuthority(raw)) return null;
+    var kind = raw.kind || raw.schema;
+    var isRmail = kind === "rmail" || kind === "rmail.guest.v1" || raw.schema === "rmail.guest.v1";
+    if (!isRmail) return null;
+    // ALWAYS require actual owner target — guest.v1 does not bypass
+    if (!isOwnerTarget(raw)) return null;
+    var id = String(raw.id || "").trim();
+    if (!id || /^hub-/i.test(id)) return null; // refuse fabricated / stale hub ids
+    var text = String(raw.text || "");
+    if (!text) {
+      var sub = String(raw.subject || "").trim();
+      var body = String(raw.body || "").trim();
+      text = sub && body ? (sub + "\n\n" + body) : (sub || body);
+    }
+    text = String(text).slice(0, 4000);
+    if (!text) return null;
+    var from = String(raw.from || "guest");
+    var fromAddr = String(raw.from_addr || from || "guest");
+    var guestish = /^guest/i.test(from) || /^guest/i.test(fromAddr);
+    return {
+      v: 2,
+      kind: "rmail",
+      id: id,
+      from: from,
+      from_addr: fromAddr,
+      to: String(raw.to || OWNER_HANDLE),
+      to_addr: String(raw.to_addr || OWNER_ADDR),
+      text: text,
+      ts: Number(raw.ts) || Date.now(),
+      via: raw.via || "public-index",
+      verified: false, // never trust inbound flag; RSOCIAL.receive re-verifies
+      trust: guestish ? "guest-unverified" : "unverified",
+      origin: raw.origin || "public"
+    };
+  }
+  function receiveOne(m) {
+    if (!m) { STATE.rejected++; return Promise.resolve(null); }
+    var recv = root.RSOCIAL && typeof root.RSOCIAL.receive === "function" ? root.RSOCIAL.receive : null;
+    if (!recv) {
+      // local fallback keep unverified (no crypto path)
+      var box = lsGet(BOX, {});
+      var k = m.to_addr || OWNER_ADDR;
+      box[k] = (box[k] || []).filter(function (x) { return x && x.id !== m.id; });
+      box[k].push(m);
+      try { root.localStorage.setItem(BOX, JSON.stringify(box)); } catch (e) {}
+      return Promise.resolve(m);
+    }
+    // strip any claimed verified before receive
+    m.verified = false;
+    return Promise.resolve(recv(m)).then(function (x) { return x; }, function () { return null; });
+  }
+  function bannerHTML() {
+    return '<div id="rmail-nokey-banner" style="margin:8px 0 10px;padding:8px 10px;border:1px solid #3a4555;border-radius:10px;background:#121821;color:#c9d4e0;font:12px -apple-system,system-ui,sans-serif">'
+      + '<b style="color:#ffd28a">NOKEY</b> · ' + STATE.detail
+      + ' · authority=<b>false</b> · enroll=<b>false</b> · signable=<b>false</b>'
+      + '<br><span style="opacity:.85">local ' + STATE.local + ' · synced ' + STATE.synced
+      + (STATE.rejected ? (' · rejected ' + STATE.rejected) : '')
+      + ' · remote: ' + STATE.remote
+      + ' · ' + OWNER_HANDLE + ' / ' + OWNER_RID + ' · ' + OWNER_ADDR.slice(0, 8) + '…</span>'
+      + '<div style="margin-top:6px">'
+      + '<button type="button" data-nokey="open-rmail" style="margin-right:6px;padding:6px 10px;border:0;border-radius:8px;background:#3dd68c;color:#062;font-weight:700;cursor:pointer">RMAIL</button>'
+      + '<button type="button" data-nokey="open-rmail" style="margin-right:6px;padding:6px 10px;border:0;border-radius:8px;background:#3a4555;color:#e8eef7;cursor:pointer">MESSAGE</button>'
+      + '<button type="button" data-nokey="open-rmail" style="margin-right:6px;padding:6px 10px;border:0;border-radius:8px;background:#3a4555;color:#e8eef7;cursor:pointer">ASSM / RWALLET</button>'
+      + '<button type="button" data-nokey="refresh" style="padding:6px 10px;border:0;border-radius:8px;background:#2a3544;color:#9aa8b8;cursor:pointer">Refresh status</button>'
+      + '</div></div>';
+  }
+  function paintBanner() {
+    countLocal();
+    if (!root.document) return;
+    var rmail = root.document.getElementById("rmail-ui");
+    var roster = root.document.getElementById("roster");
+    var existing = root.document.getElementById("rmail-nokey-banner");
+    var html = bannerHTML();
+    if (existing) { existing.outerHTML = html; return; }
+    var wrap = root.document.createElement("div");
+    wrap.innerHTML = html;
+    var node = wrap.firstChild;
+    if (!node) return;
+    if (rmail && rmail.firstChild) rmail.insertBefore(node, rmail.firstChild);
+    else if (rmail) rmail.appendChild(node);
+    else if (roster && roster.firstChild) roster.insertBefore(node, roster.firstChild);
+    else if (roster) roster.appendChild(node);
+  }
+  function openShared() {
+    ensurePublicIdentity();
+    if (root.RMAIL_UI && typeof root.RMAIL_UI.open === "function") root.RMAIL_UI.open({ standalone: true });
+    setTimeout(paintBanner, 50);
+  }
+  function tokenFromBridge() {
+    try {
+      if (root.RMAIL_SYNC_TOKEN && String(root.RMAIL_SYNC_TOKEN).indexOf("rbt_") === 0) return String(root.RMAIL_SYNC_TOKEN);
+      if (root.RKLOWD_NODE && root.RKLOWD_NODE.token) return String(root.RKLOWD_NODE.token);
+      var t = root.localStorage.getItem("rklowd.pw.tok") || root.localStorage.getItem("rpipe.token") || "";
+      if (/^rbt_/.test(t)) return t;
+    } catch (e) {}
+    return "";
+  }
+  function nodeSlot() {
+    try {
+      if (root.RKLOWD_NODE && root.RKLOWD_NODE.slot) return String(root.RKLOWD_NODE.slot);
+      return root.localStorage.getItem("rklowd.pw.slot") || "pw";
+    } catch (e) { return "pw"; }
+  }
+  function rklowdEnabled() {
+    try {
+      if (/(?:\?|&)RKLOWD_RMAIL_FETCH=1(?:&|$)/.test(String(root.location && root.location.search || ""))) return true;
+    } catch (e) {}
+    return root.RKLOWD_RMAIL_FETCH === true || root.RKLOWD_RMAIL_FETCH === 1 || root.RKLOWD_RMAIL_FETCH === "1";
+  }
+  function listBase() {
+    if (!rklowdEnabled()) return "";
+    var base = root.RKLOWD_LIST_BASE || root.RSCALE_RKLOWD_BASE || "";
+    if (!base) {
+      try { base = root.localStorage.getItem("rklowd.pw.lan") || ""; } catch (e) {}
+    }
+    if (!base) base = "http://127.0.0.1:8799/rscale";
+    return String(base).replace(/\/+$/, "");
+  }
+  function ingestList(msgs) {
+    var got = 0;
+    var chain = Promise.resolve();
+    (msgs || []).forEach(function (raw) {
+      chain = chain.then(function () {
+        var n = normalizePublicMsg(raw);
+        if (!n) { STATE.rejected++; return null; }
+        return receiveOne(n).then(function (x) { if (x) got++; return x; });
+      });
+    });
+    return chain.then(function () {
+      STATE.synced = got;
+      countLocal();
+      return { ok: true, synced: got };
+    });
+  }
+  function fetchPublicIndex() {
+    var url = root.RMAIL_PUBLIC_INDEX || "";
+    if (!url) return Promise.resolve({ ok: false, reason: "no-public-index" });
+    STATE.remote = "fetching-public-index";
+    return fetch(String(url), { method: "GET", mode: "cors", cache: "no-store" }).then(function (r) {
+      if (!r.ok) {
+        STATE.remote = "local-only (public-index http-" + r.status + ")";
+        return { ok: false, reason: "http-" + r.status };
+      }
+      return r.json().then(function (j) {
+        if (j && Array.isArray(j.messages)) {
+          STATE.remote = "public-index messages";
+          return ingestList(j.messages);
+        }
+        // index.v1 with boxes — only owner addr; need BOX_BASE for objects
+        if (j && j.kind === "rmail.index.v1" && j.public === true && j.boxes) {
+          var n = Number(j.boxes[OWNER_ADDR] || 0);
+          var boxBase = root.RMAIL_PUBLIC_BOX_BASE || "";
+          if (!boxBase) {
+            // truthful: we know count but cannot fetch objects without endpoint
+            STATE.remote = "public-index boxes only · owner count " + n + " (no BOX_BASE/API yet)";
+            STATE.synced = 0;
+            countLocal();
+            return { ok: true, synced: 0, index_count: n };
+          }
+          // Preferred companion contract once RDRAGON adds it:
+          // GET /api/rmail/public?addr=<OWNER_ADDR> -> {ok:true,addr,messages:[...]}
+          var api = String(boxBase).replace(/\/+$/, "") + "/api/rmail/public?addr=" + encodeURIComponent(OWNER_ADDR);
+          if (String(boxBase).indexOf("/api/rmail/public") >= 0) api = String(boxBase);
+          return fetch(api, { method: "GET", mode: "cors", cache: "no-store" }).then(function (r2) {
+            if (!r2.ok) {
+              STATE.remote = "local-only (public-box http-" + r2.status + ")";
+              return { ok: false, reason: "box-http-" + r2.status };
+            }
+            return r2.json().then(function (j2) {
+              var msgs = (j2 && (j2.messages || j2.items)) || [];
+              STATE.remote = "public-box";
+              return ingestList(msgs);
+            });
+          });
+        }
+        STATE.remote = "local-only (public-index shape unknown)";
+        return { ok: false, reason: "bad-shape" };
+      });
+    }).catch(function () {
+      STATE.remote = "local-only (public-index unreachable)";
+      return { ok: false, reason: "network" };
+    });
+  }
+  function fetchRklowdListObj() {
+    var base = listBase();
+    if (!base) return Promise.resolve({ ok: false, reason: "rklowd-disabled" });
+    var tok = tokenFromBridge();
+    if (!tok) {
+      STATE.remote = "local-only (no sync token · 401 path)";
+      return Promise.resolve({ ok: false, reason: "no-token" });
+    }
+    var headers = { "X-RKLOWD-Node": nodeSlot(), Authorization: "Bearer " + tok };
+    STATE.remote = "fetching-rklowd-list";
+    return fetch(base + "/rklowd/list", { method: "GET", mode: "cors", headers: headers, cache: "no-store" }).then(function (r) {
+      if (r.status === 401 || r.status === 403) {
+        STATE.remote = "local-only (hub " + r.status + ")";
+        STATE.synced = 0;
+        return { ok: false, reason: "auth-" + r.status };
+      }
+      if (!r.ok) {
+        STATE.remote = "local-only (hub http-" + r.status + ")";
+        return { ok: false, reason: "http-" + r.status };
+      }
+      return r.json().then(function (j) {
+        // Actual contract: {ok, folder, files:[{sha256,name,size,origin,t,via}, ...]}
+        if (!j || j.ok !== true || !Array.isArray(j.files)) {
+          STATE.remote = "local-only (list shape mismatch)";
+          return { ok: false, reason: "bad-list" };
+        }
+        var files = j.files.filter(function (f) {
+          return f && SHA_RE.test(String(f.sha256 || "")) && RMAIL_NAME_RE.test(String(f.name || ""));
+        });
+        var msgs = [];
+        var chain = Promise.resolve();
+        files.forEach(function (f) {
+          chain = chain.then(function () {
+            return fetch(base + "/rklowd/obj/" + f.sha256, { method: "GET", mode: "cors", headers: headers, cache: "no-store" }).then(function (r2) {
+              if (!r2.ok) { STATE.rejected++; return null; }
+              return r2.json().then(function (o) {
+                if (!o || o.ok !== true || o.sha256 !== f.sha256 || !o.b64) { STATE.rejected++; return null; }
+                var text;
+                try { text = utf8FromB64(o.b64); } catch (e) { STATE.rejected++; return null; }
+                var raw;
+                try { raw = JSON.parse(text); } catch (e) { STATE.rejected++; return null; }
+                var n = normalizePublicMsg(raw);
+                if (!n) { STATE.rejected++; return null; }
+                msgs.push(n);
+                return n;
+              });
+            }).catch(function () { STATE.rejected++; return null; });
+          });
+        });
+        return chain.then(function () {
+          STATE.remote = "rklowd list/obj";
+          // already normalized; receive directly
+          var got = 0;
+          var p = Promise.resolve();
+          msgs.forEach(function (m) {
+            p = p.then(function () { return receiveOne(m).then(function (x) { if (x) got++; }); });
+          });
+          return p.then(function () {
+            STATE.synced = got;
+            countLocal();
+            return { ok: true, synced: got };
+          });
+        });
+      });
+    }).catch(function () {
+      STATE.remote = "local-only (hub unreachable/CORS)";
+      STATE.synced = 0;
+      return { ok: false, reason: "network" };
+    });
+  }
+  function refreshAll() {
+    STATE.rejected = 0;
+    // Prefer public index/API when configured; else optional rklowd; else local-only.
+    if (root.RMAIL_PUBLIC_INDEX) {
+      return fetchPublicIndex().finally(function () {
+        if (!STATE.synced && rklowdEnabled()) return fetchRklowdListObj();
+      }).finally(paintBanner);
+    }
+    if (rklowdEnabled()) return fetchRklowdListObj().finally(paintBanner);
+    STATE.remote = "local-only";
+    STATE.detail = "Unsigned request only · Key unavailable";
+    countLocal();
+    paintBanner();
+    return Promise.resolve({ ok: false, reason: "local-only" });
+  }
+  function bindClicks() {
+    if (!root.document || !root.document.addEventListener) return;
+    root.document.addEventListener("click", function (e) {
+      var t = e.target && e.target.closest && e.target.closest("[data-nokey]");
+      if (!t) return;
+      var a = t.getAttribute("data-nokey");
+      if (a === "open-rmail") { e.preventDefault(); openShared(); }
+      if (a === "refresh") { e.preventDefault(); refreshAll(); }
+    }, true);
+    root.document.addEventListener("click", function (e) {
+      var hit = e.target && e.target.closest && e.target.closest('.csp-msgbtn,[data-a="dm"],[data-rmail],[data-a="nav"][data-n="msgs"],[data-a="wallet"],.csp-bw');
+      if (!hit) return;
+      setTimeout(function () {
+        ensurePublicIdentity();
+        paintBanner();
+        if (root.RMAIL_UI && root.RMAIL_UI.draw) try { root.RMAIL_UI.draw(); } catch (err) {}
+      }, 80);
+    }, true);
+  }
+  function boot() {
+    ensurePublicIdentity();
+    countLocal();
+    bindClicks();
+    paintBanner();
+    refreshAll();
+    if (typeof root.MutationObserver === "function" && root.document && root.document.documentElement) {
+      try {
+        var obs = new root.MutationObserver(function () {
+          if (root.document.getElementById("rmail-ui") && !root.document.getElementById("rmail-nokey-banner")) paintBanner();
+        });
+        obs.observe(root.document.documentElement, { childList: true, subtree: true });
+      } catch (e) {}
+    }
+  }
+
+  var api = {
+    v: 2,
+    mode: "nokey",
+    owner: { handle: OWNER_HANDLE, rid: OWNER_RID, publicAddress: OWNER_ADDR },
+    status: function () { countLocal(); return Object.assign({}, STATE); },
+    open: openShared,
+    refresh: refreshAll,
+    normalizePublicMsg: normalizePublicMsg, // test seam
+    isOwnerTarget: isOwnerTarget,
+    isBlock4OrAuthority: isBlock4OrAuthority,
+    canEnroll: function () { return false; },
+    canSign: function () { return false; },
+    canSealChain: function () { return false; },
+    // Suggested native contract (RDRAGON implements; JS already consumes):
+    // GET /api/rmail/public?addr=BwpVNk1Rtncpv5HMTLwxB4Yfjkfv6mFaBQUTpjneH1F9
+    // -> {ok:true, public:true, addr, messages:[{kind:"rmail",id,from,from_addr,to,to_addr,text,ts,verified:false,...}]}
+    suggestedPublicApi: "/api/rmail/public?addr=" + encodeURIComponent(OWNER_ADDR)
+  };
+  ensurePublicIdentity();
+  countLocal();
+  root.RMAIL_NOKEY = api;
+  if (root.document && root.document.readyState === "loading") root.document.addEventListener("DOMContentLoaded", boot);
+  else setTimeout(boot, 0);
+})(typeof window !== "undefined" ? window : globalThis);

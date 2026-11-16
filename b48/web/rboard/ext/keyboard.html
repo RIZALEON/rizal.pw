@@ -1,0 +1,22 @@
+<!doctype html>
+<!-- RBOARD iOS keyboard-extension surface · add-only · 20261109.
+     Loaded by RBOARDKeyboard (WKWebView, file:// from the extension bundle, no network).
+     Reuses ../mapping.js and ../hold.js unchanged. Emits ONLY {op:insert|delete|return|globe|ready}
+     to the native "rboard" handler. Never submits, evals, signs or transmits. -->
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' file:; style-src 'self' file:; font-src 'self' file:; img-src 'self' file: data:; connect-src 'none'; frame-src 'none'">
+<title>RBOARD keyboard</title>
+<link rel="stylesheet" href="keyboard.css">
+</head><body>
+<div id="bar"><span class="prompt">R:\&gt;</span><span id="echo" aria-live="polite"></span><nav id="layers" aria-label="RBOARD layers"></nav><button type="button" id="theme-switch" class="theme" title="RBOARD plum/gold" aria-label="Theme RBOARD plum/gold">plum</button></div>
+<div id="kb" role="group" aria-label="RBOARD Ghostroot Crypto Keyboard"></div>
+<svg id="swipe-trail" class="swipe-trail" aria-hidden="true"></svg>
+<div id="swipe-candidates" class="swipe-candidates" hidden></div>
+<div id="alts" hidden role="dialog" aria-label="Choose secondary character"></div>
+<script src="../mapping.js"></script>
+<script src="../hold.js"></script>
+<script src="../words.js"></script>
+<script src="../swipe.js"></script>
+<script src="keyboard.js"></script>
+</body></html>

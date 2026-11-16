@@ -1,0 +1,528 @@
+import Foundation
+import Network
+import CryptoKit
+import Darwin
+
+/// Tiny loopback-only HTTP server on 127.0.0.1:8319: serves web/ and /engine/*.
+final class LocalServer {
+    static let port: UInt16 = 8319
+    private var listener: NWListener?
+    private var transponder: NWListener?
+    static let transponderPort: UInt16 = 8797
+    private let webRoot: URL
+    private let q = DispatchQueue(label: "ds.http", attributes: .concurrent)
+    init(webRoot: URL) { self.webRoot = webRoot }
+
+    /// iOS tears the listening socket down when the app is suspended; restart it on failure or on resume.
+    func restart() {
+        MemoryStore.shared.event("engine", "listener-restart", "loopback listener restarted on 127.0.0.1:\(LocalServer.port)")
+        listener?.stateUpdateHandler = nil
+        listener?.cancel(); listener = nil
+        do { try start() } catch { DispatchQueue.global().asyncAfter(deadline: .now() + 1) { [weak self] in self?.restart() } }
+    }
+
+    func ensureAlive() {
+        if let l = listener, case .ready = l.state { return }
+        restart()
+    }
+
+    func start() throws {
+        let p = NWParameters.tcp
+        p.requiredLocalEndpoint = .hostPort(host: "127.0.0.1", port: NWEndpoint.Port(rawValue: LocalServer.port)!)
+        p.allowLocalEndpointReuse = true
+        let l = try NWListener(using: p)
+        l.newConnectionHandler = { [weak self] c in self?.handle(c) }
+        l.stateUpdateHandler = { [weak self, weak l] st in
+            switch st {
+            case .failed, .cancelled:
+                guard let self, let l, self.listener === l, case .failed = st else { return }
+                DispatchQueue.global().asyncAfter(deadline: .now() + 0.5) { self.restart() }
+            default: break
+            }
+        }
+        l.start(queue: q); listener = l
+        startTransponder()
+        ensureRklowdFolder()
+    }
+
+    private func handle(_ c: NWConnection) {
+        c.start(queue: q)
+        receive(c, Data())
+    }
+
+    private func receive(_ c: NWConnection, _ acc: Data) {
+        c.receive(minimumIncompleteLength: 1, maximumLength: 1 << 20) { [weak self] d, _, done, err in
+            guard let self else { return }
+            var buf = acc; if let d { buf.append(d) }
+            if let r = buf.range(of: Data("\r\n\r\n".utf8)) {
+                let head = String(decoding: buf[..<r.lowerBound], as: UTF8.self)
+                let lines = head.components(separatedBy: "\r\n")
+                var len = 0
+                for h in lines.dropFirst() where h.lowercased().hasPrefix("content-length:") { len = Int(h.split(separator: ":")[1].trimmingCharacters(in: .whitespaces)) ?? 0 }
+                let body = buf[r.upperBound...]
+                if body.count >= len {
+                    let parts = lines[0].split(separator: " ")
+                    let method = parts.count > 0 ? String(parts[0]) : "GET"
+                    let path = parts.count > 1 ? String(parts[1]) : "/"
+                    self.route(c, method, path, Data(body.prefix(len)), Array(lines.dropFirst())); return
+                }
+            }
+            if done || err != nil { c.cancel(); return }
+            self.receive(c, buf)
+        }
+    }
+
+    private func send(_ c: NWConnection, _ code: Int, _ type: String, _ body: Data) {
+        let status = [200: "OK", 204: "No Content", 415: "Unsupported Media Type", 404: "Not Found", 503: "Service Unavailable", 400: "Bad Request", 403: "Forbidden", 409: "Conflict",
+                      405: "Method Not Allowed", 413: "Payload Too Large", 500: "Internal Server Error", 507: "Insufficient Storage"][code] ?? "OK"
+        var h = "HTTP/1.1 \(code) \(status)\r\nContent-Type: \(type)\r\nContent-Length: \(body.count)\r\nCache-Control: no-store\r\nConnection: close\r\n\r\n"
+        if type.isEmpty { h = h.replacingOccurrences(of: "Content-Type: \r\n", with: "") }
+        c.send(content: Data(h.utf8) + body, completion: .contentProcessed { _ in c.cancel() })
+    }
+
+    private func json(_ o: Any) -> Data { (try? JSONSerialization.data(withJSONObject: o)) ?? Data("{}".utf8) }
+
+    private func route(_ c: NWConnection, _ m: String, _ rawPath: String, _ body: Data, _ headers: [String] = []) {
+        let path = rawPath.components(separatedBy: "?")[0]
+        if path.contains("/rmail/") || path.contains("/rklowd/") || path == "/send" || path.hasSuffix("/drop") {
+            rmailRoute(c, m, path, body, headers); return
+        }
+        // DRAGONGATE: every loopback request is on the record; /api/gate/* is the gate's own read + kill API (no open/export route).
+        if path.hasPrefix("/api/gate/") {
+            let (code, o) = DGGate.shared.handle(method: m, path: path, headers: headers, body: body)
+            send(c, code, "application/json", json(o)); return
+        }
+        DGGate.shared.tapLocal(method: m, path: path, bodyIn: body)
+        if path.hasPrefix("/api/store/") {   // BATIBABOX memory files (MemoryStore.swift): sandboxed to Application Support/memory/
+            let (code, o) = MemoryStore.shared.handle(method: m, rawPath: rawPath, headers: headers, body: body)
+            send(c, code, "application/json", json(o)); return
+        }
+        if path.hasPrefix("/bridge/v1/") {   // SCOUT dragonbridge-term 2026-10-19 (DragonBridge.swift): loopback only, off by default
+            let (code, o) = DragonBridge.shared.handle(method: m, path: path, headers: headers, body: body)
+            send(c, code, "application/json", json(o)); return
+        }
+        if path.hasPrefix("/api/selfupdate/") {
+            let (code, o) = SelfUpdater.shared.handle(method: m, path: path, headers: headers, engineReady: Engine.shared.ready)
+            send(c, code, "application/json", json(o)); return
+        }
+        if path == "/engine/health" || path == "/health" {
+            Engine.shared.ready ? send(c, 200, "application/json", json(["status": "ok"])) : send(c, 503, "application/json", json(["status": "loading"]))
+            return
+        }
+        if path == "/engine/v1/chat/completions" && m == "POST" {
+            guard let o = try? JSONSerialization.jsonObject(with: body) as? [String: Any], let ms = o["messages"] as? [[String: Any]] else { send(c, 400, "application/json", json(["error": "bad request"])); return }
+            let msgs = ms.map { (($0["role"] as? String) ?? "user", ($0["content"] as? String) ?? "") }
+            let maxT = (o["max_tokens"] as? Int) ?? 256
+            let temp = min(Float((o["temperature"] as? Double) ?? 0.2), 0.2)
+            // BATIBABOX: optional "ds_memory": {"bot", "skip", "hits":[{"text","score","label"}]} (vector hits from the web layer);
+            // optional "ds_record": false (the app's own digest job). Direct API calls without these still get memory + recording.
+            let dm = o["ds_memory"] as? [String: Any] ?? [:]
+            let bot = MemoryStore.safeBot(dm["bot"] as? String), record = (o["ds_record"] as? Bool) ?? true
+            let src = MemoryStore.isTestRequest(headers: headers, body: o) ? "test" : "chat"   // memidx 2026-10-19
+            let user = msgs.last(where: { $0.0 == "user" })?.1 ?? ""
+            let reply: (String) -> Void = { text in
+                self.send(c, 200, "application/json", self.json(["object": "chat.completion", "model": "dragon-skull-granite-4.0-h-1b",
+                    "choices": [["index": 0, "finish_reason": "stop", "message": ["role": "assistant", "content": text]]]]))
+            }
+            let cmd = user.trimmingCharacters(in: .whitespacesAndNewlines), low = cmd.lowercased()
+            // DRAGONGATE commands are honored only from the native dsGateCmd door (typed in the chat box). A copy arriving here over HTTP
+            // (a script, plugin, overlay, RVM or replay) is refused: never sent to the model, never recorded as chat memory.
+            if DGCommands.isCommand(cmd) {
+                reply(DGCommands.shared.run(cmd, origin: .api).text); return
+            }
+            if DGCommands.isRvmCommand(cmd) { reply(DGCommands.rvmHTTPReply); return }
+            if DGCommands.isRscribeCommand(cmd) { reply(DGCommands.rscribeHTTPReply); return }   // ЯBAT 2026-10-19: same as Mac main.swift   // SCOUT rvm-chatcmd 2026-10-19: no model, no memory
+            if low == "batibabox" || low == "/batibabox" || low.hasPrefix("/recall ") || low.hasPrefix("recall ") {   // same as ЯBOT NativeHeart
+                let text: String
+                if low.hasSuffix("batibabox") { text = MemoryStore.shared.status(bot: bot) } else {
+                    let hits = MemoryStore.shared.recall(String(cmd.drop(while: { $0 == "/" }).dropFirst(7)), bot: bot)
+                    text = hits.isEmpty ? "BATIBABOX recall: nothing matched." : "BATIBABOX recall:\n" + hits.map { "[\(MemoryStore.label($0.1))] \($0.1.text.prefix(400))" }.joined(separator: "\n…\n")
+                }
+                if record { MemoryStore.shared.recordTurn(bot: bot, role: "user", text: cmd, intent: "recall", source: "command"); MemoryStore.shared.recordTurn(bot: bot, role: "bot", text: text, intent: "recall", source: "command") }
+                reply(text); return
+            }
+            var pack: MemoryStore.Pack? = nil
+            if (dm["skip"] as? Bool) != true {
+                let extra = ((dm["hits"] as? [[String: Any]]) ?? []).prefix(8).compactMap { h -> MemoryStore.Item? in
+                    guard let t = h["text"] as? String, !t.isEmpty else { return nil }
+                    return MemoryStore.Item(score: min(1, max(0, (h["score"] as? Double) ?? 0)), ts: (h["ts"] as? String) ?? "", label: String(((h["label"] as? String) ?? "vector").prefix(40)), text: String(t.prefix(600)))
+                }
+                pack = MemoryStore.shared.contextPack(query: user, bot: bot, extra: Array(extra), exclude: Set(msgs.map { String($0.1.prefix(200)) }))
+                // Recall / memory can never smuggle a gate command into model context.
+                if var p = pack {
+                    p.items = p.items.map { MemoryStore.Item(score: $0.score, ts: $0.ts, label: $0.label, text: DGCommands.stripGate($0.text).0) }
+                    p.digest = DGCommands.stripGate(p.digest).0; p.index = DGCommands.stripGate(p.index).0; pack = p
+                }
+            }
+            guard let gated = DGGate.shared.prePrompt(msgs, source: "server") else { send(c, 403, "application/json", json(["error": "DRAGONGATE blocked"])); return }
+            // 2026-11-13 (Rizal pt173u): Apple on-device model FIRST via shared RAgentEngine; on-device Granite (Engine) only as backup. Turn journaled for CRYPTOHIVEMIND.
+            let _sys = (gated.first(where: { $0.0 == "system" })?.1 ?? "") + (pack.map { p in "\n\nMemory:\n" + p.items.prefix(6).map { $0.text }.joined(separator: "\n") } ?? "")
+            let _prompt = gated.filter { $0.0 != "system" }.suffix(6).map { "\($0.0): \($0.1)" }.joined(separator: "\n")
+            let _rag = RAgentEngine.isGuarded(user) ? nil : RAgentEngine.chatSync(app: "rdragon-ios", source: "rdragon", system: _sys, user: user, prompt: _prompt) { (Engine.shared.chat(gated, maxTokens: maxT, temperature: temp, memory: pack), "granite-on-device") }
+            let text = DGGate.shared.postReply(_rag?.text ?? Engine.shared.chat(gated, maxTokens: maxT, temperature: temp, memory: pack), dest: "server")
+            if text.hasPrefix("("), text.contains("error") || text.contains("too long") { MemoryStore.shared.event("engine", "engine-error", text) }
+            if record, !user.isEmpty { MemoryStore.shared.recordTurn(bot: bot, role: "user", text: user, source: src); MemoryStore.shared.recordTurn(bot: bot, role: "bot", text: text, source: src) }
+            reply(text)
+            return
+        }
+        if m == "PUT" {   // SCOUT rebuild 2026-10-19: drive1 write-back only (RlabData.put: path-locked, size-checked, atomic)
+            let ct = headers.first { $0.lowercased().hasPrefix("content-type:") }.map { String($0.drop { $0 != ":" }.dropFirst()).trimmingCharacters(in: .whitespaces) }
+            if let code = RlabData.put(forPath: path, contentType: ct, body: body) { send(c, code, "text/plain", Data()); return }
+            send(c, 405, "text/plain", Data()); return
+        }
+        if let (t, d) = RlabMirror.response(forPath: path) {   // ЯBAT rzl-mirror 2026-10-19: RVM outbox, GET only (RlabMirror.swift)
+            if m != "GET" { send(c, 405, "text/plain", Data()); return }
+            if d.isEmpty { send(c, 404, "text/plain", Data("bad outbox path".utf8)) } else { send(c, 200, t, d) }; return
+        }
+        if let (t, d) = RlabData.response(forPath: path) {   // drive1 (RLAB-DATA.md): per-device guest /data disk; writes via PUT above
+            if m != "GET" { send(c, 405, "text/plain", Data()); return }
+            if d.isEmpty { send(c, 404, "text/plain", Data("no drive1".utf8)) } else { send(c, 200, t, d) }; return
+        }
+        if path == "/engine/v1/models" { send(c, 200, "application/json", json(["data": [["id": "dragon-skull-granite-4.0-h-1b"]]])); return }
+        var rel = path == "/" ? "scout.html" : String(path.dropFirst())
+        rel = rel.removingPercentEncoding ?? rel
+        // Newest verified web overlay first (SelfUpdate.swift), then the built-in web/ for anything the overlay lacks.
+        for root in SelfUpdater.shared.webRoots() + [webRoot] {
+            let f = root.appendingPathComponent(rel).standardizedFileURL
+            guard f.path.hasPrefix(root.standardizedFileURL.path + "/"), let d = try? Data(contentsOf: f) else { continue }
+            let types = ["html": "text/html; charset=utf-8", "js": "text/javascript", "css": "text/css", "png": "image/png", "webp": "image/webp", "json": "application/json", "svg": "image/svg+xml",
+                         "htm": "text/html; charset=utf-8", "mjs": "text/javascript", "jpg": "image/jpeg", "jpeg": "image/jpeg", "gif": "image/gif", "ico": "image/x-icon", "txt": "text/plain; charset=utf-8", "ttf": "font/ttf", "otf": "font/otf", "woff": "font/woff", "woff2": "font/woff2"]
+            send(c, 200, types[f.pathExtension.lowercased()] ?? "application/octet-stream", d); return
+        }
+        send(c, 404, "text/plain", Data("not found".utf8))
+    }
+
+    private func ensureRklowdFolder() {
+        let fm = FileManager.default
+        let docs = fm.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        // Canonical RMAIL store is the app RKLOWD folder (nodes/17e). Older 17e-rdragon
+        // and Application Support RDRAGON/rmail-block4-* folders are read, never deleted.
+        let root = docs.appendingPathComponent("ЯLAB/RKLOWD/nodes/17e")
+        for sub in ["inbox", "drop", "sent", "outbox"] {
+            try? fm.createDirectory(at: root.appendingPathComponent(sub), withIntermediateDirectories: true)
+        }
+        let nj = root.appendingPathComponent("node.json")
+        if !fm.fileExists(atPath: nj.path) {
+            let obj: [String: Any] = [
+                "schema": "rklowd.node.v1", "node": "17e", "where": "on-device",
+                "identity": "@chaserizal", "hub": "transponder 8797 + loopback 8319",
+                "rule": "RMAIL is the app RKLOWD folder; /rscale/rmail/drop writes inbox; dedupe id+sha"
+            ]
+            if let d = try? JSONSerialization.data(withJSONObject: obj, options: [.prettyPrinted]) {
+                try? d.write(to: nj)
+            }
+        }
+    }
+
+    private var rklowdRoot: URL {
+        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            .appendingPathComponent("ЯLAB/RKLOWD/nodes/17e")
+    }
+
+    /// Older locations that may still hold mail. Read-only; never deleted or wiped.
+    private var rklowdLegacyRoots: [URL] {
+        let fm = FileManager.default
+        let docs = fm.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let support = fm.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
+        return [
+            docs.appendingPathComponent("ЯLAB/RKLOWD/nodes/17e-rdragon"),
+            docs.appendingPathComponent("RMail"),
+            docs.appendingPathComponent("RMAIL"),
+            support.appendingPathComponent("RDRAGON/rmail-block4-outbox"),
+            support.appendingPathComponent("RDRAGON/rmail-block4-local")
+        ]
+    }
+
+    private func startTransponder() {
+        do {
+            let p = NWParameters.tcp
+            p.allowLocalEndpointReuse = true
+            p.includePeerToPeer = true
+            let l = try NWListener(using: p, on: NWEndpoint.Port(rawValue: LocalServer.transponderPort)!)
+            l.service = NWListener.Service(name: "rklowd-17e-rdragon", type: "_rklowd._tcp")
+            l.newConnectionHandler = { [weak self] c in self?.handle(c) }
+            l.stateUpdateHandler = { st in
+                if case .failed = st { MemoryStore.shared.event("rmail", "transponder-fail", "8797 failed") }
+            }
+            l.start(queue: q); transponder = l
+            MemoryStore.shared.event("rmail", "transponder-start", "RMAIL transponder on :8797 + RKLOWD folder")
+            startPresence()
+        } catch {
+            MemoryStore.shared.event("rmail", "transponder-fail", "\(error)")
+        }
+    }
+
+    private func sha256Hex(_ data: Data) -> String {
+        var hasher = SHA256()
+        hasher.update(data: data)
+        return hasher.finalize().map { String(format: "%02x", $0) }.joined()
+    }
+
+    private func rmailSend(_ c: NWConnection, _ code: Int, _ obj: Any) {
+        let body = (try? JSONSerialization.data(withJSONObject: obj)) ?? Data("{}".utf8)
+        let status = [200: "OK", 204: "No Content", 400: "Bad Request", 404: "Not Found"][code] ?? "OK"
+        let h = "HTTP/1.1 \(code) \(status)\r\nContent-Type: application/json\r\nContent-Length: \(body.count)\r\nCache-Control: no-store\r\nConnection: close\r\nAccess-Control-Allow-Origin: *\r\nAccess-Control-Allow-Methods: GET, POST, OPTIONS\r\nAccess-Control-Allow-Headers: Content-Type, Authorization, X-RKLOWD-Node, X-RDRAGON-Seat, X-RKLOWD-Hop\r\n\r\n"
+        c.send(content: Data(h.utf8) + body, completion: .contentProcessed { _ in c.cancel() })
+    }
+
+    private func rmailRoute(_ c: NWConnection, _ m: String, _ path: String, _ body: Data, _ headers: [String]) {
+        if m == "OPTIONS" {
+            let h = "HTTP/1.1 204 No Content\r\nContent-Length: 0\r\nAccess-Control-Allow-Origin: *\r\nAccess-Control-Allow-Methods: GET, POST, OPTIONS\r\nAccess-Control-Allow-Headers: Content-Type, Authorization, X-RKLOWD-Node, X-RDRAGON-Seat, X-RKLOWD-Hop\r\nConnection: close\r\n\r\n"
+            c.send(content: Data(h.utf8), completion: .contentProcessed { _ in c.cancel() })
+            return
+        }
+        ensureRklowdFolder()
+        if path.hasSuffix("/rmail/health") {
+            rmailSend(c, 200, ["ok": true, "hub": "17e", "node": "17e", "ip": currentIPv4() ?? "", "port": 8797]); return
+        }
+        if path.hasSuffix("/rklowd/peers") && (m == "GET" || m == "HEAD") {
+            rmailSend(c, 200, readPeers()); return
+        }
+        if path.hasSuffix("/rklowd/presence") && m == "POST" {
+            guard let obj = try? JSONSerialization.jsonObject(with: body) as? [String: Any] else {
+                rmailSend(c, 400, ["ok": false, "err": "bad json"]); return
+            }
+            rmailSend(c, 200, acceptPresence(obj)); return
+        }
+        if path.hasSuffix("/rmail/inbox") && (m == "GET" || m == "HEAD") {
+            rmailSend(c, 200, readMailbox()); return
+        }
+        if (path.hasSuffix("/rmail/drop") || path.hasSuffix("/send") || path.hasSuffix("/drop")) && m == "POST" {
+            guard let obj = try? JSONSerialization.jsonObject(with: body) as? [String: Any] else {
+                rmailSend(c, 400, ["ok": false, "err": "bad json"]); return
+            }
+            if String(obj["kind"] as? String ?? "").lowercased() == "rklowd.presence" || String(obj["kind"] as? String ?? "") == "presence" {
+                rmailSend(c, 200, acceptPresence(obj)); return
+            }
+            let ack = storeDrop(obj)
+            rmailSend(c, ack["ok"] as? Bool == true ? 200 : 400, ack)
+            let hop = headers.first { $0.lowercased().hasPrefix("x-rklowd-hop:") }?
+                .split(separator: ":").dropFirst().joined(separator: ":").trimmingCharacters(in: .whitespaces)
+            if (Int(hop ?? "0") ?? 0) < 1, ack["ok"] as? Bool == true {
+                forwardDrop(body)
+            }
+            return
+        }
+        rmailSend(c, 404, ["err": "unknown rmail path"])
+    }
+
+    private func readMailbox() -> [String: Any] {
+        var found: [String: [String: Any]] = [:]
+        var legacyHits: [String: Int] = [:]
+        func ingest(_ dir: URL, source: String) {
+            let files = (try? FileManager.default.contentsOfDirectory(at: dir, includingPropertiesForKeys: nil)) ?? []
+            var n = 0
+            for f in files where f.pathExtension == "json" {
+                guard let d = try? Data(contentsOf: f),
+                      let raw = try? JSONSerialization.jsonObject(with: d) as? [String: Any] else { continue }
+                let id = String(raw["id"] as? String ?? f.deletingPathExtension().lastPathComponent)
+                guard id.count >= 6 else { continue }
+                n += 1
+                if found[id] != nil { continue }   // canonical folder wins; no overwrite
+                var msg = raw
+                msg["kind"] = raw["kind"] ?? "rmail"
+                msg["sha"] = sha256Hex(d)
+                msg["verified"] = false
+                if source != "inbox" { msg["legacySource"] = source }
+                found[id] = msg
+            }
+            if n > 0 { legacyHits[source] = n }
+        }
+        ingest(rklowdRoot.appendingPathComponent("inbox"), source: "inbox")
+        ingest(rklowdRoot.appendingPathComponent("drop"), source: "drop")
+        for root in rklowdLegacyRoots {
+            let name = root.lastPathComponent
+            ingest(root, source: name)
+            ingest(root.appendingPathComponent("inbox"), source: name + "/inbox")
+            ingest(root.appendingPathComponent("outbox"), source: name + "/outbox")
+        }
+        let msgs = found.values.sorted { Int("\($0["ts"] ?? 0)") ?? 0 > Int("\($1["ts"] ?? 0)") ?? 0 }
+        return ["ok": true, "node": "rklowd.17e", "seat": "iphone17e-rdragon", "folder": rklowdRoot.path, "messages": Array(msgs.prefix(300)), "count": msgs.count, "legacyRead": legacyHits]
+    }
+
+    private func storeDrop(_ m: [String: Any]) -> [String: Any] {
+        let id = String(m["id"] as? String ?? "").trimmingCharacters(in: .whitespaces)
+        let text = String((m["text"] as? String) ?? (m["body"] as? String) ?? "")
+        guard id.count >= 6, !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            return ["ok": false, "err": "bad id or empty body"]
+        }
+        var out = m
+        out["kind"] = "rmail"
+        out["to"] = (m["to"] as? String).flatMap { $0.isEmpty ? nil : $0 } ?? "@chaserizal"
+        out["verified"] = false
+        out["trust"] = "guest-unverified"
+        guard let data = try? JSONSerialization.data(withJSONObject: out, options: [.sortedKeys]) else {
+            return ["ok": false, "err": "encode"]
+        }
+        let sha = sha256Hex(data)
+        let dest = rklowdRoot.appendingPathComponent("inbox").appendingPathComponent("rmail-\(id).json")
+        if FileManager.default.fileExists(atPath: dest.path), let old = try? Data(contentsOf: dest), sha256Hex(old) == sha {
+            return ["ok": true, "id": id, "sha": sha, "dup": true]
+        }
+        try? data.write(to: dest)
+        return ["ok": true, "id": id, "sha": sha]
+    }
+
+    private func forwardDrop(_ body: Data) {
+        var peers = presenceDropURLs()
+        if peers.isEmpty {
+            peers = [
+                "http://192.168.0.113:8797/rscale/rmail/drop",
+                "http://192.168.0.224:8797/rscale/rmail/drop"
+            ]
+        }
+        peers.removeAll { $0.contains("192.168.0.75") }
+        for u in peers {
+            guard let url = URL(string: u) else { continue }
+            var req = URLRequest(url: url)
+            req.httpMethod = "POST"
+            req.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            req.setValue("1", forHTTPHeaderField: "X-RKLOWD-Hop")
+            req.setValue("iphone17e-rdragon", forHTTPHeaderField: "X-RDRAGON-Seat")
+            req.httpBody = body
+            req.timeoutInterval = 3
+            URLSession.shared.dataTask(with: req).resume()
+        }
+    }
+
+
+    private var presenceTimer: DispatchSourceTimer?
+
+    private func currentIPv4() -> String? {
+        var ifaddr: UnsafeMutablePointer<ifaddrs>?
+        guard getifaddrs(&ifaddr) == 0, let first = ifaddr else { return nil }
+        defer { freeifaddrs(ifaddr) }
+        var cur: UnsafeMutablePointer<ifaddrs>? = first
+        while let p = cur {
+            defer { cur = p.pointee.ifa_next }
+            guard p.pointee.ifa_addr.pointee.sa_family == UInt8(AF_INET) else { continue }
+            var addr = p.pointee.ifa_addr.withMemoryRebound(to: sockaddr_in.self, capacity: 1) { $0.pointee.sin_addr }
+            var buf = [CChar](repeating: 0, count: Int(INET_ADDRSTRLEN))
+            inet_ntop(AF_INET, &addr, &buf, socklen_t(INET_ADDRSTRLEN))
+            let ip = String(cString: buf)
+            if ip.hasPrefix("127.") || ip == "192.168.0.75" { continue }
+            if ip.hasPrefix("192.168.") || ip.hasPrefix("10.") || ip.hasPrefix("172.") { return ip }
+        }
+        return nil
+    }
+
+    private func writePresenceFile(_ rec: [String: Any]) {
+        ensureRklowdFolder()
+        guard let data = try? JSONSerialization.data(withJSONObject: rec, options: [.prettyPrinted]) else { return }
+        try? data.write(to: rklowdRoot.appendingPathComponent("presence.json"))
+    }
+
+    private func acceptPresence(_ m: [String: Any]) -> [String: Any] {
+        let node = String(m["node"] as? String ?? "").replacingOccurrences(of: "rklowd.", with: "")
+        let ip = String(m["ip"] as? String ?? "")
+        if node.isEmpty || ip.isEmpty || ip == "192.168.0.75" {
+            return ["ok": false, "err": "bad presence"]
+        }
+        var rec = m
+        rec["schema"] = "rklowd.presence.v1"
+        rec["kind"] = "rklowd.presence"
+        rec["node"] = node
+        rec["ip"] = ip
+        rec["port"] = m["port"] ?? 8797
+        rec["ts"] = m["ts"] ?? Int(Date().timeIntervalSince1970)
+        rec["ttl"] = m["ttl"] ?? 90
+        if node == "17e-rdragon" || node == "17e" {
+            writePresenceFile(rec)
+        }
+        return ["ok": true, "presence": true, "node": node, "ip": ip]
+    }
+
+    private func publishOwnPresence() -> [String: Any] {
+        let rec: [String: Any] = [
+            "schema": "rklowd.presence.v1", "kind": "rklowd.presence",
+            "node": "17e-rdragon", "ip": currentIPv4() ?? "",
+            "port": 8797, "ts": Int(Date().timeIntervalSince1970), "ttl": 90
+        ]
+        if let ip = rec["ip"] as? String, !ip.isEmpty, ip != "192.168.0.75" {
+            writePresenceFile(rec)
+        }
+        return rec
+    }
+
+    private func readPeers() -> [String: Any] {
+        _ = publishOwnPresence()
+        var peers: [[String: Any]] = []
+        if let d = try? Data(contentsOf: rklowdRoot.appendingPathComponent("presence.json")),
+           let rec = try? JSONSerialization.jsonObject(with: d) as? [String: Any] {
+            peers.append(rec)
+        }
+        return ["ok": true, "peers": peers, "count": peers.count]
+    }
+
+    private func presenceDropURLs() -> [String] {
+        var urls: [String] = []
+        if let d = try? Data(contentsOf: rklowdRoot.appendingPathComponent("presence.json")),
+           let rec = try? JSONSerialization.jsonObject(with: d) as? [String: Any] {
+            // own record is not a peer
+            _ = rec
+        }
+        // last-known fallbacks stay only if presence empty; filled by scan
+        let cache = rklowdRoot.appendingPathComponent("peers-cache.json")
+        if let d = try? Data(contentsOf: cache),
+           let arr = (try? JSONSerialization.jsonObject(with: d)) as? [[String: Any]] {
+            for rec in arr {
+                let ip = String(rec["ip"] as? String ?? "")
+                if ip.isEmpty || ip == "192.168.0.75" { continue }
+                let port = rec["port"] ?? 8797
+                urls.append("http://\(ip):\(port)/rscale/rmail/drop")
+            }
+        }
+        return urls
+    }
+
+    private func cachePeers(_ recs: [[String: Any]]) {
+        if let data = try? JSONSerialization.data(withJSONObject: recs) {
+            try? data.write(to: rklowdRoot.appendingPathComponent("peers-cache.json"))
+        }
+    }
+
+    private func scanSubnet() {
+        guard let ip = currentIPv4() else { return }
+        let parts = ip.split(separator: ".")
+        guard parts.count == 4 else { return }
+        let prefix = parts.dropLast().joined(separator: ".")
+        var found: [[String: Any]] = []
+        let g = DispatchGroup()
+        let lock = NSLock()
+        for n in 1..<255 {
+            let host = "\(prefix).\(n)"
+            if host == ip || host == "192.168.0.75" { continue }
+            guard let url = URL(string: "http://\(host):8797/rscale/rmail/health") else { continue }
+            g.enter()
+            var req = URLRequest(url: url)
+            req.timeoutInterval = 0.35
+            URLSession.shared.dataTask(with: req) { data, resp, _ in
+                defer { g.leave() }
+                guard let data,
+                      let j = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+                      (j["ok"] as? Bool) == true else { return }
+                let node = String(j["hub"] as? String ?? j["node"] as? String ?? "")
+                lock.lock(); found.append(["node": node, "ip": host, "port": 8797, "ts": Int(Date().timeIntervalSince1970), "ttl": 90]); lock.unlock()
+            }.resume()
+        }
+        g.notify(queue: q) { [weak self] in
+            self?.cachePeers(found)
+        }
+    }
+
+    private func startPresence() {
+        _ = publishOwnPresence()
+        scanSubnet()
+        if presenceTimer == nil {
+            let t = DispatchSource.makeTimerSource(queue: q)
+            t.schedule(deadline: .now() + 45, repeating: 45)
+            t.setEventHandler { [weak self] in
+                _ = self?.publishOwnPresence()
+                self?.scanSubnet()
+            }
+            t.resume()
+            presenceTimer = t
+        }
+    }
+
+}

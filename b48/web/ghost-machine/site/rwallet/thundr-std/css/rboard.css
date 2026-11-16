@@ -1,0 +1,101 @@
+/* RBOARD — on-screen keyboard for the ThundR Design Standard.
+   Matches assets/icons/rboard-reference.jpg.
+   Types into a local input only. return never signs and never sends on a network. */
+
+.rb{
+  flex-shrink:0;
+  background:#000;
+  border-top:1.5px solid var(--r-rboard-frame, #3F117E);
+  padding:8px 8px 10px;
+  font-family:var(--font-key);
+  user-select:none;
+}
+.rb-frame{
+  border:1.5px solid var(--r-rboard-frame, #3F117E);
+  border-radius:16px;
+  padding:8px 6px 8px;
+  background:#000;
+  box-shadow:0 0 16px rgba(63,17,126,.45);
+}
+.rb-top{
+  display:flex;align-items:center;gap:6px;
+  padding:2px 6px 8px;
+}
+.rb-top .pr{color:var(--r-green);font-family:var(--font-rfont);font-size:18px;white-space:nowrap}
+.rb-top .cur{
+  display:inline-block;width:8px;height:18px;background:var(--r-green);
+  animation:rbblink 1s steps(1) infinite;vertical-align:middle;
+}
+@keyframes rbblink{50%{opacity:0}}
+.rb-top .sp{flex:1}
+.rb-top .lay{
+  width:36px;height:28px;
+  display:grid;place-items:center;
+  border:1.5px solid var(--r-green);
+  border-radius:10px;
+  color:var(--r-green);
+  font-size:12px;font-weight:700;
+  font-family:var(--font-key);
+}
+.rb-top .lay.on{
+  background:var(--r-purple);
+  border-color:var(--r-purple);
+  color:#fff;
+  box-shadow:var(--r-glow-p);
+}
+.rb-row{display:flex;justify-content:center;gap:5px;margin:4px 0}
+.rb-k{
+  position:relative;
+  flex:1 1 0;
+  min-width:0;height:42px;
+  display:grid;place-items:center;
+  background:#000;
+  border:1.5px solid var(--r-green);
+  border-radius:12px;
+  color:#fff;
+  font-family:var(--font-key);
+  font-size:20px;
+  box-shadow:0 0 4px rgba(57,255,20,.2);
+}
+.rb-k:active{background:#0a1a08}
+.rb-k sup{
+  position:absolute;top:3px;left:6px;
+  color:var(--r-green);font-size:10px;line-height:1;
+  font-family:var(--font-bay);font-weight:400;
+  pointer-events:none;
+}
+.rb-k.fn{color:var(--r-green);font-size:14px}
+.rb-k.w2{flex:1.45 1 0}
+.rb-k.sp{
+  flex:3.2 1 0;
+  color:var(--r-green);
+  font-size:13px;font-weight:700;letter-spacing:.16em;
+}
+.rb-k.ret{
+  flex:1.6 1 0;
+  background:var(--r-purple);
+  border-color:var(--r-purple);
+  color:#fff;
+  font-size:14px;
+  box-shadow:var(--r-glow-p);
+}
+.rb-k.globe{color:var(--r-globe);font-size:18px}
+.rb-k .bg{font-family:var(--font-bay);font-size:20px;color:var(--r-green)}
+
+@media (min-width:700px){
+  .rb-k{height:48px;font-size:22px}
+}
+
+.rb-k.fn.shift .ico,
+.rb-k.fn.del .ico{display:block;line-height:1;font-family:system-ui,"Apple Symbols","Segoe UI Symbol",sans-serif;font-size:18px;color:#fff;font-weight:700}
+.rb-k.fn.shift .ico{font-size:20px}
+.rb-k.fn.del .x{
+  display:grid;place-items:center;
+  width:22px;height:18px;
+  border:1.5px solid #fff;border-radius:5px;
+  font-family:system-ui,sans-serif;font-size:11px;font-weight:800;color:#fff;
+  letter-spacing:0;
+}
+.rb-top .lay{font-family:var(--font-key),system-ui,sans-serif}
+.rb-top .lay.bay{font-family:var(--font-bay),system-ui,sans-serif;font-size:16px}
+.rb-k sup{font-family:var(--font-bay),sans-serif !important;letter-spacing:0}

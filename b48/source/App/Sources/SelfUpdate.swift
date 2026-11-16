@@ -1,0 +1,401 @@
+// SelfUpdate.swift — DRAGON SKULL iOS: signed over-the-air WEB bundle loader (interpreted web files only, never native code).
+// Grok Bot (SCOUT) for the Decider Rizal · 2026-10-18 · ~/ЯLAB/DRAGONSKULL/ios/selfupdate-20261018 (staged, not built, not published).
+//
+// Trust (same as REggKit.message(kind) / REggKit.signatureOK and rlab-sign entry_message):
+//   ed25519 over "rlab-update-v1\n<kind>\n<id>\n<version>\n<name>\n<size>\n<sha256 lowercase>" (UTF-8, no trailing newline)
+//   kind "web", id "info.rizal.dragonskull", signature = base64 in the entry's "ed25519" field, embedded PUBLIC key e5833fdfbbfe.
+//   The manifest is an rlab-appcast.v1 feed with the entry at apps["ios-web"], so rlab-sign signs it with no new tooling.
+// Flow: manifest (https) → signature ✓ → version newer than built-in/active and not rejected → download → size ✓ + SHA-256 ✓
+//   → unzip (MiniUnzip, Apple Compression only) with an extension allowlist, no traversal, no symlinks, no executables
+//   → Application Support/web-overlay/<version>/ → "staged" → active at next launch (or POST /api/selfupdate/apply) as "pending".
+// Rollback: a pending overlay is served on at most 2 launches; the page must POST /api/selfupdate/ok after it loaded and
+//   /engine/health passed, otherwise it is dropped (and never auto-installed again) and the previous confirmed overlay or the
+//   built-in web/ is served. POST /api/selfupdate/reset returns to built-in. Missing files always fall back to the built-in web/.
+import Foundation
+import CryptoKit
+
+/// The ONE place the manifest location lives. Info.plist key `DSSelfUpdateManifestURL` overrides it (empty = use this).
+let kSelfUpdateDefaultManifestURL = "https://raw.githubusercontent.com/RIZALEON/RZL-EGG/main/dragon-skull/ios-web/appcast.json"
+/// Document name RKAST/RPIPE serves for the same signed apps["ios-web"] entry. Host is resolved at runtime; never hard-code addresses.
+let kSelfUpdateRPipeManifestName = "ALL-APPCASTS.json"
+/// Optional https override for the RKAST/RPIPE appcast (Info.plist). Empty = resolve at runtime + local signed drop.
+let kSelfUpdateRPipeManifestPlistKey = "DSSelfUpdateRPipeManifestURL"
+/// Optional hostname-only Info.plist key for the RKAST/RPIPE feed host (used by DragonGate default update allowlist).
+let kSelfUpdateRPipeFeedHostPlistKey = "DSSelfUpdateRPipeFeedHost"
+/// Signed drop written by RPIPE into Application Support (file URL; already allowed by DGURLSession).
+let kSelfUpdateRPipeDropDir = "rpipe-update"
+
+struct SelfUpdateError: Error, CustomStringConvertible {
+    let description: String
+    init(_ s: String) { description = s }
+}
+
+final class SelfUpdater: @unchecked Sendable {
+    static let shared = SelfUpdater()
+
+    // RLAB update key e5833fdfbbfe — PUBLIC key only (raw 32 bytes, base64) = REggKit.publicKeyB64 = rlab-sign PUBKEY_B64.
+    static let publicKeyB64 = "zs7M4OOB0zQhWOQw3SHpAY+XYxbZJvcPESy1y400Ti0="
+    static let keyId = "e5833fdfbbfe"
+    static let kind = "web"
+    static let appId = "info.rizal.dragonskull"
+    static let feedKey = "ios-web"                 // manifest: apps["ios-web"]
+    static let nativeAPI = 2                       // bump when the native side changes what web bundles may rely on
+    static let checkInterval: TimeInterval = 6 * 3600
+    static let maxUnconfirmedLaunches = 2
+    static let maxManifestBytes = 1 << 20
+    static let maxBundleBytes = 32 << 20
+    static let maxUnpackedBytes = 64 << 20
+    static let maxFiles = 2000
+    /// Interpreted web assets only (what App/web uses today). No wasm (not used), no native code, no plists, no dylibs.
+    static let allowedExtensions: Set<String> = ["html", "htm", "js", "mjs", "css", "json", "png", "webp", "jpg", "jpeg", "gif", "svg", "ico", "txt"]
+
+    struct State: Codable {
+        var active: String?            // overlay being served (nil = built-in web/)
+        var previous: String?          // last CONFIRMED overlay = rollback target (nil = built-in)
+        var pending = false            // active not yet confirmed by the page
+        var unconfirmedLaunches = 0
+        var staged: String?            // verified + unpacked, becomes active at next launch or on /apply
+        var rejected: [String] = []    // rolled back or reset — never auto-installed again
+        var lastCheck: Double = 0
+        var lastResult = ""
+    }
+
+    struct WebItem {
+        let kind: String, id: String, version: String, name: String, size: Int, sha256: String, url: String, ed25519: String
+    }
+
+    var log: (String) -> Void = { print("[DRAGON SKULL] selfupdate: \($0)") }
+    let base: URL
+    private let lock = NSLock()
+    private var st = State()
+    private var builtInVersion = "0"
+    private var checking = false
+    private let fm = FileManager.default
+
+    init(base: URL? = nil) {
+        let b = base ?? FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
+            .appendingPathComponent("web-overlay", isDirectory: true)
+        try? FileManager.default.createDirectory(at: b, withIntermediateDirectories: true)
+        var u = b; var rv = URLResourceValues(); rv.isExcludedFromBackup = true; try? u.setResourceValues(rv)
+        self.base = b
+    }
+
+    var manifestURL: String {
+        if let s = Bundle.main.object(forInfoDictionaryKey: "DSSelfUpdateManifestURL") as? String, !s.isEmpty { return s }
+        return kSelfUpdateDefaultManifestURL
+    }
+    /// Optional resolver filled by RPIPE/RKAST presence at launch. Must return https or file URLs only. No addresses baked in.
+    static var rpipeResolvedManifestURLs: (() -> [URL])?
+
+    /// GitHub https appcast, then any https Info.plist override, then a local signed drop, then runtime-resolved RKAST/RPIPE URLs.
+    func manifestSources() -> [(String, URL)] {
+        var out: [(String, URL)] = []
+        if let u = URL(string: manifestURL) { out.append(("github-raw", u)) }
+        if let s = Bundle.main.object(forInfoDictionaryKey: kSelfUpdateRPipeManifestPlistKey) as? String, !s.isEmpty, let u = URL(string: s) {
+            out.append(("rpipe-plist", u))
+        }
+        let drop = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
+            .appendingPathComponent(kSelfUpdateRPipeDropDir, isDirectory: true)
+            .appendingPathComponent(kSelfUpdateRPipeManifestName)
+        if FileManager.default.fileExists(atPath: drop.path) { out.append(("rpipe-drop", drop)) }
+        for u in Self.rpipeResolvedManifestURLs?() ?? [] { out.append(("rpipe-resolved", u)) }
+        return out
+    }
+
+    // MARK: launch / serving
+
+    /// Call once per launch BEFORE the local server serves anything. Promotes a staged bundle and does rollback accounting.
+    func prepareAtLaunch(builtIn: URL) {
+        lock.lock(); defer { lock.unlock() }
+        builtInVersion = Self.readVersionFile(builtIn.appendingPathComponent("ds-webversion.json"))?.version ?? "0"
+        st = loadState()
+        if let s = st.staged {
+            if usable(s) { promoteLocked(s) } else { st.staged = nil }
+        }
+        if let p = st.previous, !usable(p) { st.previous = nil }
+        if let a = st.active {
+            if !usable(a) {
+                dropActiveLocked("overlay \(a) is not usable with this build (built-in web \(builtInVersion))", reject: false)
+            } else if st.pending {
+                if st.unconfirmedLaunches >= Self.maxUnconfirmedLaunches {
+                    dropActiveLocked("overlay \(a) was never confirmed after \(st.unconfirmedLaunches) launches — rolled back", reject: true)
+                } else { st.unconfirmedLaunches += 1 }
+            }
+        }
+        saveLocked(); pruneLocked()
+        log("serving web \(st.active ?? "built-in \(builtInVersion)")\(st.pending ? " (pending confirmation, launch \(st.unconfirmedLaunches))" : "")")
+    }
+
+    /// Overlay roots to try before the built-in web/ (newest verified active overlay only).
+    func webRoots() -> [URL] {
+        lock.lock(); defer { lock.unlock() }
+        guard let a = st.active else { return [] }
+        return [dir(a)]
+    }
+
+    // MARK: HTTP API (called from LocalServer.route for /api/selfupdate/*)
+
+    func handle(method: String, path: String, headers: [String], engineReady: Bool) -> (Int, [String: Any]) {
+        let name = String(path.dropFirst("/api/selfupdate/".count))
+        if name == "status" { return (200, status()) }
+        // State-changing calls: POST + custom header (a cross-site page cannot send it without a CORS preflight we never answer).
+        let marked = headers.contains { $0.lowercased().replacingOccurrences(of: " ", with: "") == "x-ds-selfupdate:1" }
+        guard method == "POST", marked else { return (403, ["error": "POST with X-DS-SelfUpdate: 1 required"]) }
+        switch name {
+        case "ok":
+            guard engineReady else { return (409, ["error": "engine not ready — not confirming"]) }
+            confirm(); return (200, status())
+        case "check": checkIfDue(force: true, reason: "manual"); return (200, status())
+        case "apply": applyStagedNow(); return (200, status())
+        case "reset": resetToBuiltIn(); return (200, status())
+        default: return (404, ["error": "unknown selfupdate call"])
+        }
+    }
+
+    func status() -> [String: Any] {
+        lock.lock(); defer { lock.unlock() }
+        return ["builtIn": builtInVersion, "serving": st.active ?? builtInVersion, "active": st.active ?? "",
+                "previous": st.previous ?? "", "pending": st.pending, "unconfirmedLaunches": st.unconfirmedLaunches,
+                "staged": st.staged ?? "", "rejected": st.rejected, "checking": checking,
+                "lastCheck": st.lastCheck > 0 ? ISO8601DateFormatter().string(from: Date(timeIntervalSince1970: st.lastCheck)) : "",
+                "lastResult": st.lastResult, "manifest": manifestURL, "keyId": Self.keyId, "nativeAPI": Self.nativeAPI]
+    }
+
+    func confirm() {
+        lock.lock(); defer { lock.unlock() }
+        guard st.pending, let a = st.active else { return }
+        st.pending = false; st.unconfirmedLaunches = 0
+        saveLocked(); pruneLocked(); log("overlay \(a) confirmed by the page")
+    }
+
+    func applyStagedNow() {
+        lock.lock(); defer { lock.unlock() }
+        guard let s = st.staged, usable(s) else { return }
+        promoteLocked(s); st.unconfirmedLaunches = 1     // counts as its first launch
+        saveLocked(); log("overlay \(s) applied now (pending confirmation)")
+    }
+
+    func resetToBuiltIn() {
+        lock.lock(); defer { lock.unlock() }
+        for v in [st.active, st.staged, st.previous].compactMap({ $0 }) where !st.rejected.contains(v) { st.rejected.append(v) }
+        st.active = nil; st.previous = nil; st.staged = nil; st.pending = false; st.unconfirmedLaunches = 0
+        saveLocked(); pruneLocked(); log("reset to built-in web \(builtInVersion)")
+    }
+
+    // MARK: update check
+
+    /// Launch / foreground: at most every 6 h. Manual: force = true.
+    func checkIfDue(force: Bool = false, reason: String) {
+        lock.lock()
+        let now = Date().timeIntervalSince1970
+        guard !checking, force || now - st.lastCheck >= Self.checkInterval else { lock.unlock(); return }
+        checking = true; st.lastCheck = now; saveLocked()
+        lock.unlock()
+        Task.detached(priority: .utility) { [self] in
+            var r: String
+            do { r = try await self.runCheck() } catch { r = "failed: \(error)" }
+            self.lock.withLock { self.checking = false; self.st.lastResult = r; self.saveLocked() }
+            self.log("\(reason) check: \(r)")
+        }
+    }
+
+    private func runCheck() async throws -> String {
+        // Build 48: consult every reachable signed source; pick the newest verifying item. Signature / sha256 / size unchanged.
+        var found: [(String, WebItem)] = []
+        var errors: [String] = []
+        for (name, mu) in manifestSources() {
+            do { found.append((name, try await fetchSignedItem(mu))) }
+            catch { errors.append("\(name): \(error)") }
+        }
+        guard !found.isEmpty else {
+            throw SelfUpdateError(errors.isEmpty ? "no manifest sources" : errors.joined(separator: "; "))
+        }
+        let (current, rejected) = lock.withLock { (st.staged ?? st.active ?? builtInVersion, st.rejected) }
+        found.sort { Self.compareVersions($0.1.version, $1.1.version) > 0 }
+        let newest = found[0].1
+        let src = found[0].0
+        if Self.compareVersions(newest.version, current) <= 0 { return "up to date (\(current); \(src) has \(newest.version))" }
+        if rejected.contains(newest.version) { return "\(newest.version) was rolled back or reset earlier — skipped" }
+        try await downloadAndStage(newest)
+        return "staged \(newest.version) from \(src) sha256 \(newest.sha256.prefix(16)) — serves on next launch (or tap the version to apply now)"
+    }
+
+    private func fetchSignedItem(_ mu: URL) async throws -> WebItem {
+        let https = mu.scheme == "https"
+        let file = mu.isFileURL
+        guard https || file else { throw SelfUpdateError("manifest URL must be https or a local file") }
+        let md: Data
+        if file {
+            md = try Data(contentsOf: mu)
+        } else {
+            let (data, mr) = try await DGURLSession.shared.data(for: URLRequest(url: mu, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 30), channel: .update, source: "selfupdate")
+            guard (mr as? HTTPURLResponse)?.statusCode == 200 else { throw SelfUpdateError("manifest HTTP \((mr as? HTTPURLResponse)?.statusCode ?? 0)") }
+            md = data
+        }
+        guard md.count <= Self.maxManifestBytes else { throw SelfUpdateError("manifest too large") }
+        let item = try Self.parseManifest(md)
+        guard Self.signatureOK(item) else { throw SelfUpdateError("signature does not verify against keyId \(Self.keyId) — refused") }
+        return item
+    }
+
+    private func downloadAndStage(_ item: WebItem) async throws {
+        guard item.size > 0, item.size <= Self.maxBundleBytes else { throw SelfUpdateError("bundle size \(item.size) out of range") }
+        guard let bu = URL(string: item.url) else { throw SelfUpdateError("bundle URL missing") }
+        let zip: Data
+        if bu.isFileURL {
+            zip = try Data(contentsOf: bu)
+        } else {
+            guard bu.scheme == "https" else { throw SelfUpdateError("bundle URL must be https") }
+            let (tmp, br) = try await DGURLSession.shared.download(for: URLRequest(url: bu, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 120), channel: .update, source: "selfupdate")
+            defer { try? FileManager.default.removeItem(at: tmp) }
+            guard (br as? HTTPURLResponse)?.statusCode == 200 else { throw SelfUpdateError("bundle HTTP \((br as? HTTPURLResponse)?.statusCode ?? 0)") }
+            zip = try Data(contentsOf: tmp)
+        }
+        try installVerified(zip: zip, item: item)
+        lock.withLock { st.staged = item.version; saveLocked() }
+    }
+
+    /// size ✓ + SHA-256 ✓ against the SIGNED entry, then unpack into web-overlay/<version>/. Throws on anything unexpected.
+    func installVerified(zip: Data, item: WebItem) throws {
+        guard zip.count == item.size else { throw SelfUpdateError("size mismatch (\(zip.count) ≠ \(item.size))") }
+        let sum = SHA256.hash(data: zip).map { String(format: "%02x", $0) }.joined()
+        guard sum == item.sha256.lowercased() else { throw SelfUpdateError("SHA-256 mismatch — refused") }
+
+        let bytes = [UInt8](zip)
+        let entries = try MiniUnzip.entries(bytes)
+        guard entries.count <= Self.maxFiles else { throw SelfUpdateError("too many files") }
+        let tmpDir = base.appendingPathComponent(".incoming-\(item.version)-\(UUID().uuidString)", isDirectory: true)
+        try fm.createDirectory(at: tmpDir, withIntermediateDirectories: true)
+        var ok = false
+        defer { if !ok { try? fm.removeItem(at: tmpDir) } }
+        var total = 0
+        for e in entries {
+            if e.name.hasSuffix("/") { continue }                                   // directory entry
+            let rel = try Self.safeRelativePath(e.name)
+            if e.isSymlink { throw SelfUpdateError("symlink refused: \(rel)") }
+            let data = try MiniUnzip.extract(bytes, e)
+            total += data.count
+            guard total <= Self.maxUnpackedBytes else { throw SelfUpdateError("bundle unpacks too large") }
+            if Self.looksExecutable(data) { throw SelfUpdateError("executable content refused: \(rel)") }
+            let f = tmpDir.appendingPathComponent(rel)
+            guard f.standardizedFileURL.path.hasPrefix(tmpDir.standardizedFileURL.path + "/") else { throw SelfUpdateError("path escapes overlay: \(rel)") }
+            try fm.createDirectory(at: f.deletingLastPathComponent(), withIntermediateDirectories: true)
+            try data.write(to: f, options: .atomic)
+        }
+        guard let vf = Self.readVersionFile(tmpDir.appendingPathComponent("ds-webversion.json")), vf.version == item.version
+        else { throw SelfUpdateError("ds-webversion.json missing or does not say \(item.version)") }
+        guard vf.nativeAPI <= Self.nativeAPI else { throw SelfUpdateError("bundle needs nativeAPI \(vf.nativeAPI); this build has \(Self.nativeAPI)") }
+
+        let dest = dir(item.version)
+        lock.lock(); defer { lock.unlock() }
+        if st.active == item.version || st.previous == item.version { ok = true; try? fm.removeItem(at: tmpDir); return }
+        if MemoryStore.shared.mayRemove(dest) { try? fm.removeItem(at: dest) }   // HARD RULE noerase
+        try fm.moveItem(at: tmpDir, to: dest)
+        ok = true
+    }
+
+    // MARK: pure helpers (static so they can be tested)
+
+    static func message(_ i: WebItem) -> Data {
+        Data("rlab-update-v1\n\(i.kind)\n\(i.id)\n\(i.version)\n\(i.name)\n\(i.size)\n\(i.sha256.lowercased())".utf8)
+    }
+
+    static func signatureOK(_ i: WebItem, keyB64: String = publicKeyB64) -> Bool {
+        guard let kd = Data(base64Encoded: keyB64), let k = try? Curve25519.Signing.PublicKey(rawRepresentation: kd),
+              let sig = Data(base64Encoded: i.ed25519), sig.count == 64 else { return false }
+        return k.isValidSignature(sig, for: message(i))
+    }
+
+    static func parseManifest(_ d: Data) throws -> WebItem {
+        guard let o = try JSONSerialization.jsonObject(with: d) as? [String: Any] else { throw SelfUpdateError("manifest is not a JSON object") }
+        if let k = o["keyId"] as? String, k != keyId { throw SelfUpdateError("manifest keyId \(k) ≠ \(keyId)") }
+        guard let apps = o["apps"] as? [String: Any], let e = apps[feedKey] as? [String: Any] else { throw SelfUpdateError("manifest has no apps.\(feedKey)") }
+        func s(_ k: String) -> String { (e[k] as? String) ?? "" }
+        let item = WebItem(kind: s("kind"), id: s("id"), version: s("version"), name: s("name"),
+                           size: (e["size"] as? NSNumber)?.intValue ?? -1, sha256: s("sha256"), url: s("url"), ed25519: s("ed25519"))
+        guard item.kind == kind, item.id == appId else { throw SelfUpdateError("entry is \(item.kind)/\(item.id), expected \(kind)/\(appId)") }
+        guard isPlainVersion(item.version) else { throw SelfUpdateError("bad version \(item.version)") }
+        guard !item.name.isEmpty, !item.name.contains("/"), item.sha256.count == 64 else { throw SelfUpdateError("bad name or sha256") }
+        guard !item.ed25519.isEmpty else { throw SelfUpdateError("entry is not signed yet") }
+        return item
+    }
+
+    /// Digits and dots only, 2–6 parts (e.g. 1.0.1.3). Keeps versions path-safe and comparable.
+    static func isPlainVersion(_ v: String) -> Bool {
+        let parts = v.split(separator: ".", omittingEmptySubsequences: false)
+        return (2...6).contains(parts.count) && parts.allSatisfy { !$0.isEmpty && $0.count <= 9 && $0.allSatisfy { $0.isASCII && $0.isNumber } }
+    }
+
+    static func compareVersions(_ a: String, _ b: String) -> Int {
+        let x = a.split(separator: ".").map { Int($0) ?? 0 }, y = b.split(separator: ".").map { Int($0) ?? 0 }
+        for i in 0..<max(x.count, y.count) {
+            let l = i < x.count ? x[i] : 0, r = i < y.count ? y[i] : 0
+            if l != r { return l < r ? -1 : 1 }
+        }
+        return 0
+    }
+
+    static func safeRelativePath(_ name: String) throws -> String {
+        guard !name.isEmpty, !name.hasPrefix("/"), !name.contains("\\"), !name.contains(":"), !name.contains("\0")
+        else { throw SelfUpdateError("unsafe path: \(name)") }
+        let comps = name.split(separator: "/", omittingEmptySubsequences: false)
+        for c in comps where c.isEmpty || c == "." || c == ".." || c.hasPrefix(".") { throw SelfUpdateError("unsafe path: \(name)") }
+        let ext = (name as NSString).pathExtension.lowercased()
+        guard allowedExtensions.contains(ext) else { throw SelfUpdateError("not a web asset (.\(ext)): \(name)") }
+        return name
+    }
+
+    static func looksExecutable(_ d: Data) -> Bool {
+        guard d.count >= 4 else { return d.starts(with: [0x23, 0x21]) }
+        let m = [UInt8](d.prefix(4))
+        let magics: [[UInt8]] = [[0xfe, 0xed, 0xfa, 0xce], [0xfe, 0xed, 0xfa, 0xcf], [0xce, 0xfa, 0xed, 0xfe], [0xcf, 0xfa, 0xed, 0xfe],
+                                 [0xca, 0xfe, 0xba, 0xbe], [0xbe, 0xba, 0xfe, 0xca], [0x7f, 0x45, 0x4c, 0x46]]
+        return magics.contains(m) || (m[0] == 0x23 && m[1] == 0x21)        // Mach-O / fat / ELF / "#!"
+    }
+
+    struct VersionFile { let version: String; let nativeAPI: Int }
+    static func readVersionFile(_ u: URL) -> VersionFile? {
+        guard let d = try? Data(contentsOf: u), let o = try? JSONSerialization.jsonObject(with: d) as? [String: Any],
+              let v = o["version"] as? String, isPlainVersion(v) else { return nil }
+        return VersionFile(version: v, nativeAPI: (o["nativeAPI"] as? NSNumber)?.intValue ?? 1)
+    }
+
+    // MARK: private state (call with lock held)
+
+    private func dir(_ v: String) -> URL { base.appendingPathComponent(v, isDirectory: true) }
+
+    private func usable(_ v: String) -> Bool {
+        guard Self.isPlainVersion(v), let vf = Self.readVersionFile(dir(v).appendingPathComponent("ds-webversion.json")) else { return false }
+        // A newer native build that ships newer built-in web wins over an older overlay.
+        return vf.version == v && vf.nativeAPI <= Self.nativeAPI && Self.compareVersions(v, builtInVersion) > 0
+    }
+
+    private func promoteLocked(_ v: String) {
+        if let a = st.active, !st.pending, a != v { st.previous = a }
+        st.active = v; st.pending = true; st.unconfirmedLaunches = 0; st.staged = nil
+    }
+
+    private func dropActiveLocked(_ why: String, reject: Bool) {
+        if let a = st.active, reject, !st.rejected.contains(a) { st.rejected.append(a) }
+        st.active = st.previous; st.previous = nil; st.pending = false; st.unconfirmedLaunches = 0
+        st.lastResult = why; log(why)
+    }
+
+    private func pruneLocked() {
+        let keep = Set([st.active, st.previous, st.staged].compactMap { $0 } + ["state.json"])
+        for n in (try? fm.contentsOfDirectory(atPath: base.path)) ?? [] where !keep.contains(n) && !n.hasPrefix(".incoming-") {
+            guard MemoryStore.shared.mayRemove(base.appendingPathComponent(n)) else { continue }   // HARD RULE noerase: never memory/
+            try? fm.removeItem(at: base.appendingPathComponent(n))
+        }
+        if st.rejected.count > 50 { st.rejected.removeFirst(st.rejected.count - 50) }
+    }
+
+    private var stateURL: URL { base.appendingPathComponent("state.json") }
+    private func loadState() -> State {
+        guard let d = try? Data(contentsOf: stateURL), let s = try? JSONDecoder().decode(State.self, from: d) else { return State() }
+        return s
+    }
+    private func saveLocked() {
+        if let d = try? JSONEncoder().encode(st) { try? d.write(to: stateURL, options: .atomic) }
+    }
+}

@@ -1,0 +1,28 @@
+/* rzl-llama-direct host shim (TEST ONLY): minimal stand-in for the native host's scout-app.js */
+(function(){
+  "use strict";
+  const BOT={rid:"DRAGON-SKULL-1",name:"DRAGON SKULL"};
+  // fill the public egg's empty "self" slot at runtime (device roster injection)
+  const L=window.ROS_RID_LIST||(window.ROS_RID_LIST={rows:[],slots:[]});
+  const s=(L.slots||[]).find(x=>x.slot==="self"); if(s){s.rid=BOT.rid;s.name=BOT.name;s.n=1;s.general=true;}
+  window.ROS_SELF_TAG=`${BOT.rid} · ${BOT.name}`;
+  window.ROS_CURRENT=()=>BOT;
+  const $=q=>document.querySelector(q);
+  function pushTurn(role,text){const d=document.createElement("div");d.className="turn "+role;d.textContent=(role==="user"?"You: ":BOT.name+": ")+text;$("#log").appendChild(d);d.scrollIntoView();return d;}
+  window.pushTurn=pushTurn;
+  window.ROS_SEND=async function(q){
+    q=String(q||"").trim(); if(!q) return;
+    window.pushTurn("user",q);
+    const wait=pushTurn("sys","…thinking");
+    let r; try{ r=await window.RZL_LLAMA_DIRECT.chat(BOT,q);}catch(e){r="(engine error: "+e.message+")";}
+    wait.remove(); window.pushTurn("bot",r); return r;
+  };
+  document.addEventListener("DOMContentLoaded",()=>{
+    $("#chat-title").textContent=BOT.name; $("#chat-sub").textContent=BOT.rid;
+    $("#chat-avatar").src="./ybot-tile.png";
+    $("#composer").addEventListener("submit",e=>{e.preventDefault();const m=$("#message");const v=m.value;m.value="";window.ROS_SEND(v);});
+  });
+  const sc=document.createElement("script"); sc.src="./plugins/rzl-llama-direct/llama-direct.js"; document.head.appendChild(sc);
+})();
+/* DRAGON SKULL: engine status pill (ready/offline-ready) */
+(function(){async function p(){const s=document.getElementById("ds-status");if(!s)return;try{const r=await fetch("/engine/health");s.textContent="ENGINE";s.style.color=r.ok?"#6c6":"#e0a030";s.title=r.ok?"ready":"loading";setTimeout(p,r.ok?5000:1000);}catch(e){s.textContent="ENGINE";s.style.color="#ef4444";s.title="down";setTimeout(p,2000);}}document.addEventListener("DOMContentLoaded",p);document.addEventListener("visibilitychange",function(){if(!document.hidden)p();});})();

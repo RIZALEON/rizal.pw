@@ -1,0 +1,35 @@
+{
+  "schema": "rzl.ds.skill.v1",
+  "id": "terminal-direct",
+  "name": "Terminal Direct (Neo + \u042fVM)",
+  "version": "0.2.0",
+  "built": "2026-10-20",
+  "mode": "direct",
+  "summary": "Intercepts 'open terminal' / 'run \u2026 in terminal' before the model; Neo defaults to 127.0.0.1:8320 direct-mode. 0.2.0 adds TERMINALTYPE <cmd>: opens Terminal, types and runs cmd via ds-hostd /hosttype (osascript do script).",
+  "entry": "terminal-direct.js",
+  "requires": {
+    "neo": "ds-hostd with host-allow auth_required=false open_lan=true",
+    "yvm": "skills/rvm-linux/ (already in app web)"
+  },
+  "markers": [
+    "[[term:open]]",
+    "[[term:exec <cmd>]]",
+    "[[rvm: boot|stop|<cmd>]]",
+    "[[term:type <cmd>]]"
+  ],
+  "api": [
+    "DS_TERM.openTerminal",
+    "DS_TERM.hostexec",
+    "DS_TERM.rvm",
+    "DS_TERM.rvmBoot",
+    "DS_TERM.rvmStop",
+    "DS_TERM.setNeo",
+    "DS_TERM.terminalType"
+  ],
+  "chat_commands": [
+    "open terminal",
+    "TERMINAL: <cmd>",
+    "run <cmd> in terminal",
+    "TERMINALTYPE <cmd>"
+  ]
+}

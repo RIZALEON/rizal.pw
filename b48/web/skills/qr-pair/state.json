@@ -1,0 +1,85 @@
+{
+ "commands": [
+  "rvm",
+  "rvm-boot",
+  "rvm-stop",
+  "rscribe",
+  "parts",
+  "commands",
+  "recall",
+  "batibabox",
+  "test",
+  "chalkboard",
+  "chalk",
+  "handoff",
+  "reops",
+  "fix",
+  "manual",
+  "gate",
+  "hostpair",
+  "hostconnect",
+  "hoststatus",
+  "hostreq",
+  "hostexec",
+  "hostshot",
+  "hostmouse",
+  "hostkey",
+  "hostui",
+  "hostapp",
+  "hoststop",
+  "hostallow",
+  "td-type",
+  "td-open",
+  "td-exec",
+  "td-rvm-boot",
+  "td-rvm-stop",
+  "td-rvm",
+  "menu-1",
+  "menu-c",
+  "menu-8",
+  "menu-2",
+  "menu-3",
+  "menu-4",
+  "menu-6",
+  "menu-purplebox",
+  "menu-:DRAGONBRIDGE",
+  "menu-a",
+  "menu-add",
+  "menu-side",
+  "menu-q",
+  "menu-5",
+  "qr",
+  "qr-scan",
+  "qr-check",
+  "qr-peers",
+  "qr-offer"
+ ],
+ "components": [
+  {
+   "id": "parts-guide",
+   "version": "0.1.0"
+  },
+  {
+   "id": "batibabox-rt",
+   "version": "2.1.7"
+  },
+  {
+   "id": "rvm",
+   "version": "0.1.4"
+  }
+ ],
+ "eggs": [
+  {
+   "id": "batibabox-embed",
+   "version": "2.1.7"
+  },
+  {
+   "id": "trust-keys",
+   "version": "0.0.2"
+  },
+  {
+   "id": "qr-pair",
+   "version": "0.1.0"
+  }
+ ]
+}

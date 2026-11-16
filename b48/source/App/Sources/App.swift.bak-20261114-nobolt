@@ -1,0 +1,460 @@
+import SwiftUI
+import WebKit
+import CryptoKit
+import LocalAuthentication
+import PhotosUI
+import UniformTypeIdentifiers
+
+let kModelSHA256 = "fd3b85f09520df9d898e2bbcf5da22fc518dbf9d662bb52e214d946c72aafacc"
+
+@MainActor final class AppState: ObservableObject {
+    enum Phase { case checking, loading, ready, refused(String)
+        var readyFlag: Bool { if case .ready = self { return true }; return false }
+    }
+    @Published var phase: Phase = .checking
+    var server: LocalServer?
+    let selftest = ProcessInfo.processInfo.arguments.contains("--selftest")
+
+    func log(_ s: String) {
+        print("[DRAGON SKULL] \(s)"); fflush(stdout)
+        let u = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("ds-log.txt")
+        let line = Data("\(Date()) \(s)\n".utf8)
+        if let h = try? FileHandle(forWritingTo: u) { h.seekToEndOfFile(); h.write(line); try? h.close() } else { try? line.write(to: u) }
+    }
+
+    func boot() {
+        Task.detached(priority: .userInitiated) {
+            let model = Self.resolveModel()
+            var digest = "missing"
+            if let model {
+                digest = Self.sha256(model)
+                await MainActor.run { self.log("model sha256 \(digest)") }
+                guard digest == kModelSHA256 else {
+                    await MainActor.run { self.log("REFUSING: fingerprint mismatch"); self.phase = .refused("Model fingerprint mismatch.\nExpected \(kModelSHA256)\nGot \(digest)") }; return }
+            } else {
+                await MainActor.run { self.log("Granite model not on device (download-on-device, SHA \(kModelSHA256)); starting web without the engine") }
+            }
+            await MainActor.run { self.phase = .loading }
+            let web = Bundle.main.resourceURL!.appendingPathComponent("web")
+            SelfUpdater.shared.log = { s in
+                Task { @MainActor in self.log("selfupdate: \(s)") }
+                let kind = s.contains("rolled back") ? "selfupdate-rollback" : s.contains("staged ") ? "web-bundle-staged" : s.hasPrefix("serving web") ? "web-bundle-serving" : s.contains("reset to built-in") ? "selfupdate-reset" : "selfupdate-log"
+                MemoryStore.shared.event(kind == "selfupdate-log" ? "selfupdate" : "update", kind, s)   // DRAGON-SKULL-MIND: every update + rollback
+            }
+            MemoryStore.shared.log = { s in Task { @MainActor in self.log("memory: \(s)") } }
+            // DRAGONGATE (all-in-one 2026-10-19): core + facade before any server / web view / self-update fetch.
+            // Runtime data lives in Application Support/dragongate/ (never bundled). A missing switch.json = defaults:
+            // gate:true (monitor), online:false, kill:false, approval owner-approved. Kill = drawbridge: off-device denied + logged, loopback still flows.
+            let gateRoot = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].appendingPathComponent("dragongate", isDirectory: true)
+            DGGate.shared.app = "info.rizal.dragonskull"
+            DGGate.shared.mirror = { kind, text in MemoryStore.shared.event("gate", kind, text) }
+            DGGate.shared.core = DragonGateCore(root: gateRoot, app: "info.rizal.dragonskull")
+            DGCommands.shared.log = { kind, text in MemoryStore.shared.event("gate", kind, text) }   // gate events only; never a confirm code
+            DSBase.shared.engineStatus = { Engine.shared.ready ? "in-app engine ready on 127.0.0.1:\(LocalServer.port)" : "engine not ready" }   // 2026-10-19 cmds
+            let info = Bundle.main.infoDictionary ?? [:]
+            MemoryStore.shared.event("update", "app-launch", "DRAGON SKULL iOS \(info["CFBundleShortVersionString"] as? String ?? "?") (\(info["CFBundleVersion"] as? String ?? "?")) launched",
+                                     extra: ["appVersion": info["CFBundleShortVersionString"] as? String ?? "?", "build": info["CFBundleVersion"] as? String ?? "?", "modelSha256": String(digest.prefix(16))])
+            RlabData.ensure { s in MemoryStore.shared.event("rvm", "rlab-data", s) }   // drive1: <RVM engine store>/drives/drive1 (RVM-ENGINE-LAYOUT.md), created once, never overwritten; legacy rlab-data moved
+            SelfUpdater.shared.prepareAtLaunch(builtIn: web)   // promote staged / roll back unconfirmed web overlay before serving
+            let srv = LocalServer(webRoot: web)
+            do { try srv.start() } catch { await MainActor.run { self.phase = .refused("Local server failed: \(error)") }; return }
+            var ok = false
+            if let model { ok = Engine.shared.load(path: model.path) }
+            else { await MainActor.run { self.log("engine skipped: Granite weights are download-on-device, not bundled") } }
+            MemoryStore.shared.seedDay0(webRoots: SelfUpdater.shared.webRoots() + [web])   // DAY 0 history, appended once by id
+            MemoryStore.shared.reindex(webRoots: SelfUpdater.shared.webRoots() + [web])   // memidx 2026-10-19: test/command turns out of recall (append-only)
+            let st = SelfUpdater.shared.status()
+            MemoryStore.shared.event("engine", ok ? "engine-start" : "engine-error", ok ? "engine ready on 127.0.0.1:\(LocalServer.port) · web \(st["serving"] as? String ?? "?") (built-in \(st["builtIn"] as? String ?? "?"))" : "engine failed to load the model",
+                                     extra: ["webServing": st["serving"] as? String ?? "?", "webBuiltIn": st["builtIn"] as? String ?? "?"])
+            await MainActor.run {
+                self.server = srv
+                if ok { self.log("engine ready on 127.0.0.1:8319"); self.phase = .ready; if self.selftest { self.runSelfTest() } else { SelfUpdater.shared.checkIfDue(reason: "launch") }
+                    // 2026-10-19 cmds: owner launch door (devicectl --rzl-test from the paired Neo, same as --selftest): start the on-device TEST.
+                    if ProcessInfo.processInfo.arguments.contains("--rzl-test") { MemoryStore.shared.event("test", "test-launch-arg", "--rzl-test"); _ = DGCommands.shared.runTest("start") } }
+                else if model != nil { self.phase = .refused("Engine failed to load the model.") } else { self.log("web ready; engine waiting for download-on-device Granite"); self.phase = .ready; SelfUpdater.shared.checkIfDue(reason: "launch") }
+            }
+        }
+    }
+
+    /// Bundle first, then Application Support/Documents (download-on-device). SHA-pinned by the caller. Never auto-loads an unverified nearest .gguf.
+    nonisolated static func resolveModel() -> URL? {
+        let name = "granite-4.0-h-1b-Q4_K_M"
+        if let bundled = Bundle.main.url(forResource: name, withExtension: "gguf", subdirectory: "model") { return bundled }
+        let fm = FileManager.default
+        let file = "\(name).gguf"
+        let dirs = [fm.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0],
+                    fm.urls(for: .documentDirectory, in: .userDomainMask)[0]]
+        for root in dirs {
+            let u = root.appendingPathComponent("model", isDirectory: true).appendingPathComponent(file)
+            if fm.fileExists(atPath: u.path) { return u }
+        }
+        return nil
+    }
+
+    nonisolated static func sha256(_ url: URL) -> String {
+        guard let h = try? FileHandle(forReadingFrom: url) else { return "unreadable" }
+        var hasher = SHA256()
+        while let d = try? h.read(upToCount: 8 << 20), !d.isEmpty { hasher.update(data: d) }
+        return hasher.finalize().map { String(format: "%02x", $0) }.joined()
+    }
+
+    func runSelfTest() {
+        let qs = ["Who are you, and are you online?", "What is (2+4+6)/3? Give the number."]
+        Task.detached {
+            for q in qs {
+                var r = URLRequest(url: URL(string: "http://127.0.0.1:8319/engine/v1/chat/completions")!)
+                r.httpMethod = "POST"; r.setValue("application/json", forHTTPHeaderField: "Content-Type"); r.timeoutInterval = 300
+                r.httpBody = try? JSONSerialization.data(withJSONObject: ["messages": [["role": "user", "content": q]], "max_tokens": 128, "temperature": 0])
+                let t0 = Date()
+                var ans = "(no answer)"
+                if let (d, _) = try? await URLSession.shared.data(for: r), let o = try? JSONSerialization.jsonObject(with: d) as? [String: Any],
+                   let ch = o["choices"] as? [[String: Any]], let m = ch.first?["message"] as? [String: Any] { ans = (m["content"] as? String) ?? "" }
+                let dt = String(format: "%.1f", Date().timeIntervalSince(t0))
+                await MainActor.run { self.log("SELFTEST Q: \(q) | A (\(dt)s): \(ans.replacingOccurrences(of: "\n", with: " "))") }
+            }
+            await MainActor.run { self.log("SELFTEST DONE") }
+        }
+    }
+}
+
+
+/// Session Face ID / device-passcode gate for the RDRAGON UI. Never stores a secret. 20261110.
+/// Covers the SwiftUI window. The web egg also ships rlock-screen.js, which no-ops if this handler is absent.
+@MainActor final class AppFaceLock: NSObject, ObservableObject, WKScriptMessageHandler {
+    static let shared = AppFaceLock()
+    @Published var unlocked = false
+    var skip = false
+    private weak var webView: WKWebView?
+    private var backgrounded = false
+
+    static func install(on w: WKWebView) {
+        shared.webView = w
+        w.configuration.userContentController.add(shared, name: "rlock")
+    }
+
+    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+        let body = message.body as? [String: Any]
+        let op = (body?["op"] as? String) ?? "unlock"
+        if op == "unlock" { authenticate() }
+    }
+
+    func lock() {
+        if skip { unlocked = true; return }
+        unlocked = false
+        tellWeb(["ok": false, "locked": true])
+    }
+
+    func authenticate(reason: String = "Unlock DRAGON SKULL") {
+        if skip { unlocked = true; tellWeb(["ok": true, "skipped": true]); return }
+        let ctx = LAContext()
+        var err: NSError?
+        // deviceOwnerAuthentication: Face ID, then device passcode. Never biometrics-only.
+        guard ctx.canEvaluatePolicy(.deviceOwnerAuthentication, error: &err) else {
+            // No lock enrolled on this device — do not brick the app.
+            unlocked = true
+            tellWeb(["ok": true, "fallback": "no-device-auth"])
+            return
+        }
+        ctx.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) { ok, e in
+            Task { @MainActor in
+                self.unlocked = ok
+                var r: [String: Any] = ["ok": ok]
+                if !ok, let e { r["err"] = e.localizedDescription }
+                self.tellWeb(r)
+            }
+        }
+    }
+
+    func notePhase(_ ph: ScenePhase) {
+        if skip { return }
+        if ph == .background { backgrounded = true; lock() }
+        if ph == .active, backgrounded { backgrounded = false; authenticate() }
+    }
+
+    private func tellWeb(_ r: [String: Any]) {
+        guard let w = webView,
+              let data = try? JSONSerialization.data(withJSONObject: r),
+              let json = String(data: data, encoding: .utf8) else { return }
+        w.evaluateJavaScript("window.RDRAGON_LOCK_RESULT && window.RDRAGON_LOCK_RESULT(\(json));", completionHandler: nil)
+    }
+}
+
+struct WebView: UIViewRepresentable {
+    let selftest: Bool
+    func makeUIView(context: Context) -> WKWebView {
+        let cfg = WKWebViewConfiguration()
+        cfg.websiteDataStore = .default()   // 20261104: RWALLET device key (WebCrypto, non-extractable) must survive relaunch so its enrolled public half stays valid
+        let w = WKWebView(frame: .zero, configuration: cfg)
+        w.isOpaque = false; w.backgroundColor = .black; w.scrollView.backgroundColor = .black
+        w.scrollView.contentInsetAdjustmentBehavior = .never
+        // DRAGONGATE: WebKit-layer drawbridge. Every http(s)/ws load that is not 127.0.0.1/localhost is blocked unless the gate is
+        // online with an allowlist (covers <img>/<script>/<iframe> that dg-web.js cannot see). Page loads only after the rules are on.
+        DGWebSink.install(on: w)
+        RMailDecisionNative.install(on: w)   // 20261111-rbowzr: RMAIL v2 Approve/Deny → rmail-dec-<req>.json (never signs)
+        RMailBlock4Native.install(on: w)   // Block-4: rghostkeySign + rghostkeyQueue (public seal queue; Face ID offline-ok)
+        RGhostkeyAppleWK.install(on: w)   // 20261109-rw014: one rghostkey API (WK "rghostkey"), pinned key only
+        RSignWKHandler.install(on: w)     // 20261109-rw017 Fix A (add-only): WK "rsign" for rmint-onetap/rmint-press; existing pinned SE key only (seal() refuses ERR_NO_RGHOSTKEY, never creates a key)
+        DSAttach.install(on: w)           // 1.0.4.33: orange + attach (photos · files · folders) -> app RKLOWD node folder, add-only, never uploads
+        AppFaceLock.install(on: w)        // 20261110: Face ID / passcode UI lock (rlock); session unlock, re-locks on background
+        REmbedWKHandler.install(on: w)    // 2026-11-13 pt182u: WK "rembed" — dg-cmd.js command words open embedded apps in this window (opens panels only)
+        // Typed chat commands (/gate …, :commands): the only door. Token lives in dg-cmd.js's closure; code shown in a native pop-up only.
+        let cmd = DGCmdSink()
+        cmd.showCode = { code in
+            let a = UIAlertController(title: "DRAGONGATE confirm", message: "Type in the chat box within 60 seconds:\n\n/gate confirm \(code)", preferredStyle: .alert)
+            a.addAction(UIAlertAction(title: "OK", style: .default))
+            var top = w.window?.rootViewController; while let p = top?.presentedViewController { top = p }
+            top?.present(a, animated: true)
+        }
+        cmd.onChange = { [weak w] in       // re-apply the WebKit drawbridge for the new online / kill / allowlist state
+            guard let w else { return }
+            WKContentRuleListStore.default().compileContentRuleList(forIdentifier: "dragongate", encodedContentRuleList: DGGate.shared.contentRuleListJSON()) { list, _ in
+                guard let list else { return }
+                w.configuration.userContentController.removeAllContentRuleLists(); w.configuration.userContentController.add(list)
+            }
+        }
+        w.configuration.userContentController.addScriptMessageHandler(cmd, contentWorld: .page, name: "dsGateCmd")
+        if let u = Bundle.main.resourceURL?.appendingPathComponent("web/dg-cmd.js"), let js = try? String(contentsOf: u, encoding: .utf8) {
+            w.configuration.userContentController.addUserScript(WKUserScript(source: cmd.userScript(dgCmdJS: js), injectionTime: .atDocumentStart, forMainFrameOnly: true))
+        }
+        w.configuration.userContentController.addUserScript(WKUserScript(source: DGGate.shared.userScriptSource(dgWebJS: ""), injectionTime: .atDocumentStart, forMainFrameOnly: true))   // policy snapshot for dg-web.js
+        WKContentRuleListStore.default().compileContentRuleList(forIdentifier: "dragongate", encodedContentRuleList: DGGate.shared.contentRuleListJSON()) { list, err in
+            if let list { w.configuration.userContentController.add(list) }
+            else { MemoryStore.shared.event("gate", "gate-webkit-rules-error", "WKContentRuleList compile failed: \(err.map { "\($0)" } ?? "?") · dg-web.js still gates fetch/XHR/WS") }
+            w.load(URLRequest(url: URL(string: "http://127.0.0.1:8319/scout.html")!))
+        }
+        if selftest {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+                w.evaluateJavaScript("(function(){var m=document.getElementById('message'),f=document.getElementById('composer');if(m&&f){m.value='What is (2+4+6)/3?';f.requestSubmit();}})()")
+            }
+        }
+        return w
+    }
+    func updateUIView(_ v: WKWebView, context: Context) {}
+}
+
+extension DGWebSink {
+    /// Main-frame records from dg-web.js (webkit.messageHandlers.rosGate). Subframes (RVM iframe, web content) are ignored by DGWebSink.
+    static func install(on w: WKWebView) { w.configuration.userContentController.add(DGWebSink(), name: "rosGate") }
+}
+
+struct RootView: View {
+    @StateObject var st = AppState()
+    @ObservedObject var lock = AppFaceLock.shared
+    @Environment(\.scenePhase) private var scenePhase
+    var body: some View {
+        ZStack {
+            Color.black.ignoresSafeArea()
+            switch st.phase {
+            case .checking: status("Checking model fingerprint…")
+            case .loading: status("Loading DRAGON SKULL engine…")
+            case .ready:
+                ZStack {
+                    WebView(selftest: st.selftest).ignoresSafeArea(.container, edges: .bottom)
+                        .rthundrHelper(.init(app: "RDRAGON", backups: [.openAI("http://127.0.0.1:8319/engine/v1/chat/completions")] + RThundRHelperConfig.defaultBackups))   // 2026-11-13 pt179u RTHUNDR in-app helper (under the Face ID lock)
+                        .rembedHost("RDRGN")   // 2026-11-13 pt182u: RSCRIBE · GHOSTMACHINE · RWALLET · RMAIL · RTOKEN · RCOIN · CRYPTOBOT · BOTLATCH · MERKADO · CRYPTOAPP · CRYPTOGAME panels in this window (under the Face ID lock)
+                    if !lock.unlocked && !lock.skip {
+                        VStack(spacing: 16) {
+                            Text("DRAGON SKULL").font(.title2.bold()).foregroundColor(.white)
+                            Text("Unlock with Face ID or your device passcode.")
+                                .foregroundColor(.white.opacity(0.85))
+                                .multilineTextAlignment(.center)
+                            Button("Unlock") { lock.authenticate() }
+                                .padding(.horizontal, 18).padding(.vertical, 10)
+                                .background(Color(red: 0.22, green: 0.14, blue: 0.25))
+                                .foregroundColor(Color(red: 0.94, green: 0.81, blue: 0.53))
+                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .background(Color.black)
+                        .ignoresSafeArea()
+                    }
+                }
+            case .refused(let why):
+                VStack(spacing: 14) {
+                    Text("☠︎ DRAGON SKULL refused to start").font(.title2.bold()).foregroundColor(.red)
+                    Text(why).font(.footnote.monospaced()).foregroundColor(.white).multilineTextAlignment(.center)
+                }.padding()
+            }
+        }
+        .preferredColorScheme(.dark)
+        .onAppear {
+            lock.skip = st.selftest || ProcessInfo.processInfo.arguments.contains("--rzl-test")
+            if lock.skip { lock.unlocked = true }
+            st.boot()
+        }
+        .onChange(of: scenePhase) { ph in
+            lock.notePhase(ph)
+            if ph == .active, let srv = st.server { srv.ensureAlive(); st.log("resume: local server checked"); SelfUpdater.shared.checkIfDue(reason: "resume") }
+        }
+        .onChange(of: st.phase.readyFlag) { ready in
+            if ready, !lock.skip, !lock.unlocked { lock.authenticate() }
+        }
+    }
+    func status(_ s: String) -> some View {
+        VStack(spacing: 12) { ProgressView().tint(.white); Text(s).foregroundColor(.white) }
+    }
+}
+
+@main struct DragonSkullApp: App {
+    init() {
+        DragonBridge.shared.boot()
+        // 2026-11-13 pt182u: embedded crypto apps (modules compiled into this target by path; nothing copied)
+        REmbedWebModules.register(); REmbedRScribeModule.register(); REmbedRMailModule.register(); REmbedOrdersModule.register()
+        REmbedWeb.configure = { w, ready in   // embedded pages get the same DRAGONGATE WebKit drawbridge as the RDRGN web view, before they load
+            WKContentRuleListStore.default().compileContentRuleList(forIdentifier: "dragongate", encodedContentRuleList: DGGate.shared.contentRuleListJSON()) { list, _ in
+                if let list { w.configuration.userContentController.add(list); ready() }   // no rules -> the page stays unloaded (fail closed)
+            }
+        }
+    }   // SCOUT dragonbridge 2026-10-19: fresh session token each launch (bridge stays off unless bridge-allow.json enabled:true)
+    var body: some Scene {
+        WindowGroup {
+            RootView()
+                .onOpenURL { if !REmbed.handle(url: $0) { ThundRRouter.shared.handle($0) } }   // 2026-11-04 floatbot: rdragon://thundr deep links · 2026-11-13 pt182u: rdragon://embed/<word> (ЯBOT / TerraformЯ hand-off) opens the panel here
+                .onAppear { ThundRLive.shared.start(); ThundRRouter.shared.consumePendingFromWidget() }
+                .modifier(ThundRRouterObserver())
+                // .background(ThundRNeoFloatAttach(folder: "thundrfloat"))   // 20261104 onethundr: 2nd ThundR (native float + job HUD) off; web ThundR top-left stays   // 2026-11-04 pt20u: Neo THUNDR-FLOAT overlay on all screens
+        }
+        .backgroundTask(.appRefresh(thundrRefreshTaskID)) { ThundRLive.scheduleRefresh(); await ThundRLive.refreshOnce() }
+    }
+}
+struct ThundRRouterObserver: ViewModifier {   // re-render on router changes so the sheet binding updates
+    @ObservedObject var r = ThundRRouter.shared
+    func body(content: Content) -> some View { content.sheet(isPresented: $r.open) { ThundRChatView() } }
+}
+
+
+/// 1.0.4.33 · orange + attach. WK "dsAttach" {op:"pick"} -> action sheet: Photos (PHPicker) · Files or Folder (UIDocumentPicker, .item + .folder, multi).
+/// Every pick is COPIED (add-only, never deletes, never uploads) into Documents/ЯLAB/RKLOWD/nodes/17e/attachments/<stamp>/,
+/// then window.DS_ATTACHED([{name,kind,bytes,files,rel}]) is called in the page. {op:"save",name,b64} stores a web-picked file the same way.
+@MainActor final class DSAttach: NSObject, WKScriptMessageHandler, UIDocumentPickerDelegate, PHPickerViewControllerDelegate {
+    static let shared = DSAttach()
+    private weak var webView: WKWebView?
+    static func install(on w: WKWebView) {
+        shared.webView = w
+        w.configuration.userContentController.add(shared, name: "dsAttach")
+    }
+    private var root: URL {
+        let docs = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        return docs.appendingPathComponent("ЯLAB/RKLOWD/nodes/17e/attachments", isDirectory: true)
+    }
+    private func newBatch() -> URL {
+        let f = DateFormatter(); f.dateFormat = "yyyyMMdd-HHmmss"; f.locale = Locale(identifier: "en_US_POSIX")
+        var d = root.appendingPathComponent(f.string(from: Date()), isDirectory: true); var n = 1
+        while FileManager.default.fileExists(atPath: d.path) { n += 1; d = root.appendingPathComponent(f.string(from: Date()) + "-\(n)", isDirectory: true) }
+        try? FileManager.default.createDirectory(at: d, withIntermediateDirectories: true)
+        return d
+    }
+    private func uniq(_ dir: URL, _ name: String) -> URL {
+        let safe = name.replacingOccurrences(of: "/", with: "_").replacingOccurrences(of: "..", with: "_")
+        var u = dir.appendingPathComponent(safe.isEmpty ? "file" : safe); var i = 1
+        while FileManager.default.fileExists(atPath: u.path) { i += 1; u = dir.appendingPathComponent("\(i)-" + safe) }
+        return u
+    }
+    private func describe(_ u: URL) -> [String: Any] {
+        var isDir: ObjCBool = false
+        FileManager.default.fileExists(atPath: u.path, isDirectory: &isDir)
+        var bytes = 0, files = 0
+        if isDir.boolValue {
+            if let e = FileManager.default.enumerator(at: u, includingPropertiesForKeys: [.fileSizeKey, .isRegularFileKey]) {
+                for case let f as URL in e { let v = try? f.resourceValues(forKeys: [.fileSizeKey, .isRegularFileKey]); if v?.isRegularFile == true { files += 1; bytes += v?.fileSize ?? 0 } }
+            }
+        } else { files = 1; bytes = (try? u.resourceValues(forKeys: [.fileSizeKey]).fileSize) ?? 0 }
+        let rel = u.path.replacingOccurrences(of: root.deletingLastPathComponent().deletingLastPathComponent().path + "/", with: "")
+        return ["name": u.lastPathComponent, "kind": isDir.boolValue ? "folder" : "file", "bytes": bytes, "files": files, "rel": "ЯLAB/RKLOWD/nodes/" + rel]
+    }
+    private func deliver(_ items: [[String: Any]]) {
+        guard !items.isEmpty, let d = try? JSONSerialization.data(withJSONObject: items), let j = String(data: d, encoding: .utf8) else { return }
+        webView?.evaluateJavaScript("window.DS_ATTACHED && window.DS_ATTACHED(\(j))", completionHandler: nil)
+    }
+    private func top() -> UIViewController? {
+        var t = webView?.window?.rootViewController; while let p = t?.presentedViewController { t = p }; return t
+    }
+    func userContentController(_ c: WKUserContentController, didReceive m: WKScriptMessage) {
+        guard m.frameInfo.isMainFrame, let b = m.body as? [String: Any], let op = b["op"] as? String else { return }
+        if op == "pick" { presentMenu() }
+        else if op == "tfStatus" { tfStatus() }
+        else if op == "openTF" { openTF(b["path"] as? String) }
+        else if op == "save", let name = b["name"] as? String, let b64 = b["b64"] as? String, let data = Data(base64Encoded: b64), data.count <= 64 * 1024 * 1024 {
+            let u = uniq(newBatch(), name); if (try? data.write(to: u)) != nil { deliver([describe(u)]) }
+        }
+    }
+    // 1.0.4.35 · ThundR > TerraformЯ (read-only status + open). Never signs: signing stays in TerraformЯ.
+    private static let tfScheme = "terraformr"
+    private func tfStatus() {
+        var out: [String: Any] = ["scheme": Self.tfScheme]
+        if let u = URL(string: Self.tfScheme + "://") { out["canOpen"] = UIApplication.shared.canOpenURL(u) }
+        let docs = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let req = docs.appendingPathComponent("ЯLAB/RKLOWD/nodes/17e/drop/typed-request.public.json")
+        if let d = try? Data(contentsOf: req), let o = (try? JSONSerialization.jsonObject(with: d)) as? [String: Any] {
+            var r: [String: Any] = [:]   // public, display-only fields
+            for k in ["block", "op", "req_hash", "status", "state", "created_at", "ts", "ui_label", "device_id", "label", "id", "req_id", "index", "block_sha256"] { if let v = o[k], v is String || v is NSNumber { r[k] = v } }
+            out["request"] = r
+            if let m = (try? req.resourceValues(forKeys: [.contentModificationDateKey]))?.contentModificationDate { out["requestModified"] = ISO8601DateFormatter().string(from: m) }
+        } else { out["request"] = NSNull() }
+        guard let j = try? JSONSerialization.data(withJSONObject: out), let s = String(data: j, encoding: .utf8) else { return }
+        webView?.evaluateJavaScript("window.DS_TF_STATUS && window.DS_TF_STATUS(\(s))", completionHandler: nil)
+    }
+    private func openTF(_ path: String? = nil) {
+        // 1.0.4.36: only terraformr://open or terraformr://rsign/bind?req=<id> (shell commands `terraformr` / `terraformr bind`)
+        let p = path ?? "open"
+        guard p == "open" || p.range(of: "^rsign/bind\\?req=[A-Za-z0-9._-]{3,80}$", options: .regularExpression) != nil,
+              let u = URL(string: Self.tfScheme + "://" + p) else {
+            webView?.evaluateJavaScript("window.DS_TF_OPENED && window.DS_TF_OPENED(false)", completionHandler: nil); return }
+        UIApplication.shared.open(u, options: [:]) { ok in
+            self.webView?.evaluateJavaScript("window.DS_TF_OPENED && window.DS_TF_OPENED(\(ok ? "true" : "false"))", completionHandler: nil)
+        }
+    }
+    private func presentMenu() {
+        guard let t = top() else { return }
+        let a = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        a.addAction(UIAlertAction(title: "Photos", style: .default) { _ in self.presentPhotos() })
+        a.addAction(UIAlertAction(title: "Files or Folder", style: .default) { _ in self.presentFiles() })
+        a.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        if let pop = a.popoverPresentationController, let v = webView { pop.sourceView = v; pop.sourceRect = CGRect(x: 20, y: v.bounds.maxY - 60, width: 1, height: 1) }
+        t.present(a, animated: true)
+    }
+    private func presentPhotos() {
+        var cfg = PHPickerConfiguration(); cfg.selectionLimit = 0
+        let p = PHPickerViewController(configuration: cfg); p.delegate = self
+        top()?.present(p, animated: true)
+    }
+    private func presentFiles() {
+        let p = UIDocumentPickerViewController(forOpeningContentTypes: [.item, .folder], asCopy: false)
+        p.allowsMultipleSelection = true; p.delegate = self
+        top()?.present(p, animated: true)
+    }
+    func documentPicker(_ c: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        let batch = newBatch(); var out: [[String: Any]] = []
+        for u in urls {
+            let ok = u.startAccessingSecurityScopedResource(); defer { if ok { u.stopAccessingSecurityScopedResource() } }
+            let dest = uniq(batch, u.lastPathComponent)
+            var err: NSError?
+            NSFileCoordinator().coordinate(readingItemAt: u, options: [], error: &err) { r in
+                if (try? FileManager.default.copyItem(at: r, to: dest)) != nil { out.append(describe(dest)) }
+            }
+        }
+        deliver(out)
+    }
+    nonisolated func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        Task { @MainActor in
+            picker.dismiss(animated: true)
+            guard !results.isEmpty else { return }
+            let batch = self.newBatch()
+            for r in results {
+                let pr = r.itemProvider
+                guard let type = pr.registeredTypeIdentifiers.first(where: { UTType($0)?.conforms(to: .image) == true || UTType($0)?.conforms(to: .movie) == true }) ?? pr.registeredTypeIdentifiers.first else { continue }
+                let base = pr.suggestedName ?? "photo"
+                pr.loadFileRepresentation(forTypeIdentifier: type) { url, _ in
+                    guard let url else { return }
+                    let ext = url.pathExtension.isEmpty ? (UTType(type)?.preferredFilenameExtension ?? "bin") : url.pathExtension
+                    let tmp = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString + "." + ext)
+                    guard (try? FileManager.default.copyItem(at: url, to: tmp)) != nil else { return }   // provider file vanishes after return
+                    Task { @MainActor in
+                        let dest = self.uniq(batch, base + "." + ext)
+                        if (try? FileManager.default.moveItem(at: tmp, to: dest)) != nil { self.deliver([self.describe(dest)]) }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,13 @@
+# Custom DERP map for the Pixel-hub path. One region; DERP is the embedded RSCALE DERP reached via rrelay.
+regions:
+  901:
+    regionid: 901
+    regioncode: rderp
+    regionname: RDERP-pixelhub
+    nodes:
+      - name: 901a
+        regionid: 901
+        hostname: bridge.rizal.info
+        derpport: 8443
+        stunport: -1      # no UDP path through rrelay
+        stunonly: false

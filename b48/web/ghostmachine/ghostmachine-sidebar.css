@@ -1,0 +1,5 @@
+#gm-sidebar{position:fixed;top:0;right:0;bottom:0;width:min(92vw,420px);background:#0d0f0d;color:#cfe;border-left:1px solid #2a3;z-index:9998;overflow:auto;transform:translateX(100%);transition:transform .2s;font:13px system-ui;padding:8px}
+#gm-sidebar.on{transform:none}#gm-tab{position:fixed;right:0;top:40%;z-index:9999;background:#173;color:#cfe;border:0;border-radius:8px 0 0 8px;padding:8px 4px;writing-mode:vertical-rl}
+.gm-img{max-width:160px;max-height:160px;border-radius:6px;margin:4px;cursor:zoom-in}.gm-img.gm-zoom{max-width:96vw;max-height:80vh;cursor:zoom-out}
+.gm-q{border-left:3px solid #3a3;margin:4px 0;padding-left:6px;color:#9b9}.gm-badge{font-size:11px;color:#7c7;margin-right:6px}.gm-react button,#gm-sidebar button{background:#1a221a;color:#cfe;border:1px solid #2a3;border-radius:6px;margin:2px;padding:2px 6px}
+#gm-site{width:100%;height:60vh;border:1px solid #2a3;border-radius:6px;background:#111}

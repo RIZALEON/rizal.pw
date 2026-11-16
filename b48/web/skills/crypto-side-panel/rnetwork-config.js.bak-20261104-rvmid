@@ -1,0 +1,10 @@
+/* rnetwork-config.js v1 20261104 - PUBLIC network config baked into RDRAGON (no keys). Config only; never starts/stops rnsd or the RVM. */
+(function(w){var c={v:1,
+ transponder:{relay:"http://127.0.0.1:8797/send",queue:"GHOSTMACHINE-TRANSPONDER/SIGNAL-QUEUE",
+   hashes:{transponder:"2b5452ef21bbe620b0f59506445c71cd","rvm-1fcf5532":"c64f75ffba4437eb31e22918cf1d76be"}},
+ reticulum:{public_relays:[{host:"rmap.world",port:4242,type:"TCPClientInterface"},{host:"rns.beleth.net",port:4242,type:"TCPClientInterface"}]},
+ rklowd:{inbox:"RKLOWD/RMAIL/<addr>/",index:"RKLOWD/RMAIL/index.json",forwarder:"RKLOWD/RMAIL/rmail_sync.py"},
+ rwallet:{trusted:"https://rizal.pw/rwallet/data/trusted-devices.json"}};
+ w.RNETWORK=c; if(!w.RMAIL_RNS_TO)w.RMAIL_RNS_TO=c.transponder.hashes.transponder;
+ if(!w.RMAIL_RELAY)w.RMAIL_RELAY=c.transponder.relay; if(!w.RWALLET_TRUSTED_URL)w.RWALLET_TRUSTED_URL=c.rwallet.trusted;
+})(window);

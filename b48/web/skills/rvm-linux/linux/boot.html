@@ -1,0 +1,152 @@
+<!doctype html><meta charset="utf-8"><title>ЯVM Linux</title>
+<div id="term_wrap"><div id="term_container"></div><textarea id="term_paste" style="display:none"></textarea></div>
+<script src="blobs/index.js"></script>
+<script src="blobs/riscvemu64-wasm.wasm.js"></script>
+<script>
+// rvm-linux 0.1.2: no file fetch/XHR at all (iOS WKWebView and Chrome both refuse XHR/fetch to file:// by default).
+// Every binary ships as a script blob (blobs/*.js → self.RVM_BLOBS[key] base64); a tiny XHR stand-in serves the
+// emulator's GETs for its own files from those blobs, loading each blob script on first use. Network URLs never go here.
+(function(){
+  var BL = self.RVM_BLOBS = self.RVM_BLOBS || {}, IDX = self.RVM_BLOB_INDEX || {};
+  function key(u){ u = String(u).replace(/[?#].*$/, ''); var k = u.indexOf('/linux/'); u = k >= 0 ? u.slice(k + 7) : u.replace(/^\.\//, ''); return IDX[u] ? u : null; }
+  function bytes(k){ if (k === 'root-riscv64.cfg' && !window.__RVM_DRIVE1) { var c = atob(BL[k]).replace(/^\s*drive1:.*\n/m, ''); return new TextEncoder().encode(c); } var b = atob(BL[k]), a = new Uint8Array(b.length); for (var i = 0; i < b.length; i++) a[i] = b.charCodeAt(i); return a; }
+  function need(k, cb){ if (BL[k]) return cb(); var sc = document.createElement('script'); sc.src = IDX[k].blob; sc.onload = function(){ cb(); }; sc.onerror = function(){ cb(new Error('blob ' + k)); }; document.head.appendChild(sc); }
+  var Real = window.XMLHttpRequest;
+  function X(){ this.readyState = 0; this.status = 0; this.response = null; this.responseText = ''; this.responseType = ''; this._r = null; }
+  X.prototype.open = function(m, u, async){ var k = key(u); if (!k) { this._r = new Real(); var r = this._r, me = this; ['onload','onerror','onprogress','onreadystatechange'].forEach(function(h){ r[h] = function(e){ me.readyState = r.readyState; me.status = r.status; try { me.response = r.response; me.responseText = r.responseType === '' || r.responseType === 'text' ? r.responseText : ''; } catch (x) {} if (me[h]) me[h](e); }; }); return r.open.apply(r, arguments); } this._k = k; this.readyState = 1; };
+  X.prototype.setRequestHeader = function(a, b){ if (this._r) this._r.setRequestHeader(a, b); };
+  X.prototype.overrideMimeType = function(){};
+  X.prototype.getResponseHeader = function(){ return null; };
+  X.prototype.abort = function(){ if (this._r) this._r.abort(); };
+  X.prototype.send = function(body){ if (this._r) { this._r.responseType = this.responseType; return this._r.send(body); } var me = this, k = this._k;
+    need(k, function(err){ if (err) { me.readyState = 4; me.status = 404; if (me.onerror) me.onerror(err); return; }
+      var a = bytes(k); me.readyState = 4; me.status = 200;
+      if (me.responseType === 'arraybuffer') me.response = a.buffer; else { me.responseText = new TextDecoder().decode(a); me.response = me.responseText; }
+      if (me.onprogress) me.onprogress({ loaded: a.length, total: a.length, lengthComputable: true });
+      if (me.onreadystatechange) me.onreadystatechange(); if (me.onload) me.onload({}); }); };
+  window.XMLHttpRequest = X;
+  window.__RVM_WASM = bytes('riscvemu64-wasm.wasm');
+  window.update_downloading = function(flag){ (window.__RVM_LINUX || {}).downloading = !!flag; }; // TinyEMU fs_wget hook
+})();
+</script>
+<script src="term.js"></script>
+<script>
+// Minimal boot host for TinyEMU riscv64 (no jslinux login UI). Parent talks via postMessage.
+window.__RVM_LINUX = { out: '', ready: false, booted: false, t0: Date.now() };
+var console_write1 = null, net_state = null; // globals TinyEMU's JS glue expects (eth off)
+function term_handler(str){ if (!console_write1) return; for (var i=0;i<str.length;i++) console_write1(str.charCodeAt(i)); }
+function start(){
+  console_write1 = Module.cwrap('console_queue_char', null, ['number']);
+  var term = window.term = new Term(80, 30, term_handler, 10000); // TinyEMU console_write/get_size use global term
+  var w = term.write.bind(term), wl = term.writeln.bind(term);
+  // 0.1.2: guest https bridge. rvmget prints ESC ]777;rvm-fetch;<url> BEL on hvc0; we strip it and ask the parent ЯVM net gate.
+  var oscBuf = '';
+  term.write = function(s){ s = oscBuf + String(s); oscBuf = '';
+    var m, re = /\x1b\]777;rvm-fetch;([^\x07]*)\x07/g;
+    while ((m = re.exec(s))) parent.postMessage({t:'rvm.linux.fetch', url: m[1]}, '*');
+    s = s.replace(re, ''); var k = s.lastIndexOf('\x1b]777'); if (k >= 0 && s.indexOf('\x07', k) < 0) { oscBuf = s.slice(k); s = s.slice(0, k); }
+    if (!s) return; window.__RVM_LINUX.out += s; parent.postMessage({t:'rvm.linux.out', s:s}, '*'); return w(s); };
+  term.writeln = function(s){ window.__RVM_LINUX.out += String(s)+'\r\n'; parent.postMessage({t:'rvm.linux.out', s:String(s)+'\r\n'}, '*'); return wl(s); };
+  term.open(document.getElementById('term_container'), document.getElementById('term_paste'));
+  window.__RVM_LINUX.send = function(s){ for (var i=0;i<s.length;i++) console_write1(s.charCodeAt(i)); };
+  window.__RVM_LINUX.ready = true;
+  parent.postMessage({t:'rvm.linux.ready'}, '*');
+  var url = location.href.replace(/[?#].*$/, '').replace(/[^\/]*$/, '') + 'root-riscv64.cfg';
+  // drive1 (RVM-ENGINE-LAYOUT.md): attach <engine>/drives/drive1 only if the local host serves it (DRAGON SKULL iOS/macOS); else boot without it.
+  var go = function(){ Module.ccall('vm_start', null, ['string','number','string','string','number','number','number','string'],
+    [url, 128, '', null, 0, 0, 0, '']); };
+  if (!/^https?:\/\/(127\.0\.0\.1|localhost)(:|\/)/.test(location.href)) return go();
+  try { var p = new XMLHttpRequest(); p.open('GET', '../drives/drive1/blk.txt', true); p.timeout = 3000;
+    p.onload = function(){ window.__RVM_DRIVE1 = p.status === 200 && /n_block/.test(p.responseText); go(); };
+    p.onerror = p.ontimeout = function(){ go(); }; p.send(); } catch (x) { go(); }
+}
+var Module = { preRun: start, wasmBinary: window.__RVM_WASM, locateFile: function(p){ return p; } };
+// == SCOUT rebuild 2026-10-19: drive1 write-back glue (same text as STAGING/tinyemu-rebuild-20261019/test/drive1-writeback.js) ==
+// The rebuilt emulator calls Module.onDriveWrite(drive, blk, Uint8Array) once per dirty 256 KB block (debounced ~400 ms).
+// Only drive index 1 is sent; drive0 (root) never calls it and the host has no write route for it. Sequential PUTs, retry on network error.
+(function(M){
+  var q = {}, busy = false;
+  function pump(){ if (busy) return; var ks = Object.keys(q); if (!ks.length) return; busy = true;
+    var blk = +ks[0], data = q[ks[0]]; delete q[ks[0]];
+    var name = 'blk' + ('00000000' + blk).slice(-9) + '.bin';
+    var x = new XMLHttpRequest(); x.open('PUT', '../drives/drive1/' + name, true);
+    x.setRequestHeader('Content-Type', 'application/octet-stream');
+    x.onload = function(){ busy = false; if (x.status !== 204 && x.status !== 200) { (M.printErr||console.error)('drive1 PUT ' + name + ' -> ' + x.status); } pump(); };
+    x.onerror = function(){ busy = false; q[blk] = q[blk] || data; setTimeout(pump, 2000); };
+    x.send(data); }
+  M.onDriveWrite = function(drive, blk, data){ if (drive !== 1 || !window.__RVM_DRIVE1) return; q[blk] = data; pump(); };
+})(Module);
+// == SCOUT cleanstop 2026-10-19 BEGIN ==
+// Clean stop for drive1: interrupt the foreground job, then have the guest sync and unmount /data (fallback: remount ro)
+// so the ext2 clean flag and free counts reach the disk, wait for the ack marker (or a timeout), THEN flush drive1 writes.
+// No root-image change: the commands are typed on hvc0 like a user would. The marker is split in the typed text so the
+// echoed command line can't match it. done(how): 'ack' | 'timeout' | 'nodrive'.
+window.__RVM_CLEANSTOP = function(L, M, ms, done){
+  var fin = false, from = L.out.length, iv = null, to = null;
+  function end(how){ if (fin) return; fin = true; clearInterval(iv); clearTimeout(to);
+    try { M.flushDriveWrites && M.flushDriveWrites(); } catch(x){} if (done) done(how); }
+  if (!window.__RVM_DRIVE1 || !L.send) return end('nodrive');
+  L.send('\x03');
+  setTimeout(function(){ if (!fin) L.send('\nsync; umount /data 2>/dev/null || mount -o remount,ro /data; sync; echo __RVM_"STOP"PED__\n'); }, 150);
+  iv = setInterval(function(){ if (L.out.indexOf('__RVM_STOPPED__', from) >= 0) setTimeout(function(){ end('ack'); }, 50); }, 50);
+  to = setTimeout(function(){ end('timeout'); }, ms || 5000);
+};
+// == SCOUT cleanstop 2026-10-19 END ==
+window.addEventListener('pagehide', function(){ try { Module.flushDriveWrites && Module.flushDriveWrites(); } catch(x){} });
+window.addEventListener('message', function(e){
+  if (!e.data || e.data.t !== 'rvm.linux.cmd') return;
+  if (e.data.cmd === 'send' && window.__RVM_LINUX.send) window.__RVM_LINUX.send(e.data.text || '');
+  if (e.data.cmd === 'stop') { window.__RVM_CLEANSTOP(window.__RVM_LINUX, Module, e.data.timeoutMs || 5000, function(how){ try { Module.pauseMainLoop && Module.pauseMainLoop(); } catch(x){} parent.postMessage({t:'rvm.linux.stopped', clean: how}, '*'); }); }
+});
+// == ЯBAT rzl-mirror 2026-10-19 BEGIN (rzl.rvm.rscribe-mirror.v1; same text in boot.html on Neo and iOS) ==
+// Add-only copy of host transcripts + MACHINE-MIND notes into the guest: /data/rscribe/<bot>/YYYYMMDD.rzl (+ rscribe notes for topic "note").
+// Reads the host outbox (RlabMirror.swift, GET ../drives/rscribe-outbox/off<12d>.rzl) from the guest's own cursor /data/rscribe/.cursor,
+// so if /data was not mounted the entries simply wait in the outbox and the next boot catches up. Never deletes; dedupes by id.
+// Types on hvc0 only while the console is idle at a prompt; markers are split in the typed text so the echo can't match.
+(function(){
+  var MIR = window.__RVM_MIRROR = { idle: false, busy: false, done: 0, err: '', log: [] };
+  var L = function(){ return window.__RVM_LINUX; }, tick = null, lastOut = 0, lastLen = 0, n = 0;
+  var B64 = function(s){ return btoa(unescape(encodeURIComponent(s))); };
+  function wait(re, ms, cb){ var l = L(), from = l.out.length, t0 = Date.now();
+    var iv = setInterval(function(){ var s = l.out.slice(from), m = re.exec(s);
+      if (m) { clearInterval(iv); cb(null, m, s); } else if (Date.now() - t0 > ms) { clearInterval(iv); cb('timeout'); } }, 40); }
+  function run(cmd, cb){ var k = ++n; L().send(cmd + '; echo MIR"_' + k + '_"$?\n'); wait(new RegExp('MIR_' + k + '_(\\d+)'), 20000, cb); }
+  function get(off, cb){ var x = new XMLHttpRequest(); x.open('GET', '../drives/rscribe-outbox/off' + ('00000000000' + off).slice(-12) + '.rzl', true);
+    x.onload = function(){ var j = null; try { j = x.status === 200 ? JSON.parse(x.responseText) : null; } catch (e) {} cb(j); };
+    x.onerror = function(){ cb(null); }; x.send(); }
+  function q(s){ return "'" + String(s).replace(/'/g, "'\\''") + "'"; }
+  function entryCmds(e, end){ // one entry -> guest commands; bot/day re-validated here (host already sanitised them)
+    var bot = /^[a-z0-9_-]{1,40}$/.test(e.bot) ? e.bot : 'dragonskull', day = /^\d{8}$/.test(e.day) ? e.day : null, id = String(e.id || '');
+    if (!day || !/^[A-Za-z0-9._-]{1,80}$/.test(id)) return [];
+    var D = '/data/rscribe/' + bot, F = D + '/' + day + '.rzl', P = '/data/rscribe/.part', b = B64(JSON.stringify(e) + '\n'), c = ['mkdir -p ' + D + ' && : > ' + P];
+    for (var i = 0; i < b.length; i += 700) c.push('echo -n ' + b.slice(i, i + 700) + ' >> ' + P);
+    c.push('grep -qF ' + q('"id":"' + id + '"') + ' ' + F + ' 2>/dev/null || base64 -d ' + P + ' >> ' + F + '; echo ' + end + ' > /data/rscribe/.cursor');
+    if (e.topic === 'note') { var t = B64(String(e.text || '')), N = ('mm-' + day + '-' + id).replace(/[^A-Za-z0-9._-]/g, '-').slice(0, 60); c.push(': > ' + P);
+      for (var j = 0; j < t.length; j += 700) c.push('echo -n ' + t.slice(j, j + 700) + ' >> ' + P);
+      c.push('[ -d ' + D + '/NOTES/' + N + ' ] || ( base64 -d ' + P + ' > /data/rscribe/.note && RSCRIBE_NOTES_DIR=' + D + '/NOTES rscribe new ' + N + ' /data/rscribe/.note >/dev/null 2>&1; true )'); }
+    return c; }
+  function seq(cs, cb){ if (!cs.length) return cb(null); run(cs[0], function(err, m){ if (err || m[1] !== '0') return cb(err || ('rc ' + m[1] + ' @ ' + cs[0].slice(0, 40))); seq(cs.slice(1), cb); }); }
+  function pass(cb){ // one catch-up pass: cursor -> fetch -> append -> sync
+    run('grep -q " /data " /proc/mounts && mkdir -p /data/rscribe && echo CUR"SOR" $(cat /data/rscribe/.cursor 2>/dev/null || echo 0)', function(err, m, s){
+      var c = !err && m[1] === '0' && /CURSOR (\d+)/.exec(s); if (!c) return cb('no /data (queued in outbox)');
+      (function more(off){ get(off, function(j){ if (!j) return cb('outbox unreachable (queued)');
+        if (j.off > j.size) return more(0);                 // outbox restarted: replay from 0, guest dedupes by id
+        if (!j.lines) { MIR.end = j.off; return run('sync', function(){ cb(null); }); }
+        var cmds = [], pos = j.off;
+        j.lines.split('\n').forEach(function(ln){ if (!ln) return; pos += new TextEncoder().encode(ln + '\n').length; var e = null; try { e = JSON.parse(ln); } catch (x) {}
+          cmds = cmds.concat(e ? entryCmds(e, pos) : ['echo ' + pos + ' > /data/rscribe/.cursor']); });
+        seq(cmds, function(err){ if (err) return cb(err); MIR.done += cmds.length; more(j.end); }); }); })(+c[1]); }); }
+  function idleAtPrompt(){ var l = L(); if (!l || !l.send || !window.__RVM_DRIVE1) return false;
+    if (l.out.length !== lastLen) { lastLen = l.out.length; lastOut = Date.now(); return false; }
+    return /[#$] $/.test(l.out.slice(-2)) && Date.now() - lastOut > (MIR.passes ? 3000 : 300); }
+  MIR.kick = function(){ if (MIR.busy || (MIR.err && Date.now() - MIR.errAt < 60000) || !idleAtPrompt()) return; MIR.busy = true;
+    if (MIR.passes && MIR.end != null && !MIR.err) return get(MIR.end, function(j){ if (j && j.lines) go(); else MIR.busy = false; }); // nothing new: type nothing
+    go(); };
+  function go(){ MIR.idle = false;
+    pass(function(err){ MIR.busy = false; MIR.passes = (MIR.passes || 0) + 1; MIR.err = err || ''; MIR.errAt = Date.now(); MIR.idle = true; if (err) MIR.log.push(err); }); }
+  tick = setInterval(function(){ MIR.kick(); }, 500);            // first pass right after boot, then live (idle-only) every ~3 s
+  MIR.stop = function(){ clearInterval(tick); };
+})();
+// == ЯBAT rzl-mirror 2026-10-19 END ==
+</script>
+<script src="riscvemu64-wasm.js"></script>

@@ -1,0 +1,379 @@
+/* DRAGONGATE typed-command bridge 0.2.0 · 2026-10-19 · SCOUT.
+ * Injected NATIVELY at document start (main frame only) with a per-launch token baked into this closure; it is not loaded by
+ * scout.html and a web-overlay copy has no token. It catches `/gate …`, `:commands` and `/commands` typed in #composer, keeps them
+ * away from the model, the chat memory and every other script, and hands them to the native dsGateCmd handler only after a trusted
+ * Enter key or tap in the composer. Replies are shown locally; confirm codes appear in a NATIVE pop-up, never in the page. */
+(function (root, factory) {
+  if (typeof module === "object" && module.exports) module.exports = factory;
+  else factory(root, root.document, "__DG_CMD_TOKEN__");
+})(typeof self !== "undefined" ? self : this, function (win, doc, TOKEN) {
+  "use strict";
+  var GESTURE_MS = 1500, last = 0;
+  var hnd = win.webkit && win.webkit.messageHandlers && win.webkit.messageHandlers.dsGateCmd;
+  var post = hnd ? hnd.postMessage.bind(hnd) : null;           // captured before any other script runs
+  /* /parts narrow match (2026-10-19): slash form always; slashless only "parts" or "parts <exact part name|id>" */
+  var PARTS = null;
+  function partsData() { var P = win.DS_PARTS; return P && P.load ? P.load().then(function (d) { PARTS = d || []; return PARTS; }) : Promise.reject(new Error("no parts guide")); }
+  function isPartName(x, list) { x = String(x || "").trim().toLowerCase(); if (!x || !list) return false; for (var i = 0; i < list.length; i++) { var p = list[i] || {}; if (String(p.name || "").trim().toLowerCase() === x || String(p.id || "").trim().toLowerCase() === x) return true; } return false; }
+  function partsKind(t, list) { t = String(t || "").trim(); if (/^\/parts(\s|$)/i.test(t)) return "cmd"; if (/^parts$/i.test(t)) return "cmd"; var m = t.match(/^parts\s+(.+)$/i); if (!m) return "no"; if (!list) return "maybe"; return isPartName(m[1], list) ? "cmd" : "no"; }
+  function isParts(t) { return partsKind(t, PARTS) === "cmd"; }
+  try { partsData().catch(function () {}); } catch (e) {}
+  /* == SCOUT rvm-chatcmd 2026-10-19 BEGIN ==
+   * `/rvm <cmd>` always; slashless only when the message STARTS with the word `rvm` (same start-anchored rule as `parts`).
+   * Runs <cmd> on the RVM console (hvc0) of a hidden in-page RVM (skills/rvm-linux/rvm-host.html -> linux/boot.html, same origin),
+   * appends `; echo __RVM_DONE_<nonce>__ $?` (marker split in the typed text so the echoed line can't match), collects the output
+   * up to the marker and shows it locally. It never reaches the model, llama-direct's hist, the server or chat memory.
+   * `rvm boot` starts the RVM, `rvm stop` does the clean stop (sync; umount /data; __RVM_STOPPED__). 15 s timeout -> Ctrl-C + error. */
+  var RVM_TIMEOUT_MS = 120000 /* ЯBAT fix 2026-10-19: was 15000; 300 KB writes need ~20-40 s */, RVM_MAX_OUT = 16000, rvmBusy = false;
+  function isRvm(t) { t = String(t || "").replace(/^\s+/, ""); return /^\/?rvm(\s|$)/i.test(t); }
+  function rvmArg(t) { return String(t || "").trim().replace(/^\/?rvm\s*/i, ""); }
+  function rvmHost() { return doc.getElementById("ds-rvm-host"); }
+  function rvmL() { try { var h = rvmHost(), v = h && h.contentDocument && h.contentDocument.getElementById("vm"); return (v && v.contentWindow && v.contentWindow.__RVM_LINUX) || null; } catch (e) { return null; } }
+  function rvmWin() { try { return rvmHost().contentDocument.getElementById("vm").contentWindow; } catch (e) { return null; } }
+  function rvmBooted() { var L = rvmL(); if (!L || !L.ready || !L.send) return false; if (!L.scoutPrompt && /(^|\n)[^\n]{0,60}[#$] /.test(L.out)) L.scoutPrompt = true; return !!L.scoutPrompt; }
+  function rvmClean(s) { return String(s).replace(/\x1b\[[0-9;?]*[A-Za-z]|\x1b\][^\x07]*\x07|\x1b[()][A-Z0-9]/g, "").replace(/\r/g, ""); }
+  function rvmBoot() {
+    if (rvmHost()) return rvmBooted() ? "RVM: already booted." : "RVM: still booting, try again in a few seconds.";
+    var f = doc.createElement("iframe"); f.id = "ds-rvm-host"; f.title = "ЯVM (chat /rvm)"; f.src = "./skills/rvm-linux/rvm-host.html";
+    f.setAttribute("aria-hidden", "true"); f.style.cssText = "position:absolute;left:-10000px;top:0;width:660px;height:520px;border:0;visibility:hidden";
+    (doc.body || doc.documentElement).appendChild(f);
+    return "RVM: booting. Wait ~10 s, then type rvm uname -a.";
+  }
+  function rvmStop(done) {
+    var w = rvmWin(); if (!w || !rvmL()) return done("RVM not booted.");
+    var to = setTimeout(function () { fin("RVM: stop timed out; drive1 writes were flushed."); }, 8000), ok = false;
+    function fin(msg) { if (ok) return; ok = true; clearTimeout(to); win.removeEventListener("message", on, true); var h = rvmHost(); if (h && h.parentNode) h.parentNode.removeChild(h); done(msg); }
+    function on(e) { if (e.data && e.data.t === "rvm.linux.stopped") fin("RVM: stopped (" + e.data.clean + ")."); }
+    win.addEventListener("message", on, true);                // boot.html posts to its parent (rvm-host); relay via a same-origin hook
+    try { w.parent.addEventListener("message", function (e) { if (e.source === w) on(e); }); } catch (x) {}
+    w.postMessage({ t: "rvm.linux.cmd", cmd: "stop", timeoutMs: 5000 }, "*");
+  }
+  function rvmRun(cmd, done) {
+    if (!rvmBooted()) return done(rvmHost() ? "RVM not booted yet (still starting). Try again in a few seconds." : "RVM not booted. Type rvm boot to start it.");
+    if (/[\x00-\x08\x0a-\x1f\x7f]/.test(cmd)) return done("RVM: one line only, no control characters.");
+    if (rvmBusy) return done("RVM: another rvm command is still running.");
+    var L = rvmL(), MIR = (rvmWin() || {}).__RVM_MIRROR, t0 = Date.now();
+    rvmBusy = true;
+    (function claim() {                                       // never type over ЯBAT's rscribe mirror: wait, then hold it off
+      if (MIR && MIR.busy) { if (Date.now() - t0 > RVM_TIMEOUT_MS) { rvmBusy = false; return done("RVM: busy (rscribe backup running), try again."); } return setTimeout(claim, 100); }
+      if (MIR) MIR.busy = true;
+      var nonce = (Date.now().toString(36) + Math.random().toString(36).slice(2, 8)).replace(/[^a-z0-9]/g, "");
+      var re = new RegExp("__RVM_DONE_" + nonce + "__ (\\d+)"), from = L.out.length, iv = null, to = null;
+      function end(text) { clearInterval(iv); clearTimeout(to); rvmBusy = false; if (MIR) { MIR.busy = false; MIR.errAt = 0; } done(text); }
+      L.send(cmd + '; echo __RVM_"DONE"_' + nonce + "__ $?\n");
+      iv = setInterval(function () {
+        var s = L.out.slice(from), m = re.exec(s); if (!m) return;
+        var pre = s.slice(0, m.index), ek = pre.indexOf("_" + nonce + "__ $?");   // ЯBAT fix 2026-10-19: drop the WHOLE echoed command, incl. its wrapped tail (stray "<nonce>__ $?" line)
+        if (ek >= 0) { var nl = pre.indexOf("\n", ek); pre = nl >= 0 ? pre.slice(nl + 1) : ""; }
+        var body = rvmClean(pre).split("\n"); if (ek < 0) body.shift();      // drop the echoed command line
+        var out = body.join("\n").replace(/\s+$/, ""); if (out.length > RVM_MAX_OUT) out = out.slice(0, RVM_MAX_OUT) + "\n… (cut at " + RVM_MAX_OUT + " chars)";
+        end("RVM $ " + cmd + "\n" + (out || "(no output)") + "\n[exit " + m[1] + "]");
+      }, 40);
+      to = setTimeout(function () { try { L.send("\x03"); } catch (x) {} end("RVM: timed out after " + (RVM_TIMEOUT_MS / 1000) + " s; sent Ctrl-C. Command: " + cmd); }, RVM_TIMEOUT_MS);
+    })();
+  }
+  function rvmHandle(t, gesture) {
+    if (!gesture) { show("bot", "DRAGONGATE: refused. Type the command and press Enter or tap Send yourself."); return; }
+    var a = rvmArg(t), low = a.toLowerCase(), say = function (x) { show("bot", x); };
+    if (!a) return say("Usage: rvm <command> · rvm boot · rvm stop. Output stays on this screen; the model never sees it.");
+    if (low === "boot") return say(rvmBoot());
+    if (low === "stop") return rvmStop(say);
+    rvmRun(a, say);
+  }
+  /* == SCOUT rvm-chatcmd 2026-10-19 END == */
+  /* == ЯBAT rscribe-chatcmd 2026-10-19 BEGIN ==
+   * `rscribe` / `/rscribe` at the START of a message only (same start-anchored rule as rvm). Runs through the /rvm console (rvmRun),
+   * so the output stays on this screen and never reaches the model, llama-direct's hist, the server or chat memory.
+   *   rscribe            boots the RVM if needed, then the last 40 lines of /data/rscribe/<bot>/<today>.rzl (today = this device's date)
+   *   rscribe ls         lists the day files      rscribe YYYYMMDD   shows that day's file
+   *   rscribe <other…>   unchanged: runs the guest's own rscribe (list/new/edit/cat/show/archive/restore/search) */
+  function isRscribe(t) { t = String(t || "").replace(/^\s+/, ""); return /^\/?rscribe(\s|$)/i.test(t); }
+  function rsBot() { return String((win.DS_BBX && win.DS_BBX.bot) || "dragonskull").replace(/[^a-z0-9_-]/gi, "") || "dragonskull"; }
+  function rsToday() { var d = new Date(); return d.getFullYear() + ("0" + (d.getMonth() + 1)).slice(-2) + ("0" + d.getDate()).slice(-2); }
+  function rsWhenBooted(say, fn) {
+    if (rvmBooted()) return fn();
+    if (!rvmHost()) say(rvmBoot());
+    var t0 = Date.now(), iv = setInterval(function () {
+      if (rvmBooted()) { clearInterval(iv); setTimeout(fn, 1500); }        // give init a moment to mount /data
+      else if (Date.now() - t0 > 90000) { clearInterval(iv); say("rscribe: the RVM did not finish booting within 90 s."); }
+    }, 500);
+  }
+  function rscribeHandle(t, gesture) {
+    if (!gesture) { show("bot", "DRAGONGATE: refused. Type the command and press Enter or tap Send yourself."); return; }
+    var say = function (x) { show("bot", x); }, a = String(t).trim().replace(/^\/?rscribe\s*/i, ""), dir = "/data/rscribe/" + rsBot();
+    var cmd;
+    if (!a) cmd = "tail -n 40 " + dir + "/" + rsToday() + ".rzl";
+    else if (/^ls$/i.test(a)) cmd = "ls -la " + dir;
+    else if (/^\d{8}$/.test(a)) cmd = "cat " + dir + "/" + a + ".rzl";
+    else cmd = "rscribe " + a;                                            // existing guest rscribe behavior (new/list/edit/…)
+    rsWhenBooted(say, function () { rvmRun(cmd, say); });
+  }
+  /* == ЯBAT rscribe-chatcmd 2026-10-19 END == */
+  /* TEST 2026-10-19: TEST | /test | test [quick|status|stop], whole message, any case. Native DGCommands runs it; we poll TEST status for progress. */
+  function isTest(t) { return /^\/?test(\s+(quick|status|stop))?$/i.test(String(t || "").trim()); }
+  var testPoll = null, testLast = "";
+  function testWatch() {
+    if (testPoll || !post) return;
+    testPoll = setInterval(function () {
+      Promise.resolve(post({ t: TOKEN, text: "TEST status", gesture: true })).then(function (r) {
+        var x = String((r && r.text) || ""); if (x && x !== testLast) { testLast = x; show("bot", x); }
+        if (!/^TEST progress/.test(x)) { clearInterval(testPoll); testPoll = null; }
+      }).catch(function () { clearInterval(testPoll); testPoll = null; });
+    }, 20000);
+  }
+  /* ЯOS BASE COMMANDS 2026-10-19 cmds: CHALKBOARD · CHALK · HANDOFF · REOPS (reverse-engineering) · FIX · MANUAL. Same rule as
+   * DGCommands.baseCommand: slash form any args; slashless only the bare word or a known subcommand. Native side answers. */
+  function isBase(t) {
+    var m = String(t || "").trim().match(/^(\/?)(chalkboard|chalk|handoff|reops|reverse-engineering|fix|manual)(?:\s+([\s\S]*))?$/i); if (!m) return false;
+    var w = m[2].toLowerCase(), p = (m[3] || "").trim() ? (m[3] || "").trim().split(/\s+/) : [], a1 = (p[0] || "").toLowerCase();
+    if (m[1] || !p.length) return true; if (w === "reverse-engineering") w = "reops";
+    switch (w) {
+      case "chalkboard": return (a1 === "show" && p.length === 1) || (a1 === "post" && p.length >= 2);
+      case "chalk": return (a1 === "word" && p.length === 2) || (a1 === "results" && p.length === 1);
+      case "handoff": return a1 === "note" && p.length >= 2;
+      case "reops": return a1 === "status" && p.length === 1;
+      case "fix": return p.length === 1 && ["detect", "verify", "mac", "iphone", "ipad"].indexOf(a1) >= 0;
+    }
+    return false;
+  }
+    /* HOSTBRIDGE 2026-10-19: hostpair|hostconnect|hoststatus|hostreq|hostexec|hostshot|hostmouse|hostkey|hostui|hostapp|hoststop|hostallow — native HostBridge answers; never sent to the model. */
+    /* SCROLL 2026-10-24: scroll | scroll safari | scroll full | scroll list | scroll window N — Safari transcript via ds-hostd :8320/hostscroll; never sent to the model. */
+  function isScroll(t) { return /^\/?scroll(\s+(safari|full|list|window\s+\d+|safari\s+full))?\s*$/i.test(String(t || "").trim()); }
+  function scrollHandle(t) {
+    var a = String(t).trim().toLowerCase().replace(/^\/?scroll\s*/, ""), wm = a.match(/window\s+(\d+)/);
+    var body = a === "list" ? { op: "list" } : { op: "capture", window: wm ? +wm[1] : 1 };
+    show("bot", a === "list" ? "SCROLL: listing captures…" : "SCROLL: capturing Safari's front window…");
+    fetch("http://127.0.0.1:8320/hostscroll", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) })
+      .then(function (r) { return r.json(); }).then(function (r) {
+        if (!r.ok) return show("bot", "SCROLL failed: " + (r.error || "unknown"));
+        if (r.list) return show("bot", r.list.length ? "SCROLL captures (newest first):\n" + r.list.map(function (x) { return "• " + x.name + "  " + x.bytes + " bytes  " + x.when + "\n  " + x.url; }).join("\n") : "SCROLL: no captures yet in ~/Downloads.");
+        var d = show("bot", "SCROLL saved " + r.chars + " chars (" + r.bytes + " bytes) from \"" + r.title + "\"\n" + r.path + "\n");
+        if (d) { var l = doc.createElement("a"); l.href = r.download; l.download = r.name; l.textContent = "⬇ Download " + r.name; l.style.color = "#f55"; d.appendChild(l); }
+      }).catch(function (e) { if (!post) return show("bot", "SCROLL: ds-hostd did not answer (" + e + ")"); var arg = a === "list" ? " list" : (wm ? " window " + wm[1] : ""); Promise.resolve(post({ t: TOKEN, text: "hostexec /Users/rizal/ЯLAB/DRAGONSKULL/hostbridge/ds-scroll" + arg, gesture: true })).then(function (r) { show("bot", String((r && r.text) || "SCROLL: no answer")); }).catch(function (x) { show("bot", "SCROLL failed: " + x); }); });
+  }
+  function isHost(t) {
+    var m = String(t || "").trim().match(/^\/?((?:hostpair|hostconnect|hoststatus|hostreq|hostexec|hostshot|hostmouse|hostkey|hostui|hostapp|hoststop|hostallow))(?:\s|$)/i);
+    return !!m;
+  }
+/* SCOUT dragonbridge-term 2026-10-19 (vulnfix): `/bridge …` or message starting with `bridge`. Token injected natively into this closure only. */
+  var BTOKEN = "__DG_BRIDGE_TOKEN__";
+  function isBridgeCmd(t) { return /^\/?bridge(\s|$)/i.test(String(t || "").replace(/^\s+/, "")); }
+  function bridgeHandle(t, done) {
+    var a = String(t).trim().replace(/^\/?bridge\s*/i, ""), sp = a.indexOf(" "), verb = (sp < 0 ? a : a.slice(0, sp)).toLowerCase() || "status", arg = sp < 0 ? "" : a.slice(sp + 1);
+    if (!/^(read|write|exec|diag|update|repair|status)$/.test(verb)) return done("bridge: read <path> | write <path> <text> | exec <cmd> | diag | update <egg> | repair <file> | status");
+    fetch("/bridge/v1/" + verb, { method: "POST", headers: { "Content-Type": "application/json", "X-DS-Bridge-Token": BTOKEN }, body: JSON.stringify({ arg: arg }) })
+      .then(function (r) { return r.text(); }).then(function (s) { done("bridge " + verb + ":\n" + s.slice(0, 16000)); })
+      .catch(function (e) { done("bridge: " + e); });
+  }
+/* SCOUT rebirth 2026-10-19: REBIRTH | /rebirth | rebirth, start-anchored, any case -> native dsGateCmd (dry run by default) */
+function isRebirth(t) { return /^\s*\/?rebirth(\s|$)/i.test(String(t || "")); }
+/* qr-pair 0.1.0 · 2026-10-21: qr | qr scan <p> | qr check | check | qr peers | qr offer <json>. Runs in the page (egg skill); never sent to the model. */
+/* qr-pair 0.1.1 hook: a pasted pair link (https://…/pair#p=…, rzl://pair?p=…, RZLQR1:…) is a qr scan. */
+function isPairLink(t) { t = String(t || "").trim(); return /^(rzlqr1:[a-z0-9_-]{20,}|[a-z][a-z0-9+.-]*:\/\/\S*\/?pair\S*[#?&]p=[a-z0-9_-]{20,})$/i.test(t); }
+/* qr-pair 0.2.0 link hook: link commands go through the same DRAGONGATE qr path. */
+function isQr(t) { return /^\/?(qr(\s[\s\S]*)?|check|link(\s[\s\S]*)?)$/i.test(String(t || "").trim()) || isPairLink(t); }
+function qrHandle(t, gesture) {
+  if (!gesture) { show("bot", "DRAGONGATE: refused. Type the command and press Enter or tap Send yourself."); return; }
+  var Q = win.DS_QRPAIR; if (!Q) { show("bot", "qr-pair is not installed."); return; }
+  var j = function (u) { return fetch(u).then(function (r) { if (!r.ok) throw new Error(u + " " + r.status); return r.json(); }); };
+  var store = { get: function (k) { try { return JSON.parse(win.localStorage.getItem("ds." + k)); } catch (e) { return null; } }, set: function (k, v) { try { win.localStorage.setItem("ds." + k, JSON.stringify(v)); } catch (e) {} } };
+  Promise.all([j("/api/version"), j("./skills/qr-pair/state.json"), j("./skills/qr-pair/trust.json")]).then(function (a) {
+    var v = a[0], s = a[1];
+    var state = { app: v.app, platform: v.platform, version: v.version, build: v.build, device: v.platform === "macos" ? "Neo" : "iPhone 17e", commands: s.commands, components: s.components, eggs: s.eggs };
+    return Q.handle(t.trim(), { state: state, trust: a[2], store: store });
+  }).then(function (r) {
+    if (!r) { show("bot", "qr: no answer"); return; }
+    var d = show("bot", r.text);
+    if (d && r.offerBack) { var bb = doc.createElement("button"); bb.type = "button"; bb.textContent = "Show my QR back"; bb.style.cssText = "display:block;margin-top:8px;padding:8px 12px;border-radius:8px"; bb.addEventListener("click", function (ev) { if (ev.isTrusted) { show("user", "You: qr"); qrHandle("qr", true); } }); d.appendChild(bb); }
+    if (d && r.svg && /^<svg[\s>]/i.test(r.svg) && !/<script|on\w+=/i.test(r.svg)) { var b = doc.createElement("div"); b.className = "dg-qr"; b.style.cssText = "background:#fff;padding:8px;max-width:280px;margin-top:8px;border-radius:8px"; b.innerHTML = r.svg; d.appendChild(b); if (b.scrollIntoView) b.scrollIntoView(); }
+  }).catch(function (e) { show("bot", "qr: " + (e && e.message || e)); });
+}
+
+/* 2026-10-23 (t168u): local DOS-style master list for commands / :commands / /commands */
+function formatCommandsMaster() {
+  var m = window.ROS_COMMANDS_MASTER, c = (m && m.commands) || [];
+  if (!c.length) return null;
+  var w = 0, i, lines = [];
+  for (i = 0; i < c.length; i++) if (c[i].command.length > w) w = c[i].command.length;
+  w = Math.min(34, w);
+  for (i = 0; i < c.length; i++) lines.push(String(i + 1).padStart(3, " ") + ". " + c[i].command + Array(Math.max(1, w - c[i].command.length + 2)).join(" ") + c[i].desc);
+  return "C:" + String.fromCharCode(92) + "ЯLAB> COMMANDS  (" + c.length + " known · master built " + (m.built || "?") + ")\n" + lines.join("\n") + "\n" + c.length + " command(s) listed.";
+}
+function isCommandsList(t) { t = String(t || "").trim().toLowerCase(); return t === "commands" || t === ":commands" || t === "/commands"; }
+function isRwalletAssm(t) { return /^\s*\/?(rwallet|assm)\s*$/i.test(String(t || "")); }
+function isCmd(t) { t = String(t || "").trim().toLowerCase(); return isRwalletAssm(t) || isScroll(t) || isQr(t) || isRebirth(t) || isBridgeCmd(t) || isTest(t) || isHost(t) || isBase(t) || isRvm(t) || isRscribe(t) || isParts(t) || t === ":commands" || t === "/commands" || t === "/gate" || /^\/gate\s/.test(t); }
+  function mask(t) { return String(t).replace(/^(\s*\/gate\s+confirm\s+)\S+/i, "$1****").replace(/^(\s*\/?chalk\s+word\s+)\S+/i, "$1****"); }
+  function show(role, text) {
+    var log = doc.getElementById("log"); if (!log) return null;
+    var d = doc.createElement("div"); d.className = "turn " + role + " dg-cmd"; d.textContent = text; log.appendChild(d);
+    if (d.scrollIntoView) d.scrollIntoView(); return d;
+  }
+  function inComposer(t) { for (; t; t = t.parentNode) if (t.id === "composer") return true; return false; }
+  doc.addEventListener("keydown", function (e) { if (e.isTrusted && e.key === "Enter" && e.target && e.target.id === "message") last = Date.now(); }, true);
+  ["pointerdown", "touchend", "click"].forEach(function (k) { doc.addEventListener(k, function (e) { if (e.isTrusted && inComposer(e.target)) last = Date.now(); }, true); });
+  /* == REMBED 2026-11-13 (Rizal pt182u · t183u · t184u · t185u · t188u) BEGIN ==
+   * Exact command words (any case, Я = R, optional leading "/"): RSCRIBE · GHOSTMACHINE · RWALLET · RMAIL · RTHUNDR/THUNDR · CRYPTOAPP(LICATION) ·
+   * CRYPTOGAME · RTOKEN · RCOIN · CRYPTOBOT · BOTLATCH · MERKADO. Never sent to the model. Native RDRGN / ЯBOT (WK "rembed", captured at
+   * document start like dsGateCmd): the module opens in THIS app's window panel. Android / Neo browser: an in-page panel in this window.
+   * The in-page RTHUNDR shell: guarded words (sign · seal · mint · send · pay · approve · swap · trade · wallet · key · seed…) never reach a
+   * model ("use the request card"); chat goes to this device's own engine first, then offline. Opening panels moves no value and signs nothing. */
+  var REMBED_H = win.webkit && win.webkit.messageHandlers && win.webkit.messageHandlers.rembed;
+  var REMBED_POST = REMBED_H ? REMBED_H.postMessage.bind(REMBED_H) : null;
+  var REMBED_W = { RSCRIBE: "rscribe", SCRIBE: "rscribe", RCRIBE: "rscribe", YASCRIBE: "rscribe", OPENRSCRIBE: "rscribe", OPENSCRIBE: "rscribe", OPENRCRIBE: "rscribe", /* 2026-11-15 diagfix: typo + "open …" aliases (SCRIBE draft) */ GHOSTMACHINE: "ghostmachine", RGHOSTMACHINE: "ghostmachine", RWALLET: "rwallet", RWALET: "rwallet",
+    RMAIL: "rmail", RTHUNDR: "rthundr", THUNDR: "rthundr", RTHUNDER: "rthundr", THUNDER: "rthundr", CRYPTOAPP: "cryptoapp", CRYPTOAPPS: "cryptoapp",
+    CRYPTOAPPLICATION: "cryptoapp", CRYPTOAPPLICATIONS: "cryptoapp", CRYPTOGAME: "cryptogame", CRYPTOGAMES: "cryptogame", RTOKEN: "rtoken",
+    RCOIN: "rcoin", RCOINS: "rcoin", CRYPTOBOT: "cryptobot", BOTLATCH: "botlatch", MERKADO: "merkado", MERCADO: "merkado" };
+  var REMBED_GUARD = /\b(sign|seal|mint|pay|send|transfer|approve|swap|trade|buy|sell|wallet|key|seed|mnemonic|password|passcode|face ?id|unlock)\b/i;
+  function rembedId(t) { t = String(t || "").trim(); if (t.length > 40) return null; t = t.toUpperCase().replace(/^(R:\\>|R:>|\/|>)/, "").replace(/Я/g, "R").replace(/[\s\-_.]/g, ""); return REMBED_W[t] || null; }
+  function rembedLabel(id) { return ({ rscribe: "ЯSCRIBE", ghostmachine: "GHOSTMACHINE", rwallet: "ЯWALLET", rmail: "RMAIL", rthundr: "RTHUNDR", cryptoapp: "CRYPTOAPP hub",
+    cryptogame: "CRYPTOGAME (TerraformЯ)", rtoken: "ЯTOKEN", rcoin: "ЯCOIN · ЯTOKEN", cryptobot: "CRYPTOBOT", botlatch: "BOTLATCH", merkado: "MERKADO" })[id] || id; }
+  function rembedPanel(id, title) {
+    var p = doc.getElementById("ds-rembed-panel"); if (p) p.parentNode.removeChild(p);
+    p = doc.createElement("div"); p.id = "ds-rembed-panel"; p.setAttribute("data-app", id);
+    p.style.cssText = "position:fixed;inset:8px;z-index:2147483645;background:#000;border:1px solid #33ff66;border-radius:12px;display:flex;flex-direction:column;overflow:hidden;font:12px Menlo,monospace;color:#33ff66";
+    var b = doc.createElement("div"); b.style.cssText = "display:flex;justify-content:space-between;align-items:center;padding:6px 10px;border-bottom:1px solid #1f9e42";
+    var bk = doc.createElement("button"), x = doc.createElement("button"), tl = doc.createElement("b");
+    bk.textContent = "◀ BACK"; x.textContent = "✕"; tl.textContent = title;
+    [bk, x].forEach(function (k) { k.style.cssText = "border:0;background:none;color:#33ff66;font:bold 12px Menlo,monospace;cursor:pointer"; k.onclick = function () { p.parentNode && p.parentNode.removeChild(p); }; });
+    b.appendChild(bk); b.appendChild(tl); b.appendChild(x); p.appendChild(b);
+    var body = doc.createElement("div"); body.style.cssText = "flex:1;display:flex;flex-direction:column;min-height:0;overflow:auto"; p.appendChild(body);
+    doc.body.appendChild(p); return body;
+  }
+  function rembedFrame(id, src) {
+    var body = rembedPanel(id, rembedLabel(id) + " · in this app");
+    fetch(src.split("#")[0], { cache: "no-store" }).then(function (r) { return r.ok; }).catch(function () { return false; }).then(function (ok) {
+      if (!ok) { body.textContent = rembedLabel(id) + " isn't bundled in this build. Type it in RDRGN or ЯBOT."; return; }
+      var f = doc.createElement("iframe"); f.src = src; f.style.cssText = "flex:1;border:0;width:100%;background:#000"; body.appendChild(f); });
+  }
+  function rembedThundr() {
+    var body = rembedPanel("rthundr", "⚡ RTHUNDR · ThundR shell");
+    var log = doc.createElement("div"); log.style.cssText = "flex:1;overflow:auto;padding:10px;white-space:pre-wrap"; log.textContent = "⚡ ThundR here. Type RSCRIBE, GHOSTMACHINE, RWALLET, RMAIL, RTOKEN, RCOIN … to open them in this app.\n";
+    var row = doc.createElement("div"); row.style.cssText = "display:flex;gap:6px;align-items:center;padding:8px;border-top:1px solid #1f9e42";
+    var pr = doc.createElement("span"); pr.textContent = "R:\\>";
+    var car = doc.createElement("span"); car.style.cssText = "display:inline-block;width:8px;height:15px;background:#33ff66"; car.className = "ds-rembed-caret";
+    var inp = doc.createElement("input"); inp.style.cssText = "flex:1;background:#000;color:#33ff66;border:0;outline:0;font:13px Menlo,monospace;caret-color:#33ff66"; inp.autocomplete = "off";
+    var blink = setInterval(function () { if (!doc.getElementById("ds-rembed-panel")) { clearInterval(blink); return; } car.style.visibility = (doc.activeElement === inp && inp.value) ? "hidden" : (car.style.visibility === "hidden" ? "visible" : "hidden"); }, 550);
+    row.appendChild(pr); row.appendChild(car); row.appendChild(inp); body.appendChild(log); body.appendChild(row);
+    function say(s) { log.textContent += s + "\n"; log.scrollTop = log.scrollHeight; }
+    function ask(q, i) {
+      var R = [["/engine/v1/chat/completions", "granite (this device)"], ["http://127.0.0.1:4979/v1/chat/completions", "granite (on-device)"]];
+      if (i >= R.length) { say("Offline: no on-device engine answered. Try again when the engine or Neo is up."); return; }
+      fetch(R[i][0], { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ messages: [{ role: "system", content: "You are ThundR (RTHUNDR), the in-app helper. Be brief. You never sign, seal, mint, send, pay or approve." }, { role: "user", content: q }], stream: false, max_tokens: 400 }) })
+        .then(function (r) { if (!r.ok) throw 0; return r.json(); }).then(function (j) { var c = j && j.choices && j.choices[0] && j.choices[0].message && j.choices[0].message.content; if (!c) throw 0; say(String(c).trim() + "\n  · " + R[i][1]); })
+        .catch(function () { ask(q, i + 1); });
+    }
+    inp.addEventListener("keydown", function (ev) {
+      if (ev.key !== "Enter") return; ev.preventDefault(); var q = inp.value.trim(); inp.value = ""; if (!q) return; say("› " + q);
+      var id = rembedId(q);
+      if (id && id !== "rthundr") { var m = doc.getElementById("message"), f = doc.getElementById("composer"); say("Opening " + rembedLabel(id) + " in this app…");
+        if (m && f) { m.value = q; if (f.requestSubmit) f.requestSubmit(); } return; }   // hand-off to the host command bar (same exact-word path)
+      if (id === "rthundr") { say("You're in the ThundR shell."); return; }
+      if (REMBED_GUARD.test(q)) { say("That needs your own unlock. Nothing was sent to a model: use the request card in RWALLET / RVAULT. ThundR never signs, sends, mints or approves."); return; }
+      ask(q, 0);
+    });
+    setTimeout(function () { try { inp.focus(); } catch (_) {} }, 50);
+  }
+  function rembedHub() {
+    var body = rembedPanel("cryptoapp", "CRYPTOAPP · in this app"); body.style.padding = "12px";
+    ["RSCRIBE", "GHOSTMACHINE", "RWALLET", "RMAIL", "RTOKEN", "RCOIN", "BOTLATCH", "MERKADO", "CRYPTOBOT", "RTHUNDR", "CRYPTOGAME"].forEach(function (w) {
+      var k = doc.createElement("button"); k.textContent = w; k.style.cssText = "display:block;width:100%;margin:0 0 8px;padding:10px;text-align:left;background:#000;color:#33ff66;border:1px solid #1f9e42;border-radius:8px;font:bold 14px Menlo,monospace;cursor:pointer";
+      k.onclick = function () { var m = doc.getElementById("message"), f = doc.getElementById("composer"); if (m && f) { m.value = w; if (f.requestSubmit) f.requestSubmit(); } };
+      body.appendChild(k); });
+  }
+  /* t188u 2026-11-14 (Rizal): every notification loads into ThundR CRYPTOBOT, never the main screen. Inbox = localStorage ds.cryptobot.inbox. */
+  function cbLoad() { try { return JSON.parse(win.localStorage.getItem("ds.cryptobot.inbox") || "[]"); } catch (_) { return []; } }
+  function cbSave(a) { try { win.localStorage.setItem("ds.cryptobot.inbox", JSON.stringify(a.slice(0, 100))); } catch (_) {} }
+  win.DS_CRYPTOBOT_NOTIFY = function (key, text, act) { var a = cbLoad(); key = String(key || text); if (a.some(function (x) { return x.key === key; })) return; a.unshift({ key: key, text: String(text), act: act || "", ts: new Date().toISOString() }); cbSave(a);
+    var pl = doc.getElementById("ds-rembed-panel"); if (pl && pl.getAttribute("data-app") === "cryptobot") rembedCryptobot(); };
+  function cbRun(w) { var m = doc.getElementById("message"), f = doc.getElementById("composer"); if (m && f) { m.value = w; if (f.requestSubmit) f.requestSubmit(); } }
+  function rembedCryptobot() {
+    var body = rembedPanel("cryptobot", "⚡ ThundR CRYPTOBOT · notifications"); body.style.padding = "10px";
+    var bs = "padding:6px 10px;margin:6px 6px 0 0;background:#000;color:#33ff66;border:1px solid #1f9e42;border-radius:8px;font:bold 12px Menlo,monospace;cursor:pointer";
+    var top = doc.createElement("div"); body.appendChild(top);
+    if (REMBED_POST) { var d = doc.createElement("button"); d.textContent = "ONE-TAP MINT REQUEST desk"; d.style.cssText = bs; d.onclick = function () { REMBED_POST({ app: "cryptobot" }); }; top.appendChild(d); }
+    var cl = doc.createElement("button"); cl.textContent = "Clear all"; cl.style.cssText = bs; cl.onclick = function () { cbSave([]); rembedCryptobot(); }; top.appendChild(cl);
+    var a = cbLoad();
+    if (!a.length) { var e = doc.createElement("div"); e.style.cssText = "margin-top:12px;opacity:.8"; e.textContent = "No notifications."; body.appendChild(e); return; }
+    a.forEach(function (n, i) {
+      var c = doc.createElement("div"); c.style.cssText = "margin-top:10px;padding:10px;border:1px solid #1f9e42;border-radius:10px;white-space:pre-wrap";
+      var t = doc.createElement("div"); t.textContent = n.text; c.appendChild(t);
+      var ts = doc.createElement("div"); ts.style.cssText = "opacity:.6;font-size:10px;margin-top:4px"; ts.textContent = n.ts ? new Date(n.ts).toLocaleString() : ""; c.appendChild(ts);
+      if (n.act) { var o = doc.createElement("button"); o.textContent = n.act === "terraformr bind" ? "Open in TerraformЯ" : n.act; o.style.cssText = bs; o.onclick = function () { var p = doc.getElementById("ds-rembed-panel"); if (p) p.parentNode.removeChild(p); cbRun(n.act); }; c.appendChild(o); }
+      var x = doc.createElement("button"); x.textContent = "Dismiss"; x.style.cssText = bs; x.onclick = function () { var b = cbLoad(); b.splice(i, 1); cbSave(b); rembedCryptobot(); }; c.appendChild(x);
+      body.appendChild(c); });
+  }
+  /* true = handled here. Without a native host, rwallet / rmail / rscribe fall through to their existing commands below (wallet layer, RMAIL_UI, rscribe). */
+  function rembedOpen(id) {
+    if (id === "cryptobot") { rembedCryptobot(); return true; }   /* t188u: CRYPTOBOT = ThundR notifications inbox (native mint desk is a button inside) */
+    if (REMBED_POST) { REMBED_POST({ app: id }); show("bot", rembedLabel(id) + ": opening inside this app"); return true; }
+    switch (id) {
+      case "rthundr": rembedThundr(); show("bot", "⚡ RTHUNDR: ThundR shell open in this window"); return true;
+      case "ghostmachine": rembedFrame(id, "ghost-machine/site/index.html"); show("bot", "GHOSTMACHINE: opened in this window"); return true;
+      case "rtoken": case "rcoin": rembedFrame(id, "ghost-machine/site/rtrackr/index.html#" + id); show("bot", rembedLabel(id) + ": RTRACKR pair on the local RGHOSTCHAIN · Orca pool reads only"); return true;
+      case "cryptoapp": rembedHub(); show("bot", "CRYPTOAPP: hub open in this window"); return true;
+      case "cryptobot": case "botlatch": case "merkado":
+        show("bot", rembedLabel(id) + ": order cards (trade · swap · buy · sell · give · send · mint) open in RDRGN / ЯBOT's native panel and in TerraformЯ's " + (id === "merkado" ? "MERKADO" : "BOTLATCH") + ". Each is ONE unsigned request; only your own RVAULT unlock signs."); return true;
+      default: return false;
+    }
+  }
+  /* == REMBED END == */
+  function handle(e) {
+    var f = e.target; if (!f || f.id !== "composer") return;
+    var m = doc.getElementById("message"), t = m ? String(m.value || "") : "";
+    var _re = rembedId(t);   /* REMBED 2026-11-13: command words open in this app (CRYPTOGAME = the in-window TerraformЯ below) */
+    if (_re === "cryptogame") t = "TERAFORMR";
+    else if (_re && rembedOpen(_re)) { e.preventDefault(); e.stopImmediatePropagation(); if (m) m.value = ""; show("user", "You: " + t.trim()); return; }
+    /* 1.0.4.36 t193u/t194u: hub commands (chat assm rmail rwallet thundr terraformr [bind] help) replace the key row */
+    if (win.DS_HUB_CMD && win.DS_HUB_CMD(t)) { e.preventDefault(); e.stopImmediatePropagation(); if (m) m.value = ""; return; }
+    /* t55u RWALLET / ASSM — open wallet / login strip; never sent to the model */
+    if (/^\s*\/?rwallet\s*$/i.test(t) || /^\s*\/?assm\s*$/i.test(t)) {
+      e.preventDefault(); e.stopImmediatePropagation();
+      var _k = /^\s*\/?assm\s*$/i.test(t) ? "assm" : "rwallet";
+      if (m) m.value = "";
+      show("user", "You: " + t.trim());
+      if (_k === "rwallet") { if (window.CSP_OPEN_WALLET) window.CSP_OPEN_WALLET(); show("bot", "RWALLET: opened the wallet layer"); }
+      else { if (window.CSP_OPEN_ASSM) window.CSP_OPEN_ASSM(); show("bot", "ASSM: opened the login at the bottom of the wallet"); }
+      return;
+    }
+    if (/^\s*\/?(rkrypt|rgen)\b/i.test(t)) { e.preventDefault(); e.stopImmediatePropagation(); m.value = ""; show("user", "You: " + mask(t.trim()).replace(/^(\s*\/?rkrypt\s+(unlock|password|setpass\w*)\s+).*/i, "$1****")); var _rk = function () { window.RKRYPT.rdos(t.trim(), function (h) { show("bot", new DOMParser().parseFromString(String(h), "text/html").body.textContent); }); }; if (window.RKRYPT) _rk(); else { var _s = doc.createElement("script"); _s.src = "rkrypt/rkrypt.rzl.js"; _s.onload = _rk; _s.onerror = function () { show("bot", "RKRYPT: rkrypt/rkrypt.rzl.js not found"); }; doc.head.appendChild(_s); } return; } // RKRYPT.rdos hook 20261025
+    if (/^\s*\/?ter{1,2}aform(r|я)[!.\s]*$/i.test(t)) { e.preventDefault(); e.stopImmediatePropagation(); if (m) m.value = ""; show("user", "You: " + t.trim()); /* TERAFORMR tfrcmd 20261030: open the game in this window */
+      var _open = function (u) { if (u !== "/tfr/index.html" && !/^http:\/\/(127\.0\.0\.1|localhost):\d+\//.test(u)) u = "http://127.0.0.1:8323/" /* rvm 20261030: fallback = TERAFORMR-ENDPOINT value; MCR supplies the live one */; var p = doc.getElementById("ds-tfr-panel"); if (!p) { p = doc.createElement("div"); p.id = "ds-tfr-panel"; p.style.cssText = "position:fixed;inset:8px;z-index:2147483646;background:#000;border:2px solid #6b4;border-radius:10px;display:flex;flex-direction:column;overflow:hidden"; var b = doc.createElement("div"); b.style.cssText = "display:flex;justify-content:space-between;padding:2px 8px;font:12px system-ui;color:#cfe;background:#253"; b.textContent = "TerraformЯ"; var x = doc.createElement("button"); x.textContent = "✕"; x.style.cssText = "border:0;background:none;color:#fcc;cursor:pointer"; x.onclick = function () { p.parentNode.removeChild(p); }; b.appendChild(x); var fr = doc.createElement("iframe"); fr.style.cssText = "flex:1;border:0;width:100%"; fr.allow = "autoplay; fullscreen; gamepad"; p.appendChild(b); p.appendChild(fr); doc.body.appendChild(p); } var ifr = p.querySelector("iframe"); if (ifr.src !== u) ifr.src = u; show("bot", "TERAFORMR: opening TerraformR in this window · " + u); };
+      /* mobileparity 20261030: bundled /tfr/ egg first (iOS/iPadOS/Android, offline), else ThundR/MCR URL, else :8323 */ fetch("/tfr/egg-version.js", { cache: "no-store" }).then(function (r) { return r.ok; }).catch(function () { return false; }).then(function (L) { if (L) { _open("/tfr/index.html"); return; }
+      fetch("http://127.0.0.1:8329/v1/call/thundr_chat", { method: "POST", headers: { "Content-Type": "text/plain" }, body: JSON.stringify({ text: "TERAFORMR" }) }).then(function (r) { return r.json(); }).then(function (j) { _open(String((j && j.url) || "")); }).catch(function () { _open(""); }); });
+      return; }
+    if (isCommandsList(t)) { var _cm = formatCommandsMaster(); if (_cm) { e.preventDefault(); e.stopImmediatePropagation(); show("bot", _cm); if (m) m.value = ""; return; } }
+    if (partsKind(t, PARTS) === "maybe") {      // slashless "parts X" before parts.json is loaded: load first, else normal chat
+      e.preventDefault(); e.stopImmediatePropagation();
+      var g0 = e.isTrusted === true && Date.now() - last < GESTURE_MS;
+      var resend = function () { if (m) m.value = t; if (f.requestSubmit) f.requestSubmit(); };
+      partsData().then(function () { if (isParts(t)) { if (m) m.value = ""; show("user", "You: " + t.trim()); if (!g0) { show("bot", "DRAGONGATE: refused. Type the command and press Enter or tap Send yourself."); return; } show("bot", win.DS_PARTS.render(t.trim().replace(/^\/?parts\s*/i, ""))); } else { PARTS = PARTS || []; resend(); } })
+        .catch(function () { PARTS = PARTS || []; resend(); });
+      return;
+    }
+    if (!isCmd(t)) return;
+    e.preventDefault(); e.stopImmediatePropagation(); m.value = "";
+    var gesture = e.isTrusted === true && Date.now() - last < GESTURE_MS;
+    show("user", "You: " + mask(t.trim()));
+    if (isBridgeCmd(t)) { if (!gesture) { show("bot", "DRAGONGATE: refused. Type the command and press Enter or tap Send yourself."); return; } bridgeHandle(t, function (m) { show("assistant", m); }); return; }
+    if (isScroll(t)) { scrollHandle(t); return; }
+    if (isQr(t)) { qrHandle(t, gesture); return; }
+    if (isRvm(t)) { rvmHandle(t, gesture); return; }
+    if (isRscribe(t)) { rscribeHandle(t, gesture); return; }
+    if (isParts(t)) {
+      if (!gesture) { show("bot", "DRAGONGATE: refused. Type the command and press Enter or tap Send yourself."); return; }
+      var arg = t.trim().replace(/^\/?parts\s*/i, "");
+      var P = win.DS_PARTS;
+      if (!P) { show("bot", "Parts guide is not installed."); return; }
+      P.load().then(function () { show("bot", P.render(arg)); }).catch(function () { show("bot", "Parts guide could not read parts.json."); });
+      return;
+    }
+    if (!post) { show("bot", "DRAGONGATE: commands work only inside the DRAGON SKULL app."); return; }
+    if (!gesture) { show("bot", "DRAGONGATE: refused. Type the command and press Enter or tap Send yourself."); }
+    Promise.resolve(post({ t: TOKEN, text: t.trim(), gesture: gesture })).then(function (r) { var x = String((r && r.text) || ""); if (gesture) show("bot", isTest(t) || isBase(t) || isHost(t) || isRebirth(t) ? x : "DRAGONGATE: " + x); if (gesture && isTest(t) && /^TEST (started|is already running)/.test(x)) testWatch(); })
+      .catch(function () { show("bot", "DRAGONGATE: the gate did not answer, so nothing changed."); });
+  }
+  win.addEventListener("submit", handle, true);
+  /* qr-pair 0.1.1 hook: opened with #p=… → pre-fill the composer; the scan runs on the user's own Send (DRAGONGATE rule). */
+  win.addEventListener("load", function () { try { var Q = win.DS_QRPAIR, L = Q && Q.linkFromLocation && Q.linkFromLocation(win.location), m = doc.getElementById("message"); if (L && m && !m.value) { m.value = L; show("bot", "Pairing link received. Press Send to run qr scan."); } } catch (e) {} });
+  return { isQr: isQr, isCmd: isCmd, mask: mask, handle: handle, isRvm: isRvm, isRscribe: isRscribe, isTest: isTest, isBase: isBase, isHost: isHost, isRebirth: isRebirth };
+});

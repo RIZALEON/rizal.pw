@@ -1,0 +1,22 @@
+{
+ "schema": "rgenerator.ridtags.v1",
+ "generator": "RGENERATOR 2.1.9-egg5-rkey0 (UNSIGNED)",
+ "public_only": true,
+ "reserved": [
+  "ЯID-0000-0000",
+  "ЯID-0001-3QQS",
+  "ЯID-0002-PQ2Q",
+  "ЯID-0003-P4M6",
+  "ЯID-0004-ZYZ0",
+  "ЯID-0005-KM02",
+  "ЯID-0006-02WG",
+  "ЯID-0007-Y5AD",
+  "ЯID-0008-HC1N",
+  "ЯID-0009-PXQ3",
+  "ЯID-0010-1P9W",
+  "ЯID-0011-A64J",
+  "ЯID-0012-TBJV",
+  "ЯID-0013-92V4"
+ ],
+ "tags": []
+}

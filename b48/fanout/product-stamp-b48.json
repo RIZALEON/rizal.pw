@@ -1,0 +1,14 @@
+{
+ "marketing_version": "1.0.6.0",
+ "build": "48",
+ "sha256": "\u2014",
+ "size": "\u2014",
+ "product_path": "\u2014",
+ "web_version": "unknown",
+ "signed": false,
+ "published": false,
+ "installed": false,
+ "stamped_at": "2026-11-15 17:06:28 MST",
+ "feed_live": "https://raw.githubusercontent.com/RIZALEON/RZL-EGG/main/dragon-skull/ios-web/appcast.json",
+ "feed_staging": "/Users/rizalsystem/R/\u042fLAB/RKLOWD/RDRAGON/B48-PACKAGE-20261115/fanout/appcast-b48-UNSIGNED.json"
+}

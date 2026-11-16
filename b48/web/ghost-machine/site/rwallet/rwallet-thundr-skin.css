@@ -1,0 +1,73 @@
+/* ЯWALLET · ThundR Design Standard 1.0.0 skin · 20261111 t32u (signed incremental, look only).
+   Loaded after the existing wallet CSS. Adds twilight, header chrome, hamburger + GHOSTMACHINE tab,
+   and the composer. Removes no panel or function. No CHAT/ASSM/RMAIL/ЯWALLET/>ThundR row above
+   the composer: those seats are in the hamburger menu and the GHOSTMACHINE tab.
+   RFONT.ttf/otf is not shipped yet; thundr-std/fonts/ holds the labelled fallbacks. */
+
+/* undo the pack's global reset for the existing wallet markup (zero specificity, so wallet rules win) */
+:where(.ru-page) :where(p,h1,h2,h3,h4,h5,ul,ol,dl,pre,table,fieldset,blockquote,figure){margin:revert;padding:revert}
+:where(.ru-page) :where(li,dd){margin:revert}
+:where(.ru-page) img{display:revert}
+:where(.ru-page) :where(select,textarea,input){background:#000;color:var(--r-green);border:1px solid var(--r-green-dim);border-radius:8px;padding:3px 6px}
+:where(.ru-page) button{border:1.5px solid var(--r-green);border-radius:10px;padding:4px 10px;background:#000;color:var(--r-green)}
+
+:root{--ru-bg:#000;--ru-fg:#39FF14;--ru-dim:#21850F;--ru-ac:#8A2BE2;--ru-line:#2B2160;
+  --ru-font:"RFONT","IBM Plex Mono",Menlo,Consolas,monospace}
+html,body{background:#000}
+body.thundr-std{color:var(--r-chrome);padding-bottom:84px}
+body.thundr-std.rb-open{padding-bottom:360px}
+.r-twilight{position:fixed;inset:0;z-index:0;pointer-events:none;background:#000}
+.r-twilight > .r-starfield{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+body.thundr-std .ru-page{position:relative;z-index:1}
+
+/* header: hamburger · name · portrait · tag · version */
+body.thundr-std .ru-lead{align-items:center;border-bottom:1px solid #111;min-height:var(--header-h);padding:6px 0;gap:10px}
+body.thundr-std .ru-lead b{font-family:var(--font-display);color:var(--r-chrome);font-size:17px;font-weight:650}
+body.thundr-std .ru-lead .tag{color:var(--r-muted);font-family:var(--font-rfont);font-size:14px}
+body.thundr-std .ru-lead > a{display:none} /* moved into the hamburger menu at runtime; still there */
+body.thundr-std .ru-lead .rd-menu{background:#000}
+.ts-ver{margin-left:auto;color:var(--r-muted);font-family:var(--font-rfont);font-size:14px;letter-spacing:.04em}
+.ts-ver .lab{color:var(--r-chrome);margin-right:6px}
+
+/* policy banner (t31u text unchanged) */
+body.thundr-std .ru-private{background:var(--r-panel);border:1.5px solid var(--r-panel-border);border-radius:14px;
+  color:var(--r-chrome);padding:8px 12px;box-shadow:0 0 16px rgba(43,33,96,.55);font-family:var(--font-rfont);font-size:15px}
+
+/* panels → bot-bubble look */
+body.thundr-std #rw > *,body.thundr-std .ru-sec,
+body.thundr-std #ru-roster > div,body.thundr-std #ru-rmail > div,body.thundr-std #ru-pools > div,
+body.thundr-std #ru-casket > div,body.thundr-std #ru-thundr > div{border-radius:18px}
+body.thundr-std .ru-sec{background:var(--r-bot-fill);border:1.5px solid var(--r-green);box-shadow:var(--r-glow-g)}
+body.thundr-std .ru-sec h2{color:var(--r-gold);font-family:var(--font-display);letter-spacing:.06em}
+body.thundr-std #rw{border-radius:18px}
+body.thundr-std .ru-chip{border-radius:12px}
+body.thundr-std .ru-refresh{border-radius:12px}
+body.thundr-std .ru-refresh:hover{border-color:var(--r-purple);color:var(--r-purple-hot)}
+body.thundr-std a{color:var(--r-cyan)}
+
+/* hamburger menu = every seat */
+.ts-menu{position:fixed;top:56px;left:12px;z-index:40;min-width:260px;max-width:min(92vw,360px);max-height:70vh;overflow:auto;
+  background:var(--r-panel);border:1.5px solid var(--r-panel-border);border-radius:16px;padding:10px;
+  box-shadow:0 0 18px rgba(43,33,96,.7);font-family:var(--font-rfont)}
+.ts-menu[hidden]{display:none}
+.ts-menu h4{color:var(--r-gold);font-family:var(--font-display);font-size:12px;margin:6px 4px 4px;font-weight:600}
+.ts-menu a,.ts-menu button{display:block;width:100%;text-align:left;padding:6px 10px;margin:2px 0;border-radius:10px;
+  color:var(--r-chrome);font-size:16px;text-decoration:none;border:1px solid transparent;background:none}
+.ts-menu a:hover,.ts-menu button:hover{border-color:var(--r-pill);background:#0c0a16}
+
+/* GHOSTMACHINE tab, right edge */
+body.thundr-std .rd-gm.ts-gm{position:fixed;top:46%;right:0;z-index:30}
+
+/* composer (no seat-button row above it) */
+.ts-bottom{position:fixed;left:0;right:0;bottom:0;z-index:35;background:#000}
+.ts-bottom .rd-composer{max-width:1440px;margin:0 auto}
+.ts-bottom .rb{max-width:720px;margin:0 auto}
+.ts-bottom #ts-rb[hidden]{display:none}
+.ts-toast{position:fixed;left:50%;bottom:86px;transform:translateX(-50%);z-index:50;background:var(--r-panel);
+  border:1.5px solid var(--r-purple);color:var(--r-chrome);border-radius:12px;padding:6px 14px;font-family:var(--font-rfont);
+  font-size:15px;box-shadow:var(--r-glow-p);max-width:92vw}
+body.rb-open .ts-toast{bottom:360px}
+.ts-toast[hidden]{display:none}
+.ru-lead.ts-made{display:flex;align-items:center;gap:10px;min-height:var(--header-h);padding:6px 0;border-bottom:1px solid #111;margin-bottom:8px}
+.ru-lead.ts-made b{font-family:var(--font-display);color:var(--r-chrome);font-size:17px;font-weight:650}
+.ts-made .ts-ver .lab{display:none}

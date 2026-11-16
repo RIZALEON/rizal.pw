@@ -1,0 +1,4 @@
+{"schema":"rzl.ds.skill.v1","id":"walis","name":"WALIS broom (REQ-7)","version":"0.1.0","built":"2026-10-22","mode":"user-typed only",
+ "summary":"Chat commands walis / walis scan / walis report (read-only) / walis apply (typed one-time confirm code + tap; trash-only via Finder, verified in ~/.Trash).",
+ "entry":"walis.js","requires":{"neo":"ds-hostd 127.0.0.1:8320 (loopback, open_lan false) with the walis commands on host-allow.json — STAGED, NOT ENABLED (needs Rizal + ЯBOWZR go)"},
+ "chat_commands":["walis","walis scan","walis report","walis apply","walis apply <CODE>"],"api":["DS_WALIS.match","DS_WALIS.run"]}

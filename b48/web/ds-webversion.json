@@ -1,0 +1,5 @@
+{
+ "nativeAPI": 2,
+ "note": "RDRAGON iOS 1.0.6.3 (build 48 staged, unsigned) 20261115: web stamp raised so SelfUpdate will not roll built-in files back over swipe / \u042fSCRIBE opener / wallet preview. RDRAGON iOS 1.0.6.0 (build 42) 20261112: re-sign with team 7D3P5F4V9M (profile to 2026-11-19). Drift/status notices go only to ThundR (never the composer). Canonical \u042fWALLET 0.1.5 hashes of the shipped files. Mesh converter status hook (host empty/disabled by default, port 8794, path /rmesh/v1/status) reports in ThundR only. Granite SHA-pinned download-on-device (LINUX RIZAL 1.1.1.6 + 1.1.1.7); no weights/qcow2 packed. Keeps Nov 10 rboard-solo / rdragon-mount / theme and RMAIL-APPROVE 1.0.0 Swift (separate tree). Prior built-in web of RDRAGON iOS 1.0.4 (25), 20261104: one build on Neo/iOS/Android; MINT (rghostkey_bind block 4, content-bound, unlock in Terraform\u042f), embedded RKLOWD hub per device, ASSM profile bound to RWALLET + \u042fID-0001-3QQS",
+ "version": "1.0.6.3"
+}

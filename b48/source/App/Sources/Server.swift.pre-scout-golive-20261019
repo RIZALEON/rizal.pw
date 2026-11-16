@@ -1,0 +1,165 @@
+import Foundation
+import Network
+
+/// Tiny loopback-only HTTP server on 127.0.0.1:8319: serves web/ and /engine/*.
+final class LocalServer {
+    static let port: UInt16 = 8319
+    private var listener: NWListener?
+    private let webRoot: URL
+    private let q = DispatchQueue(label: "ds.http", attributes: .concurrent)
+    init(webRoot: URL) { self.webRoot = webRoot }
+
+    /// iOS tears the listening socket down when the app is suspended; restart it on failure or on resume.
+    func restart() {
+        MemoryStore.shared.event("engine", "listener-restart", "loopback listener restarted on 127.0.0.1:\(LocalServer.port)")
+        listener?.stateUpdateHandler = nil
+        listener?.cancel(); listener = nil
+        do { try start() } catch { DispatchQueue.global().asyncAfter(deadline: .now() + 1) { [weak self] in self?.restart() } }
+    }
+
+    func ensureAlive() {
+        if let l = listener, case .ready = l.state { return }
+        restart()
+    }
+
+    func start() throws {
+        let p = NWParameters.tcp
+        p.requiredLocalEndpoint = .hostPort(host: "127.0.0.1", port: NWEndpoint.Port(rawValue: LocalServer.port)!)
+        p.allowLocalEndpointReuse = true
+        let l = try NWListener(using: p)
+        l.newConnectionHandler = { [weak self] c in self?.handle(c) }
+        l.stateUpdateHandler = { [weak self, weak l] st in
+            switch st {
+            case .failed, .cancelled:
+                guard let self, let l, self.listener === l, case .failed = st else { return }
+                DispatchQueue.global().asyncAfter(deadline: .now() + 0.5) { self.restart() }
+            default: break
+            }
+        }
+        l.start(queue: q); listener = l
+    }
+
+    private func handle(_ c: NWConnection) {
+        c.start(queue: q)
+        receive(c, Data())
+    }
+
+    private func receive(_ c: NWConnection, _ acc: Data) {
+        c.receive(minimumIncompleteLength: 1, maximumLength: 1 << 20) { [weak self] d, _, done, err in
+            guard let self else { return }
+            var buf = acc; if let d { buf.append(d) }
+            if let r = buf.range(of: Data("\r\n\r\n".utf8)) {
+                let head = String(decoding: buf[..<r.lowerBound], as: UTF8.self)
+                let lines = head.components(separatedBy: "\r\n")
+                var len = 0
+                for h in lines.dropFirst() where h.lowercased().hasPrefix("content-length:") { len = Int(h.split(separator: ":")[1].trimmingCharacters(in: .whitespaces)) ?? 0 }
+                let body = buf[r.upperBound...]
+                if body.count >= len {
+                    let parts = lines[0].split(separator: " ")
+                    let method = parts.count > 0 ? String(parts[0]) : "GET"
+                    let path = parts.count > 1 ? String(parts[1]) : "/"
+                    self.route(c, method, path, Data(body.prefix(len)), Array(lines.dropFirst())); return
+                }
+            }
+            if done || err != nil { c.cancel(); return }
+            self.receive(c, buf)
+        }
+    }
+
+    private func send(_ c: NWConnection, _ code: Int, _ type: String, _ body: Data) {
+        let status = [200: "OK", 404: "Not Found", 503: "Service Unavailable", 400: "Bad Request", 403: "Forbidden", 409: "Conflict",
+                      405: "Method Not Allowed", 413: "Payload Too Large", 500: "Internal Server Error", 507: "Insufficient Storage"][code] ?? "OK"
+        var h = "HTTP/1.1 \(code) \(status)\r\nContent-Type: \(type)\r\nContent-Length: \(body.count)\r\nCache-Control: no-store\r\nConnection: close\r\n\r\n"
+        if type.isEmpty { h = h.replacingOccurrences(of: "Content-Type: \r\n", with: "") }
+        c.send(content: Data(h.utf8) + body, completion: .contentProcessed { _ in c.cancel() })
+    }
+
+    private func json(_ o: Any) -> Data { (try? JSONSerialization.data(withJSONObject: o)) ?? Data("{}".utf8) }
+
+    private func route(_ c: NWConnection, _ m: String, _ rawPath: String, _ body: Data, _ headers: [String] = []) {
+        let path = rawPath.components(separatedBy: "?")[0]
+        // DRAGONGATE: every loopback request is on the record; /api/gate/* is the gate's own read + kill API (no open/export route).
+        if path.hasPrefix("/api/gate/") {
+            let (code, o) = DGGate.shared.handle(method: m, path: path, headers: headers, body: body)
+            send(c, code, "application/json", json(o)); return
+        }
+        DGGate.shared.tapLocal(method: m, path: path, bodyIn: body)
+        if path.hasPrefix("/api/store/") {   // BATIBABOX memory files (MemoryStore.swift): sandboxed to Application Support/memory/
+            let (code, o) = MemoryStore.shared.handle(method: m, rawPath: rawPath, headers: headers, body: body)
+            send(c, code, "application/json", json(o)); return
+        }
+        if path.hasPrefix("/api/selfupdate/") {
+            let (code, o) = SelfUpdater.shared.handle(method: m, path: path, headers: headers, engineReady: Engine.shared.ready)
+            send(c, code, "application/json", json(o)); return
+        }
+        if path == "/engine/health" || path == "/health" {
+            Engine.shared.ready ? send(c, 200, "application/json", json(["status": "ok"])) : send(c, 503, "application/json", json(["status": "loading"]))
+            return
+        }
+        if path == "/engine/v1/chat/completions" && m == "POST" {
+            guard let o = try? JSONSerialization.jsonObject(with: body) as? [String: Any], let ms = o["messages"] as? [[String: Any]] else { send(c, 400, "application/json", json(["error": "bad request"])); return }
+            let msgs = ms.map { (($0["role"] as? String) ?? "user", ($0["content"] as? String) ?? "") }
+            let maxT = (o["max_tokens"] as? Int) ?? 256
+            let temp = min(Float((o["temperature"] as? Double) ?? 0.2), 0.2)
+            // BATIBABOX: optional "ds_memory": {"bot", "skip", "hits":[{"text","score","label"}]} (vector hits from the web layer);
+            // optional "ds_record": false (the app's own digest job). Direct API calls without these still get memory + recording.
+            let dm = o["ds_memory"] as? [String: Any] ?? [:]
+            let bot = MemoryStore.safeBot(dm["bot"] as? String), record = (o["ds_record"] as? Bool) ?? true
+            let user = msgs.last(where: { $0.0 == "user" })?.1 ?? ""
+            let reply: (String) -> Void = { text in
+                self.send(c, 200, "application/json", self.json(["object": "chat.completion", "model": "dragon-skull-granite-4.0-h-1b",
+                    "choices": [["index": 0, "finish_reason": "stop", "message": ["role": "assistant", "content": text]]]]))
+            }
+            let cmd = user.trimmingCharacters(in: .whitespacesAndNewlines), low = cmd.lowercased()
+            // DRAGONGATE commands are honored only from the native dsGateCmd door (typed in the chat box). A copy arriving here over HTTP
+            // (a script, plugin, overlay, RVM or replay) is refused: never sent to the model, never recorded as chat memory.
+            if DGCommands.isCommand(cmd) {
+                reply(DGCommands.shared.run(cmd, origin: .api).text); return
+            }
+            if low == "batibabox" || low == "/batibabox" || low.hasPrefix("/recall ") || low.hasPrefix("recall ") {   // same as ЯBOT NativeHeart
+                let text: String
+                if low.hasSuffix("batibabox") { text = MemoryStore.shared.status(bot: bot) } else {
+                    let hits = MemoryStore.shared.recall(String(cmd.drop(while: { $0 == "/" }).dropFirst(7)), bot: bot)
+                    text = hits.isEmpty ? "BATIBABOX recall: nothing matched." : "BATIBABOX recall:\n" + hits.map { "[\(MemoryStore.label($0.1))] \($0.1.text.prefix(400))" }.joined(separator: "\n…\n")
+                }
+                if record { MemoryStore.shared.recordTurn(bot: bot, role: "user", text: cmd, intent: "recall"); MemoryStore.shared.recordTurn(bot: bot, role: "bot", text: text, intent: "recall") }
+                reply(text); return
+            }
+            var pack: MemoryStore.Pack? = nil
+            if (dm["skip"] as? Bool) != true {
+                let extra = ((dm["hits"] as? [[String: Any]]) ?? []).prefix(8).compactMap { h -> MemoryStore.Item? in
+                    guard let t = h["text"] as? String, !t.isEmpty else { return nil }
+                    return MemoryStore.Item(score: min(1, max(0, (h["score"] as? Double) ?? 0)), ts: (h["ts"] as? String) ?? "", label: String(((h["label"] as? String) ?? "vector").prefix(40)), text: String(t.prefix(600)))
+                }
+                pack = MemoryStore.shared.contextPack(query: user, bot: bot, extra: Array(extra), exclude: Set(msgs.map { String($0.1.prefix(200)) }))
+                // Recall / memory can never smuggle a gate command into model context.
+                if var p = pack {
+                    p.items = p.items.map { MemoryStore.Item(score: $0.score, ts: $0.ts, label: $0.label, text: DGCommands.stripGate($0.text).0) }
+                    p.digest = DGCommands.stripGate(p.digest).0; p.index = DGCommands.stripGate(p.index).0; pack = p
+                }
+            }
+            guard let gated = DGGate.shared.prePrompt(msgs, source: "server") else { send(c, 403, "application/json", json(["error": "DRAGONGATE blocked"])); return }
+            let text = DGGate.shared.postReply(Engine.shared.chat(gated, maxTokens: maxT, temperature: temp, memory: pack), dest: "server")
+            if text.hasPrefix("("), text.contains("error") || text.contains("too long") { MemoryStore.shared.event("engine", "engine-error", text) }
+            if record, !user.isEmpty { MemoryStore.shared.recordTurn(bot: bot, role: "user", text: user); MemoryStore.shared.recordTurn(bot: bot, role: "bot", text: text) }
+            reply(text)
+            return
+        }
+        if let (t, d) = RlabData.response(forPath: path) {   // drive1 (RLAB-DATA.md): per-device guest /data disk, GET only
+            if m != "GET" { send(c, 405, "text/plain", Data()); return }
+            if d.isEmpty { send(c, 404, "text/plain", Data("no drive1".utf8)) } else { send(c, 200, t, d) }; return
+        }
+        if path == "/engine/v1/models" { send(c, 200, "application/json", json(["data": [["id": "dragon-skull-granite-4.0-h-1b"]]])); return }
+        var rel = path == "/" ? "scout.html" : String(path.dropFirst())
+        rel = rel.removingPercentEncoding ?? rel
+        // Newest verified web overlay first (SelfUpdate.swift), then the built-in web/ for anything the overlay lacks.
+        for root in SelfUpdater.shared.webRoots() + [webRoot] {
+            let f = root.appendingPathComponent(rel).standardizedFileURL
+            guard f.path.hasPrefix(root.standardizedFileURL.path + "/"), let d = try? Data(contentsOf: f) else { continue }
+            let types = ["html": "text/html; charset=utf-8", "js": "text/javascript", "css": "text/css", "png": "image/png", "webp": "image/webp", "json": "application/json", "svg": "image/svg+xml",
+                         "htm": "text/html; charset=utf-8", "mjs": "text/javascript", "jpg": "image/jpeg", "jpeg": "image/jpeg", "gif": "image/gif", "ico": "image/x-icon", "txt": "text/plain; charset=utf-8"]
+            send(c, 200, types[f.pathExtension.lowercased()] ?? "application/octet-stream", d); return
+        }
+        send(c, 404, "text/plain", Data("not found".utf8))
+    }
+}

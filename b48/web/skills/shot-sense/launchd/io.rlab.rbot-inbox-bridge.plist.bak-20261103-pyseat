@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- STAGED, NOT LOADED · shot-sense 2.1.9-s1 · ЯID-0003-P4M6 · ЯМАХ -->
+<plist version="1.0"><dict>
+<key>Label</key><string>io.rlab.rbot-inbox-bridge</string>
+<key>ProgramArguments</key><array><string>/opt/homebrew/bin/python3.14</string><string>/Users/rizal/ЯLAB/RFORGE/RDRAGOSKUL/macos/launcher/DRAGOSKUL/DRAGONSKULL-RVM-0.2.2/bin/rbot-inbox-bridge.py</string><string>--loop</string><string>3</string></array>
+<key>RunAtLoad</key><true/><key>KeepAlive</key><true/>
+<key>StandardErrorPath</key><string>/Users/rizal/ЯLAB/HANDOFF/shots/rbot-bridge.err</string>
+</dict></plist>

@@ -1,0 +1,23 @@
+/* RDRAGON 1.0.4.26 · RWALLET (rizal.pw ASSM look) as the app wallet — 20261104 pt169u.
+   On launch: opens the rizal.pw RWALLET card, enrolls this device's PUBLIC half for block 4, and loads the pending block for signing.
+   Never signs by itself; SIGN runs the one-tap flow (native signer if present, else routed over RPIPE to the pinned phone). */
+(function(){"use strict";
+var K="rdragon.csp.v2.rwallet";try{var st=JSON.parse(localStorage.getItem(K))||{};st.w=true;st.mint=true;localStorage.setItem(K,JSON.stringify(st))}catch(e){}
+function D(){return window.RDRAGON1045}
+function banner(){var rw=document.getElementById("rw");if(!rw)return null;var b=document.getElementById("rw-b4");
+ if(!b){b=document.createElement("div");b.id="rw-b4";b.className="rw-mint";b.style.cssText="margin:8px;padding:8px;border:1px solid #39ff14;border-radius:10px;font:12px ui-monospace;white-space:pre-wrap";rw.insertBefore(b,rw.firstChild)}return b}
+function show(){var rw=document.getElementById("rw");if(!rw)return;rw.style.display="block";rw.classList.remove("rw-hide");if(window.RWALLET)RWALLET.render();var p=document.getElementById("rd1045");if(p)p.style.display="none"}
+function paint(t,ready){var b=banner();if(!b)return;b.textContent=t;var x=document.createElement("button");x.textContent=ready?"✦ SIGN BLOCK 4":"↻ REFRESH";x.style.cssText="display:block;margin-top:6px;padding:8px 14px;border-radius:10px;border:1px solid #39ff14;background:#0b0b0b;color:#39ff14;font-weight:800";
+ x.onclick=ready?function(){D().mint(function(s){paint(s,false)})}:function(){paint("RWALLET · refreshing …",false);load2()};b.appendChild(x)}
+function load(){if(!D())return setTimeout(load,500);show();paint("RWALLET · loading pending block 4 …",false);
+ /* mint() with a not-ready block only enrolls this device's public key + shows the block; with a ready block it is the SIGN tap */
+ load2()}
+var base;function load2(){base=(D().platform==="neo"?"http://127.0.0.1:8741":"http://192.168.0.113:8765");D().deviceKey().then(function(){return fetch(base+"/rghostchain/bind/pending").then(function(r){return r.json()})}).then(function(v){
+  var mine=v.approve&&v.approve.filter(function(a){return a.device_id===({neo:"neo-rdragon",ios:"iphone17e-rdragon",android:"moto-rdragon"})[D().platform]})[0];
+  if(mine&&!mine.pubkey_sha256){paint("RWALLET · enrolling this device's public key …",false);
+   /* simple CORS POST (text/plain → no preflight); RVULKAN forwards it to submitd as JSON. Public half only. */
+   return D().deviceKey().then(function(spki){return fetch(base+"/rghostchain/bind/enroll",{method:"POST",headers:{"Content-Type":"text/plain"},body:JSON.stringify({device_id:mine.device_id,pubkey_spki_b64:spki})})}).then(function(r){return r.json().then(function(x){if(!r.ok||x.ok===false)throw new Error("enroll "+r.status+": "+(x.error||""));setTimeout(load2,300)})})}
+  paint("BLOCK "+v.index+" · rghostkey_bind (pending)\n"+v.block_sha256+"\napproves: "+v.approve.map(function(a){return a.device_id+(a.pubkey_sha256?" ✓":" …")}).join(", ")+"\nmethods: "+(v.methods||[]).join(" · ")+(v.ready?"\n\nREADY to sign":"\n\nwaiting for: "+v.missing_pubkeys.join(", ")),v.ready)
+ }).catch(function(e){paint("RWALLET: "+e.message+" — Neo submit service ("+base+") — request queued on RPIPE when the link returns",false)});
+ var t=document.getElementById("rd1045-tab");if(t){t.textContent="Я RWALLET";t.onclick=function(){var rw=document.getElementById("rw");if(rw.style.display==="none")show();else rw.style.display="none"}}}
+document.readyState==="complete"?load():window.addEventListener("load",load)})();

@@ -1,0 +1,26 @@
+name: Bot upgrade request (TEST-ONLY @rdragon_diag)
+description: A bot or tester asks for a site-code change. Bots never push; a maintainer or a bot with gh auth on Neo opens the PR (tests/diag-profile/bot-upgrade.sh).
+title: "[bot-upgrade] "
+labels: ["bot-upgrade", "test-only"]
+body:
+  - type: markdown
+    attributes:
+      value: "TEST-ONLY. The @rdragon_diag account is public. Never paste owner, vault, biometric, token or key material here."
+  - type: textarea
+    id: want
+    attributes:
+      label: What should change
+      description: The bug or upgrade, and how to see it on rizal.pw.
+    validations:
+      required: true
+  - type: textarea
+    id: diag
+    attributes:
+      label: Diag report
+      description: Paste RDIAG.run() JSON (open https://rizal.pw/?diag=1 → Run all self-tests → Copy JSON), or the RDIAG.compact() output.
+      render: json
+  - type: input
+    id: nostr
+    attributes:
+      label: Nostr upgrade-request note id (optional)
+      description: From RDIAG.upgradeRequest() — tag rizalpw-csp-v1, kind upgrade-request.

@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1" />
+    <title>DRAGON SKULL</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="./ds-icon-32.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="./ds-icon-192.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png" />
+    <link rel="stylesheet" href="./scout-style.css" />
+    <link rel="stylesheet" href="./ds-mobile.css" />
+    <script defer src="./dg-web.js"></script>
+    <script defer src="./ds-mobile.js"></script>
+  </head>
+  <body>
+    <aside id="roster" aria-label="Bots">
+      <nav id="roster-list" class="roster-list"></nav>
+      <!-- Legacy single-tile hook kept for ROS_BOT applyBot + clay icon path -->
+      <button id="tile" class="tile sr-only" type="button" aria-hidden="true" tabindex="-1">
+        <img src="./ybot-tile.png" alt="" />
+        <span>ЯBOT</span>
+      </button>
+      <small id="legacy-rid" class="sr-only"></small>
+    </aside>
+    <main>
+      <header id="bot-hero">
+        <button id="hero-avatar-btn" type="button" title="Click the picture to edit this bot" aria-label="Edit profile">
+          <img id="chat-avatar" alt="" />
+          <span class="hero-pen" aria-hidden="true">✎</span>
+        </button>
+        <span id="chat-title">ЯBOWSER</span>
+        <img id="ds-logo" src="./ds-logo.png" alt="DRAGON SKULL logo" />
+        <small id="ds-status" class="ds-status">ENGINE</small>
+        <small id="chat-sub" title="ЯID · read-only">Select a bot</small>
+        <button id="chat-edit" type="button" onclick="window.ROS_EDIT_PROFILE &amp;&amp; window.ROS_EDIT_PROFILE()">✎ Edit profile</button>
+      </header>
+      <section id="bot-edit" hidden aria-label="Edit this bot"></section>
+      <section id="log" aria-live="polite"></section>
+      <form id="composer">
+        <input id="message" autocomplete="off" placeholder="Message your bot" />
+        <button type="submit">Send</button>
+      </form>
+    </main>
+    <script defer src="./rid-roster.js"></script>
+    <script defer src="./skills/notes-reader/rzl-notes-reader.js"></script>
+    <script defer src="./scout-app.js"></script>
+    <script defer src="./chatlist.js"></script>
+    <script defer src="./skills/bot-sidebar/bot-sidebar.js"></script>
+    <script defer src="./skills/batibabox-rt/bbx-rt.js"></script>
+    <script defer src="./skills/identity-guard/identity-guard-rt.js"></script>
+    <script defer src="./skills/botwin/botwin.js"></script>
+    <script defer src="./skills/thundr-live/thundr-adapter.js"></script>
+    <script defer src="./ds-selfupdate.js"></script>
+    <script defer src="./skills/batibabox-ds/bbx-ds-core.js"></script>
+    <script defer src="./skills/batibabox-ds/bbx-ds.js"></script>
+    <script defer src="./skills/batibabox-ds/ds-mind-view.js"></script>
+    <script defer src="./skills/parts-guide/parts-guide.js"></script>
+  </body>
+</html>

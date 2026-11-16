@@ -1,0 +1,108 @@
+{
+  "schema": "rzl.v1",
+  "kind": "egg",
+  "dataOnly": true,
+  "offline": true,
+  "outerTile": "",
+  "innerTile": "",
+  "id": "rkrypt",
+  "name": "RKRYPT 0.1.0.2 · fused rkrypt.rzl.js (SCOUT; mint.js+rkey0.js = signed egg5) + hook + identity panel + ChaseRizal snapshot · NOT for ЯBOT · deny ONLY build 2026101502",
+  "version": "0.1.0.2.20261025",
+  "file": "rkrypt-0.1.0.2-20261025.rzl",
+  "hosts": [
+    "rbowzr",
+    "dragon-skull",
+    "dragoskul",
+    "ghostdragon",
+    "rscribe",
+    "thundr-float",
+    "linux"
+  ],
+  "platforms": [
+    "macos",
+    "ios",
+    "android",
+    "linux"
+  ],
+  "install": {
+    "overlay": {
+      "rbowzr": "ShellResources"
+    }
+  },
+  "minHostVersion": {
+    "rbowzr": "2.1.9"
+  },
+  "entry": "rkrypt.rzl.js",
+  "hostDeny": {
+    "note": "HARD LAW: block ONLY CFBundleVersion 2026101502 (exact). Never deny by bundle id alone — 17e ЯBOWZR 2.2.0 build 2026102501 uses info.rizal.rbowzr.native.test too and MUST receive RKRYPT. Optional AND-form: require BOTH that bundle id AND version 2026101502. NEVER seat on ЯBOT.",
+    "rbowzr": {
+      "rule": "CFBundleVersion-exact",
+      "CFBundleVersion": [
+        "2026101502"
+      ],
+      "match": "deny ONLY when CFBundleVersion == 2026101502 (exact string). Do NOT deny on bundle id alone.",
+      "andFormOptional": {
+        "bundleIDs": [
+          "info.rizal.rbowzr.native.test"
+        ],
+        "CFBundleVersion": [
+          "2026101502"
+        ],
+        "note": "If using AND-form, BOTH must match. Bundle id alone must never deny (2026102501 on 17e shares the .test id)."
+      }
+    },
+    "ybot": {
+      "hosts": [
+        "ybot"
+      ],
+      "product": [
+        "ЯBOT"
+      ],
+      "bundleIDs": [
+        "io.github.rizaleon.yaaim"
+      ],
+      "reason": "RKRYPT is not for ЯBOT"
+    }
+  },
+  "fused": {
+    "file": "rkrypt.rzl.js",
+    "sha256": "dd5d306f6fc80740eaf9cdaac809a562e6c445742ef696120f08e3bb88936730",
+    "embeddedMatchEgg5": {
+      "mint.js": "b66fafdcdda60e6a33cdb50e42a23a20fd85c5d6b004e0c75419a83831722775",
+      "rkey0.js": "0c8cb38c2357a30f04283903b35456279c0e99158d512414ac31d497da4d0a8c"
+    }
+  },
+  "lane": "private",
+  "previous": "0.1.0.2 request 66298506… withdrawn: hostDeny wrongly blocked .native.test bundle id alone (would deny 17e 2026102501)",
+  "law": "Every app gets RKRYPT EXCEPT ЯBOT and EXCEPT exact CFBundleVersion 2026101502. 17e ЯBOWZR 2026102501 (.test id) MUST get it.",
+  "components": [
+    {
+      "name": "chaserizal-snapshot.json",
+      "path": "chaserizal-snapshot.json",
+      "target": "rkrypt/chaserizal-snapshot.json",
+      "sha256": "6d56bf70aba7b14a1c28960d90912639e7e3b88aff2af6b6297b81f2c4883c80",
+      "size": 6677
+    },
+    {
+      "name": "identity-panel.js",
+      "path": "identity-panel.js",
+      "target": "rkrypt/identity-panel.js",
+      "sha256": "3aaabae35bd6664c9131b91ccca4d934e8b68f1d38b69843b974b5e4bc9d87bc",
+      "size": 2633
+    },
+    {
+      "name": "rkrypt-hook.js",
+      "path": "rkrypt-hook.js",
+      "target": "rkrypt/rkrypt-hook.js",
+      "sha256": "3968220e71f50254d1890c844475419fd55b49a1ada8698b8ea0c1eeff3cf70e",
+      "size": 1582
+    },
+    {
+      "name": "rkrypt.rzl.js",
+      "path": "rkrypt.rzl.js",
+      "target": "rkrypt/rkrypt.rzl.js",
+      "sha256": "dd5d306f6fc80740eaf9cdaac809a562e6c445742ef696120f08e3bb88936730",
+      "size": 112012
+    }
+  ]
+}

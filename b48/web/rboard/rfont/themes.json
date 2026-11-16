@@ -1,0 +1,87 @@
+{
+  "version": "1.0.0",
+  "updated": "2026-11-10",
+  "default": "plum",
+  "htmlAttribute": "data-theme",
+  "storageKey": "rboard-theme",
+  "fonts": {
+    "css": "rfont.css",
+    "families": ["RIZAL", "RIZAL Mono", "RFONT-Tagalog", "RFONT-Mayan", "Noto Sans Tagalog", "Noto Sans Mayan Numerals"],
+    "systemDir": "/usr/share/fonts/truetype/rfont"
+  },
+  "themes": [
+    {
+      "id": "plum",
+      "label": "RBOARD plum/gold",
+      "short": "plum",
+      "notes": "Default live iOS RBOARD skin. Gold prompt and gold return key.",
+      "palette": {
+        "bg": "#160e20",
+        "key": "#2e203b",
+        "line": "#68516c",
+        "prompt": "#efcf88",
+        "glyph": "#f4d395",
+        "text": "#f4e9d4",
+        "return": "#f4d395",
+        "returnText": "#160e20",
+        "space": "#cdb5d7",
+        "bar": "#120b1b",
+        "neon": "#7dffb0"
+      }
+    },
+    {
+      "id": "ywallet",
+      "label": "ЯWALLET",
+      "short": "ЯW",
+      "notes": "Live RDRAGON / rwallet-ghost2 --gm-* plus tile-sampled monitor and lavender ghost. Starfield background, lime outlines, violet return.",
+      "sources": {
+        "css": "rdragon-theme.css and rwallet-ghost2.css --gm-*",
+        "tile": "ЯWALLET app tile 2026-11-10"
+      },
+      "palette": {
+        "bg": "#000000",
+        "panel": "#0a0a0a",
+        "lime": "#39ff14",
+        "limeTile": "#42FB00",
+        "dim": "#1f8f0f",
+        "violet": "#8a2be2",
+        "violet2": "#b388ff",
+        "lavenderTile": "#C695FE",
+        "deep": "#1a0630",
+        "monitor": "#002CB3",
+        "line": "#39ff14",
+        "return": "#8a2be2",
+        "returnText": "#ffffff",
+        "space": "#39ff14",
+        "prompt": "#39ff14",
+        "glyph": "#39ff14",
+        "text": "#dddddd"
+      }
+    },
+    {
+      "id": "ghostmachine",
+      "label": "GHOSTMACHINE ASSM",
+      "short": "GM",
+      "notes": "Same starfield and lime text as ЯWALLET, with a pixel-hill strip and cyan line from the ASSM tile, violet border glow, cyan return key.",
+      "sources": {
+        "css": "rwallet-ghost2.css --gm-*",
+        "tile": "GHOSTMACHINE Anti Social Social Media app tile 2026-11-10"
+      },
+      "palette": {
+        "bg": "#000000",
+        "lime": "#39ff14",
+        "hill": "#3C7B2A",
+        "hillAlt": "#315A2C",
+        "cyan": "#1D95E3",
+        "violet": "#8a2be2",
+        "line": "#39ff14",
+        "return": "#1D95E3",
+        "returnText": "#000000",
+        "space": "#39ff14",
+        "prompt": "#39ff14",
+        "glyph": "#39ff14",
+        "text": "#dddddd"
+      }
+    }
+  ]
+}

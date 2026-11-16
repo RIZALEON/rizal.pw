@@ -1,0 +1,7498 @@
+{
+ "schema": "terraformya.flora.v1",
+ "note": "Every plant cell on ref/v6/c-fruits-veg.png and ref/v6/d-endemic-plants.png. Merged duplicates list also_on.",
+ "flora": [
+  {
+   "id": "rice",
+   "name": "Rice",
+   "cat": "staple_crop",
+   "section": "grains",
+   "cells": [
+    [
+     "c",
+     "grains",
+     0
+    ],
+    [
+     "d",
+     "edible_crops",
+     0
+    ]
+   ],
+   "biomes": [
+    "terrace"
+   ],
+   "form": "crop",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:rice": 3,
+    "core:palay": 1,
+    "core:malagkit": 3
+   },
+   "uses": [
+    "food",
+    "rice wine",
+    "staple",
+    "suman, kakanin"
+   ],
+   "seasons": [
+    "wet"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 300,
+   "farm": {
+    "how": "seed",
+    "item": "core:palay"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Oryza sativa",
+   "note": "Main staple, noted by Pigafetta. Plant palay on paddy mud.",
+   "paddy": true,
+   "medium": "land",
+   "also_on": [
+    {
+     "card": "Rice (malagkit)",
+     "sci": "Oryza sativa var. glutinosa",
+     "sheet": "d",
+     "section": "edible_crops"
+    }
+   ]
+  },
+  {
+   "id": "taro",
+   "name": "Taro / Gabi",
+   "cat": "staple_crop",
+   "section": "grains",
+   "cells": [
+    [
+     "c",
+     "grains",
+     1
+    ],
+    [
+     "d",
+     "edible_crops",
+     1
+    ]
+   ],
+   "biomes": [
+    "river",
+    "lake",
+    "terrace",
+    "village"
+   ],
+   "form": "crop",
+   "px": 16,
+   "tool": "dig",
+   "harvest": {
+    "core:gabi": 2
+   },
+   "uses": [
+    "food",
+    "leaves (laing)"
+   ],
+   "seasons": [
+    "wet"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 240,
+   "farm": {
+    "how": "tuber",
+    "item": "core:taro_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Colocasia esculenta",
+   "medium": "land",
+   "also_on": [
+    {
+     "card": "Taro / Gabi",
+     "sci": "Colocasia esculenta",
+     "sheet": "d",
+     "section": "edible_crops"
+    }
+   ]
+  },
+  {
+   "id": "camote",
+   "name": "Camote",
+   "cat": "staple_crop",
+   "section": "grains",
+   "cells": [
+    [
+     "c",
+     "grains",
+     2
+    ],
+    [
+     "d",
+     "edible_crops",
+     7
+    ]
+   ],
+   "biomes": [
+    "terrace",
+    "village",
+    "highland",
+    "forest"
+   ],
+   "form": "crop",
+   "px": 16,
+   "tool": "dig",
+   "harvest": {
+    "core:camote": 3
+   },
+   "uses": [
+    "animal feed",
+    "food"
+   ],
+   "seasons": [
+    "wet"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 240,
+   "farm": {
+    "how": "tuber",
+    "item": "core:camote_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Ipomoea batatas",
+   "medium": "land",
+   "also_on": [
+    {
+     "card": "Camote",
+     "sci": "Ipomoea batatas",
+     "sheet": "d",
+     "section": "edible_crops"
+    }
+   ]
+  },
+  {
+   "id": "cassava",
+   "name": "Cassava",
+   "cat": "staple_crop",
+   "section": "grains",
+   "cells": [
+    [
+     "c",
+     "grains",
+     3
+    ]
+   ],
+   "biomes": [
+    "terrace",
+    "village",
+    "highland",
+    "forest"
+   ],
+   "form": "crop",
+   "px": 16,
+   "tool": "dig",
+   "harvest": {
+    "core:cassava": 3
+   },
+   "uses": [
+    "food",
+    "starch"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 240,
+   "farm": {
+    "how": "cutting",
+    "item": "core:cassava_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Manihot esculenta",
+   "medium": "land"
+  },
+  {
+   "id": "ube",
+   "name": "Uwi / Yam",
+   "cat": "staple_crop",
+   "section": "grains",
+   "cells": [
+    [
+     "c",
+     "grains",
+     4
+    ],
+    [
+     "d",
+     "shrubs",
+     1
+    ]
+   ],
+   "biomes": [
+    "terrace",
+    "village",
+    "highland",
+    "forest"
+   ],
+   "form": "crop",
+   "px": 16,
+   "tool": "dig",
+   "harvest": {
+    "core:ube": 2
+   },
+   "uses": [
+    "dessert",
+    "dye (violet)",
+    "food",
+    "purple yam"
+   ],
+   "seasons": [
+    "wet"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 240,
+   "farm": {
+    "how": "tuber",
+    "item": "core:ube_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Dioscorea spp.",
+   "medium": "land",
+   "also_on": [
+    {
+     "card": "Ube (vine)",
+     "sci": "Dioscorea alata",
+     "sheet": "d",
+     "section": "shrubs"
+    }
+   ]
+  },
+  {
+   "id": "arrowroot",
+   "name": "Arrowroot",
+   "cat": "staple_crop",
+   "section": "grains",
+   "cells": [
+    [
+     "c",
+     "grains",
+     5
+    ]
+   ],
+   "biomes": [
+    "terrace",
+    "village",
+    "highland",
+    "forest"
+   ],
+   "form": "crop",
+   "px": 16,
+   "tool": "dig",
+   "harvest": {
+    "core:arrowroot": 2
+   },
+   "uses": [
+    "food",
+    "starch"
+   ],
+   "seasons": [
+    "wet"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 240,
+   "farm": {
+    "how": "tuber",
+    "item": "core:arrowroot_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Maranta arundinacea",
+   "medium": "land"
+  },
+  {
+   "id": "sago_palm",
+   "name": "Sago Palm",
+   "cat": "staple_crop",
+   "section": "grains",
+   "cells": [
+    [
+     "c",
+     "grains",
+     6
+    ],
+    [
+     "d",
+     "edible_crops",
+     6
+    ]
+   ],
+   "biomes": [
+    "mangrove",
+    "river",
+    "rainforest"
+   ],
+   "form": "tree",
+   "px": 32,
+   "tool": "axe",
+   "harvest": {
+    "core:sago": 3,
+    "core:fiber": 1
+   },
+   "uses": [
+    "starch",
+    "starch in times of scarcity",
+    "thatch"
+   ],
+   "seasons": [
+    "wet"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 900,
+   "farm": {
+    "how": "sapling",
+    "item": "core:sago_palm_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Metroxylon sagu",
+   "hits": 6,
+   "wood": "core:wood",
+   "fruit_regrow": 300,
+   "medium": "land",
+   "also_on": [
+    {
+     "card": "Sago Palm",
+     "sci": "Metroxylon sagu",
+     "sheet": "d",
+     "section": "edible_crops"
+    }
+   ]
+  },
+  {
+   "id": "corn",
+   "name": "Corn (Maize)",
+   "cat": "staple_crop",
+   "section": "grains",
+   "cells": [
+    [
+     "c",
+     "grains",
+     7
+    ]
+   ],
+   "biomes": [
+    "terrace",
+    "village",
+    "highland",
+    "forest"
+   ],
+   "form": "crop",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:mais": 3
+   },
+   "uses": [
+    "food",
+    "animal feed"
+   ],
+   "seasons": [
+    "wet"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 240,
+   "farm": {
+    "how": "seed",
+    "item": "core:corn_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Zea mays",
+   "note": "Introduced early (pre-Spanish contact in some regions)",
+   "medium": "land"
+  },
+  {
+   "id": "millet",
+   "name": "Millet",
+   "cat": "staple_crop",
+   "section": "grains",
+   "cells": [
+    [
+     "c",
+     "grains",
+     8
+    ]
+   ],
+   "biomes": [
+    "highland",
+    "terrace",
+    "mountain"
+   ],
+   "form": "crop",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:millet": 3
+   },
+   "uses": [
+    "food",
+    "bird feed"
+   ],
+   "seasons": [
+    "wet"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 240,
+   "farm": {
+    "how": "seed",
+    "item": "core:millet_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Setaria italica",
+   "medium": "land"
+  },
+  {
+   "id": "banana",
+   "name": "Banana",
+   "cat": "fruit_tree",
+   "section": "fruit_trees",
+   "cells": [
+    [
+     "c",
+     "fruit_trees",
+     0
+    ],
+    [
+     "d",
+     "edible_crops",
+     2
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "village"
+   ],
+   "form": "bush",
+   "px": 32,
+   "tool": "hand",
+   "harvest": {
+    "core:saging": 3,
+    "core:banana_fiber": 1,
+    "core:banana_leaf": 1
+   },
+   "uses": [
+    "fiber (like abaca)",
+    "food",
+    "leaf wrap"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 480,
+   "farm": {
+    "how": "sucker",
+    "item": "core:banana_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Musa spp.",
+   "hits": 3,
+   "medium": "land",
+   "also_on": [
+    {
+     "card": "Banana",
+     "sci": "Musa spp.",
+     "sheet": "d",
+     "section": "edible_crops"
+    }
+   ]
+  },
+  {
+   "id": "coconut",
+   "name": "Coconut",
+   "cat": "fruit_tree",
+   "section": "fruit_trees",
+   "cells": [
+    [
+     "c",
+     "fruit_trees",
+     1
+    ],
+    [
+     "d",
+     "edible_crops",
+     3
+    ]
+   ],
+   "biomes": [
+    "beach",
+    "coast",
+    "village"
+   ],
+   "form": "tree",
+   "px": 48,
+   "tool": "axe",
+   "harvest": {
+    "core:niyog": 2,
+    "core:tuba": 1,
+    "core:coir": 1
+   },
+   "uses": [
+    "Tree of life",
+    "coir rope",
+    "food",
+    "oil",
+    "tuba (sap)"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 900,
+   "farm": {
+    "how": "sapling",
+    "item": "core:coconut_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Cocos nucifera",
+   "hits": 6,
+   "wood": "core:coco_lumber",
+   "fruit_regrow": 300,
+   "medium": "land",
+   "also_on": [
+    {
+     "card": "Coconut",
+     "sci": "Cocos nucifera",
+     "sheet": "d",
+     "section": "edible_crops"
+    }
+   ]
+  },
+  {
+   "id": "narra_fruit",
+   "name": "Narra Fruit",
+   "cat": "fruit_tree",
+   "section": "fruit_trees",
+   "cells": [
+    [
+     "c",
+     "fruit_trees",
+     2
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "village"
+   ],
+   "form": "bush",
+   "px": 24,
+   "tool": "hand",
+   "harvest": {
+    "core:narra_pod": 2
+   },
+   "uses": [
+    "edible pods/seeds"
+   ],
+   "seasons": [
+    "dry"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 480,
+   "farm": {
+    "how": "seed",
+    "item": "core:narra_fruit_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Pterocarpus indicus",
+   "hits": 3,
+   "medium": "land"
+  },
+  {
+   "id": "mango",
+   "name": "Mango",
+   "cat": "fruit_tree",
+   "section": "fruit_trees",
+   "cells": [
+    [
+     "c",
+     "fruit_trees",
+     3
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "village"
+   ],
+   "form": "tree",
+   "px": 48,
+   "tool": "hand",
+   "harvest": {
+    "core:mangga": 3
+   },
+   "uses": [
+    "food"
+   ],
+   "seasons": [
+    "dry"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 900,
+   "farm": {
+    "how": "sapling",
+    "item": "core:mango_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Mangifera indica",
+   "hits": 6,
+   "wood": "core:wood",
+   "fruit_regrow": 300,
+   "medium": "land"
+  },
+  {
+   "id": "jackfruit",
+   "name": "Jackfruit",
+   "cat": "fruit_tree",
+   "section": "fruit_trees",
+   "cells": [
+    [
+     "c",
+     "fruit_trees",
+     4
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "village"
+   ],
+   "form": "tree",
+   "px": 48,
+   "tool": "hand",
+   "harvest": {
+    "core:langka": 1
+   },
+   "uses": [
+    "food",
+    "staple fruit",
+    "yellow dye"
+   ],
+   "seasons": [
+    "dry"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 900,
+   "farm": {
+    "how": "sapling",
+    "item": "core:jackfruit_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Artocarpus heterophyllus",
+   "hits": 6,
+   "wood": "core:wood",
+   "fruit_regrow": 300,
+   "medium": "land"
+  },
+  {
+   "id": "durian",
+   "name": "Durian",
+   "cat": "fruit_tree",
+   "section": "fruit_trees",
+   "cells": [
+    [
+     "c",
+     "fruit_trees",
+     5
+    ]
+   ],
+   "biomes": [
+    "rainforest"
+   ],
+   "form": "tree",
+   "px": 48,
+   "tool": "hand",
+   "harvest": {
+    "core:durian": 1
+   },
+   "uses": [
+    "food"
+   ],
+   "seasons": [
+    "dry"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 900,
+   "farm": {
+    "how": "sapling",
+    "item": "core:durian_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Durio zibethinus",
+   "hits": 6,
+   "wood": "core:wood",
+   "fruit_regrow": 300,
+   "medium": "land"
+  },
+  {
+   "id": "duhat",
+   "name": "Duhat",
+   "cat": "fruit_tree",
+   "section": "fruit_trees",
+   "cells": [
+    [
+     "c",
+     "fruit_trees",
+     6
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "village"
+   ],
+   "form": "tree",
+   "px": 48,
+   "tool": "hand",
+   "harvest": {
+    "core:duhat": 4
+   },
+   "uses": [
+    "food",
+    "medicine (astringent)",
+    "purple dye"
+   ],
+   "seasons": [
+    "dry"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 900,
+   "farm": {
+    "how": "sapling",
+    "item": "core:duhat_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Syzygium cumini",
+   "hits": 6,
+   "wood": "core:wood",
+   "fruit_regrow": 300,
+   "medium": "land"
+  },
+  {
+   "id": "balimbing",
+   "name": "Balimbing",
+   "cat": "fruit_tree",
+   "section": "fruit_trees",
+   "cells": [
+    [
+     "c",
+     "fruit_trees",
+     7
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "village"
+   ],
+   "form": "bush",
+   "px": 24,
+   "tool": "hand",
+   "harvest": {
+    "core:balimbing": 3
+   },
+   "uses": [
+    "food",
+    "sour fruit"
+   ],
+   "seasons": [
+    "dry"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 480,
+   "farm": {
+    "how": "sapling",
+    "item": "core:balimbing_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Averrhoa carambola",
+   "hits": 3,
+   "medium": "land"
+  },
+  {
+   "id": "papaya",
+   "name": "Papaya",
+   "cat": "fruit",
+   "section": "other_fruits",
+   "cells": [
+    [
+     "c",
+     "other_fruits",
+     0
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "village"
+   ],
+   "form": "bush",
+   "px": 24,
+   "tool": "hand",
+   "harvest": {
+    "core:papaya": 2
+   },
+   "uses": [
+    "food",
+    "tinola",
+    "meat tenderiser"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 480,
+   "farm": {
+    "how": "seed",
+    "item": "core:papaya_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Carica papaya",
+   "hits": 3,
+   "medium": "land"
+  },
+  {
+   "id": "lansones",
+   "name": "Lansones",
+   "cat": "fruit",
+   "section": "other_fruits",
+   "cells": [
+    [
+     "c",
+     "other_fruits",
+     1
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "village"
+   ],
+   "form": "bush",
+   "px": 24,
+   "tool": "hand",
+   "harvest": {
+    "core:lansones": 4
+   },
+   "uses": [
+    "food"
+   ],
+   "seasons": [
+    "dry"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 480,
+   "farm": {
+    "how": "seed",
+    "item": "core:lansones_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Lansium parasiticum",
+   "hits": 3,
+   "note": "Highly valued; noted by early writers",
+   "medium": "land"
+  },
+  {
+   "id": "rambutan",
+   "name": "Rambutan",
+   "cat": "fruit",
+   "section": "other_fruits",
+   "cells": [
+    [
+     "c",
+     "other_fruits",
+     2
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "village"
+   ],
+   "form": "bush",
+   "px": 24,
+   "tool": "hand",
+   "harvest": {
+    "core:rambutan": 4
+   },
+   "uses": [
+    "food"
+   ],
+   "seasons": [
+    "dry"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 480,
+   "farm": {
+    "how": "seed",
+    "item": "core:rambutan_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Nephelium lappaceum",
+   "hits": 3,
+   "medium": "land"
+  },
+  {
+   "id": "mangosteen",
+   "name": "Mangosteen",
+   "cat": "fruit",
+   "section": "other_fruits",
+   "cells": [
+    [
+     "c",
+     "other_fruits",
+     3
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "village"
+   ],
+   "form": "bush",
+   "px": 24,
+   "tool": "hand",
+   "harvest": {
+    "core:mangosteen": 3
+   },
+   "uses": [
+    "food",
+    "medicine (rind)"
+   ],
+   "seasons": [
+    "dry"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 480,
+   "farm": {
+    "how": "seed",
+    "item": "core:mangosteen_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Garcinia mangostana",
+   "hits": 3,
+   "note": "Famous native fruit",
+   "medium": "land"
+  },
+  {
+   "id": "atis",
+   "name": "Atis",
+   "cat": "fruit",
+   "section": "other_fruits",
+   "cells": [
+    [
+     "c",
+     "other_fruits",
+     4
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "village"
+   ],
+   "form": "bush",
+   "px": 24,
+   "tool": "hand",
+   "harvest": {
+    "core:atis": 3
+   },
+   "uses": [
+    "food"
+   ],
+   "seasons": [
+    "dry"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 480,
+   "farm": {
+    "how": "seed",
+    "item": "core:atis_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Annona squamosa",
+   "hits": 3,
+   "medium": "land"
+  },
+  {
+   "id": "guyabano",
+   "name": "Guyabano",
+   "cat": "fruit",
+   "section": "other_fruits",
+   "cells": [
+    [
+     "c",
+     "other_fruits",
+     5
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "village"
+   ],
+   "form": "bush",
+   "px": 24,
+   "tool": "hand",
+   "harvest": {
+    "core:guyabano": 2
+   },
+   "uses": [
+    "food",
+    "tea (leaves)"
+   ],
+   "seasons": [
+    "dry"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 480,
+   "farm": {
+    "how": "seed",
+    "item": "core:guyabano_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Annona muricata",
+   "hits": 3,
+   "medium": "land"
+  },
+  {
+   "id": "santol",
+   "name": "Santol",
+   "cat": "fruit",
+   "section": "other_fruits",
+   "cells": [
+    [
+     "c",
+     "other_fruits",
+     6
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "village"
+   ],
+   "form": "bush",
+   "px": 24,
+   "tool": "hand",
+   "harvest": {
+    "core:santol": 3
+   },
+   "uses": [
+    "food",
+    "sour fruit"
+   ],
+   "seasons": [
+    "dry"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 480,
+   "farm": {
+    "how": "seed",
+    "item": "core:santol_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Sandoricum koetjape",
+   "hits": 3,
+   "medium": "land"
+  },
+  {
+   "id": "kamias",
+   "name": "Kamias",
+   "cat": "fruit",
+   "section": "other_fruits",
+   "cells": [
+    [
+     "c",
+     "other_fruits",
+     7
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "village"
+   ],
+   "form": "bush",
+   "px": 24,
+   "tool": "hand",
+   "harvest": {
+    "core:kamias": 4
+   },
+   "uses": [
+    "souring for sinigang"
+   ],
+   "seasons": [
+    "dry"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 480,
+   "farm": {
+    "how": "seed",
+    "item": "core:kamias_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Averrhoa bilimbi",
+   "hits": 3,
+   "medium": "land"
+  },
+  {
+   "id": "bignay",
+   "name": "Bignay",
+   "cat": "fruit",
+   "section": "other_fruits",
+   "cells": [
+    [
+     "c",
+     "other_fruits",
+     8
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "village"
+   ],
+   "form": "bush",
+   "px": 24,
+   "tool": "hand",
+   "harvest": {
+    "core:bignay": 5
+   },
+   "uses": [
+    "food",
+    "wine"
+   ],
+   "seasons": [
+    "dry"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 480,
+   "farm": {
+    "how": "seed",
+    "item": "core:bignay_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Antidesma bunius",
+   "hits": 3,
+   "medium": "land"
+  },
+  {
+   "id": "makopa",
+   "name": "Makopa",
+   "cat": "fruit",
+   "section": "other_fruits",
+   "cells": [
+    [
+     "c",
+     "other_fruits",
+     9
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "village"
+   ],
+   "form": "bush",
+   "px": 24,
+   "tool": "hand",
+   "harvest": {
+    "core:makopa": 4
+   },
+   "uses": [
+    "food"
+   ],
+   "seasons": [
+    "dry"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 480,
+   "farm": {
+    "how": "seed",
+    "item": "core:makopa_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Syzygium samarangense",
+   "hits": 3,
+   "medium": "land"
+  },
+  {
+   "id": "caimito",
+   "name": "Caimito",
+   "cat": "fruit",
+   "section": "other_fruits",
+   "cells": [
+    [
+     "c",
+     "other_fruits",
+     10
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "village"
+   ],
+   "form": "bush",
+   "px": 24,
+   "tool": "hand",
+   "harvest": {
+    "core:caimito": 3
+   },
+   "uses": [
+    "food"
+   ],
+   "seasons": [
+    "dry"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 480,
+   "farm": {
+    "how": "seed",
+    "item": "core:caimito_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Chrysophyllum cainito",
+   "hits": 3,
+   "medium": "land"
+  },
+  {
+   "id": "bugnay",
+   "name": "Bugnay",
+   "cat": "fruit",
+   "section": "other_fruits",
+   "cells": [
+    [
+     "c",
+     "other_fruits",
+     11
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "village"
+   ],
+   "form": "bush",
+   "px": 24,
+   "tool": "hand",
+   "harvest": {
+    "core:bugnay": 5
+   },
+   "uses": [
+    "food",
+    "wine"
+   ],
+   "seasons": [
+    "dry"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 480,
+   "farm": {
+    "how": "seed",
+    "item": "core:bugnay_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Antidesma spp.",
+   "hits": 3,
+   "medium": "land"
+  },
+  {
+   "id": "wild_berry_red",
+   "name": "Wild Red Berries",
+   "cat": "fruit",
+   "section": "other_fruits",
+   "cells": [
+    [
+     "c",
+     "other_fruits",
+     12
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "village"
+   ],
+   "form": "bush",
+   "px": 24,
+   "tool": "hand",
+   "harvest": {
+    "core:wild_berries": 4
+   },
+   "uses": [
+    "food",
+    "bird feed"
+   ],
+   "seasons": [
+    "dry"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 480,
+   "farm": {
+    "how": "seed",
+    "item": "core:wild_berry_red_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "hits": 3,
+   "note": "unlabelled cell on the sheet (red berries on a vine); name is ours",
+   "unverified": true,
+   "medium": "land"
+  },
+  {
+   "id": "wild_berry_dark",
+   "name": "Wild Dark Berries",
+   "cat": "fruit",
+   "section": "other_fruits",
+   "cells": [
+    [
+     "c",
+     "other_fruits",
+     13
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "village"
+   ],
+   "form": "bush",
+   "px": 24,
+   "tool": "hand",
+   "harvest": {
+    "core:wild_berries": 4
+   },
+   "uses": [
+    "food",
+    "purple dye"
+   ],
+   "seasons": [
+    "dry"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 480,
+   "farm": {
+    "how": "seed",
+    "item": "core:wild_berry_dark_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "hits": 3,
+   "note": "unlabelled cell (dark purple berry clusters); name is ours",
+   "unverified": true,
+   "medium": "land"
+  },
+  {
+   "id": "wild_pods",
+   "name": "Wild Brown Pods",
+   "cat": "fruit",
+   "section": "other_fruits",
+   "cells": [
+    [
+     "c",
+     "other_fruits",
+     14
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "village"
+   ],
+   "form": "bush",
+   "px": 24,
+   "tool": "hand",
+   "harvest": {
+    "core:wild_pods": 3
+   },
+   "uses": [
+    "food"
+   ],
+   "seasons": [
+    "dry"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 480,
+   "farm": {
+    "how": "seed",
+    "item": "core:wild_pods_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "hits": 3,
+   "note": "unlabelled cell (brown pods/roots); name is ours",
+   "unverified": true,
+   "medium": "land"
+  },
+  {
+   "id": "tamarind",
+   "name": "Tamarindo",
+   "cat": "fruit",
+   "section": "other_fruits",
+   "cells": [
+    [
+     "c",
+     "other_fruits",
+     15
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "village"
+   ],
+   "form": "tree",
+   "px": 48,
+   "tool": "hand",
+   "harvest": {
+    "core:sampalok": 4
+   },
+   "uses": [
+    "souring for sinigang",
+    "candy"
+   ],
+   "seasons": [
+    "dry"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 900,
+   "farm": {
+    "how": "sapling",
+    "item": "core:tamarind_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Tamarindus indica",
+   "hits": 6,
+   "wood": "core:wood",
+   "fruit_regrow": 300,
+   "medium": "land"
+  },
+  {
+   "id": "kangkong",
+   "name": "Kangkong",
+   "cat": "vegetable",
+   "section": "vegetables",
+   "cells": [
+    [
+     "c",
+     "vegetables",
+     0
+    ]
+   ],
+   "biomes": [
+    "river",
+    "lake",
+    "village"
+   ],
+   "form": "crop",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:kangkong": 3
+   },
+   "uses": [
+    "food (leafy green)",
+    "animal feed"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 240,
+   "farm": {
+    "how": "cutting",
+    "item": "core:kangkong_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Ipomoea aquatica",
+   "medium": "land"
+  },
+  {
+   "id": "alugbati",
+   "name": "Alugbati",
+   "cat": "vegetable",
+   "section": "vegetables",
+   "cells": [
+    [
+     "c",
+     "vegetables",
+     1
+    ]
+   ],
+   "biomes": [
+    "village",
+    "terrace",
+    "river",
+    "forest"
+   ],
+   "form": "crop",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:alugbati": 3
+   },
+   "uses": [
+    "food"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 240,
+   "farm": {
+    "how": "cutting",
+    "item": "core:alugbati_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Basella alba",
+   "medium": "land"
+  },
+  {
+   "id": "malunggay",
+   "name": "Malunggay",
+   "cat": "vegetable",
+   "section": "vegetables",
+   "cells": [
+    [
+     "c",
+     "vegetables",
+     2
+    ]
+   ],
+   "biomes": [
+    "village",
+    "terrace",
+    "river",
+    "forest"
+   ],
+   "form": "bush",
+   "px": 24,
+   "tool": "hand",
+   "harvest": {
+    "core:malunggay": 3
+   },
+   "uses": [
+    "food",
+    "medicine",
+    "tinola"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 480,
+   "farm": {
+    "how": "cutting",
+    "item": "core:malunggay_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Moringa oleifera",
+   "hits": 3,
+   "medium": "land"
+  },
+  {
+   "id": "pechay",
+   "name": "Petchay",
+   "cat": "vegetable",
+   "section": "vegetables",
+   "cells": [
+    [
+     "c",
+     "vegetables",
+     3
+    ]
+   ],
+   "biomes": [
+    "village",
+    "terrace",
+    "river",
+    "forest"
+   ],
+   "form": "crop",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:pechay": 2
+   },
+   "uses": [
+    "food"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 240,
+   "farm": {
+    "how": "seed",
+    "item": "core:pechay_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Brassica rapa",
+   "medium": "land"
+  },
+  {
+   "id": "labanos",
+   "name": "Labanos",
+   "cat": "vegetable",
+   "section": "vegetables",
+   "cells": [
+    [
+     "c",
+     "vegetables",
+     4
+    ]
+   ],
+   "biomes": [
+    "village",
+    "terrace",
+    "river",
+    "forest"
+   ],
+   "form": "crop",
+   "px": 16,
+   "tool": "dig",
+   "harvest": {
+    "core:labanos": 2
+   },
+   "uses": [
+    "food"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 240,
+   "farm": {
+    "how": "seed",
+    "item": "core:labanos_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Raphanus sativus",
+   "note": "introduced early",
+   "medium": "land"
+  },
+  {
+   "id": "sitaw",
+   "name": "Sitaw",
+   "cat": "vegetable",
+   "section": "vegetables",
+   "cells": [
+    [
+     "c",
+     "vegetables",
+     5
+    ]
+   ],
+   "biomes": [
+    "village",
+    "terrace",
+    "river",
+    "forest"
+   ],
+   "form": "crop",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:sitaw": 3,
+    "core:sitaw_seed": 1
+   },
+   "uses": [
+    "food",
+    "pinakbet"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 240,
+   "farm": {
+    "how": "seed",
+    "item": "core:sitaw_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Vigna unguiculata",
+   "medium": "land"
+  },
+  {
+   "id": "bataw",
+   "name": "Bataw",
+   "cat": "vegetable",
+   "section": "vegetables",
+   "cells": [
+    [
+     "c",
+     "vegetables",
+     6
+    ]
+   ],
+   "biomes": [
+    "village",
+    "terrace",
+    "river",
+    "forest"
+   ],
+   "form": "crop",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:bataw": 3
+   },
+   "uses": [
+    "food (bean)"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 240,
+   "farm": {
+    "how": "seed",
+    "item": "core:bataw_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Lablab purpureus",
+   "medium": "land"
+  },
+  {
+   "id": "patola",
+   "name": "Patola",
+   "cat": "vegetable",
+   "section": "vegetables",
+   "cells": [
+    [
+     "c",
+     "vegetables",
+     7
+    ]
+   ],
+   "biomes": [
+    "village",
+    "terrace",
+    "river",
+    "forest"
+   ],
+   "form": "crop",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:patola": 2,
+    "core:fiber": 1
+   },
+   "uses": [
+    "food",
+    "sponge fiber"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 240,
+   "farm": {
+    "how": "seed",
+    "item": "core:patola_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Luffa acutangula",
+   "medium": "land"
+  },
+  {
+   "id": "upo",
+   "name": "Upo",
+   "cat": "vegetable",
+   "section": "vegetables",
+   "cells": [
+    [
+     "c",
+     "vegetables",
+     8
+    ]
+   ],
+   "biomes": [
+    "village",
+    "terrace",
+    "river",
+    "forest"
+   ],
+   "form": "crop",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:upo": 2
+   },
+   "uses": [
+    "food",
+    "gourd container"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 240,
+   "farm": {
+    "how": "seed",
+    "item": "core:upo_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Lagenaria siceraria",
+   "medium": "land"
+  },
+  {
+   "id": "sayote",
+   "name": "Sayote",
+   "cat": "vegetable",
+   "section": "vegetables",
+   "cells": [
+    [
+     "c",
+     "vegetables",
+     9
+    ]
+   ],
+   "biomes": [
+    "highland",
+    "mountain",
+    "terrace"
+   ],
+   "form": "crop",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:sayote": 2
+   },
+   "uses": [
+    "food"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 240,
+   "farm": {
+    "how": "seed",
+    "item": "core:sayote_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Sechium edule",
+   "medium": "land"
+  },
+  {
+   "id": "ampalaya",
+   "name": "Ampalaya",
+   "cat": "vegetable",
+   "section": "vegetables",
+   "cells": [
+    [
+     "c",
+     "vegetables",
+     10
+    ]
+   ],
+   "biomes": [
+    "village",
+    "terrace",
+    "river",
+    "forest"
+   ],
+   "form": "crop",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:ampalaya": 2
+   },
+   "uses": [
+    "food",
+    "medicine",
+    "pinakbet"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 240,
+   "farm": {
+    "how": "seed",
+    "item": "core:ampalaya_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Momordica charantia",
+   "medium": "land"
+  },
+  {
+   "id": "sigarilyas",
+   "name": "Sigarilyas",
+   "cat": "vegetable",
+   "section": "vegetables",
+   "cells": [
+    [
+     "c",
+     "vegetables",
+     11
+    ]
+   ],
+   "biomes": [
+    "village",
+    "terrace",
+    "river",
+    "forest"
+   ],
+   "form": "crop",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:sigarilyas": 3
+   },
+   "uses": [
+    "food"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 240,
+   "farm": {
+    "how": "seed",
+    "item": "core:sigarilyas_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Psophocarpus tetragonolobus",
+   "medium": "land"
+  },
+  {
+   "id": "kalabasa",
+   "name": "Kalabasa",
+   "cat": "vegetable",
+   "section": "vegetables",
+   "cells": [
+    [
+     "c",
+     "vegetables",
+     12
+    ]
+   ],
+   "biomes": [
+    "village",
+    "terrace",
+    "river",
+    "forest"
+   ],
+   "form": "crop",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:kalabasa": 1,
+    "core:seeds": 2
+   },
+   "uses": [
+    "food",
+    "pinakbet",
+    "animal feed"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 240,
+   "farm": {
+    "how": "seed",
+    "item": "core:kalabasa_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Cucurbita moschata",
+   "medium": "land"
+  },
+  {
+   "id": "siling_labuyo",
+   "name": "Siling Labuyo",
+   "cat": "spice",
+   "section": "spices",
+   "cells": [
+    [
+     "c",
+     "spices",
+     0
+    ]
+   ],
+   "biomes": [
+    "forest",
+    "village",
+    "highland"
+   ],
+   "form": "crop",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:sili": 4
+   },
+   "uses": [
+    "spice",
+    "kinilaw",
+    "native chili"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 240,
+   "farm": {
+    "how": "seed",
+    "item": "core:siling_labuyo_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Capsicum frutescens",
+   "medium": "land"
+  },
+  {
+   "id": "luya",
+   "name": "Luya",
+   "cat": "spice",
+   "section": "spices",
+   "cells": [
+    [
+     "c",
+     "spices",
+     1
+    ]
+   ],
+   "biomes": [
+    "forest",
+    "village",
+    "highland"
+   ],
+   "form": "crop",
+   "px": 16,
+   "tool": "dig",
+   "harvest": {
+    "core:luya": 2
+   },
+   "uses": [
+    "spice",
+    "salabat",
+    "medicine"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 240,
+   "farm": {
+    "how": "tuber",
+    "item": "core:luya_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Zingiber officinale",
+   "medium": "land"
+  },
+  {
+   "id": "turmeric",
+   "name": "Turmeric",
+   "cat": "spice",
+   "section": "spices",
+   "cells": [
+    [
+     "c",
+     "spices",
+     2
+    ]
+   ],
+   "biomes": [
+    "forest",
+    "village",
+    "highland"
+   ],
+   "form": "crop",
+   "px": 16,
+   "tool": "dig",
+   "harvest": {
+    "core:luyang_dilaw": 2
+   },
+   "uses": [
+    "spice",
+    "yellow dye",
+    "medicine"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 240,
+   "farm": {
+    "how": "tuber",
+    "item": "core:turmeric_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Curcuma longa",
+   "medium": "land"
+  },
+  {
+   "id": "tanglad",
+   "name": "Tang-lad",
+   "cat": "spice",
+   "section": "spices",
+   "cells": [
+    [
+     "c",
+     "spices",
+     3
+    ]
+   ],
+   "biomes": [
+    "forest",
+    "village",
+    "highland"
+   ],
+   "form": "crop",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:tanglad": 3
+   },
+   "uses": [
+    "lemongrass",
+    "tea",
+    "insect repellent"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 240,
+   "farm": {
+    "how": "cutting",
+    "item": "core:tanglad_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Cymbopogon citratus",
+   "medium": "land"
+  },
+  {
+   "id": "bawang",
+   "name": "Bawang",
+   "cat": "spice",
+   "section": "spices",
+   "cells": [
+    [
+     "c",
+     "spices",
+     4
+    ]
+   ],
+   "biomes": [
+    "forest",
+    "village",
+    "highland"
+   ],
+   "form": "crop",
+   "px": 16,
+   "tool": "dig",
+   "harvest": {
+    "core:bawang": 3
+   },
+   "uses": [
+    "spice",
+    "medicine"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 240,
+   "farm": {
+    "how": "bulb",
+    "item": "core:bawang_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Allium sativum",
+   "note": "introduced early",
+   "medium": "land"
+  },
+  {
+   "id": "sibuyas",
+   "name": "Sibuyas",
+   "cat": "spice",
+   "section": "spices",
+   "cells": [
+    [
+     "c",
+     "spices",
+     5
+    ]
+   ],
+   "biomes": [
+    "forest",
+    "village",
+    "highland"
+   ],
+   "form": "crop",
+   "px": 16,
+   "tool": "dig",
+   "harvest": {
+    "core:sibuyas": 2
+   },
+   "uses": [
+    "spice"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 240,
+   "farm": {
+    "how": "bulb",
+    "item": "core:sibuyas_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Allium cepa",
+   "note": "introduced early",
+   "medium": "land"
+  },
+  {
+   "id": "paminta",
+   "name": "Paminta",
+   "cat": "spice",
+   "section": "spices",
+   "cells": [
+    [
+     "c",
+     "spices",
+     6
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest"
+   ],
+   "form": "crop",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:paminta": 3
+   },
+   "uses": [
+    "major trade spice"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 240,
+   "farm": {
+    "how": "cutting",
+    "item": "core:paminta_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Piper nigrum",
+   "medium": "land"
+  },
+  {
+   "id": "lumbang",
+   "name": "Lumbang / Candlenut",
+   "cat": "nut_legume",
+   "section": "nuts",
+   "cells": [
+    [
+     "c",
+     "nuts",
+     0
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "coast",
+    "village"
+   ],
+   "form": "tree",
+   "px": 48,
+   "tool": "hand",
+   "harvest": {
+    "core:lumbang": 3
+   },
+   "uses": [
+    "food",
+    "lamp oil (torches)"
+   ],
+   "seasons": [
+    "dry"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 900,
+   "farm": {
+    "how": "sapling",
+    "item": "core:lumbang_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Aleurites moluccanus",
+   "hits": 6,
+   "wood": "core:wood",
+   "fruit_regrow": 300,
+   "medium": "land"
+  },
+  {
+   "id": "talisay",
+   "name": "Talisay Nut",
+   "cat": "nut_legume",
+   "section": "nuts",
+   "cells": [
+    [
+     "c",
+     "nuts",
+     1
+    ]
+   ],
+   "biomes": [
+    "beach",
+    "coast"
+   ],
+   "form": "tree",
+   "px": 48,
+   "tool": "hand",
+   "harvest": {
+    "core:talisay_nut": 3
+   },
+   "uses": [
+    "edible kernel",
+    "dye"
+   ],
+   "seasons": [
+    "dry"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 900,
+   "farm": {
+    "how": "sapling",
+    "item": "core:talisay_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Terminalia catappa",
+   "hits": 6,
+   "wood": "core:wood",
+   "fruit_regrow": 300,
+   "medium": "land"
+  },
+  {
+   "id": "pili",
+   "name": "Pili",
+   "cat": "nut_legume",
+   "section": "nuts",
+   "cells": [
+    [
+     "c",
+     "nuts",
+     2
+    ],
+    [
+     "d",
+     "iconic_trees",
+     11
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "coast",
+    "village"
+   ],
+   "form": "tree",
+   "px": 48,
+   "tool": "axe",
+   "harvest": {
+    "core:pili_nut": 3,
+    "core:pili_resin": 1,
+    "core:wood": 2
+   },
+   "uses": [
+    "highly valued nut",
+    "nut",
+    "resin",
+    "resin (elemi) for torches"
+   ],
+   "seasons": [
+    "dry"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 900,
+   "farm": {
+    "how": "sapling",
+    "item": "core:pili_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Canarium ovatum",
+   "hits": 6,
+   "wood": "core:pili_wood",
+   "fruit_regrow": 300,
+   "note": "same species as the Pili tree card on the plant-life sheet",
+   "medium": "land",
+   "also_on": [
+    {
+     "card": "Pili (tree)",
+     "sci": "Canarium ovatum",
+     "sheet": "d",
+     "section": "iconic_trees"
+    }
+   ]
+  },
+  {
+   "id": "nato",
+   "name": "Nato",
+   "cat": "nut_legume",
+   "section": "nuts",
+   "cells": [
+    [
+     "c",
+     "nuts",
+     3
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "coast",
+    "village"
+   ],
+   "form": "bush",
+   "px": 24,
+   "tool": "hand",
+   "harvest": {
+    "core:nato": 3
+   },
+   "uses": [
+    "edible seed"
+   ],
+   "seasons": [
+    "dry"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 480,
+   "farm": {
+    "how": "seed",
+    "item": "core:nato_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Parkia speciosa",
+   "hits": 3,
+   "medium": "land"
+  },
+  {
+   "id": "munggo",
+   "name": "Munggo",
+   "cat": "nut_legume",
+   "section": "nuts",
+   "cells": [
+    [
+     "c",
+     "nuts",
+     4
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "coast",
+    "village"
+   ],
+   "form": "crop",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:munggo": 4
+   },
+   "uses": [
+    "food",
+    "common legume",
+    "animal feed"
+   ],
+   "seasons": [
+    "dry"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 240,
+   "farm": {
+    "how": "seed",
+    "item": "core:munggo_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Vigna radiata",
+   "medium": "land"
+  },
+  {
+   "id": "mani",
+   "name": "Mani",
+   "cat": "nut_legume",
+   "section": "nuts",
+   "cells": [
+    [
+     "c",
+     "nuts",
+     5
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "coast",
+    "village"
+   ],
+   "form": "crop",
+   "px": 16,
+   "tool": "dig",
+   "harvest": {
+    "core:mani": 4
+   },
+   "uses": [
+    "food",
+    "oil"
+   ],
+   "seasons": [
+    "dry"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 240,
+   "farm": {
+    "how": "seed",
+    "item": "core:mani_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Arachis hypogaea",
+   "note": "introduced early",
+   "medium": "land"
+  },
+  {
+   "id": "sesame",
+   "name": "Sesame",
+   "cat": "nut_legume",
+   "section": "nuts",
+   "cells": [
+    [
+     "c",
+     "nuts",
+     6
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "coast",
+    "village"
+   ],
+   "form": "crop",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:linga": 4
+   },
+   "uses": [
+    "food",
+    "oil"
+   ],
+   "seasons": [
+    "dry"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 240,
+   "farm": {
+    "how": "seed",
+    "item": "core:sesame_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Sesamum indicum",
+   "note": "introduced early",
+   "medium": "land"
+  },
+  {
+   "id": "black_gram",
+   "name": "Mungo (black gram)",
+   "cat": "nut_legume",
+   "section": "nuts",
+   "cells": [
+    [
+     "c",
+     "nuts",
+     7
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "coast",
+    "village"
+   ],
+   "form": "crop",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:munggo": 3
+   },
+   "uses": [
+    "food"
+   ],
+   "seasons": [
+    "dry"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 240,
+   "farm": {
+    "how": "seed",
+    "item": "core:black_gram_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Vigna mungo",
+   "note": "label partly legible (\"MUNGGO-KUNDOL\"?); sci printed Vigna mungo",
+   "unverified": true,
+   "medium": "land"
+  },
+  {
+   "id": "tigi",
+   "name": "Tigi",
+   "cat": "nut_legume",
+   "section": "nuts",
+   "cells": [
+    [
+     "c",
+     "nuts",
+     8
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "coast",
+    "village"
+   ],
+   "form": "crop",
+   "px": 16,
+   "tool": "dig",
+   "harvest": {
+    "core:tigi": 3
+   },
+   "uses": [
+    "edible seed/starch"
+   ],
+   "seasons": [
+    "dry"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 240,
+   "farm": {
+    "how": "tuber",
+    "item": "core:tigi_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Canna edulis",
+   "medium": "land"
+  },
+  {
+   "id": "sugar_cane",
+   "name": "Sugar Cane",
+   "cat": "beverage_plant",
+   "section": "beverage",
+   "cells": [
+    [
+     "c",
+     "beverage",
+     0
+    ],
+    [
+     "d",
+     "edible_crops",
+     5
+    ]
+   ],
+   "biomes": [
+    "village",
+    "river",
+    "terrace"
+   ],
+   "form": "tall",
+   "px": 32,
+   "tool": "axe",
+   "harvest": {
+    "core:tubo": 3
+   },
+   "uses": [
+    "basi wine",
+    "chewed or boiled for sugar",
+    "sugar"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 600,
+   "farm": {
+    "how": "cutting",
+    "item": "core:sugar_cane_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Saccharum officinarum",
+   "hits": 4,
+   "wood": "core:wood",
+   "fruit_regrow": 300,
+   "medium": "land",
+   "also_on": [
+    {
+     "card": "Sugar Cane",
+     "sci": "Saccharum officinarum",
+     "sheet": "d",
+     "section": "edible_crops"
+    }
+   ]
+  },
+  {
+   "id": "nipa_palm",
+   "name": "Nipa Palm",
+   "cat": "beverage_plant",
+   "section": "beverage",
+   "cells": [
+    [
+     "c",
+     "beverage",
+     1
+    ],
+    [
+     "c",
+     "marine_edible",
+     5
+    ],
+    [
+     "d",
+     "mangroves",
+     4
+    ]
+   ],
+   "biomes": [
+    "mangrove",
+    "river"
+   ],
+   "form": "tree",
+   "px": 32,
+   "tool": "axe",
+   "harvest": {
+    "core:nipa_sap": 2,
+    "core:nipa_leaf": 3,
+    "core:nipa_heart": 1
+   },
+   "uses": [
+    "edible heart",
+    "sap for wine (tuba)",
+    "sugar",
+    "thatch (pawid)",
+    "tuba",
+    "vinegar"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 900,
+   "farm": {
+    "how": "sapling",
+    "item": "core:nipa_palm_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Nypa fruticans",
+   "hits": 6,
+   "wood": "core:wood",
+   "fruit_regrow": 300,
+   "medium": "land",
+   "also_on": [
+    {
+     "card": "Puso ng Nipa",
+     "sci": "Nypa fruticans",
+     "sheet": "c",
+     "section": "marine_edible"
+    },
+    {
+     "card": "Nipah Palm",
+     "sci": "Nypa fruticans",
+     "sheet": "d",
+     "section": "mangroves"
+    }
+   ]
+  },
+  {
+   "id": "coconut_sap",
+   "name": "Coconut Sap (Tuba)",
+   "cat": "beverage_plant",
+   "section": "beverage",
+   "cells": [
+    [
+     "c",
+     "beverage",
+     2
+    ]
+   ],
+   "biomes": [
+    "beach",
+    "coast"
+   ],
+   "form": "item",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:tuba": 2
+   },
+   "uses": [
+    "fermented drink, noted by Pigafetta"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 0,
+   "farm": {
+    "how": "none"
+   },
+   "spawn": false,
+   "weight": 1.0,
+   "sci": "Cocos nucifera",
+   "note": "drawn as a jar of tuba: harvested from coconut palms (no separate plant spawns)",
+   "medium": "land"
+  },
+  {
+   "id": "wild_honey",
+   "name": "Honey (Wild bees)",
+   "cat": "beverage_plant",
+   "section": "beverage",
+   "cells": [
+    [
+     "c",
+     "beverage",
+     3
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest"
+   ],
+   "form": "item",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:honey": 2
+   },
+   "uses": [
+    "forest honey",
+    "sweetener",
+    "medicine"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 0,
+   "farm": {
+    "how": "none"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "note": "a forest bee hive on the plant sheet; spawns as a hive in trees",
+   "medium": "land"
+  },
+  {
+   "id": "cacao",
+   "name": "Cacao",
+   "cat": "beverage_plant",
+   "section": "beverage",
+   "cells": [
+    [
+     "c",
+     "beverage",
+     4
+    ]
+   ],
+   "biomes": [
+    "rainforest"
+   ],
+   "form": "bush",
+   "px": 24,
+   "tool": "hand",
+   "harvest": {
+    "core:cacao": 3
+   },
+   "uses": [
+    "tsokolate drink"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 480,
+   "farm": {
+    "how": "cutting",
+    "item": "core:cacao_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Theobroma cacao",
+   "hits": 3,
+   "note": "introduced early (pre-Spanish?) as printed",
+   "medium": "land"
+  },
+  {
+   "id": "coffee",
+   "name": "Coffee",
+   "cat": "beverage_plant",
+   "section": "beverage",
+   "cells": [
+    [
+     "c",
+     "beverage",
+     5
+    ]
+   ],
+   "biomes": [
+    "highland",
+    "mountain",
+    "forest"
+   ],
+   "form": "bush",
+   "px": 24,
+   "tool": "hand",
+   "harvest": {
+    "core:coffee_cherry": 4
+   },
+   "uses": [
+    "kape (barako)"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 480,
+   "farm": {
+    "how": "cutting",
+    "item": "core:coffee_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Coffea spp.",
+   "hits": 3,
+   "note": "introduced later but naturalized",
+   "medium": "land"
+  },
+  {
+   "id": "talong",
+   "name": "Talong",
+   "cat": "vegetable",
+   "section": "fruit_veg",
+   "cells": [
+    [
+     "c",
+     "fruit_veg",
+     0
+    ]
+   ],
+   "biomes": [
+    "village",
+    "terrace",
+    "forest"
+   ],
+   "form": "crop",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:talong": 2
+   },
+   "uses": [
+    "food",
+    "pinakbet"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 240,
+   "farm": {
+    "how": "seed",
+    "item": "core:talong_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Solanum melongena",
+   "medium": "land"
+  },
+  {
+   "id": "okra",
+   "name": "Okra",
+   "cat": "vegetable",
+   "section": "fruit_veg",
+   "cells": [
+    [
+     "c",
+     "fruit_veg",
+     1
+    ]
+   ],
+   "biomes": [
+    "village",
+    "terrace",
+    "forest"
+   ],
+   "form": "crop",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:okra": 3
+   },
+   "uses": [
+    "food",
+    "pinakbet"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 240,
+   "farm": {
+    "how": "seed",
+    "item": "core:okra_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Abelmoschus esculentus",
+   "medium": "land"
+  },
+  {
+   "id": "kamatis",
+   "name": "Kamatis",
+   "cat": "vegetable",
+   "section": "fruit_veg",
+   "cells": [
+    [
+     "c",
+     "fruit_veg",
+     2
+    ]
+   ],
+   "biomes": [
+    "village",
+    "terrace",
+    "forest"
+   ],
+   "form": "crop",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:kamatis": 3
+   },
+   "uses": [
+    "food",
+    "sinigang"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 240,
+   "farm": {
+    "how": "seed",
+    "item": "core:kamatis_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Solanum lycopersicum",
+   "medium": "land"
+  },
+  {
+   "id": "labuyo_gourd",
+   "name": "Labuyo (gourd)",
+   "cat": "vegetable",
+   "section": "fruit_veg",
+   "cells": [
+    [
+     "c",
+     "fruit_veg",
+     3
+    ]
+   ],
+   "biomes": [
+    "village",
+    "terrace",
+    "forest"
+   ],
+   "form": "crop",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:upo": 2
+   },
+   "uses": [
+    "young fruit eaten as vegetable"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 240,
+   "farm": {
+    "how": "seed",
+    "item": "core:labuyo_gourd_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Lagenaria spp.",
+   "note": "printed name LABUYO with Lagenaria spp.",
+   "unverified": true,
+   "medium": "land"
+  },
+  {
+   "id": "lato",
+   "name": "Lato",
+   "cat": "seaweed",
+   "section": "marine_edible",
+   "cells": [
+    [
+     "c",
+     "marine_edible",
+     0
+    ],
+    [
+     "d",
+     "marine_plants",
+     4
+    ]
+   ],
+   "biomes": [
+    "reef",
+    "coast"
+   ],
+   "form": "marine",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:lato": 3
+   },
+   "uses": [
+    "kinilaw side",
+    "sea grapes",
+    "sea grapes (food)"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 360,
+   "farm": {
+    "how": "cutting",
+    "item": "core:lato_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Caulerpa lentillifera",
+   "medium": "water",
+   "also_on": [
+    {
+     "card": "Caulerpa",
+     "sci": "Caulerpa lentillifera",
+     "sheet": "d",
+     "section": "marine_plants"
+    }
+   ]
+  },
+  {
+   "id": "ar_arosip",
+   "name": "Ar-arosip",
+   "cat": "seaweed",
+   "section": "marine_edible",
+   "cells": [
+    [
+     "c",
+     "marine_edible",
+     1
+    ],
+    [
+     "d",
+     "macroalgae",
+     4
+    ]
+   ],
+   "biomes": [
+    "reef",
+    "coast"
+   ],
+   "form": "marine",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:gulaman": 2
+   },
+   "uses": [
+    "gulaman (agar)",
+    "seaweed (gulaman)"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 360,
+   "farm": {
+    "how": "cutting",
+    "item": "core:ar_arosip_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Gracilaria spp.",
+   "medium": "water",
+   "also_on": [
+    {
+     "card": "Gracilaria",
+     "sci": "Gracilaria spp.",
+     "sheet": "d",
+     "section": "macroalgae"
+    }
+   ]
+  },
+  {
+   "id": "agar_agar",
+   "name": "Agar-agar",
+   "cat": "seaweed",
+   "section": "marine_edible",
+   "cells": [
+    [
+     "c",
+     "marine_edible",
+     2
+    ]
+   ],
+   "biomes": [
+    "reef",
+    "coast"
+   ],
+   "form": "marine",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:gulaman": 3
+   },
+   "uses": [
+    "gelatin"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 360,
+   "farm": {
+    "how": "cutting",
+    "item": "core:agar_agar_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Gelidium spp.",
+   "medium": "water"
+  },
+  {
+   "id": "lamang_dagat",
+   "name": "Lamang-dagat",
+   "cat": "seaweed",
+   "section": "marine_edible",
+   "cells": [
+    [
+     "c",
+     "marine_edible",
+     3
+    ]
+   ],
+   "biomes": [
+    "reef",
+    "coast"
+   ],
+   "form": "marine",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:gulaman": 2
+   },
+   "uses": [
+    "carrageenan source"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 360,
+   "farm": {
+    "how": "cutting",
+    "item": "core:lamang_dagat_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Eucheuma spp.",
+   "note": "label partly legible",
+   "unverified": true,
+   "medium": "water"
+  },
+  {
+   "id": "seagrass_shoots",
+   "name": "Seagrass Shoots",
+   "cat": "seaweed",
+   "section": "marine_edible",
+   "cells": [
+    [
+     "c",
+     "marine_edible",
+     4
+    ],
+    [
+     "d",
+     "marine_plants",
+     0
+    ]
+   ],
+   "biomes": [
+    "reef",
+    "coast"
+   ],
+   "form": "marine",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:herb": 1,
+    "core:seagrass_blade": 2
+   },
+   "uses": [
+    "dugong & turtle food",
+    "edible in some areas",
+    "fish nursery"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 360,
+   "farm": {
+    "how": "cutting",
+    "item": "core:seagrass_shoots_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Thalassia spp.",
+   "medium": "water",
+   "also_on": [
+    {
+     "card": "Seagrass",
+     "sci": "Enhalus acoroides",
+     "sheet": "d",
+     "section": "marine_plants"
+    }
+   ]
+  },
+  {
+   "id": "bakaw_fruit",
+   "name": "Bakaw Fruit",
+   "cat": "seaweed",
+   "section": "marine_edible",
+   "cells": [
+    [
+     "c",
+     "marine_edible",
+     6
+    ]
+   ],
+   "biomes": [
+    "mangrove"
+   ],
+   "form": "item",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:pagatpat": 2
+   },
+   "uses": [
+    "edible in some regions"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 0,
+   "farm": {
+    "how": "cutting",
+    "item": "core:bakaw_fruit_seed"
+   },
+   "spawn": false,
+   "weight": 1.0,
+   "sci": "Sonneratia alba",
+   "medium": "land"
+  },
+  {
+   "id": "kabute",
+   "name": "Kabute",
+   "cat": "wild_edible",
+   "section": "wild_edibles",
+   "cells": [
+    [
+     "c",
+     "wild_edibles",
+     0
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "cave",
+    "deep_cave",
+    "forest"
+   ],
+   "form": "plant",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:kabute": 3
+   },
+   "uses": [
+    "forest mushrooms (food)"
+   ],
+   "seasons": [
+    "wet"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 300,
+   "farm": {
+    "how": "spore",
+    "item": "core:kabute_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Various spp.",
+   "medium": "land"
+  },
+  {
+   "id": "pako",
+   "name": "Pako",
+   "cat": "wild_edible",
+   "section": "wild_edibles",
+   "cells": [
+    [
+     "c",
+     "wild_edibles",
+     1
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "river",
+    "cave"
+   ],
+   "form": "plant",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:pako": 3
+   },
+   "uses": [
+    "fern shoots (food)",
+    "ensalada"
+   ],
+   "seasons": [
+    "wet"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 300,
+   "farm": {
+    "how": "cutting",
+    "item": "core:pako_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Diplazium esculentum",
+   "medium": "land"
+  },
+  {
+   "id": "ubod",
+   "name": "Ubod ng Niyog",
+   "cat": "wild_edible",
+   "section": "wild_edibles",
+   "cells": [
+    [
+     "c",
+     "wild_edibles",
+     2
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "cave",
+    "forest"
+   ],
+   "form": "item",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:ubod": 1
+   },
+   "uses": [
+    "edible palm heart (lumpia)"
+   ],
+   "seasons": [
+    "wet"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 0,
+   "farm": {
+    "how": "none"
+   },
+   "spawn": false,
+   "weight": 1.0,
+   "sci": "Coconut heart",
+   "note": "harvested by felling a coconut palm (axe)",
+   "medium": "land"
+  },
+  {
+   "id": "labong",
+   "name": "Labong",
+   "cat": "wild_edible",
+   "section": "wild_edibles",
+   "cells": [
+    [
+     "c",
+     "wild_edibles",
+     3
+    ]
+   ],
+   "biomes": [
+    "river",
+    "forest"
+   ],
+   "form": "plant",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:labong": 2
+   },
+   "uses": [
+    "common food"
+   ],
+   "seasons": [
+    "wet"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 300,
+   "farm": {
+    "how": "none"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Bamboo shoot",
+   "note": "young shoots at bamboo groves",
+   "medium": "land"
+  },
+  {
+   "id": "wild_tubers",
+   "name": "Wild Tubers",
+   "cat": "wild_edible",
+   "section": "wild_edibles",
+   "cells": [
+    [
+     "c",
+     "wild_edibles",
+     4
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "cave"
+   ],
+   "form": "plant",
+   "px": 16,
+   "tool": "dig",
+   "harvest": {
+    "core:root_crop": 2
+   },
+   "uses": [
+    "forest food (famine food)"
+   ],
+   "seasons": [
+    "wet"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 300,
+   "farm": {
+    "how": "tuber",
+    "item": "core:wild_tubers_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Dioscorea spp.",
+   "medium": "land"
+  },
+  {
+   "id": "water_lily",
+   "name": "Water Lily",
+   "cat": "aquatic",
+   "section": "aquatic_c",
+   "cells": [
+    [
+     "c",
+     "aquatic_c",
+     0
+    ],
+    [
+     "d",
+     "aquatic_d",
+     1
+    ]
+   ],
+   "biomes": [
+    "lake",
+    "river"
+   ],
+   "form": "aquatic",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:lily_stem": 2
+   },
+   "uses": [
+    "edible stems/seeds",
+    "food"
+   ],
+   "seasons": [
+    "wet"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 300,
+   "farm": {
+    "how": "tuber",
+    "item": "core:water_lily_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Nymphaea nouchali",
+   "medium": "water",
+   "also_on": [
+    {
+     "card": "Water Lily",
+     "sci": "Nymphaea nouchali",
+     "sheet": "d",
+     "section": "aquatic_d"
+    }
+   ]
+  },
+  {
+   "id": "lotus",
+   "name": "Lotus",
+   "cat": "aquatic",
+   "section": "aquatic_c",
+   "cells": [
+    [
+     "c",
+     "aquatic_c",
+     1
+    ],
+    [
+     "d",
+     "aquatic_d",
+     0
+    ]
+   ],
+   "biomes": [
+    "lake",
+    "river"
+   ],
+   "form": "aquatic",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:lotus_root": 1,
+    "core:lotus_seed": 2
+   },
+   "uses": [
+    "food",
+    "medicine",
+    "seeds and roots (food)"
+   ],
+   "seasons": [
+    "wet"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 300,
+   "farm": {
+    "how": "tuber",
+    "item": "core:lotus_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Nelumbo nucifera",
+   "medium": "water",
+   "also_on": [
+    {
+     "card": "Lotus",
+     "sci": "Nelumbo nucifera",
+     "sheet": "d",
+     "section": "aquatic_d"
+    }
+   ]
+  },
+  {
+   "id": "kugon",
+   "name": "Kugon",
+   "cat": "aquatic",
+   "section": "aquatic_c",
+   "cells": [
+    [
+     "c",
+     "aquatic_c",
+     2
+    ]
+   ],
+   "biomes": [
+    "lake",
+    "river"
+   ],
+   "form": "aquatic",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:fiber": 2
+   },
+   "uses": [
+    "edible shoots",
+    "thatch"
+   ],
+   "seasons": [
+    "wet"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 300,
+   "farm": {
+    "how": "tuber",
+    "item": "core:kugon_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Phragmites karka",
+   "note": "printed KUGON with Phragmites karka (reed); not the cogon grass Imperata",
+   "unverified": true,
+   "medium": "water"
+  },
+  {
+   "id": "kalumpit",
+   "name": "Kalumpit",
+   "cat": "aquatic",
+   "section": "aquatic_c",
+   "cells": [
+    [
+     "c",
+     "aquatic_c",
+     3
+    ]
+   ],
+   "biomes": [
+    "lake",
+    "river"
+   ],
+   "form": "aquatic",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:kangkong": 2
+   },
+   "uses": [
+    "wetland green"
+   ],
+   "seasons": [
+    "wet"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 300,
+   "farm": {
+    "how": "tuber",
+    "item": "core:kalumpit_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Ipomoea aquatica var.",
+   "note": "printed KALUMPIT, Ipomoea aquatica var.",
+   "unverified": true,
+   "medium": "water"
+  },
+  {
+   "id": "tubig_lily_roots",
+   "name": "Tubig-lily Roots",
+   "cat": "aquatic",
+   "section": "aquatic_c",
+   "cells": [
+    [
+     "c",
+     "aquatic_c",
+     4
+    ]
+   ],
+   "biomes": [
+    "lake",
+    "river"
+   ],
+   "form": "aquatic",
+   "px": 16,
+   "tool": "dig",
+   "harvest": {
+    "core:lily_root": 2
+   },
+   "uses": [
+    "edible roots"
+   ],
+   "seasons": [
+    "wet"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 300,
+   "farm": {
+    "how": "tuber",
+    "item": "core:tubig_lily_roots_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "note": "no scientific name printed",
+   "unverified": true,
+   "medium": "water"
+  },
+  {
+   "id": "narra",
+   "name": "Narra",
+   "cat": "iconic_tree",
+   "section": "iconic_trees",
+   "cells": [
+    [
+     "d",
+     "iconic_trees",
+     0
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "mountain"
+   ],
+   "form": "tree",
+   "px": 48,
+   "tool": "axe",
+   "harvest": {
+    "core:narra_wood": 4
+   },
+   "uses": [
+    "national tree",
+    "fine hardwood: furniture, tool handles",
+    "red dye"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 900,
+   "farm": {
+    "how": "sapling",
+    "item": "core:narra_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Pterocarpus indicus",
+   "hits": 6,
+   "wood": "core:narra_wood",
+   "fruit_regrow": 300,
+   "hard": true,
+   "medium": "land"
+  },
+  {
+   "id": "ph_teak",
+   "name": "Philippine Teak",
+   "cat": "iconic_tree",
+   "section": "iconic_trees",
+   "cells": [
+    [
+     "d",
+     "iconic_trees",
+     1
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "mountain"
+   ],
+   "form": "tree",
+   "px": 48,
+   "tool": "axe",
+   "harvest": {
+    "core:teak_wood": 4
+   },
+   "uses": [
+    "hardwood (critically endangered)"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 900,
+   "farm": {
+    "how": "sapling",
+    "item": "core:ph_teak_seed"
+   },
+   "spawn": true,
+   "weight": 0.25,
+   "sci": "Tectona philippinensis",
+   "hits": 6,
+   "wood": "core:teak_wood",
+   "fruit_regrow": 300,
+   "rare": true,
+   "medium": "land"
+  },
+  {
+   "id": "molave",
+   "name": "Molave",
+   "cat": "iconic_tree",
+   "section": "iconic_trees",
+   "cells": [
+    [
+     "d",
+     "iconic_trees",
+     2
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "mountain"
+   ],
+   "form": "tree",
+   "px": 48,
+   "tool": "axe",
+   "harvest": {
+    "core:molave_wood": 4
+   },
+   "uses": [
+    "very hard wood: posts, tool hafts, boats"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 900,
+   "farm": {
+    "how": "sapling",
+    "item": "core:molave_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Vitex parviflora",
+   "hits": 6,
+   "wood": "core:molave_wood",
+   "fruit_regrow": 300,
+   "hard": true,
+   "medium": "land"
+  },
+  {
+   "id": "yakal",
+   "name": "Yakal",
+   "cat": "iconic_tree",
+   "section": "iconic_trees",
+   "cells": [
+    [
+     "d",
+     "iconic_trees",
+     3
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "mountain"
+   ],
+   "form": "tree",
+   "px": 48,
+   "tool": "axe",
+   "harvest": {
+    "core:yakal_wood": 4
+   },
+   "uses": [
+    "hardwood: frames, bridges"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 900,
+   "farm": {
+    "how": "sapling",
+    "item": "core:yakal_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Shorea astylosa",
+   "hits": 6,
+   "wood": "core:yakal_wood",
+   "fruit_regrow": 300,
+   "hard": true,
+   "medium": "land"
+  },
+  {
+   "id": "almaciga",
+   "name": "Almaciga",
+   "cat": "iconic_tree",
+   "section": "iconic_trees",
+   "cells": [
+    [
+     "d",
+     "iconic_trees",
+     4
+    ]
+   ],
+   "biomes": [
+    "mountain",
+    "highland",
+    "rainforest"
+   ],
+   "form": "tree",
+   "px": 48,
+   "tool": "axe",
+   "harvest": {
+    "core:wood": 3,
+    "core:almaciga_resin": 2
+   },
+   "uses": [
+    "resin (Manila copal): torches, varnish"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 900,
+   "farm": {
+    "how": "sapling",
+    "item": "core:almaciga_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Agathis philippinensis",
+   "hits": 6,
+   "wood": "core:wood",
+   "fruit_regrow": 300,
+   "medium": "land"
+  },
+  {
+   "id": "dao",
+   "name": "Dao",
+   "cat": "iconic_tree",
+   "section": "iconic_trees",
+   "cells": [
+    [
+     "d",
+     "iconic_trees",
+     5
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "mountain"
+   ],
+   "form": "tree",
+   "px": 48,
+   "tool": "axe",
+   "harvest": {
+    "core:wood": 4
+   },
+   "uses": [
+    "timber",
+    "edible fruit"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 900,
+   "farm": {
+    "how": "sapling",
+    "item": "core:dao_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Dracontomelon dao",
+   "hits": 6,
+   "wood": "core:wood",
+   "fruit_regrow": 300,
+   "medium": "land"
+  },
+  {
+   "id": "apitong",
+   "name": "Apitong",
+   "cat": "iconic_tree",
+   "section": "iconic_trees",
+   "cells": [
+    [
+     "d",
+     "iconic_trees",
+     6
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "mountain"
+   ],
+   "form": "tree",
+   "px": 48,
+   "tool": "axe",
+   "harvest": {
+    "core:wood": 4,
+    "core:resin": 1
+   },
+   "uses": [
+    "timber",
+    "resin oil"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 900,
+   "farm": {
+    "how": "sapling",
+    "item": "core:apitong_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Dipterocarpus grandiflorus",
+   "hits": 6,
+   "wood": "core:wood",
+   "fruit_regrow": 300,
+   "medium": "land"
+  },
+  {
+   "id": "tangile",
+   "name": "Tangile",
+   "cat": "iconic_tree",
+   "section": "iconic_trees",
+   "cells": [
+    [
+     "d",
+     "iconic_trees",
+     7
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "mountain"
+   ],
+   "form": "tree",
+   "px": 48,
+   "tool": "axe",
+   "harvest": {
+    "core:lauan_wood": 4
+   },
+   "uses": [
+    "red lauan timber"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 900,
+   "farm": {
+    "how": "sapling",
+    "item": "core:tangile_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Shorea polysperma",
+   "hits": 6,
+   "wood": "core:lauan_wood",
+   "fruit_regrow": 300,
+   "medium": "land"
+  },
+  {
+   "id": "lauan",
+   "name": "Lauan",
+   "cat": "iconic_tree",
+   "section": "iconic_trees",
+   "cells": [
+    [
+     "d",
+     "iconic_trees",
+     8
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "mountain"
+   ],
+   "form": "tree",
+   "px": 48,
+   "tool": "axe",
+   "harvest": {
+    "core:lauan_wood": 4
+   },
+   "uses": [
+    "timber, boats"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 900,
+   "farm": {
+    "how": "sapling",
+    "item": "core:lauan_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Shorea spp.",
+   "hits": 6,
+   "wood": "core:lauan_wood",
+   "fruit_regrow": 300,
+   "medium": "land"
+  },
+  {
+   "id": "bago",
+   "name": "Bago",
+   "cat": "iconic_tree",
+   "section": "iconic_trees",
+   "cells": [
+    [
+     "d",
+     "iconic_trees",
+     9
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "mountain"
+   ],
+   "form": "tree",
+   "px": 48,
+   "tool": "axe",
+   "harvest": {
+    "core:wood": 3,
+    "core:bago_fruit": 2
+   },
+   "uses": [
+    "fruit",
+    "gamboge (yellow dye)"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 900,
+   "farm": {
+    "how": "sapling",
+    "item": "core:bago_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Garcinia morella",
+   "hits": 6,
+   "wood": "core:wood",
+   "fruit_regrow": 300,
+   "note": "printed Garcinia morella",
+   "unverified": true,
+   "medium": "land"
+  },
+  {
+   "id": "kamagong",
+   "name": "Kamagong",
+   "cat": "iconic_tree",
+   "section": "iconic_trees",
+   "cells": [
+    [
+     "d",
+     "iconic_trees",
+     10
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "mountain"
+   ],
+   "form": "tree",
+   "px": 48,
+   "tool": "axe",
+   "harvest": {
+    "core:kamagong_wood": 3,
+    "core:mabolo": 2
+   },
+   "uses": [
+    "ebony: weapon hafts (arnis)",
+    "mabolo fruit"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 900,
+   "farm": {
+    "how": "sapling",
+    "item": "core:kamagong_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Diospyros blancoi",
+   "hits": 6,
+   "wood": "core:kamagong_wood",
+   "fruit_regrow": 300,
+   "hard": true,
+   "medium": "land"
+  },
+  {
+   "id": "banaba_fruiting",
+   "name": "Banaba (fruiting)",
+   "cat": "iconic_tree",
+   "section": "iconic_trees",
+   "cells": [
+    [
+     "d",
+     "iconic_trees",
+     12
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "mountain"
+   ],
+   "form": "tree",
+   "px": 48,
+   "tool": "axe",
+   "harvest": {
+    "core:banaba_leaf": 3,
+    "core:wood": 3
+   },
+   "uses": [
+    "tea for the blood sugar (traditional)"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 900,
+   "farm": {
+    "how": "sapling",
+    "item": "core:banaba_fruiting_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Lagerstroemia speciosa",
+   "hits": 6,
+   "wood": "core:wood",
+   "fruit_regrow": 300,
+   "note": "two Banaba cards on the sheet; this one has green fruits",
+   "unverified": true,
+   "medium": "land"
+  },
+  {
+   "id": "banaba",
+   "name": "Banaba",
+   "cat": "iconic_tree",
+   "section": "iconic_trees",
+   "cells": [
+    [
+     "d",
+     "iconic_trees",
+     13
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "mountain"
+   ],
+   "form": "tree",
+   "px": 48,
+   "tool": "axe",
+   "harvest": {
+    "core:banaba_leaf": 3,
+    "core:wood": 3
+   },
+   "uses": [
+    "banaba tea (medicine)",
+    "timber"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 900,
+   "farm": {
+    "how": "sapling",
+    "item": "core:banaba_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Lagerstroemia speciosa",
+   "hits": 6,
+   "wood": "core:wood",
+   "fruit_regrow": 300,
+   "medium": "land"
+  },
+  {
+   "id": "ph_palm",
+   "name": "Philippine Palm",
+   "cat": "palm_fern_cycad",
+   "section": "palms",
+   "cells": [
+    [
+     "d",
+     "palms",
+     0
+    ]
+   ],
+   "biomes": [
+    "rainforest"
+   ],
+   "form": "tree",
+   "px": 32,
+   "tool": "axe",
+   "harvest": {
+    "core:fiber": 2
+   },
+   "uses": [
+    "ornamental",
+    "palm heart"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 900,
+   "farm": {
+    "how": "sapling",
+    "item": "core:ph_palm_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Pinanga insignis",
+   "hits": 6,
+   "wood": "core:wood",
+   "fruit_regrow": 300,
+   "medium": "land"
+  },
+  {
+   "id": "lipote_palm",
+   "name": "Lipote Palm",
+   "cat": "palm_fern_cycad",
+   "section": "palms",
+   "cells": [
+    [
+     "d",
+     "palms",
+     1
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "coast"
+   ],
+   "form": "tree",
+   "px": 32,
+   "tool": "axe",
+   "harvest": {
+    "core:tuba": 1,
+    "core:fiber": 2
+   },
+   "uses": [
+    "sugar palm sap",
+    "black fiber (cabo negro) rope"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 900,
+   "farm": {
+    "how": "sapling",
+    "item": "core:lipote_palm_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Arenga pinnata var. philippinensis",
+   "hits": 6,
+   "wood": "core:wood",
+   "fruit_regrow": 300,
+   "medium": "land"
+  },
+  {
+   "id": "rattan",
+   "name": "Rattan",
+   "cat": "palm_fern_cycad",
+   "section": "palms",
+   "cells": [
+    [
+     "d",
+     "palms",
+     2
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "coast"
+   ],
+   "form": "tall",
+   "px": 32,
+   "tool": "axe",
+   "harvest": {
+    "core:rattan": 3
+   },
+   "uses": [
+    "furniture, baskets, binding, ladders"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 600,
+   "farm": {
+    "how": "cutting",
+    "item": "core:rattan_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Calamus spp.",
+   "hits": 4,
+   "wood": "core:wood",
+   "fruit_regrow": 300,
+   "medium": "land"
+  },
+  {
+   "id": "tree_fern",
+   "name": "Tree Fern",
+   "cat": "palm_fern_cycad",
+   "section": "palms",
+   "cells": [
+    [
+     "d",
+     "palms",
+     3
+    ]
+   ],
+   "biomes": [
+    "mountain",
+    "rainforest",
+    "highland"
+   ],
+   "form": "tree",
+   "px": 32,
+   "tool": "axe",
+   "harvest": {
+    "core:fern_trunk": 1,
+    "core:herb": 1
+   },
+   "uses": [
+    "orchid posts",
+    "ornamental"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 900,
+   "farm": {
+    "how": "sapling",
+    "item": "core:tree_fern_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Cyathea contaminans",
+   "hits": 6,
+   "wood": "core:wood",
+   "fruit_regrow": 300,
+   "medium": "land"
+  },
+  {
+   "id": "ph_cycad",
+   "name": "Philippine Cycad",
+   "cat": "palm_fern_cycad",
+   "section": "palms",
+   "cells": [
+    [
+     "d",
+     "palms",
+     4
+    ]
+   ],
+   "biomes": [
+    "forest",
+    "highland",
+    "volcano"
+   ],
+   "form": "tree",
+   "px": 32,
+   "tool": "axe",
+   "harvest": {
+    "core:fiber": 1
+   },
+   "uses": [
+    "ornamental (seeds toxic raw)"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 900,
+   "farm": {
+    "how": "sapling",
+    "item": "core:ph_cycad_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Cycas riuminiana",
+   "hits": 6,
+   "wood": "core:wood",
+   "fruit_regrow": 300,
+   "note": "printed Cycas riuminiana",
+   "medium": "land"
+  },
+  {
+   "id": "buri_palm",
+   "name": "Buri Palm",
+   "cat": "palm_fern_cycad",
+   "section": "palms",
+   "cells": [
+    [
+     "d",
+     "palms",
+     5
+    ]
+   ],
+   "biomes": [
+    "coast",
+    "forest",
+    "village"
+   ],
+   "form": "tree",
+   "px": 32,
+   "tool": "axe",
+   "harvest": {
+    "core:buri_fiber": 3,
+    "core:tuba": 1
+   },
+   "uses": [
+    "buntal hats, mats, bags",
+    "sap"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 900,
+   "farm": {
+    "how": "sapling",
+    "item": "core:buri_palm_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Corypha elata",
+   "hits": 6,
+   "wood": "core:wood",
+   "fruit_regrow": 300,
+   "medium": "land"
+  },
+  {
+   "id": "anahaw",
+   "name": "Anahaw",
+   "cat": "palm_fern_cycad",
+   "section": "palms",
+   "cells": [
+    [
+     "d",
+     "palms",
+     6
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "coast"
+   ],
+   "form": "tree",
+   "px": 32,
+   "tool": "axe",
+   "harvest": {
+    "core:anahaw_leaf": 3
+   },
+   "uses": [
+    "national leaf: thatch, fans, rain capes"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 900,
+   "farm": {
+    "how": "sapling",
+    "item": "core:anahaw_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Livistona rotundifolia",
+   "hits": 6,
+   "wood": "core:wood",
+   "fruit_regrow": 300,
+   "note": "printed Licuala philippinensis on the sheet",
+   "medium": "land"
+  },
+  {
+   "id": "fan_palm",
+   "name": "Fan Palm",
+   "cat": "palm_fern_cycad",
+   "section": "palms",
+   "cells": [
+    [
+     "d",
+     "palms",
+     7
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "coast"
+   ],
+   "form": "tree",
+   "px": 32,
+   "tool": "axe",
+   "harvest": {
+    "core:anahaw_leaf": 2
+   },
+   "uses": [
+    "thatch"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 900,
+   "farm": {
+    "how": "sapling",
+    "item": "core:fan_palm_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "hits": 6,
+   "wood": "core:wood",
+   "fruit_regrow": 300,
+   "note": "unlabelled 8th palm cell",
+   "unverified": true,
+   "medium": "land"
+  },
+  {
+   "id": "kawayan_tinik",
+   "name": "Kawayan Tinik",
+   "cat": "bamboo_cane",
+   "section": "bamboos",
+   "cells": [
+    [
+     "d",
+     "bamboos",
+     0
+    ]
+   ],
+   "biomes": [
+    "river",
+    "forest",
+    "rainforest"
+   ],
+   "form": "tall",
+   "px": 48,
+   "tool": "axe",
+   "harvest": {
+    "core:kawayan": 4
+   },
+   "uses": [
+    "building, ladders, rafts, weaving"
+   ],
+   "seasons": [
+    "wet"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 600,
+   "farm": {
+    "how": "cutting",
+    "item": "core:kawayan_tinik_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Bambusa blumeana",
+   "hits": 4,
+   "wood": "core:wood",
+   "fruit_regrow": 300,
+   "medium": "land"
+  },
+  {
+   "id": "giant_bamboo",
+   "name": "Giant Bamboo",
+   "cat": "bamboo_cane",
+   "section": "bamboos",
+   "cells": [
+    [
+     "d",
+     "bamboos",
+     1
+    ]
+   ],
+   "biomes": [
+    "river",
+    "forest",
+    "rainforest"
+   ],
+   "form": "tall",
+   "px": 48,
+   "tool": "axe",
+   "harvest": {
+    "core:kawayan": 6
+   },
+   "uses": [
+    "house posts, water pipes",
+    "labong shoots"
+   ],
+   "seasons": [
+    "wet"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 600,
+   "farm": {
+    "how": "cutting",
+    "item": "core:giant_bamboo_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Dendrocalamus asper",
+   "hits": 4,
+   "wood": "core:wood",
+   "fruit_regrow": 300,
+   "medium": "land"
+  },
+  {
+   "id": "buho",
+   "name": "Buho Bamboo",
+   "cat": "bamboo_cane",
+   "section": "bamboos",
+   "cells": [
+    [
+     "d",
+     "bamboos",
+     2
+    ]
+   ],
+   "biomes": [
+    "river",
+    "forest",
+    "rainforest"
+   ],
+   "form": "tall",
+   "px": 48,
+   "tool": "axe",
+   "harvest": {
+    "core:kawayan": 3
+   },
+   "uses": [
+    "flutes, walls (sawali), baskets"
+   ],
+   "seasons": [
+    "wet"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 600,
+   "farm": {
+    "how": "cutting",
+    "item": "core:buho_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Schizostachyum lumampao",
+   "hits": 4,
+   "wood": "core:wood",
+   "fruit_regrow": 300,
+   "medium": "land"
+  },
+  {
+   "id": "cogon",
+   "name": "Alang-alang (Cogon)",
+   "cat": "shrub_vine",
+   "section": "shrubs",
+   "cells": [
+    [
+     "d",
+     "shrubs",
+     0
+    ]
+   ],
+   "biomes": [
+    "highland",
+    "terrace",
+    "volcano",
+    "forest"
+   ],
+   "form": "plant",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:cogon": 3
+   },
+   "uses": [
+    "thatch roofs",
+    "grazer feed"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 300,
+   "farm": {
+    "how": "seed",
+    "item": "core:cogon_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Imperata cylindrica",
+   "medium": "land"
+  },
+  {
+   "id": "tangkad",
+   "name": "Tangkad",
+   "cat": "shrub_vine",
+   "section": "shrubs",
+   "cells": [
+    [
+     "d",
+     "shrubs",
+     2
+    ]
+   ],
+   "biomes": [
+    "forest",
+    "highland",
+    "rainforest"
+   ],
+   "form": "plant",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:herb": 2
+   },
+   "uses": [
+    "medicinal leaves"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 300,
+   "farm": {
+    "how": "cutting",
+    "item": "core:tangkad_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Leea indica",
+   "unverified": true,
+   "medium": "land"
+  },
+  {
+   "id": "pandan",
+   "name": "Pandan",
+   "cat": "shrub_vine",
+   "section": "shrubs",
+   "cells": [
+    [
+     "d",
+     "shrubs",
+     3
+    ]
+   ],
+   "biomes": [
+    "beach",
+    "coast",
+    "river",
+    "village"
+   ],
+   "form": "plant",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:pandan": 3
+   },
+   "uses": [
+    "flavour for rice",
+    "weaving (banig mats)"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 300,
+   "farm": {
+    "how": "cutting",
+    "item": "core:pandan_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Pandanus amaryllifolius",
+   "medium": "land"
+  },
+  {
+   "id": "alimpigao",
+   "name": "Alimpigao",
+   "cat": "shrub_vine",
+   "section": "shrubs",
+   "cells": [
+    [
+     "d",
+     "shrubs",
+     4
+    ]
+   ],
+   "biomes": [
+    "forest",
+    "highland",
+    "rainforest"
+   ],
+   "form": "plant",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:wild_berries": 3
+   },
+   "uses": [
+    "edible berries"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 300,
+   "farm": {
+    "how": "cutting",
+    "item": "core:alimpigao_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Rhodomyrtus tomentosa",
+   "note": "label partly legible",
+   "unverified": true,
+   "medium": "land"
+  },
+  {
+   "id": "aglaonema",
+   "name": "Aglaonema",
+   "cat": "shrub_vine",
+   "section": "shrubs",
+   "cells": [
+    [
+     "d",
+     "shrubs",
+     5
+    ]
+   ],
+   "biomes": [
+    "forest",
+    "highland",
+    "rainforest"
+   ],
+   "form": "plant",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:herb": 1
+   },
+   "uses": [
+    "ornamental (toxic sap)"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 300,
+   "farm": {
+    "how": "cutting",
+    "item": "core:aglaonema_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Aglaonema commutatum",
+   "medium": "land"
+  },
+  {
+   "id": "medicinal_ginger",
+   "name": "Medicinal Ginger",
+   "cat": "shrub_vine",
+   "section": "shrubs",
+   "cells": [
+    [
+     "d",
+     "shrubs",
+     6
+    ]
+   ],
+   "biomes": [
+    "forest",
+    "highland",
+    "rainforest"
+   ],
+   "form": "plant",
+   "px": 16,
+   "tool": "dig",
+   "harvest": {
+    "core:luya": 1,
+    "core:herb": 2
+   },
+   "uses": [
+    "medicine"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 300,
+   "farm": {
+    "how": "cutting",
+    "item": "core:medicinal_ginger_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Etlingera philippinensis",
+   "medium": "land"
+  },
+  {
+   "id": "breadfruit",
+   "name": "Breadfruit",
+   "cat": "staple_crop",
+   "section": "edible_crops",
+   "cells": [
+    [
+     "d",
+     "edible_crops",
+     4
+    ]
+   ],
+   "biomes": [
+    "terrace",
+    "village",
+    "forest"
+   ],
+   "form": "tree",
+   "px": 48,
+   "tool": "hand",
+   "harvest": {
+    "core:rimas": 2
+   },
+   "uses": [
+    "food (rimas)"
+   ],
+   "seasons": [
+    "wet"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 900,
+   "farm": {
+    "how": "sapling",
+    "item": "core:breadfruit_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Artocarpus altilis",
+   "hits": 6,
+   "wood": "core:wood",
+   "fruit_regrow": 300,
+   "note": "printed Artocarpus altilis",
+   "medium": "land"
+  },
+  {
+   "id": "waling_waling",
+   "name": "Waling-waling",
+   "cat": "flower",
+   "section": "flowers",
+   "cells": [
+    [
+     "d",
+     "flowers",
+     0
+    ]
+   ],
+   "biomes": [
+    "rainforest"
+   ],
+   "form": "plant",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:flower_waling": 1
+   },
+   "uses": [
+    "queen of orchids",
+    "gift for animals"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 300,
+   "farm": {
+    "how": "cutting",
+    "item": "core:waling_waling_seed"
+   },
+   "spawn": true,
+   "weight": 0.25,
+   "sci": "Vanda sanderiana",
+   "rare": true,
+   "medium": "land"
+  },
+  {
+   "id": "sampaguita",
+   "name": "Sampaguita",
+   "cat": "flower",
+   "section": "flowers",
+   "cells": [
+    [
+     "d",
+     "flowers",
+     1
+    ]
+   ],
+   "biomes": [
+    "village",
+    "forest",
+    "terrace"
+   ],
+   "form": "plant",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:sampaguita": 2
+   },
+   "uses": [
+    "national flower: garlands, tea, scent"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 300,
+   "farm": {
+    "how": "cutting",
+    "item": "core:sampaguita_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Jasminum sambac",
+   "medium": "land"
+  },
+  {
+   "id": "kapisias",
+   "name": "Kapisias",
+   "cat": "flower",
+   "section": "flowers",
+   "cells": [
+    [
+     "d",
+     "flowers",
+     2
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "mountain"
+   ],
+   "form": "plant",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:flower_red": 2
+   },
+   "uses": [
+    "ornamental"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 300,
+   "farm": {
+    "how": "cutting",
+    "item": "core:kapisias_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Kapisyas philippinensis",
+   "note": "name/sci as printed",
+   "unverified": true,
+   "medium": "land"
+  },
+  {
+   "id": "ilang_ilang",
+   "name": "Ilang-ilang",
+   "cat": "flower",
+   "section": "flowers",
+   "cells": [
+    [
+     "d",
+     "flowers",
+     3
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "mountain"
+   ],
+   "form": "plant",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:ilang_ilang": 2
+   },
+   "uses": [
+    "perfume oil"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 300,
+   "farm": {
+    "how": "cutting",
+    "item": "core:ilang_ilang_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Cananga odorata",
+   "medium": "land"
+  },
+  {
+   "id": "ruby_vine",
+   "name": "Ruby Vine",
+   "cat": "flower",
+   "section": "flowers",
+   "cells": [
+    [
+     "d",
+     "flowers",
+     4
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "mountain"
+   ],
+   "form": "plant",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:flower_red": 1
+   },
+   "uses": [
+    "ornamental (jade-vine kin)"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 300,
+   "farm": {
+    "how": "cutting",
+    "item": "core:ruby_vine_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Mucuna holtonii",
+   "note": "printed Mucuna holtonii",
+   "unverified": true,
+   "medium": "land"
+  },
+  {
+   "id": "moon_orchid",
+   "name": "Moon Orchid",
+   "cat": "flower",
+   "section": "flowers",
+   "cells": [
+    [
+     "d",
+     "flowers",
+     5
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "mountain"
+   ],
+   "form": "plant",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:flower_orchid": 1
+   },
+   "uses": [
+    "ornamental"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 300,
+   "farm": {
+    "how": "cutting",
+    "item": "core:moon_orchid_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Phalaenopsis equestris",
+   "medium": "land"
+  },
+  {
+   "id": "medinilla",
+   "name": "Medinilla",
+   "cat": "flower",
+   "section": "flowers",
+   "cells": [
+    [
+     "d",
+     "flowers",
+     6
+    ]
+   ],
+   "biomes": [
+    "mountain",
+    "rainforest"
+   ],
+   "form": "plant",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:flower_pink": 1
+   },
+   "uses": [
+    "ornamental"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 300,
+   "farm": {
+    "how": "cutting",
+    "item": "core:medinilla_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Medinilla magnifica",
+   "medium": "land"
+  },
+  {
+   "id": "gumamela",
+   "name": "Hibiscus (Gumamela)",
+   "cat": "flower",
+   "section": "flowers",
+   "cells": [
+    [
+     "d",
+     "flowers",
+     7
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "mountain"
+   ],
+   "form": "bush",
+   "px": 24,
+   "tool": "hand",
+   "harvest": {
+    "core:gumamela": 2
+   },
+   "uses": [
+    "medicine (boils, cough)",
+    "bubble-soap game"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 480,
+   "farm": {
+    "how": "cutting",
+    "item": "core:gumamela_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Hibiscus rosa-sinensis var. philippinensis",
+   "hits": 3,
+   "medium": "land"
+  },
+  {
+   "id": "pitcher_flower",
+   "name": "Small Pitcher Flower",
+   "cat": "flower",
+   "section": "flowers",
+   "cells": [
+    [
+     "d",
+     "flowers",
+     8
+    ]
+   ],
+   "biomes": [
+    "rainforest",
+    "forest",
+    "mountain"
+   ],
+   "form": "plant",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:flower_red": 1
+   },
+   "uses": [
+    "ornamental"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 300,
+   "farm": {
+    "how": "cutting",
+    "item": "core:pitcher_flower_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "note": "unlabelled 9th flower cell",
+   "unverified": true,
+   "medium": "land"
+  },
+  {
+   "id": "red_mangrove",
+   "name": "Red Mangrove",
+   "cat": "mangrove_coastal",
+   "section": "mangroves",
+   "cells": [
+    [
+     "d",
+     "mangroves",
+     0
+    ]
+   ],
+   "biomes": [
+    "mangrove",
+    "beach"
+   ],
+   "form": "tree",
+   "px": 32,
+   "tool": "axe",
+   "harvest": {
+    "core:bakawan_wood": 3,
+    "core:tannin": 1
+   },
+   "uses": [
+    "charcoal, poles",
+    "tannin for tanning hides",
+    "nursery for fish"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 900,
+   "farm": {
+    "how": "sapling",
+    "item": "core:red_mangrove_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Rhizophora mucronata",
+   "hits": 6,
+   "wood": "core:bakawan_wood",
+   "fruit_regrow": 300,
+   "medium": "land"
+  },
+  {
+   "id": "black_mangrove",
+   "name": "Black Mangrove",
+   "cat": "mangrove_coastal",
+   "section": "mangroves",
+   "cells": [
+    [
+     "d",
+     "mangroves",
+     1
+    ]
+   ],
+   "biomes": [
+    "mangrove",
+    "beach"
+   ],
+   "form": "tree",
+   "px": 32,
+   "tool": "axe",
+   "harvest": {
+    "core:wood": 2
+   },
+   "uses": [
+    "firewood",
+    "coast protection"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 900,
+   "farm": {
+    "how": "sapling",
+    "item": "core:black_mangrove_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Avicennia marina",
+   "hits": 6,
+   "wood": "core:wood",
+   "fruit_regrow": 300,
+   "medium": "land"
+  },
+  {
+   "id": "white_mangrove",
+   "name": "White Mangrove",
+   "cat": "mangrove_coastal",
+   "section": "mangroves",
+   "cells": [
+    [
+     "d",
+     "mangroves",
+     2
+    ]
+   ],
+   "biomes": [
+    "mangrove",
+    "beach"
+   ],
+   "form": "tree",
+   "px": 32,
+   "tool": "axe",
+   "harvest": {
+    "core:wood": 2
+   },
+   "uses": [
+    "poles"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 900,
+   "farm": {
+    "how": "sapling",
+    "item": "core:white_mangrove_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Laguncularia racemosa",
+   "hits": 6,
+   "wood": "core:wood",
+   "fruit_regrow": 300,
+   "medium": "land"
+  },
+  {
+   "id": "sonneratia",
+   "name": "Sonneratia (Pagatpat)",
+   "cat": "mangrove_coastal",
+   "section": "mangroves",
+   "cells": [
+    [
+     "d",
+     "mangroves",
+     3
+    ]
+   ],
+   "biomes": [
+    "mangrove",
+    "beach"
+   ],
+   "form": "tree",
+   "px": 32,
+   "tool": "axe",
+   "harvest": {
+    "core:wood": 2,
+    "core:pagatpat": 2
+   },
+   "uses": [
+    "edible fruit",
+    "firefly tree"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 900,
+   "farm": {
+    "how": "sapling",
+    "item": "core:sonneratia_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Sonneratia alba",
+   "hits": 6,
+   "wood": "core:wood",
+   "fruit_regrow": 300,
+   "medium": "land"
+  },
+  {
+   "id": "beach_morning_glory",
+   "name": "Beach Morning Glory",
+   "cat": "mangrove_coastal",
+   "section": "mangroves",
+   "cells": [
+    [
+     "d",
+     "mangroves",
+     5
+    ]
+   ],
+   "biomes": [
+    "beach"
+   ],
+   "form": "plant",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:herb": 1
+   },
+   "uses": [
+    "medicine (jellyfish stings)",
+    "sand binder"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 300,
+   "farm": {
+    "how": "cutting",
+    "item": "core:beach_morning_glory_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Ipomoea pes-caprae",
+   "medium": "land"
+  },
+  {
+   "id": "beach_spinifex",
+   "name": "Beach Spinifex",
+   "cat": "mangrove_coastal",
+   "section": "mangroves",
+   "cells": [
+    [
+     "d",
+     "mangroves",
+     6
+    ]
+   ],
+   "biomes": [
+    "beach"
+   ],
+   "form": "plant",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:fiber": 1
+   },
+   "uses": [
+    "sand binder"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 300,
+   "farm": {
+    "how": "seed",
+    "item": "core:beach_spinifex_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Spinifex littoreus",
+   "medium": "land"
+  },
+  {
+   "id": "tape_seagrass",
+   "name": "Tape Seagrass",
+   "cat": "seagrass_algae",
+   "section": "marine_plants",
+   "cells": [
+    [
+     "d",
+     "marine_plants",
+     1
+    ]
+   ],
+   "biomes": [
+    "reef",
+    "coast"
+   ],
+   "form": "marine",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:seagrass_blade": 2
+   },
+   "uses": [
+    "dugong food"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 360,
+   "farm": {
+    "how": "cutting",
+    "item": "core:tape_seagrass_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Thalassia hemprichii",
+   "medium": "water"
+  },
+  {
+   "id": "manatee_grass",
+   "name": "Manatee Grass",
+   "cat": "seagrass_algae",
+   "section": "marine_plants",
+   "cells": [
+    [
+     "d",
+     "marine_plants",
+     2
+    ]
+   ],
+   "biomes": [
+    "reef",
+    "coast"
+   ],
+   "form": "marine",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:seagrass_blade": 2
+   },
+   "uses": [
+    "dugong food"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 360,
+   "farm": {
+    "how": "cutting",
+    "item": "core:manatee_grass_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Halophila ovalis",
+   "medium": "water"
+  },
+  {
+   "id": "halimeda",
+   "name": "Halimeda",
+   "cat": "seagrass_algae",
+   "section": "marine_plants",
+   "cells": [
+    [
+     "d",
+     "marine_plants",
+     3
+    ]
+   ],
+   "biomes": [
+    "reef",
+    "coast"
+   ],
+   "form": "marine",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:coral_sand": 1
+   },
+   "uses": [
+    "reef sand builder"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 360,
+   "farm": {
+    "how": "cutting",
+    "item": "core:halimeda_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Halimeda spp.",
+   "medium": "water"
+  },
+  {
+   "id": "red_algae",
+   "name": "Red Algae",
+   "cat": "seagrass_algae",
+   "section": "marine_plants",
+   "cells": [
+    [
+     "d",
+     "marine_plants",
+     5
+    ]
+   ],
+   "biomes": [
+    "reef",
+    "coast"
+   ],
+   "form": "marine",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:gulaman": 2
+   },
+   "uses": [
+    "carrageenan (seaweed farming)"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 360,
+   "farm": {
+    "how": "cutting",
+    "item": "core:red_algae_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Kappaphycus spp.",
+   "medium": "water"
+  },
+  {
+   "id": "brown_algae",
+   "name": "Brown Algae",
+   "cat": "seagrass_algae",
+   "section": "marine_plants",
+   "cells": [
+    [
+     "d",
+     "marine_plants",
+     6
+    ],
+    [
+     "d",
+     "macroalgae",
+     3
+    ]
+   ],
+   "biomes": [
+    "reef",
+    "coast"
+   ],
+   "form": "marine",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:seaweed": 2
+   },
+   "uses": [
+    "animal feed",
+    "fertilizer",
+    "fertilizer, feed"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 360,
+   "farm": {
+    "how": "cutting",
+    "item": "core:brown_algae_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Sargassum spp.",
+   "medium": "water",
+   "also_on": [
+    {
+     "card": "Sargassum",
+     "sci": "Sargassum polycystum",
+     "sheet": "d",
+     "section": "macroalgae"
+    }
+   ]
+  },
+  {
+   "id": "green_algae",
+   "name": "Green Algae",
+   "cat": "seagrass_algae",
+   "section": "marine_plants",
+   "cells": [
+    [
+     "d",
+     "marine_plants",
+     7
+    ]
+   ],
+   "biomes": [
+    "reef",
+    "coast"
+   ],
+   "form": "marine",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:seaweed": 2
+   },
+   "uses": [
+    "sea lettuce (food)"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 360,
+   "farm": {
+    "how": "cutting",
+    "item": "core:green_algae_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Ulva spp.",
+   "medium": "water"
+  },
+  {
+   "id": "reef_algae_9",
+   "name": "Reef Algae (yellow-green)",
+   "cat": "seagrass_algae",
+   "section": "marine_plants",
+   "cells": [
+    [
+     "d",
+     "marine_plants",
+     8
+    ]
+   ],
+   "biomes": [
+    "reef",
+    "coast"
+   ],
+   "form": "marine",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:seaweed": 1
+   },
+   "uses": [
+    "feed"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 360,
+   "farm": {
+    "how": "cutting",
+    "item": "core:reef_algae_9_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "note": "unlabelled 9th cell",
+   "unverified": true,
+   "medium": "water"
+  },
+  {
+   "id": "staghorn_coral",
+   "name": "Staghorn Coral",
+   "cat": "coral_sponge",
+   "section": "corals",
+   "cells": [
+    [
+     "d",
+     "corals",
+     0
+    ]
+   ],
+   "biomes": [
+    "reef"
+   ],
+   "form": "coral",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:coral_piece": 1
+   },
+   "uses": [
+    "reef builder (protected)"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 1200,
+   "farm": {
+    "how": "fragment",
+    "item": "core:staghorn_coral_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Acropora spp.",
+   "medium": "water"
+  },
+  {
+   "id": "brain_coral",
+   "name": "Brain Coral",
+   "cat": "coral_sponge",
+   "section": "corals",
+   "cells": [
+    [
+     "d",
+     "corals",
+     1
+    ]
+   ],
+   "biomes": [
+    "reef"
+   ],
+   "form": "coral",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:coral_piece": 1
+   },
+   "uses": [
+    "reef builder (protected)"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 1200,
+   "farm": {
+    "how": "fragment",
+    "item": "core:brain_coral_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Platygyra spp.",
+   "medium": "water"
+  },
+  {
+   "id": "table_coral",
+   "name": "Table Coral",
+   "cat": "coral_sponge",
+   "section": "corals",
+   "cells": [
+    [
+     "d",
+     "corals",
+     2
+    ]
+   ],
+   "biomes": [
+    "reef"
+   ],
+   "form": "coral",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:coral_piece": 1
+   },
+   "uses": [
+    "reef builder (protected)"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 1200,
+   "farm": {
+    "how": "fragment",
+    "item": "core:table_coral_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Acropora hyacinthus",
+   "medium": "water"
+  },
+  {
+   "id": "soft_coral",
+   "name": "Soft Coral",
+   "cat": "coral_sponge",
+   "section": "corals",
+   "cells": [
+    [
+     "d",
+     "corals",
+     3
+    ]
+   ],
+   "biomes": [
+    "reef"
+   ],
+   "form": "coral",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:coral_piece": 1
+   },
+   "uses": [
+    "reef life"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 1200,
+   "farm": {
+    "how": "fragment",
+    "item": "core:soft_coral_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Sarcophyton spp.",
+   "medium": "water"
+  },
+  {
+   "id": "sea_fan",
+   "name": "Sea Fan",
+   "cat": "coral_sponge",
+   "section": "corals",
+   "cells": [
+    [
+     "d",
+     "corals",
+     4
+    ]
+   ],
+   "biomes": [
+    "reef"
+   ],
+   "form": "coral",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:coral_piece": 1
+   },
+   "uses": [
+    "reef life"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 1200,
+   "farm": {
+    "how": "fragment",
+    "item": "core:sea_fan_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Gorgonia spp.",
+   "medium": "water"
+  },
+  {
+   "id": "blue_sponge",
+   "name": "Blue Sponge",
+   "cat": "coral_sponge",
+   "section": "corals",
+   "cells": [
+    [
+     "d",
+     "corals",
+     5
+    ]
+   ],
+   "biomes": [
+    "reef"
+   ],
+   "form": "coral",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:sponge": 1
+   },
+   "uses": [
+    "bath sponge, medicine research"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 1200,
+   "farm": {
+    "how": "fragment",
+    "item": "core:blue_sponge_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Xestospongia spp.",
+   "medium": "water"
+  },
+  {
+   "id": "tube_sponge",
+   "name": "Tube Sponge",
+   "cat": "coral_sponge",
+   "section": "corals",
+   "cells": [
+    [
+     "d",
+     "corals",
+     6
+    ]
+   ],
+   "biomes": [
+    "reef"
+   ],
+   "form": "coral",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:sponge": 1
+   },
+   "uses": [
+    "bath sponge"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 1200,
+   "farm": {
+    "how": "fragment",
+    "item": "core:tube_sponge_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Aplysina spp.",
+   "medium": "water"
+  },
+  {
+   "id": "fire_coral",
+   "name": "Fire Coral",
+   "cat": "coral_sponge",
+   "section": "corals",
+   "cells": [
+    [
+     "d",
+     "corals",
+     7
+    ]
+   ],
+   "biomes": [
+    "reef"
+   ],
+   "form": "coral",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:coral_piece": 1
+   },
+   "uses": [
+    "stings: handle with care"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 1200,
+   "farm": {
+    "how": "fragment",
+    "item": "core:fire_coral_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Millepora spp.",
+   "hurts": 4,
+   "medium": "water"
+  },
+  {
+   "id": "turbinaria",
+   "name": "Turbinaria",
+   "cat": "reef_macroalgae",
+   "section": "macroalgae",
+   "cells": [
+    [
+     "d",
+     "macroalgae",
+     0
+    ]
+   ],
+   "biomes": [
+    "reef",
+    "coast"
+   ],
+   "form": "marine",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:seaweed": 2
+   },
+   "uses": [
+    "fertilizer"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 360,
+   "farm": {
+    "how": "cutting",
+    "item": "core:turbinaria_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Turbinaria conoides",
+   "medium": "water"
+  },
+  {
+   "id": "padina",
+   "name": "Padina",
+   "cat": "reef_macroalgae",
+   "section": "macroalgae",
+   "cells": [
+    [
+     "d",
+     "macroalgae",
+     1
+    ]
+   ],
+   "biomes": [
+    "reef",
+    "coast"
+   ],
+   "form": "marine",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:seaweed": 2
+   },
+   "uses": [
+    "feed"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 360,
+   "farm": {
+    "how": "cutting",
+    "item": "core:padina_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Padina australis",
+   "medium": "water"
+  },
+  {
+   "id": "dictyota",
+   "name": "Dictyota",
+   "cat": "reef_macroalgae",
+   "section": "macroalgae",
+   "cells": [
+    [
+     "d",
+     "macroalgae",
+     2
+    ]
+   ],
+   "biomes": [
+    "reef",
+    "coast"
+   ],
+   "form": "marine",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:seaweed": 2
+   },
+   "uses": [
+    "feed"
+   ],
+   "seasons": [
+    "any"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 360,
+   "farm": {
+    "how": "cutting",
+    "item": "core:dictyota_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Dictyota dichotoma",
+   "medium": "water"
+  },
+  {
+   "id": "water_hyacinth",
+   "name": "Water Hyacinth",
+   "cat": "aquatic",
+   "section": "aquatic_d",
+   "cells": [
+    [
+     "d",
+     "aquatic_d",
+     2
+    ]
+   ],
+   "biomes": [
+    "lake",
+    "river"
+   ],
+   "form": "aquatic",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:fiber": 2
+   },
+   "uses": [
+    "weaving fiber (bags, slippers)",
+    "animal feed"
+   ],
+   "seasons": [
+    "wet"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 300,
+   "farm": {
+    "how": "cutting",
+    "item": "core:water_hyacinth_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Eichhornia crassipes",
+   "note": "invasive in real rivers",
+   "medium": "water"
+  },
+  {
+   "id": "hydrilla",
+   "name": "Hydrilla",
+   "cat": "aquatic",
+   "section": "aquatic_d",
+   "cells": [
+    [
+     "d",
+     "aquatic_d",
+     3
+    ]
+   ],
+   "biomes": [
+    "lake",
+    "river"
+   ],
+   "form": "aquatic",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:seaweed": 1
+   },
+   "uses": [
+    "fish food"
+   ],
+   "seasons": [
+    "wet"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 300,
+   "farm": {
+    "how": "cutting",
+    "item": "core:hydrilla_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Hydrilla verticillata",
+   "medium": "water"
+  },
+  {
+   "id": "kulasip",
+   "name": "Kulasip",
+   "cat": "aquatic",
+   "section": "aquatic_d",
+   "cells": [
+    [
+     "d",
+     "aquatic_d",
+     4
+    ]
+   ],
+   "biomes": [
+    "lake",
+    "river"
+   ],
+   "form": "aquatic",
+   "px": 16,
+   "tool": "hand",
+   "harvest": {
+    "core:herb": 1
+   },
+   "uses": [
+    "edible leaves"
+   ],
+   "seasons": [
+    "wet"
+   ],
+   "stages": [
+    "seed",
+    "sprout",
+    "young",
+    "mature"
+   ],
+   "grow_secs": 300,
+   "farm": {
+    "how": "cutting",
+    "item": "core:kulasip_seed"
+   },
+   "spawn": true,
+   "weight": 1.0,
+   "sci": "Ottelia alismoides",
+   "note": "printed KULASIP, Ottelia alismoides",
+   "unverified": true,
+   "medium": "water"
+  }
+ ]
+}

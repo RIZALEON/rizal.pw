@@ -1,0 +1,50 @@
+/* RDRAGON 1.0.4.31 · RWALLET layer (not cold-start) — 20261105 shell-first.
+   REAL RDRAGON interface = Neo/17e window-shell (DIAGRAMS RDRAGON-WINDOW-SHELL-EXTERIOR):
+   traffic lights → title → left ASSM header → left tabs → main header → pane divider → composer.
+   Signing / wallet / mint are a LAYER reached from that shell (Wallet / Я RWALLET tab), never the
+   cold-start face. Does NOT force #rw open on launch. Does NOT inject #rw-b4 BLOCK 4 banner.
+   Mint / bind / enroll stay via Mint + rdragon-1045.js / rmint-onetap; this file never signs. */
+(function(){"use strict";
+var K="rdragon.csp.v2.rwallet";
+function stripBanner(){
+  var b=document.getElementById("rw-b4");if(b&&b.parentNode)b.parentNode.removeChild(b);
+}
+function show(){
+  var rw=document.getElementById("rw");if(!rw)return;
+  rw.style.display="block";rw.classList.remove("rw-hide");
+  /* mobile: layer over shell, not a permanent home */
+  try{
+    var touch=matchMedia("(max-width:700px), (hover:none) and (pointer:coarse)").matches;
+    if(touch){
+      rw.style.left="0";rw.style.right="0";rw.style.top="0";rw.style.bottom="0";
+      rw.style.width="100%";rw.style.maxHeight="100vh";rw.style.zIndex="9500";
+    }
+  }catch(e){}
+  stripBanner();
+  if(window.RWALLET)RWALLET.render();
+  var p=document.getElementById("rd1045");if(p)p.style.display="none";
+}
+function hide(){
+  var rw=document.getElementById("rw");if(!rw)return;
+  rw.style.display="none";rw.classList.add("rw-hide");
+}
+function toggle(){
+  var rw=document.getElementById("rw");if(!rw)return;
+  if(rw.style.display==="none"||rw.classList.contains("rw-hide")||getComputedStyle(rw).display==="none")show();
+  else hide();
+}
+function wireTab(){
+  var t=document.getElementById("rd1045-tab");
+  if(t){t.textContent="Я RWALLET";t.onclick=function(e){if(e)e.preventDefault();toggle();};}
+  /* expose for shell chrome / Wallet buttons */
+  window.RDRAGON_RWALLET_LAYER={show:show,hide:hide,toggle:toggle,version:"1.0.4.31-shell"};
+}
+function load(){
+  /* DO NOT force st.w / st.mint; DO NOT auto-show #rw — shell is cold-start (Neo/17e). */
+  stripBanner();
+  var rw=document.getElementById("rw");
+  if(rw){rw.style.display="none";rw.classList.add("rw-hide");}
+  wireTab();
+}
+document.readyState==="complete"?load():window.addEventListener("load",load);
+})();

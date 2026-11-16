@@ -1,0 +1,8 @@
+{
+  "id": "core",
+  "version": "0.3.0",
+  "name": "TerraformЯ core content",
+  "license": "proprietary-Я (original work, Rizal / ЯLAB)",
+  "kind": "data-only",
+  "note": "Tier 0 mod: data only. Content definitions live here, never in saves. Saves store only ids via a palette."
+}

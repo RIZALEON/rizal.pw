@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' blob: data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' blob:; connect-src blob: data: 'self' https://rizal.info/terraformya/updates/; img-src 'self' blob: data:; style-src 'self' 'unsafe-inline'; worker-src 'self' blob:; frame-src 'none'; form-action 'none'">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>TerraformЯ 0.5.1 test</title>
+<link rel="icon" type="image/png" href="tile-180.png">
+<link rel="apple-touch-icon" href="tile-180.png">
+<style>
+html,body{margin:0;height:100%;background:#0b0f1a;overflow:hidden;touch-action:none}
+#canvas{display:block;width:100%;height:100%;outline:none}
+#status{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#efe6d6;font:16px/1.5 -apple-system,system-ui,sans-serif;text-align:center;background:#0b0f1a}
+#status b{color:#c9a227;font-size:22px}
+#bar{width:240px;height:6px;background:#222;margin-top:12px;border-radius:3px;overflow:hidden}
+#fill{height:100%;width:0;background:#c9a227}
+</style>
+</head>
+<body>
+<canvas id="canvas" tabindex="0">TerraformЯ needs WebGL 2.</canvas>
+<div id="status"><b>TerraformЯ</b><span id="msg">opening egg · offline</span><div id="bar"><div id="fill"></div></div></div>
+<script src="egg-version.js"></script>
+<script src="blobs/index.js"></script>
+<script>
+/* TerraformЯ egg loader (rzl.v1 · kind app).
+ * - Engine binaries ride inside the egg as base64 .js blobs (RVM-LINUX precedent), so the page works
+ *   from file://, a WKWebView overlay or an Android WebView with no server and no network.
+ * - fetch() is shimmed: blob names resolve from memory; everything else is refused (offline egg).
+ * - No keys, no wallet, no network. Wallet bridge inside the game is DRY only. */
+(function () {
+  "use strict";
+  var IDX = self.TFY_BLOB_INDEX, BLOBS = (self.TFY_BLOBS = self.TFY_BLOBS || {});
+  var msg = document.getElementById("msg"), fill = document.getElementById("fill");
+  function say(t) { msg.textContent = t; }
+  function fail(t) { say("egg failed · " + t); document.getElementById("fill").style.background = "#b33"; console.error("[terraformya] " + t); }
+  var parts = [];
+  Object.keys(IDX.files).forEach(function (n) { IDX.files[n].parts.forEach(function (p) { parts.push(p); }); });
+  function loadScript(src) {
+    return new Promise(function (ok, bad) {
+      var s = document.createElement("script"); s.src = src; s.onload = ok; s.onerror = function () { bad(new Error(src)); };
+      document.head.appendChild(s);
+    });
+  }
+  function b64ToBytes(str) {
+    var bin = atob(str), n = bin.length, out = new Uint8Array(n);
+    for (var i = 0; i < n; i++) out[i] = bin.charCodeAt(i);
+    return out;
+  }
+  function hex(buf) { return Array.prototype.map.call(new Uint8Array(buf), function (b) { return ("0" + b.toString(16)).slice(-2); }).join(""); }
+  var bytes = {};
+  async function decodeAll() {
+    for (var name in IDX.files) {
+      var f = IDX.files[name], chunks = [], total = 0;
+      for (var i = 0; i < f.parts.length; i++) {
+        var key = name + "#" + i, b = b64ToBytes(BLOBS[key]); delete BLOBS[key];
+        chunks.push(b); total += b.length;
+      }
+      var all = new Uint8Array(total), off = 0;
+      chunks.forEach(function (c) { all.set(c, off); off += c.length; });
+      if (all.length !== f.size) throw new Error(name + " size " + all.length + " != " + f.size);
+      if (self.crypto && crypto.subtle) {
+        var h = hex(await crypto.subtle.digest("SHA-256", all));
+        if (h !== f.sha256) throw new Error(name + " sha256 mismatch");
+        f.verified = true;
+      }
+      bytes[name] = all;
+    }
+  }
+  if (location.protocol !== "http:" && location.protocol !== "https:") {
+    try { Object.defineProperty(navigator, "serviceWorker", { value: undefined, configurable: true }); } catch (e) {}
+  }
+  var realFetch = self.fetch ? self.fetch.bind(self) : null, allowedPatches = {};
+  self.fetch = function (input, init) {
+    var url = typeof input === "string" ? input : (input && input.url) || String(input);
+    var name = url.split("#")[0].split("?")[0].split("/").pop();
+    if (bytes[name]) {
+      var type = /\.wasm$/.test(name) ? "application/wasm" : "application/octet-stream";
+      return Promise.resolve(new Response(bytes[name], { status: 200, headers: { "Content-Type": type, "Content-Length": String(bytes[name].length) } }));
+    }
+    // 0.5.1 LIVE UPDATES (approved by Rizal 2026-10-30): the ONLY network the egg may use is the same-origin
+    // update manifest and the .pck content patches that manifest lists (sha256-checked here AND in the game).
+    try {
+      var u = new URL(url, location.href);
+      if (realFetch && u.origin === location.origin && (location.protocol === "https:" || location.protocol === "http:")) {
+        if (u.pathname === "/terraformya/updates/manifest.json") {
+          return realFetch(u.href, { cache: "no-store", credentials: "omit" }).then(function (r) {
+            return r.clone().json().then(function (m) {
+              ((m && m.patches) || []).forEach(function (p) {
+                if (p && /^[a-z0-9_.-]+\.pck$/i.test(String(p.url || "")) && /^[0-9a-f]{64}$/.test(String(p.sha256 || ""))) allowedPatches["/terraformya/updates/" + p.url] = p.sha256;
+              });
+              return r;
+            }, function () { return r; });
+          });
+        }
+        if (allowedPatches[u.pathname]) {
+          var want = allowedPatches[u.pathname];
+          return realFetch(u.href, { cache: "no-store", credentials: "omit" }).then(function (r) { return r.arrayBuffer(); }).then(async function (buf) {
+            var got = hex(await crypto.subtle.digest("SHA-256", buf));
+            if (got !== want) throw new TypeError("update patch sha256 mismatch for " + u.pathname);
+            return new Response(buf, { status: 200, headers: { "Content-Type": "application/octet-stream", "Content-Length": String(buf.byteLength) } });
+          });
+        }
+      }
+    } catch (e) {}
+    console.warn("[terraformya] offline egg refused fetch: " + url);
+    return Promise.reject(new TypeError("offline egg: network refused for " + url));
+  };
+  if (self.AudioWorklet && AudioWorklet.prototype.addModule) {
+    var realAdd = AudioWorklet.prototype.addModule;
+    AudioWorklet.prototype.addModule = function (url, opts) {
+      var name = String(url).split("?")[0].split("/").pop(), text = (self.TFY_TEXT || {})[name];
+      if (text) url = URL.createObjectURL(new Blob([text], { type: "application/javascript" }));
+      return realAdd.call(this, url, opts);
+    };
+  }
+  (async function boot() {
+    try {
+      for (var i = 0; i < parts.length; i++) {
+        say("loading engine blobs " + (i + 1) + "/" + parts.length);
+        fill.style.width = Math.round((i + 1) / parts.length * 60) + "%";
+        await loadScript(parts[i]);
+      }
+      for (var t = 0; t < (IDX.text || []).length; t++) await loadScript(IDX.text[t]);
+      say("verifying sha256"); await decodeAll();
+      say("starting engine"); fill.style.width = "70%";
+      await loadScript("engine/godot.js");
+      var missing = Engine.getMissingFeatures({ threads: false });
+      if (missing.length) return fail("missing browser features: " + missing.join(", "));
+      var cfg = Object.assign({}, IDX.godotConfig, { canvas: document.getElementById("canvas"), ensureCrossOriginIsolationHeaders: false, serviceWorker: "" });
+      // 0.5.1 test build: no URL launch options (no --goto / --scene / shots); the playtest build ignores args too
+      cfg.args = [];
+      var engine = new Engine(cfg);
+      await engine.startGame({
+        onProgress: function (cur, tot) { if (tot > 0) fill.style.width = (70 + Math.round(cur / tot * 30)) + "%"; }
+      });
+      document.getElementById("status").style.display = "none";
+      self.TFY_STATUS = "running";
+    } catch (e) { fail(e && e.message ? e.message : String(e)); self.TFY_STATUS = "failed"; }
+  })();
+})();
+</script>
+</body>
+</html>

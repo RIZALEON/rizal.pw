@@ -1,0 +1,23 @@
+/* RDRAGON 1.0.4.26 · RWALLET (rizal.pw ASSM look) as the app wallet — 20261105 strip.
+   Opens the rizal.pw RWALLET card on launch. Does NOT inject a BLOCK 4 / rghostkey_bind
+   pending banner onto the main frame (removed 20261105 per Rizal — rushed sign-layer).
+   Mint / bind / enroll stay available via the Mint button + rdragon-1045.js / rmint-onetap;
+   this file never signs, never holds keys, never paints #rw-b4. */
+(function(){"use strict";
+var K="rdragon.csp.v2.rwallet";
+try{var st=JSON.parse(localStorage.getItem(K))||{};st.w=true;/* do not force st.mint */localStorage.setItem(K,JSON.stringify(st))}catch(e){}
+function show(){
+  var rw=document.getElementById("rw");if(!rw)return;
+  rw.style.display="block";rw.classList.remove("rw-hide");
+  /* strip any leftover rushed banner from a prior session */
+  var b=document.getElementById("rw-b4");if(b&&b.parentNode)b.parentNode.removeChild(b);
+  if(window.RWALLET)RWALLET.render();
+  var p=document.getElementById("rd1045");if(p)p.style.display="none";
+}
+function load(){
+  show();
+  var t=document.getElementById("rd1045-tab");
+  if(t){t.textContent="Я RWALLET";t.onclick=function(){var rw=document.getElementById("rw");if(!rw)return;if(rw.style.display==="none")show();else rw.style.display="none"}}
+}
+document.readyState==="complete"?load():window.addEventListener("load",load);
+})();

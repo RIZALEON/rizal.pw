@@ -1,0 +1,9849 @@
+{
+ "schema": "terraformya.creatures.v1",
+ "note": "data-only creature registry (0.5.0); sprites in art/creatures/",
+ "creatures": [
+  {
+   "id": "ph_elephant",
+   "name": "Philippine Elephant",
+   "cat": "large_mammal",
+   "cells": [
+    [
+     "a",
+     "large_mammals",
+     0
+    ]
+   ],
+   "temperament": "territorial",
+   "diet": "herbivore",
+   "biomes": [
+    "rainforest",
+    "highland"
+   ],
+   "realm": "ph",
+   "medium": "land",
+   "size": "huge",
+   "sci": "Stegodon luzonensis",
+   "note": "prehistoric (Stegodon) - primordial world",
+   "rare": true,
+   "roles": [
+    "hauler",
+    "mount",
+    "guard"
+   ],
+   "speed": 0.8,
+   "drops": {
+    "core:hide": 4,
+    "core:raw_meat": 5,
+    "core:bone": 4,
+    "core:tusk": 1
+   },
+   "px": 48,
+   "hp": 140,
+   "time": "any",
+   "depth": "surface",
+   "live": true,
+   "tame": {
+    "capture": [
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:saging",
+      "core:camote",
+      "core:kangkong",
+      "core:gabi",
+      "core:rice"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": true
+   },
+   "behaviors": [
+    "graze",
+    "territorial_attack",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "land",
+    "speed": 1.18,
+    "jump": 0.8,
+    "seats": 2,
+    "min_loyalty": 60
+   },
+   "endemic": true,
+   "weight": 0.35
+  },
+  {
+   "id": "mindoro_dwarf_elephant",
+   "name": "Mindoro Dwarf Elephant",
+   "cat": "large_mammal",
+   "cells": [
+    [
+     "a",
+     "large_mammals",
+     1
+    ]
+   ],
+   "temperament": "passive",
+   "diet": "herbivore",
+   "biomes": [
+    "rainforest",
+    "forest"
+   ],
+   "realm": "ph",
+   "medium": "land",
+   "size": "large",
+   "sci": "Stegodon mindorensis",
+   "note": "prehistoric (Stegodon)",
+   "rare": true,
+   "roles": [
+    "hauler",
+    "mount"
+   ],
+   "speed": 0.9,
+   "drops": {
+    "core:hide": 3,
+    "core:raw_meat": 3,
+    "core:bone": 3,
+    "core:tusk": 1
+   },
+   "px": 32,
+   "hp": 70,
+   "time": "any",
+   "depth": "surface",
+   "live": true,
+   "tame": {
+    "capture": [
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:saging",
+      "core:camote",
+      "core:kangkong",
+      "core:gabi",
+      "core:rice"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": true
+   },
+   "behaviors": [
+    "flee",
+    "graze",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "land",
+    "speed": 1.22,
+    "jump": 1.0,
+    "seats": 1,
+    "min_loyalty": 60
+   },
+   "endemic": true,
+   "weight": 0.35
+  },
+  {
+   "id": "ph_rhino",
+   "name": "Philippine Rhino",
+   "cat": "large_mammal",
+   "cells": [
+    [
+     "a",
+     "large_mammals",
+     2
+    ],
+    [
+     "a",
+     "fossils",
+     1
+    ]
+   ],
+   "temperament": "territorial",
+   "diet": "grazer",
+   "biomes": [
+    "highland",
+    "forest"
+   ],
+   "realm": "ph",
+   "medium": "land",
+   "size": "large",
+   "sci": "Rhinoceros philippinensis",
+   "note": "prehistoric; also the fossil-record Rhinoceros (philippinensis) card",
+   "rare": true,
+   "roles": [
+    "guard",
+    "mount",
+    "hauler"
+   ],
+   "speed": 1.0,
+   "dmg": 14,
+   "drops": {
+    "core:hide": 4,
+    "core:raw_meat": 4,
+    "core:bone": 3,
+    "core:horn": 1
+   },
+   "px": 32,
+   "hp": 70,
+   "time": "any",
+   "depth": "surface",
+   "live": true,
+   "tame": {
+    "capture": [
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:cogon",
+      "core:kumpay",
+      "core:palay",
+      "core:mais",
+      "core:rice"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": true
+   },
+   "behaviors": [
+    "graze",
+    "territorial_attack",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "land",
+    "speed": 1.25,
+    "jump": 1.0,
+    "seats": 1,
+    "min_loyalty": 60
+   },
+   "endemic": true,
+   "weight": 0.35
+  },
+  {
+   "id": "ph_deer",
+   "name": "Philippine Deer",
+   "cat": "large_mammal",
+   "cells": [
+    [
+     "a",
+     "large_mammals",
+     3
+    ],
+    [
+     "b",
+     "mammals_ph",
+     1
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "grazer",
+   "biomes": [
+    "rainforest",
+    "forest",
+    "highland"
+   ],
+   "realm": "ph",
+   "medium": "land",
+   "size": "large",
+   "sci": "Rusa alfredi",
+   "local": "Usig",
+   "note": "sheet A gives Rusa alfredi (that binomial is the Visayan spotted deer); sheet B calls it Usig",
+   "roles": [
+    "mount",
+    "scout"
+   ],
+   "speed": 1.6,
+   "group": [
+    1,
+    3
+   ],
+   "drops": {
+    "core:hide": 2,
+    "core:raw_meat": 2,
+    "core:antler": 1
+   },
+   "px": 32,
+   "hp": 70,
+   "time": "any",
+   "depth": "surface",
+   "live": true,
+   "tame": {
+    "capture": [
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:kangkong",
+      "core:cogon",
+      "core:camote",
+      "core:rice",
+      "core:herb"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "behaviors": [
+    "flee",
+    "graze",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "land",
+    "speed": 1.46,
+    "jump": 1.2,
+    "seats": 1,
+    "min_loyalty": 60
+   },
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "tamaraw",
+   "name": "Tamaraw",
+   "cat": "large_mammal",
+   "cells": [
+    [
+     "a",
+     "large_mammals",
+     4
+    ],
+    [
+     "b",
+     "mammals_ph",
+     13
+    ]
+   ],
+   "temperament": "territorial",
+   "diet": "grazer",
+   "biomes": [
+    "highland",
+    "terrace",
+    "forest"
+   ],
+   "realm": "ph",
+   "medium": "land",
+   "size": "large",
+   "sci": "Bubalus mindorensis",
+   "note": "Mindoro; plows terraces like a carabao",
+   "rare": true,
+   "produces": [
+    "core:milk",
+    240
+   ],
+   "roles": [
+    "plow",
+    "hauler",
+    "mount",
+    "guard",
+    "producer"
+   ],
+   "speed": 1.1,
+   "dmg": 12,
+   "drops": {
+    "core:hide": 3,
+    "core:raw_meat": 3,
+    "core:horn": 1
+   },
+   "px": 32,
+   "hp": 70,
+   "time": "any",
+   "depth": "surface",
+   "live": true,
+   "tame": {
+    "capture": [
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:cogon",
+      "core:kumpay",
+      "core:rice",
+      "core:herb"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": true
+   },
+   "behaviors": [
+    "graze",
+    "territorial_attack",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "land",
+    "speed": 1.29,
+    "jump": 1.0,
+    "seats": 1,
+    "min_loyalty": 60
+   },
+   "endemic": true,
+   "weight": 0.35
+  },
+  {
+   "id": "anoa",
+   "name": "Anoa",
+   "cat": "large_mammal",
+   "cells": [
+    [
+     "a",
+     "large_mammals",
+     5
+    ]
+   ],
+   "temperament": "territorial",
+   "diet": "grazer",
+   "biomes": [
+    "forest",
+    "highland"
+   ],
+   "realm": "ph",
+   "medium": "land",
+   "size": "medium",
+   "sci": "Bubalus depressicornis",
+   "produces": [
+    "core:milk",
+    300
+   ],
+   "roles": [
+    "plow",
+    "hauler",
+    "mount",
+    "producer"
+   ],
+   "speed": 1.1,
+   "dmg": 8,
+   "drops": {
+    "core:hide": 2,
+    "core:raw_meat": 2,
+    "core:horn": 1
+   },
+   "px": 24,
+   "hp": 34,
+   "time": "any",
+   "depth": "surface",
+   "live": true,
+   "tame": {
+    "capture": [
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:cogon",
+      "core:kumpay",
+      "core:palay",
+      "core:mais",
+      "core:rice"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": true
+   },
+   "behaviors": [
+    "graze",
+    "territorial_attack",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "land",
+    "speed": 1.44,
+    "jump": 1.15,
+    "seats": 1,
+    "min_loyalty": 60
+   },
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "ph_tarsier",
+   "name": "Philippine Tarsier",
+   "cat": "mammal",
+   "cells": [
+    [
+     "a",
+     "small_mammals",
+     0
+    ],
+    [
+     "b",
+     "mammals_ph",
+     0
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "insectivore",
+   "biomes": [
+    "rainforest"
+   ],
+   "realm": "ph",
+   "medium": "tree",
+   "size": "tiny",
+   "sci": "Tarsius syrichta",
+   "rare": true,
+   "gift": [
+    "core:grub"
+   ],
+   "roles": [
+    "companion",
+    "scout"
+   ],
+   "time": "night",
+   "drops": {
+    "core:fur": 1,
+    "core:raw_meat": 1
+   },
+   "px": 16,
+   "hp": 6,
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:grub",
+      "core:fruit"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "behaviors": [
+    "flee",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 0.35
+  },
+  {
+   "id": "ph_warty_pig",
+   "name": "Philippine Warty Pig",
+   "cat": "mammal",
+   "cells": [
+    [
+     "a",
+     "small_mammals",
+     1
+    ],
+    [
+     "b",
+     "mammals_ph",
+     2
+    ]
+   ],
+   "temperament": "territorial",
+   "diet": "omnivore",
+   "biomes": [
+    "rainforest",
+    "forest",
+    "highland"
+   ],
+   "realm": "ph",
+   "medium": "land",
+   "size": "medium",
+   "sci": "Sus philippensis",
+   "local": "Baboy Ramo",
+   "produces": [
+    "core:root_crop",
+    200
+   ],
+   "roles": [
+    "producer",
+    "mount",
+    "guard"
+   ],
+   "dmg": 7,
+   "group": [
+    1,
+    3
+   ],
+   "drops": {
+    "core:hide": 1,
+    "core:raw_meat": 3,
+    "core:tusk": 1
+   },
+   "px": 24,
+   "hp": 34,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:camote",
+      "core:saging",
+      "core:raw_fish",
+      "core:fruit",
+      "core:raw_meat"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": true
+   },
+   "behaviors": [
+    "territorial_attack",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "land",
+    "speed": 1.4,
+    "jump": 1.15,
+    "seats": 1,
+    "min_loyalty": 60
+   },
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "ph_forest_rat",
+   "name": "Philippine Forest Rat",
+   "cat": "mammal",
+   "cells": [
+    [
+     "a",
+     "small_mammals",
+     2
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "omnivore",
+   "biomes": [
+    "rainforest",
+    "forest",
+    "terrace"
+   ],
+   "realm": "ph",
+   "medium": "land",
+   "size": "tiny",
+   "sci": "Chrotomys mindorensis",
+   "gift": [
+    "core:seeds"
+   ],
+   "drops": {
+    "core:fur": 1,
+    "core:raw_meat": 1
+   },
+   "px": 16,
+   "hp": 6,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:camote",
+      "core:saging",
+      "core:raw_fish",
+      "core:fruit",
+      "core:raw_meat"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "flee",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "palawan_stink_badger",
+   "name": "Palawan Stink Badger",
+   "cat": "mammal",
+   "cells": [
+    [
+     "a",
+     "small_mammals",
+     3
+    ]
+   ],
+   "temperament": "territorial",
+   "diet": "insectivore",
+   "biomes": [
+    "rainforest",
+    "forest"
+   ],
+   "realm": "ph",
+   "medium": "land",
+   "size": "small",
+   "sci": "Mydaus marchei",
+   "gift": [
+    "core:grub"
+   ],
+   "time": "night",
+   "dmg": 4,
+   "drops": {
+    "core:fur": 1,
+    "core:musk": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:grub",
+      "core:duhat",
+      "core:fruit"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "territorial_attack",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "ph_flying_lemur",
+   "name": "Philippine Flying Lemur",
+   "cat": "mammal",
+   "cells": [
+    [
+     "a",
+     "small_mammals",
+     4
+    ],
+    [
+     "b",
+     "mammals_ph",
+     4
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "herbivore",
+   "biomes": [
+    "rainforest"
+   ],
+   "realm": "ph",
+   "medium": "air",
+   "size": "small",
+   "sci": "Cynocephalus volans",
+   "local": "Colugo",
+   "gift": [
+    "core:fruit"
+   ],
+   "roles": [
+    "companion",
+    "scout"
+   ],
+   "time": "night",
+   "drops": {
+    "core:fur": 1,
+    "core:raw_meat": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:saging",
+      "core:camote",
+      "core:kangkong",
+      "core:gabi",
+      "core:rice"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "behaviors": [
+    "flee",
+    "fly",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "ph_cloud_rat",
+   "name": "Philippine Cloud Rat",
+   "cat": "mammal",
+   "cells": [
+    [
+     "a",
+     "small_mammals",
+     5
+    ],
+    [
+     "b",
+     "mammals_ph",
+     3
+    ]
+   ],
+   "temperament": "passive",
+   "diet": "herbivore",
+   "biomes": [
+    "rainforest",
+    "highland"
+   ],
+   "realm": "ph",
+   "medium": "tree",
+   "size": "small",
+   "sci": "Phloeomys pallidus",
+   "local": "Ulan",
+   "produces": [
+    "core:fur",
+    360
+   ],
+   "roles": [
+    "companion",
+    "producer"
+   ],
+   "time": "night",
+   "drops": {
+    "core:fur": 1,
+    "core:raw_meat": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:saging",
+      "core:camote",
+      "core:kangkong",
+      "core:gabi",
+      "core:rice"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": true
+   },
+   "behaviors": [
+    "flee",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "ph_eagle",
+   "name": "Philippine Eagle",
+   "cat": "bird",
+   "cells": [
+    [
+     "a",
+     "birds",
+     0
+    ],
+    [
+     "b",
+     "birds_ph",
+     0
+    ]
+   ],
+   "temperament": "territorial",
+   "diet": "carnivore",
+   "biomes": [
+    "rainforest",
+    "mountain",
+    "highland"
+   ],
+   "realm": "ph",
+   "medium": "air",
+   "size": "medium",
+   "sci": "Pithecophaga jefferyi",
+   "local": "Haring Ibon",
+   "note": "national bird; critically endangered - protected",
+   "rare": true,
+   "gift": [
+    "core:feather"
+   ],
+   "roles": [
+    "scout",
+    "mount",
+    "guard"
+   ],
+   "speed": 1.8,
+   "dmg": 9,
+   "drops": {
+    "core:feather": 4,
+    "core:talon": 1
+   },
+   "px": 24,
+   "hp": 34,
+   "time": "any",
+   "depth": "surface",
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:raw_meat",
+      "core:raw_fish"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "behaviors": [
+    "fly",
+    "territorial_attack",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "air",
+    "speed": 1.68,
+    "jump": 1.38,
+    "seats": 1,
+    "min_loyalty": 60
+   },
+   "endemic": true,
+   "weight": 0.35
+  },
+  {
+   "id": "palawan_hornbill",
+   "name": "Palawan Hornbill",
+   "cat": "bird",
+   "cells": [
+    [
+     "a",
+     "birds",
+     1
+    ],
+    [
+     "b",
+     "birds_ph",
+     1
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "frugivore",
+   "biomes": [
+    "rainforest"
+   ],
+   "realm": "ph",
+   "medium": "air",
+   "size": "small",
+   "sci": "Aceros marchei",
+   "note": "sheet A prints Aceros marchei",
+   "rare": true,
+   "gift": [
+    "core:fruit",
+    "core:feather"
+   ],
+   "roles": [
+    "scout",
+    "companion"
+   ],
+   "drops": {
+    "core:feather": 2,
+    "core:raw_meat": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:saging",
+      "core:mangga",
+      "core:papaya",
+      "core:duhat",
+      "core:lansones"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "behaviors": [
+    "flee",
+    "fly",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 0.35
+  },
+  {
+   "id": "blue_naped_parrot",
+   "name": "Blue-naped Parrot",
+   "cat": "bird",
+   "cells": [
+    [
+     "a",
+     "birds",
+     2
+    ],
+    [
+     "b",
+     "birds_ph",
+     6
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "frugivore",
+   "biomes": [
+    "rainforest",
+    "forest",
+    "mangrove"
+   ],
+   "realm": "ph",
+   "medium": "air",
+   "size": "small",
+   "sci": "Tanygnathus lucionensis",
+   "produces": [
+    "core:feather",
+    240
+   ],
+   "gift": [
+    "core:feather"
+   ],
+   "roles": [
+    "companion",
+    "producer"
+   ],
+   "drops": {
+    "core:feather": 2,
+    "core:raw_meat": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:saging",
+      "core:mangga",
+      "core:papaya",
+      "core:duhat",
+      "core:lansones"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": true
+   },
+   "behaviors": [
+    "flee",
+    "fly",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "ph_cockatoo",
+   "name": "Philippine Cockatoo",
+   "cat": "bird",
+   "cells": [
+    [
+     "a",
+     "birds",
+     3
+    ],
+    [
+     "b",
+     "birds_ph",
+     4
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "frugivore",
+   "biomes": [
+    "mangrove",
+    "coast",
+    "forest"
+   ],
+   "realm": "ph",
+   "medium": "air",
+   "size": "small",
+   "sci": "Cacatua haematuropygia",
+   "rare": true,
+   "produces": [
+    "core:feather",
+    240
+   ],
+   "gift": [
+    "core:feather"
+   ],
+   "roles": [
+    "companion",
+    "producer"
+   ],
+   "drops": {
+    "core:feather": 2,
+    "core:raw_meat": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:saging",
+      "core:mangga",
+      "core:papaya",
+      "core:duhat",
+      "core:lansones"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": true
+   },
+   "behaviors": [
+    "flee",
+    "fly",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 0.35
+  },
+  {
+   "id": "negros_bleeding_heart",
+   "name": "Negros Bleeding-heart",
+   "cat": "bird",
+   "cells": [
+    [
+     "a",
+     "birds",
+     4
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "herbivore",
+   "biomes": [
+    "rainforest",
+    "forest"
+   ],
+   "realm": "ph",
+   "medium": "land",
+   "size": "small",
+   "sci": "Gallicolumba keayi",
+   "note": "ground dove",
+   "produces": [
+    "core:egg",
+    240
+   ],
+   "roles": [
+    "producer"
+   ],
+   "drops": {
+    "core:feather": 2,
+    "core:raw_meat": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:saging",
+      "core:camote",
+      "core:kangkong",
+      "core:gabi",
+      "core:rice"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": true
+   },
+   "behaviors": [
+    "flee",
+    "graze",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "blue_songbird",
+   "name": "Blue Songbird (label illegible)",
+   "cat": "bird",
+   "cells": [
+    [
+     "a",
+     "birds",
+     5
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "insectivore",
+   "biomes": [
+    "rainforest",
+    "forest"
+   ],
+   "realm": "ph",
+   "medium": "air",
+   "size": "small",
+   "note": "sheet A card 6 label is illegible (\"-I T\"); name is a placeholder, UNVERIFIED",
+   "roles": [
+    "companion"
+   ],
+   "drops": {
+    "core:feather": 2,
+    "core:raw_meat": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:grub",
+      "core:duhat",
+      "core:fruit"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "behaviors": [
+    "flee",
+    "fly",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "cebu_flowerpecker",
+   "name": "Cebu Flowerpecker",
+   "cat": "bird",
+   "cells": [
+    [
+     "a",
+     "birds",
+     6
+    ],
+    [
+     "b",
+     "birds_ph",
+     3
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "nectar",
+   "biomes": [
+    "rainforest",
+    "forest"
+   ],
+   "realm": "ph",
+   "medium": "air",
+   "size": "tiny",
+   "sci": "Dicaeum quadricolor",
+   "rare": true,
+   "gift": [
+    "core:honey"
+   ],
+   "drops": {
+    "core:feather": 2,
+    "core:raw_meat": 1
+   },
+   "px": 16,
+   "hp": 6,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:sampaguita",
+      "core:gumamela",
+      "core:ilang_ilang",
+      "core:honey",
+      "core:fruit"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "flee",
+    "fly",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 0.35
+  },
+  {
+   "id": "ph_monitor",
+   "name": "Philippine Monitor Lizard",
+   "cat": "reptile",
+   "cells": [
+    [
+     "a",
+     "reptiles",
+     0
+    ],
+    [
+     "b",
+     "herps_ph",
+     0
+    ]
+   ],
+   "temperament": "territorial",
+   "diet": "carnivore",
+   "biomes": [
+    "mangrove",
+    "river",
+    "lake",
+    "rainforest"
+   ],
+   "realm": "ph",
+   "medium": "land",
+   "size": "medium",
+   "sci": "Varanus cumingi",
+   "roles": [
+    "guard",
+    "mount"
+   ],
+   "speed": 1.2,
+   "dmg": 8,
+   "drops": {
+    "core:scales": 3,
+    "core:raw_meat": 2,
+    "core:hide": 1
+   },
+   "px": 24,
+   "hp": 34,
+   "time": "any",
+   "depth": "surface",
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:raw_meat",
+      "core:raw_fish"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "behaviors": [
+    "territorial_attack",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "land",
+    "speed": 1.47,
+    "jump": 1.15,
+    "seats": 1,
+    "min_loyalty": 60
+   },
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "sailfin_lizard",
+   "name": "Sailfin Lizard",
+   "cat": "reptile",
+   "cells": [
+    [
+     "a",
+     "reptiles",
+     1
+    ],
+    [
+     "b",
+     "herps_ph",
+     1
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "omnivore",
+   "biomes": [
+    "river",
+    "lake",
+    "mangrove"
+   ],
+   "realm": "ph",
+   "medium": "amphib",
+   "size": "medium",
+   "sci": "Hydrosaurus pustulatus",
+   "roles": [
+    "mount",
+    "companion"
+   ],
+   "speed": 1.4,
+   "drops": {
+    "core:scales": 2,
+    "core:raw_meat": 1
+   },
+   "px": 24,
+   "hp": 34,
+   "time": "any",
+   "depth": "surface",
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:camote",
+      "core:saging",
+      "core:raw_fish",
+      "core:fruit",
+      "core:raw_meat"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "behaviors": [
+    "flee",
+    "swim",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "amphib",
+    "speed": 1.54,
+    "jump": 1.15,
+    "seats": 1,
+    "min_loyalty": 60
+   },
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "ph_crocodile",
+   "name": "Philippine Crocodile",
+   "cat": "reptile",
+   "cells": [
+    [
+     "a",
+     "reptiles",
+     2
+    ],
+    [
+     "b",
+     "herps_ph",
+     4
+    ]
+   ],
+   "temperament": "hostile",
+   "diet": "carnivore",
+   "biomes": [
+    "river",
+    "lake",
+    "mangrove"
+   ],
+   "realm": "ph",
+   "medium": "amphib",
+   "size": "large",
+   "sci": "Crocodylus mindorensis",
+   "rare": true,
+   "roles": [
+    "guard",
+    "mount"
+   ],
+   "dmg": 16,
+   "drops": {
+    "core:scales": 5,
+    "core:raw_meat": 3,
+    "core:hide": 2,
+    "core:tooth": 1
+   },
+   "px": 32,
+   "hp": 70,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:raw_meat",
+      "core:raw_fish"
+     ],
+     "trust_per_food": 10
+    },
+    "domesticable": false
+   },
+   "behaviors": [
+    "hunt",
+    "swim",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "amphib",
+    "speed": 1.25,
+    "jump": 1.0,
+    "seats": 1,
+    "min_loyalty": 60
+   },
+   "endemic": true,
+   "weight": 0.35
+  },
+  {
+   "id": "draco_lizard",
+   "name": "Lumholtz's Tree Kangaroo-like Lizard",
+   "cat": "reptile",
+   "cells": [
+    [
+     "a",
+     "reptiles",
+     3
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "insectivore",
+   "biomes": [
+    "rainforest"
+   ],
+   "realm": "ph",
+   "medium": "air",
+   "size": "tiny",
+   "sci": "Draco mindanensis",
+   "note": "sheet name kept as printed; the binomial is a flying dragon lizard",
+   "drops": {
+    "core:scales": 2,
+    "core:raw_meat": 1
+   },
+   "px": 16,
+   "hp": 6,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:grub",
+      "core:duhat",
+      "core:fruit"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "flee",
+    "fly",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "ph_pit_viper",
+   "name": "Philippine Pit Viper",
+   "cat": "reptile",
+   "cells": [
+    [
+     "a",
+     "reptiles",
+     4
+    ],
+    [
+     "b",
+     "herps_ph",
+     9
+    ]
+   ],
+   "temperament": "territorial",
+   "diet": "carnivore",
+   "biomes": [
+    "rainforest"
+   ],
+   "realm": "ph",
+   "medium": "land",
+   "size": "small",
+   "sci": "Trimeresurus flavomaculatus",
+   "venom": true,
+   "dmg": 10,
+   "drops": {
+    "core:scales": 1,
+    "core:venom": 1,
+    "core:snake_skin": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:raw_meat",
+      "core:raw_fish"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "territorial_attack",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "palawan_forest_snake",
+   "name": "Palawan Forest Snake",
+   "cat": "reptile",
+   "cells": [
+    [
+     "a",
+     "reptiles",
+     5
+    ]
+   ],
+   "temperament": "territorial",
+   "diet": "carnivore",
+   "biomes": [
+    "rainforest",
+    "mangrove"
+   ],
+   "realm": "ph",
+   "medium": "land",
+   "size": "small",
+   "sci": "Boiga dendrophila",
+   "venom": true,
+   "time": "night",
+   "dmg": 7,
+   "drops": {
+    "core:scales": 1,
+    "core:venom": 1,
+    "core:snake_skin": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:raw_meat",
+      "core:raw_fish"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "territorial_attack",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "ph_tree_frog",
+   "name": "Philippine Tree Frog",
+   "cat": "amphibian",
+   "cells": [
+    [
+     "a",
+     "amphibians",
+     0
+    ],
+    [
+     "b",
+     "herps_ph",
+     7
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "insectivore",
+   "biomes": [
+    "rainforest",
+    "lake"
+   ],
+   "realm": "ph",
+   "medium": "amphib",
+   "size": "tiny",
+   "sci": "Rhacophorus reinwardtii",
+   "gift": [
+    "core:grub"
+   ],
+   "time": "night",
+   "drops": {
+    "core:raw_meat": 1
+   },
+   "px": 16,
+   "hp": 6,
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare"
+    ],
+    "befriend": {
+     "food": [
+      "core:grub",
+      "core:duhat",
+      "core:fruit"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "flee",
+    "swim",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "mindoro_horny_toad",
+   "name": "Mindoro Horny Toad",
+   "cat": "amphibian",
+   "cells": [
+    [
+     "a",
+     "amphibians",
+     1
+    ],
+    [
+     "b",
+     "herps_ph",
+     6
+    ]
+   ],
+   "temperament": "passive",
+   "diet": "insectivore",
+   "biomes": [
+    "rainforest",
+    "river"
+   ],
+   "realm": "ph",
+   "medium": "amphib",
+   "size": "tiny",
+   "sci": "Megophrys stejnegeri",
+   "drops": {
+    "core:raw_meat": 1,
+    "core:toxin": 1
+   },
+   "px": 16,
+   "hp": 6,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare"
+    ],
+    "befriend": {
+     "food": [
+      "core:grub",
+      "core:duhat",
+      "core:fruit"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "flee",
+    "swim",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "luzon_croc_frog",
+   "name": "Luzon Crocodile Frog",
+   "cat": "amphibian",
+   "cells": [
+    [
+     "a",
+     "amphibians",
+     2
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "insectivore",
+   "biomes": [
+    "terrace",
+    "lake",
+    "river"
+   ],
+   "realm": "ph",
+   "medium": "amphib",
+   "size": "tiny",
+   "sci": "Fejervarya vittigera",
+   "note": "lives in rice paddies",
+   "drops": {
+    "core:raw_meat": 1
+   },
+   "px": 16,
+   "hp": 6,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare"
+    ],
+    "befriend": {
+     "food": [
+      "core:grub",
+      "core:duhat",
+      "core:fruit"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "flee",
+    "swim",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "giant_frog",
+   "name": "Giant Frog",
+   "cat": "amphibian",
+   "cells": [
+    [
+     "a",
+     "amphibians",
+     3
+    ]
+   ],
+   "temperament": "passive",
+   "diet": "insectivore",
+   "biomes": [
+    "lake",
+    "river"
+   ],
+   "realm": "ph",
+   "medium": "amphib",
+   "size": "small",
+   "sci": "Limnonectes macrocephalus",
+   "drops": {
+    "core:raw_meat": 2
+   },
+   "px": 16,
+   "hp": 14,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare"
+    ],
+    "befriend": {
+     "food": [
+      "core:grub",
+      "core:duhat",
+      "core:fruit"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "flee",
+    "swim",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "mindanao_forest_frog",
+   "name": "Mindanao Forest Frog",
+   "cat": "amphibian",
+   "cells": [
+    [
+     "a",
+     "amphibians",
+     4
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "insectivore",
+   "biomes": [
+    "rainforest"
+   ],
+   "realm": "ph",
+   "medium": "amphib",
+   "size": "tiny",
+   "sci": "Platymantis aurum",
+   "drops": {
+    "core:raw_meat": 1
+   },
+   "px": 16,
+   "hp": 6,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare"
+    ],
+    "befriend": {
+     "food": [
+      "core:grub",
+      "core:duhat",
+      "core:fruit"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "flee",
+    "swim",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "ph_caecilian",
+   "name": "Philippine Caecilian",
+   "cat": "amphibian",
+   "cells": [
+    [
+     "a",
+     "amphibians",
+     5
+    ],
+    [
+     "b",
+     "herps_ph",
+     8
+    ]
+   ],
+   "temperament": "passive",
+   "diet": "detritus",
+   "biomes": [
+    "rainforest",
+    "cave"
+   ],
+   "realm": "ph",
+   "medium": "land",
+   "size": "tiny",
+   "sci": "Ichthyophis glutinosus",
+   "depth": "under",
+   "drops": {
+    "core:toxin": 1
+   },
+   "px": 16,
+   "hp": 6,
+   "time": "any",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare"
+    ],
+    "befriend": {
+     "food": [
+      "core:grub"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "flee",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "tawilis",
+   "name": "Sardinella",
+   "cat": "fish",
+   "cells": [
+    [
+     "a",
+     "fresh_fish",
+     0
+    ],
+    [
+     "b",
+     "fish_ph",
+     1
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "filter",
+   "biomes": [
+    "lake",
+    "river"
+   ],
+   "realm": "ph",
+   "medium": "water",
+   "size": "tiny",
+   "sci": "Sardinella tawilis",
+   "local": "Tawilis",
+   "note": "Taal Lake sardine",
+   "school": true,
+   "group": [
+    3,
+    6
+   ],
+   "drops": {
+    "core:raw_fish": 1,
+    "core:scales": 1
+   },
+   "px": 16,
+   "hp": 6,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "fish_trap",
+     "net"
+    ],
+    "befriend": {
+     "food": [
+      "core:seaweed",
+      "core:grub"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "flee",
+    "school",
+    "swim",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "pulong",
+   "name": "Pulong",
+   "cat": "fish",
+   "cells": [
+    [
+     "a",
+     "fresh_fish",
+     1
+    ],
+    [
+     "b",
+     "fish_ph",
+     2
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "detritus",
+   "biomes": [
+    "lake",
+    "river"
+   ],
+   "realm": "ph",
+   "medium": "water",
+   "size": "small",
+   "sci": "Ophieleotris aporos",
+   "local": "Ayung Uin",
+   "note": "sheet B: Pulong (lake fish)",
+   "drops": {
+    "core:raw_fish": 1,
+    "core:scales": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "fish_trap",
+     "net"
+    ],
+    "befriend": {
+     "food": [
+      "core:grub"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "flee",
+    "swim",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "apahap",
+   "name": "Apahap",
+   "cat": "fish",
+   "cells": [
+    [
+     "a",
+     "fresh_fish",
+     2
+    ],
+    [
+     "b",
+     "fish_ph",
+     4
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "carnivore",
+   "biomes": [
+    "lake",
+    "river",
+    "mangrove"
+   ],
+   "realm": "ph",
+   "medium": "water",
+   "size": "small",
+   "sci": "Glossogobius cobra",
+   "local": "Laguna Goby",
+   "note": "sheet A labels Apahap as \"Laguna Goby\" with a goby binomial",
+   "drops": {
+    "core:raw_fish": 1,
+    "core:scales": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "fish_trap",
+     "net"
+    ],
+    "befriend": {
+     "food": [
+      "core:raw_meat",
+      "core:raw_fish"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "flee",
+    "swim",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "ph_mahseer",
+   "name": "Philippine Mahseer",
+   "cat": "fish",
+   "cells": [
+    [
+     "a",
+     "fresh_fish",
+     3
+    ],
+    [
+     "b",
+     "fish_ph",
+     0
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "omnivore",
+   "biomes": [
+    "river"
+   ],
+   "realm": "ph",
+   "medium": "water",
+   "size": "medium",
+   "sci": "Tor mullianus",
+   "rare": true,
+   "drops": {
+    "core:raw_fish": 2,
+    "core:scales": 2
+   },
+   "px": 24,
+   "hp": 34,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "fish_trap",
+     "net"
+    ],
+    "befriend": {
+     "food": [
+      "core:camote",
+      "core:saging",
+      "core:raw_fish",
+      "core:fruit",
+      "core:raw_meat"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion",
+    "mount"
+   ],
+   "behaviors": [
+    "flee",
+    "swim",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "water",
+    "speed": 1.4,
+    "jump": 1.15,
+    "seats": 1,
+    "min_loyalty": 60
+   },
+   "endemic": true,
+   "weight": 0.35
+  },
+  {
+   "id": "climbing_perch",
+   "name": "Climbing Perch",
+   "cat": "fish",
+   "cells": [
+    [
+     "a",
+     "fresh_fish",
+     4
+    ],
+    [
+     "b",
+     "fish_ph",
+     7
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "omnivore",
+   "biomes": [
+    "lake",
+    "terrace"
+   ],
+   "realm": "ph",
+   "medium": "water",
+   "size": "small",
+   "sci": "Anabas testudineus",
+   "local": "Anabas",
+   "school": true,
+   "group": [
+    3,
+    6
+   ],
+   "drops": {
+    "core:raw_fish": 1,
+    "core:scales": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "fish_trap",
+     "net"
+    ],
+    "befriend": {
+     "food": [
+      "core:camote",
+      "core:saging",
+      "core:raw_fish",
+      "core:fruit",
+      "core:raw_meat"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "flee",
+    "school",
+    "swim",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "palag",
+   "name": "Palag",
+   "cat": "fish",
+   "cells": [
+    [
+     "a",
+     "fresh_fish",
+     5
+    ],
+    [
+     "b",
+     "fish_ph",
+     5
+    ]
+   ],
+   "temperament": "territorial",
+   "diet": "carnivore",
+   "biomes": [
+    "lake",
+    "river",
+    "terrace"
+   ],
+   "realm": "ph",
+   "medium": "water",
+   "size": "small",
+   "sci": "Channa striata",
+   "local": "Snakehead / Dalag",
+   "dmg": 3,
+   "drops": {
+    "core:raw_fish": 1,
+    "core:scales": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "fish_trap",
+     "net"
+    ],
+    "befriend": {
+     "food": [
+      "core:raw_meat",
+      "core:raw_fish"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "swim",
+    "territorial_attack",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "whale_shark",
+   "name": "Whale Shark",
+   "cat": "marine",
+   "cells": [
+    [
+     "a",
+     "marine",
+     0
+    ],
+    [
+     "b",
+     "marine_ph",
+     0
+    ]
+   ],
+   "temperament": "passive",
+   "diet": "filter",
+   "biomes": [
+    "ocean",
+    "coast"
+   ],
+   "realm": "ph",
+   "medium": "water",
+   "size": "huge",
+   "sci": "Rhincodon typus",
+   "local": "Butanding",
+   "note": "protected - gentle giant",
+   "rare": true,
+   "roles": [
+    "mount"
+   ],
+   "speed": 1.3,
+   "drops": {
+    "core:raw_fish": 2
+   },
+   "px": 48,
+   "hp": 140,
+   "time": "any",
+   "depth": "surface",
+   "live": true,
+   "tame": {
+    "capture": [
+     "fish_trap",
+     "net",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:seaweed",
+      "core:grub"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "behaviors": [
+    "flee",
+    "swim",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "water",
+    "speed": 1.35,
+    "jump": 0.8,
+    "seats": 2,
+    "min_loyalty": 60
+   },
+   "endemic": true,
+   "weight": 0.35
+  },
+  {
+   "id": "dugong",
+   "name": "Dugong",
+   "cat": "marine",
+   "cells": [
+    [
+     "a",
+     "marine",
+     1
+    ],
+    [
+     "b",
+     "marine_ph",
+     1
+    ]
+   ],
+   "temperament": "passive",
+   "diet": "grazer",
+   "biomes": [
+    "coast",
+    "reef"
+   ],
+   "realm": "ph",
+   "medium": "water",
+   "size": "large",
+   "sci": "Dugong dugon",
+   "local": "Sea Cow",
+   "rare": true,
+   "roles": [
+    "mount"
+   ],
+   "speed": 1.0,
+   "drops": {
+    "core:hide": 2,
+    "core:raw_meat": 2
+   },
+   "px": 32,
+   "hp": 70,
+   "time": "any",
+   "depth": "surface",
+   "live": true,
+   "tame": {
+    "capture": [
+     "fish_trap",
+     "net",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:seagrass_blade",
+      "core:seaweed",
+      "core:rice",
+      "core:herb"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "behaviors": [
+    "flee",
+    "swim",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "water",
+    "speed": 1.25,
+    "jump": 1.0,
+    "seats": 1,
+    "min_loyalty": 60
+   },
+   "endemic": true,
+   "weight": 0.35
+  },
+  {
+   "id": "giant_clam",
+   "name": "Giant Clam",
+   "cat": "marine",
+   "cells": [
+    [
+     "a",
+     "marine",
+     2
+    ],
+    [
+     "b",
+     "marine_ph",
+     2
+    ]
+   ],
+   "temperament": "passive",
+   "diet": "filter",
+   "biomes": [
+    "reef"
+   ],
+   "realm": "ph",
+   "medium": "sessile",
+   "size": "medium",
+   "sci": "Tridacna gigas",
+   "local": "Taklob",
+   "rare": true,
+   "produces": [
+    "core:pearl",
+    900
+   ],
+   "roles": [
+    "producer"
+   ],
+   "drops": {
+    "core:shell": 3,
+    "core:pearl": 1
+   },
+   "px": 24,
+   "hp": 34,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [],
+    "befriend": null,
+    "domesticable": true
+   },
+   "behaviors": [],
+   "rideable": false,
+   "endemic": true,
+   "weight": 0.35
+  },
+  {
+   "id": "nautilus",
+   "name": "Nautilus",
+   "cat": "marine",
+   "cells": [
+    [
+     "a",
+     "marine",
+     3
+    ],
+    [
+     "b",
+     "marine_ph",
+     3
+    ]
+   ],
+   "temperament": "passive",
+   "diet": "detritus",
+   "biomes": [
+    "ocean",
+    "reef"
+   ],
+   "realm": "ph",
+   "medium": "water",
+   "size": "small",
+   "sci": "Allonautilus scrobiculatus",
+   "drops": {
+    "core:shell": 2
+   },
+   "px": 16,
+   "hp": 14,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "fish_trap",
+     "net",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:grub"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "flee",
+    "swim",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "manta_ray",
+   "name": "Manta Ray",
+   "cat": "marine",
+   "cells": [
+    [
+     "a",
+     "marine",
+     4
+    ],
+    [
+     "b",
+     "marine_ph",
+     5
+    ]
+   ],
+   "temperament": "passive",
+   "diet": "filter",
+   "biomes": [
+    "ocean",
+    "reef"
+   ],
+   "realm": "ph",
+   "medium": "water",
+   "size": "huge",
+   "sci": "Manta alfredi",
+   "roles": [
+    "mount"
+   ],
+   "speed": 1.6,
+   "drops": {
+    "core:raw_fish": 3
+   },
+   "px": 48,
+   "hp": 140,
+   "time": "any",
+   "depth": "surface",
+   "live": true,
+   "tame": {
+    "capture": [
+     "fish_trap",
+     "net",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:seaweed",
+      "core:grub"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "behaviors": [
+    "flee",
+    "swim",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "water",
+    "speed": 1.46,
+    "jump": 0.96,
+    "seats": 2,
+    "min_loyalty": 60
+   },
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "sea_turtle",
+   "name": "Sea Turtle",
+   "cat": "marine",
+   "cells": [
+    [
+     "a",
+     "marine",
+     5
+    ],
+    [
+     "b",
+     "marine_ph",
+     6
+    ]
+   ],
+   "temperament": "passive",
+   "diet": "grazer",
+   "biomes": [
+    "reef",
+    "coast",
+    "beach"
+   ],
+   "realm": "ph",
+   "medium": "amphib",
+   "size": "large",
+   "sci": "Chelonia mydas",
+   "local": "Pawikan",
+   "note": "protected - lays eggs on the beach",
+   "rare": true,
+   "produces": [
+    "core:turtle_egg",
+    600
+   ],
+   "roles": [
+    "mount",
+    "producer"
+   ],
+   "speed": 1.1,
+   "drops": {
+    "core:shell": 2,
+    "core:raw_meat": 1
+   },
+   "px": 32,
+   "hp": 70,
+   "time": "any",
+   "depth": "surface",
+   "live": true,
+   "tame": {
+    "capture": [
+     "fish_trap",
+     "net",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:seagrass_blade",
+      "core:seaweed",
+      "core:rice",
+      "core:herb"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": true
+   },
+   "behaviors": [
+    "flee",
+    "graze",
+    "swim",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "amphib",
+    "speed": 1.29,
+    "jump": 1.0,
+    "seats": 1,
+    "min_loyalty": 60
+   },
+   "endemic": true,
+   "weight": 0.35
+  },
+  {
+   "id": "giant_cuttlefish",
+   "name": "Giant Cuttlefish",
+   "cat": "invertebrate",
+   "cells": [
+    [
+     "a",
+     "marine_invert",
+     0
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "carnivore",
+   "biomes": [
+    "reef",
+    "coast"
+   ],
+   "realm": "ph",
+   "medium": "water",
+   "size": "small",
+   "sci": "Sepia apama",
+   "drops": {
+    "core:ink": 1,
+    "core:raw_fish": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "fish_trap",
+     "net"
+    ],
+    "befriend": {
+     "food": [
+      "core:raw_meat",
+      "core:raw_fish"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "flee",
+    "swim",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "blue_ringed_octopus",
+   "name": "Blue Ringed Octopus",
+   "cat": "invertebrate",
+   "cells": [
+    [
+     "a",
+     "marine_invert",
+     1
+    ]
+   ],
+   "temperament": "territorial",
+   "diet": "carnivore",
+   "biomes": [
+    "reef",
+    "coast"
+   ],
+   "realm": "ph",
+   "medium": "water",
+   "size": "tiny",
+   "sci": "Hapalochlaena lunulata",
+   "venom": true,
+   "dmg": 12,
+   "drops": {
+    "core:venom": 1,
+    "core:ink": 1
+   },
+   "px": 16,
+   "hp": 6,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "fish_trap",
+     "net"
+    ],
+    "befriend": {
+     "food": [
+      "core:raw_meat",
+      "core:raw_fish"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "swim",
+    "territorial_attack",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "giant_sea_star",
+   "name": "Giant Sea Star",
+   "cat": "invertebrate",
+   "cells": [
+    [
+     "a",
+     "marine_invert",
+     2
+    ]
+   ],
+   "temperament": "passive",
+   "diet": "detritus",
+   "biomes": [
+    "reef",
+    "coast"
+   ],
+   "realm": "ph",
+   "medium": "sessile",
+   "size": "tiny",
+   "sci": "Protoreaster nodosus",
+   "drops": {
+    "core:shell": 1
+   },
+   "px": 16,
+   "hp": 6,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "fish_trap",
+     "net"
+    ],
+    "befriend": null,
+    "domesticable": false
+   },
+   "roles": [],
+   "behaviors": [],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "tridacna_clam",
+   "name": "Tridacna Clam",
+   "cat": "invertebrate",
+   "cells": [
+    [
+     "a",
+     "marine_invert",
+     3
+    ]
+   ],
+   "temperament": "passive",
+   "diet": "filter",
+   "biomes": [
+    "reef"
+   ],
+   "realm": "ph",
+   "medium": "sessile",
+   "size": "small",
+   "sci": "Tridacna spp.",
+   "drops": {
+    "core:shell": 2,
+    "core:pearl": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [],
+    "befriend": null,
+    "domesticable": false
+   },
+   "roles": [],
+   "behaviors": [],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "horseshoe_crab",
+   "name": "Horseshoe Crab",
+   "cat": "invertebrate",
+   "cells": [
+    [
+     "a",
+     "marine_invert",
+     4
+    ]
+   ],
+   "temperament": "passive",
+   "diet": "detritus",
+   "biomes": [
+    "beach",
+    "mangrove",
+    "coast"
+   ],
+   "realm": "ph",
+   "medium": "amphib",
+   "size": "small",
+   "sci": "Tachypleus gigas",
+   "note": "living fossil",
+   "drops": {
+    "core:chitin": 2,
+    "core:shell": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "fish_trap",
+     "net"
+    ],
+    "befriend": {
+     "food": [
+      "core:grub"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "flee",
+    "swim",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "sea_cucumber",
+   "name": "Sea Cucumber",
+   "cat": "invertebrate",
+   "cells": [
+    [
+     "a",
+     "marine_invert",
+     5
+    ]
+   ],
+   "temperament": "passive",
+   "diet": "detritus",
+   "biomes": [
+    "reef",
+    "coast"
+   ],
+   "realm": "ph",
+   "medium": "sessile",
+   "size": "tiny",
+   "sci": "Holothuria spp.",
+   "drops": {
+    "core:trepang": 1
+   },
+   "px": 16,
+   "hp": 6,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "fish_trap",
+     "net"
+    ],
+    "befriend": null,
+    "domesticable": false
+   },
+   "roles": [],
+   "behaviors": [],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "ph_butterfly",
+   "name": "Philippine Butterfly",
+   "cat": "insect",
+   "cells": [
+    [
+     "a",
+     "insects",
+     0
+    ],
+    [
+     "b",
+     "insects",
+     0
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "nectar",
+   "biomes": [
+    "rainforest",
+    "forest",
+    "terrace"
+   ],
+   "realm": "ph",
+   "medium": "air",
+   "size": "tiny",
+   "sci": "Troides magellanus",
+   "time": "day",
+   "group": [
+    1,
+    3
+   ],
+   "drops": {
+    "core:wing_scale": 1
+   },
+   "px": 16,
+   "hp": 6,
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net"
+    ],
+    "befriend": {
+     "food": [
+      "core:sampaguita",
+      "core:gumamela",
+      "core:ilang_ilang",
+      "core:honey",
+      "core:fruit"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "flee",
+    "fly",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "atlas_moth",
+   "name": "Atlas Moth",
+   "cat": "insect",
+   "cells": [
+    [
+     "a",
+     "insects",
+     1
+    ],
+    [
+     "b",
+     "insects",
+     1
+    ]
+   ],
+   "temperament": "passive",
+   "diet": "none",
+   "biomes": [
+    "rainforest"
+   ],
+   "realm": "ph",
+   "medium": "air",
+   "size": "tiny",
+   "sci": "Attacus atlas",
+   "note": "wild silk (cocoon)",
+   "produces": [
+    "core:silk",
+    300
+   ],
+   "roles": [
+    "producer"
+   ],
+   "time": "night",
+   "group": [
+    1,
+    3
+   ],
+   "drops": {
+    "core:silk": 1
+   },
+   "px": 16,
+   "hp": 6,
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net"
+    ],
+    "befriend": {
+     "food": [],
+     "trust_per_food": 20
+    },
+    "domesticable": true
+   },
+   "behaviors": [
+    "flee",
+    "fly",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "lantern_fly",
+   "name": "Lantern Fly",
+   "cat": "insect",
+   "cells": [
+    [
+     "a",
+     "insects",
+     2
+    ],
+    [
+     "b",
+     "insects",
+     2
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "nectar",
+   "biomes": [
+    "rainforest"
+   ],
+   "realm": "ph",
+   "medium": "air",
+   "size": "tiny",
+   "sci": "Pyrops whiteheadi",
+   "local": "Lanternfly",
+   "group": [
+    1,
+    3
+   ],
+   "drops": {
+    "core:chitin": 1
+   },
+   "px": 16,
+   "hp": 6,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net"
+    ],
+    "befriend": {
+     "food": [
+      "core:sampaguita",
+      "core:gumamela",
+      "core:ilang_ilang",
+      "core:honey",
+      "core:fruit"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "flee",
+    "fly",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "giant_stick_insect",
+   "name": "Giant Stick Insect",
+   "cat": "insect",
+   "cells": [
+    [
+     "a",
+     "insects",
+     3
+    ],
+    [
+     "b",
+     "insects",
+     7
+    ]
+   ],
+   "temperament": "passive",
+   "diet": "herbivore",
+   "biomes": [
+    "rainforest"
+   ],
+   "realm": "ph",
+   "medium": "tree",
+   "size": "small",
+   "sci": "Megalobrachium spp.",
+   "drops": {
+    "core:chitin": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net"
+    ],
+    "befriend": {
+     "food": [
+      "core:saging",
+      "core:camote",
+      "core:kangkong",
+      "core:gabi",
+      "core:rice"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "flee",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "orb_weaver",
+   "name": "Orb Weavla",
+   "cat": "insect",
+   "cells": [
+    [
+     "a",
+     "insects",
+     4
+    ],
+    [
+     "b",
+     "insects",
+     8
+    ]
+   ],
+   "temperament": "territorial",
+   "diet": "insectivore",
+   "biomes": [
+    "rainforest",
+    "cave"
+   ],
+   "realm": "ph",
+   "medium": "land",
+   "size": "tiny",
+   "sci": "Megaloharia spp.",
+   "note": "sheet A prints \"Orb Weavla (Megaloharia spp.)\"; sheet B \"Orb Weaver Spider\"",
+   "venom": true,
+   "produces": [
+    "core:silk",
+    240
+   ],
+   "roles": [
+    "producer"
+   ],
+   "dmg": 3,
+   "drops": {
+    "core:silk": 1,
+    "core:venom": 1
+   },
+   "px": 16,
+   "hp": 6,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net"
+    ],
+    "befriend": {
+     "food": [
+      "core:grub",
+      "core:duhat",
+      "core:fruit"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": true
+   },
+   "behaviors": [
+    "territorial_attack",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "stegodon_fossil",
+   "name": "Stegodon",
+   "cat": "fossil",
+   "cells": [
+    [
+     "a",
+     "fossils",
+     0
+    ]
+   ],
+   "temperament": "passive",
+   "diet": "none",
+   "biomes": [
+    "cave",
+    "deep_cave"
+   ],
+   "realm": "ph",
+   "medium": "fossil",
+   "size": "large",
+   "sci": "Stegodon luzonensis",
+   "note": "fossil record: dug up in caves / dig sites, not a living animal",
+   "depth": "deep",
+   "drops": {
+    "core:fossil": 1,
+    "core:bone": 2
+   },
+   "capture": [],
+   "px": 32,
+   "hp": 70,
+   "time": "any",
+   "speed": 1.0,
+   "live": false,
+   "tame": {
+    "capture": [],
+    "befriend": null,
+    "domesticable": false
+   },
+   "roles": [],
+   "behaviors": [],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "giant_deer_fossil",
+   "name": "Giant Deer",
+   "cat": "fossil",
+   "cells": [
+    [
+     "a",
+     "fossils",
+     2
+    ]
+   ],
+   "temperament": "passive",
+   "diet": "none",
+   "biomes": [
+    "cave",
+    "deep_cave"
+   ],
+   "realm": "ph",
+   "medium": "fossil",
+   "size": "large",
+   "sci": "Sinomegaceros sp.",
+   "note": "fossil record: dug up in caves / dig sites, not a living animal",
+   "depth": "deep",
+   "drops": {
+    "core:fossil": 1,
+    "core:bone": 2
+   },
+   "capture": [],
+   "px": 32,
+   "hp": 70,
+   "time": "any",
+   "speed": 1.0,
+   "live": false,
+   "tame": {
+    "capture": [],
+    "befriend": null,
+    "domesticable": false
+   },
+   "roles": [],
+   "behaviors": [],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "ancient_crocodile_fossil",
+   "name": "Ancient Crocodile",
+   "cat": "fossil",
+   "cells": [
+    [
+     "a",
+     "fossils",
+     3
+    ]
+   ],
+   "temperament": "passive",
+   "diet": "none",
+   "biomes": [
+    "cave",
+    "deep_cave"
+   ],
+   "realm": "ph",
+   "medium": "fossil",
+   "size": "large",
+   "sci": "Tomistoma sp.",
+   "note": "fossil record: dug up in caves / dig sites, not a living animal",
+   "depth": "deep",
+   "drops": {
+    "core:fossil": 1,
+    "core:bone": 2
+   },
+   "capture": [],
+   "px": 32,
+   "hp": 70,
+   "time": "any",
+   "speed": 1.0,
+   "live": false,
+   "tame": {
+    "capture": [],
+    "befriend": null,
+    "domesticable": false
+   },
+   "roles": [],
+   "behaviors": [],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "ph_civet",
+   "name": "Philippine Civet",
+   "cat": "mammal",
+   "cells": [
+    [
+     "b",
+     "mammals_ph",
+     5
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "omnivore",
+   "biomes": [
+    "rainforest",
+    "forest"
+   ],
+   "realm": "ph",
+   "medium": "land",
+   "size": "small",
+   "local": "Alamanggo",
+   "gift": [
+    "core:coffee_cherry"
+   ],
+   "roles": [
+    "companion"
+   ],
+   "time": "night",
+   "drops": {
+    "core:fur": 1,
+    "core:raw_meat": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:camote",
+      "core:saging",
+      "core:raw_fish",
+      "core:fruit",
+      "core:raw_meat"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "behaviors": [
+    "flee",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "palawan_bearcat",
+   "name": "Palawan Bearcat",
+   "cat": "mammal",
+   "cells": [
+    [
+     "b",
+     "mammals_ph",
+     6
+    ]
+   ],
+   "temperament": "passive",
+   "diet": "frugivore",
+   "biomes": [
+    "rainforest"
+   ],
+   "realm": "ph",
+   "medium": "tree",
+   "size": "medium",
+   "local": "Binturong",
+   "gift": [
+    "core:fruit"
+   ],
+   "roles": [
+    "companion"
+   ],
+   "drops": {
+    "core:fur": 1,
+    "core:raw_meat": 1
+   },
+   "px": 24,
+   "hp": 34,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:saging",
+      "core:mangga",
+      "core:papaya",
+      "core:duhat",
+      "core:lansones"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "behaviors": [
+    "flee",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "visayan_spotted_deer",
+   "name": "Visayan Spotted Deer",
+   "cat": "mammal",
+   "cells": [
+    [
+     "b",
+     "mammals_ph",
+     7
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "grazer",
+   "biomes": [
+    "rainforest",
+    "forest"
+   ],
+   "realm": "ph",
+   "medium": "land",
+   "size": "medium",
+   "rare": true,
+   "roles": [
+    "mount",
+    "scout"
+   ],
+   "speed": 1.6,
+   "group": [
+    1,
+    3
+   ],
+   "drops": {
+    "core:hide": 1,
+    "core:raw_meat": 2,
+    "core:antler": 1
+   },
+   "px": 24,
+   "hp": 34,
+   "time": "any",
+   "depth": "surface",
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:cogon",
+      "core:kumpay",
+      "core:palay",
+      "core:mais",
+      "core:rice"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "behaviors": [
+    "flee",
+    "graze",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "land",
+    "speed": 1.61,
+    "jump": 1.38,
+    "seats": 1,
+    "min_loyalty": 60
+   },
+   "endemic": true,
+   "weight": 0.35
+  },
+  {
+   "id": "mindanao_mouse_deer",
+   "name": "Mindanao Mouse Deer",
+   "cat": "mammal",
+   "cells": [
+    [
+     "b",
+     "mammals_ph",
+     8
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "herbivore",
+   "biomes": [
+    "rainforest",
+    "forest"
+   ],
+   "realm": "ph",
+   "medium": "land",
+   "size": "small",
+   "speed": 1.5,
+   "drops": {
+    "core:fur": 1,
+    "core:raw_meat": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "time": "any",
+   "depth": "surface",
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:saging",
+      "core:camote",
+      "core:kangkong",
+      "core:gabi",
+      "core:rice"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "flee",
+    "graze",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "ph_wild_cat",
+   "name": "Philippine Wild Cat",
+   "cat": "mammal",
+   "cells": [
+    [
+     "b",
+     "mammals_ph",
+     9
+    ]
+   ],
+   "temperament": "territorial",
+   "diet": "carnivore",
+   "biomes": [
+    "rainforest",
+    "forest"
+   ],
+   "realm": "ph",
+   "medium": "land",
+   "size": "small",
+   "roles": [
+    "guard",
+    "companion"
+   ],
+   "time": "night",
+   "dmg": 5,
+   "drops": {
+    "core:fur": 1,
+    "core:raw_meat": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:raw_meat",
+      "core:raw_fish"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "behaviors": [
+    "territorial_attack",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "ph_porcupine",
+   "name": "Philippine Porcupine",
+   "cat": "mammal",
+   "cells": [
+    [
+     "b",
+     "mammals_ph",
+     10
+    ]
+   ],
+   "temperament": "territorial",
+   "diet": "herbivore",
+   "biomes": [
+    "forest",
+    "highland"
+   ],
+   "realm": "ph",
+   "medium": "land",
+   "size": "small",
+   "note": "Palawan porcupine; sheds quills",
+   "gift": [
+    "core:quill"
+   ],
+   "dmg": 4,
+   "drops": {
+    "core:quill": 2,
+    "core:raw_meat": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:saging",
+      "core:camote",
+      "core:kangkong",
+      "core:gabi",
+      "core:rice"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "graze",
+    "territorial_attack",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "ph_otter",
+   "name": "Philippine Otter",
+   "cat": "mammal",
+   "cells": [
+    [
+     "b",
+     "mammals_ph",
+     11
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "piscivore",
+   "biomes": [
+    "river",
+    "lake",
+    "mangrove"
+   ],
+   "realm": "ph",
+   "medium": "amphib",
+   "size": "small",
+   "gift": [
+    "core:raw_fish"
+   ],
+   "roles": [
+    "companion",
+    "scout"
+   ],
+   "drops": {
+    "core:fur": 1,
+    "core:raw_meat": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:raw_fish"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "behaviors": [
+    "flee",
+    "swim",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "ph_longarm",
+   "name": "Philippine Longarm (label partly illegible)",
+   "cat": "mammal",
+   "cells": [
+    [
+     "b",
+     "mammals_ph",
+     12
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "herbivore",
+   "biomes": [
+    "rainforest",
+    "forest"
+   ],
+   "realm": "ph",
+   "medium": "land",
+   "size": "small",
+   "note": "label reads \"PHILIPPINE LONGAR..\"; UNVERIFIED name",
+   "drops": {
+    "core:fur": 1,
+    "core:raw_meat": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:saging",
+      "core:camote",
+      "core:kangkong",
+      "core:gabi",
+      "core:rice"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "flee",
+    "graze",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "ph_macaque",
+   "name": "Philippine Monkey",
+   "cat": "mammal",
+   "cells": [
+    [
+     "b",
+     "mammals_ph",
+     14
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "omnivore",
+   "biomes": [
+    "rainforest",
+    "forest",
+    "mangrove"
+   ],
+   "realm": "ph",
+   "medium": "tree",
+   "size": "small",
+   "local": "Macaque",
+   "gift": [
+    "core:fruit"
+   ],
+   "roles": [
+    "companion",
+    "scout"
+   ],
+   "group": [
+    2,
+    4
+   ],
+   "drops": {
+    "core:fur": 1,
+    "core:raw_meat": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:camote",
+      "core:saging",
+      "core:raw_fish",
+      "core:fruit",
+      "core:raw_meat"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "behaviors": [
+    "flee",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "ph_horse_deer",
+   "name": "Philippine Horse-Deer",
+   "cat": "mammal",
+   "cells": [
+    [
+     "b",
+     "mammals_ph",
+     15
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "grazer",
+   "biomes": [
+    "highland",
+    "forest"
+   ],
+   "realm": "ph",
+   "medium": "land",
+   "size": "large",
+   "roles": [
+    "mount",
+    "hauler"
+   ],
+   "speed": 1.7,
+   "drops": {
+    "core:hide": 2,
+    "core:raw_meat": 2,
+    "core:antler": 1
+   },
+   "px": 32,
+   "hp": 70,
+   "time": "any",
+   "depth": "surface",
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:cogon",
+      "core:kumpay",
+      "core:palay",
+      "core:mais",
+      "core:rice"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": true
+   },
+   "behaviors": [
+    "flee",
+    "graze",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "land",
+    "speed": 1.5,
+    "jump": 1.2,
+    "seats": 1,
+    "min_loyalty": 60
+   },
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "ph_malayan_balabac",
+   "name": "Philippine Malayan (Balabac)",
+   "cat": "mammal",
+   "cells": [
+    [
+     "b",
+     "mammals_ph",
+     16
+    ]
+   ],
+   "temperament": "territorial",
+   "diet": "omnivore",
+   "biomes": [
+    "rainforest"
+   ],
+   "realm": "ph",
+   "medium": "land",
+   "size": "medium",
+   "note": "label \"PHILIPPINE MALAYAN (BALABAC)\"; art is a dark bear-like mammal; UNVERIFIED species",
+   "roles": [
+    "guard",
+    "mount"
+   ],
+   "dmg": 8,
+   "drops": {
+    "core:fur": 1,
+    "core:raw_meat": 1
+   },
+   "px": 24,
+   "hp": 34,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:camote",
+      "core:saging",
+      "core:raw_fish",
+      "core:fruit",
+      "core:raw_meat"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "behaviors": [
+    "territorial_attack",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "land",
+    "speed": 1.4,
+    "jump": 1.15,
+    "seats": 1,
+    "min_loyalty": 60
+   },
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "ph_bear_balabac",
+   "name": "Philippine Bear (Balabac)",
+   "cat": "mammal",
+   "cells": [
+    [
+     "b",
+     "mammals_ph",
+     17
+    ]
+   ],
+   "temperament": "territorial",
+   "diet": "omnivore",
+   "biomes": [
+    "rainforest"
+   ],
+   "realm": "ph",
+   "medium": "land",
+   "size": "large",
+   "note": "label partly illegible (\"...BEAR (BALABAC)\"); UNVERIFIED",
+   "gift": [
+    "core:honey"
+   ],
+   "roles": [
+    "guard",
+    "mount",
+    "hauler"
+   ],
+   "dmg": 12,
+   "drops": {
+    "core:fur": 2,
+    "core:raw_meat": 3,
+    "core:bone": 1
+   },
+   "px": 32,
+   "hp": 70,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:camote",
+      "core:saging",
+      "core:raw_fish",
+      "core:fruit",
+      "core:raw_meat"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": true
+   },
+   "behaviors": [
+    "territorial_attack",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "land",
+    "speed": 1.25,
+    "jump": 1.0,
+    "seats": 1,
+    "min_loyalty": 60
+   },
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "ph_pangolin",
+   "name": "Philippine Pangolin",
+   "cat": "mammal",
+   "cells": [
+    [
+     "b",
+     "mammals_ph",
+     18
+    ]
+   ],
+   "temperament": "passive",
+   "diet": "insectivore",
+   "biomes": [
+    "rainforest",
+    "forest"
+   ],
+   "realm": "ph",
+   "medium": "land",
+   "size": "small",
+   "local": "Scaly Anteater",
+   "note": "critically endangered - protected",
+   "rare": true,
+   "time": "night",
+   "drops": {
+    "core:scales": 2
+   },
+   "px": 16,
+   "hp": 14,
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:grub",
+      "core:duhat",
+      "core:fruit"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "flee",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 0.35
+  },
+  {
+   "id": "jaguar",
+   "name": "Jaguar",
+   "cat": "mammal",
+   "cells": [
+    [
+     "b",
+     "mammals_am",
+     0
+    ]
+   ],
+   "temperament": "hostile",
+   "diet": "carnivore",
+   "biomes": [
+    "rainforest"
+   ],
+   "realm": "am",
+   "medium": "land",
+   "size": "large",
+   "roles": [
+    "guard",
+    "mount"
+   ],
+   "time": "night",
+   "speed": 1.5,
+   "dmg": 14,
+   "drops": {
+    "core:fur": 2,
+    "core:raw_meat": 2,
+    "core:tooth": 1
+   },
+   "px": 32,
+   "hp": 70,
+   "depth": "surface",
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:raw_meat",
+      "core:raw_fish"
+     ],
+     "trust_per_food": 10
+    },
+    "domesticable": false
+   },
+   "behaviors": [
+    "hunt",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "land",
+    "speed": 1.42,
+    "jump": 1.2,
+    "seats": 1,
+    "min_loyalty": 60
+   },
+   "endemic": false,
+   "weight": 1.0
+  },
+  {
+   "id": "puma",
+   "name": "Puma",
+   "cat": "mammal",
+   "cells": [
+    [
+     "b",
+     "mammals_am",
+     1
+    ]
+   ],
+   "temperament": "territorial",
+   "diet": "carnivore",
+   "biomes": [
+    "mountain",
+    "highland",
+    "forest"
+   ],
+   "realm": "am",
+   "medium": "land",
+   "size": "large",
+   "local": "Mountain Lion",
+   "roles": [
+    "guard",
+    "mount"
+   ],
+   "speed": 1.6,
+   "dmg": 12,
+   "drops": {
+    "core:fur": 2,
+    "core:raw_meat": 2
+   },
+   "px": 32,
+   "hp": 70,
+   "time": "any",
+   "depth": "surface",
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:raw_meat",
+      "core:raw_fish"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "behaviors": [
+    "territorial_attack",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "land",
+    "speed": 1.46,
+    "jump": 1.2,
+    "seats": 1,
+    "min_loyalty": 60
+   },
+   "endemic": false,
+   "weight": 1.0
+  },
+  {
+   "id": "spectacled_bear",
+   "name": "Spectacled Bear",
+   "cat": "mammal",
+   "cells": [
+    [
+     "b",
+     "mammals_am",
+     2
+    ]
+   ],
+   "temperament": "territorial",
+   "diet": "omnivore",
+   "biomes": [
+    "highland",
+    "forest"
+   ],
+   "realm": "am",
+   "medium": "land",
+   "size": "large",
+   "local": "Andean",
+   "gift": [
+    "core:honey"
+   ],
+   "roles": [
+    "guard",
+    "mount",
+    "hauler"
+   ],
+   "dmg": 12,
+   "drops": {
+    "core:fur": 3,
+    "core:raw_meat": 3
+   },
+   "px": 32,
+   "hp": 70,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:camote",
+      "core:saging",
+      "core:raw_fish",
+      "core:fruit",
+      "core:raw_meat"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": true
+   },
+   "behaviors": [
+    "territorial_attack",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "land",
+    "speed": 1.25,
+    "jump": 1.0,
+    "seats": 1,
+    "min_loyalty": 60
+   },
+   "endemic": false,
+   "weight": 1.0
+  },
+  {
+   "id": "tapir",
+   "name": "Tapir",
+   "cat": "mammal",
+   "cells": [
+    [
+     "b",
+     "mammals_am",
+     3
+    ]
+   ],
+   "temperament": "passive",
+   "diet": "herbivore",
+   "biomes": [
+    "rainforest",
+    "river"
+   ],
+   "realm": "am",
+   "medium": "land",
+   "size": "large",
+   "local": "Central America",
+   "roles": [
+    "mount",
+    "hauler"
+   ],
+   "drops": {
+    "core:hide": 2,
+    "core:raw_meat": 3
+   },
+   "px": 32,
+   "hp": 70,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:saging",
+      "core:camote",
+      "core:kangkong",
+      "core:gabi",
+      "core:rice"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": true
+   },
+   "behaviors": [
+    "flee",
+    "graze",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "land",
+    "speed": 1.25,
+    "jump": 1.0,
+    "seats": 1,
+    "min_loyalty": 60
+   },
+   "endemic": false,
+   "weight": 1.0
+  },
+  {
+   "id": "llama",
+   "name": "Llama",
+   "cat": "mammal",
+   "cells": [
+    [
+     "b",
+     "mammals_am",
+     4
+    ]
+   ],
+   "temperament": "passive",
+   "diet": "grazer",
+   "biomes": [
+    "highland",
+    "mountain"
+   ],
+   "realm": "am",
+   "medium": "land",
+   "size": "large",
+   "produces": [
+    "core:wool",
+    240
+   ],
+   "roles": [
+    "hauler",
+    "mount",
+    "producer"
+   ],
+   "speed": 1.2,
+   "drops": {
+    "core:wool": 2,
+    "core:raw_meat": 2
+   },
+   "px": 32,
+   "hp": 70,
+   "time": "any",
+   "depth": "surface",
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:cogon",
+      "core:kumpay",
+      "core:palay",
+      "core:mais",
+      "core:rice"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": true
+   },
+   "behaviors": [
+    "flee",
+    "graze",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "land",
+    "speed": 1.32,
+    "jump": 1.0,
+    "seats": 1,
+    "min_loyalty": 60
+   },
+   "endemic": false,
+   "weight": 1.0
+  },
+  {
+   "id": "alpaca",
+   "name": "Alpaca",
+   "cat": "mammal",
+   "cells": [
+    [
+     "b",
+     "mammals_am",
+     5
+    ]
+   ],
+   "temperament": "passive",
+   "diet": "grazer",
+   "biomes": [
+    "highland",
+    "mountain"
+   ],
+   "realm": "am",
+   "medium": "land",
+   "size": "medium",
+   "produces": [
+    "core:wool",
+    180
+   ],
+   "roles": [
+    "producer",
+    "mount"
+   ],
+   "drops": {
+    "core:wool": 2,
+    "core:raw_meat": 1
+   },
+   "px": 24,
+   "hp": 34,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:cogon",
+      "core:kumpay",
+      "core:palay",
+      "core:mais",
+      "core:rice"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": true
+   },
+   "behaviors": [
+    "flee",
+    "graze",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "land",
+    "speed": 1.4,
+    "jump": 1.15,
+    "seats": 1,
+    "min_loyalty": 60
+   },
+   "endemic": false,
+   "weight": 1.0
+  },
+  {
+   "id": "vicuna",
+   "name": "Vicuña",
+   "cat": "mammal",
+   "cells": [
+    [
+     "b",
+     "mammals_am",
+     6
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "grazer",
+   "biomes": [
+    "mountain",
+    "highland"
+   ],
+   "realm": "am",
+   "medium": "land",
+   "size": "medium",
+   "produces": [
+    "core:wool",
+    300
+   ],
+   "roles": [
+    "producer",
+    "mount"
+   ],
+   "speed": 1.6,
+   "drops": {
+    "core:wool": 1,
+    "core:raw_meat": 1
+   },
+   "px": 24,
+   "hp": 34,
+   "time": "any",
+   "depth": "surface",
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:cogon",
+      "core:kumpay",
+      "core:palay",
+      "core:mais",
+      "core:rice"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": true
+   },
+   "behaviors": [
+    "flee",
+    "graze",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "land",
+    "speed": 1.61,
+    "jump": 1.38,
+    "seats": 1,
+    "min_loyalty": 60
+   },
+   "endemic": false,
+   "weight": 1.0
+  },
+  {
+   "id": "capybara",
+   "name": "Capybara",
+   "cat": "mammal",
+   "cells": [
+    [
+     "b",
+     "mammals_am",
+     7
+    ]
+   ],
+   "temperament": "passive",
+   "diet": "grazer",
+   "biomes": [
+    "river",
+    "lake"
+   ],
+   "realm": "am",
+   "medium": "amphib",
+   "size": "medium",
+   "roles": [
+    "companion",
+    "mount"
+   ],
+   "drops": {
+    "core:fur": 1,
+    "core:raw_meat": 1
+   },
+   "px": 24,
+   "hp": 34,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:cogon",
+      "core:kumpay",
+      "core:palay",
+      "core:mais",
+      "core:rice"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "behaviors": [
+    "flee",
+    "graze",
+    "swim",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "amphib",
+    "speed": 1.4,
+    "jump": 1.15,
+    "seats": 1,
+    "min_loyalty": 60
+   },
+   "endemic": false,
+   "weight": 1.0
+  },
+  {
+   "id": "agouti",
+   "name": "Agouti",
+   "cat": "mammal",
+   "cells": [
+    [
+     "b",
+     "mammals_am",
+     8
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "frugivore",
+   "biomes": [
+    "rainforest"
+   ],
+   "realm": "am",
+   "medium": "land",
+   "size": "small",
+   "gift": [
+    "core:seeds"
+   ],
+   "drops": {
+    "core:fur": 1,
+    "core:raw_meat": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:saging",
+      "core:mangga",
+      "core:papaya",
+      "core:duhat",
+      "core:lansones"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "flee",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": false,
+   "weight": 1.0
+  },
+  {
+   "id": "coati",
+   "name": "Coati",
+   "cat": "mammal",
+   "cells": [
+    [
+     "b",
+     "mammals_am",
+     9
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "omnivore",
+   "biomes": [
+    "rainforest"
+   ],
+   "realm": "am",
+   "medium": "land",
+   "size": "small",
+   "roles": [
+    "companion"
+   ],
+   "group": [
+    2,
+    4
+   ],
+   "drops": {
+    "core:fur": 1,
+    "core:raw_meat": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:camote",
+      "core:saging",
+      "core:raw_fish",
+      "core:fruit",
+      "core:raw_meat"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "behaviors": [
+    "flee",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": false,
+   "weight": 1.0
+  },
+  {
+   "id": "peccary",
+   "name": "Peccary",
+   "cat": "mammal",
+   "cells": [
+    [
+     "b",
+     "mammals_am",
+     10
+    ]
+   ],
+   "temperament": "territorial",
+   "diet": "omnivore",
+   "biomes": [
+    "rainforest"
+   ],
+   "realm": "am",
+   "medium": "land",
+   "size": "medium",
+   "dmg": 6,
+   "group": [
+    2,
+    4
+   ],
+   "drops": {
+    "core:hide": 1,
+    "core:raw_meat": 2
+   },
+   "px": 24,
+   "hp": 34,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:camote",
+      "core:saging",
+      "core:raw_fish",
+      "core:fruit",
+      "core:raw_meat"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion",
+    "mount"
+   ],
+   "behaviors": [
+    "territorial_attack",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "land",
+    "speed": 1.4,
+    "jump": 1.15,
+    "seats": 1,
+    "min_loyalty": 60
+   },
+   "endemic": false,
+   "weight": 1.0
+  },
+  {
+   "id": "giant_otter",
+   "name": "Giant Otter",
+   "cat": "mammal",
+   "cells": [
+    [
+     "b",
+     "mammals_am",
+     11
+    ]
+   ],
+   "temperament": "territorial",
+   "diet": "piscivore",
+   "biomes": [
+    "river"
+   ],
+   "realm": "am",
+   "medium": "amphib",
+   "size": "medium",
+   "gift": [
+    "core:raw_fish"
+   ],
+   "roles": [
+    "companion",
+    "mount"
+   ],
+   "dmg": 6,
+   "drops": {
+    "core:fur": 1,
+    "core:raw_meat": 1
+   },
+   "px": 24,
+   "hp": 34,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:raw_fish"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "behaviors": [
+    "swim",
+    "territorial_attack",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "amphib",
+    "speed": 1.4,
+    "jump": 1.15,
+    "seats": 1,
+    "min_loyalty": 60
+   },
+   "endemic": false,
+   "weight": 1.0
+  },
+  {
+   "id": "sloth",
+   "name": "Sloth",
+   "cat": "mammal",
+   "cells": [
+    [
+     "b",
+     "mammals_am",
+     12
+    ]
+   ],
+   "temperament": "passive",
+   "diet": "herbivore",
+   "biomes": [
+    "rainforest"
+   ],
+   "realm": "am",
+   "medium": "tree",
+   "size": "small",
+   "local": "Three-toed",
+   "roles": [
+    "companion"
+   ],
+   "speed": 0.3,
+   "drops": {
+    "core:fur": 1,
+    "core:raw_meat": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "time": "any",
+   "depth": "surface",
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:saging",
+      "core:camote",
+      "core:kangkong",
+      "core:gabi",
+      "core:rice"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "behaviors": [
+    "flee",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": false,
+   "weight": 1.0
+  },
+  {
+   "id": "tayra",
+   "name": "Tayra",
+   "cat": "mammal",
+   "cells": [
+    [
+     "b",
+     "mammals_am",
+     13
+    ]
+   ],
+   "temperament": "territorial",
+   "diet": "omnivore",
+   "biomes": [
+    "rainforest"
+   ],
+   "realm": "am",
+   "medium": "land",
+   "size": "small",
+   "dmg": 4,
+   "drops": {
+    "core:fur": 1,
+    "core:raw_meat": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:camote",
+      "core:saging",
+      "core:raw_fish",
+      "core:fruit",
+      "core:raw_meat"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "territorial_attack",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": false,
+   "weight": 1.0
+  },
+  {
+   "id": "ocelot",
+   "name": "Ocelot",
+   "cat": "mammal",
+   "cells": [
+    [
+     "b",
+     "mammals_am",
+     14
+    ]
+   ],
+   "temperament": "territorial",
+   "diet": "carnivore",
+   "biomes": [
+    "rainforest"
+   ],
+   "realm": "am",
+   "medium": "land",
+   "size": "small",
+   "roles": [
+    "guard",
+    "companion"
+   ],
+   "time": "night",
+   "dmg": 6,
+   "drops": {
+    "core:fur": 1,
+    "core:raw_meat": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:raw_meat",
+      "core:raw_fish"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "behaviors": [
+    "territorial_attack",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": false,
+   "weight": 1.0
+  },
+  {
+   "id": "armadillo",
+   "name": "Armadillo",
+   "cat": "mammal",
+   "cells": [
+    [
+     "b",
+     "mammals_am",
+     15
+    ]
+   ],
+   "temperament": "passive",
+   "diet": "insectivore",
+   "biomes": [
+    "forest",
+    "highland"
+   ],
+   "realm": "am",
+   "medium": "land",
+   "size": "small",
+   "depth": "surface",
+   "drops": {
+    "core:shell": 1,
+    "core:raw_meat": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "time": "any",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:grub",
+      "core:duhat",
+      "core:fruit"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "flee",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": false,
+   "weight": 1.0
+  },
+  {
+   "id": "giant_anteater",
+   "name": "Anteater",
+   "cat": "mammal",
+   "cells": [
+    [
+     "b",
+     "mammals_am",
+     16
+    ]
+   ],
+   "temperament": "territorial",
+   "diet": "insectivore",
+   "biomes": [
+    "forest",
+    "highland"
+   ],
+   "realm": "am",
+   "medium": "land",
+   "size": "large",
+   "local": "Giant",
+   "roles": [
+    "mount"
+   ],
+   "dmg": 8,
+   "drops": {
+    "core:fur": 2,
+    "core:raw_meat": 2
+   },
+   "px": 32,
+   "hp": 70,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:grub",
+      "core:duhat",
+      "core:fruit"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "behaviors": [
+    "territorial_attack",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "land",
+    "speed": 1.25,
+    "jump": 1.0,
+    "seats": 1,
+    "min_loyalty": 60
+   },
+   "endemic": false,
+   "weight": 1.0
+  },
+  {
+   "id": "balicassiao",
+   "name": "Balicassao Tree-dwelling Kingfisher",
+   "cat": "bird",
+   "cells": [
+    [
+     "b",
+     "birds_ph",
+     2
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "piscivore",
+   "biomes": [
+    "river",
+    "mangrove",
+    "forest"
+   ],
+   "realm": "ph",
+   "medium": "air",
+   "size": "small",
+   "note": "label as printed (BALICASSAO / TREE-DWELLING KINGFISHER)",
+   "drops": {
+    "core:feather": 2,
+    "core:raw_meat": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:raw_fish"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "flee",
+    "fly",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "ph_racquet_tail",
+   "name": "Philippine Racquet-tail Drongo",
+   "cat": "bird",
+   "cells": [
+    [
+     "b",
+     "birds_ph",
+     5
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "insectivore",
+   "biomes": [
+    "rainforest",
+    "forest"
+   ],
+   "realm": "ph",
+   "medium": "air",
+   "size": "small",
+   "gift": [
+    "core:feather"
+   ],
+   "drops": {
+    "core:feather": 2,
+    "core:raw_meat": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:grub",
+      "core:duhat",
+      "core:fruit"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "flee",
+    "fly",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "ph_fantail",
+   "name": "Philippine Fantail",
+   "cat": "bird",
+   "cells": [
+    [
+     "b",
+     "birds_ph",
+     7
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "insectivore",
+   "biomes": [
+    "rainforest",
+    "forest"
+   ],
+   "realm": "ph",
+   "medium": "air",
+   "size": "tiny",
+   "drops": {
+    "core:feather": 2,
+    "core:raw_meat": 1
+   },
+   "px": 16,
+   "hp": 6,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:grub",
+      "core:duhat",
+      "core:fruit"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "flee",
+    "fly",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "luzon_bleeding_heart",
+   "name": "Luzon Bleeding-heart Dove",
+   "cat": "bird",
+   "cells": [
+    [
+     "b",
+     "birds_ph",
+     8
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "herbivore",
+   "biomes": [
+    "rainforest",
+    "forest"
+   ],
+   "realm": "ph",
+   "medium": "land",
+   "size": "small",
+   "produces": [
+    "core:egg",
+    240
+   ],
+   "roles": [
+    "producer"
+   ],
+   "drops": {
+    "core:feather": 2,
+    "core:raw_meat": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:saging",
+      "core:camote",
+      "core:kangkong",
+      "core:gabi",
+      "core:rice"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": true
+   },
+   "behaviors": [
+    "flee",
+    "graze",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "ph_pitta",
+   "name": "Philippine Pitta",
+   "cat": "bird",
+   "cells": [
+    [
+     "b",
+     "birds_ph",
+     9
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "insectivore",
+   "biomes": [
+    "rainforest"
+   ],
+   "realm": "ph",
+   "medium": "land",
+   "size": "small",
+   "drops": {
+    "core:feather": 2,
+    "core:raw_meat": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:grub",
+      "core:duhat",
+      "core:fruit"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "flee",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "aylas_tailorbird",
+   "name": "Ayla's Tailorbird",
+   "cat": "bird",
+   "cells": [
+    [
+     "b",
+     "birds_ph",
+     10
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "insectivore",
+   "biomes": [
+    "rainforest",
+    "forest",
+    "village"
+   ],
+   "realm": "ph",
+   "medium": "air",
+   "size": "tiny",
+   "note": "name as printed",
+   "gift": [
+    "core:fiber"
+   ],
+   "drops": {
+    "core:feather": 2,
+    "core:raw_meat": 1
+   },
+   "px": 16,
+   "hp": 6,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:grub",
+      "core:duhat",
+      "core:fruit"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "flee",
+    "fly",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "negros_fruit_dove",
+   "name": "Negros Fruit Dove",
+   "cat": "bird",
+   "cells": [
+    [
+     "b",
+     "birds_ph",
+     11
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "frugivore",
+   "biomes": [
+    "rainforest",
+    "forest"
+   ],
+   "realm": "ph",
+   "medium": "air",
+   "size": "small",
+   "rare": true,
+   "produces": [
+    "core:egg",
+    300
+   ],
+   "roles": [
+    "producer"
+   ],
+   "drops": {
+    "core:feather": 2,
+    "core:raw_meat": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:saging",
+      "core:mangga",
+      "core:papaya",
+      "core:duhat",
+      "core:lansones"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": true
+   },
+   "behaviors": [
+    "flee",
+    "fly",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 0.35
+  },
+  {
+   "id": "waldens_hornbill",
+   "name": "Walden's Hornbill",
+   "cat": "bird",
+   "cells": [
+    [
+     "b",
+     "birds_ph",
+     12
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "frugivore",
+   "biomes": [
+    "rainforest"
+   ],
+   "realm": "ph",
+   "medium": "air",
+   "size": "medium",
+   "rare": true,
+   "gift": [
+    "core:fruit"
+   ],
+   "roles": [
+    "scout",
+    "companion",
+    "mount"
+   ],
+   "drops": {
+    "core:feather": 2,
+    "core:raw_meat": 1
+   },
+   "px": 24,
+   "hp": 34,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:saging",
+      "core:mangga",
+      "core:papaya",
+      "core:duhat",
+      "core:lansones"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "behaviors": [
+    "flee",
+    "fly",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "air",
+    "speed": 1.4,
+    "jump": 1.15,
+    "seats": 1,
+    "min_loyalty": 60
+   },
+   "endemic": true,
+   "weight": 0.35
+  },
+  {
+   "id": "mindanao_scops_owl",
+   "name": "Mindanao Scops Owl",
+   "cat": "bird",
+   "cells": [
+    [
+     "b",
+     "birds_ph",
+     13
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "carnivore",
+   "biomes": [
+    "rainforest",
+    "forest",
+    "cave"
+   ],
+   "realm": "ph",
+   "medium": "air",
+   "size": "small",
+   "gift": [
+    "core:feather"
+   ],
+   "roles": [
+    "scout",
+    "companion"
+   ],
+   "time": "night",
+   "drops": {
+    "core:feather": 2,
+    "core:raw_meat": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:raw_meat",
+      "core:raw_fish"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "behaviors": [
+    "flee",
+    "fly",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "bald_eagle",
+   "name": "Bald Eagle",
+   "cat": "bird",
+   "cells": [
+    [
+     "b",
+     "birds_am",
+     0
+    ]
+   ],
+   "temperament": "territorial",
+   "diet": "piscivore",
+   "biomes": [
+    "mountain",
+    "coast",
+    "lake"
+   ],
+   "realm": "am",
+   "medium": "air",
+   "size": "medium",
+   "roles": [
+    "scout",
+    "mount",
+    "guard"
+   ],
+   "speed": 1.8,
+   "dmg": 8,
+   "drops": {
+    "core:feather": 4,
+    "core:talon": 1
+   },
+   "px": 24,
+   "hp": 34,
+   "time": "any",
+   "depth": "surface",
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:raw_fish"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "behaviors": [
+    "fly",
+    "territorial_attack",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "air",
+    "speed": 1.68,
+    "jump": 1.38,
+    "seats": 1,
+    "min_loyalty": 60
+   },
+   "endemic": false,
+   "weight": 1.0
+  },
+  {
+   "id": "california_condor",
+   "name": "California Condor",
+   "cat": "bird",
+   "cells": [
+    [
+     "b",
+     "birds_am",
+     1
+    ]
+   ],
+   "temperament": "passive",
+   "diet": "carnivore",
+   "biomes": [
+    "mountain",
+    "highland"
+   ],
+   "realm": "am",
+   "medium": "air",
+   "size": "medium",
+   "note": "scavenger - finds carcasses",
+   "rare": true,
+   "roles": [
+    "scout",
+    "mount"
+   ],
+   "speed": 1.6,
+   "drops": {
+    "core:feather": 4
+   },
+   "px": 24,
+   "hp": 34,
+   "time": "any",
+   "depth": "surface",
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:raw_meat",
+      "core:raw_fish"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "behaviors": [
+    "flee",
+    "fly",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "air",
+    "speed": 1.61,
+    "jump": 1.38,
+    "seats": 1,
+    "min_loyalty": 60
+   },
+   "endemic": false,
+   "weight": 0.35
+  },
+  {
+   "id": "harpy_eagle",
+   "name": "Harpy Eagle",
+   "cat": "bird",
+   "cells": [
+    [
+     "b",
+     "birds_am",
+     2
+    ]
+   ],
+   "temperament": "territorial",
+   "diet": "carnivore",
+   "biomes": [
+    "rainforest"
+   ],
+   "realm": "am",
+   "medium": "air",
+   "size": "medium",
+   "roles": [
+    "scout",
+    "mount",
+    "guard"
+   ],
+   "speed": 1.8,
+   "dmg": 10,
+   "drops": {
+    "core:feather": 4,
+    "core:talon": 1
+   },
+   "px": 24,
+   "hp": 34,
+   "time": "any",
+   "depth": "surface",
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:raw_meat",
+      "core:raw_fish"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "behaviors": [
+    "fly",
+    "territorial_attack",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "air",
+    "speed": 1.68,
+    "jump": 1.38,
+    "seats": 1,
+    "min_loyalty": 60
+   },
+   "endemic": false,
+   "weight": 1.0
+  },
+  {
+   "id": "kea",
+   "name": "Kea",
+   "cat": "bird",
+   "cells": [
+    [
+     "b",
+     "birds_am",
+     3
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "omnivore",
+   "biomes": [
+    "mountain"
+   ],
+   "realm": "am",
+   "medium": "air",
+   "size": "small",
+   "local": "New Zealand",
+   "note": "curious - steals and gifts shiny things",
+   "gift": [
+    "core:iron"
+   ],
+   "roles": [
+    "companion"
+   ],
+   "drops": {
+    "core:feather": 2,
+    "core:raw_meat": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:camote",
+      "core:saging",
+      "core:raw_fish",
+      "core:fruit",
+      "core:raw_meat"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "behaviors": [
+    "flee",
+    "fly",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": false,
+   "weight": 1.0
+  },
+  {
+   "id": "kakapo",
+   "name": "Kakapo",
+   "cat": "bird",
+   "cells": [
+    [
+     "b",
+     "birds_am",
+     4
+    ]
+   ],
+   "temperament": "passive",
+   "diet": "herbivore",
+   "biomes": [
+    "forest"
+   ],
+   "realm": "am",
+   "medium": "land",
+   "size": "small",
+   "rare": true,
+   "roles": [
+    "companion"
+   ],
+   "time": "night",
+   "drops": {
+    "core:feather": 2,
+    "core:raw_meat": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:saging",
+      "core:camote",
+      "core:kangkong",
+      "core:gabi",
+      "core:rice"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "behaviors": [
+    "flee",
+    "graze",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": false,
+   "weight": 0.35
+  },
+  {
+   "id": "resplendent_quetzal",
+   "name": "Resplendent Quetzal",
+   "cat": "bird",
+   "cells": [
+    [
+     "b",
+     "birds_am",
+     5
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "frugivore",
+   "biomes": [
+    "rainforest"
+   ],
+   "realm": "am",
+   "medium": "air",
+   "size": "small",
+   "rare": true,
+   "produces": [
+    "core:feather",
+    240
+   ],
+   "roles": [
+    "producer"
+   ],
+   "drops": {
+    "core:feather": 2,
+    "core:raw_meat": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:saging",
+      "core:mangga",
+      "core:papaya",
+      "core:duhat",
+      "core:lansones"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": true
+   },
+   "behaviors": [
+    "flee",
+    "fly",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": false,
+   "weight": 0.35
+  },
+  {
+   "id": "scarlet_macaw",
+   "name": "Scarlet Macaw",
+   "cat": "bird",
+   "cells": [
+    [
+     "b",
+     "birds_am",
+     6
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "frugivore",
+   "biomes": [
+    "rainforest"
+   ],
+   "realm": "am",
+   "medium": "air",
+   "size": "small",
+   "produces": [
+    "core:feather",
+    200
+   ],
+   "roles": [
+    "companion",
+    "producer"
+   ],
+   "group": [
+    1,
+    3
+   ],
+   "drops": {
+    "core:feather": 2,
+    "core:raw_meat": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:saging",
+      "core:mangga",
+      "core:papaya",
+      "core:duhat",
+      "core:lansones"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": true
+   },
+   "behaviors": [
+    "flee",
+    "fly",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": false,
+   "weight": 1.0
+  },
+  {
+   "id": "toucan",
+   "name": "Toucan",
+   "cat": "bird",
+   "cells": [
+    [
+     "b",
+     "birds_am",
+     7
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "frugivore",
+   "biomes": [
+    "rainforest"
+   ],
+   "realm": "am",
+   "medium": "air",
+   "size": "small",
+   "gift": [
+    "core:fruit"
+   ],
+   "roles": [
+    "companion"
+   ],
+   "drops": {
+    "core:feather": 2,
+    "core:raw_meat": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:saging",
+      "core:mangga",
+      "core:papaya",
+      "core:duhat",
+      "core:lansones"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "behaviors": [
+    "flee",
+    "fly",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": false,
+   "weight": 1.0
+  },
+  {
+   "id": "luzon_forest_skink",
+   "name": "Luzon Forest Skink",
+   "cat": "reptile",
+   "cells": [
+    [
+     "b",
+     "herps_ph",
+     2
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "insectivore",
+   "biomes": [
+    "rainforest",
+    "forest"
+   ],
+   "realm": "ph",
+   "medium": "land",
+   "size": "tiny",
+   "drops": {
+    "core:scales": 2,
+    "core:raw_meat": 1
+   },
+   "px": 16,
+   "hp": 6,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:grub",
+      "core:duhat",
+      "core:fruit"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "flee",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "ph_forest_gecko",
+   "name": "Philippine Forest Gecko",
+   "cat": "reptile",
+   "cells": [
+    [
+     "b",
+     "herps_ph",
+     3
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "insectivore",
+   "biomes": [
+    "rainforest",
+    "forest",
+    "village",
+    "cave"
+   ],
+   "realm": "ph",
+   "medium": "land",
+   "size": "tiny",
+   "gift": [
+    "core:grub"
+   ],
+   "time": "night",
+   "drops": {
+    "core:scales": 2,
+    "core:raw_meat": 1
+   },
+   "px": 16,
+   "hp": 6,
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:grub",
+      "core:duhat",
+      "core:fruit"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "flee",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "ph_turtle",
+   "name": "Philippine Turtle",
+   "cat": "reptile",
+   "cells": [
+    [
+     "b",
+     "herps_ph",
+     5
+    ]
+   ],
+   "temperament": "passive",
+   "diet": "omnivore",
+   "biomes": [
+    "lake",
+    "river",
+    "terrace"
+   ],
+   "realm": "ph",
+   "medium": "amphib",
+   "size": "small",
+   "roles": [
+    "companion"
+   ],
+   "speed": 0.5,
+   "drops": {
+    "core:shell": 1,
+    "core:raw_meat": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "time": "any",
+   "depth": "surface",
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:camote",
+      "core:saging",
+      "core:raw_fish",
+      "core:fruit",
+      "core:raw_meat"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "behaviors": [
+    "flee",
+    "swim",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "green_iguana",
+   "name": "Green Iguana",
+   "cat": "reptile",
+   "cells": [
+    [
+     "b",
+     "herps_am",
+     0
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "herbivore",
+   "biomes": [
+    "rainforest",
+    "river"
+   ],
+   "realm": "am",
+   "medium": "land",
+   "size": "medium",
+   "roles": [
+    "companion",
+    "mount"
+   ],
+   "drops": {
+    "core:scales": 2,
+    "core:raw_meat": 1
+   },
+   "px": 24,
+   "hp": 34,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:saging",
+      "core:camote",
+      "core:kangkong",
+      "core:gabi",
+      "core:rice"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "behaviors": [
+    "flee",
+    "graze",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "land",
+    "speed": 1.4,
+    "jump": 1.15,
+    "seats": 1,
+    "min_loyalty": 60
+   },
+   "endemic": false,
+   "weight": 1.0
+  },
+  {
+   "id": "basilisk",
+   "name": "Basilisk",
+   "cat": "reptile",
+   "cells": [
+    [
+     "b",
+     "herps_am",
+     1
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "insectivore",
+   "biomes": [
+    "river",
+    "rainforest"
+   ],
+   "realm": "am",
+   "medium": "land",
+   "size": "small",
+   "local": "Jesus Lizard",
+   "note": "runs on water",
+   "speed": 1.8,
+   "drops": {
+    "core:scales": 2,
+    "core:raw_meat": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "time": "any",
+   "depth": "surface",
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:grub",
+      "core:duhat",
+      "core:fruit"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "flee",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": false,
+   "weight": 1.0
+  },
+  {
+   "id": "boa",
+   "name": "Boa",
+   "cat": "reptile",
+   "cells": [
+    [
+     "b",
+     "herps_am",
+     2
+    ]
+   ],
+   "temperament": "territorial",
+   "diet": "carnivore",
+   "biomes": [
+    "rainforest"
+   ],
+   "realm": "am",
+   "medium": "land",
+   "size": "medium",
+   "local": "Constrictor",
+   "dmg": 8,
+   "drops": {
+    "core:scales": 2,
+    "core:snake_skin": 1,
+    "core:raw_meat": 1
+   },
+   "px": 24,
+   "hp": 34,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:raw_meat",
+      "core:raw_fish"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion",
+    "mount"
+   ],
+   "behaviors": [
+    "territorial_attack",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "land",
+    "speed": 1.4,
+    "jump": 1.15,
+    "seats": 1,
+    "min_loyalty": 60
+   },
+   "endemic": false,
+   "weight": 1.0
+  },
+  {
+   "id": "rattlesnake",
+   "name": "Rattlesnake",
+   "cat": "reptile",
+   "cells": [
+    [
+     "b",
+     "herps_am",
+     3
+    ]
+   ],
+   "temperament": "territorial",
+   "diet": "carnivore",
+   "biomes": [
+    "highland",
+    "volcano"
+   ],
+   "realm": "am",
+   "medium": "land",
+   "size": "small",
+   "venom": true,
+   "dmg": 10,
+   "drops": {
+    "core:venom": 1,
+    "core:snake_skin": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:raw_meat",
+      "core:raw_fish"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "territorial_attack",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": false,
+   "weight": 1.0
+  },
+  {
+   "id": "gila_monster",
+   "name": "Gila Monster",
+   "cat": "reptile",
+   "cells": [
+    [
+     "b",
+     "herps_am",
+     4
+    ]
+   ],
+   "temperament": "territorial",
+   "diet": "carnivore",
+   "biomes": [
+    "volcano",
+    "highland"
+   ],
+   "realm": "am",
+   "medium": "land",
+   "size": "small",
+   "venom": true,
+   "dmg": 7,
+   "drops": {
+    "core:venom": 1,
+    "core:scales": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:raw_meat",
+      "core:raw_fish"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "territorial_attack",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": false,
+   "weight": 1.0
+  },
+  {
+   "id": "glass_frog",
+   "name": "Glass Frog",
+   "cat": "amphibian",
+   "cells": [
+    [
+     "b",
+     "herps_am",
+     5
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "insectivore",
+   "biomes": [
+    "rainforest"
+   ],
+   "realm": "am",
+   "medium": "amphib",
+   "size": "tiny",
+   "time": "night",
+   "drops": {
+    "core:raw_meat": 1
+   },
+   "px": 16,
+   "hp": 6,
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare"
+    ],
+    "befriend": {
+     "food": [
+      "core:grub",
+      "core:duhat",
+      "core:fruit"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "flee",
+    "swim",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": false,
+   "weight": 1.0
+  },
+  {
+   "id": "poison_dart_frog",
+   "name": "Poison Dart Frog",
+   "cat": "amphibian",
+   "cells": [
+    [
+     "b",
+     "herps_am",
+     6
+    ]
+   ],
+   "temperament": "territorial",
+   "diet": "insectivore",
+   "biomes": [
+    "rainforest"
+   ],
+   "realm": "am",
+   "medium": "amphib",
+   "size": "tiny",
+   "venom": true,
+   "dmg": 6,
+   "drops": {
+    "core:toxin": 2
+   },
+   "px": 16,
+   "hp": 6,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare"
+    ],
+    "befriend": {
+     "food": [
+      "core:grub",
+      "core:duhat",
+      "core:fruit"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "swim",
+    "territorial_attack",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": false,
+   "weight": 1.0
+  },
+  {
+   "id": "axolotl",
+   "name": "Axolotl",
+   "cat": "amphibian",
+   "cells": [
+    [
+     "b",
+     "herps_am",
+     7
+    ]
+   ],
+   "temperament": "passive",
+   "diet": "carnivore",
+   "biomes": [
+    "lake"
+   ],
+   "realm": "am",
+   "medium": "water",
+   "size": "tiny",
+   "rare": true,
+   "roles": [
+    "companion"
+   ],
+   "drops": {
+    "core:raw_meat": 1
+   },
+   "px": 16,
+   "hp": 6,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare"
+    ],
+    "befriend": {
+     "food": [
+      "core:raw_meat",
+      "core:raw_fish"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "behaviors": [
+    "flee",
+    "swim",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": false,
+   "weight": 0.35
+  },
+  {
+   "id": "galapagos_tortoise",
+   "name": "Galápagos Giant Tortoise",
+   "cat": "reptile",
+   "cells": [
+    [
+     "b",
+     "herps_am",
+     8
+    ]
+   ],
+   "temperament": "passive",
+   "diet": "herbivore",
+   "biomes": [
+    "beach",
+    "volcano",
+    "highland"
+   ],
+   "realm": "am",
+   "medium": "land",
+   "size": "large",
+   "rare": true,
+   "roles": [
+    "hauler",
+    "mount"
+   ],
+   "speed": 0.4,
+   "drops": {
+    "core:shell": 3,
+    "core:raw_meat": 2
+   },
+   "px": 32,
+   "hp": 70,
+   "time": "any",
+   "depth": "surface",
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "snare",
+     "cage",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:saging",
+      "core:camote",
+      "core:kangkong",
+      "core:gabi",
+      "core:rice"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": true
+   },
+   "behaviors": [
+    "flee",
+    "graze",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "land",
+    "speed": 1.04,
+    "jump": 1.0,
+    "seats": 1,
+    "min_loyalty": 60
+   },
+   "endemic": false,
+   "weight": 0.35
+  },
+  {
+   "id": "kanduli",
+   "name": "Kanduli",
+   "cat": "fish",
+   "cells": [
+    [
+     "b",
+     "fish_ph",
+     3
+    ]
+   ],
+   "temperament": "passive",
+   "diet": "detritus",
+   "biomes": [
+    "lake",
+    "river",
+    "mangrove"
+   ],
+   "realm": "ph",
+   "medium": "water",
+   "size": "small",
+   "local": "Catfish",
+   "drops": {
+    "core:raw_fish": 1,
+    "core:scales": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "fish_trap",
+     "net"
+    ],
+    "befriend": {
+     "food": [
+      "core:grub"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "flee",
+    "swim",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "biya_goby",
+   "name": "Goby",
+   "cat": "fish",
+   "cells": [
+    [
+     "b",
+     "fish_ph",
+     6
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "detritus",
+   "biomes": [
+    "lake",
+    "river",
+    "terrace"
+   ],
+   "realm": "ph",
+   "medium": "water",
+   "size": "tiny",
+   "local": "Biya",
+   "school": true,
+   "group": [
+    3,
+    6
+   ],
+   "drops": {
+    "core:raw_fish": 1,
+    "core:scales": 1
+   },
+   "px": 16,
+   "hp": 6,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "fish_trap",
+     "net"
+    ],
+    "befriend": {
+     "food": [
+      "core:grub"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "flee",
+    "school",
+    "swim",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "piranha",
+   "name": "Piranha",
+   "cat": "fish",
+   "cells": [
+    [
+     "b",
+     "fish_am",
+     0
+    ]
+   ],
+   "temperament": "hostile",
+   "diet": "carnivore",
+   "biomes": [
+    "river"
+   ],
+   "realm": "am",
+   "medium": "water",
+   "size": "small",
+   "school": true,
+   "dmg": 5,
+   "group": [
+    3,
+    6
+   ],
+   "drops": {
+    "core:raw_fish": 1,
+    "core:tooth": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "fish_trap",
+     "net"
+    ],
+    "befriend": {
+     "food": [
+      "core:raw_meat",
+      "core:raw_fish"
+     ],
+     "trust_per_food": 10
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "hunt",
+    "school",
+    "swim",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": false,
+   "weight": 1.0
+  },
+  {
+   "id": "arapaima",
+   "name": "Arapaima",
+   "cat": "fish",
+   "cells": [
+    [
+     "b",
+     "fish_am",
+     1
+    ]
+   ],
+   "temperament": "passive",
+   "diet": "carnivore",
+   "biomes": [
+    "river",
+    "lake"
+   ],
+   "realm": "am",
+   "medium": "water",
+   "size": "large",
+   "roles": [
+    "mount"
+   ],
+   "speed": 1.2,
+   "drops": {
+    "core:raw_fish": 4,
+    "core:scales": 3
+   },
+   "px": 32,
+   "hp": 70,
+   "time": "any",
+   "depth": "surface",
+   "live": true,
+   "tame": {
+    "capture": [
+     "fish_trap",
+     "net"
+    ],
+    "befriend": {
+     "food": [
+      "core:raw_meat",
+      "core:raw_fish"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "behaviors": [
+    "flee",
+    "swim",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "water",
+    "speed": 1.32,
+    "jump": 1.0,
+    "seats": 1,
+    "min_loyalty": 60
+   },
+   "endemic": false,
+   "weight": 1.0
+  },
+  {
+   "id": "pacu",
+   "name": "Pacu",
+   "cat": "fish",
+   "cells": [
+    [
+     "b",
+     "fish_am",
+     2
+    ]
+   ],
+   "temperament": "passive",
+   "diet": "frugivore",
+   "biomes": [
+    "river"
+   ],
+   "realm": "am",
+   "medium": "water",
+   "size": "small",
+   "drops": {
+    "core:raw_fish": 1,
+    "core:scales": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "fish_trap",
+     "net"
+    ],
+    "befriend": {
+     "food": [
+      "core:saging",
+      "core:mangga",
+      "core:papaya",
+      "core:duhat",
+      "core:lansones"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "flee",
+    "swim",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": false,
+   "weight": 1.0
+  },
+  {
+   "id": "electric_eel",
+   "name": "Electric Eel",
+   "cat": "fish",
+   "cells": [
+    [
+     "b",
+     "fish_am",
+     3
+    ]
+   ],
+   "temperament": "territorial",
+   "diet": "carnivore",
+   "biomes": [
+    "river"
+   ],
+   "realm": "am",
+   "medium": "water",
+   "size": "medium",
+   "note": "shocks",
+   "dmg": 10,
+   "drops": {
+    "core:raw_fish": 1,
+    "core:scales": 1
+   },
+   "px": 24,
+   "hp": 34,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "fish_trap",
+     "net"
+    ],
+    "befriend": {
+     "food": [
+      "core:raw_meat",
+      "core:raw_fish"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion",
+    "mount"
+   ],
+   "behaviors": [
+    "swim",
+    "territorial_attack",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "water",
+    "speed": 1.4,
+    "jump": 1.15,
+    "seats": 1,
+    "min_loyalty": 60
+   },
+   "endemic": false,
+   "weight": 1.0
+  },
+  {
+   "id": "trout",
+   "name": "Trout",
+   "cat": "fish",
+   "cells": [
+    [
+     "b",
+     "fish_am",
+     4
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "insectivore",
+   "biomes": [
+    "river",
+    "lake"
+   ],
+   "realm": "am",
+   "medium": "water",
+   "size": "small",
+   "local": "Native",
+   "drops": {
+    "core:raw_fish": 1,
+    "core:scales": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "fish_trap",
+     "net"
+    ],
+    "befriend": {
+     "food": [
+      "core:grub",
+      "core:duhat",
+      "core:fruit"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "flee",
+    "swim",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": false,
+   "weight": 1.0
+  },
+  {
+   "id": "pacific_salmon",
+   "name": "Salmon",
+   "cat": "fish",
+   "cells": [
+    [
+     "b",
+     "fish_am",
+     5
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "carnivore",
+   "biomes": [
+    "river",
+    "coast"
+   ],
+   "realm": "am",
+   "medium": "water",
+   "size": "medium",
+   "local": "Pacific",
+   "school": true,
+   "group": [
+    3,
+    6
+   ],
+   "drops": {
+    "core:raw_fish": 2
+   },
+   "px": 24,
+   "hp": 34,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "fish_trap",
+     "net"
+    ],
+    "befriend": {
+     "food": [
+      "core:raw_meat",
+      "core:raw_fish"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion",
+    "mount"
+   ],
+   "behaviors": [
+    "flee",
+    "school",
+    "swim",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "water",
+    "speed": 1.4,
+    "jump": 1.15,
+    "seats": 1,
+    "min_loyalty": 60
+   },
+   "endemic": false,
+   "weight": 1.0
+  },
+  {
+   "id": "amazon_catfish",
+   "name": "Catfish",
+   "cat": "fish",
+   "cells": [
+    [
+     "b",
+     "fish_am",
+     6
+    ]
+   ],
+   "temperament": "passive",
+   "diet": "detritus",
+   "biomes": [
+    "river"
+   ],
+   "realm": "am",
+   "medium": "water",
+   "size": "medium",
+   "local": "Amazon",
+   "drops": {
+    "core:raw_fish": 2
+   },
+   "px": 24,
+   "hp": 34,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "fish_trap",
+     "net"
+    ],
+    "befriend": {
+     "food": [
+      "core:grub"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion",
+    "mount"
+   ],
+   "behaviors": [
+    "flee",
+    "swim",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "water",
+    "speed": 1.4,
+    "jump": 1.15,
+    "seats": 1,
+    "min_loyalty": 60
+   },
+   "endemic": false,
+   "weight": 1.0
+  },
+  {
+   "id": "gar",
+   "name": "Gar",
+   "cat": "fish",
+   "cells": [
+    [
+     "b",
+     "fish_am",
+     7
+    ]
+   ],
+   "temperament": "territorial",
+   "diet": "piscivore",
+   "biomes": [
+    "river",
+    "lake"
+   ],
+   "realm": "am",
+   "medium": "water",
+   "size": "medium",
+   "dmg": 4,
+   "drops": {
+    "core:raw_fish": 2,
+    "core:scales": 2
+   },
+   "px": 24,
+   "hp": 34,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "fish_trap",
+     "net"
+    ],
+    "befriend": {
+     "food": [
+      "core:raw_fish"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion",
+    "mount"
+   ],
+   "behaviors": [
+    "swim",
+    "territorial_attack",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "water",
+    "speed": 1.4,
+    "jump": 1.15,
+    "seats": 1,
+    "min_loyalty": 60
+   },
+   "endemic": false,
+   "weight": 1.0
+  },
+  {
+   "id": "blacktip_reef_shark",
+   "name": "Reef Shark",
+   "cat": "marine",
+   "cells": [
+    [
+     "b",
+     "marine_ph",
+     4
+    ]
+   ],
+   "temperament": "territorial",
+   "diet": "piscivore",
+   "biomes": [
+    "reef",
+    "coast"
+   ],
+   "realm": "ph",
+   "medium": "water",
+   "size": "medium",
+   "local": "Blacktip",
+   "roles": [
+    "mount",
+    "guard"
+   ],
+   "speed": 1.6,
+   "dmg": 10,
+   "drops": {
+    "core:raw_fish": 2,
+    "core:tooth": 1,
+    "core:hide": 1
+   },
+   "px": 24,
+   "hp": 34,
+   "time": "any",
+   "depth": "surface",
+   "live": true,
+   "tame": {
+    "capture": [
+     "fish_trap",
+     "net",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:raw_fish"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "behaviors": [
+    "swim",
+    "territorial_attack",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "water",
+    "speed": 1.61,
+    "jump": 1.38,
+    "seats": 1,
+    "min_loyalty": 60
+   },
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "sea_snake",
+   "name": "Sea Snake",
+   "cat": "marine",
+   "cells": [
+    [
+     "b",
+     "marine_ph",
+     7
+    ]
+   ],
+   "temperament": "territorial",
+   "diet": "piscivore",
+   "biomes": [
+    "reef",
+    "coast"
+   ],
+   "realm": "ph",
+   "medium": "water",
+   "size": "small",
+   "local": "Hydrophiid",
+   "venom": true,
+   "dmg": 9,
+   "drops": {
+    "core:venom": 1,
+    "core:snake_skin": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "fish_trap",
+     "net",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:raw_fish"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "swim",
+    "territorial_attack",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "humpback_whale",
+   "name": "Humpback Whale",
+   "cat": "marine",
+   "cells": [
+    [
+     "b",
+     "marine_am",
+     0
+    ]
+   ],
+   "temperament": "passive",
+   "diet": "filter",
+   "biomes": [
+    "ocean"
+   ],
+   "realm": "am",
+   "medium": "water",
+   "size": "huge",
+   "rare": true,
+   "roles": [
+    "mount"
+   ],
+   "speed": 1.2,
+   "drops": {
+    "core:raw_meat": 4,
+    "core:bone": 4,
+    "core:fish_oil": 2
+   },
+   "px": 48,
+   "hp": 140,
+   "time": "any",
+   "depth": "surface",
+   "live": true,
+   "tame": {
+    "capture": [
+     "fish_trap",
+     "net",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:seaweed",
+      "core:grub"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "behaviors": [
+    "flee",
+    "swim",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "water",
+    "speed": 1.32,
+    "jump": 0.8,
+    "seats": 2,
+    "min_loyalty": 60
+   },
+   "endemic": false,
+   "weight": 0.35
+  },
+  {
+   "id": "orca",
+   "name": "Orca",
+   "cat": "marine",
+   "cells": [
+    [
+     "b",
+     "marine_am",
+     1
+    ]
+   ],
+   "temperament": "territorial",
+   "diet": "carnivore",
+   "biomes": [
+    "ocean"
+   ],
+   "realm": "am",
+   "medium": "water",
+   "size": "huge",
+   "local": "Killer Whale",
+   "roles": [
+    "mount",
+    "guard"
+   ],
+   "speed": 1.8,
+   "dmg": 18,
+   "drops": {
+    "core:raw_meat": 4,
+    "core:bone": 3
+   },
+   "px": 48,
+   "hp": 140,
+   "time": "any",
+   "depth": "surface",
+   "live": true,
+   "tame": {
+    "capture": [
+     "fish_trap",
+     "net",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:raw_meat",
+      "core:raw_fish"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "behaviors": [
+    "swim",
+    "territorial_attack",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "water",
+    "speed": 1.53,
+    "jump": 0.96,
+    "seats": 2,
+    "min_loyalty": 60
+   },
+   "endemic": false,
+   "weight": 1.0
+  },
+  {
+   "id": "sea_lion",
+   "name": "Sea Lion",
+   "cat": "marine",
+   "cells": [
+    [
+     "b",
+     "marine_am",
+     2
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "piscivore",
+   "biomes": [
+    "coast",
+    "beach"
+   ],
+   "realm": "am",
+   "medium": "amphib",
+   "size": "medium",
+   "roles": [
+    "companion",
+    "mount"
+   ],
+   "drops": {
+    "core:hide": 2,
+    "core:fish_oil": 1
+   },
+   "px": 24,
+   "hp": 34,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "fish_trap",
+     "net",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:raw_fish"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "behaviors": [
+    "flee",
+    "swim",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "amphib",
+    "speed": 1.4,
+    "jump": 1.15,
+    "seats": 1,
+    "min_loyalty": 60
+   },
+   "endemic": false,
+   "weight": 1.0
+  },
+  {
+   "id": "sea_otter",
+   "name": "Sea Otter",
+   "cat": "marine",
+   "cells": [
+    [
+     "b",
+     "marine_am",
+     3
+    ]
+   ],
+   "temperament": "passive",
+   "diet": "carnivore",
+   "biomes": [
+    "coast"
+   ],
+   "realm": "am",
+   "medium": "water",
+   "size": "small",
+   "gift": [
+    "core:shell"
+   ],
+   "roles": [
+    "companion"
+   ],
+   "drops": {
+    "core:fur": 2
+   },
+   "px": 16,
+   "hp": 14,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "fish_trap",
+     "net",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:raw_meat",
+      "core:raw_fish"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "behaviors": [
+    "flee",
+    "swim",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": false,
+   "weight": 1.0
+  },
+  {
+   "id": "manatee",
+   "name": "Manatee",
+   "cat": "marine",
+   "cells": [
+    [
+     "b",
+     "marine_am",
+     4
+    ]
+   ],
+   "temperament": "passive",
+   "diet": "grazer",
+   "biomes": [
+    "coast",
+    "river"
+   ],
+   "realm": "am",
+   "medium": "water",
+   "size": "large",
+   "rare": true,
+   "roles": [
+    "mount"
+   ],
+   "speed": 0.8,
+   "drops": {
+    "core:hide": 2,
+    "core:raw_meat": 2
+   },
+   "px": 32,
+   "hp": 70,
+   "time": "any",
+   "depth": "surface",
+   "live": true,
+   "tame": {
+    "capture": [
+     "fish_trap",
+     "net",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:cogon",
+      "core:kumpay",
+      "core:palay",
+      "core:mais",
+      "core:rice"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "behaviors": [
+    "flee",
+    "swim",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "water",
+    "speed": 1.18,
+    "jump": 1.0,
+    "seats": 1,
+    "min_loyalty": 60
+   },
+   "endemic": false,
+   "weight": 0.35
+  },
+  {
+   "id": "giant_squid",
+   "name": "Giant Squid",
+   "cat": "marine",
+   "cells": [
+    [
+     "b",
+     "marine_am",
+     5
+    ]
+   ],
+   "temperament": "hostile",
+   "diet": "carnivore",
+   "biomes": [
+    "ocean"
+   ],
+   "realm": "am",
+   "medium": "water",
+   "size": "huge",
+   "depth": "deep",
+   "dmg": 14,
+   "drops": {
+    "core:ink": 3,
+    "core:raw_fish": 4
+   },
+   "px": 48,
+   "hp": 140,
+   "time": "any",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "fish_trap",
+     "net",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:raw_meat",
+      "core:raw_fish"
+     ],
+     "trust_per_food": 10
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion",
+    "mount"
+   ],
+   "behaviors": [
+    "hunt",
+    "swim",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "water",
+    "speed": 1.25,
+    "jump": 0.8,
+    "seats": 2,
+    "min_loyalty": 60
+   },
+   "endemic": false,
+   "weight": 1.0
+  },
+  {
+   "id": "octopus",
+   "name": "Octopus",
+   "cat": "invertebrate",
+   "cells": [
+    [
+     "b",
+     "marine_am",
+     6
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "carnivore",
+   "biomes": [
+    "reef",
+    "coast"
+   ],
+   "realm": "am",
+   "medium": "water",
+   "size": "small",
+   "drops": {
+    "core:ink": 1,
+    "core:raw_fish": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "fish_trap",
+     "net"
+    ],
+    "befriend": {
+     "food": [
+      "core:raw_meat",
+      "core:raw_fish"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "flee",
+    "swim",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": false,
+   "weight": 1.0
+  },
+  {
+   "id": "dolphin",
+   "name": "Dolphin",
+   "cat": "marine",
+   "cells": [
+    [
+     "b",
+     "marine_am",
+     7
+    ]
+   ],
+   "temperament": "passive",
+   "diet": "piscivore",
+   "biomes": [
+    "ocean",
+    "coast"
+   ],
+   "realm": "am",
+   "medium": "water",
+   "size": "medium",
+   "gift": [
+    "core:shell",
+    "core:pearl"
+   ],
+   "roles": [
+    "mount",
+    "companion",
+    "scout"
+   ],
+   "speed": 2.0,
+   "group": [
+    2,
+    4
+   ],
+   "drops": {
+    "core:raw_fish": 2
+   },
+   "px": 24,
+   "hp": 34,
+   "time": "any",
+   "depth": "surface",
+   "live": true,
+   "tame": {
+    "capture": [
+     "fish_trap",
+     "net",
+     "stun"
+    ],
+    "befriend": {
+     "food": [
+      "core:raw_fish"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "behaviors": [
+    "flee",
+    "swim",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "water",
+    "speed": 1.75,
+    "jump": 1.38,
+    "seats": 1,
+    "min_loyalty": 60
+   },
+   "endemic": false,
+   "weight": 1.0
+  },
+  {
+   "id": "stag_beetle",
+   "name": "Stag Beetle",
+   "cat": "insect",
+   "cells": [
+    [
+     "b",
+     "insects",
+     3
+    ]
+   ],
+   "temperament": "passive",
+   "diet": "herbivore",
+   "biomes": [
+    "rainforest",
+    "forest"
+   ],
+   "realm": "ph",
+   "medium": "land",
+   "size": "tiny",
+   "gift": [
+    "core:chitin"
+   ],
+   "drops": {
+    "core:chitin": 1
+   },
+   "px": 16,
+   "hp": 6,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net"
+    ],
+    "befriend": {
+     "food": [
+      "core:saging",
+      "core:camote",
+      "core:kangkong",
+      "core:gabi",
+      "core:rice"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "flee",
+    "graze",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "rhino_beetle",
+   "name": "Rhino Beetle",
+   "cat": "insect",
+   "cells": [
+    [
+     "b",
+     "insects",
+     4
+    ]
+   ],
+   "temperament": "passive",
+   "diet": "herbivore",
+   "biomes": [
+    "rainforest",
+    "forest"
+   ],
+   "realm": "ph",
+   "medium": "land",
+   "size": "tiny",
+   "note": "beetle fighting is a Filipino pastime",
+   "roles": [
+    "companion"
+   ],
+   "drops": {
+    "core:chitin": 1
+   },
+   "px": 16,
+   "hp": 6,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net"
+    ],
+    "befriend": {
+     "food": [
+      "core:saging",
+      "core:camote",
+      "core:kangkong",
+      "core:gabi",
+      "core:rice"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "behaviors": [
+    "flee",
+    "graze",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "leaf_insect",
+   "name": "Leaf Insect",
+   "cat": "insect",
+   "cells": [
+    [
+     "b",
+     "insects",
+     5
+    ]
+   ],
+   "temperament": "passive",
+   "diet": "herbivore",
+   "biomes": [
+    "rainforest"
+   ],
+   "realm": "ph",
+   "medium": "tree",
+   "size": "tiny",
+   "drops": {
+    "core:chitin": 1
+   },
+   "px": 16,
+   "hp": 6,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net"
+    ],
+    "befriend": {
+     "food": [
+      "core:saging",
+      "core:camote",
+      "core:kangkong",
+      "core:gabi",
+      "core:rice"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "flee",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "praying_mantis",
+   "name": "Praying Mantis",
+   "cat": "insect",
+   "cells": [
+    [
+     "b",
+     "insects",
+     6
+    ]
+   ],
+   "temperament": "territorial",
+   "diet": "insectivore",
+   "biomes": [
+    "rainforest",
+    "forest",
+    "terrace"
+   ],
+   "realm": "ph",
+   "medium": "land",
+   "size": "tiny",
+   "dmg": 1,
+   "drops": {
+    "core:chitin": 1
+   },
+   "px": 16,
+   "hp": 6,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net"
+    ],
+    "befriend": {
+     "food": [
+      "core:grub",
+      "core:duhat",
+      "core:fruit"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "territorial_attack",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "tarantula",
+   "name": "Tarantula",
+   "cat": "insect",
+   "cells": [
+    [
+     "b",
+     "insects",
+     9
+    ]
+   ],
+   "temperament": "territorial",
+   "diet": "insectivore",
+   "biomes": [
+    "cave",
+    "forest"
+   ],
+   "realm": "ph",
+   "medium": "land",
+   "size": "small",
+   "venom": true,
+   "time": "night",
+   "dmg": 4,
+   "drops": {
+    "core:venom": 1,
+    "core:chitin": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "depth": "under",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net"
+    ],
+    "befriend": {
+     "food": [
+      "core:grub",
+      "core:duhat",
+      "core:fruit"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "territorial_attack",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "scorpion",
+   "name": "Scorpion",
+   "cat": "insect",
+   "cells": [
+    [
+     "b",
+     "insects",
+     10
+    ]
+   ],
+   "temperament": "hostile",
+   "diet": "insectivore",
+   "biomes": [
+    "cave",
+    "volcano"
+   ],
+   "realm": "ph",
+   "medium": "land",
+   "size": "small",
+   "venom": true,
+   "depth": "under",
+   "dmg": 5,
+   "drops": {
+    "core:venom": 1,
+    "core:chitin": 1
+   },
+   "px": 16,
+   "hp": 14,
+   "time": "any",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net"
+    ],
+    "befriend": {
+     "food": [
+      "core:grub",
+      "core:duhat",
+      "core:fruit"
+     ],
+     "trust_per_food": 10
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "hunt",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "giant_millipede",
+   "name": "Giant Millipede",
+   "cat": "insect",
+   "cells": [
+    [
+     "b",
+     "insects",
+     11
+    ]
+   ],
+   "temperament": "passive",
+   "diet": "detritus",
+   "biomes": [
+    "rainforest",
+    "cave"
+   ],
+   "realm": "ph",
+   "medium": "land",
+   "size": "small",
+   "drops": {
+    "core:chitin": 2
+   },
+   "px": 16,
+   "hp": 14,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net"
+    ],
+    "befriend": {
+     "food": [
+      "core:grub"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "flee",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "fire_ant",
+   "name": "Fire Ant",
+   "cat": "insect",
+   "cells": [
+    [
+     "b",
+     "insects",
+     12
+    ]
+   ],
+   "temperament": "hostile",
+   "diet": "omnivore",
+   "biomes": [
+    "forest",
+    "highland"
+   ],
+   "realm": "am",
+   "medium": "land",
+   "size": "tiny",
+   "dmg": 2,
+   "group": [
+    3,
+    5
+   ],
+   "drops": {
+    "core:chitin": 1
+   },
+   "px": 16,
+   "hp": 6,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net"
+    ],
+    "befriend": {
+     "food": [
+      "core:camote",
+      "core:saging",
+      "core:raw_fish",
+      "core:fruit",
+      "core:raw_meat"
+     ],
+     "trust_per_food": 10
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "hunt",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": false,
+   "weight": 1.0
+  },
+  {
+   "id": "tree_cricket",
+   "name": "Tree Cricket",
+   "cat": "insect",
+   "cells": [
+    [
+     "b",
+     "insects",
+     13
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "herbivore",
+   "biomes": [
+    "rainforest",
+    "forest",
+    "terrace"
+   ],
+   "realm": "ph",
+   "medium": "land",
+   "size": "tiny",
+   "time": "night",
+   "drops": {
+    "core:grub": 1
+   },
+   "px": 16,
+   "hp": 6,
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net"
+    ],
+    "befriend": {
+     "food": [
+      "core:saging",
+      "core:camote",
+      "core:kangkong",
+      "core:gabi",
+      "core:rice"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "flee",
+    "graze",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "dragonfly",
+   "name": "Dragonfly",
+   "cat": "insect",
+   "cells": [
+    [
+     "b",
+     "insects",
+     14
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "insectivore",
+   "biomes": [
+    "lake",
+    "river",
+    "terrace"
+   ],
+   "realm": "ph",
+   "medium": "air",
+   "size": "tiny",
+   "time": "day",
+   "drops": {
+    "core:chitin": 1
+   },
+   "px": 16,
+   "hp": 6,
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net"
+    ],
+    "befriend": {
+     "food": [
+      "core:grub",
+      "core:duhat",
+      "core:fruit"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "flee",
+    "fly",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "giant_cicada",
+   "name": "Giant Cicada",
+   "cat": "insect",
+   "cells": [
+    [
+     "b",
+     "insects",
+     15
+    ]
+   ],
+   "temperament": "passive",
+   "diet": "herbivore",
+   "biomes": [
+    "rainforest",
+    "forest"
+   ],
+   "realm": "ph",
+   "medium": "air",
+   "size": "tiny",
+   "drops": {
+    "core:chitin": 1,
+    "core:molt": 1
+   },
+   "px": 16,
+   "hp": 6,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net"
+    ],
+    "befriend": {
+     "food": [
+      "core:saging",
+      "core:camote",
+      "core:kangkong",
+      "core:gabi",
+      "core:rice"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "flee",
+    "fly",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "lantern_bug",
+   "name": "Lantern Bug",
+   "cat": "insect",
+   "cells": [
+    [
+     "b",
+     "insects",
+     16
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "nectar",
+   "biomes": [
+    "rainforest"
+   ],
+   "realm": "ph",
+   "medium": "air",
+   "size": "tiny",
+   "note": "glows",
+   "time": "night",
+   "drops": {
+    "core:chitin": 1
+   },
+   "px": 16,
+   "hp": 6,
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net"
+    ],
+    "befriend": {
+     "food": [
+      "core:sampaguita",
+      "core:gumamela",
+      "core:ilang_ilang",
+      "core:honey",
+      "core:fruit"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "flee",
+    "fly",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": true,
+   "weight": 1.0
+  },
+  {
+   "id": "hercules_beetle",
+   "name": "Hercules Beetle",
+   "cat": "insect",
+   "cells": [
+    [
+     "b",
+     "insects",
+     17
+    ]
+   ],
+   "temperament": "passive",
+   "diet": "herbivore",
+   "biomes": [
+    "rainforest"
+   ],
+   "realm": "am",
+   "medium": "land",
+   "size": "small",
+   "local": "Americas",
+   "roles": [
+    "companion"
+   ],
+   "drops": {
+    "core:chitin": 2
+   },
+   "px": 16,
+   "hp": 14,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net"
+    ],
+    "befriend": {
+     "food": [
+      "core:saging",
+      "core:camote",
+      "core:kangkong",
+      "core:gabi",
+      "core:rice"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "behaviors": [
+    "flee",
+    "graze",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": false,
+   "weight": 1.0
+  },
+  {
+   "id": "monarch",
+   "name": "Monarch",
+   "cat": "insect",
+   "cells": [
+    [
+     "b",
+     "insects",
+     18
+    ]
+   ],
+   "temperament": "skittish",
+   "diet": "nectar",
+   "biomes": [
+    "forest",
+    "highland"
+   ],
+   "realm": "am",
+   "medium": "air",
+   "size": "tiny",
+   "local": "Americas",
+   "drops": {
+    "core:wing_scale": 1
+   },
+   "px": 16,
+   "hp": 6,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net"
+    ],
+    "befriend": {
+     "food": [
+      "core:sampaguita",
+      "core:gumamela",
+      "core:ilang_ilang",
+      "core:honey",
+      "core:fruit"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "flee",
+    "fly",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": false,
+   "weight": 1.0
+  },
+  {
+   "id": "velvet_ant",
+   "name": "Velvet Ant",
+   "cat": "insect",
+   "cells": [
+    [
+     "b",
+     "insects",
+     19
+    ]
+   ],
+   "temperament": "territorial",
+   "diet": "nectar",
+   "biomes": [
+    "forest",
+    "volcano"
+   ],
+   "realm": "am",
+   "medium": "land",
+   "size": "tiny",
+   "local": "Americas",
+   "venom": true,
+   "dmg": 4,
+   "drops": {
+    "core:venom": 1
+   },
+   "px": 16,
+   "hp": 6,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net"
+    ],
+    "befriend": {
+     "food": [
+      "core:sampaguita",
+      "core:gumamela",
+      "core:ilang_ilang",
+      "core:honey",
+      "core:fruit"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": false
+   },
+   "roles": [
+    "companion"
+   ],
+   "behaviors": [
+    "territorial_attack",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": false,
+   "weight": 1.0
+  },
+  {
+   "id": "carabao",
+   "name": "Carabao",
+   "cat": "domestic",
+   "cells": [],
+   "temperament": "passive",
+   "diet": "grazer",
+   "biomes": [
+    "terrace",
+    "village"
+   ],
+   "realm": "ph",
+   "medium": "land",
+   "size": "large",
+   "sci": "Bubalus bubalis carabanesis",
+   "note": "Added: the national work animal (key art shows livestock). Sprite derived from the Tamaraw cell, recoloured. Village elder gifts one.",
+   "origin": "added",
+   "produces": [
+    "core:milk",
+    180
+   ],
+   "roles": [
+    "plow",
+    "hauler",
+    "mount",
+    "producer"
+   ],
+   "speed": 0.9,
+   "drops": {
+    "core:hide": 3,
+    "core:raw_meat": 3,
+    "core:horn": 1
+   },
+   "px": 32,
+   "hp": 70,
+   "time": "any",
+   "depth": "surface",
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "cage"
+    ],
+    "befriend": {
+     "food": [
+      "core:cogon",
+      "core:kumpay",
+      "core:palay",
+      "core:rice",
+      "core:herb"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": true
+   },
+   "behaviors": [
+    "flee",
+    "graze",
+    "wander"
+   ],
+   "rideable": true,
+   "mount": {
+    "mode": "land",
+    "speed": 1.22,
+    "jump": 1.0,
+    "seats": 1,
+    "min_loyalty": 60
+   },
+   "endemic": false,
+   "weight": 1.0
+  },
+  {
+   "id": "manok",
+   "name": "Native Chicken",
+   "cat": "domestic",
+   "cells": [],
+   "temperament": "skittish",
+   "diet": "grazer",
+   "biomes": [
+    "village",
+    "terrace"
+   ],
+   "realm": "ph",
+   "medium": "land",
+   "size": "tiny",
+   "local": "Manok",
+   "note": "Added: key art shows chickens. Pixel sprite drawn by tools/art/creatures.py.",
+   "origin": "added",
+   "produces": [
+    "core:egg",
+    120
+   ],
+   "roles": [
+    "producer"
+   ],
+   "drops": {
+    "core:feather": 2,
+    "core:raw_meat": 1
+   },
+   "px": 16,
+   "hp": 6,
+   "time": "any",
+   "depth": "surface",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [
+     "net",
+     "cage"
+    ],
+    "befriend": {
+     "food": [
+      "core:patuka",
+      "core:palay",
+      "core:munggo",
+      "core:rice",
+      "core:herb"
+     ],
+     "trust_per_food": 20
+    },
+    "domesticable": true
+   },
+   "behaviors": [
+    "flee",
+    "graze",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": false,
+   "weight": 1.0
+  },
+  {
+   "id": "kalansay",
+   "name": "Kalansay (Skeleton)",
+   "cat": "undead",
+   "cells": [],
+   "temperament": "hostile",
+   "diet": "none",
+   "biomes": [
+    "cave",
+    "deep_cave",
+    "forest",
+    "highland",
+    "terrace",
+    "village",
+    "rainforest"
+   ],
+   "realm": "ph",
+   "medium": "land",
+   "size": "medium",
+   "note": "Added: the PROTECT-panel skeleton from Ricky's posters. Night surface + caves. Not a creature you can tame.",
+   "origin": "added",
+   "time": "night",
+   "dmg": 9,
+   "hp": 40,
+   "drops": {
+    "core:bone": 2
+   },
+   "capture": [],
+   "px": 24,
+   "depth": "under",
+   "speed": 1.0,
+   "live": true,
+   "tame": {
+    "capture": [],
+    "befriend": null,
+    "domesticable": false
+   },
+   "roles": [],
+   "behaviors": [
+    "hunt",
+    "wander"
+   ],
+   "rideable": false,
+   "endemic": false,
+   "weight": 1.0
+  }
+ ]
+}

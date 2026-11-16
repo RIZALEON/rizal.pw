@@ -1,0 +1,58 @@
+{
+  "schema": "rzl.repair.v1",
+  "version": "0.2.0",
+  "status": "Freeze lifted 12:38 MT 2026-10-17 · RBEMAX review fixes applied · folded into iOS superdragon egg only",
+  "apps": [
+    "ybot",
+    "rbowzr",
+    "rbowzr-test",
+    "*"
+  ],
+  "repairs": [
+    {
+      "id": "latin-names-by-rid",
+      "target": "all",
+      "guard": "roster-loaded-or-cyrillic-text",
+      "desc": "Show the Latin name for each ЯID in #chatlist and #thread-head only (never body); skips [contenteditable], ЯSCRIBE and BOTABLETA so Cyrillic stamps stay",
+      "on": {
+        "*": true
+      }
+    },
+    {
+      "id": "rbat-row-0013",
+      "target": "all",
+      "guard": "chatlist-row-matches-LOCAL-9SJ1-4JPK-or-0013",
+      "desc": "Relabel the 0013 / LOCAL-9SJ1-4JPK row as ЯBAT; aria-label changes only the seat name",
+      "on": {
+        "*": true
+      }
+    },
+    {
+      "id": "thundr-one-unboxed",
+      "target": "all",
+      "guard": "thundr-figure-present",
+      "desc": "Nothing behind THUNDR: no background/border/shadow/filter/drop-shadow/padding/::before/::after, wrappers and internals cleared; exactly one THUNDR figure",
+      "on": {
+        "*": true
+      }
+    },
+    {
+      "id": "chatlist-runtime-219",
+      "target": "rbowzr-test",
+      "guard": "legacy-klassroom-chatlist-won",
+      "desc": "Re-apply chat-list fixes after legacy chatlist.js renders; observer scoped to #chatlist, routed through enabled(), debounced 120 ms",
+      "on": {
+        "*": true
+      }
+    },
+    {
+      "id": "botableta-seed-script",
+      "target": "all",
+      "guard": "file-protocol-and-no-seed",
+      "desc": "Load BOTABLETA seed via <script> tag when fetch on file:// fails",
+      "on": {
+        "*": true
+      }
+    }
+  ]
+}

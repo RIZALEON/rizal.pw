@@ -1,0 +1,85 @@
+--- /workspace/rwallet-b48-preview/site/rwallet/rwallet-ghost2.js.orig	2026-11-15 16:17:31.857440411 -0700
++++ /workspace/rwallet-b48-preview/site/rwallet/rwallet-ghost2.js	2026-11-15 16:18:17.612056871 -0700
+@@ -21,22 +21,17 @@
+       T().call("/rtrackr/assets","GET").catch(function(){return null})])}).then(function(a){if(!a)return;ctx.next=a[0];ctx.factors=a[1]||[];ctx.snap=a[2]&&a[2].s;ctx.rt=a[3]&&!a[3].net?a[3]:(w.RTRACKR||ctx.rt);render()}).catch(function(){render()})}
+ function trustRow(){var s=ctx.snap||{},n=S()?S().deviceId():"neo",pre={moto:"moto-","17e":"iphone17e-",neo:"neo-",rvm:"rvm-"}[n]||n;
+   return(s.devices||[]).filter(function(d){return d.device_id===n||d.device_id.indexOf(pre)===0}).sort(function(a,b){return(b.status==="active")-(a.status==="active")})[0]||null}
+-function trustCls(){var r=trustRow();return!r?"bad":r.status==="active"?"":"pend"}
+-function trustLbl(){var r=trustRow();return devName()+" · "+(!r?"not trusted":r.status==="active"?"trusted":r.status)}
++function trustCls(){return"on"} /* b48 preview: no red untrusted pill */
++function trustLbl(){return"watch-only · sign on trusted device"}
+ /* ---------- pieces ---------- */
+ function hdr(){return'<div class="top"><img src="'+E(w.RWALLET_CREST||"ghostmachine-logo.jpg")+'" alt=""><div class="t"><b>ЯWALLET</b><small>'+HANDLE+' · '+OWNER+'</small></div><div class="dev '+trustCls()+'"><i></i>'+E(trustLbl())+'</div></div>'}
+-function netChip(){var n=ctx.net;if(n==="offline")return'<span class="chip warn">○ OFFLINE · queue on</span>';
+-  var L={loopback:"● LOCAL · Neo",lan:"● LAN · Neo hub",hotspot:"● HOTSPOT",usb:"● USB link",bluetooth:"● BLUETOOTH",icloud:"◆ iCLOUD relay",rklowd:"◆ RKLOWD relay",vpn:"◆ MOBILE DATA · VPN"}[n]||"… checking";
+-  return'<span class="chip '+(/relay|VPN/.test(L)?"ac":"on")+'">'+L+'</span>'}
+-function strip(){var si=S()&&S().info();return'<div class="strip">'+netChip()+'<span class="chip '+(si&&si.signed_in?"on":"warn")+'" data-a="'+(si&&si.signed_in?"settings":"login")+'">'+(si&&si.signed_in?"Signed in · ASSM":"Sign in · ASSM")+'</span><span class="chip">chain #'+(ctx.height!=null?ctx.height-1:"…")+'</span>'+(qsize()?'<span class="chip gold" data-a="offline">⧗ '+qsize()+' queued</span>':"")+'</div>'}
++function netChip(){return'<span class="chip on">watch-only · sign on trusted device</span>'}
++function strip(){var si=S()&&S().info();return'<div class="strip">'+netChip()+'<span class="chip on" data-a="'+(si&&si.signed_in?"settings":"login")+'">'+(si&&si.signed_in?"Signed in · ASSM":"Sign in · ASSM")+'</span><span class="chip">chain #'+(ctx.height!=null?ctx.height-1:"…")+'</span>'+(qsize()?'<span class="chip gold" data-a="offline">⧗ '+qsize()+' queued</span>':"")+'</div>'}
+ function qsize(){var s=T()?T().status():{};return(s.queued_ops||0)+(s.queued_mints||0)}
+ function bal(){return'<div class="bal"><div class="n">'+E(balR())+' <span class="u">R</span></div><div class="s">local ledger · RGHOSTCHAIN watch-only · no keys in this page</div></div>'}
+ function unlockText(){var f=ctx.factors;if(!f.length)return"unlock on your trusted phone";return f.map(function(x){return(M[x]||[0,x])[1]}).join(" or ")}
+-function bigBtn(){var r=trustRow(),si=S()&&S().info(),off=ctx.net==="offline";
+-  if(!r||r.status!=="active")return'<div class="press"><button class="big lock" data-a="untrusted"><span class="ya">Я</span>LOCKED<small>this device can’t sign</small></button></div>';
+-  if(off)return'<div class="press"><button class="big q" data-a="press"><span class="ya">Я</span>SIGN · QUEUE<small>sealed now · sent when online</small></button></div>';
+-  return'<div class="press"><button class="big" data-a="press"'+(ctx.busy?" disabled":"")+'><span class="ya">Я</span>MINT · SIGN<small>'+(si&&si.signed_in?"one press · one unlock":"sign in with ASSM first")+'</small></button></div>'}
+-function what(){var n=ctx.next;return'<div class="what">Next: <b>'+E(n?n.label:"…")+'</b> · unlock: '+E(unlockText())+'</div><div class="msg">'+E(ctx.msg)+'</div>'}
++function bigBtn(){return'<div class="reqacts"><div data-a="send">↑ Send</div><div data-a="receive">↓ Receive</div><div class="mint1" data-a="press"><b>Я MINT</b><small>request only · sign on trusted device</small></div><div data-a="legacy">⛓ BOTLATCH</div></div>'}
++function what(){return'<div class="what">Send and Mint create an unsigned request · sign on a trusted device (17e Face ID, moto, or Neo)</div><div class="msg">'+E(ctx.msg)+'</div>'}
+ function devrows(){return'<div class="devs"><div><b>17e</b><span>◉ Face ID <i>or</i> ⁂ ASSM</span></div><div><b>moto</b><span>⌾ Fingerprint <i>or</i> ⁂ ASSM</span></div><div><b>Neo</b><span>⁂ ASSM username + password</span></div></div>'}
+ function rtcard(mini){var r=ctx.rt||{},assets=r.assets||[];return'<div class="card rt" data-a="rtrackr"><h4>▶ RTRACKR <em>RGHOSTCHAIN + R token</em></h4>'+
+   '<div class="row"><span>chain height</span><span class="k">#'+(ctx.height!=null?ctx.height-1:"…")+(ctx.next&&ctx.next.kind==="bind"?" · block "+ctx.next.index+" pending":"")+'</span></div>'+
+@@ -66,13 +61,18 @@
+   return'<div class="dim" data-a="close"></div><div class="sheet"><div class="grab"></div><h3>Receive</h3><p class="sub">pick a network</p><div class="netsel"><span class="chip'+(n==="r"?" on":"")+'" data-a="rnet" data-n="r">Я R · RWALLET</span><span class="chip'+(n==="evm"?" on":"")+'" data-a="rnet" data-n="evm">EVM</span><span class="chip'+(n==="solana"?" on":"")+'" data-a="rnet" data-n="solana">Solana</span></div>'+
+   '<div class="kv" style="grid-template-columns:90px 1fr"><dt>network</dt><dd class="g">'+(n==="r"?"RGHOSTCHAIN · R":n)+'</dd><dt>address</dt><dd class="h">'+E(addr)+'</dd></div><button class="btn" data-a="copy" data-v="'+E(addr)+'">Copy address</button><button class="btn ghost" data-a="close">Close</button></div>'}
+ /* ---------- screens ---------- */
++
++function yidAssets(){return'<div class="csp-rwx" style="margin:8px 16px"></div>'}
++function funcsBox(){var U=w.RWALLET_UNIFIED,F=(U&&(U.funcs||U.functions||w.RWALLET_FUNCS))||w.RWALLET_FUNCS||[],q=(st.fq||"").toLowerCase();
++  var it=F.filter(function(f){return!q||(String(f.label||"")+" "+String(f.cmd||"")+" "+String(f.id||"")).toLowerCase().indexOf(q)>=0});
++  return'<div class="card fns"><h4>RDG WALLET · FUNCTIONS <em>search '+F.length+' functions · watch-only</em></h4>'+
++   '<div class="acts" style="margin:0 0 8px"><div data-a="send">↑ Send</div><div data-a="receive">↓ Receive</div><div data-a="press">✦ Mint</div><div data-a="legacy">⛓ BOTLATCH</div></div>'+
++   '<input class="rw2q" id="rw2-fq" placeholder="search '+F.length+' functions…" value="'+E(st.fq||"")+'">'+
++   '<div class="fnlist">'+it.map(function(f){return'<div class="row" data-f="'+E(f.id)+'"><span>'+E(f.label||f.id)+'</span><span class="m">'+(f.read?"read":"needs you")+'</span></div>'}).join("")+'</div></div>'}
+ var SCR={
+- home:function(){return hdr()+strip()+bal()+bigBtn()+what()+devrows()+rtcard(true)+legacy()+nav("home")},
+- untrusted:function(){var s=ctx.snap||{};return hdr()+strip()+'<div class="press"><div class="big lock"><span class="ya">Я</span>LOCKED<small>this device can’t sign</small></div></div>'+
+-  '<div class="card" style="border-color:var(--gm-warn)"><h4 style="color:var(--gm-warn)">NOT A TRUSTED DEVICE <em>refused before any prompt</em></h4><div class="row"><span>This device</span><span class="w">'+E(trustLbl())+'</span></div><div class="row"><span>Unlock prompt</span><span class="m">not shown</span></div><div class="row"><span>Anything sent</span><span class="ok">nothing</span></div></div>'+
+-  '<div class="card"><h4>SIGN FROM ONE OF YOURS</h4>'+(s.devices||[]).map(function(d){return'<div class="row"><span>'+E(d.device_id.split("-")[0])+'</span><span class="'+(d.status==="active"?"ok":"k")+'">'+E(d.status)+'</span></div>'}).join("")+'</div>'+
+-  '<button class="btn ghost" style="margin:6px 16px;width:auto" data-a="route">Send request to my 17e / moto</button>'+nav("home")},
+- offline:function(){var s=T()?T().status():{};var q=(T()?T().ops():[]).concat((w.RMINT_ONETAP?w.RMINT_ONETAP.queue():[]).map(function(x){return{kind:"mint",t:x.t}}));
++ home:function(){return hdr()+strip()+bal()+bigBtn()+what()+devrows()+rtcard(true)+yidAssets()+funcsBox()+legacy()+nav("home")},
++ untrusted:function(){return this.home()}, /* b48 preview: no LOCKED / NOT A TRUSTED DEVICE screen */
++  offline:function(){var s=T()?T().status():{};var q=(T()?T().ops():[]).concat((w.RMINT_ONETAP?w.RMINT_ONETAP.queue():[]).map(function(x){return{kind:"mint",t:x.t}}));
+   return hdr()+strip()+'<div class="card" style="border-color:var(--gm-gold)"><h4 style="color:var(--gm-gold)">PENDING QUEUE · '+q.length+' <em>rmint.queue.v1 · rmint.ops.v1</em></h4>'+
+   (q.length?q.map(function(x,i){return'<div class="row"><span class="k">Q-'+(i+1)+'</span><span>'+E(x.kind)+'</span><span class="m">'+E(String(x.t||"").slice(0,16))+'</span></div>'}).join(""):'<div class="row"><span class="m">empty</span></div>')+
+   '<div class="row"><span class="m">last link</span><span>'+E(s.last?s.last[0]:"none")+'</span></div><div class="row"><span class="m">retry</span><span class="m">every 30 s · on network change · on open</span></div><div class="row"><span class="m">unsigned items</span><span class="ok">never queued</span></div></div>'+
+@@ -120,15 +120,16 @@
+ function say(t){ctx.msg=t||"";var m=mount(),x=m&&m.querySelector(".msg");if(x)x.textContent=ctx.msg;else render()}
+ function doPress(factor){var u=D.getElementById("rw2-u"),p=D.getElementById("rw2-p");var o={factor:factor,user:u&&u.value,password:p&&p.value,onStatus:function(s){say(s.msg)}};if(p)p.value="";
+   ctx.busy=true;ctx.sheet=null;render();return w.RMINT_PRESS.press(o).then(function(r){ctx.busy=false;o.password=null;
+-    if(r.ok){ctx.receipt=r;ctx.sheet="receipt";ctx.msg="";refresh()}else if(r.gate===false){ctx.msg=r.why;if(/untrusted|trust is|revoked/i.test(r.why||""))st.scr="untrusted";else ctx.sheet="login"}else if(r.queued){st.scr="offline";ctx.msg="Sealed · queued"}else{ctx.msg=r.err||(r.errors||[]).join(" ")||"not minted";if(r.locked_s)ctx.msg+=" · locked "+Math.ceil(r.locked_s/60)+" min"}
++    if(r.ok){ctx.receipt=r;ctx.sheet="receipt";ctx.msg="";refresh()}else if(r.gate===false){ctx.msg=r.why;if(/untrusted|trust is|revoked/i.test(r.why||""))st.scr="home" /* b48: stay on full layout, no untrusted lock screen */;else ctx.sheet="login"}else if(r.queued){st.scr="offline";ctx.msg="Sealed · queued"}else{ctx.msg=r.err||(r.errors||[]).join(" ")||"not minted";if(r.locked_s)ctx.msg+=" · locked "+Math.ceil(r.locked_s/60)+" min"}
+     save();render()}).catch(function(e){ctx.busy=false;say("not minted: "+e.message)})}
+ function onPress(){if(!(S()&&S().info().signed_in)){ctx.sheet="login";render();return}
+-  w.RMINT_GATE.mintGated().then(function(g){if(!g.ok){ctx.msg=g.why;if(/session|signed in|ASSM/i.test(g.why||"")&&!/untrusted|trust is|revoked/i.test(g.why||""))ctx.sheet="login";else st.scr="untrusted";save();render();return}   // gate BEFORE any prompt
++  w.RMINT_GATE.mintGated().then(function(g){if(!g.ok){ctx.msg=g.why;if(/session|signed in|ASSM/i.test(g.why||"")&&!/untrusted|trust is|revoked/i.test(g.why||""))ctx.sheet="login";else st.scr="home" /* b48: stay on full layout, no untrusted lock screen */;save();render();return}   // gate BEFORE any prompt
+     if(!ctx.factors.length){say("No signer on this page: routing to your trusted phone…");doPress(null);return}
+     ctx.sheet=devName()==="Neo"&&ctx.factors.indexOf("assm")>=0?"pw":"auth";render()})}
+ D.addEventListener("click",function(e){var t=e.target.closest&&e.target.closest(".rw2 [data-a]");if(!t)return;var a=t.dataset.a;e.stopPropagation();
+   if(SCR[a]&&a!=="untrusted"){st.scr=a;ctx.sheet=null;save();render();return}
+-  switch(a){case"press":onPress();break;case"untrusted":st.scr="untrusted";save();render();break;case"close":ctx.sheet=null;render();break;
++  if(t.closest&&t.closest("[data-f]")){var id=t.closest("[data-f]").getAttribute("data-f");if(w.RWALLET_UNIFIED&&w.RWALLET_UNIFIED.run){w.RWALLET_UNIFIED.run(id).then(function(r){ctx.msg=(r&&r.status)||"preview";render()});}return;}
++   switch(a){case"press":onPress();break;case"untrusted":st.scr="home" /* b48: stay on full layout, no untrusted lock screen */;save();render();break;case"close":ctx.sheet=null;render();break;
+    case"pw":ctx.sheet="pw";render();break;case"bio":ctx.sheet="auth";render();break;case"unlock":doPress(t.dataset.f);break;
+    case"login":ctx.sheet="login";render();break;
+    case"dologin":var u=D.getElementById("rw2-lu").value,p=D.getElementById("rw2-lp");var pw=p.value;p.value="";say("signing in…");
+@@ -143,6 +144,8 @@
+    case"legacy":st.legacy=true;save();render();break}},true);
+ w.addEventListener&&["rmint:link","rmint:queue","rmint:session","rwallet:linked"].forEach(function(n){w.addEventListener(n,function(){if(!ctx.sheet)render()})});
+ /* take over rwallet-ghost.js's render (kept as legacyRender for "all functions ›") */
++
++ D.addEventListener("input",function(e){if(e.target&&e.target.id==="rw2-fq"){st.fq=e.target.value;var box=e.target.closest(".fns");if(box){var keep=e.target.selectionStart;render();var n=D.getElementById("rw2-fq");if(n){n.focus();try{n.setSelectionRange(keep,keep)}catch(x){}}}}});
+ function takeover(){var R=w.RWALLET;if(R&&R.render&&!R.__v2){legacyRender=R.render;R.render=render;R.__v2=true;R.v2={render:render,refresh:refresh,press:onPress,show:function(s){st.scr=s;save();render()}}}if(w.RWALLET_UNIFIED&&w.RWALLET_UNIFIED.ready)w.RWALLET_UNIFIED.ready.then(function(){setTimeout(render,0)});render();refresh()}
+ w.RWALLET2={version:"1.0",render:render,refresh:refresh,takeover:takeover};
+ D.readyState==="loading"?D.addEventListener("DOMContentLoaded",takeover):takeover();setInterval(refresh,60000);

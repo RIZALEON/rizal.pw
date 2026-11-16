@@ -1,0 +1,130 @@
+name: DragonSkull
+options:
+  bundleIdPrefix: info.rizal
+  deploymentTarget: { iOS: "17.0" }   # 2026-11-13 pt182u: was 16.4; embedded ЯSCRIBE (ROSShell tokens) needs iOS 17
+targets:
+  DragonSkull:
+    type: application
+    platform: iOS
+    sources:
+      - path: App/Sources
+      - path: ../../../../../APPS/SHARED/RAGENT-ENGINE/RAgentEngine.swift   # 2026-11-13 pt173u shared Apple-first engine (by path, not a copy)
+      - path: ../../../../../APPS/SHARED/RAGENT-ENGINE/RAgentTranscript.swift   # 2026-11-14 pt341u shared ЯSYNC transcript + ЯSCRIBE save
+      - path: ../../../../../APPS/SHARED/RTHUNDR-HELPER/RThundRHelper.swift   # 2026-11-13 pt179u RTHUNDR in-app helper (by path, not a copy)
+      - path: ../../../../../APPS/SHARED/REMBED   # 2026-11-13 pt182u embedded apps (REmbedCore/Web/RScribe/RMail/Orders), by path
+        excludes: ["bundle/**"]
+      - path: ../../../../../APPS/GHOSTMACHINE/Shared/Native/GMGhostkeyGuard.swift   # pt182u guarded rghostkey bridge for embedded GHOSTMACHINE / ЯWALLET
+      - path: ../../../../../cryptoapp/RSCRIBE/source/xcode-build/RScribe/App/RScribeTile.swift   # pt182u ЯSCRIBE root view (its @main app not included)
+      - path: ../../../../../APPS/RMAIL-XCODE-20261111/RMAIL-APPROVE/Sources/InboxStore.swift   # pt182u/t184u RMAIL (its @main app + RFont.swift not included)
+      - path: ../../../../../APPS/RMAIL-XCODE-20261111/RMAIL-APPROVE/Sources/InboxView.swift
+      - path: ../../../../../APPS/RMAIL-XCODE-20261111/RMAIL-APPROVE/Sources/ApproveEngine.swift
+      - { path: ../../../../../APPS/SHARED/REMBED/bundle/ghostmachine, type: folder, buildPhase: resources }   # pt182u bundle/ = symlinks, no copies
+      - { path: ../../../../../APPS/SHARED/REMBED/bundle/web-shared, type: folder, buildPhase: resources }
+      - { path: ../../../../../APPS/SHARED/REMBED/bundle/web-agents, type: folder, buildPhase: resources }
+      - { path: ../../../../../APPS/SHARED/REMBED/bundle/rwallet, type: folder, buildPhase: resources }
+      - { path: ../../../../../APPS/SHARED/REMBED/bundle/rtrackr, type: folder, buildPhase: resources }
+      - path: ThundRWidget/ThundRStatus.swift
+      - path: ThundRWidget/ThundRRklowd.swift
+      - path: App/Assets.xcassets
+      - path: App/web
+        type: folder
+        buildPhase: resources
+      - path: App/thundrfloat
+        type: folder
+        buildPhase: resources
+    info:
+      path: App/Info.plist
+      properties:
+        CFBundleDisplayName: RDRGN
+        CFBundleName: RDRGN   # t132u: name RDRGN (bundle id unchanged)
+        CFBundleShortVersionString: "$(MARKETING_VERSION)"
+        CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
+        UILaunchScreen: {}
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
+        UISupportedInterfaceOrientations~ipad: [UIInterfaceOrientationPortrait, UIInterfaceOrientationPortraitUpsideDown, UIInterfaceOrientationLandscapeLeft, UIInterfaceOrientationLandscapeRight]
+        NSAppTransportSecurity: { NSAllowsLocalNetworking: true }
+        NSSupportsLiveActivities: true
+        NSSupportsLiveActivitiesFrequentUpdates: true
+        UIBackgroundModes: [fetch]
+        BGTaskSchedulerPermittedIdentifiers: [info.rizal.dragonskull.thundr.refresh]
+        CFBundleURLTypes: [{ CFBundleURLName: info.rizal.dragonskull.thundr, CFBundleURLSchemes: [rdragon] }]
+        LSApplicationQueriesSchemes: [terraformr]   # 1.0.4.35: ThundR > TerraformЯ entry (open only; signing stays in TerraformЯ)
+        NSLocalNetworkUsageDescription: "ThundR talks to RDOS on your Mac over the local network."
+        UIApplicationSupportsIndirectInputEvents: true
+        NSFaceIDUsageDescription: "REBIRTH asks for Face ID before it runs each owner-approved pending item."
+        DSSelfUpdateManifestURL: "https://raw.githubusercontent.com/RIZALEON/RZL-EGG/main/dragon-skull/ios-web/appcast.json"
+    dependencies:
+      - target: ThundRWidget
+      - target: RBOARDKeyboard   # rboard 20261107
+      - framework: llama.xcframework
+        embed: false
+      - sdk: Metal.framework
+      - sdk: Accelerate.framework
+      - sdk: libc++.tbd
+    settings:
+      base:
+        PRODUCT_NAME: "DRAGON SKULL"
+        PRODUCT_BUNDLE_IDENTIFIER: info.rizal.dragonskull
+        DEVELOPMENT_TEAM: 7D3P5F4V9M
+        CODE_SIGN_STYLE: Automatic
+        CODE_SIGN_ENTITLEMENTS: App/DragonSkull.entitlements
+        TARGETED_DEVICE_FAMILY: "1,2"   # mobileparity 20261030: iPhone + iPad
+        SWIFT_VERSION: "5.0"
+        INFOPLIST_KEY_CFBundleDisplayName: "RDRGN"
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UISupportedInterfaceOrientations: UIInterfaceOrientationPortrait
+        INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad: "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
+        MARKETING_VERSION: "1.0.6.0"
+        CURRENT_PROJECT_VERSION: "42"
+        ENABLE_BITCODE: NO
+        OTHER_LDFLAGS: "-lc++"
+    postBuildScripts:
+      - name: Embed Granite model (single source copy, sha-checked at launch)
+        basedOnDependencyAnalysis: false
+        script: |
+          # b42: do not bundle Granite weights. Download-on-device, SHA-pinned at launch.
+          SRC="$PROJECT_DIR/../model/granite-4.0-h-1b-Q4_K_M.gguf"
+          DST="$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/model"
+          mkdir -p "$DST"
+          if [ -f "$SRC" ]; then echo "note: Granite gguf present at $SRC but will NOT be packed into the app."; fi
+          printf '%s\n' '{"file":"granite-4.0-h-1b-Q4_K_M.gguf","sha256":"fd3b85f09520df9d898e2bbcf5da22fc518dbf9d662bb52e214d946c72aafacc","bundle":false,"placement":"download-on-device"}' > "$DST/granite-pointer.json"
+  RBOARDKeyboard:   # rboard 20261107: Settings keyboard extension (additive)
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: RBOARDKeyboard
+        excludes: ["web/**", "Info.plist"]
+      - path: RBOARDKeyboard/web
+        type: folder
+        buildPhase: resources
+    settings:
+      base:
+        PRODUCT_NAME: RBOARDKeyboard
+        PRODUCT_BUNDLE_IDENTIFIER: info.rizal.dragonskull.rboardkeyboard
+        INFOPLIST_FILE: RBOARDKeyboard/Info.plist
+        DEVELOPMENT_TEAM: 7D3P5F4V9M
+        CODE_SIGN_STYLE: Automatic
+        TARGETED_DEVICE_FAMILY: "1,2"
+        SWIFT_VERSION: "5.0"
+        APPLICATION_EXTENSION_API_ONLY: YES
+        MARKETING_VERSION: "1.0.6.0"
+        CURRENT_PROJECT_VERSION: "42"
+        SKIP_INSTALL: YES
+  ThundRWidget:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: ThundRWidget
+        excludes: ["*.entitlements"]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: info.rizal.dragonskull.thundrwidget
+        INFOPLIST_FILE: ThundRWidget/Info.plist
+        CODE_SIGN_ENTITLEMENTS: ThundRWidget/ThundRWidget.entitlements
+        DEVELOPMENT_TEAM: 7D3P5F4V9M
+        CODE_SIGN_STYLE: Automatic
+        TARGETED_DEVICE_FAMILY: "1,2"
+        SWIFT_VERSION: "5.0"
+        MARKETING_VERSION: "1.0.6.0"
+        CURRENT_PROJECT_VERSION: "42"
+        SKIP_INSTALL: YES

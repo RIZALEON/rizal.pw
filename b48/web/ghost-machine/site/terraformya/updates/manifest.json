@@ -1,0 +1,43 @@
+{
+ "channel": "test",
+ "patches": [
+  {
+   "id": "gizmo_species_nx112",
+   "min_app": "0.5.1",
+   "note": "GIZMO-created species NX-112 Palawan Peacock-pheasant (Polyplectron napoleonis), manual section 18 sprite",
+   "sha256": "e4e9602f7ce6cb1ff01b8d2cbadc6e7e0ddf5c3613b65d9bdad12f96df141da9",
+   "size": 11636,
+   "url": "gizmo_species_nx112-1.0.0.pck",
+   "version": "1.0.0"
+  }
+ ],
+ "schema": "terraformya.updates.v1",
+ "updated": "2026-11-02T09:28:40Z",
+ "category": "cryptoupdate",
+ "signer_default": "ios",
+ "staged_builds": {
+  "version": "0.5.1.13",
+  "channel": "unified-rsync",
+  "note": "staged in RCRYPTOFORGE, not distributed here",
+  "items": [
+   "TerraformR-0.5.1.13-b23-signupdate-debug.apk (Android)",
+   "TerraformR-0.5.1.13-b23-audio-ios.ipa (iOS)",
+   "TerraformR-0.5.1.13-b23-audio-ios-ipad.ipa (iPadOS)"
+  ],
+  "android_seat": {
+   "id": "UPDATE-0.5.1.13-b23-android-20261101",
+   "platform": "android",
+   "version": "0.5.1.13",
+   "build": 23,
+   "file": "TerraformR-0.5.1.13-b23-signupdate-debug.apk",
+   "sha256": "7bfc51a9854e3ffd93b6705619913168a48279f44b3a63d85a65b6a71362f9af",
+   "size": 127428553,
+   "sums": "UPDATE-0.5.1.13-b23-android-20261101.SHA256SUMS",
+   "note": "Android B23 seat: ThundR/Gizmo art, audio, wallet. NO Forge. APK not hosted here (122 MB); install via adb -r."
+  }
+ },
+ "changelog": [
+  "2026-11-02: Android B23 seat staged (sha256 7bfc51a9...62f9af).",
+  "2026-11-01: Forge (Pandayan) is in game source for the NEXT build only. The 0.5.1.13 B23 pack has no Forge."
+ ]
+}

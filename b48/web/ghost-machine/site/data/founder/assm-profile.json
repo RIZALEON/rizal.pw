@@ -1,0 +1,52 @@
+{
+ "schema": "ya.assm-profile.v1",
+ "card": "ASSM PROFILE CARD",
+ "law": "LAW-PTS-1 Profile Twin Sync: any update or command that changes the bot profile or the rizal.pw site profile must update both the ASSM profile card and the bio bot card (bio-source.json) in the same change.",
+ "handle": "@chaserizal",
+ "rid": "ЯID-0001-3QQS",
+ "role": "Decider / founder",
+ "command": {
+  "console": "R:\\ console `edit` (ЯBOT profile command: edit · edit about · edit link · edit save · plain-English edits)",
+  "inline": "Edit button → Save",
+  "update_path": "signed ЯSYNC profile.update (rsync-core.js)"
+ },
+ "fields": [
+  "name",
+  "handle",
+  "bio",
+  "location",
+  "link",
+  "links",
+  "joined",
+  "biosrc"
+ ],
+ "profile": {
+  "name": "Rizal",
+  "handle": "@chaserizal",
+  "bio": "",
+  "location": "",
+  "link": "",
+  "links": [],
+  "joined": "",
+  "bio_sources": []
+ },
+ "linked_card": {
+  "card": "BIOBOT / bio bot card",
+  "path": "/data/founder/bio-source.json",
+  "schema": "ya.bio-source.v1",
+  "shared": [
+   "name",
+   "handle",
+   "rid",
+   "role",
+   "bio_sources"
+  ]
+ },
+ "sync": {
+  "site": "rassm.js: every profile save (editSet / editSave) rewrites the live ASSM card in this browser (localStorage rassm.card) from the same fields",
+  "bot": "tools/profile-sync.js: rewrites both JSON files from one source; run after any bot/site profile change"
+ },
+ "public_only": true,
+ "status": "unsigned-pending-founder",
+ "updated": "2026-10-29"
+}

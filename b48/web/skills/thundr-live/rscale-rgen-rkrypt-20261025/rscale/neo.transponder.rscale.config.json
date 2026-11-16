@@ -1,0 +1,58 @@
+{
+ "everySec": 30,
+ "statusLog": "~/ЯLAB/RFORGE/RSYNC/transponder-status.jsonl",
+ "order": [
+  "neo",
+  "pixel-rscale",
+  "pixel-lan",
+  "github",
+  "drive1",
+  "drive2",
+  "neo-backup",
+  "rforge-drive"
+ ],
+ "relays": [
+  {
+   "name": "neo",
+   "type": "http",
+   "url": "http://127.0.0.1:8799"
+  },
+  {
+   "name": "pixel-rscale",
+   "type": "http",
+   "url": "http://pixel.rscale.rlab:8799",
+   "note": "Neo rscaled runs userspace, so Neo→mesh outbound needs rscaled's SOCKS5 (127.0.0.1:1055); relays.js uses plain fetch with no proxy support yet. Until patched, this relay will report down and pixel-lan / GitHub / Drive carry it. Inbound mesh→Neo:8799 needs no change."
+  },
+  {
+   "name": "pixel-lan",
+   "type": "http",
+   "url": "http://192.168.0.206:8799"
+  },
+  {
+   "name": "github",
+   "type": "git",
+   "dir": "~/ЯLAB/RFORGE/RSYNC/github-relay"
+  },
+  {
+   "name": "drive1",
+   "type": "rclone",
+   "remote": "drive1:RSYNC-RELAY"
+  },
+  {
+   "name": "drive2",
+   "type": "rclone",
+   "remote": "drive2:RSYNC-RELAY"
+  },
+  {
+   "name": "neo-backup",
+   "type": "folder",
+   "dir": "~/ЯLAB/RFORGE/RSYNC/BACKUP"
+  },
+  {
+   "name": "rforge-drive",
+   "type": "folder",
+   "dir": "/Volumes/RFORGE/RSYNC/BACKUP",
+   "mustExist": "/Volumes/RFORGE"
+  }
+ ]
+}

@@ -1,0 +1,158 @@
+{
+ "schema": "rzl.doc.v1",
+ "name": "SOURCE-rvm-linux-0.1.0",
+ "title": "GPL corresponding source · rvm-linux 0.1.0",
+ "rev": 1,
+ "layer": "PUBLIC",
+ "lang": "en",
+ "blocks": [
+  {
+   "type": "text",
+   "tag": "declared",
+   "text": "Corresponding source for the GPL/LGPL parts of the ЯVM Linux image egg rvm-linux 0.1.0 (RVM-LINUX-0.1.0.rzl). Published next to the eggs on both hosts: https://rizal.info/src/rvm-linux-0.1.0/ and https://rizal.pw/src/rvm-linux-0.1.0/ . Read with: rzl-doc cat SOURCE.rzl"
+  },
+  {
+   "type": "table",
+   "tag": "observed",
+   "head": [
+    "component in egg",
+    "version (observed in binary)",
+    "license",
+    "source here",
+    "status"
+   ],
+   "rows": [
+    [
+     "linux/kernel-riscv64.bin",
+     "Linux 4.15.0-00049-ga3b1e7a-dirty #11 (bellard, gcc 7.3.0 Buildroot 2016.08-git, Thu Nov 8 2018)",
+     "GPL-2.0 (licenses/COPYING.linux-4.15.txt)",
+     "linux/linux-4.15.tar.xz.part00..02 (kernel.org, sha256 5a264789…a769 verified against kernel.org sha256sums) + linux/riscv-linux-v4.15..a3b1e7acc6a1.patch (49 commits = '-00049', from github riscvarchive/riscv-linux compare) + bellard/riscv-linux.diff (the '-dirty' delta) + bellard/config_linux_riscv64",
+     "EXACT tree; config: closest published (see written offer)"
+    ],
+    [
+     "linux/bbl64.bin",
+     "riscv-pk bbl ac2c910b18c3e36cfd85080472e78ad2fe484325 + bellard/riscv-pk.diff",
+     "BSD-3-Clause (licenses/LICENSE.riscv-pk-bbl.txt)",
+     "bellard/riscv-pk.diff; upstream https://github.com/riscv-software-src/riscv-pk",
+     "not copyleft; provided for completeness"
+    ],
+    [
+     "linux/root-riscv64 (/bin/busybox)",
+     "BusyBox v1.21.1 (2017-05-23 22:05:40 CEST)",
+     "GPL-2.0 (licenses/LICENSE.busybox-1.21.1.txt)",
+     "busybox/busybox-1.21.1.tar.bz2 (busybox.net)",
+     "EXACT version source; .config not published (see written offer)"
+    ],
+    [
+     "linux/root-riscv64 (/lib libc-2.24.90.so, libm, ld-linux-riscv64-lp64d)",
+     "GNU C Library development release 2.24.90, GCC 7.1.1 20170509",
+     "LGPL-2.1 (licenses/LGPL-2.1.glibc.txt)",
+     "none here: exact riscv-glibc snapshot not identified",
+     "WRITTEN OFFER"
+    ],
+    [
+     "riscvemu64-wasm.{js,wasm}, term.js, boot.html",
+     "TinyEMU / JSLinux 2019-12-21 (Fabrice Bellard)",
+     "MIT (licenses/MIT-LICENSE.TinyEMU.txt)",
+     "https://bellard.org/tinyemu/ · https://bellard.org/jslinux/",
+     "not copyleft"
+    ],
+    [
+     "build system reference",
+     "Bellard buildroot-riscv-2018-10-20 (ships BusyBox 1.24.2, so it is NOT the build of this 1.21.1 rootfs)",
+     "GPL-2.0",
+     "buildroot/buildroot-riscv-2018-10-20.tar.gz (bellard.org/tinyemu)",
+     "reference only"
+    ]
+   ]
+  },
+  {
+   "type": "text",
+   "tag": "declared",
+   "text": "Reassemble the kernel tarball: cat linux/linux-4.15.tar.xz.part00 linux/linux-4.15.tar.xz.part01 linux/linux-4.15.tar.xz.part02 > linux-4.15.tar.xz && sha256sum linux-4.15.tar.xz  (expect 5a26478906d5005f4f809402e981518d2b8844949199f60c4b6e1f986ca2a769). Then: tar xf linux-4.15.tar.xz && cd linux-4.15 && git apply ../linux/riscv-linux-v4.15..a3b1e7acc6a1.patch (or patch -p1) && patch -p1 < ../bellard/riscv-linux.diff && cp ../bellard/config_linux_riscv64 .config && make ARCH=riscv olddefconfig vmlinux."
+  },
+  {
+   "type": "text",
+   "tag": "declared",
+   "text": "WRITTEN OFFER (valid at least three years from 2026-10-11, to any third party, at no charge beyond the cost of physically performing distribution): The publisher of rizal.info / rizal.pw (Charles Augustus Marcum III, GitHub rizalward, https://github.com/rizalward/rizal.info/issues) will provide, on request, any further complete corresponding source we hold or obtain for: (1) the exact kernel .config and toolchain of build #11 (Nov 8 2018) — Fabrice Bellard published only config_linux_riscv64 of build #10 (Sep 2018, same a3b1e7a tree), included here; (2) the BusyBox 1.21.1 .config used for the rootfs; (3) the glibc 2.24.90 riscv snapshot source. These binaries are redistributed unmodified from Bellard's jslinux-2019-12-21 demo pack; the upstream author has not published items (1)-(3). Honest status: kernel and BusyBox version source = exact; build configs and glibc snapshot = written offer."
+  },
+  {
+   "type": "table",
+   "tag": "observed",
+   "head": [
+    "file",
+    "sha256"
+   ],
+   "rows": [
+    [
+     "bellard/config_linux_riscv32",
+     "c9b2cf720fbf0ded6ab8d2e118cb95e38afb2d075f6d060223337ac194c3a5e7"
+    ],
+    [
+     "bellard/config_linux_riscv64",
+     "442e3380b626a19eeed01f2142284fc7ba58e2829f5f7162e9e3f44bce65d2af"
+    ],
+    [
+     "bellard/diskimage-readme.txt",
+     "b0860a408cf7db8cac242b770d88d06bfa33dbb299a2e93ea826f215ba170daa"
+    ],
+    [
+     "bellard/readme.txt",
+     "a05f71a1ac4661bae2e772f2982dd9f6d0ef5ce944f304b49ffd93272a3dd832"
+    ],
+    [
+     "bellard/riscv-linux.diff",
+     "48999c3aca770205b6cd01546e429f431a4d01f3d28c5317568a06849804409d"
+    ],
+    [
+     "bellard/riscv-pk.diff",
+     "ee5c9335ff9f7501d04b1f50dbf95c66ce7d22aaaf5bcc102eeae51f2b825fcf"
+    ],
+    [
+     "buildroot/buildroot-riscv-2018-10-20.tar.gz",
+     "27cb3289ee4469ec7bdfcc612298367c7b8b44644f35f53a7f226c708c699c89"
+    ],
+    [
+     "busybox/busybox-1.21.1.tar.bz2",
+     "cd5be0912ec856110ae12c76c3ec9cd5cba1df45b5a9da2b095b8284d1481303"
+    ],
+    [
+     "licenses/COPYING.linux-4.15.txt",
+     "af8067302947c01fd9eee72befa54c7e3ef8a48fecde7fd71277f2290b2bf0f7"
+    ],
+    [
+     "licenses/LGPL-2.1.glibc.txt",
+     "20e50fe7aae3e56378ebf0417d9de904f55a0e61e4df315333e632a4d3555d95"
+    ],
+    [
+     "licenses/LICENSE.busybox-1.21.1.txt",
+     "bbfc9843646d483c334664f651c208b9839626891d8f17604db2146962f43548"
+    ],
+    [
+     "licenses/LICENSE.riscv-pk-bbl.txt",
+     "7a2a8577b920db0ed2442b323963061c07536f1e382f4bd052bd2d7ea0e495fe"
+    ],
+    [
+     "licenses/MIT-LICENSE.TinyEMU.txt",
+     "a75690160a50d8085bcd25acf34faa5b1c484e15ffd0bd662e5f4d7a289da080"
+    ],
+    [
+     "linux/linux-4.15.tar.xz.part00",
+     "44898fec58e994792ad0b530255866ff35c054f8e80a69b40571fc5dcc7cd5b5"
+    ],
+    [
+     "linux/linux-4.15.tar.xz.part01",
+     "24ea3a4d3b1699246bf40c5fecb228b492043383fe68bb1127d587d4573c781b"
+    ],
+    [
+     "linux/linux-4.15.tar.xz.part02",
+     "7734dde1e3c4228d6e28932d09053731ae0788d9df6e7d6aff6cdccd8dc7615a"
+    ],
+    [
+     "linux/riscv-linux-v4.15..a3b1e7acc6a1.patch",
+     "b3c38a9832d8520aec19f4d1be8bfac27191ce40a6ddd9303ea23f917ed71ff6"
+    ]
+   ]
+  }
+ ]
+}

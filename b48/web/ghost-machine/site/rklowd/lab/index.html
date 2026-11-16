@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lab status · rizal.pw</title>
+<meta name="description" content="Read-only live status for the 17e, the RVM, the RKLOWD node, and the RVM phone bridge.">
+<style>
+  body{font:14px/1.45 system-ui,sans-serif;background:#0b0b10;color:#ddd;max-width:760px;margin:auto;padding:16px}
+  h1{color:#e33;margin:0 0 .3rem}
+  h2{font-size:1rem;margin:1.1rem 0 .4rem;color:#eee}
+  a{color:#9cf}
+  .sub{color:#aaa;margin:0 0 1rem}
+  .grid{display:grid;gap:8px}
+  .card{border:1px solid #333;background:#12121a;border-radius:10px;padding:10px 12px}
+  .row{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+  .k{color:#888}
+  .ok{color:#5d5}
+  .bad{color:#e55}
+  .amb{color:#e8c547}
+  .pill{font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+  small,note,p.note{color:#999;font-size:12px}
+  #gen{color:#bbb}
+  noscript{color:#e55}
+</style>
+</head>
+<body>
+  <h1>Lab status</h1>
+  <p class="sub">Read-only · 17e · RVM · RKLOWD · bridge · updated <span id="gen">…</span></p>
+  <p><a href="/rklowd/">RKLOWD browser node</a></p>
+  <noscript>This page needs JavaScript only to refresh the local JSON snapshot.</noscript>
+  <div class="grid" id="cards">Loading…</div>
+  <h2>About</h2>
+  <p class="note">Public page is status only. No device identifiers, tokens, or LAN addresses are published here. A Sentry scribe (a guard role, not a third-party product) can relay Rizal's commands on the lab LAN with authentication; that command path is not exposed on this public page.</p>
+  <p class="note" id="stale"></p>
+<script>
+const EL = {
+  up: "ok", down: "bad", unknown: "amb", pending: "amb",
+  true: "ok", false: "bad"
+};
+function cls(v){ return EL[String(v)] || "amb"; }
+function pill(v){ return '<span class="pill '+cls(v)+'">'+esc(v)+'</span>'; }
+function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function row(k,v,html){ return '<div class="row"><span class="k">'+esc(k)+'</span><span>'+(html||esc(v))+'</span></div>'; }
+function card(title, body){ return '<div class="card"><h2>'+esc(title)+'</h2>'+body+'</div>'; }
+function render(d){
+  const p = d.phone || {}, r = d.rvm || {}, b = d.bridge || {}, n = d.rklowd || {}, c = d.collector || {};
+  const apps = p.apps || {};
+  const pages = r.pages || {};
+  const cards = [];
+  cards.push(card("17e", [
+    row("reach", p.reach, pill(p.reach||"unknown")),
+    row("RKLOWD node", n.phone_node || "17e"),
+    row("queued", p.queued == null ? "unknown" : p.queued),
+    row("ЯBOT", apps.rbot, pill(apps.rbot||"unknown")),
+    row("RDRAGON", apps.rdragon, pill(apps.rdragon||"unknown")),
+    row("TerraformR", apps.terraformr, pill(apps.terraformr||"unknown"))
+  ].join("")));
+  cards.push(card("RVM", [
+    row("guest", r.name || "LINUX-RIZAL-1.1.1.6"),
+    row("state", r.state, pill(r.state||"unknown")),
+    row("linux page", pages.linux, pill(pages.linux||"unknown")),
+    row("TerraformЯ page", pages.terraformr, pill(pages.terraformr||"unknown"))
+  ].join("")));
+  cards.push(card("RKLOWD + bridge", [
+    row("site node", n.site_node || "pw"),
+    row("sync", n.sync, pill(n.sync||"unknown")),
+    row("RVM RKLOWD bridge", b.rklowd_rvm_bridge, pill(b.rklowd_rvm_bridge||"unknown")),
+    row("phone tools in RVM", b.phone_tools, pill(b.phone_tools||"pending")),
+    row("write path", b.write_path || "lan-only")
+  ].join("")));
+  cards.push(card("Collector", [
+    row("RSS", c.rss_kb != null ? c.rss_kb + " KiB" : "—"),
+    row("interval", (c.interval_s||"—") + " s"),
+    row("last AUTO", d.last_auto || "—")
+  ].join("")));
+  document.getElementById("cards").innerHTML = cards.join("");
+  document.getElementById("gen").textContent = d.generated || "unknown";
+  const note = document.getElementById("stale");
+  if (d.source === "seed") note.textContent = "Seed snapshot from the last site publish. On the lab, this file is rewritten in place so the same page stays current.";
+  else note.textContent = "";
+}
+async function tick(){
+  try {
+    const r = await fetch("lab.json?t=" + Date.now(), {cache:"no-store"});
+    if (!r.ok) throw new Error("http "+r.status);
+    render(await r.json());
+  } catch (e) {
+    document.getElementById("cards").innerHTML = '<div class="card bad">Could not load lab.json ('+esc(e.message)+')</div>';
+  }
+}
+tick();
+setInterval(tick, 30000);
+</script>
+</body>
+</html>

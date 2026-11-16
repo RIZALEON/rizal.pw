@@ -1,0 +1,37 @@
+LESSON L063b · qr-pair 0.1.1 · scan-to-open (extends L063, which stays as is)
+
+WHAT CHANGED
+- `qr` now shows a QR that holds a LINK: https://rizal.info/pair#p=<payload>. The 0.1.0 QR held raw RZLQR1: text, and the
+  iPhone Camera said "No usable data found" because it only acts on links it recognizes.
+- The payload is the same signed pairing record as L063 (app, platform, version, build, fingerprints, keyId, nonce, time),
+  with the fingerprints shortened to 16 hex so the QR stays small (QR version 16-18 of 40).
+- The payload sits after the #. Browsers never send that part to a server, so rizal.info never sees it.
+
+HOW SCAN-TO-OPEN WORKS TODAY (no rebuild)
+1. Device A: type `qr`. The QR appears in chat.
+2. Device B: point the Camera at it. It offers to open the rizal.info pair page. The page shows who it is from and a
+   "Copy pairing link" button.
+3. Open DRAGON SKULL on B, paste the link in chat and press Send. Pasting a pair link is the same as `qr scan <link>`.
+   The app verifies it and shows the ALIGN REPORT, then offers "Show my QR back".
+4. Show B's qr and scan it on A the same way. Now both sides are paired. `check` compares them any time after.
+Also accepted when pasted: rzl://pair?p=..., RZLQR1:... (0.1.0) and `qr scan <either>`.
+
+LIMITS (say these honestly)
+- DRAGON SKULL 1.0.4 builds 7-10 (Mac) and 8 (iOS) register NO URL scheme and no universal link. So the Camera cannot open
+  DRAGON SKULL directly; the page plus copy and paste is the bridge. A real "scan, the app opens and pairs" needs a build that adds
+  `dragonskull://` or a rizal.info universal link. That is a rebuild Rizal must approve.
+- rzl:// yabowzr:// rbowzr:// belong to ЯBOWZR TEST on the 17e. They open ЯBOWZR, not DRAGON SKULL, and ЯBOWZR does not run qr-pair.
+- The pair page only works once Rizal publishes it at rizal.info/pair. Until then the Camera opens a missing page, but the
+  link can still be copied from the QR preview and pasted.
+- These builds have no device signer for web skills, so every payload is UNSIGNED and pairing is REFUSED on purpose.
+  That is correct behavior, not a bug.
+- Every rule from L063 still holds: the signer must be on the trust list, the payload must be under 10 minutes old, each
+  nonce works only once, and the signature must verify. A pasted link only runs when the user presses Send (DRAGONGATE gesture).
+- Version and build numbers live in the app binary. An egg can never change them. The ALIGN report shows a build FAIL until
+  a rebuild Rizal approves brings both to the same build.
+
+HOW TO STAY ALIGNED
+- After any egg or app change on one device: `qr` there, then paste on the other and `check` on both.
+- Any FAIL in commands, components or eggs: bring it over as a signed egg offer (`qr offer`). It becomes a Decider proposal
+  Rizal confirms with Face ID or Touch ID. Never install from a scan.
+- FAIL in build or version: tell Rizal it needs a rebuild. Newer build is the reference; on a tie the Neo is.

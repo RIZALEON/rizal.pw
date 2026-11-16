@@ -1,0 +1,16 @@
+--- a/ЯBOT/LabShotCommand.swift  (RBOT ios-native 2.1.9)
++++ b/ЯBOT/LabShotCommand.swift  (shot-sense 2.1.9-s1 · STAGED, not applied · ЯID-0003-P4M6 · ЯМАХ)
+@@ #else  // iOS branch of shot(mode:)
+-        // iOS: no silent screencapture pipe — teach keys + seat path.
+-        _ = dest
+-        return Result(
++        // iOS: capture this app's own window (whole screen is not allowed on iOS).
++        if let u = MainActor.assumeIsolated({ SelfShot.save(to: seat) }) {
++            return Result(text: "SHOT · \(schema) · ios self-view → \(u.path)\nSEE: relay `see` to the Mac seat for OCR + summary.", path: u.path, ok: true)
++        }
++        _ = dest
++        return Result(
+@@ verbs
+-    /// Verbs: `shot` · `SHOT` · `screenshot` · `lab shot` · `command shot`
++    /// Verbs: `shot` · `SHOT` · `sshot` · `see` · `sshot see` · `screenshot` · `lab shot` · `command shot`
++    /// sshot / see / sshot see on iOS → relay(to: .macos, mode:) — Mac bridge (rbot-inbox-bridge.py) runs ghostcmd.

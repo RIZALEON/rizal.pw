@@ -1,0 +1,166 @@
+/* DRAGONGATE typed-command bridge 0.2.0 · 2026-10-19 · SCOUT.
+ * Injected NATIVELY at document start (main frame only) with a per-launch token baked into this closure; it is not loaded by
+ * scout.html and a web-overlay copy has no token. It catches `/gate …`, `:commands` and `/commands` typed in #composer, keeps them
+ * away from the model, the chat memory and every other script, and hands them to the native dsGateCmd handler only after a trusted
+ * Enter key or tap in the composer. Replies are shown locally; confirm codes appear in a NATIVE pop-up, never in the page. */
+(function (root, factory) {
+  if (typeof module === "object" && module.exports) module.exports = factory;
+  else factory(root, root.document, "__DG_CMD_TOKEN__");
+})(typeof self !== "undefined" ? self : this, function (win, doc, TOKEN) {
+  "use strict";
+  var GESTURE_MS = 1500, last = 0;
+  var hnd = win.webkit && win.webkit.messageHandlers && win.webkit.messageHandlers.dsGateCmd;
+  var post = hnd ? hnd.postMessage.bind(hnd) : null;           // captured before any other script runs
+  /* /parts narrow match (2026-10-19): slash form always; slashless only "parts" or "parts <exact part name|id>" */
+  var PARTS = null;
+  function partsData() { var P = win.DS_PARTS; return P && P.load ? P.load().then(function (d) { PARTS = d || []; return PARTS; }) : Promise.reject(new Error("no parts guide")); }
+  function isPartName(x, list) { x = String(x || "").trim().toLowerCase(); if (!x || !list) return false; for (var i = 0; i < list.length; i++) { var p = list[i] || {}; if (String(p.name || "").trim().toLowerCase() === x || String(p.id || "").trim().toLowerCase() === x) return true; } return false; }
+  function partsKind(t, list) { t = String(t || "").trim(); if (/^\/parts(\s|$)/i.test(t)) return "cmd"; if (/^parts$/i.test(t)) return "cmd"; var m = t.match(/^parts\s+(.+)$/i); if (!m) return "no"; if (!list) return "maybe"; return isPartName(m[1], list) ? "cmd" : "no"; }
+  function isParts(t) { return partsKind(t, PARTS) === "cmd"; }
+  try { partsData().catch(function () {}); } catch (e) {}
+  /* == SCOUT rvm-chatcmd 2026-10-19 BEGIN ==
+   * `/rvm <cmd>` always; slashless only when the message STARTS with the word `rvm` (same start-anchored rule as `parts`).
+   * Runs <cmd> on the RVM console (hvc0) of a hidden in-page RVM (skills/rvm-linux/rvm-host.html -> linux/boot.html, same origin),
+   * appends `; echo __RVM_DONE_<nonce>__ $?` (marker split in the typed text so the echoed line can't match), collects the output
+   * up to the marker and shows it locally. It never reaches the model, llama-direct's hist, the server or chat memory.
+   * `rvm boot` starts the RVM, `rvm stop` does the clean stop (sync; umount /data; __RVM_STOPPED__). 15 s timeout -> Ctrl-C + error. */
+  var RVM_TIMEOUT_MS = 120000 /* ЯBAT fix 2026-10-19: was 15000; 300 KB writes need ~20-40 s */, RVM_MAX_OUT = 16000, rvmBusy = false;
+  function isRvm(t) { t = String(t || "").replace(/^\s+/, ""); return /^\/?rvm(\s|$)/i.test(t); }
+  function rvmArg(t) { return String(t || "").trim().replace(/^\/?rvm\s*/i, ""); }
+  function rvmHost() { return doc.getElementById("ds-rvm-host"); }
+  function rvmL() { try { var h = rvmHost(), v = h && h.contentDocument && h.contentDocument.getElementById("vm"); return (v && v.contentWindow && v.contentWindow.__RVM_LINUX) || null; } catch (e) { return null; } }
+  function rvmWin() { try { return rvmHost().contentDocument.getElementById("vm").contentWindow; } catch (e) { return null; } }
+  function rvmBooted() { var L = rvmL(); if (!L || !L.ready || !L.send) return false; if (!L.scoutPrompt && /(^|\n)[^\n]{0,60}[#$] /.test(L.out)) L.scoutPrompt = true; return !!L.scoutPrompt; }
+  function rvmClean(s) { return String(s).replace(/\x1b\[[0-9;?]*[A-Za-z]|\x1b\][^\x07]*\x07|\x1b[()][A-Z0-9]/g, "").replace(/\r/g, ""); }
+  function rvmBoot() {
+    if (rvmHost()) return rvmBooted() ? "RVM: already booted." : "RVM: still booting, try again in a few seconds.";
+    var f = doc.createElement("iframe"); f.id = "ds-rvm-host"; f.title = "ЯVM (chat /rvm)"; f.src = "./skills/rvm-linux/rvm-host.html";
+    f.setAttribute("aria-hidden", "true"); f.style.cssText = "position:absolute;left:-10000px;top:0;width:660px;height:520px;border:0;visibility:hidden";
+    (doc.body || doc.documentElement).appendChild(f);
+    return "RVM: booting. Wait ~10 s, then type rvm uname -a.";
+  }
+  function rvmStop(done) {
+    var w = rvmWin(); if (!w || !rvmL()) return done("RVM not booted.");
+    var to = setTimeout(function () { fin("RVM: stop timed out; drive1 writes were flushed."); }, 8000), ok = false;
+    function fin(msg) { if (ok) return; ok = true; clearTimeout(to); win.removeEventListener("message", on, true); var h = rvmHost(); if (h && h.parentNode) h.parentNode.removeChild(h); done(msg); }
+    function on(e) { if (e.data && e.data.t === "rvm.linux.stopped") fin("RVM: stopped (" + e.data.clean + ")."); }
+    win.addEventListener("message", on, true);                // boot.html posts to its parent (rvm-host); relay via a same-origin hook
+    try { w.parent.addEventListener("message", function (e) { if (e.source === w) on(e); }); } catch (x) {}
+    w.postMessage({ t: "rvm.linux.cmd", cmd: "stop", timeoutMs: 5000 }, "*");
+  }
+  function rvmRun(cmd, done) {
+    if (!rvmBooted()) return done(rvmHost() ? "RVM not booted yet (still starting). Try again in a few seconds." : "RVM not booted. Type rvm boot to start it.");
+    if (/[\x00-\x08\x0a-\x1f\x7f]/.test(cmd)) return done("RVM: one line only, no control characters.");
+    if (rvmBusy) return done("RVM: another rvm command is still running.");
+    var L = rvmL(), MIR = (rvmWin() || {}).__RVM_MIRROR, t0 = Date.now();
+    rvmBusy = true;
+    (function claim() {                                       // never type over ЯBAT's rscribe mirror: wait, then hold it off
+      if (MIR && MIR.busy) { if (Date.now() - t0 > RVM_TIMEOUT_MS) { rvmBusy = false; return done("RVM: busy (rscribe backup running), try again."); } return setTimeout(claim, 100); }
+      if (MIR) MIR.busy = true;
+      var nonce = (Date.now().toString(36) + Math.random().toString(36).slice(2, 8)).replace(/[^a-z0-9]/g, "");
+      var re = new RegExp("__RVM_DONE_" + nonce + "__ (\\d+)"), from = L.out.length, iv = null, to = null;
+      function end(text) { clearInterval(iv); clearTimeout(to); rvmBusy = false; if (MIR) { MIR.busy = false; MIR.errAt = 0; } done(text); }
+      L.send(cmd + '; echo __RVM_"DONE"_' + nonce + "__ $?\n");
+      iv = setInterval(function () {
+        var s = L.out.slice(from), m = re.exec(s); if (!m) return;
+        var pre = s.slice(0, m.index), ek = pre.indexOf("_" + nonce + "__ $?");   // ЯBAT fix 2026-10-19: drop the WHOLE echoed command, incl. its wrapped tail (stray "<nonce>__ $?" line)
+        if (ek >= 0) { var nl = pre.indexOf("\n", ek); pre = nl >= 0 ? pre.slice(nl + 1) : ""; }
+        var body = rvmClean(pre).split("\n"); if (ek < 0) body.shift();      // drop the echoed command line
+        var out = body.join("\n").replace(/\s+$/, ""); if (out.length > RVM_MAX_OUT) out = out.slice(0, RVM_MAX_OUT) + "\n… (cut at " + RVM_MAX_OUT + " chars)";
+        end("RVM $ " + cmd + "\n" + (out || "(no output)") + "\n[exit " + m[1] + "]");
+      }, 40);
+      to = setTimeout(function () { try { L.send("\x03"); } catch (x) {} end("RVM: timed out after " + (RVM_TIMEOUT_MS / 1000) + " s; sent Ctrl-C. Command: " + cmd); }, RVM_TIMEOUT_MS);
+    })();
+  }
+  function rvmHandle(t, gesture) {
+    if (!gesture) { show("bot", "DRAGONGATE: refused. Type the command and press Enter or tap Send yourself."); return; }
+    var a = rvmArg(t), low = a.toLowerCase(), say = function (x) { show("bot", x); };
+    if (!a) return say("Usage: rvm <command> · rvm boot · rvm stop. Output stays on this screen; the model never sees it.");
+    if (low === "boot") return say(rvmBoot());
+    if (low === "stop") return rvmStop(say);
+    rvmRun(a, say);
+  }
+  /* == SCOUT rvm-chatcmd 2026-10-19 END == */
+  /* == ЯBAT rscribe-chatcmd 2026-10-19 BEGIN ==
+   * `rscribe` / `/rscribe` at the START of a message only (same start-anchored rule as rvm). Runs through the /rvm console (rvmRun),
+   * so the output stays on this screen and never reaches the model, llama-direct's hist, the server or chat memory.
+   *   rscribe            boots the RVM if needed, then the last 40 lines of /data/rscribe/<bot>/<today>.rzl (today = this device's date)
+   *   rscribe ls         lists the day files      rscribe YYYYMMDD   shows that day's file
+   *   rscribe <other…>   unchanged: runs the guest's own rscribe (list/new/edit/cat/show/archive/restore/search) */
+  function isRscribe(t) { t = String(t || "").replace(/^\s+/, ""); return /^\/?rscribe(\s|$)/i.test(t); }
+  function rsBot() { return String((win.DS_BBX && win.DS_BBX.bot) || "dragonskull").replace(/[^a-z0-9_-]/gi, "") || "dragonskull"; }
+  function rsToday() { var d = new Date(); return d.getFullYear() + ("0" + (d.getMonth() + 1)).slice(-2) + ("0" + d.getDate()).slice(-2); }
+  function rsWhenBooted(say, fn) {
+    if (rvmBooted()) return fn();
+    if (!rvmHost()) say(rvmBoot());
+    var t0 = Date.now(), iv = setInterval(function () {
+      if (rvmBooted()) { clearInterval(iv); setTimeout(fn, 1500); }        // give init a moment to mount /data
+      else if (Date.now() - t0 > 90000) { clearInterval(iv); say("rscribe: the RVM did not finish booting within 90 s."); }
+    }, 500);
+  }
+  function rscribeHandle(t, gesture) {
+    if (!gesture) { show("bot", "DRAGONGATE: refused. Type the command and press Enter or tap Send yourself."); return; }
+    var say = function (x) { show("bot", x); }, a = String(t).trim().replace(/^\/?rscribe\s*/i, ""), dir = "/data/rscribe/" + rsBot();
+    var cmd;
+    if (!a) cmd = "tail -n 40 " + dir + "/" + rsToday() + ".rzl";
+    else if (/^ls$/i.test(a)) cmd = "ls -la " + dir;
+    else if (/^\d{8}$/.test(a)) cmd = "cat " + dir + "/" + a + ".rzl";
+    else cmd = "rscribe " + a;                                            // existing guest rscribe behavior (new/list/edit/…)
+    rsWhenBooted(say, function () { rvmRun(cmd, say); });
+  }
+  /* == ЯBAT rscribe-chatcmd 2026-10-19 END == */
+  /* TEST 2026-10-19: TEST | /test | test [quick|status|stop], whole message, any case. Native DGCommands runs it; we poll TEST status for progress. */
+  function isTest(t) { return /^\/?test(\s+(quick|status|stop))?$/i.test(String(t || "").trim()); }
+  var testPoll = null, testLast = "";
+  function testWatch() {
+    if (testPoll || !post) return;
+    testPoll = setInterval(function () {
+      Promise.resolve(post({ t: TOKEN, text: "TEST status", gesture: true })).then(function (r) {
+        var x = String((r && r.text) || ""); if (x && x !== testLast) { testLast = x; show("bot", x); }
+        if (!/^TEST progress/.test(x)) { clearInterval(testPoll); testPoll = null; }
+      }).catch(function () { clearInterval(testPoll); testPoll = null; });
+    }, 20000);
+  }
+  function isCmd(t) { t = String(t || "").trim().toLowerCase(); return isTest(t) || isRvm(t) || isRscribe(t) || isParts(t) || t === ":commands" || t === "/commands" || t === "/gate" || /^\/gate\s/.test(t); }
+  function mask(t) { return String(t).replace(/^(\s*\/gate\s+confirm\s+)\S+/i, "$1****"); }
+  function show(role, text) {
+    var log = doc.getElementById("log"); if (!log) return null;
+    var d = doc.createElement("div"); d.className = "turn " + role + " dg-cmd"; d.textContent = text; log.appendChild(d);
+    if (d.scrollIntoView) d.scrollIntoView(); return d;
+  }
+  function inComposer(t) { for (; t; t = t.parentNode) if (t.id === "composer") return true; return false; }
+  doc.addEventListener("keydown", function (e) { if (e.isTrusted && e.key === "Enter" && e.target && e.target.id === "message") last = Date.now(); }, true);
+  ["pointerdown", "touchend", "click"].forEach(function (k) { doc.addEventListener(k, function (e) { if (e.isTrusted && inComposer(e.target)) last = Date.now(); }, true); });
+  function handle(e) {
+    var f = e.target; if (!f || f.id !== "composer") return;
+    var m = doc.getElementById("message"), t = m ? String(m.value || "") : "";
+    if (partsKind(t, PARTS) === "maybe") {      // slashless "parts X" before parts.json is loaded: load first, else normal chat
+      e.preventDefault(); e.stopImmediatePropagation();
+      var g0 = e.isTrusted === true && Date.now() - last < GESTURE_MS;
+      var resend = function () { if (m) m.value = t; if (f.requestSubmit) f.requestSubmit(); };
+      partsData().then(function () { if (isParts(t)) { if (m) m.value = ""; show("user", "You: " + t.trim()); if (!g0) { show("bot", "DRAGONGATE: refused. Type the command and press Enter or tap Send yourself."); return; } show("bot", win.DS_PARTS.render(t.trim().replace(/^\/?parts\s*/i, ""))); } else { PARTS = PARTS || []; resend(); } })
+        .catch(function () { PARTS = PARTS || []; resend(); });
+      return;
+    }
+    if (!isCmd(t)) return;
+    e.preventDefault(); e.stopImmediatePropagation(); m.value = "";
+    var gesture = e.isTrusted === true && Date.now() - last < GESTURE_MS;
+    show("user", "You: " + mask(t.trim()));
+    if (isRvm(t)) { rvmHandle(t, gesture); return; }
+    if (isRscribe(t)) { rscribeHandle(t, gesture); return; }
+    if (isParts(t)) {
+      if (!gesture) { show("bot", "DRAGONGATE: refused. Type the command and press Enter or tap Send yourself."); return; }
+      var arg = t.trim().replace(/^\/?parts\s*/i, "");
+      var P = win.DS_PARTS;
+      if (!P) { show("bot", "Parts guide is not installed."); return; }
+      P.load().then(function () { show("bot", P.render(arg)); }).catch(function () { show("bot", "Parts guide could not read parts.json."); });
+      return;
+    }
+    if (!post) { show("bot", "DRAGONGATE: commands work only inside the DRAGON SKULL app."); return; }
+    if (!gesture) { show("bot", "DRAGONGATE: refused. Type the command and press Enter or tap Send yourself."); }
+    Promise.resolve(post({ t: TOKEN, text: t.trim(), gesture: gesture })).then(function (r) { var x = String((r && r.text) || ""); if (gesture) show("bot", isTest(t) ? x : "DRAGONGATE: " + x); if (gesture && isTest(t) && /^TEST (started|is already running)/.test(x)) testWatch(); })
+      .catch(function () { show("bot", "DRAGONGATE: the gate did not answer, so nothing changed."); });
+  }
+  win.addEventListener("submit", handle, true);
+  return { isCmd: isCmd, mask: mask, handle: handle, isRvm: isRvm, isRscribe: isRscribe, isTest: isTest };
+});

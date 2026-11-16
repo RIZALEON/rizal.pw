@@ -1,0 +1,19 @@
+{
+  "schema": "rizal.granite-rvm-hookup.v1",
+  "updated": "2026-11-12",
+  "model": {
+    "file": "granite-4.0-h-1b-Q4_K_M.gguf",
+    "sha256": "fd3b85f09520df9d898e2bbcf5da22fc518dbf9d662bb52e214d946c72aafacc",
+    "bundle": false,
+    "placement": "download-on-device — not packed in the app; no weights, no qcow2",
+    "resolve": "SHA-pinned only; unverified nearest-.gguf auto-load stays off"
+  },
+  "rvm": {
+    "name": "LINUX RIZAL",
+    "image": "1.1.1.6",
+    "components": "1.1.1.7",
+    "via": "RKLOWD / download-on-device",
+    "newest_found_on_neo": "1.1.1.6 image + 1.1.1.7 components staging. No 1.1.1.8 full tree found on 2026-11-12.",
+    "image_note": "qcow2 stays on the Neo; not embedded"
+  }
+}

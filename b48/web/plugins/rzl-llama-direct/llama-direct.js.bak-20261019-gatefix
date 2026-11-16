@@ -1,0 +1,26 @@
+/* rzl-llama-direct adapter 0.2.0: routes the wired bot's chat to the in-app engine via same-origin /engine.
+ * 0.2.0 (BATIBABOX, 2026-10-18): sends ds_memory {bot, hits} (vector recall from DS_BBX, ≤400 ms) — the native engine adds the digest,
+ * keyword recall and the DRAGON-SKULL-MIND index itself and records the turn. (The engine replaces any system message with its own.) */
+(function(){
+  "use strict";
+  const URL_="/engine/v1/chat/completions", hist=[];
+  async function chat(bot,q){
+    hist.push({role:"user",content:q});
+    const msgs=[{role:"system",content:"You are DRAGON SKULL version 1.0.4 (build 5), a private assistant built on IBM Granite 4.0 H 1B, fused into the DRAGON SKULL app and running fully offline on this device. No internet is used. Answer briefly. Facts: you run inside the DRAGON SKULL app, and the user can run Linux commands in your RVM (a RISC-V Linux 4.15 virtual machine) by typing /rvm <command>, for example /rvm uname -a; /parts, /recall and /batibabox are app commands too, so never say you cannot run commands. drive1 is the RVM's long-term /data disk: it keeps its files across every boot and restart."}].concat(hist.slice(-8));
+    document.dispatchEvent(new CustomEvent("thundr-adapter",{detail:{bot:bot.rid,state:"thinking"}}));
+    let hits=[]; try{ if(window.DS_BBX) hits=(await window.DS_BBX.hits(q)).map(h=>({text:h.text,score:h.score,label:h.label,ts:h.ts})); }catch(e){}
+    const body=JSON.stringify({messages:msgs,max_tokens:256,temperature:0.7,chat_template_kwargs:{enable_thinking:false},ds_memory:{bot:(window.DS_BBX&&window.DS_BBX.bot)||"dragonskull",hits}});
+    let r;
+    for(let a=0;;a++){
+      try{ r=await fetch(URL_,{method:"POST",headers:{"Content-Type":"application/json"},body}); break; }
+      catch(e){ if(a>=3){ hist.pop(); document.dispatchEvent(new CustomEvent("thundr-adapter",{detail:{bot:bot.rid,state:"error"}})); throw e; } await new Promise(z=>setTimeout(z,800*(a+1))); }
+    }
+    if(!r.ok){document.dispatchEvent(new CustomEvent("thundr-adapter",{detail:{bot:bot.rid,state:"error"}}));throw new Error("HTTP "+r.status);}
+    const j=await r.json(); let t=(j.choices[0].message.content||"").replace(/<think>[\s\S]*?<\/think>/g,"").trim();
+    // ЯBAT 2026-10-19: a degenerate reply ("*", "", punctuation only) is never fed back as history: it poisoned every later turn.
+    if(!/[\p{L}\p{N}]{2}/u.test(t)){ hist.pop(); t=t||"(no answer, please ask again)"; } else hist.push({role:"assistant",content:t});
+    document.dispatchEvent(new CustomEvent("thundr-adapter",{detail:{bot:bot.rid,state:"idle"}}));
+    return t;
+  }
+  window.RZL_LLAMA_DIRECT={version:"0.2.0",chat,engine:URL_};
+})();

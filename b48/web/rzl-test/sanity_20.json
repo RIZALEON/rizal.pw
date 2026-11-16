@@ -1,0 +1,22 @@
+[
+{"q":"What is 17 + 25? Reply with just the number.","a":["^\\D*42\\b"]},
+{"q":"What is the capital of France? One word.","a":["paris"]},
+{"q":"How many days are in a leap year? Just the number.","a":["\\b366\\b"]},
+{"q":"What is 9 times 8? Just the number.","a":["\\b72\\b"]},
+{"q":"What color do you get by mixing blue and yellow paint? One word.","a":["green"]},
+{"q":"Which planet is known as the Red Planet? One word.","a":["mars"]},
+{"q":"What is the boiling point of water at sea level in degrees Celsius? Just the number.","a":["\\b100\\b"]},
+{"q":"How many minutes are in 2 hours? Just the number.","a":["\\b120\\b"]},
+{"q":"What is the opposite of 'hot'? One word.","a":["cold"]},
+{"q":"If today is Monday, what day is it in 3 days? One word.","a":["thursday"]},
+{"q":"What is the largest ocean on Earth? Short answer.","a":["pacific"]},
+{"q":"How many legs does a spider have? Just the number.","a":["\\b(8|eight)\\b"]},
+{"q":"What is 100 divided by 4? Just the number.","a":["\\b25\\b"]},
+{"q":"What gas do plants absorb from the air for photosynthesis? Short answer.","a":["carbon dioxide|co2|co₂"]},
+{"q":"Spell the word 'cat' backwards. Just the word.","a":["\\btac\\b"]},
+{"q":"A shirt costs $20 and is 25% off. What is the sale price in dollars? Just the number.","a":["\\b15(\\.00)?\\b"]},
+{"q":"Who wrote 'Romeo and Juliet'? Short answer.","a":["shakespeare"]},
+{"q":"What is the freezing point of water in Fahrenheit? Just the number.","a":["\\b32\\b"]},
+{"q":"How many continents are there? Just the number.","a":["\\b(7|seven)\\b"]},
+{"q":"What is the square root of 81? Just the number.","a":["\\b9\\b"]}
+]

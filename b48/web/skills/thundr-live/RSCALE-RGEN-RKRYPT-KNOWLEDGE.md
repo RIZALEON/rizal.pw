@@ -1,0 +1,12 @@
+# ThundR knowledge · RSCALE + RGENERATOR + RKRYPT (2026-10-25 MT)
+- RKRYPT = one fused file `rkrypt.rzl.js` (sha256 dd5d306f…6730): RKRYPT 0.1.0 wallet/profile with RGENERATOR built in as `RKRYPT.rgen`.
+  - Embedded egg5 mint.js + rkey0.js are SIGNED (Ghost Chain seq 258). egg6 rkey0-passkey.js and rkrypt.js are UNSIGNED drafts.
+  - `RGEN verify` → `RKRYPT.rgen.verify()` re-hashes every embedded source; must print `RGEN verify: PASS`.
+  - Holds no private keys, makes no keys, no network. RKEY profile 0 = source-origin identity, held in ЯCASKET on Rizal's device only.
+- CryptoSocial (rizal.pw, commit 467f09a) ships rkrypt.rzl.js in-app; `RSync.RGEN.version` = `rkrypt.rzl 0.1.0-fused-20261025`; `RSync.RGEN.fused()` runs the fused check; entries are still RGEN yaseed.mint record seals.
+- RSCALE = own mesh (Headscale v0.29.5 fork rscale-server, client rscaled/rscale, rrelay, RDERP 901). No Tailscale/Cloudflare servers.
+  - Mesh names: neo.rscale.rlab, pixel.rscale.rlab (100.88.0.0/16). Apps sync at :8799 (failover: neo-rscale → pixel-rscale → neo-lan → pixel-lan → outbox).
+  - Browsers keep the outbox + https peers; https://sync.rizal.pw:8800 is pending (needs mesh VPN + trusted cert).
+  - STAGED only: check-staged.sh is safe; go-1/go-2/go-3 start things and need Rizal's GO. Away-from-home needs one public host (double NAT).
+- Full bundle with binaries: ~/ЯLAB/RFORGE/BUNDLES/rscale-rgen-rkrypt-20261025(.tgz) and GitHub RIZALEON/rforge-bundles release rscale-rgen-rkrypt-20261025.
+- Bots never sign, never touch appcast/eggs (ЯBAT), never put passwords/keys in any bundle.

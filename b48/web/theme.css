@@ -1,0 +1,16 @@
+/* DS-THEME-00 · DRAGOSKUL theme tokens · every color/font lives here */
+:root,[data-ds-theme="dark"]{
+ --ds-bg:#0b0b0c; --ds-panel:#161616; --ds-panel-2:#1d1d21; --ds-line:#2a2a2e;
+ --ds-fg:#eeeeee; --ds-fg-dim:#a19cb3; --ds-sys:#888888; --ds-muted:#6e6a7c;
+ --ds-user:#99ccff;                 /* user turns (was #9cf) */
+ --ds-purple:#8b5cf6; --ds-blue:#2563eb; --ds-blue-2:#3b82f6; --ds-orange:#e85d2a;
+ --ds-gold:#d7af5f; --ds-beige:#ffd7af; /* DRAGONBRIDGE keys 179 / body 223 */
+ --ds-ok:#4ade80; --ds-warn:#e0a030; --ds-err:#ef4444; --ds-stop:#b91c1c;
+ --ds-accent:var(--ds-purple); --ds-accent-2:var(--ds-blue);
+ --ds-font:-apple-system,system-ui,"Segoe UI",sans-serif; --ds-mono:ui-monospace,Menlo,monospace;
+ --ds-r:10px; --ds-tap:44px; --ds-side:240px; --ds-speed:.18s;
+}
+[data-ds-theme="ember"]{ /* alternate accent theme: dragon orange + gold */
+ --ds-bg:#0e0a08; --ds-panel:#1a1310; --ds-panel-2:#22190f; --ds-line:#3a2a20;
+ --ds-user:#ffd7af; --ds-accent:var(--ds-orange); --ds-accent-2:var(--ds-gold); --ds-blue:#c2410c;
+}

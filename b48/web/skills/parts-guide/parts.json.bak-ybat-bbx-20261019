@@ -1,0 +1,841 @@
+{
+ "schema": "rzl.ds.parts.v1",
+ "built": "2026-10-19",
+ "source": "~/ЯLAB/DRAGONSKULL (read-only)",
+ "parts": [
+  {
+   "id": "dragonskull-ios",
+   "name": "DRAGON SKULL iOS app",
+   "aliases": [
+    "ds",
+    "dragon skull",
+    "app"
+   ],
+   "layer": "app",
+   "path": "ios/",
+   "version": "1.0.4 (5), web 1.0.1.0",
+   "status": "live",
+   "what": "The offline DRAGON SKULL chat app on the iPhone 17e. A local web server serves the chat UI and the model engine.",
+   "use": [
+    "open the app and chat",
+    "/commands"
+   ],
+   "depends_on": [
+    "engine",
+    "server",
+    "dragongate-core",
+    "web-shell"
+   ],
+   "owner": "Rizal"
+  },
+  {
+   "id": "engine",
+   "name": "Engine (llama.cpp + Granite)",
+   "aliases": [
+    "llama",
+    "model",
+    "granite"
+   ],
+   "layer": "app",
+   "path": "ios/App/Sources/Engine.swift; model/granite-4.0-h-1b-Q4_K_M.gguf; ios/llama.xcframework",
+   "version": "llama.cpp b11715, Granite 4.0 H 1B Q4_K_M",
+   "status": "live",
+   "what": "Runs the IBM Granite 1B model fully on the phone. The model fingerprint is checked at every launch, and the app won't start if it doesn't match.",
+   "use": [
+    "just chat; the engine answers at /engine/v1/chat/completions"
+   ],
+   "depends_on": [
+    "server"
+   ],
+   "owner": "Rizal"
+  },
+  {
+   "id": "server",
+   "name": "Loopback server",
+   "aliases": [
+    "listener",
+    "server.swift"
+   ],
+   "layer": "app",
+   "path": "ios/App/Sources/Server.swift",
+   "version": "1.0.1 listener fix",
+   "status": "live",
+   "what": "Tiny 127.0.0.1-only web server for the UI and engine API. The 1.0.1 fix restarts it after the phone sleeps (the old 'Load failed' bug).",
+   "use": [
+    "relaunch the app if chat says 'Load failed'"
+   ],
+   "depends_on": [],
+   "owner": "Rizal"
+  },
+  {
+   "id": "memory-store",
+   "name": "MemoryStore (native memory)",
+   "aliases": [
+    "memorystore"
+   ],
+   "layer": "app",
+   "path": "ios/App/Sources/MemoryStore.swift",
+   "version": "2026-10-18",
+   "status": "live",
+   "what": "Native storage behind BATIBABOX memory and the DRAGON-SKULL-MIND transcript.",
+   "use": [
+    "/batibabox"
+   ],
+   "depends_on": [
+    "batibabox-ds"
+   ],
+   "owner": "Rizal"
+  },
+  {
+   "id": "selfupdate-native",
+   "name": "SelfUpdate (native) + MiniUnzip",
+   "aliases": [
+    "selfupdate",
+    "ota"
+   ],
+   "layer": "app",
+   "path": "ios/App/Sources/SelfUpdate.swift, MiniUnzip.swift",
+   "version": "1.0.1",
+   "status": "live",
+   "what": "Downloads signed web bundles, checks the signature and sha256, and rolls back if a bundle isn't confirmed within two launches. Native code still needs a real build to change.",
+   "use": [
+    "tap the version in the header to check; needs online on + raw.githubusercontent.com allowed"
+   ],
+   "depends_on": [
+    "dragongate-core",
+    "ds-selfupdate"
+   ],
+   "owner": "Rizal"
+  },
+  {
+   "id": "app-main",
+   "name": "App.swift (launch + model check)",
+   "aliases": [
+    "app.swift"
+   ],
+   "layer": "app",
+   "path": "ios/App/Sources/App.swift",
+   "version": "1.0.1",
+   "status": "live",
+   "what": "Starts the app, verifies the model fingerprint and wires the native handlers.",
+   "use": [],
+   "depends_on": [
+    "engine",
+    "server"
+   ],
+   "owner": "Rizal"
+  },
+  {
+   "id": "dragonskull-macos",
+   "name": "DRAGON SKULL macOS",
+   "aliases": [
+    "mac"
+   ],
+   "layer": "host",
+   "path": "macos/DRAGON SKULL.app",
+   "version": "1.0.4 (5)",
+   "status": "live",
+   "what": "Mac build of the offline DRAGON SKULL chat app. Same web folder as iOS (ios/App/web) plus DRAGONGATE, commands and BATIBABOX memory; no self-update on Mac.",
+   "use": [],
+   "depends_on": [
+    "engine",
+    "dragongate-core",
+    "web-shell"
+   ],
+   "owner": "Rizal"
+  },
+  {
+   "id": "dragonskull-android",
+   "name": "DRAGON SKULL Android",
+   "aliases": [
+    "apk",
+    "android"
+   ],
+   "layer": "host",
+   "path": "android/",
+   "version": "1.0.2 (1.0.0 crashes, 1.0.1 layout issue)",
+   "status": "live",
+   "what": "Android APK. 1.0.2 must be signed with the 1.0.1 certificate on the owner's vault to update in place.",
+   "use": [],
+   "depends_on": [],
+   "owner": "Rizal"
+  },
+  {
+   "id": "dragonskull-ubtouch",
+   "name": "DRAGON SKULL Ubuntu Touch",
+   "aliases": [
+    "click",
+    "ubports"
+   ],
+   "layer": "host",
+   "path": "ubtouch/",
+   "version": "1.0.3 (1.0.0-1.0.2 kept)",
+   "status": "live",
+   "what": "Ubuntu Touch .click package. GitHub has 1.0.3, but the sites still list 1.0.0.",
+   "use": [],
+   "depends_on": [],
+   "owner": "Rizal"
+  },
+  {
+   "id": "dragonskull-linux",
+   "name": "DRAGON SKULL Linux",
+   "aliases": [
+    "linux"
+   ],
+   "layer": "host",
+   "path": "linux/WHERE.txt",
+   "version": "1.0.0",
+   "status": "live",
+   "what": "Linux build (location in WHERE.txt).",
+   "use": [],
+   "depends_on": [],
+   "owner": "Rizal"
+  },
+  {
+   "id": "web-shell",
+   "name": "Web shell (scout.html)",
+   "aliases": [
+    "scout",
+    "scout.html",
+    "ui"
+   ],
+   "layer": "web",
+   "path": "ios/App/web/scout.html, scout-app.js, scout-style.css, ds-mobile.css",
+   "version": "2.1.9.1-pub base",
+   "status": "live",
+   "what": "The chat page itself, adapted from the ЯBOWZR chat shell.",
+   "use": [],
+   "depends_on": [
+    "server"
+   ],
+   "owner": "SCOUT"
+  },
+  {
+   "id": "ds-mobile",
+   "name": "ds-mobile.js (phone menu)",
+   "aliases": [
+    "menu",
+    "ds-mobile"
+   ],
+   "layer": "web",
+   "path": "ios/App/web/ds-mobile.js",
+   "version": "1.0.1",
+   "status": "live",
+   "what": "Adds the ☰ Bots button to show or hide the bot list on a phone.",
+   "use": [
+    "tap ☰"
+   ],
+   "depends_on": [
+    "web-shell"
+   ],
+   "owner": "SCOUT"
+  },
+  {
+   "id": "chatlist",
+   "name": "chatlist.js",
+   "aliases": [
+    "chat list"
+   ],
+   "layer": "web",
+   "path": "ios/App/web/chatlist.js",
+   "version": "1.0.1",
+   "status": "live",
+   "what": "Draws the single chat-list row for DRAGON-SKULL-1.",
+   "use": [],
+   "depends_on": [
+    "web-shell"
+   ],
+   "owner": "SCOUT"
+  },
+  {
+   "id": "rid-roster",
+   "name": "rid-roster.js",
+   "aliases": [
+    "roster",
+    "rid"
+   ],
+   "layer": "web",
+   "path": "ios/App/web/rid-roster.js",
+   "version": "2.1.9.1-pub",
+   "status": "live",
+   "what": "Public roster with zero seats. The bot's own ЯID is empty and is made on first run. No ЯIDs ship.",
+   "use": [],
+   "depends_on": [
+    "web-shell"
+   ],
+   "owner": "SCOUT"
+  },
+  {
+   "id": "ds-selfupdate",
+   "name": "ds-selfupdate.js",
+   "aliases": [
+    "web update",
+    "version badge"
+   ],
+   "layer": "web",
+   "path": "ios/App/web/ds-selfupdate.js; ds-webversion.json",
+   "version": "web 1.0.1.0",
+   "status": "live",
+   "what": "Shows the web version in the header and confirms a new bundle once the page and engine are healthy. Long-press 1.2 s then tap resets to the built-in web.",
+   "use": [
+    "tap version: check now",
+    "long-press 1.2 s + tap: reset to built-in"
+   ],
+   "depends_on": [
+    "selfupdate-native"
+   ],
+   "owner": "Rizal"
+  },
+  {
+   "id": "dragongate-core",
+   "name": "DRAGONGATE native core",
+   "aliases": [
+    "dragongate",
+    "gate",
+    "dg"
+   ],
+   "layer": "gate",
+   "path": "ios/App/Sources/DragonGateCore.swift, DragonGateAdapter.swift",
+   "version": "0.2.0",
+   "status": "live",
+   "what": "The on-device firewall. Everything off the device is denied unless online is on and the host is allowed. Default: monitor mode, online OFF, kill off, plugins owner.",
+   "use": [
+    "/gate status",
+    "/gate help"
+   ],
+   "depends_on": [],
+   "owner": "SCOUT"
+  },
+  {
+   "id": "dg-web",
+   "name": "dg-web.js (web gate)",
+   "aliases": [
+    "dg-web"
+   ],
+   "layer": "gate",
+   "path": "ios/App/web/dg-web.js",
+   "version": "0.2.0",
+   "status": "live",
+   "what": "Wraps fetch in the page so web code and the RVM go through DRAGONGATE. Also redacts secrets and screens plugins.",
+   "use": [],
+   "depends_on": [
+    "dragongate-core"
+   ],
+   "owner": "SCOUT"
+  },
+  {
+   "id": "dg-cmd",
+   "name": "dg-cmd.js + DragonGateCommands.swift (typed commands)",
+   "aliases": [
+    "commands",
+    "/gate",
+    "dg-cmd"
+   ],
+   "layer": "gate",
+   "path": "ios/App/web/dg-cmd.js; ios/App/Sources/DragonGateCommands.swift",
+   "version": "0.2.0",
+   "status": "live",
+   "what": "Catches /gate, :commands and /commands typed by you, keeps them away from the model and memory, and answers on the phone. Confirm codes show only in a native pop-up.",
+   "use": [
+    ":commands",
+    "/gate status",
+    "/gate online on, then /gate confirm <code>",
+    "/gate online off",
+    "/gate allow <host>",
+    "/gate kill on"
+   ],
+   "depends_on": [
+    "dragongate-core"
+   ],
+   "owner": "SCOUT"
+  },
+  {
+   "id": "gate-online",
+   "name": "Online switch",
+   "aliases": [
+    "online"
+   ],
+   "layer": "gate",
+   "path": "/data/rlab/dragongate/switch.json (guest); native switch.json",
+   "version": "default OFF",
+   "status": "live",
+   "what": "Online is OFF by default. A missing or broken switch.json stays offline. Loopback always works.",
+   "use": [
+    "/gate online on → /gate confirm <code>",
+    "/gate online off"
+   ],
+   "depends_on": [
+    "dragongate-core"
+   ],
+   "owner": "Rizal"
+  },
+  {
+   "id": "gate-plugin-rule",
+   "name": "Plugin rule (owner / signed)",
+   "aliases": [
+    "plugins signed",
+    "plugin rule",
+    "swift plugin rule"
+   ],
+   "layer": "gate",
+   "path": "ios/App/Sources/DragonGateCore.swift, DragonGateCommands.swift",
+   "version": "1.0.4 (5)",
+   "status": "live",
+   "what": "Plugins load only with Rizal's approved fingerprint (approved hash first). A signature never replaces owner approval. Done: compiled into 1.0.4 (5) on iOS and macOS.",
+   "use": [
+    "/gate plugins owner",
+    "/gate plugins signed"
+   ],
+   "depends_on": [
+    "dragongate-core"
+   ],
+   "owner": "Rizal"
+  },
+  {
+   "id": "batibabox-ds",
+   "name": "BATIBABOX-DS memory",
+   "aliases": [
+    "batibabox",
+    "bbx",
+    "memory",
+    "mind"
+   ],
+   "layer": "skill",
+   "path": "ios/App/web/skills/batibabox-ds/ (bbx-ds-core.js, bbx-ds.js, ds-mind-view.js, BATIBABOX-EMBED-256-potion.rzl)",
+   "version": "0.1.0",
+   "status": "live",
+   "what": "Long-term memory for DRAGON-SKULL-MIND: saves turns, makes a digest every 12 turns, recalls notes.",
+   "use": [
+    "/recall <topic>",
+    "/batibabox"
+   ],
+   "depends_on": [
+    "memory-store",
+    "day0-seed"
+   ],
+   "owner": "Rizal"
+  },
+  {
+   "id": "day0-seed",
+   "name": "day0-seed.json (Mind Manual seed)",
+   "aliases": [
+    "seed",
+    "mind manual",
+    "day0"
+   ],
+   "layer": "skill",
+   "path": "ios/App/web/skills/batibabox-ds/day0-seed.json",
+   "version": "v3 (27 entries)",
+   "status": "live",
+   "what": "The app's Day 0 knowledge: origin, releases, builds, and the MIND MANUAL commands chapter. New chapters are appended, never rewritten.",
+   "use": [
+    "/recall manual",
+    "/recall releases"
+   ],
+   "depends_on": [
+    "batibabox-ds"
+   ],
+   "owner": "Rizal"
+  },
+  {
+   "id": "bot-sidebar",
+   "name": "bot-sidebar",
+   "aliases": [
+    "sidebar",
+    "bots"
+   ],
+   "layer": "skill",
+   "path": "ios/App/web/skills/bot-sidebar/bot-sidebar.js",
+   "version": "2.1.9.1-pub",
+   "status": "live",
+   "what": "The side panel of bots: open one, ask all, fold.",
+   "use": [
+    "tap ☰ then a bot"
+   ],
+   "depends_on": [
+    "web-shell"
+   ],
+   "owner": "SCOUT"
+  },
+  {
+   "id": "identity-guard",
+   "name": "identity-guard",
+   "aliases": [
+    "idguard"
+   ],
+   "layer": "skill",
+   "path": "ios/App/web/skills/identity-guard/identity-guard-rt.js",
+   "version": "2.1.9.1-pub",
+   "status": "live",
+   "what": "Keeps each bot answering as itself (name and seat checks before and after a reply).",
+   "use": [],
+   "depends_on": [
+    "rid-roster"
+   ],
+   "owner": "SCOUT"
+  },
+  {
+   "id": "thundr-live",
+   "name": "THUNDR live mascot",
+   "aliases": [
+    "thundr"
+   ],
+   "layer": "skill",
+   "path": "ios/App/web/skills/thundr-live/",
+   "version": "adapter 0.4.1-stage",
+   "status": "live",
+   "what": "Animated THUNDR states (idle, thinking, success, error...). scout.html loads only the adapter; thundr-live.js is shipped but not loaded.",
+   "use": [],
+   "depends_on": [
+    "web-shell"
+   ],
+   "owner": "SCOUT"
+  },
+  {
+   "id": "llama-direct",
+   "name": "rzl-llama-direct plugin",
+   "aliases": [
+    "llama-direct",
+    "plugin"
+   ],
+   "layer": "web",
+   "path": "ios/App/web/plugins/rzl-llama-direct/llama-direct.js",
+   "version": "0.2.0",
+   "status": "live",
+   "what": "Plugin that talks straight to the local engine. Loads only under the plugin rule.",
+   "use": [],
+   "depends_on": [
+    "engine",
+    "gate-plugin-rule"
+   ],
+   "owner": "Rizal"
+  },
+  {
+   "id": "rvm-linux",
+   "name": "ЯVM Linux skill",
+   "aliases": [
+    "rvm",
+    "rvm-linux",
+    "vm"
+   ],
+   "layer": "rvm",
+   "path": "ios/App/web/skills/rvm-linux/rvm-host.html, linux/boot.html",
+   "version": "rvm-linux 0.1.2",
+   "status": "live",
+   "what": "A tiny offline RISC-V Linux running in the app. No network device; its only way out is the rvmget bridge through DRAGONGATE.",
+   "use": [
+    "open the RVM terminal",
+    "rscribe list"
+   ],
+   "depends_on": [
+    "tinyemu",
+    "kernel",
+    "bbl",
+    "root-disk",
+    "dg-web"
+   ],
+   "owner": "SCOUT"
+  },
+  {
+   "id": "tinyemu",
+   "name": "TinyEMU (riscvemu64-wasm + term.js)",
+   "aliases": [
+    "tinyemu",
+    "emulator",
+    "term.js"
+   ],
+   "layer": "rvm",
+   "path": "ios/App/web/skills/rvm-linux/linux/riscvemu64-wasm.js, blobs/riscvemu64-wasm.wasm.js, linux/term.js",
+   "version": "TinyEMU (Bellard)",
+   "status": "live",
+   "what": "The RISC-V emulator compiled to wasm, plus the terminal it draws in.",
+   "use": [],
+   "depends_on": [],
+   "owner": "SCOUT"
+  },
+  {
+   "id": "kernel",
+   "name": "Linux kernel",
+   "aliases": [
+    "kernel-riscv64"
+   ],
+   "layer": "rvm",
+   "path": "ios/App/web/skills/rvm-linux/linux/blobs/kernel-riscv64.bin.js",
+   "version": "Linux 4.15.0-00049",
+   "status": "live",
+   "what": "The guest Linux kernel. GPL source published at /src/rvm-linux-0.1.0/.",
+   "use": [],
+   "depends_on": [
+    "bbl"
+   ],
+   "owner": "SCOUT"
+  },
+  {
+   "id": "bbl",
+   "name": "bbl64 boot loader",
+   "aliases": [
+    "bbl",
+    "bootloader"
+   ],
+   "layer": "rvm",
+   "path": "ios/App/web/skills/rvm-linux/linux/blobs/bbl64.bin.js",
+   "version": "riscv-pk bbl",
+   "status": "live",
+   "what": "RISC-V boot loader that starts the kernel.",
+   "use": [],
+   "depends_on": [],
+   "owner": "SCOUT"
+  },
+  {
+   "id": "vm-config",
+   "name": "VM config",
+   "aliases": [
+    "cfg",
+    "root-riscv64.cfg"
+   ],
+   "layer": "rvm",
+   "path": "ios/App/web/skills/rvm-linux/linux/blobs/root-riscv64.cfg.js, root-riscv64__blk.txt.js, index.js",
+   "version": "v1",
+   "status": "live",
+   "what": "128 MB, console=hvc0, root=/dev/vda, no eth. 16 root blocks of 256 KB.",
+   "use": [],
+   "depends_on": [],
+   "owner": "SCOUT"
+  },
+  {
+   "id": "root-disk",
+   "name": "Root disk (16 blocks + SHA256SUMS)",
+   "aliases": [
+    "root",
+    "blobs",
+    "sha256sums"
+   ],
+   "layer": "rvm",
+   "path": "ios/App/web/skills/rvm-linux/linux/blobs/root-riscv64__blk000000000..015.bin.js, SHA256SUMS, SHA256SUMS.raw-blocks",
+   "version": "sealfix-20261019 (4 MiB ext2)",
+   "status": "live",
+   "what": "Guest root (BusyBox + ЯSCRIBE spine + dgshim). Swapped in by SCOUT's sealfix; previous blocks kept in backups/sealfix-20261019/.",
+   "use": [
+    "check: shasum -a 256 -c SHA256SUMS"
+   ],
+   "depends_on": [
+    "vm-config"
+   ],
+   "owner": "SCOUT"
+  },
+  {
+   "id": "init",
+   "name": "/sbin/init",
+   "aliases": [
+    "init"
+   ],
+   "layer": "rvm",
+   "path": "/sbin/init (guest)",
+   "version": "sealfix-20261019",
+   "status": "live",
+   "what": "Mounts /data (vdb if present, else bind /root/.rlab-data), creates /data/rlab, writes the default offline switch.json, starts the shell on hvc0.",
+   "use": [],
+   "depends_on": [
+    "root-disk"
+   ],
+   "owner": "SCOUT"
+  },
+  {
+   "id": "drive1-data",
+   "name": "drive1 (/data, RVM storage + saving)",
+   "aliases": [
+    "rlab-data.img",
+    "drive1",
+    "/data",
+    "drive1.img"
+   ],
+   "layer": "rvm",
+   "path": "device-only; <app support>/rvm-linux/drives/drive1/drive1.img; never bundled",
+   "version": "1.0.4 (5)",
+   "status": "live",
+   "what": "Persistent guest /data on drive1, made once on the device. Writes are saved back to drive1.img (256 KB blocks, clean stop with sync; umount /data). Done: in 1.0.4 (5) on iOS and macOS.",
+   "use": [],
+   "depends_on": [
+    "init"
+   ],
+   "owner": "SCOUT"
+  },
+  {
+   "id": "dgshim",
+   "name": "dgshim (DRAGONGATE RVM adapter)",
+   "aliases": [
+    "dgshim"
+   ],
+   "layer": "gate",
+   "path": "/usr/bin/dgshim (guest)",
+   "version": "0.1.2",
+   "status": "live",
+   "what": "Guest-side gate. Organs run through it and it fails closed.",
+   "use": [
+    "dgshim status",
+    "dgshim rtoken|rcounter|rscribe ..."
+   ],
+   "depends_on": [
+    "init",
+    "dragongate-core"
+   ],
+   "owner": "SCOUT"
+  },
+  {
+   "id": "rtoken",
+   "name": "rtoken organ",
+   "aliases": [
+    "rtoken",
+    "seal"
+   ],
+   "layer": "organ",
+   "path": "/opt/rzl/organs/rtoken (guest)",
+   "version": "sealfix-20261019",
+   "status": "BLOCKER",
+   "what": "Seals notes. Seal hang: the sealfix (unsigned utc_iso, MULH wasm workaround) is in the blocks but not yet confirmed on device.",
+   "use": [
+    "rtoken (via dgshim)"
+   ],
+   "depends_on": [
+    "dgshim",
+    "drive1-data"
+   ],
+   "owner": "SCOUT"
+  },
+  {
+   "id": "rcounter",
+   "name": "rcounter organ",
+   "aliases": [
+    "rcounter"
+   ],
+   "layer": "organ",
+   "path": "/opt/rzl/organs/rcounter (guest)",
+   "version": "sealfix-20261019",
+   "status": "live",
+   "what": "Opens and counts sealed files.",
+   "use": [
+    "rcounter open FILE.sealed"
+   ],
+   "depends_on": [
+    "rtoken"
+   ],
+   "owner": "SCOUT"
+  },
+  {
+   "id": "rscribe",
+   "name": "ЯSCRIBE notes (rscribe/RSCRIBE/ЯSCRIBE)",
+   "aliases": [
+    "rscribe",
+    "RSCRIBE",
+    "ЯSCRIBE",
+    "notes"
+   ],
+   "layer": "organ",
+   "path": "/opt/rzl/organs/rscribe; /usr/local/bin/RSCRIBE, ЯSCRIBE; /root/ЯSCRIBE/NOTES (guest)",
+   "version": "sealfix-20261019",
+   "status": "HOLD",
+   "what": "Append-only notes in the RVM terminal that auto-seal via rtoken. On hold for public until the seal fix is confirmed.",
+   "use": [
+    "rscribe list [--archive]",
+    "rscribe new <NAME> [file|-]",
+    "rscribe edit <NAME>",
+    "rscribe cat|show <NAME> [rev]",
+    "rscribe archive|restore <NAME>",
+    "rscribe search <q>"
+   ],
+   "depends_on": [
+    "rtoken",
+    "dgshim"
+   ],
+   "owner": "SCOUT"
+  },
+  {
+   "id": "parts-guide",
+   "name": "Parts guide (/parts + rparts)",
+   "aliases": [
+    "parts",
+    "/parts",
+    "rparts"
+   ],
+   "layer": "skill",
+   "path": "parts-guide-20261019/",
+   "version": "0.1.0",
+   "status": "NEW",
+   "what": "This list. /parts in chat, rparts in the RVM.",
+   "use": [
+    "/parts",
+    "/parts <name>",
+    "rparts",
+    "rparts <name>"
+   ],
+   "depends_on": [
+    "day0-seed",
+    "dg-cmd"
+   ],
+   "owner": "ЯBOT"
+  },
+  {
+   "id": "rbot",
+   "name": "ЯBOT host app",
+   "aliases": [
+    "ybot",
+    "rbot"
+   ],
+   "layer": "host",
+   "path": "~/ЯLAB/APPS/ЯBOT.app",
+   "version": "2.1.9 (2026101803)",
+   "status": "live",
+   "what": "Sister app. Build differs from ЯBOWZR. 2.2.0 joint build planned.",
+   "use": [],
+   "depends_on": [],
+   "owner": "Rizal"
+  },
+  {
+   "id": "rbowzr",
+   "name": "ЯBOWZR host app",
+   "aliases": [
+    "rbowzr",
+    "browser"
+   ],
+   "layer": "host",
+   "path": "~/ЯLAB/APPS/ЯBOWZR.app",
+   "version": "2.1.9 (2026101605)",
+   "status": "live",
+   "what": "The chat shell DRAGON SKULL was built from. The RVM blobs came from its overlay.",
+   "use": [],
+   "depends_on": [],
+   "owner": "Rizal"
+  },
+  {
+   "id": "rvm-public",
+   "name": "ЯVM public release",
+   "aliases": [
+    "rvm 0.1.4"
+   ],
+   "layer": "host",
+   "path": "GitHub",
+   "version": "0.1.4 (sites still 0.1.3)",
+   "status": "live",
+   "what": "Public ЯVM release, on GitHub, not yet on the sites.",
+   "use": [],
+   "depends_on": [],
+   "owner": "Rizal"
+  },
+  {
+   "id": "rzl-egg",
+   "name": "RZL-EGG public releases",
+   "aliases": [
+    "releases",
+    "github"
+   ],
+   "layer": "host",
+   "path": "github rizalward RZL-EGG",
+   "version": "DS macOS 1.0.0, Android 1.0.2, UT 1.0.3",
+   "status": "live",
+   "what": "Public release repo for DRAGON SKULL packages and signed web bundles.",
+   "use": [],
+   "depends_on": [],
+   "owner": "Rizal"
+  }
+ ]
+}

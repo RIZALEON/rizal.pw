@@ -1,0 +1,164 @@
+{
+ "schema": "rzl.v1",
+ "kind": "data",
+ "dataOnly": true,
+ "offline": true,
+ "id": "qr-pair",
+ "name": "qr-pair · QR pairing + scan-to-open link + ALIGN + mutual CHECK (DRAGON SKULL / ЯBOT) + LINK alignment lock",
+ "version": "0.2.0",
+ "lane": "private-bubble",
+ "hosts": [
+  "dragonskull"
+ ],
+ "platforms": [
+  "macos",
+  "ios"
+ ],
+ "minHostVersion": {
+  "dragonskull": "1.0.4"
+ },
+ "entry": "skills/qr-pair/qr-pair.js",
+ "skill": "skill.json",
+ "rvm": {
+  "egg": "rvm",
+  "schema": "rvm.v1",
+  "jobs": "skills/qr-pair/qr-pair-jobs.json",
+  "testedWith": "yaseed 0.1.10 rvm.js"
+ },
+ "trust": {
+  "list": "rlab-trust-keys.v1",
+  "seq": 2,
+  "referenceKeyId": "e5833fdfbbfe"
+ },
+ "decider": "ЯID-0001-3QQS",
+ "lesson": "LESSON-L064-LINK-ALIGNMENT-LOCK.txt",
+ "law": [
+  "add-only",
+  "no secrets in egg or peer records",
+  "never installs: update offers become Decider proposals confirmed on-device with Face ID / Touch ID",
+  "newer build is reference; tie → Neo",
+  "build/version differences need a Rizal-approved rebuild",
+  "linked apps stay on same build, manual, update number, commands, functions, eggs; Neo is reference",
+  "link passes only SIGNED, strictly NEWER eggs/manuals; receiver checks trust list + signature + size + sha256; result is a Face ID / Touch ID proposal, never an auto-install"
+ ],
+ "limits": [
+  "DRAGON SKULL 1.0.4 Mac (7-10) and iOS (8) register no URL scheme or universal link: the Camera opens the rizal.info pair page, the user copies the link and pastes it in DRAGON SKULL chat; a direct app open needs a Rizal-approved rebuild adding dragonskull:// or applinks:rizal.info",
+  "rizal.info/pair is staged only; until Rizal publishes it the Camera opens a missing page (the link can still be copied from the QR preview)",
+  "no device signer for web skills in these builds: payloads are UNSIGNED and pairing is refused on purpose",
+  "iOS build 8 only takes web changes through its signed ios-web appcast (DSSelfUpdateManifestURL on GitHub RZL-EGG): needs Rizal's signature and a publish",
+  "link: no device signer in current builds → links UNSIGNED → peers refuse to lock (by design) until a rebuild adds one",
+  "manual version and update number are read from state.json (manual.version, updateSeq); current state.json files do not declare them → UNKNOWN until added"
+ ],
+ "components": [
+  {
+   "name": "LESSON-L063-QR-PAIR.txt",
+   "path": "LESSON-L063-QR-PAIR.txt",
+   "sha256": "3b59259b38a1811dd20ae59430036ade046b641dd9c116391e59540e7e322b6a",
+   "size": 3667
+  },
+  {
+   "name": "LESSON-L063b-QR-PAIR-SCAN-TO-OPEN.txt",
+   "path": "LESSON-L063b-QR-PAIR-SCAN-TO-OPEN.txt",
+   "sha256": "9ecdcf7b76a98a32e7e0c0266ea4e77bd197f6922c459392b73a5fdcc15103f2",
+   "size": 2969
+  },
+  {
+   "name": "LESSON-L064-LINK-ALIGNMENT-LOCK.txt",
+   "path": "LESSON-L064-LINK-ALIGNMENT-LOCK.txt",
+   "sha256": "2eaffec9ea2433590a385f96b3e2dfd3ef29ce5f89a8bdbf0ed7a0cf5d33ae7f",
+   "size": 2569
+  },
+  {
+   "name": "commands-add.json",
+   "path": "commands-add.json",
+   "sha256": "72c8bae8778cd0cf796aa3f1ebc03882c6c79ae4ac1fa6a5cd11ff0ce495c510",
+   "size": 2346
+  },
+  {
+   "name": "dg-cmd-link020.py",
+   "path": "host-hooks/dg-cmd-link020.py",
+   "sha256": "86c28a50c0c4b4a35113cbd0cb1df58d214c92a97cb520a39a3972c613076436",
+   "size": 1377
+  },
+  {
+   "name": "dg-cmd-qr011.py",
+   "path": "host-hooks/dg-cmd-qr011.py",
+   "sha256": "96027c9ae9291e5aea8228fe945f7e6e05049d701bcf3512f14f2757264b49bb",
+   "size": 2014
+  },
+  {
+   "name": "link-reference.json",
+   "path": "link-reference.json",
+   "sha256": "1234434734dbdeab55b243641fe9afbb3d87afa4eec262160ff07909a13362a6",
+   "size": 1116
+  },
+  {
+   "name": "skill.json",
+   "path": "skill.json",
+   "sha256": "7f96e4288ac8e036c7870a3c7023fb20cc2e1264b716346609cc4301b3eadac0",
+   "size": 2477
+  },
+  {
+   "name": "link.js",
+   "path": "skills/qr-pair/link.js",
+   "sha256": "2cd9aecdb4708d95c44677023554aad4bf1dee8cdbb85de863ac66fe11209624",
+   "size": 14684
+  },
+  {
+   "name": "qr-pair-jobs.json",
+   "path": "skills/qr-pair/qr-pair-jobs.json",
+   "sha256": "752c3fef7edad1030550b5bb0a1e7a4db2fa31681b39579907753d31d0b7c9a4",
+   "size": 948
+  },
+  {
+   "name": "qr-pair.js",
+   "path": "skills/qr-pair/qr-pair.js",
+   "sha256": "e245dea2941af61459a685d822b0cc98e41a3eafc79dfee26352cf2054180d4c",
+   "size": 20664
+  },
+  {
+   "name": "qrcode-gen.js",
+   "path": "skills/qr-pair/qrcode-gen.js",
+   "sha256": "18ae399f81182bc9de916e9c77b195df20cc58d6f2d55a62b085a299f1bf1780",
+   "size": 56694
+  },
+  {
+   "name": "pair.html",
+   "path": "web/pair.html",
+   "sha256": "17202ce58ad90874ab306d91e1c684a4bb324c316d679b804be9f54a433bbe67",
+   "size": 2554
+  }
+ ],
+ "signature": {
+  "state": "UNSIGNED",
+  "by": "rlab-sign (Rizal runs it himself)",
+  "keyId": "e5833fdfbbfe"
+ },
+ "created": "2026-10-22",
+ "lessons": [
+  "LESSON-L063-QR-PAIR.txt",
+  "LESSON-L063b-QR-PAIR-SCAN-TO-OPEN.txt"
+ ],
+ "hostHooks": {
+  "dg-cmd.js": "host-hooks/dg-cmd-qr011.py (web file only, idempotent, back up first)",
+  "dg-cmd.js+scout.html": "host-hooks/dg-cmd-link020.py (0.2.0, web files only, idempotent, backs up to .bak-qr020)"
+ },
+ "pairPage": {
+  "file": "web/pair.html",
+  "publishAt": "https://rizal.info/pair",
+  "state": "STAGED, not published"
+ },
+ "link": {
+  "format": "https://rizal.info/pair#p=<base64url canon payload>",
+  "alsoAccepted": [
+   "rzl://pair?p=…",
+   "RZLQR1:…"
+  ],
+  "fpLen": 16
+ },
+ "previousVersion": {
+  "version": "0.1.0",
+  "zipSha256": "86bae5ea40fece7630d68be5c8bb245da03a84cc6db1cd75a06db7ea2fbe38e4"
+ },
+ "linkReference": "link-reference.json"
+}

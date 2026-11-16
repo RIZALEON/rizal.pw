@@ -1,0 +1,6 @@
+{
+  "engine_id": "terraformya",
+  "engine_rev": "0.2",
+  "gen_rev": 5,
+  "world": {"seed": 20260924, "w": 1024, "h": 512, "chunk": 32}
+}

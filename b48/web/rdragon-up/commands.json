@@ -1,0 +1,101 @@
+{
+ "app": "RDRAGON iOS 1.0.4 (8) up2",
+ "version": "audiocmds-ios-20261025-up2",
+ "commands": [
+  {
+   "cmd": "SEE",
+   "help": "describe the last picture",
+   "where": "neo"
+  },
+  {
+   "cmd": "/say TEXT",
+   "help": "speak (speechSynthesis)",
+   "where": "phone"
+  },
+  {
+   "cmd": "/narrate TEXT",
+   "help": "deep slow narrator",
+   "where": "phone"
+  },
+  {
+   "cmd": "/readback",
+   "help": "speak the last answer",
+   "where": "phone"
+  },
+  {
+   "cmd": "/voices · /voice NAME · /speed N · /stop",
+   "help": "voices",
+   "where": "phone"
+  },
+  {
+   "cmd": "/make voice NAME PITCH RATE · /use voice NAME · /delete voice NAME",
+   "help": "voice sets",
+   "where": "phone"
+  },
+  {
+   "cmd": "/make voice like",
+   "help": "clone from an attached clip",
+   "where": "neo"
+  },
+  {
+   "cmd": "/beat STYLE BPM BARS · /beats",
+   "help": "WebAudio beatmaker",
+   "where": "phone"
+  },
+  {
+   "cmd": "/loop N · /trim A B · /louder · /quieter · /mix",
+   "help": "WebAudio edits of the last clip",
+   "where": "phone"
+  },
+  {
+   "cmd": "/sfx · /music · /make instrumental",
+   "help": "AudioLDM / MusicGen",
+   "where": "neo"
+  },
+  {
+   "cmd": "/sing · /rap · /rhyme",
+   "help": "vocals",
+   "where": "neo"
+  },
+  {
+   "cmd": "/sshot",
+   "help": "Neo screen",
+   "where": "neo"
+  },
+  {
+   "cmd": "/listen · /transcribe",
+   "help": "mic",
+   "where": "blocked"
+  },
+  {
+   "cmd": "/img [WxH] PROMPT",
+   "help": "image generation",
+   "where": "neo"
+  },
+  {
+   "cmd": "/reflect TEXT · /teach TEXT",
+   "help": "private correction feedback",
+   "where": "neo"
+  },
+  {
+   "cmd": "/audio help · /audio list · /play",
+   "help": "audio command list, recent clips",
+   "where": "phone"
+  },
+  {
+   "cmd": "MAKE MUSIC LIKE <description|last-upload> · MAKE INSTRUMENTAL LIKE …",
+   "help": "MusicGen steered by words or your upload",
+   "where": "neo"
+  },
+  {
+   "cmd": "drop an audio file",
+   "help": "kept private on the phone as last-upload",
+   "where": "phone"
+  },
+  {
+   "cmd": ":commands · :N",
+   "help": "numbered command list; :N shows command N",
+   "where": "phone"
+  }
+ ]
+}

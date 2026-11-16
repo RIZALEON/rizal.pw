@@ -1,0 +1,11 @@
+{"schema":"rzl.shotsense.apps.v1","version":"2.1.9-s1","stamp":"ЯID-0003-P4M6 · ЯМАХ",
+ "verbs":["SHOT","SSHOT","SEE","SEE <path>","SSHOT SEE"],
+ "apps":{
+  "dragoskul:8319":{"route":"POST /api/ds/cmd {text}","state":"live"},
+  "thundr-mcr:8329":{"route":"POST /v1/call/thundr_chat {text}","state":"live"},
+  "ds-hostd:8320":{"route":"POST /hostshot (capture only)","state":"live"},
+  "rbot-macos":{"route":"line in ~/Library/Application Support/ЯBOT/INBOX-COMMANDS.txt → rbot-inbox-bridge.py","state":"bridge staged; --once works; launchd plist staged not loaded"},
+  "rbot-ios":{"route":"LabShotCommand relay → relay-macos:<verb> in Mac inbox → bridge","state":"relay exists natively for shot; sshot/see verbs + SelfShot need native build"},
+  "rdragon-ios":{"route":"DragonGate → Neo :8319 /api/ds/cmd (SHOT/SSHOT/SEE text)","state":"egg-side text relay; self-capture needs native build"},
+  "rbowzr-macos":{"route":"rbwzr/rbwzr-shot.js → :8319","state":"staged; needs web layer to load the script"},
+  "rbowzr-ios":{"route":"rbwzr-shot.js relay → Neo; SelfShot.swift for self-view","state":"staged; needs native build"}}}

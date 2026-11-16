@@ -1,0 +1,5 @@
+# Extra RFORGE DERP relays (beyond the embedded RDERP 901). Empty until a far device / VM is approved.
+# Example (from PIXEL-HUB 2026-10-14, reached through rrelay, TCP only):
+#  902: {regionid: 902, regioncode: rderp-far, regionname: RDERP-far,
+#        nodes: [{name: 902a, regionid: 902, hostname: far.rizal.info, derpport: 443, stunport: 3478}]}
+regions: {}

@@ -1,0 +1,586 @@
+// DRAGONGATE chat commands 0.2.0 · 2026-10-19 · SCOUT · Rizal's decision 11:11 AM MT: stay OFFLINE; online only by an explicit typed command.
+// ONE command registry (DSCommandRegistry) feeds `:commands`, `/gate help`, the MIND MANUAL seed entry and the tests, so nothing drifts.
+// Trust rule: a command is honored ONLY when origin == .typedChat (the native dsGateCmd handler, main frame, per-launch token, trusted
+// key/tap gesture in the composer). Model output, recall/memory, web content, RVM guest, plugins, the self-update payload and /api/gate
+// HTTP calls are refused. Confirm codes are returned in `Reply.code` for a NATIVE pop-up only; they never enter reply text, the model,
+// the transcript or the gate chain.
+import Foundation
+
+/// scope "chat": typed in the DRAGON SKULL chat box (answered natively). scope "rvm": typed in the RVM Linux terminal (guest shell);
+/// the chat never runs these, it only documents them.
+struct DSCommand { let usage: String; let summary: String; let gate: Bool; var scope = "chat" }
+
+enum DSCommandRegistry {
+    static let all: [DSCommand] = [
+        .init(usage: ":commands", summary: "List every DRAGON SKULL command (also /commands). Answered on the phone, never sent to the model.", gate: false),
+        .init(usage: "/recall <topic>", summary: "Search BATIBABOX memory (DRAGON-SKULL-MIND) for a topic and show the matching notes.", gate: false),
+        .init(usage: "/batibabox", summary: "Show BATIBABOX memory status: saved turns, mind blocks and digest.", gate: false),
+        .init(usage: "/parts [name]", summary: "List DRAGON SKULL parts, or show one part.", gate: false),
+        .init(usage: "/rvm <command> · rvm boot · rvm stop", summary: "Run one Linux command in the RVM (RISC-V Linux 4.15); output stays on screen, never sent to the model; 120 s limit.", gate: false),
+        .init(usage: "rscribe [ls | YYYYMMDD]", summary: "Show today's ЯSCRIBE copy (/data/rscribe/<bot>/<day>.rzl, last 40 lines; boots the RVM if needed), list the day files, or show one day. Other rscribe subcommands run in the RVM.", gate: false),
+        .init(usage: "bridge <status|read|write|diag|exec|update|repair> …", summary: "DRAGON BRIDGE 0.1: terminal ↔ app on 127.0.0.1:8319 (off until bridge-allow.json enabled:true). Session token required; no delete verb.", gate: false),
+        .init(usage: "REBIRTH [run <n|all> [go]]", summary: "Also /rebirth or rebirth at the start, any case. Numbered list of everything not yet executed: pending eggs, staged items in rebirth-queue.json, failed or unfinished rscribe jobs. rebirth run <n|all> is a DRY RUN; add go to run, and each item runs only if its sha256 is owner-approved in DRAGONGATE approved.json and you confirm that item (Face ID). sign, delete, publish and autoresign are only listed, never run. Never deletes transcripts, MACHINE-MIND or backups. Every step logged add-only via rscribe.", gate: false),
+        .init(usage: "TEST [quick|status|stop]", summary: "Run the ЯZL v0.2 STANDARD BOT TEST (sanity, speed, general, coding) and post progress plus the final score, grade and BASE-1/BASE-2 table in the chat; also logged to reports/HISTORY.jsonl. Works as TEST, /test or test. One run at a time; TEST stop cancels; TEST quick is a short self-check.", gate: false),
+        // ЯOS BASE COMMANDS (BASE-COMMANDS.json / UNIFIED-CLASSROOM-MANUAL) 2026-10-19 cmds: with or without the slash, any case; local/offline.
+        .init(usage: "CHALKBOARD [show]", summary: "REQ-16: show the local chalkboard (Latest chalk + recent entries), or report board empty.", gate: false),
+        .init(usage: "CHALKBOARD post <message>", summary: "REQ-16: post a test message to the local chalkboard and report PASS/FAIL with message= as this bot sees it. Append-only, never removed.", gate: false),
+        .init(usage: "CHALK word <WORD>", summary: "REQ-17: record a secret word silently (never echoed in chat); results file gets a PASS line, the word stays inside CHALK-SECRETS.jsonl.", gate: false),
+        .init(usage: "CHALK results", summary: "REQ-17: show the chalk results path and PASS counts (no secret words).", gate: false),
+        .init(usage: "HANDOFF [note <text>]", summary: "Write a new timestamped handoff note (version, commands, engine, chalk, last TEST, self-check, your note) in the app's data. Never overwrites, never removed.", gate: false),
+        .init(usage: "REOPS [status]", summary: "REQ-REOPS: describe the evidence-bounded offline reverse-engineering capability (no decompile/unpack/auto-run) and run the local self-check.", gate: false),
+        .init(usage: "FIX [detect|verify|mac|iphone|ipad]", summary: "REQ-FIX: safe no-wipe self-check and report. Erase/restore never runs from the app (that is Neo's RESTORE/fix.sh with the Decider's go).", gate: false),
+        .init(usage: "MANUAL", summary: "Show the DRAGON SKULL command manual: every command by section, plus the standing laws.", gate: false),
+        // HOSTBRIDGE 2026-10-19 (Neo helper · rtoken · Touch ID). Same names on Mac and iOS.
+        .init(usage: "hostconnect <lan-ip> [port]", summary: "Point this app at Neo's ds-hostd (iPhone needs LAN IP; Mac may use 127.0.0.1).", gate: false),
+        .init(usage: "hostpair <CODE>", summary: "One-time rtoken pairing with Neo helper (code from: python3 ds-hostd.py pair). Secret never shown.", gate: false),
+        .init(usage: "hoststatus", summary: "Neo helper reachability, paired?, emergency stop, allow-list path.", gate: false),
+        .init(usage: "hostreq <action>", summary: "Ask Neo for Face ID / Touch ID approval of <action>; nothing privileged runs without yes.", gate: false),
+        .init(usage: "hostexec <cmd>", summary: "Run an allow-listed command on Neo; stdout returns to chat. Needs hostreq/auth.", gate: false),
+        .init(usage: "hostshot", summary: "Screenshot Neo via screencapture (Screen Recording permission). Path returned to chat.", gate: false),
+        .init(usage: "hostmouse move|click|drag …", summary: "Move / click / drag the Neo cursor (Accessibility).", gate: false),
+        .init(usage: "hostkey type|shortcut …", summary: "Type text or a shortcut on Neo (Accessibility).", gate: false),
+        .init(usage: "hostui click \"App\" \"Button\"", summary: "Click a named button in an allow-listed app via Accessibility.", gate: false),
+        .init(usage: "hostapp open|quit|front <App>", summary: "Open, quit, or front an allow-listed app on Neo.", gate: false),
+        .init(usage: "hoststop [clear]", summary: "Emergency stop the Neo hostbridge (or Ctrl+Opt+Cmd+H on Neo). clear needs Touch ID.", gate: false),
+        .init(usage: "hostallow", summary: "Show Neo host-allow.json path and summary (everything else blocked).", gate: false),
+        .init(usage: "/gate help", summary: "Show the DRAGONGATE commands.", gate: true),
+        .init(usage: "/gate status", summary: "Show gate mode, online, kill, plugin mode, the allowlist and recent blocked counts.", gate: true),
+        .init(usage: "/gate online on", summary: "Ask to go online; a 4-character code appears in a pop-up, confirm within 60 s.", gate: true),
+        .init(usage: "/gate online off", summary: "Go offline at once (nothing leaves the device).", gate: true),
+        .init(usage: "/gate confirm <code>", summary: "Confirm a pending online-on or kill-off with the code from the pop-up.", gate: true),
+        .init(usage: "/gate allow <host>", summary: "Add one exact host (no wildcards) to the allowlist; used only while online is on.", gate: true),
+        .init(usage: "/gate deny <host>", summary: "Remove a host from the allowlist.", gate: true),
+        .init(usage: "/gate allow list", summary: "Show the allowlist.", gate: true),
+        .init(usage: "/gate plugins owner", summary: "Plugins load only if Rizal approved their fingerprint (default).", gate: true),
+        .init(usage: "/gate plugins signed", summary: "Owner approval of the plugin's exact hash is required; a signature never replaces it (on its own it neither grants nor blocks).", gate: true),
+        .init(usage: "/gate kill on", summary: "Kill switch: block everything off-device at once, no confirm.", gate: true),
+        .init(usage: "/gate kill off", summary: "Release the kill switch; needs a pop-up code confirm.", gate: true),
+        // ЯSCRIBE (Linux rscribe in the RVM guest, sealed by rtoken/rcounter; DRAGONGATE dgshim v0.1.2 fail-closed). Source: rscribe.c usage().
+        .init(usage: "rscribe list [--archive]", summary: "RVM terminal: list ЯSCRIBE notes (add --archive for archived ones).", gate: false, scope: "rvm"),
+        .init(usage: "rscribe new <NAME> [file|-]", summary: "RVM terminal: create a note from a file or typed input.", gate: false, scope: "rvm"),
+        .init(usage: "rscribe edit <NAME> [file|-]", summary: "RVM terminal: save a new revision of a note (append-only).", gate: false, scope: "rvm"),
+        .init(usage: "rscribe cat <NAME> [rev]", summary: "RVM terminal: print a note's raw .rzl JSON.", gate: false, scope: "rvm"),
+        .init(usage: "rscribe show <NAME> [rev]", summary: "RVM terminal: show a note as readable text.", gate: false, scope: "rvm"),
+        .init(usage: "rscribe archive <NAME>", summary: "RVM terminal: archive a note (nothing is deleted).", gate: false, scope: "rvm"),
+        .init(usage: "rscribe restore <NAME>", summary: "RVM terminal: bring an archived note back.", gate: false, scope: "rvm"),
+        .init(usage: "rscribe search <query>", summary: "RVM terminal: search ЯSCRIBE notes.", gate: false, scope: "rvm"),
+    ]
+    static func numbered(_ list: [DSCommand] = all) -> String {
+        list.enumerated().map { "\($0.offset + 1). \($0.element.usage) — \($0.element.summary)" }.joined(separator: "\n")
+    }
+    static func listText() -> String { "DRAGON SKULL commands (\(all.count)):\n" + numbered() }
+    static func gateHelp() -> String { "DRAGONGATE commands:\n" + numbered(all.filter { $0.gate }) }
+    /// MIND MANUAL text for the Day 0 seed / transcript (the engine reads this to explain commands).
+    static func manualText() -> String {
+        "MIND MANUAL · Commands chapter (rev 2, adds ЯSCRIBE). Type these in the DRAGON SKULL chat box; they are answered on the phone and never sent to the model. "
+        + "Gate commands work only when you type them yourself. Commands marked RVM terminal are typed in the RVM Linux terminal, not the chat. " + all.map { "\($0.usage): \($0.summary)" }.joined(separator: " | ")
+    }
+}
+
+enum DGCmdOrigin: String { case typedChat = "typed-chat", model, recall, web, rvm, plugin, update, api }
+
+final class DGCommands: @unchecked Sendable {
+    struct Reply { var text: String; var code: String? = nil; var changed = false }
+    static let shared = DGCommands()
+    static let confirmSeconds: TimeInterval = 60
+    static let alphabet = Array("ABCDEFGHJKMNPQRSTUVWXYZ23456789")
+    static let updateHost = "raw.githubusercontent.com"
+
+    var coreProvider: () -> DragonGateCore? = { DGGate.shared.core as? DragonGateCore }
+    var now: () -> Date = Date.init
+    /// Transcript mirror (DRAGON SKULL: MemoryStore.shared.event("gate", kind, text)). Never receives a confirm code.
+    var log: ((_ kind: String, _ text: String) -> Void)? = nil
+    private var pending: (action: String, code: String, expires: Date, tries: Int)?
+    private let lock = NSLock()
+
+    /// True for anything the command layer owns (so it must never reach the model or chat memory).
+    static func isCommand(_ text: String) -> Bool {
+        let t = text.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        return DSRebirth.isCommand(text) || isTestCommand(t) || HostBridgeCmd.isCommand(text) || baseCommand(text) != nil || t == ":commands" || t == "/commands" || t == "/gate" || t.hasPrefix("/gate ") || t.hasPrefix("/gate\t")
+    }
+    /// SCOUT rvm-chatcmd 2026-10-19: `/rvm …` or a message starting with the word `rvm`. Run ONLY in the page by dg-cmd.js (RVM console);
+    /// a copy reaching the server over HTTP is answered locally: never sent to the model, never recorded as chat memory.
+    static func isRvmCommand(_ text: String) -> Bool {
+        let t = text.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        return t == "rvm" || t == "/rvm" || t.hasPrefix("rvm ") || t.hasPrefix("/rvm ") || t.hasPrefix("rvm\t") || t.hasPrefix("/rvm\t")
+    }
+    /// TEST 2026-10-19: `TEST`, `/test`, `test` (any case), optionally followed by quick | status | stop. Whole message only.
+    static func isTestCommand(_ text: String) -> Bool {
+        let w = text.trimmingCharacters(in: .whitespacesAndNewlines).lowercased().split(whereSeparator: { $0 == " " || $0 == "\t" }).map(String.init)
+        guard let f = w.first, f == "test" || f == "/test" else { return false }
+        return w.count == 1 || (w.count == 2 && ["quick", "status", "stop"].contains(w[1]))
+    }
+    /// ЯOS base commands 2026-10-19 cmds. Slash form takes any arguments; slashless only the bare word or a known subcommand
+    /// (so ordinary chat like "fix this code" still goes to the model). reverse-engineering is an alias of REOPS.
+    static let baseWords: Set<String> = ["chalkboard", "chalk", "handoff", "reops", "reverse-engineering", "fix", "manual"]
+    static func baseCommand(_ text: String) -> (word: String, args: [String], raw: String)? {
+        let t = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        let parts = t.split(whereSeparator: { $0 == " " || $0 == "\t" || $0 == "\n" }).map(String.init)
+        guard let f0 = parts.first else { return nil }
+        let slash = f0.hasPrefix("/"), f = (slash ? String(f0.dropFirst()) : f0).lowercased()
+        guard baseWords.contains(f) else { return nil }
+        let w = f == "reverse-engineering" ? "reops" : f, args = Array(parts.dropFirst()), a1 = args.first?.lowercased() ?? ""
+        let raw = String(t.dropFirst(f0.count)).trimmingCharacters(in: .whitespacesAndNewlines)
+        if !slash && !args.isEmpty {
+            let ok: Bool
+            switch w {
+            case "chalkboard": ok = (a1 == "show" && args.count == 1) || (a1 == "post" && args.count >= 2)
+            case "chalk": ok = (a1 == "word" && args.count == 2) || (a1 == "results" && args.count == 1)
+            case "handoff": ok = a1 == "note" && args.count >= 2
+            case "reops": ok = a1 == "status" && args.count == 1
+            case "fix": ok = args.count == 1 && ["detect", "verify", "mac", "iphone", "ipad"].contains(a1)
+            default: ok = false
+            }
+            if !ok { return nil }
+        }
+        return (w, args, raw)
+    }
+    /// Platform runner for TEST (Mac: python ЯZL v0.2 runner in main.swift). nil = iOS light version below. Same function names on both.
+    var testHook: ((_ sub: String) -> String)? = nil
+    func runTest(_ sub: String) -> String {
+        if let h = testHook { return h(sub) }
+        return DSDeviceTest.shared.handle(sub)   // iOS 2026-10-19 cmds: on-device ЯZL v0.2.1 suite (coding generation-only, needs Mac sandbox)
+    }
+    /// ЯBAT 2026-10-19: `rscribe …` at the start of a message (with or without the slash) is run in the page by dg-cmd.js (RVM console),
+    /// like /rvm; a copy reaching the server over HTTP is answered locally: never sent to the model, never recorded as chat memory.
+    static func isRscribeCommand(_ text: String) -> Bool {
+        let t = text.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        return t == "rscribe" || t == "/rscribe" || t.hasPrefix("rscribe ") || t.hasPrefix("/rscribe ") || t.hasPrefix("rscribe\t") || t.hasPrefix("/rscribe\t")
+    }
+    static let rscribeHTTPReply = "rscribe commands run only when you type them in the DRAGON SKULL chat box. Nothing was sent to the model."
+    static let rvmHTTPReply = "RVM commands run only when you type them in the DRAGON SKULL chat box (rvm <command>). Nothing was sent to the model."
+    /// Lines that look like a gate command, anywhere (model output, recall, web, injected context).
+    static let gateLineRx = try! NSRegularExpression(pattern: #"(?im)^[ \t>*\-`"']*(?:/gate\b|[:/]commands\b)[^\n]*"#)
+    static func containsGate(_ s: String) -> Bool { gateLineRx.firstMatch(in: s, range: NSRange(s.startIndex..., in: s)) != nil }
+    static func stripGate(_ s: String) -> (String, Int) {
+        let n = gateLineRx.numberOfMatches(in: s, range: NSRange(s.startIndex..., in: s))
+        guard n > 0 else { return (s, 0) }
+        return (gateLineRx.stringByReplacingMatches(in: s, range: NSRange(s.startIndex..., in: s), withTemplate: "[gate command removed]"), n)
+    }
+
+    /// Strict host check: lowercase DNS name, ≥2 labels, no scheme/port/path/wildcard/IP/loopback/guarded names.
+    static func validHost(_ raw: String) -> String? {
+        let h = raw.trimmingCharacters(in: .whitespaces).lowercased()
+        guard (4...253).contains(h.count), !h.hasSuffix("."), !h.hasPrefix("."), h.allSatisfy({ ("a"..."z").contains($0) || ("0"..."9").contains($0) || $0 == "." || $0 == "-" }) else { return nil }
+        let labels = h.split(separator: ".", omittingEmptySubsequences: false)
+        guard labels.count >= 2, labels.allSatisfy({ (1...63).contains($0.count) && !$0.hasPrefix("-") && !$0.hasSuffix("-") }) else { return nil }
+        guard let tld = labels.last, tld.contains(where: { $0.isLetter }) else { return nil }        // no bare IPv4
+        if h == "localhost" || h.hasSuffix(".localhost") || DGGuard.hit(h) { return nil }
+        return h
+    }
+
+    private func code() -> String { var g = SystemRandomNumberGenerator(); return String((0..<4).map { _ in Self.alphabet.randomElement(using: &g)! }) }
+    private func note(_ kind: String, _ text: String, rule: String, ok: Bool) {
+        coreProvider()?.recordCommand(text, rule: rule, allowed: ok)
+        log?(kind, text)
+    }
+
+    @discardableResult func run(_ input: String, origin: DGCmdOrigin) -> Reply {
+        let text = input.trimmingCharacters(in: .whitespacesAndNewlines)
+        let low = text.lowercased().split(whereSeparator: { $0 == " " || $0 == "\t" }).map(String.init)
+        let shown = low.count >= 2 && low[1] == "confirm" ? "/gate confirm ****" : (low.count >= 2 && (low[0] == "chalk" || low[0] == "/chalk") && low[1] == "word") ? "chalk word ****" : String(text.prefix(120))
+        guard origin == .typedChat else {
+            note("gate-cmd-refused", "refused \(shown) from \(origin.rawValue): gate commands are honored only when typed in the chat box", rule: "cmd-untrusted-origin", ok: false)
+            return Reply(text: "DRAGONGATE: refused. Commands work only when you type them in the chat box yourself.")
+        }
+        if DSRebirth.isCommand(text) { log?("rebirth-cmd", shown); return Reply(text: DSRebirth.shared.handle(text)) }   // SCOUT rebirth 2026-10-19
+        if Self.isTestCommand(text) { log?("test-cmd", shown); return Reply(text: runTest(low.count > 1 ? low[1] : "start")) }
+        if HostBridgeCmd.isCommand(text) { log?("host-cmd", shown); return Reply(text: HostBridge.shared.handle(text)) }
+        if let b = Self.baseCommand(text) { log?("base-cmd", shown); return Reply(text: DSBase.shared.run(b.word, b.args, b.raw)) }
+        if low.first == ":commands" || low.first == "/commands" { log?("gate-cmd", ":commands"); return Reply(text: DSCommandRegistry.listText()) }
+        guard low.first == "/gate", let core = coreProvider() else { return Reply(text: "DRAGONGATE: the gate core is not running, so nothing can leave the device. Try again after restart.") }
+        let a = Array(low.dropFirst())
+        lock.lock(); defer { lock.unlock() }
+        func ok(_ t: String, changed: Bool = false, _ rule: String = "cmd") -> Reply { note("gate-cmd", "\(shown) → ok", rule: rule, ok: true); return Reply(text: t, changed: changed) }
+        func no(_ t: String, _ rule: String = "cmd-bad") -> Reply { note("gate-cmd", "\(shown) → refused (\(rule))", rule: rule, ok: false); return Reply(text: t) }
+        func ask(_ action: String, _ what: String) -> Reply {
+            let c = code(); pending = (action, c, now().addingTimeInterval(Self.confirmSeconds), 0)
+            note("gate-cmd", "\(shown) → confirm requested (60 s)", rule: "cmd-confirm-asked", ok: true)
+            return Reply(text: "To \(what), type /gate confirm followed by the 4-character code shown in the pop-up, within 60 seconds.", code: c)
+        }
+        switch a {
+        case [], ["help"]: return ok(DSCommandRegistry.gateHelp())
+        case ["status"]: return ok(status(core))
+        case ["online", "on"]:
+            if (core.state()["kill"] as? Bool) == true { return no("Kill is on, so online can't be turned on. Release it first with /gate kill off.", "cmd-kill-on") }
+            if (core.state()["online"] as? Bool) == true { return ok("Online is already on.\n" + allowNote(core)) }
+            var r = ask("online-on", "turn online on"); r.text += "\n" + allowNote(core); return r
+        case ["online", "off"]:
+            if pending?.action == "online-on" { pending = nil }
+            core.setFlag("online", false); return ok("Online is off. Nothing leaves the device; loopback still works.", changed: true)
+        case ["kill", "on"]:
+            pending = nil                                   // fail-safe: cancels any pending loosening
+            core.setFlag("kill", true); DGGate.shared.mirror?("gate-kill", "DRAGONGATE kill switch closed every outbound path (typed command)")
+            return ok("Kill is on. Everything off-device is blocked; loopback still works.", changed: true, "kill-switch")
+        case ["kill", "off"]:
+            if (core.state()["kill"] as? Bool) != true { return ok("Kill is already off.") }
+            return ask("kill-off", "release the kill switch")
+        case let x where x.count == 2 && x[0] == "confirm":
+            guard let p = pending else { return no("Nothing is waiting for a confirm.", "cmd-no-pending") }
+            if now() > p.expires { pending = nil; return no("That confirm expired. Start again.", "cmd-expired") }
+            guard x[1].uppercased() == p.code else {
+                if p.tries + 1 >= 3 { pending = nil; return no("Wrong code three times; cancelled. Start again.", "cmd-bad-code") }
+                pending = (p.action, p.code, p.expires, p.tries + 1); return no("Wrong code.", "cmd-bad-code")
+            }
+            pending = nil
+            if p.action == "online-on" { core.setFlag("online", true); return ok("Online is on.\n" + allowNote(core), changed: true, "cmd-online-on") }
+            core.setFlag("kill", false); return ok("Kill is off. Online is \((core.state()["online"] as? Bool) == true ? "on" : "off").", changed: true, "cmd-kill-off")
+        case ["allow", "list"]: return ok(allowListText(core))
+        case let x where x.count == 2 && (x[0] == "allow" || x[0] == "deny"):
+            guard let h = Self.validHost(x[1]) else { return no("Not a valid host. Use one exact host name like example.com, with no https://, port, path or wildcard.", "cmd-bad-host") }
+            var l = core.allowList()
+            if x[0] == "allow" {
+                if l.contains(h) { return ok("\(h) is already allowed.") }
+                l.append(h); core.setAllowList(l)
+                return ok("Allowed \(h)." + ((core.state()["online"] as? Bool) == true ? "" : " Online is off, so nothing goes out until you turn it on."), changed: true)
+            }
+            guard l.contains(h) else { return ok("\(h) wasn't on the allowlist.") }
+            l.removeAll { $0 == h }; core.setAllowList(l); return ok("Removed \(h).", changed: true)
+        case ["plugins", "owner"]: core.setFlag("approval", "owner-approved"); return ok("Plugins: owner-approved only.", changed: true)
+        case ["plugins", "signed"]: core.setFlag("approval", "signed"); return ok("Plugins: Owner approval of the plugin's exact hash is required; a signature never replaces it (on its own it neither grants nor blocks).", changed: true)
+        default: return no("Unknown gate command. Type /gate help.", "cmd-unknown")
+        }
+    }
+
+    private func allowNote(_ core: DragonGateCore) -> String {
+        let l = core.allowList()
+        var t = l.isEmpty ? "The allowlist is empty, so nothing off-device is allowed even with online on. Add hosts with /gate allow <host>." : "Allowed hosts: \(l.joined(separator: ", "))."
+        if !l.contains(Self.updateHost) { t += " Self-update stays paused until \(Self.updateHost) is allowed." }
+        return t
+    }
+    private func allowListText(_ core: DragonGateCore) -> String {
+        let l = core.allowList(); return l.isEmpty ? "The allowlist is empty." : "Allowlist (\(l.count)):\n" + l.enumerated().map { "\($0.offset + 1). \($0.element)" }.joined(separator: "\n")
+    }
+    private func status(_ core: DragonGateCore) -> String {
+        let s = core.state(), f = DateFormatter(); f.dateFormat = "yyyy-MM-dd"; f.timeZone = .current
+        let today = f.string(from: now()), rep = core.report(day: today)
+        let deny = ((rep["decisions"] as? [String: Int])?["deny"]) ?? 0
+        var byRule: [String: Int] = [:]; for d in (rep["denials"] as? [[String: Any]]) ?? [] { byRule[(d["rule"] as? String) ?? "?", default: 0] += 1 }
+        let rules = byRule.sorted { $0.value > $1.value }.map { "\($0.key) \($0.value)" }.joined(separator: ", ")
+        return """
+        DRAGONGATE status
+        • mode: \((s["gate"] as? Bool) == true ? "monitor" : "pass-through")
+        • online: \((s["online"] as? Bool) == true ? "on" : "off")
+        • kill: \((s["kill"] as? Bool) == true ? "on" : "off")
+        • plugins: \((s["approval"] as? String) == "signed" ? "signed" : "owner")
+        • allowlist: \(core.allowList().isEmpty ? "(empty)" : core.allowList().joined(separator: ", "))
+        • blocked today: \(deny)\(rules.isEmpty ? "" : " (recent: \(rules))")
+        • pending confirm: \(pending.map { $0.action } ?? "none")
+        """
+    }
+}
+
+// ==== BASE COMMANDS 2026-10-19 (cmds) · CHALKBOARD · CHALK · HANDOFF · REOPS · FIX · MANUAL ====
+// Source: ЯKLASSROOM/BASE-MIND/SEED/BASE-COMMANDS.json + UNIFIED-CLASSROOM-MANUAL.md. Shared, identical on Mac and iOS. Local/offline only:
+// data lives in <Application Support>/dragonskull-commands/, written append-only (or as new files). Nothing here ever deletes or
+// overwrites a file (never-remove transcript law, REQ-19). FIX never erases/restores anything (no idevicerestore from the app).
+final class DSBase: @unchecked Sendable {
+    static let shared = DSBase()
+    /// Platform hook (Mac main.swift: llama-server pid; iOS App.swift: in-app engine ready).
+    var engineStatus: (() -> String)? = nil
+    #if os(macOS)
+    let platform = "Mac"
+    #else
+    let platform = "iPhone"
+    #endif
+    private let lock = NSLock()
+    var root: URL { RlabData.appSupport.appendingPathComponent("dragonskull-commands", isDirectory: true) }
+    private func f(_ n: String) -> URL { root.appendingPathComponent(n) }
+    private func ts(_ fmt: String = "yyyy-MM-dd HH:mm:ss ZZZZZ") -> String { let d = DateFormatter(); d.dateFormat = fmt; d.timeZone = .current; return d.string(from: Date()) }
+    private var version: String { let i = Bundle.main.infoDictionary ?? [:]; return "\(i["CFBundleShortVersionString"] as? String ?? "?") (\(i["CFBundleVersion"] as? String ?? "?"))" }
+    @discardableResult private func append(_ u: URL, _ s: String, header: String = "") -> Bool {
+        let fm = FileManager.default
+        try? fm.createDirectory(at: u.deletingLastPathComponent(), withIntermediateDirectories: true)
+        if !fm.fileExists(atPath: u.path) { guard fm.createFile(atPath: u.path, contents: Data(header.utf8)) else { return false } }
+        guard let h = try? FileHandle(forWritingTo: u) else { return false }
+        defer { try? h.close() }
+        h.seekToEndOfFile(); h.write(Data(s.utf8)); return true
+    }
+    private func read(_ u: URL) -> String { (try? String(contentsOf: u, encoding: .utf8)) ?? "" }
+    private func entries(_ u: URL, prefix: String) -> [String] { read(u).split(separator: "\n").map(String.init).filter { $0.hasPrefix(prefix) } }
+
+    func run(_ w: String, _ args: [String], _ raw: String) -> String {
+        lock.lock(); defer { lock.unlock() }
+        let a1 = args.first?.lowercased() ?? ""
+        switch w {
+        case "chalkboard": return a1 == "post" || a1 == "write" ? chalkPost(String(raw.dropFirst(a1.count)).trimmingCharacters(in: .whitespaces)) : chalkShow()
+        case "chalk":
+            if a1 == "word", args.count >= 2 { return chalkSecret(args[1]) }
+            if a1 == "results" { return chalkResults() }
+            return "CHALK (REQ-17): `chalk word <WORD>` records a secret word silently (it is never shown in chat); `chalk results` shows the results file and PASS counts.\n" + chalkResults()
+        case "handoff": return handoff(a1 == "note" ? String(raw.dropFirst(4)).trimmingCharacters(in: .whitespaces) : raw)
+        case "reops": return reops()
+        case "fix": return fix(a1.isEmpty ? "detect" : a1)
+        default: return manual()
+        }
+    }
+    // CHALKBOARD (REQ-16): local board, append-only. The classroom autoclean is NOT applied on device (never-remove law); the latest entry is "Latest chalk".
+    private func chalkShow() -> String {
+        let e = entries(f("CHALKBOARD.md"), prefix: "- ")
+        guard !e.isEmpty else { return "CHALKBOARD: board empty (local board \(f("CHALKBOARD.md").path)). Post with: chalkboard post <message>" }
+        return "CHALKBOARD (\(e.count) entries, append-only, never removed) · Latest chalk:\n\(e.last!)\n\nRecent:\n" + e.suffix(15).joined(separator: "\n")
+    }
+    private func chalkPost(_ msg: String) -> String {
+        guard !msg.isEmpty else { return "CHALKBOARD: nothing to post. Use: chalkboard post <message>" }
+        let line = "- \(ts()) · DRAGON SKULL \(platform) · message=\(msg.replacingOccurrences(of: "\n", with: " "))\n"
+        guard append(f("CHALKBOARD.md"), line, header: "# DRAGON SKULL CHALKBOARD (local, append-only · REQ-16 · never removed)\n\n") else { return "CHALKBOARD: FAIL, could not write the local board." }
+        let seen = entries(f("CHALKBOARD.md"), prefix: "- ").last ?? ""
+        return "CHALKBOARD: PASS · DRAGON SKULL \(platform) sees message=\(msg) (entry \(entries(f("CHALKBOARD.md"), prefix: "- ").count)).\n" + (seen.contains(msg) ? "" : "warning: readback mismatch\n") + "Board: \(f("CHALKBOARD.md").path)"
+    }
+    // CHALK (REQ-17): secret word stored silently; the chat reply never contains it.
+    private func chalkSecret(_ word: String) -> String {
+        let rec = "{\"at\":\"\(ts())\",\"bot\":\"DRAGON SKULL \(platform)\",\"word\":\"\(word.replacingOccurrences(of: "\\", with: "\\\\").replacingOccurrences(of: "\"", with: "\\\""))\"}\n"
+        guard append(f("CHALK-SECRETS.jsonl"), rec) else { return "CHALK: FAIL, could not record the word." }
+        let n = entries(f("CHALK-SECRETS.jsonl"), prefix: "{").count
+        append(f("CHALK-RESULTS.md"), "- \(ts()) · DRAGON SKULL \(platform) · word received · PASS (secret #\(n) in CHALK-SECRETS.jsonl)\n", header: "# CHALK RESULTS (REQ-17 · for the other party · words are inside CHALK-SECRETS.jsonl, not here)\n\n")
+        return "CHALK: secret word recorded silently. PASS 1/1 (DRAGON SKULL \(platform)).\nResults: \(f("CHALK-RESULTS.md").path)"
+    }
+    private func chalkResults() -> String {
+        let r = entries(f("CHALK-RESULTS.md"), prefix: "- ")
+        return r.isEmpty ? "CHALK results: none yet." : "CHALK results: PASS \(r.filter { $0.contains("PASS") }.count)/\(r.count) · \(f("CHALK-RESULTS.md").path)\n" + r.suffix(10).joined(separator: "\n")
+    }
+    // HANDOFF: new timestamped file every time (never overwrites).
+    private func handoff(_ note: String) -> String {
+        let dir = root.appendingPathComponent("HANDOFF", isDirectory: true)
+        var u = dir.appendingPathComponent("HANDOFF-\(ts("yyyyMMdd-HHmmss"))-DRAGONSKULL-\(platform).md"); var k = 2
+        while FileManager.default.fileExists(atPath: u.path) { u = dir.appendingPathComponent("HANDOFF-\(ts("yyyyMMdd-HHmmss"))-DRAGONSKULL-\(platform)-\(k).md"); k += 1 }
+        let body = """
+        # HANDOFF · DRAGON SKULL \(platform) · \(ts())
+        - version: \(version)
+        - commands known: \(DSCommandRegistry.all.count)
+        - engine: \(engineStatus?() ?? "n/a")
+        - chalkboard entries: \(entries(f("CHALKBOARD.md"), prefix: "- ").count) · chalk results: \(entries(f("CHALK-RESULTS.md"), prefix: "- ").count)
+        - last TEST: \(DGCommands.shared.runTest("status").prefix(400))
+        - self-check: \(selfCheck().1)
+        ## Note (done / left off)
+        \(note.isEmpty ? "(no note given; type: handoff note <text>)" : note)
+
+        Law: transcripts and handoffs are never removed (REQ-19). Local file only; nothing pushed or published from the app.
+
+        """
+        guard append(u, body) else { return "HANDOFF: FAIL, could not write \(u.path)" }
+        return "HANDOFF written: \(u.path)"
+    }
+    /// Local self-check used by REOPS and FIX. Returns (lines, summary).
+    func selfCheck() -> ([String], String) {
+        var L: [String] = [], pass = 0, n = 0
+        func ck(_ name: String, _ ok: Bool, _ d: String) { n += 1; if ok { pass += 1 }; L.append("\(ok ? "PASS" : "FAIL") \(name): \(d)") }
+        let fm = FileManager.default, res = Bundle.main.resourceURL ?? URL(fileURLWithPath: "/")
+        ck("version", true, version)
+        ck("commands", DSCommandRegistry.all.count >= 34, "\(DSCommandRegistry.all.count) in the shared registry")
+        let core = DGGate.shared.core as? DragonGateCore, st = core?.state() ?? [:]
+        ck("dragongate", core != nil, core == nil ? "core not running" : "online \((st["online"] as? Bool) == true ? "on" : "off") · kill \((st["kill"] as? Bool) == true ? "on" : "off")")
+        ck("web bundle", fm.fileExists(atPath: res.appendingPathComponent("web/dg-cmd.js").path), res.appendingPathComponent("web").path)
+        ck("model", fm.fileExists(atPath: res.appendingPathComponent("model/granite-4.0-h-1b-Q4_K_M.gguf").path), "granite-4.0-h-1b-Q4_K_M.gguf in the app bundle")
+        ck("drive1", fm.fileExists(atPath: RlabData.url.path), RlabData.url.lastPathComponent)
+        let w = append(f("SELFCHECK.log"), "- \(ts()) · self-check\n")
+        ck("data dir", w, root.path + " (append-only)")
+        if let e = engineStatus?() { ck("engine", !e.lowercased().contains("not"), e) }
+        return (L, "\(pass)/\(n) PASS")
+    }
+    private func reops() -> String {
+        let (l, s) = selfCheck()
+        return """
+        REOPS (REQ-REOPS) · evidence-bounded reverse engineering, offline.
+        Maps artifact declarations, proposed names, refusals and explicit gates. It does not decompile binaries, reconstruct source, unpack archives, decide unknown bytes, or run any model/runner automatically (the runner TOOLS/reops-run-qwen3.sh is Mac-only and Decider-run).
+        Self-check \(s):
+        """ + "\n" + l.joined(separator: "\n")
+    }
+    private func fix(_ t: String) -> String {
+        let (l, s) = selfCheck()
+        let head: String
+        switch t {
+        case "iphone", "ipad": head = "FIX \(t): refused in the app. Erase/restore (deep-repair idevicerestore) never runs from DRAGON SKULL; on Neo it is ~/ЯLAB/RESTORE/fix.sh and needs the Decider's go. Safe no-wipe self-check instead:"
+        case "mac": head = "FIX mac: harness self-check only (no erase, no bootload):"
+        default: head = "FIX \(t): safe, no wipe. Self-check:"
+        }
+        return head + " \(s)\n" + l.joined(separator: "\n")
+    }
+    private func manual() -> String {
+        let chat = DSCommandRegistry.all.filter { $0.scope == "chat" && !$0.gate }, gate = DSCommandRegistry.all.filter { $0.gate }, rvm = DSCommandRegistry.all.filter { $0.scope == "rvm" }
+        func sec(_ t: String, _ l: [DSCommand]) -> String { "\n## \(t)\n" + l.map { "• \($0.usage) — \($0.summary)" }.joined(separator: "\n") }
+        return "DRAGON SKULL COMMAND MANUAL rev 3 · \(version) · \(DSCommandRegistry.all.count) commands. Type them in the chat box, with or without the slash, any case; they are answered on the device and never sent to the model."
+            + sec("Chat and ЯOS base commands", chat) + sec("DRAGONGATE (typed only)", gate) + sec("RVM terminal", rvm)
+            + "\n## Laws\n• Transcripts, handoffs and chalk are never removed (REQ-19). • FIX never erases from the app. • Offline unless you type /gate online on. Full classroom manual: ЯKLASSROOM/UNIFIED-CLASSROOM-MANUAL.md (Neo)."
+    }
+}
+
+// ==== iOS ON-DEVICE TEST 2026-10-19 · ЯZL v0.2.1 suite (sanity 20 · speed · MMLU-Pro 100 · coding 50 generation-only) ====
+// Used when no platform testHook is set (iOS). Talks to this app's own loopback engine; nothing leaves the device.
+// Coding: iOS cannot run Python, so code is GENERATED and saved; it is marked "needs Mac sandbox" and scored on Neo by
+// rzl-integrated-test/ios_device_score.py (same run_py sandbox as the Mac runner). Report + checkpoint: Documents/rzl-test/reports/.
+final class DSDeviceTest: @unchecked Sendable {
+    static let shared = DSDeviceTest()
+    var endpoint = URL(string: "http://127.0.0.1:8319/engine/v1/chat/completions")!
+    private let lock = NSLock()
+    private var running = false, stop = false, label = "", quick = false, started = Date(), prog: [String: Int] = [:], last = ""
+    var dir: URL { FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("rzl-test/reports", isDirectory: true) }
+    func handle(_ sub: String) -> String {
+        lock.lock(); defer { lock.unlock() }
+        switch sub {
+        case "stop": guard running else { return "TEST: nothing is running." }; stop = true; return "TEST stopping: \(label). Results so far stay in Documents/rzl-test/reports."
+        case "status":
+            if running { return "TEST progress (\(Int(Date().timeIntervalSince(started) / 60)) min): " + ["sanity", "speed", "general", "coding"].map { "\($0) \(prog[$0] ?? 0)" }.joined(separator: " · ") }
+            return last.isEmpty ? "TEST: nothing has run since launch." : last
+        default:
+            if running { return "TEST is already running (\(label)). Type TEST status or TEST stop." }
+            let d = DateFormatter(); d.dateFormat = "yyyyMMdd-HHmmss"; quick = sub == "quick"
+            label = "dragonskull-ios-test-cmd-" + d.string(from: Date()) + (quick ? "-quick" : "")
+            running = true; stop = false; prog = [:]; started = Date()
+            Thread.detachNewThread { [self] in self.main() }
+            return "TEST started: \(quick ? "quick self-check (5 per section)" : "full ЯZL v0.2.1 suite") on this iPhone (on-device engine). Coding is generation-only here (needs Mac sandbox). Keep the app open and the phone unlocked. Progress posts here; TEST stop cancels."
+        }
+    }
+    private func data(_ n: String) -> [[String: Any]] {
+        guard let u = Bundle.main.resourceURL?.appendingPathComponent("web/rzl-test/\(n)"), let d = try? Data(contentsOf: u),
+              let a = try? JSONSerialization.jsonObject(with: d) as? [[String: Any]] else { return [] }
+        return quick ? Array(a.prefix(5)) : a
+    }
+    private var ckURL: URL { dir.appendingPathComponent("\(label)-v02.ckpt.jsonl") }
+    private func put(_ rec: [String: Any]) {
+        guard let d = try? JSONSerialization.data(withJSONObject: rec), var s = String(data: d, encoding: .utf8) else { return }
+        s += "\n"; let fm = FileManager.default
+        try? fm.createDirectory(at: dir, withIntermediateDirectories: true)
+        if !fm.fileExists(atPath: ckURL.path) { fm.createFile(atPath: ckURL.path, contents: nil) }
+        if let h = try? FileHandle(forWritingTo: ckURL) { h.seekToEndOfFile(); h.write(Data(s.utf8)); try? h.close() }
+    }
+    private func bump(_ s: String) { lock.lock(); prog[s, default: 0] += 1; lock.unlock() }
+    private var stopped: Bool { lock.lock(); defer { lock.unlock() }; return stop }
+    /// One chat call (temp 0, seed 1234, same system prompt as the Mac runner). Retries on errors/5xx. Returns (text, seconds).
+    private func ask(_ q: String, _ mt: Int) -> (String, Double)? {
+        let body: [String: Any] = ["messages": [["role": "system", "content": "You are DRAGON SKULL, a helpful local bot (ID ЯID-TEST). Answer briefly."], ["role": "user", "content": q]],
+                                   "max_tokens": mt, "temperature": 0.0, "seed": 1234, "ds_test": true]   // memidx: saved as source "test", never recalled
+        var delay = 2.0
+        for _ in 0...5 {
+            if stopped { return nil }
+            var req = URLRequest(url: endpoint); req.httpMethod = "POST"; req.timeoutInterval = 300
+            req.setValue("application/json", forHTTPHeaderField: "Content-Type"); req.setValue("1", forHTTPHeaderField: "X-RZL-Test"); req.httpBody = try? JSONSerialization.data(withJSONObject: body)
+            let sem = DispatchSemaphore(value: 0); var out: (Data?, Int) = (nil, 0); let t0 = Date()
+            URLSession.shared.dataTask(with: req) { d, r, _ in out = (d, (r as? HTTPURLResponse)?.statusCode ?? 0); sem.signal() }.resume()
+            sem.wait(); let el = Date().timeIntervalSince(t0)
+            if out.1 == 200, let d = out.0, let j = try? JSONSerialization.jsonObject(with: d) as? [String: Any],
+               let c = ((j["choices"] as? [[String: Any]])?.first?["message"] as? [String: Any])?["content"] as? String {
+                let t = c.replacingOccurrences(of: #"<think>[\s\S]*?</think>"#, with: "", options: .regularExpression).trimmingCharacters(in: .whitespacesAndNewlines)
+                return (t, el)
+            }
+            Thread.sleep(forTimeInterval: delay); delay = min(delay * 2, 60)
+        }
+        return nil
+    }
+    private func rx(_ p: String, _ s: String) -> [String]? {
+        guard let r = try? NSRegularExpression(pattern: p), let m = r.firstMatch(in: s, range: NSRange(s.startIndex..., in: s)) else { return nil }
+        return (0..<m.numberOfRanges).map { Range(m.range(at: $0), in: s).map { String(s[$0]) } ?? "" }
+    }
+    private func main() {
+        var R: [String: Any] = ["suite": "ЯZL Integrated Test Suite", "version": "0.2.1", "label": label, "endpoint": endpoint.absoluteString, "seed": 1234, "temperature": 0.0,
+                                "size_gb": 0.90, "mode": "online", "limit": quick ? 5 : 0, "device": "iPhone (on-device engine)", "started": ISO8601DateFormatter().string(from: started), "status": "running"]
+        var errors: [String] = []
+        // 1 sanity
+        var n = 0; let S = data("sanity_20.json")
+        for (i, s) in S.enumerated() where !stopped {
+            guard let (t, el) = ask(s["q"] as? String ?? "", 256) else { errors.append("sanity: engine unavailable"); break }
+            let ok = ((s["a"] as? [String]) ?? []).contains { rx($0, t.lowercased()) != nil }; if ok { n += 1 }
+            put(["sec": "sanity", "key": "\(i)", "ok": ok, "s": el, "resp": String(t.prefix(200))]); bump("sanity")
+        }
+        if !S.isEmpty { R["sanity"] = ["correct": n, "of": S.count, "pct": (10000.0 * Double(n) / Double(S.count)).rounded() / 100] }
+        // 2 speed (no engine timings on iOS: TTFT = wall of a 1-token call; gen tok/s = (est tokens - 1)/(wall - TTFT); tokens ≈ chars/4)
+        let fill = String(repeating: "The river delta stores sediment, feeds wetlands, shelters birds and fish, and changes shape with every flood season. ", count: 400)
+        var sp: [String: Any] = [:]
+        for ctx in [256, 2048] where !stopped {
+            let bodyN = max(0, ctx * 4 - 400), bg = String(fill.prefix(bodyN))
+            let p = (bg.isEmpty ? "" : "Background notes:\n\(bg)\n\n") + "Write a detailed, multi-paragraph explanation of how a bicycle works, covering frame, wheels, gears, chain, brakes and steering."
+            var g: [Double] = [], pp: [Double] = [], tt: [Double] = []
+            for k in 0..<(quick ? 1 : 3) where !stopped {
+                guard let (_, t1) = ask(p, 1), let (txt, el) = ask(p, 256) else { errors.append("speed: engine unavailable"); break }
+                let toks = Double(txt.count) / 4.0, gen = toks > 1 && el > t1 ? (toks - 1) / (el - t1) : 0
+                g.append(gen); pp.append(Double(p.count) / 4.0 / max(t1, 0.001)); tt.append(t1)
+                put(["sec": "speed", "key": "\(ctx)-\(k)", "ctx_target": ctx, "gen_tps_est": gen, "pp_tps_est": pp.last!, "ttft_s": t1, "wall_s": el, "gen_chars": txt.count]); bump("speed")
+            }
+            func med(_ a: [Double]) -> Double? { a.isEmpty ? nil : (a.sorted()[a.count / 2] * 1000).rounded() / 1000 }
+            sp["\(ctx)"] = ["gen_tps": med(g) as Any, "pp_tps": med(pp) as Any, "ttft_s": med(tt) as Any, "runs": g.count, "estimated": true]
+        }
+        R["speed"] = sp
+        // 3 general (MMLU-Pro 100)
+        n = 0; let Q = data("mmlu_pro_100.json"); let L = Array("ABCDEFGHIJ").map(String.init)
+        for q in Q where !stopped {
+            let opts = ((q["options"] as? [String]) ?? []).enumerated().map { "\(L[$0.offset]). \($0.element)" }.joined(separator: "\n")
+            guard let (t, _) = ask("Multiple choice question (\(q["category"] as? String ?? "")).\n\(q["question"] as? String ?? "")\n\n\(opts)\n\nReply with only the letter of the correct answer.", 64) else { errors.append("general: engine unavailable"); break }
+            let g = rx(#"answer is \(?([A-J])\b"#, t)?[1] ?? rx(#"^\s*\(?([A-J])[\).:\s]"#, t + " ")?[1] ?? rx(#"\b([A-J])\b"#, t)?[1]
+            let ok = g != nil && g == (q["answer"] as? String); if ok { n += 1 }
+            put(["sec": "general", "key": "\(q["question_id"] ?? "")", "gold": q["answer"] ?? "", "got": g ?? NSNull(), "ok": ok]); bump("general")
+        }
+        if !Q.isEmpty { R["general"] = ["correct": n, "of": Q.count, "pct": (10000.0 * Double(n) / Double(Q.count)).rounded() / 100] }
+        // 4 coding: generation only (prompts identical to the Mac runner); responses saved for the Mac sandbox scorer
+        let H = data("humaneval_30.json"); var X = data("coding_extra_20.json")
+        if quick { X = Array(X.prefix(3)) }
+        var gen = 0, withCode = 0, secs: [Double] = []
+        for p in H where !stopped {
+            let q = "Complete this Python function. Return the full function (with any needed imports) in one ```python code block, no explanation.\n\n```python\n" + (p["prompt"] as? String ?? "") + "```"
+            guard let (t, el) = ask(q, 512) else { errors.append("coding: engine unavailable"); break }
+            gen += 1; secs.append(el); if t.contains("def ") { withCode += 1 }
+            put(["sec": "code", "key": p["task_id"] as? String ?? "", "cat": "humaneval", "resp": t, "gen_s": el]); bump("coding")
+        }
+        for p in X where !stopped {
+            let q = (p["prompt"] as? String ?? "") + "\n\nReturn only Python code in one ```python code block (the entry point must be named \(p["entry"] as? String ?? "")), no explanation."
+            guard let (t, el) = ask(q, 768) else { errors.append("coding: engine unavailable"); break }
+            gen += 1; secs.append(el); if t.contains("def ") || t.contains("class ") { withCode += 1 }
+            put(["sec": "code", "key": p["id"] as? String ?? "", "cat": p["cat"] as? String ?? "", "resp": t, "gen_s": el]); bump("coding")
+        }
+        R["coding_generation"] = ["generated": gen, "of": H.count + X.count, "with_code": withCode, "median_gen_s": secs.isEmpty ? 0 : secs.sorted()[secs.count / 2], "status": "needs Mac sandbox (iOS cannot execute Python); score on Neo with ios_device_score.py"]
+        // score (3 of 4 components; coding pending): same weights / refs as rzl_test_v02.py
+        var N: [String: Double] = [:]
+        if let s = R["sanity"] as? [String: Any] { N["sanity"] = s["pct"] as? Double }
+        if let s = R["general"] as? [String: Any] { N["general"] = s["pct"] as? Double }
+        let ss = ["256", "2048"].compactMap { sp[$0] as? [String: Any] }
+        let gm = ss.compactMap { $0["gen_tps"] as? Double }, pm = ss.compactMap { $0["pp_tps"] as? Double }, tm = ss.compactMap { $0["ttft_s"] as? Double }
+        func mean(_ a: [Double]) -> Double { a.reduce(0, +) / Double(max(1, a.count)) }
+        if !gm.isEmpty { N["speed"] = ((0.6 * min(100, 100 * mean(gm) / 40) + 0.2 * min(100, 100 * mean(pm) / 400) + 0.2 * max(0, min(100, 100 * (5 - mean(tm)) / 4.5))) * 100).rounded() / 100 }
+        let W = ["sanity": 0.15, "speed": 0.25, "general": 0.20]
+        let wsum = N.keys.reduce(0.0) { $0 + (W[$1] ?? 0) }
+        R["normalized"] = N; R["combined_3of4"] = wsum > 0 ? (N.reduce(0.0) { $0 + (W[$1.key] ?? 0) * $1.value } / wsum * 100).rounded() / 100 : NSNull()
+        R["status"] = stopped ? "stopped" : (errors.isEmpty ? "done (coding pending Mac sandbox)" : "partial"); R["errors"] = errors
+        R["duration_s"] = Date().timeIntervalSince(started); R["band"] = "INCOMPLETE (coding needs Mac sandbox)"
+        try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
+        if let d = try? JSONSerialization.data(withJSONObject: R, options: [.prettyPrinted, .sortedKeys]) { try? d.write(to: dir.appendingPathComponent("\(label)-v02.json")) }
+        // memidx 2026-10-19: final chat report = every section, overall, grade, per-GB, BASE-1/BASE-2 table; numbers never print as Optional(…)
+        func num(_ v: Any?) -> Double? { if let d = v as? Double { return d }; if let i = v as? Int { return Double(i) }; if let n = v as? NSNumber { return n.doubleValue }; return nil }
+        func f(_ v: Any?, _ p: Int = 2) -> String { guard let d = num(v) else { return "n/a" }; return String(format: "%.\(p)f", d) }
+        func dl(_ c: Double?, _ b: Double?) -> String { guard let c, let b, b != 0 else { return "n/a" }; let d = c - b; return String(format: "%+.2f (%+.1f%%)", d, d / b * 100) }
+        let san = R["sanity"] as? [String: Any], gen2 = R["general"] as? [String: Any], s256 = sp["256"] as? [String: Any], s2k = sp["2048"] as? [String: Any]
+        let comb = num(R["combined_3of4"]), sz = 0.90
+        let perGB = comb.map { ($0 / sz * 100).rounded() / 100 }
+        R["score_per_gb_3of4"] = perGB ?? NSNull()
+        let sanPct = num(san?["pct"]), grade: String
+        if comb == nil { grade = "INCOMPLETE" } else if (sanPct ?? 0) < 90 { grade = "NOT CERTIFIED (sanity floor 18/20) · coding pending" }
+        else { grade = "PROVISIONAL (3 of 4; coding scored on Neo) · " + ((comb ?? 0) >= 90 ? "GOLD-track" : (comb ?? 0) >= 75 ? "SILVER-track" : (comb ?? 0) >= 60 ? "BRONZE-track" : "below BRONZE") }
+        R["band"] = grade
+        let g256 = num(s256?["gen_tps"]), mm = num(gen2?["pct"])
+        let md = """
+        # ЯZL STANDARD BOT TEST v0.2.1 — FINAL — \(label) [iPhone on-device]
+        | Component (weight) | Raw | Normalized |
+        |---|---|---|
+        | Sanity (15%) | \(san?["correct"].map { "\($0)" } ?? "n/a")/\(san?["of"].map { "\($0)" } ?? "n/a") | \(f(N["sanity"])) |
+        | Speed (25%) | gen ≈\(f(g256)) / \(f(s2k?["gen_tps"])) tok/s · TTFT \(f(s256?["ttft_s"])) / \(f(s2k?["ttft_s"])) s (256/2048 ctx, estimated) | \(f(N["speed"])) |
+        | General / MMLU-Pro (20%) | \(f(mm))% | \(f(N["general"])) |
+        | Coding (40%) | generated \(gen)/\(H.count + X.count) · with code \(withCode) · median \(f(secs.isEmpty ? 0 : secs.sorted()[secs.count / 2], 1)) s | final on-device generation; pass/fail needs the Mac sandbox (ios_device_score.py on Neo) |
+        | **Overall (3 of 4)** | | **\(f(comb))** |
+        | Score / GB (0.90 GB) | | \(f(perGB)) |
+        | Grade | | **\(grade)** |
+
+        vs BASE (fixed: Oct 17 runs 1 & 2)
+        | Metric | This run | BASE-1 | Δ BASE-1 | BASE-2 | Δ BASE-2 |
+        |---|---|---|---|---|---|
+        | Sanity % | \(f(sanPct)) | 95.00 | \(dl(sanPct, 95)) | 95.00 | \(dl(sanPct, 95)) |
+        | Speed gen tok/s (256) | \(f(g256)) | 17.38 | \(dl(g256, 17.38)) | 21.73 | \(dl(g256, 21.73)) |
+        | MMLU-Pro % | \(f(mm)) | n/a | n/a | 30.00 | \(dl(mm, 30)) |
+        | Coding pass@1 % | pending (Neo) | n/a | n/a | n/a | n/a |
+        | Overall | \(f(comb)) | n/a | n/a | n/a | n/a |
+        Target 100: keep optimizing and retesting.
+        Status: \(R["status"].map { "\($0)" } ?? "") · \(Int(Date().timeIntervalSince(started) / 60)) min · report Documents/rzl-test/reports/\(label)-v02.md
+        """
+        if let d = try? JSONSerialization.data(withJSONObject: R, options: [.prettyPrinted, .sortedKeys]) { try? d.write(to: dir.appendingPathComponent("\(label)-v02.json")) }
+        try? md.write(to: dir.appendingPathComponent("\(label)-v02.md"), atomically: true, encoding: .utf8)
+        MemoryStore.shared.event("test", "test-done", "\(label) \(R["status"] ?? "")")
+        lock.lock(); running = false; last = "TEST finished: \(label)\n" + md; lock.unlock()
+    }
+}

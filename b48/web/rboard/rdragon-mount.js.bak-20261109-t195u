@@ -1,0 +1,23 @@
+/* RBOARD · RDRAGON mount (add-only 20261109-t145u). Transfers draft into #message; never submits. */
+(function () {
+  "use strict";
+  function mount() {
+    var input = document.getElementById("message");
+    if (!input || !window.GhostrootKeyboard) return;
+    if (input.dataset.rboardMounted === "1") return;
+    input.dataset.rboardMounted = "1";
+    try {
+      window.GhostrootKeyboard.mount(input);
+      var btn = input.parentElement && input.parentElement.querySelector(".grk-toggle");
+      if (btn) {
+        btn.classList.add("ds-btn");
+        btn.title = "Open RBOARD keyboard";
+        btn.setAttribute("aria-label", "Open RBOARD keyboard");
+      }
+    } catch (e) {
+      console.warn("RBOARD mount failed", e);
+    }
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", mount);
+  else mount();
+})();

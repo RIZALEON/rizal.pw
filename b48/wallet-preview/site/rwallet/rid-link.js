@@ -1,0 +1,3 @@
+/* RWALLET Rid link (public identifiers only) 2026-10-26 */
+window.RWALLET_RID_LINK={owner:"ЯID-0001-3QQS",owner_name:"GHOSTMACHINE @chaserizal",thundr:"ЯID-0014-KREH",thundr_name:"ThundR CRYPTOBOT",text:"link: owner ЯID-0001-3QQS (GHOSTMACHINE @chaserizal) · ThundR CRYPTOBOT ЯID-0014-KREH"};
+document.addEventListener("DOMContentLoaded",function(){var d=document.createElement("div");d.id="rw-rid";d.textContent=window.RWALLET_RID_LINK.text;d.style.cssText="font:11px Menlo,monospace;color:#b388ff;border:1px solid #8a2be2;padding:4px 6px;margin:6px 0;background:#000";var r=document.getElementById("rw");r?r.before(d):document.body.prepend(d);});

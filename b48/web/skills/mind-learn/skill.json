@@ -1,0 +1,5 @@
+{"schema":"rzl.ds.skill.v1","id":"mind-learn","name":"MIND-LEARN (profile · journal · skills, never forgets)","version":"0.1.0","built":"2026-10-22","mode":"user-typed only",
+ "summary":"Learns like Grok Bot: profile facts, dated journal, saved multi-step skills; searched before acting. Strictly append-only, hash-chained; corrections supersede, nothing is deleted or overwritten.",
+ "entry":["mind-learn-core.js","mind-learn.js"],"storage":"localStorage ds.mindlearn.e.<seq> (write-once) + mirror to DRAGON-SKULL-MIND /api/mind/note tag mind-learn",
+ "chat_commands":["mind","remember <fact>","journal <note>","skill save <name>: a; b","skill <name>","correct <id> <text>","recall <words>","mind history <words>","mind day <date>","mind verify"],
+ "api":["DS_MIND_LEARN.context","DS_MIND_LEARN.run","DS_MIND_LEARN_CORE.Mind"],"version_law":"Machine Mind in every version; offline-first; private mind content never shipped in public builds (code only)"}

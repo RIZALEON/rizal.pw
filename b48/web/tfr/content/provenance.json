@@ -1,0 +1,104 @@
+{
+ "schema": "terraformya.provenance.v1",
+ "assets": [
+  {
+   "path": "art/* inside blobs/index.pck.* (tiles.png atlas, canopies, icons, parallax, cave backdrop)",
+   "source": "Ricky's TERAFORMR art sheets (v0.1/v0.2 tile sets, Sequoia red cedar, Baguio pine, leaves/vines/grass, building materials), cut + palette-snapped by tools/art; per-tile provenance in content/art/mapping.json",
+   "source_sha256": {
+    "build.jpg": "11b8125b60966ef108bdac11d71790389af065836418af74b2b3dba4d85dcbc2",
+    "leaves.jpg": "c135dc5cadee7ea8b7c5e55410a140a0fdae9f8fcdd86fef882bd2cdb2f46ad4",
+    "pine.jpg": "8f53b3159ba9d2459a4c809010b2fd920e1b3e0ce28d67c2717c7b5ac24fe44e",
+    "redwood.jpg": "127504a6215388606d439be4fd67fc2722174a3517afee465eeb33227a2560ac",
+    "v01.png": "3cb1b3bcfaf12337ddf488fee39fda68f9055620daa0e386981c3ac453a9c576",
+    "v02.png": "580bf35553a41581850a9abb9349344af29393fe8627f8ea3a320adb68683de3"
+   },
+   "counts": {
+    "cut": 68,
+    "generated_filler": 26
+   },
+   "creator": "rizal / ЯLAB",
+   "license": "proprietary-Я",
+   "reviewed": null,
+   "royaltySplit": null
+  },
+  {
+   "path": "art generated filler (player sprite, water, cracks, coal/iron ore specks, bedrock, sun/moon)",
+   "source": "original: generated procedurally in Ricky's 32-colour palette by tools/art/build_art.py, marked 'generated filler' in mapping.json",
+   "creator": "rizal / ЯLAB (built by Grok Bot for the Decider)",
+   "license": "proprietary-Я",
+   "reviewed": null,
+   "royaltySplit": null
+  },
+  {
+   "path": "art/hero/* (REZAL v5 layered sprite sheets: walk/run/jump/climb/swing) + art/ui/* (HUD/touch pixel icons)",
+   "source": "original: hand-authored region masks + deterministic shading in Ricky's 32-colour palette (tools/art/hero.py v5), designed from Ricky's painted REZAL ref/v5/1-shell-rgame.png (gold helmet, red horns, purple ears, blue quilted coat, gold epaulets, green gloves); no AI art downscaled for sprites",
+   "creator": "rizal / ЯLAB (built by Grok Bot for the Decider)",
+   "license": "proprietary-Я",
+   "reviewed": null,
+   "royaltySplit": null
+  },
+  {
+   "path": "art/tools/* (Terra-Tool + Igorot Headaxe: 24-angle in-hand sheets per mode, 16px icons, 32px HUD icons, shell tiles)",
+   "source": "Ricky's Terra-Tool sheet ref/v5/4-terratool.jpg (segmented) and the headaxe painted in ref/v5/1-shell-rgame.png (traced); one hi-res model per tool rendered to every size by tools/art/tool_models.py + tools.py, snapped to a material sub-palette of Ricky's 32 (+ measured extension, mapping.json palette_ext)",
+   "creator": "rizal / ЯLAB",
+   "license": "proprietary-Я",
+   "reviewed": null,
+   "royaltySplit": null
+  },
+  {
+   "path": "art/tiles.png rows terrace_stone/terrace_grass/terrace_earth/paddy_mud/thatch/hut_wood/wood_wall + ladder, mine beam, waterfall, grass lip; art/clouds.png, bg_peaks.png, bg_ridge.png",
+   "source": "derived from Ricky's terraced-world painting ref/v5/5-terraced-world.jpg by tools/art/world_v5.py (16px box-downsampled windows, material sub-palette snap; ladder/beam/waterfall/lip/peaks drawn in colours measured from the painting; clouds cut and sky-keyed); per-tile rects in tools/art/v5/v5.json",
+   "creator": "rizal / ЯLAB",
+   "license": "proprietary-Я",
+   "reviewed": null,
+   "royaltySplit": null
+  },
+  {
+   "path": "art/ui/title_bg.png",
+   "source": "Ricky's TERAFORMR title ref/v5/2-title.jpg (1712x1152, same artwork as 413c6f9b) downscaled to 1200x807, imported as lossy WebP 0.82; landscape-first cover layout in engine",
+   "creator": "rizal / ЯLAB",
+   "license": "proprietary-Я",
+   "reviewed": null,
+   "royaltySplit": null
+  },
+  {
+   "path": "content/art/tile/teraformr-tile-*.png",
+   "source": "Ricky's TERAFORMR tile art ref/teraformr-tile-art.png (sunset terraces + hero + logo), rounded-square mask, exported 1024/512/180/64 by tools/art/tile.py; swap game/art/tile/teraformr-tile.png for his version",
+   "creator": "rizal / ЯLAB",
+   "license": "proprietary-Я",
+   "reviewed": null,
+   "royaltySplit": null
+  },
+  {
+   "path": "art/ui/rezal_portrait.png",
+   "source": "Ricky's clay face ref/clay-blue-face.jpg, circle cut, 40x40, 20 colours (pixel-styled HUD portrait)",
+   "creator": "rizal / ЯLAB",
+   "license": "proprietary-Я",
+   "reviewed": null,
+   "royaltySplit": null
+  },
+  {
+   "path": "content/mods/core/*.json",
+   "source": "original",
+   "creator": "rizal / ЯLAB",
+   "license": "proprietary-Я",
+   "reviewed": null,
+   "royaltySplit": null
+  },
+  {
+   "path": "engine/godot.js, blobs/index.wasm.*",
+   "source": "third-party: Godot Engine 4.7.2-stable official web template (web_nothreads_release)",
+   "creator": "Godot Engine contributors",
+   "license": "MIT (+ third-party, see NOTICE.rzl)",
+   "sha256": "fc74679e3b97f76878947fcd4fbe1268cbfa6188182a2e33bbc3f5dc9bfa57d0"
+  },
+  {
+   "path": "blobs/index.pck.*",
+   "source": "original: TerraformЯ game pack exported from /workspace/teraformr/game",
+   "creator": "rizal / ЯLAB",
+   "license": "proprietary-Я",
+   "sha256": "ff2203dfe08f5b1f0447f1ad2742ee2fa92a59fa54293e6f3676e16ffbe46190"
+  }
+ ],
+ "note": "No Terraria or other third-party game assets. Generated art requires Decider review before any public lane."
+}

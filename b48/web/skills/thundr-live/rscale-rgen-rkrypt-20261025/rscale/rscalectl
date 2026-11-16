@@ -1,0 +1,97 @@
+#!/usr/bin/env bash
+# rscalectl · RSCALE component 2.1.9-egg.20261024 · ЯLAB / RFORGE
+# Sets up and runs RSCALE (coordinator rscale-server + client rscaled/rscale) on ONE machine,
+# with its own state, keys, socket and ports. Needs NO Tailscale app, install or account.
+# Never installs services or launchd jobs by itself: start/stop run in the foreground shell's
+# background with a pidfile. Keys are generated locally here, never shipped.
+set -euo pipefail
+VER="2.1.9-egg.20261024"
+HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+RS_HOME="${RSCALE_HOME:-$HOME/ЯLAB/RSCALE}"
+ST="$RS_HOME/state"; LOG="$RS_HOME/logs"; RUN="$RS_HOME/run"
+os=$(uname -s | tr A-Z a-z); ar=$(uname -m); case $ar in x86_64) ar=amd64;; aarch64|arm64) ar=arm64;; esac
+BIN="${RSCALE_BIN:-$HERE/bin/$os-$ar}"
+SRV="$BIN/rscale-server"; D="$BIN/rscaled"; CLI="$BIN/rscale"
+CFG="$RS_HOME/config.yaml"
+THUNDR_DIR="${THUNDR_DIR:-$HOME/ЯLAB/THUNDR-MESH}"
+die(){ echo "rscalectl: $*" >&2; exit 1; }
+srv(){ "$SRV" -c "$CFG" "$@"; }
+event(){ "$HERE/thundr/rscale-thundr.sh" event "$@" >/dev/null 2>&1 || true; }
+usage(){ cat <<U
+rscalectl $VER   (RSCALE_HOME=$RS_HOME)
+ coordinator: init [--url URL] [--listen ADDR] [--tls CERT KEY] [--domain rscale.rlab]
+              start | stop | status | health | configtest
+              adduser NAME | users | nodes | preauth USER [--reusable] [--ttl 1h] [--tags tag:seat]
+              join-cmd USER [NAME] | derp [show|map] | acl [show|check|reload] | routes [list|approve ID CIDR..]
+              expire NODEID | keyrotate-note
+ client:      node-start NAME [--port N] [--derp-only] | node-up NAME AUTHKEY [extra rscale up flags]
+              node-stop NAME | node NAME <rscale cli args...>   (e.g. node a ping b, node a status)
+ apps:        failover [show|test] | thundr-report | wg-relay-note
+U
+}
+need(){ [ -x "$1" ] || die "missing binary $1 (platform $os-$ar)"; }
+cmd="${1:-help}"; shift || true
+case "$cmd" in
+init)
+  url=""; listen="0.0.0.0:8443"; cert=""; key=""; dom="rscale.rlab"
+  while [ $# -gt 0 ]; do case $1 in --url) url=$2; shift;; --listen) listen=$2; shift;; --tls) cert=$2; key=$3; shift 2;; --domain) dom=$2; shift;; esac; shift; done
+  [ -n "$url" ] || url="https://$(hostname -s 2>/dev/null || hostname):${listen##*:}"
+  [ -e "$CFG" ] && { cp "$CFG" "$CFG.bak-$(date +%Y%m%d-%H%M%S)"; echo "kept backup of existing config"; }
+  mkdir -p "$ST" "$LOG" "$RUN"; chmod 700 "$RS_HOME" "$ST"
+  sed -e "s#@URL@#$url#" -e "s#@LISTEN@#$listen#" -e "s#@STATE@#$ST#g" -e "s#@HOME@#$RS_HOME#g" -e "s#@DOMAIN@#$dom#" \
+      -e "s#@CERT@#$cert#" -e "s#@KEY@#$key#" "$HERE/config/rscale.template.yaml" > "$CFG"
+  [ -e "$RS_HOME/acl.hujson" ] || cp "$HERE/config/acl.hujson" "$RS_HOME/acl.hujson"
+  cp "$HERE/config/derpmap.extra.yaml" "$RS_HOME/derpmap.extra.yaml" 2>/dev/null || true
+  echo "initialised $RS_HOME  url=$url listen=$listen domain=$dom"; echo "private keys are created on first start in $ST (0600, never copy them)";;
+configtest) need "$SRV"; srv configtest;;
+start)
+  need "$SRV"; [ -e "$CFG" ] || die "run: rscalectl init"
+  if [ -f "$RUN/server.pid" ] && kill -0 "$(cat "$RUN/server.pid")" 2>/dev/null; then echo "already running pid $(cat "$RUN/server.pid")"; exit 0; fi
+  nohup "$SRV" -c "$CFG" serve >>"$LOG/rscale-server.log" 2>&1 & echo $! > "$RUN/server.pid"
+  for i in $(seq 1 30); do [ -S "$ST/rscale.sock" ] && break; sleep 1; done
+  echo "rscale-server started pid $(cat "$RUN/server.pid")"; event coordinator up;;
+stop)
+  for f in "$RUN"/*.pid; do [ -f "$f" ] || continue; p=$(cat "$f"); kill "$p" 2>/dev/null && echo "stopped $(basename "$f" .pid) ($p)"; rm -f "$f"; done
+  event coordinator down;;
+status)
+  if [ -f "$RUN/server.pid" ] && kill -0 "$(cat "$RUN/server.pid")" 2>/dev/null; then echo "coordinator: up (pid $(cat "$RUN/server.pid"))"; srv nodes list 2>/dev/null || true; else echo "coordinator: down"; fi
+  for f in "$RUN"/node-*.pid; do [ -f "$f" ] || continue; n=$(basename "$f" .pid); n=${n#node-}; echo "node $n:"; "$0" node "$n" status 2>/dev/null | sed 's/^/  /' || echo "  down"; done;;
+health) exec "$HERE/thundr/rscale-hawk.sh";;
+adduser) srv users create "$1";;
+users) srv users list;;
+nodes) srv nodes list;;
+preauth)
+  u=$1; shift; re=""; ttl=1h; tags=""
+  while [ $# -gt 0 ]; do case $1 in --reusable) re=--reusable;; --ttl) ttl=$2; shift;; --tags) tags="--tags $2"; shift;; esac; shift; done
+  uid=$(srv users list -o json | python3 -c "import sys,json;print([x['id'] for x in json.load(sys.stdin) if x['name']=='$u'][0])")
+  # single-use, short-lived by default. Printed once to the terminal only; never store it.
+  srv preauthkeys create -u "$uid" -e "$ttl" $re $tags -o json | python3 -c "import sys,json;print(json.load(sys.stdin)['key'])";;
+join-cmd)
+  u=$1; n=${2:-DEVICE}; url=$(awk '/^server_url:/{print $2}' "$CFG")
+  echo "# on the device (no Tailscale app needed). Make a key here first: rscalectl preauth $u"
+  echo "rscalectl node-start $n && rscalectl node-up $n <AUTHKEY>"
+  echo "# or raw: rscaled --tun=userspace-networking --statedir=~/.rscale/$n --socket=~/.rscale/$n/rscaled.sock --port=41741 &"
+  echo "#         rscale --socket=~/.rscale/$n/rscaled.sock up --login-server=$url --hostname=$n --auth-key=<AUTHKEY>"
+  echo "# phones without our app: any WireGuard-mesh client that accepts a custom control URL may use $url";;
+derp) case "${1:-show}" in map) cat "$RS_HOME/derpmap.extra.yaml";; *) awk '/^derp:/,/^log:/' "$CFG";; esac;;
+acl) case "${1:-show}" in show) cat "$RS_HOME/acl.hujson";; check) srv policy check -f "$RS_HOME/acl.hujson";; reload) kill -HUP "$(cat "$RUN/server.pid")" && echo reloaded;; esac;;
+routes) case "${1:-list}" in list) srv nodes list-routes;; approve) id=$2; shift 2; srv nodes approve-routes -i "$id" -r "$(IFS=,; echo "$*")";; esac;;
+expire) srv nodes expire -i "$1";;
+keyrotate-note) echo "node keys expire per config node.expiry; re-auth with a fresh preauth key. Noise/DERP keys: stop, move state/*.key aside (backup), start.";;
+node-start)
+  need "$D"; n=$1; shift; port=41741; extra=()
+  while [ $# -gt 0 ]; do case $1 in --port) port=$2; shift;; --derp-only) extra+=(TS_DEBUG_ALWAYS_USE_DERP=true);; esac; shift; done
+  nd="$RS_HOME/nodes/$n"; mkdir -p "$nd" "$RUN" "$LOG"; chmod 700 "$nd"
+  env "${extra[@]}" TS_NO_LOGS_NO_SUPPORT=true nohup "$D" --tun=userspace-networking --statedir="$nd" --socket="$nd/rscaled.sock" --port="$port" \
+     --socks5-server=127.0.0.1:0 >>"$LOG/node-$n.log" 2>&1 & echo $! > "$RUN/node-$n.pid"
+  for i in $(seq 1 20); do [ -S "$nd/rscaled.sock" ] && break; sleep 0.5; done; echo "rscaled $n started (pid $(cat "$RUN/node-$n.pid"), udp $port, userspace)";;
+node-up)
+  n=$1; k=$2; shift 2; url="${RSCALE_LOGIN_SERVER:-$(awk '/^server_url:/{print $2}' "$CFG" 2>/dev/null)}"
+  "$CLI" --socket="$RS_HOME/nodes/$n/rscaled.sock" up --login-server="$url" --hostname="$n" --auth-key="$k" --accept-dns=false "$@"; event "node:$n" up;;
+node-stop) f="$RUN/node-$1.pid"; [ -f "$f" ] && kill "$(cat "$f")" && rm -f "$f"; event "node:$1" down; echo stopped;;
+node) n=$1; shift; exec "$CLI" --socket="$RS_HOME/nodes/$n/rscaled.sock" "$@";;
+failover) case "${1:-show}" in show) cat "$HERE/failover/endpoints.json";; test) node "$HERE/failover/failover-test.mjs" "$HERE/failover/endpoints.json";; esac;;
+thundr-report) exec "$HERE/thundr/rscale-thundr.sh" report;;
+wg-relay-note) cat "$HERE/wireguard/README.md";;
+help|-h|--help|*) usage;;
+esac

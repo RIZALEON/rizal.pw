@@ -1,0 +1,21 @@
+{
+ "product": "ЯSCRIBE",
+ "id": "rscribe-macos",
+ "platform": "macos",
+ "bundleId": "info.rizal.rscribe.mac",
+ "lineVersion": "2.1.9",
+ "installed": {
+  "version": "0.5.0",
+  "build": "2026102302"
+ },
+ "signed": false,
+ "note": "UNSIGNED - no update offered (no real egg yet); ed25519 after GO + Face ID",
+ "previousUpdateMethod": "none found in Info.plist",
+ "items": [],
+ "mirrors": [
+  "https://raw.githubusercontent.com/RIZALEON/RZL-EGG/main/rscribe/macos/appcast.json",
+  "https://rizaleon.github.io/RZL-EGG/rscribe/macos/appcast.json",
+  "http://rizals-macbook-neo.local:8341/rscribe/macos/appcast.json"
+ ],
+ "updated": "2026-10-24T13:05:00-06:00"
+}

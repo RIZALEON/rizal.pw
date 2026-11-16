@@ -1,0 +1,27 @@
+{
+  "schema": "rzl.egg.v1",
+  "id": "terminal-direct",
+  "name": "terminal-direct-0.2.0.rzl",
+  "version": "0.2.0",
+  "kind": "skill",
+  "app": "dragon-skull",
+  "platforms": [
+    "macos",
+    "ios",
+    "android",
+    "linux",
+    "ubuntu-touch"
+  ],
+  "note": "UNSIGNED candidate. Hash-integrity only. Adds TERMINALTYPE <cmd> (needs ds-hostd /hosttype). Decider DIRECT 2026-10-20.",
+  "files": [
+    "terminal-direct.js",
+    "skill.json",
+    "MANUAL.md",
+    "egg.json"
+  ],
+  "install": {
+    "macos_web_skills": "Contents/Resources/web/skills/terminal-direct/",
+    "ios_overlay_hint": "Prefer SelfUpdate overlay or DragonBridge write into app:web-overlay/<ver>/skills/terminal-direct/",
+    "load": "Add <script src=\"./skills/terminal-direct/terminal-direct.js\"></script> after llama-direct in scout-app.js (or inject via dg-cmd boot)."
+  }
+}

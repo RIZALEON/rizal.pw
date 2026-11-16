@@ -1,0 +1,60 @@
+# RSCALE coordinator config · component 2.1.9-egg.20261024
+# rscale-server = Headscale v0.29.5 (BSD-3, © 2020 Juan Font) renamed. Rendered by `rscalectl init`.
+# NO Tailscale company servers: the default Tailscale DERP map URL, update checks and logtail are all OFF.
+server_url: @URL@
+listen_addr: @LISTEN@
+metrics_listen_addr: 127.0.0.1:9190
+grpc_listen_addr: 127.0.0.1:50543
+grpc_allow_insecure: false
+noise:
+  private_key_path: @STATE@/noise_private.key        # generated on this host at first start, 0600
+prefixes:
+  v4: 100.88.0.0/16
+  v6: fd7a:115c:a1e0:88::/64
+  allocation: sequential
+derp:
+  server:
+    enabled: true                                   # RDERP embedded relay + STUN
+    region_id: 901
+    region_code: rderp
+    region_name: RDERP
+    verify_clients: true
+    stun_listen_addr: 0.0.0.0:3478
+    private_key_path: @STATE@/derp_server_private.key
+    automatically_add_embedded_derp_region: true
+  urls: []                                          # BLOCKED: Tailscale default DERP map (controlplane)
+  paths:
+    - @HOME@/derpmap.extra.yaml                     # extra RFORGE relays (far device, cloud VM)
+  auto_update_enabled: false
+disable_check_updates: true
+node:
+  expiry: 2160h                                     # node key expiry 90 days; re-auth with a fresh pre-auth key
+  ephemeral:
+    inactivity_timeout: 30m
+database:
+  type: sqlite
+  sqlite:
+    path: @STATE@/db.sqlite
+    write_ahead_log: true
+tls_cert_path: "@CERT@"
+tls_key_path: "@KEY@"
+log:
+  level: info
+  format: text
+policy:
+  mode: file
+  path: @HOME@/acl.hujson
+dns:
+  magic_dns: true
+  base_domain: @DOMAIN@                             # names are <host>.rscale.rlab
+  override_local_dns: false
+  nameservers:
+    global: []
+  search_domains: []
+  extra_records: []
+unix_socket: @STATE@/rscale.sock
+unix_socket_permission: "0770"
+logtail:
+  enabled: false                                    # BLOCKED: Tailscale log upload
+taildrop:
+  enabled: true

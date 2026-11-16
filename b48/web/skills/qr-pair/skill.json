@@ -1,0 +1,53 @@
+{
+ "schema": "rlab.skill.v1",
+ "schemaAlso": "rzl.skill.v1",
+ "id": "qr-pair",
+ "version": "0.2.0",
+ "title": "qr-pair: QR pairing, ALIGN report and mutual CHECK between DRAGON SKULL / ЯBOT devices",
+ "autoload": "all-sessions",
+ "entry": "skills/qr-pair/qr-pair.js",
+ "needs": [
+  "skills/qr-pair/qrcode-gen.js",
+  "skills/qr-pair/link.js"
+ ],
+ "global": "DS_QRPAIR",
+ "commands": [
+  "qr",
+  "qr scan <link or payload>",
+  "(paste a pair link → qr scan)",
+  "qr check",
+  "check",
+  "qr peers",
+  "qr offer <signed entry>",
+  "link",
+  "link <pair link>",
+  "link status",
+  "link sync [<offer bundle>]",
+  "link peers",
+  "link help"
+ ],
+ "triggers": [
+  "qr",
+  "pair",
+  "pairing",
+  "align",
+  "check peer",
+  "same build",
+  "pair link",
+  "rizal.info/pair",
+  "link",
+  "link status",
+  "link sync",
+  "link peers",
+  "alignment lock",
+  "same manual",
+  "update number"
+ ],
+ "systemLine": "qr-pair 0.1.1 is installed. `qr` shows this device's pairing QR as a link (https://rizal.info/pair#p=…) the iPhone Camera recognizes (app, version, build, fingerprints of commands/components/eggs). `qr scan` verifies a peer's QR against the trust list and prints the ALIGN report. `qr check` / `check` compares with paired peers and prints PASS/FAIL per field. The newer build is the reference; on a tie the Neo is the reference. You never install anything: an update offer only becomes a Decider proposal Rizal confirms on the device with Face ID / Touch ID. Version and build numbers are in the app binary; an egg cannot change them, so a build mismatch needs a Rizal-approved rebuild. Never invent a result: report only what the command printed. Pasting a pair link into chat and pressing Send runs qr scan. DRAGON SKULL 1.0.4 has no URL scheme, so the Camera cannot open the app directly; see lesson L063b. qr-pair 0.2.0 adds LINK (lesson L064): `link`, `link status`, `link sync`, `link peers`, `link help`. Linked apps must stay on the same build, manual version, update number, commands, functions and eggs; each checks the other; the Neo is the reference. A peer may pass a newer SIGNED egg or manual; it only becomes a Face ID / Touch ID Decider proposal after the trust-list, signature, size, sha256 and newer-version checks. Never unsigned, never a downgrade, never auto-install.",
+ "lesson": "LESSON-L064-LINK-ALIGNMENT-LOCK.txt",
+ "lessons": [
+  "LESSON-L063-QR-PAIR.txt",
+  "LESSON-L063b-QR-PAIR-SCAN-TO-OPEN.txt",
+  "LESSON-L064-LINK-ALIGNMENT-LOCK.txt"
+ ]
+}

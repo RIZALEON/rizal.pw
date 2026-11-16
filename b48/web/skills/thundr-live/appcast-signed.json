@@ -1,0 +1,25 @@
+{
+  "schema": "rlab-appcast.v1",
+  "keyId": "e5833fdfbbfe",
+  "eggs": [
+    {
+      "ed25519": "PDMhO1nKuwi72XPc+pyJEj53bGExTEYJVo+U+l9uThiUiWyWJaSCjSPTbjHeHOY9U5+bGDBkszcOYwMblBl/BA==",
+      "hosts": [
+        "rbowzr",
+        "ybot"
+      ],
+      "id": "ios-219-superdragon",
+      "kind": "egg",
+      "minHostVersion": "2.1.9",
+      "name": "ios-219-superdragon-2.2.0.5.rzl.zip",
+      "platforms": [
+        "ios"
+      ],
+      "sha256": "22ddddd8b8b042eefb4d442839bc34c54c5be46be0f8e5b349c6a5fef6da69f2",
+      "size": 18351401,
+      "title": "ЯBOT/ЯBOWZR 2.2.0.5 (iOS): 2.2.0.4 + qr-pair 0.2.8 INLINE in scout.html · signed e5833fdfbbfe (ЯCASKET Face ID)",
+      "url": "eggs/ios-219-superdragon-2.2.0.5.rzl.zip",
+      "version": "2.2.0.5"
+    }
+  ]
+}

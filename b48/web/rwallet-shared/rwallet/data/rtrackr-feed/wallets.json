@@ -1,0 +1,15 @@
+{
+ "schema": "rzl.rtrackr.wallets.v1",
+ "updated": "2026-11-14T20:30:00-07:00",
+ "mint": "BB9uA5BuacDnWyDf5Npc9nMb9yFbyThsNrQPBYJ5Q1Lv",
+ "note": "Public watch-only roster of Я (R token) wallets for RTRACKR. Public addresses only: no private keys, seeds or keystores. Labels come from the lab roster wallets-public.json (rzl.wallets-public.v1, 2.1.8-staged-unified-20261110) and WALLET-UNIFY-INVENTORY-20261111. tools/pool_snapshot.py also finds on-chain holders of the mint and adds any unlabeled ones to the snapshot.",
+ "sources": ["on-chain getProgramAccounts (SPL Token, mint filter) 2026-11-14", "rwallet/unified/data/wallets-public.json", "SCROLLS/WALLET-UNIFY-INVENTORY-20261111.md", "SCROLLS/AUTOMANUAL-CRYPTO-INTEGRATION.md"],
+ "wallets": [
+  {"label": "Crown wallet", "role": "mint authority · LP position NFT holder", "status": "current", "address": "BwpVNk1Rtncpv5HMTLwxB4Yfjkfv6mFaBQUTpjneH1F9", "token_account": "8bCnr63CTdC2YbELK3x4vxJYNt6cueGBbEvRURFZc9Q1", "rid": "ЯID-0001-3QQS"},
+  {"label": "Orca Я/SOL pool vault", "role": "pool reserve (owned by whirlpool HSroUxVk…xs9s)", "status": "pool", "address": "HSroUxVkVKv6kX9e7dpoJtbFqKcL76BzrkuuRfAGxs9s", "token_account": "8uYFzTDTDq18z1gPFgjaNRAxmZ3c52tbVHGBLN2CVF3G", "program_owned": true},
+  {"label": "Watched holder · OpenSea Я holdings", "role": "watched holder (owner not attributed)", "status": "current", "address": "12872Chwv88d9JcNnPPThtSQWJM296kpkDqm7tpBWB28", "token_account": "BNFLK9bU7CJ4mY87DHpgZ8wj4a1atxwRVpmSuxBUsG8Z"},
+  {"label": "Previous RBOT desktop seat", "role": "previous RBOT desktop (Mac seat)", "status": "previous", "address": "3gLUfDdw1etDGeJ2PnqUtitam5TwZAsC3BhXCQYx2Gfk", "token_account": "3HHKmD1RT4mrL7iGfydu8jc9rceZbkoLQmWpUfbe6Cvx", "rid": "ЯID-0001-3QQS"},
+  {"label": "Previous RBOT mobile seat (17e)", "role": "previous RBOT mobile 17e", "status": "previous", "address": "E611TFJh9y2eipt984hhBjhUQ1EsrUDodbLsrpN9Zmhn", "token_account": "FyHLAiaFkQMvBRe2RUoMkH1wBk4M51E9ntoWDQrnvR9j", "rid": "ЯID-0001-3QQS"},
+  {"label": "Previous Desktop / Boomerang wallet", "role": "previous Desktop / Boomerang (no Я token account)", "status": "previous", "address": "2E4eAKWUU5akXTUfP7ZrgjebE3TPUhzZZfaRkQUpwyaj", "token_account": null, "rid": "ЯID-0001-3QQS"}
+ ]
+}

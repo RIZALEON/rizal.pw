@@ -1,0 +1,2 @@
+RFONT slot: drop the official RFONT.ttf or RFONT.otf here. Not shipped yet.
+Current faces are fallbacks (VT323, IBM Plex Mono, Press Start 2P, Noto Sans Tagalog), not RFONT.

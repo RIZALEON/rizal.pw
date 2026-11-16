@@ -1,0 +1,55 @@
+{
+ "fetched": "2026-10-23 17:21:48 MDT",
+ "source": "mainnet RPC (live)",
+ "rows": [
+  {
+   "name": "CROWN (mint/freeze authority, fee payer)",
+   "pubkey": "BwpVNk1Rtncpv5HMTLwxB4Yfjkfv6mFaBQUTpjneH1F9",
+   "kind": "sol",
+   "balance": 0.007194044,
+   "unit": "SOL"
+  },
+  {
+   "name": "CROWN Я account (ATA)",
+   "pubkey": "8bCnr63CTdC2YbELK3x4vxJYNt6cueGBbEvRURFZc9Q1",
+   "kind": "token_account",
+   "balance": 899989.000002178,
+   "unit": "token"
+  },
+  {
+   "name": "Я mint",
+   "pubkey": "BB9uA5BuacDnWyDf5Npc9nMb9yFbyThsNrQPBYJ5Q1Lv",
+   "kind": "mint",
+   "balance": 1000000.0,
+   "unit": "supply"
+  },
+  {
+   "name": "DESKTOP WALLET",
+   "pubkey": "",
+   "kind": "sol",
+   "note": "not seated yet (pubkey empty in DeviceWalletSeat.json)",
+   "balance": null
+  },
+  {
+   "name": "MOBILE WALLET",
+   "pubkey": "",
+   "kind": "sol",
+   "note": "not seated yet (pubkey empty in DeviceWalletSeat.json)",
+   "balance": null
+  },
+  {
+   "name": "BOOMERANG WALLET",
+   "pubkey": "",
+   "kind": "sol",
+   "note": "not seated yet (pubkey empty in DeviceWalletSeat.json)",
+   "balance": null
+  },
+  {
+   "name": "POOL",
+   "pubkey": "",
+   "kind": "sol",
+   "note": "no public pool address found in ЯBOT/RVM files",
+   "balance": null
+  }
+ ]
+}

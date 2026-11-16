@@ -1,0 +1,127 @@
+/* RBOARD extension skin: RBOARD plum/gold keycaps + BotLoadR R:\> neon prompt bar.
+   Themes (20261110): default remains plum/gold. Selectable skins "ЯWALLET" and
+   "GHOSTMACHINE ASSM" live on html[data-theme]. Palettes are mirrored in
+   RFONT rfont-themes.css so the RVM and every app that loads RFONT share them.
+   Fonts: bundled Ghostroot* faces, plus RFONT / RIZAL families when the host
+   has loaded rfont.css (no network). */
+@font-face{font-family:GhostrootTagalog;src:url("../fonts/NotoSansTagalog-Regular.ttf") format("truetype");font-display:block;unicode-range:U+1700-1736}
+@font-face{font-family:GhostrootMayan;src:url("../fonts/NotoSansMayanNumerals-Regular.ttf") format("truetype");font-display:block;unicode-range:U+1D2E0-1D2F3}
+@font-face{font-family:BabelStoneMayan;src:url("../fonts/BabelStoneMayanNumerals.ttf") format("truetype");font-display:block;unicode-range:U+1D2E0-1D2F3}
+
+:root,html[data-theme="plum"]{
+ --bg:#160e20;--bg2:#211629;--key:#2e203b;--key2:#3a2848;--line:#68516c;--gold:#efcf88;--gold2:#f4d395;--txt:#f4e9d4;--muted:#cdb5d7;--neon:#7dffb0;--violet:#b26bff;
+ --page:#0e0814;--board1:#241532;--board2:#120a1a;--bar-bg:#120b1b;--bar-border:#5b3d7a;--bar-glow:#b26bff33;
+ --prompt:#efcf88;--prompt-glow:#efcf8866;--echo-glow:#7dffb055;--active-bg:#674459;--active-line:#e6c181;
+ --key-fg:#eee5ee;--fn1:#2a1c35;--fn2:#22172c;--ret-fg:#160e20;--ret-bg1:#f4d395;--ret-bg2:#d9b46c;--ret-line:#f4d395;
+ --alts-bg:#24162e;--alts-line:#e3bd77;--trail:#efcf88;--trail-glow:#e6c181aa;--cand-bg:#3a2438;--space-fg:#cdb5d7;
+ --monitor:transparent;--hill:transparent;--cyan:transparent;--alts-mask:#0e081766;
+ --rfont-sans:"RIZAL",RFONT-Tagalog,"Noto Sans Tagalog",GhostrootTagalog,system-ui,sans-serif;
+ --rfont-mono:"RIZAL Mono",RFONT-Tagalog,RFONT-Mayan,GhostrootTagalog,GhostrootMayan,ui-monospace,Menlo,monospace;
+}
+/* ЯWALLET: live RDRAGON / rwallet-ghost2.css --gm-* (#39ff14, #8a2be2, #b388ff, #1a0630)
+   plus tile-sampled monitor #002CB3 and lavender ghost #C695FE. Subtle starfield. */
+html[data-theme="ywallet"]{
+ --bg:#000000;--bg2:#0a0a0a;--key:#0a0a0a;--key2:#0d2a07;--line:#39ff14;--gold:#39ff14;--gold2:#39ff14;--txt:#dddddd;--muted:#1f8f0f;--neon:#39ff14;--violet:#8a2be2;
+ --page:#000000;--board1:#000000;--board2:#1a0630;--bar-bg:#0a0a0a;--bar-border:#8a2be2;--bar-glow:#8a2be266;
+ --prompt:#39ff14;--prompt-glow:#39ff1466;--echo-glow:#39ff1455;--active-bg:#0d2a07;--active-line:#39ff14;
+ --key-fg:#ffffff;--fn1:#0a0a0a;--fn2:#1a0630;--ret-fg:#ffffff;--ret-bg1:#8a2be2;--ret-bg2:#5a1c96;--ret-line:#b388ff;
+ --alts-bg:#0a0a0a;--alts-line:#8a2be2;--trail:#39ff14;--trail-glow:#39ff14aa;--cand-bg:#0d2a07;--space-fg:#39ff14;
+ --monitor:#002CB3;--hill:transparent;--cyan:transparent;--alts-mask:#00000066;
+}
+/* GHOSTMACHINE ASSM: same black starfield and lime text, tile hill #3C7B2A + cyan line #1D95E3, violet border glow. */
+html[data-theme="ghostmachine"]{
+ --bg:#000000;--bg2:#0a0a0a;--key:#0a0a0a;--key2:#0b1f06;--line:#39ff14;--gold:#39ff14;--gold2:#39ff14;--txt:#dddddd;--muted:#1f8f0f;--neon:#39ff14;--violet:#8a2be2;
+ --page:#000000;--board1:#000000;--board2:#000000;--bar-bg:#0a0a0a;--bar-border:#8a2be2;--bar-glow:#8a2be266;
+ --prompt:#39ff14;--prompt-glow:#39ff1466;--echo-glow:#39ff1455;--active-bg:#0b1f06;--active-line:#39ff14;
+ --key-fg:#ffffff;--fn1:#0a0a0a;--fn2:#000000;--ret-fg:#000000;--ret-bg1:#1D95E3;--ret-bg2:#0a5a9a;--ret-line:#1D95E3;
+ --alts-bg:#0a0a0a;--alts-line:#8a2be2;--trail:#39ff14;--trail-glow:#1D95E3aa;--cand-bg:#0b1f06;--space-fg:#39ff14;
+ --monitor:transparent;--hill:#3C7B2A;--cyan:#1D95E3;--alts-mask:#00000066;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;overflow:hidden;background:linear-gradient(170deg,var(--board1),var(--bg) 40%,var(--board2));color:var(--txt);font:16px var(--rfont-sans),-apple-system,system-ui,sans-serif;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+body{display:flex;flex-direction:column;padding:4px max(3px,env(safe-area-inset-right)) max(4px,env(safe-area-inset-bottom)) max(3px,env(safe-area-inset-left));position:relative;overflow:hidden}
+.board{flex:0 0 auto;display:flex;flex-direction:column;height:min(46vh,428px);min-height:352px;padding:6px max(4px,env(safe-area-inset-right)) max(8px,env(safe-area-inset-bottom)) max(4px,env(safe-area-inset-left));background:linear-gradient(170deg,var(--board1),var(--bg) 40%,var(--board2));border-top:1px solid var(--bar-border);box-shadow:0 -8px 24px #0008;position:relative;overflow:hidden}
+#bar{display:flex;align-items:center;gap:6px;height:34px;padding:0 6px;margin-bottom:5px;border:1px solid var(--bar-border);border-radius:10px;background:var(--bar-bg);box-shadow:0 0 10px var(--bar-glow) inset;flex:0 0 auto}
+.prompt{font:700 15px var(--rfont-mono),ui-monospace,Menlo,monospace;color:var(--prompt);text-shadow:0 0 6px var(--prompt-glow)}
+#echo{flex:1;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:clip;direction:ltr;text-align:left;font:15px var(--rfont-mono),ui-monospace,Menlo,GhostrootTagalog,GhostrootMayan,monospace;color:var(--neon);text-shadow:0 0 6px var(--echo-glow)}
+.share,.theme{flex:0 0 auto;height:24px;padding:0 8px;border-radius:7px;border:1px solid var(--line);background:var(--key);color:var(--gold);font:600 10px system-ui;letter-spacing:.04em}
+#echo::after{content:"▌";color:var(--neon);animation:blink 1s steps(1) infinite}@keyframes blink{50%{opacity:0}}
+#layers{display:flex;gap:4px}
+#layers button{min-width:30px;height:24px;padding:0 6px;border-radius:7px;border:1px solid var(--line);background:var(--key);color:var(--muted);font:600 11px system-ui,GhostrootTagalog,GhostrootMayan}
+#layers button[aria-pressed=true]{background:var(--active-bg);border-color:var(--active-line);color:var(--gold)}
+#kb-wrap{flex:1;position:relative;display:flex;flex-direction:column;min-height:0}
+#kb{flex:1;display:flex;flex-direction:column;gap:6px;min-height:0}
+.row{flex:1;display:flex;gap:4px;justify-content:center}
+.row.inset9{padding:0 4.6%}.row.inset7{padding:0}
+.k{position:relative;flex:1 1 0;min-width:0;display:flex;align-items:flex-end;justify-content:center;padding:0 0 5px;border:1px solid var(--line);border-radius:8px;background:linear-gradient(180deg,var(--key2),var(--key));color:var(--key-fg);font:19px system-ui,GhostrootTagalog,GhostrootMayan;box-shadow:0 1px 0 #0008;touch-action:manipulation}
+.k.active{background:var(--active-bg);border-color:var(--active-line)}
+.k .cl,.k .cr{position:absolute;top:2px;line-height:1.1;color:var(--gold2);pointer-events:none}
+.k .cl{left:3px;font:12px GhostrootTagalog,system-ui}
+.k .cr{right:3px;font:9px system-ui;color:var(--muted)}.k .cr.maya{font:12px GhostrootMayan,BabelStoneMayan,system-ui;color:var(--gold2)}
+.k.fn{flex:1.45 1 0;align-items:center;padding:0;font-size:15px;color:var(--gold);background:linear-gradient(180deg,var(--fn1),var(--fn2))}
+.k.space{flex:4.6 1 0;align-items:center;padding:0;font-size:12px;letter-spacing:.2em;color:var(--space-fg)}
+.k.ret{flex:1.9 1 0;align-items:center;padding:0;font-size:13px;color:var(--ret-fg);background:linear-gradient(180deg,var(--ret-bg1),var(--ret-bg2));border-color:var(--ret-line)}
+.k.glyph{align-items:center;padding:0;font:22px GhostrootTagalog,GhostrootMayan,system-ui;color:var(--gold2)}
+.k.glyph small{position:absolute;bottom:1px;left:0;right:0;text-align:center;font:8px system-ui;color:var(--muted)}
+.k[hidden]{display:none}
+#alts{position:fixed;left:6px;right:6px;bottom:52px;display:flex;flex-wrap:wrap;gap:6px;padding:8px;border:1px solid var(--alts-line);border-radius:12px;background:var(--alts-bg);box-shadow:0 0 0 100vmax var(--alts-mask);z-index:5}
+#alts[hidden]{display:none}
+#alts button{min-width:46px;height:44px;border-radius:9px;border:1px solid var(--line);background:var(--key);color:var(--gold2);font:22px GhostrootTagalog,GhostrootMayan,system-ui}
+#alts button.cancel{font:13px system-ui;color:var(--muted);margin-left:auto}
+
+/* Swipe/glide trail + candidate bar (above the keys) */
+.swipe-trail{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:6;overflow:visible}
+.swipe-trail path{fill:none;stroke:var(--trail);stroke-width:4;stroke-linecap:round;stroke-linejoin:round;opacity:.9;filter:drop-shadow(0 0 3px var(--trail-glow))}
+.swipe-candidates{display:flex;flex-wrap:nowrap;gap:6px;margin:0 4px 4px;min-height:0;flex:0 0 auto;overflow:hidden}
+.swipe-candidates[hidden]{display:none!important}
+.swipe-candidates button{min-height:36px;min-width:56px;padding:4px 12px;font-size:18px;font-family:GhostrootMayan,GhostrootTagalog,system-ui,sans-serif;border:1px solid var(--line);border-radius:8px;background:var(--cand-bg);color:var(--key-fg)}
+.swipe-candidates button[aria-pressed=true]{background:var(--active-bg);border-color:var(--active-line)}
+
+/* Starfield (ЯWALLET + GHOSTMACHINE) — same radial dots as rwallet-ghost2.css */
+html[data-theme="ywallet"] .board,html[data-theme="ghostmachine"] .board{
+ background-image:
+  radial-gradient(1px 1px at 20% 8%,#fff8 50%,transparent),
+  radial-gradient(1px 1px at 70% 4%,#fff6 50%,transparent),
+  radial-gradient(1px 1px at 85% 12%,#fff5 50%,transparent),
+  radial-gradient(1px 1px at 40% 14%,#fff4 50%,transparent),
+  radial-gradient(1px 1px at 12% 40%,#b388ff66 50%,transparent),
+  radial-gradient(1px 1px at 88% 62%,#39ff1466 50%,transparent),
+  radial-gradient(1.5px 1.5px at 60% 30%,#fff7 50%,transparent),
+  linear-gradient(170deg,var(--board1),var(--bg) 40%,var(--board2));
+ box-shadow:0 0 0 1px var(--violet),0 0 18px #8a2be288,0 0 24px #39ff1422,0 -8px 24px #0008;
+}
+/* ЯWALLET: blue retro-monitor rim sampled from the app tile (#002CB3). */
+html[data-theme="ywallet"] .board{box-shadow:0 0 0 2px var(--monitor),0 0 18px #8a2be2aa,0 0 24px #39ff1422,inset 0 0 28px #002CB333,0 -8px 24px #0008}
+/* GHOSTMACHINE: pixel-hill strip + cyan line, tile-sampled. */
+html[data-theme="ghostmachine"] .board{padding-bottom:max(22px,env(safe-area-inset-bottom))}
+html[data-theme="ghostmachine"] .board::after{
+ content:"";position:absolute;left:0;right:0;bottom:0;height:16px;z-index:4;pointer-events:none;
+ background:
+  linear-gradient(var(--cyan),var(--cyan)) top/100% 2px no-repeat,
+  repeating-linear-gradient(90deg,var(--hill) 0 10px,#315A2C 10px 18px,#1f8f0f 18px 22px,#387828 22px 28px);
+ image-rendering:pixelated;
+}
+
+/* iOS ext has no .board wrapper — mirror theme decorations onto body. */
+html[data-theme="ywallet"] body,html[data-theme="ghostmachine"] body{
+ background-image:
+  radial-gradient(1px 1px at 20% 8%,#fff8 50%,transparent),
+  radial-gradient(1px 1px at 70% 4%,#fff6 50%,transparent),
+  radial-gradient(1px 1px at 85% 12%,#fff5 50%,transparent),
+  radial-gradient(1px 1px at 40% 14%,#fff4 50%,transparent),
+  radial-gradient(1px 1px at 12% 40%,#b388ff66 50%,transparent),
+  radial-gradient(1px 1px at 88% 62%,#39ff1466 50%,transparent),
+  radial-gradient(1.5px 1.5px at 60% 30%,#fff7 50%,transparent),
+  linear-gradient(170deg,var(--board1),var(--bg) 40%,var(--board2));
+ box-shadow:0 0 0 1px var(--violet),0 0 18px #8a2be288,0 0 24px #39ff1422,inset 0 0 16px #0008;
+}
+html[data-theme="ywallet"] body{box-shadow:0 0 0 2px var(--monitor),0 0 18px #8a2be2aa,0 0 24px #39ff1422,inset 0 0 28px #002CB333}
+html[data-theme="ghostmachine"] body{padding-bottom:max(20px,env(safe-area-inset-bottom))}
+html[data-theme="ghostmachine"] body::after{
+ content:"";position:absolute;left:0;right:0;bottom:0;height:16px;z-index:4;pointer-events:none;
+ background:
+  linear-gradient(var(--cyan),var(--cyan)) top/100% 2px no-repeat,
+  repeating-linear-gradient(90deg,var(--hill) 0 10px,#315A2C 10px 18px,#1f8f0f 18px 22px,#387828 22px 28px);
+ image-rendering:pixelated;
+}
+#kb{position:relative}

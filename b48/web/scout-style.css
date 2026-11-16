@@ -1,0 +1,7 @@
+body{margin:0;display:flex;font:14px system-ui;background:#111;color:#eee}aside{width:200px;border-right:1px solid #333;padding:8px}main{flex:1;display:flex;flex-direction:column;height:100vh}#bot-hero{padding:8px;border-bottom:1px solid #333;display:flex;gap:8px;align-items:center}#chat-avatar{width:32px}#log{flex:1;overflow:auto;padding:10px}.turn{margin:6px 0;white-space:pre-wrap}.turn.user{color:#9cf}.turn.sys{color:#888}#composer{display:flex;padding:8px;border-top:1px solid #333}#message{flex:1;padding:8px}.sr-only{position:absolute;left:-9999px}#chatlist{list-style:none;padding:0}.cl-row{cursor:pointer;padding:4px}
+.ds-status{color:#6c6;margin-left:8px}
+
+/* DRAGON SKULL UI 2026-10-17: bot list starts top left; no edit pills or ID label in the top bar */
+#roster{padding-top:6px}#chatlist{margin:0;padding:0}.cl-row{padding:2px 0}.cl-row img{display:none}
+#hero-avatar-btn,#chat-edit,#chat-sub{display:none!important}
+#ds-logo{height:30px;width:auto;margin:-4px 0 -4px 2px;display:block}

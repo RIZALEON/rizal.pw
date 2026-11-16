@@ -1,0 +1,16 @@
+{
+  "schema": "rzl.rsync.peers.v1",
+  "note": "ЯSYNC peer list over RSCALE/RVPN + ЯNETWORK. STAGED, not seated. Order = failover order. No Tailscale company servers, no Cloudflare.",
+  "apps": [
+    {"id":"neo-rscale",   "url":"http://neo.rscale.rlab:8799",   "via":"RSCALE mesh (MagicDNS)", "alt":"http://100.88.0.1:8799"},
+    {"id":"pixel-rscale", "url":"http://pixel.rscale.rlab:8799", "via":"RSCALE mesh"},
+    {"id":"neo-lan",      "url":"http://192.168.0.113:8799",    "via":"ЯNETWORK home LAN (needs BIND_HOSTS to include the LAN IP)"},
+    {"id":"pixel-lan",    "url":"http://192.168.0.206:8799",    "via":"ЯNETWORK home LAN"},
+    {"id":"outbox",       "storeAndForward":true,               "via":"device outbox → GitHub/Drive via transponders"}
+  ],
+  "browser": [
+    {"id":"neo-rscale-https", "url":"https://sync.rizal.pw:8800", "via":"RSCALE mesh; DNS A sync.rizal.pw → Neo mesh IP; Let's Encrypt cert (DNS-01)",
+     "needs":["device in the mesh (VPN on)","sync.rizal.pw A record","LE cert on the Neo","ORIGINS unchanged (https://rizal.pw already allowed)"]}
+  ],
+  "rdragonConfigPeers": ["https://sync.rizal.pw:8800"]
+}

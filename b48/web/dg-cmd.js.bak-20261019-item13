@@ -1,0 +1,38 @@
+/* DRAGONGATE typed-command bridge 0.2.0 · 2026-10-19 · SCOUT.
+ * Injected NATIVELY at document start (main frame only) with a per-launch token baked into this closure; it is not loaded by
+ * scout.html and a web-overlay copy has no token. It catches `/gate …`, `:commands` and `/commands` typed in #composer, keeps them
+ * away from the model, the chat memory and every other script, and hands them to the native dsGateCmd handler only after a trusted
+ * Enter key or tap in the composer. Replies are shown locally; confirm codes appear in a NATIVE pop-up, never in the page. */
+(function (root, factory) {
+  if (typeof module === "object" && module.exports) module.exports = factory;
+  else factory(root, root.document, "__DG_CMD_TOKEN__");
+})(typeof self !== "undefined" ? self : this, function (win, doc, TOKEN) {
+  "use strict";
+  var GESTURE_MS = 1500, last = 0;
+  var hnd = win.webkit && win.webkit.messageHandlers && win.webkit.messageHandlers.dsGateCmd;
+  var post = hnd ? hnd.postMessage.bind(hnd) : null;           // captured before any other script runs
+  function isCmd(t) { t = String(t || "").trim().toLowerCase(); return t === ":commands" || t === "/commands" || t === "/gate" || /^\/gate\s/.test(t); }
+  function mask(t) { return String(t).replace(/^(\s*\/gate\s+confirm\s+)\S+/i, "$1****"); }
+  function show(role, text) {
+    var log = doc.getElementById("log"); if (!log) return null;
+    var d = doc.createElement("div"); d.className = "turn " + role + " dg-cmd"; d.textContent = text; log.appendChild(d);
+    if (d.scrollIntoView) d.scrollIntoView(); return d;
+  }
+  function inComposer(t) { for (; t; t = t.parentNode) if (t.id === "composer") return true; return false; }
+  doc.addEventListener("keydown", function (e) { if (e.isTrusted && e.key === "Enter" && e.target && e.target.id === "message") last = Date.now(); }, true);
+  ["pointerdown", "touchend", "click"].forEach(function (k) { doc.addEventListener(k, function (e) { if (e.isTrusted && inComposer(e.target)) last = Date.now(); }, true); });
+  function handle(e) {
+    var f = e.target; if (!f || f.id !== "composer") return;
+    var m = doc.getElementById("message"), t = m ? String(m.value || "") : "";
+    if (!isCmd(t)) return;
+    e.preventDefault(); e.stopImmediatePropagation(); m.value = "";
+    var gesture = e.isTrusted === true && Date.now() - last < GESTURE_MS;
+    show("user", "You: " + mask(t.trim()));
+    if (!post) { show("bot", "DRAGONGATE: commands work only inside the DRAGON SKULL app."); return; }
+    if (!gesture) { show("bot", "DRAGONGATE: refused. Type the command and press Enter or tap Send yourself."); }
+    Promise.resolve(post({ t: TOKEN, text: t.trim(), gesture: gesture })).then(function (r) { if (gesture) show("bot", "DRAGONGATE: " + String((r && r.text) || "")); })
+      .catch(function () { show("bot", "DRAGONGATE: the gate did not answer, so nothing changed."); });
+  }
+  win.addEventListener("submit", handle, true);
+  return { isCmd: isCmd, mask: mask, handle: handle };
+});

@@ -1,0 +1,2 @@
+be592f63ee6024a2e7b1bca58a71fca5c7bbf407f604c69380f2f76e0e0a514d  ghostcmd.py
+4b6d00aebec4c63c3fa90c8964dd0e6b99adfd4042f5737c0c9d4b6f73f419d9  dscmd.py

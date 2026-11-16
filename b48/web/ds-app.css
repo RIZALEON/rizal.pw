@@ -1,0 +1,27 @@
+/* DS-APP-00 · App adapter: maps the pack onto the real scout.html (aside#roster + main) · load LAST */
+body.ds{display:flex!important;flex-direction:row;grid-template-areas:none;height:100dvh;overflow:hidden;background:var(--ds-bg);color:var(--ds-fg);font:14px/1.45 var(--ds-font)}
+body.ds aside#roster.ds-nav{width:var(--ds-side);flex:0 0 var(--ds-side);position:relative;transform:none;background:var(--ds-panel);border-right:1px solid var(--ds-line);overflow:auto}
+body.ds.ds-nav-collapsed aside#roster.ds-nav{flex-basis:0;width:0;padding:0;border:0;overflow:hidden}
+body.ds main{flex:1;display:flex;flex-direction:column;min-width:0;height:100dvh}
+body.ds #bot-hero{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+body.ds #bot-hero #ds-logo{height:24px} body.ds #chat-sub{color:var(--ds-muted);font-size:11px}
+body.ds #log.ds-log{flex:1;overflow:auto}
+body.ds #composer.ds-input{display:flex} body.ds #composer button[type=submit]{background:var(--ds-blue);color:#fff;border:0}
+body.ds #ds-gate{position:static!important;inset:auto!important;width:auto!important;max-height:30vh;overflow:auto;background:var(--ds-panel);border-top:1px solid var(--ds-line);padding:6px 12px;padding-bottom:max(6px,env(safe-area-inset-bottom));font:700 11px var(--ds-font);letter-spacing:.1em;color:var(--ds-fg-dim)}
+body.ds #ds-gate .ds-gate-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+body.ds #ds-estop{background:var(--ds-stop);color:#fff;border:0;border-radius:var(--ds-r);min-height:36px;padding:0 12px;font-weight:700;cursor:pointer}
+body.ds #ds-estop:hover{background:var(--ds-err)} body.ds #ds-estop:active{transform:scale(.95)}
+body.ds main > #ds-gate{order:9}
+@media (max-width:900px){
+ body.ds aside#roster.ds-nav{position:fixed;top:0;left:0;bottom:0;width:min(82vw,300px);z-index:40;transform:translateX(-100%);transition:transform var(--ds-speed)}
+ body.ds.ds-nav-open aside#roster.ds-nav{transform:none} body.ds.ds-nav-open .ds-scrim{display:block;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:30}
+ body.ds main{width:100%}}
+@media (max-width:600px){ body.ds main{height:100dvh} body.ds .ds-tabs{display:flex} body.ds #composer.ds-input{position:sticky;bottom:0}
+ body.ds #ds-estop,body.ds #composer button{min-height:var(--ds-tap)} body.ds #chat-sub,body.ds #chat-edit{display:none}}
+/* existing ds-mobile.js menu (#ds-menu-btn → body.ds-menu) also opens DS-NAV-01 */
+@media (max-width:900px){ body.ds.ds-menu aside#roster.ds-nav{transform:none} }
+/* style existing app buttons as pack pieces: #ds-menu-btn = DS-BTN-05, #rbs-plus = DS-BTN-02 */
+body.ds #ds-menu-btn,body.ds #rbs-plus{border-radius:50%;min-width:36px;min-height:36px;border:1px solid var(--ds-line);background:var(--ds-panel-2);color:var(--ds-fg);cursor:pointer;transition:transform .08s,background var(--ds-speed)}
+body.ds #rbs-plus{color:var(--ds-orange);border-color:var(--ds-orange);background:transparent}
+body.ds #ds-menu-btn:active,body.ds #rbs-plus:active{transform:scale(.94)}
+@media (min-width:901px){body.ds #ds-menu-btn{display:inline-flex!important;align-items:center;justify-content:center}}

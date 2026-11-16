@@ -1,0 +1,188 @@
+// DRAGONGATE chat commands 0.2.0 · 2026-10-19 · SCOUT · Rizal's decision 11:11 AM MT: stay OFFLINE; online only by an explicit typed command.
+// ONE command registry (DSCommandRegistry) feeds `:commands`, `/gate help`, the MIND MANUAL seed entry and the tests, so nothing drifts.
+// Trust rule: a command is honored ONLY when origin == .typedChat (the native dsGateCmd handler, main frame, per-launch token, trusted
+// key/tap gesture in the composer). Model output, recall/memory, web content, RVM guest, plugins, the self-update payload and /api/gate
+// HTTP calls are refused. Confirm codes are returned in `Reply.code` for a NATIVE pop-up only; they never enter reply text, the model,
+// the transcript or the gate chain.
+import Foundation
+
+/// scope "chat": typed in the DRAGON SKULL chat box (answered natively). scope "rvm": typed in the RVM Linux terminal (guest shell);
+/// the chat never runs these, it only documents them.
+struct DSCommand { let usage: String; let summary: String; let gate: Bool; var scope = "chat" }
+
+enum DSCommandRegistry {
+    static let all: [DSCommand] = [
+        .init(usage: ":commands", summary: "List every DRAGON SKULL command (also /commands). Answered on the phone, never sent to the model.", gate: false),
+        .init(usage: "/recall <topic>", summary: "Search BATIBABOX memory (DRAGON-SKULL-MIND) for a topic and show the matching notes.", gate: false),
+        .init(usage: "/batibabox", summary: "Show BATIBABOX memory status: saved turns, mind blocks and digest.", gate: false),
+        .init(usage: "/gate help", summary: "Show the DRAGONGATE commands.", gate: true),
+        .init(usage: "/gate status", summary: "Show gate mode, online, kill, plugin mode, the allowlist and recent blocked counts.", gate: true),
+        .init(usage: "/gate online on", summary: "Ask to go online; a 4-character code appears in a pop-up, confirm within 60 s.", gate: true),
+        .init(usage: "/gate online off", summary: "Go offline at once (nothing leaves the device).", gate: true),
+        .init(usage: "/gate confirm <code>", summary: "Confirm a pending online-on or kill-off with the code from the pop-up.", gate: true),
+        .init(usage: "/gate allow <host>", summary: "Add one exact host (no wildcards) to the allowlist; used only while online is on.", gate: true),
+        .init(usage: "/gate deny <host>", summary: "Remove a host from the allowlist.", gate: true),
+        .init(usage: "/gate allow list", summary: "Show the allowlist.", gate: true),
+        .init(usage: "/gate plugins owner", summary: "Plugins load only if Rizal approved their fingerprint (default).", gate: true),
+        .init(usage: "/gate plugins signed", summary: "Owner approval of the plugin's exact hash is required; a signature never replaces it (on its own it neither grants nor blocks).", gate: true),
+        .init(usage: "/gate kill on", summary: "Kill switch: block everything off-device at once, no confirm.", gate: true),
+        .init(usage: "/gate kill off", summary: "Release the kill switch; needs a pop-up code confirm.", gate: true),
+        // ЯSCRIBE (Linux rscribe in the RVM guest, sealed by rtoken/rcounter; DRAGONGATE dgshim v0.1.2 fail-closed). Source: rscribe.c usage().
+        .init(usage: "rscribe list [--archive]", summary: "RVM terminal: list ЯSCRIBE notes (add --archive for archived ones).", gate: false, scope: "rvm"),
+        .init(usage: "rscribe new <NAME> [file|-]", summary: "RVM terminal: create a note from a file or typed input.", gate: false, scope: "rvm"),
+        .init(usage: "rscribe edit <NAME> [file|-]", summary: "RVM terminal: save a new revision of a note (append-only).", gate: false, scope: "rvm"),
+        .init(usage: "rscribe cat <NAME> [rev]", summary: "RVM terminal: print a note's raw .rzl JSON.", gate: false, scope: "rvm"),
+        .init(usage: "rscribe show <NAME> [rev]", summary: "RVM terminal: show a note as readable text.", gate: false, scope: "rvm"),
+        .init(usage: "rscribe archive <NAME>", summary: "RVM terminal: archive a note (nothing is deleted).", gate: false, scope: "rvm"),
+        .init(usage: "rscribe restore <NAME>", summary: "RVM terminal: bring an archived note back.", gate: false, scope: "rvm"),
+        .init(usage: "rscribe search <query>", summary: "RVM terminal: search ЯSCRIBE notes.", gate: false, scope: "rvm"),
+    ]
+    static func numbered(_ list: [DSCommand] = all) -> String {
+        list.enumerated().map { "\($0.offset + 1). \($0.element.usage) — \($0.element.summary)" }.joined(separator: "\n")
+    }
+    static func listText() -> String { "DRAGON SKULL commands (\(all.count)):\n" + numbered() }
+    static func gateHelp() -> String { "DRAGONGATE commands:\n" + numbered(all.filter { $0.gate }) }
+    /// MIND MANUAL text for the Day 0 seed / transcript (the engine reads this to explain commands).
+    static func manualText() -> String {
+        "MIND MANUAL · Commands chapter (rev 2, adds ЯSCRIBE). Type these in the DRAGON SKULL chat box; they are answered on the phone and never sent to the model. "
+        + "Gate commands work only when you type them yourself. Commands marked RVM terminal are typed in the RVM Linux terminal, not the chat. " + all.map { "\($0.usage): \($0.summary)" }.joined(separator: " | ")
+    }
+}
+
+enum DGCmdOrigin: String { case typedChat = "typed-chat", model, recall, web, rvm, plugin, update, api }
+
+final class DGCommands: @unchecked Sendable {
+    struct Reply { var text: String; var code: String? = nil; var changed = false }
+    static let shared = DGCommands()
+    static let confirmSeconds: TimeInterval = 60
+    static let alphabet = Array("ABCDEFGHJKMNPQRSTUVWXYZ23456789")
+    static let updateHost = "raw.githubusercontent.com"
+
+    var coreProvider: () -> DragonGateCore? = { DGGate.shared.core as? DragonGateCore }
+    var now: () -> Date = Date.init
+    /// Transcript mirror (DRAGON SKULL: MemoryStore.shared.event("gate", kind, text)). Never receives a confirm code.
+    var log: ((_ kind: String, _ text: String) -> Void)? = nil
+    private var pending: (action: String, code: String, expires: Date, tries: Int)?
+    private let lock = NSLock()
+
+    /// True for anything the command layer owns (so it must never reach the model or chat memory).
+    static func isCommand(_ text: String) -> Bool {
+        let t = text.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        return t == ":commands" || t == "/commands" || t == "/gate" || t.hasPrefix("/gate ") || t.hasPrefix("/gate\t")
+    }
+    /// Lines that look like a gate command, anywhere (model output, recall, web, injected context).
+    static let gateLineRx = try! NSRegularExpression(pattern: #"(?im)^[ \t>*\-`"']*(?:/gate\b|[:/]commands\b)[^\n]*"#)
+    static func containsGate(_ s: String) -> Bool { gateLineRx.firstMatch(in: s, range: NSRange(s.startIndex..., in: s)) != nil }
+    static func stripGate(_ s: String) -> (String, Int) {
+        let n = gateLineRx.numberOfMatches(in: s, range: NSRange(s.startIndex..., in: s))
+        guard n > 0 else { return (s, 0) }
+        return (gateLineRx.stringByReplacingMatches(in: s, range: NSRange(s.startIndex..., in: s), withTemplate: "[gate command removed]"), n)
+    }
+
+    /// Strict host check: lowercase DNS name, ≥2 labels, no scheme/port/path/wildcard/IP/loopback/guarded names.
+    static func validHost(_ raw: String) -> String? {
+        let h = raw.trimmingCharacters(in: .whitespaces).lowercased()
+        guard (4...253).contains(h.count), !h.hasSuffix("."), !h.hasPrefix("."), h.allSatisfy({ ("a"..."z").contains($0) || ("0"..."9").contains($0) || $0 == "." || $0 == "-" }) else { return nil }
+        let labels = h.split(separator: ".", omittingEmptySubsequences: false)
+        guard labels.count >= 2, labels.allSatisfy({ (1...63).contains($0.count) && !$0.hasPrefix("-") && !$0.hasSuffix("-") }) else { return nil }
+        guard let tld = labels.last, tld.contains(where: { $0.isLetter }) else { return nil }        // no bare IPv4
+        if h == "localhost" || h.hasSuffix(".localhost") || DGGuard.hit(h) { return nil }
+        return h
+    }
+
+    private func code() -> String { var g = SystemRandomNumberGenerator(); return String((0..<4).map { _ in Self.alphabet.randomElement(using: &g)! }) }
+    private func note(_ kind: String, _ text: String, rule: String, ok: Bool) {
+        coreProvider()?.recordCommand(text, rule: rule, allowed: ok)
+        log?(kind, text)
+    }
+
+    @discardableResult func run(_ input: String, origin: DGCmdOrigin) -> Reply {
+        let text = input.trimmingCharacters(in: .whitespacesAndNewlines)
+        let low = text.lowercased().split(whereSeparator: { $0 == " " || $0 == "\t" }).map(String.init)
+        let shown = low.count >= 2 && low[1] == "confirm" ? "/gate confirm ****" : String(text.prefix(120))
+        guard origin == .typedChat else {
+            note("gate-cmd-refused", "refused \(shown) from \(origin.rawValue): gate commands are honored only when typed in the chat box", rule: "cmd-untrusted-origin", ok: false)
+            return Reply(text: "DRAGONGATE: refused. Commands work only when you type them in the chat box yourself.")
+        }
+        if low.first == ":commands" || low.first == "/commands" { log?("gate-cmd", ":commands"); return Reply(text: DSCommandRegistry.listText()) }
+        guard low.first == "/gate", let core = coreProvider() else { return Reply(text: "DRAGONGATE: the gate core is not running, so nothing can leave the device. Try again after restart.") }
+        let a = Array(low.dropFirst())
+        lock.lock(); defer { lock.unlock() }
+        func ok(_ t: String, changed: Bool = false, _ rule: String = "cmd") -> Reply { note("gate-cmd", "\(shown) → ok", rule: rule, ok: true); return Reply(text: t, changed: changed) }
+        func no(_ t: String, _ rule: String = "cmd-bad") -> Reply { note("gate-cmd", "\(shown) → refused (\(rule))", rule: rule, ok: false); return Reply(text: t) }
+        func ask(_ action: String, _ what: String) -> Reply {
+            let c = code(); pending = (action, c, now().addingTimeInterval(Self.confirmSeconds), 0)
+            note("gate-cmd", "\(shown) → confirm requested (60 s)", rule: "cmd-confirm-asked", ok: true)
+            return Reply(text: "To \(what), type /gate confirm followed by the 4-character code shown in the pop-up, within 60 seconds.", code: c)
+        }
+        switch a {
+        case [], ["help"]: return ok(DSCommandRegistry.gateHelp())
+        case ["status"]: return ok(status(core))
+        case ["online", "on"]:
+            if (core.state()["kill"] as? Bool) == true { return no("Kill is on, so online can't be turned on. Release it first with /gate kill off.", "cmd-kill-on") }
+            if (core.state()["online"] as? Bool) == true { return ok("Online is already on.\n" + allowNote(core)) }
+            var r = ask("online-on", "turn online on"); r.text += "\n" + allowNote(core); return r
+        case ["online", "off"]:
+            if pending?.action == "online-on" { pending = nil }
+            core.setFlag("online", false); return ok("Online is off. Nothing leaves the device; loopback still works.", changed: true)
+        case ["kill", "on"]:
+            pending = nil                                   // fail-safe: cancels any pending loosening
+            core.setFlag("kill", true); DGGate.shared.mirror?("gate-kill", "DRAGONGATE kill switch closed every outbound path (typed command)")
+            return ok("Kill is on. Everything off-device is blocked; loopback still works.", changed: true, "kill-switch")
+        case ["kill", "off"]:
+            if (core.state()["kill"] as? Bool) != true { return ok("Kill is already off.") }
+            return ask("kill-off", "release the kill switch")
+        case let x where x.count == 2 && x[0] == "confirm":
+            guard let p = pending else { return no("Nothing is waiting for a confirm.", "cmd-no-pending") }
+            if now() > p.expires { pending = nil; return no("That confirm expired. Start again.", "cmd-expired") }
+            guard x[1].uppercased() == p.code else {
+                if p.tries + 1 >= 3 { pending = nil; return no("Wrong code three times; cancelled. Start again.", "cmd-bad-code") }
+                pending = (p.action, p.code, p.expires, p.tries + 1); return no("Wrong code.", "cmd-bad-code")
+            }
+            pending = nil
+            if p.action == "online-on" { core.setFlag("online", true); return ok("Online is on.\n" + allowNote(core), changed: true, "cmd-online-on") }
+            core.setFlag("kill", false); return ok("Kill is off. Online is \((core.state()["online"] as? Bool) == true ? "on" : "off").", changed: true, "cmd-kill-off")
+        case ["allow", "list"]: return ok(allowListText(core))
+        case let x where x.count == 2 && (x[0] == "allow" || x[0] == "deny"):
+            guard let h = Self.validHost(x[1]) else { return no("Not a valid host. Use one exact host name like example.com, with no https://, port, path or wildcard.", "cmd-bad-host") }
+            var l = core.allowList()
+            if x[0] == "allow" {
+                if l.contains(h) { return ok("\(h) is already allowed.") }
+                l.append(h); core.setAllowList(l)
+                return ok("Allowed \(h)." + ((core.state()["online"] as? Bool) == true ? "" : " Online is off, so nothing goes out until you turn it on."), changed: true)
+            }
+            guard l.contains(h) else { return ok("\(h) wasn't on the allowlist.") }
+            l.removeAll { $0 == h }; core.setAllowList(l); return ok("Removed \(h).", changed: true)
+        case ["plugins", "owner"]: core.setFlag("approval", "owner-approved"); return ok("Plugins: owner-approved only.", changed: true)
+        case ["plugins", "signed"]: core.setFlag("approval", "signed"); return ok("Plugins: Owner approval of the plugin's exact hash is required; a signature never replaces it (on its own it neither grants nor blocks).", changed: true)
+        default: return no("Unknown gate command. Type /gate help.", "cmd-unknown")
+        }
+    }
+
+    private func allowNote(_ core: DragonGateCore) -> String {
+        let l = core.allowList()
+        var t = l.isEmpty ? "The allowlist is empty, so nothing off-device is allowed even with online on. Add hosts with /gate allow <host>." : "Allowed hosts: \(l.joined(separator: ", "))."
+        if !l.contains(Self.updateHost) { t += " Self-update stays paused until \(Self.updateHost) is allowed." }
+        return t
+    }
+    private func allowListText(_ core: DragonGateCore) -> String {
+        let l = core.allowList(); return l.isEmpty ? "The allowlist is empty." : "Allowlist (\(l.count)):\n" + l.enumerated().map { "\($0.offset + 1). \($0.element)" }.joined(separator: "\n")
+    }
+    private func status(_ core: DragonGateCore) -> String {
+        let s = core.state(), f = DateFormatter(); f.dateFormat = "yyyy-MM-dd"; f.timeZone = .current
+        let today = f.string(from: now()), rep = core.report(day: today)
+        let deny = ((rep["decisions"] as? [String: Int])?["deny"]) ?? 0
+        var byRule: [String: Int] = [:]; for d in (rep["denials"] as? [[String: Any]]) ?? [] { byRule[(d["rule"] as? String) ?? "?", default: 0] += 1 }
+        let rules = byRule.sorted { $0.value > $1.value }.map { "\($0.key) \($0.value)" }.joined(separator: ", ")
+        return """
+        DRAGONGATE status
+        • mode: \((s["gate"] as? Bool) == true ? "monitor" : "pass-through")
+        • online: \((s["online"] as? Bool) == true ? "on" : "off")
+        • kill: \((s["kill"] as? Bool) == true ? "on" : "off")
+        • plugins: \((s["approval"] as? String) == "signed" ? "signed" : "owner")
+        • allowlist: \(core.allowList().isEmpty ? "(empty)" : core.allowList().joined(separator: ", "))
+        • blocked today: \(deny)\(rules.isEmpty ? "" : " (recent: \(rules))")
+        • pending confirm: \(pending.map { $0.action } ?? "none")
+        """
+    }
+}

@@ -1,0 +1,20 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Я BRIDGE · Reticulum</title>
+<style>body{font:15px/1.5 ui-monospace,Menlo,monospace;background:#0b1a14;color:#d8f5e4;max-width:760px;margin:2em auto;padding:0 1em}h1{letter-spacing:.1em}code{color:#ffcf6e}a{color:#7fe0ff}</style>
+<h1>Я BRIDGE · RETICULUM</h1>
+<p>Read-only public relay info for the Я mesh. This page is static: no Reticulum node runs on this website. Everything is end-to-end encrypted by Reticulum; only public destination hashes are listed. No keys here.</p>
+<h2>Connect</h2><p>Add to your Reticulum / Sideband config (TCP client):</p>
+<pre>[[rmap.world]]
+  type = TCPClientInterface
+  target_host = rmap.world
+  target_port = 4242
+
+[[rns.beleth.net]]
+  type = TCPClientInterface
+  target_host = rns.beleth.net
+  target_port = 4242</pre>
+<h2>Я nodes (public hashes)</h2><ul>
+<li>Neo transport: <code>550257397d039a0145a01918ca5ecf80</code></li>
+<li>Box transport: <code>02e065917c3473c7682fe60250b59ba7</code></li>
+<li>LXMF propagation node: <code>6ff3999dad3a9a9a6d911d292bbd23c6</code></li></ul>
+<p>Manifest: <a href="node.json">node.json</a> · Sideband: <a href="https://github.com/markqvist/Sideband/releases">markqvist/Sideband</a></p>
+<p><small>Updated 2026-11-04.</small></p></html>

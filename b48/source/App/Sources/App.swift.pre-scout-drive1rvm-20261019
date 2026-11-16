@@ -1,0 +1,171 @@
+import SwiftUI
+import WebKit
+import CryptoKit
+
+let kModelSHA256 = "fd3b85f09520df9d898e2bbcf5da22fc518dbf9d662bb52e214d946c72aafacc"
+
+@MainActor final class AppState: ObservableObject {
+    enum Phase { case checking, loading, ready, refused(String) }
+    @Published var phase: Phase = .checking
+    var server: LocalServer?
+    let selftest = ProcessInfo.processInfo.arguments.contains("--selftest")
+
+    func log(_ s: String) {
+        print("[DRAGON SKULL] \(s)"); fflush(stdout)
+        let u = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("ds-log.txt")
+        let line = Data("\(Date()) \(s)\n".utf8)
+        if let h = try? FileHandle(forWritingTo: u) { h.seekToEndOfFile(); h.write(line); try? h.close() } else { try? line.write(to: u) }
+    }
+
+    func boot() {
+        Task.detached(priority: .userInitiated) {
+            guard let model = Bundle.main.url(forResource: "granite-4.0-h-1b-Q4_K_M", withExtension: "gguf", subdirectory: "model") else {
+                await MainActor.run { self.phase = .refused("Model file missing from the app.") }; return }
+            let digest = Self.sha256(model)
+            await MainActor.run { self.log("model sha256 \(digest)") }
+            guard digest == kModelSHA256 else {
+                await MainActor.run { self.log("REFUSING: fingerprint mismatch"); self.phase = .refused("Model fingerprint mismatch.\nExpected \(kModelSHA256)\nGot \(digest)") }; return }
+            await MainActor.run { self.phase = .loading }
+            let web = Bundle.main.resourceURL!.appendingPathComponent("web")
+            SelfUpdater.shared.log = { s in
+                Task { @MainActor in self.log("selfupdate: \(s)") }
+                let kind = s.contains("rolled back") ? "selfupdate-rollback" : s.contains("staged ") ? "web-bundle-staged" : s.hasPrefix("serving web") ? "web-bundle-serving" : s.contains("reset to built-in") ? "selfupdate-reset" : "selfupdate-log"
+                MemoryStore.shared.event(kind == "selfupdate-log" ? "selfupdate" : "update", kind, s)   // DRAGON-SKULL-MIND: every update + rollback
+            }
+            MemoryStore.shared.log = { s in Task { @MainActor in self.log("memory: \(s)") } }
+            // DRAGONGATE (all-in-one 2026-10-19): core + facade before any server / web view / self-update fetch.
+            // Runtime data lives in Application Support/dragongate/ (never bundled). A missing switch.json = defaults:
+            // gate:true (monitor), online:false, kill:false, approval owner-approved. Kill = drawbridge: off-device denied + logged, loopback still flows.
+            let gateRoot = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].appendingPathComponent("dragongate", isDirectory: true)
+            DGGate.shared.app = "info.rizal.dragonskull"
+            DGGate.shared.mirror = { kind, text in MemoryStore.shared.event("gate", kind, text) }
+            DGGate.shared.core = DragonGateCore(root: gateRoot, app: "info.rizal.dragonskull")
+            DGCommands.shared.log = { kind, text in MemoryStore.shared.event("gate", kind, text) }   // gate events only; never a confirm code
+            let info = Bundle.main.infoDictionary ?? [:]
+            MemoryStore.shared.event("update", "app-launch", "DRAGON SKULL iOS \(info["CFBundleShortVersionString"] as? String ?? "?") (\(info["CFBundleVersion"] as? String ?? "?")) launched",
+                                     extra: ["appVersion": info["CFBundleShortVersionString"] as? String ?? "?", "build": info["CFBundleVersion"] as? String ?? "?", "modelSha256": String(digest.prefix(16))])
+            RlabData.ensure { s in MemoryStore.shared.event("rvm", "rlab-data", s) }   // drive1: blank 4 MiB ext2 once in Application Support, never overwritten
+            SelfUpdater.shared.prepareAtLaunch(builtIn: web)   // promote staged / roll back unconfirmed web overlay before serving
+            let srv = LocalServer(webRoot: web)
+            do { try srv.start() } catch { await MainActor.run { self.phase = .refused("Local server failed: \(error)") }; return }
+            let ok = Engine.shared.load(path: model.path)
+            MemoryStore.shared.seedDay0(webRoots: SelfUpdater.shared.webRoots() + [web])   // DAY 0 history, appended once by id
+            let st = SelfUpdater.shared.status()
+            MemoryStore.shared.event("engine", ok ? "engine-start" : "engine-error", ok ? "engine ready on 127.0.0.1:\(LocalServer.port) · web \(st["serving"] as? String ?? "?") (built-in \(st["builtIn"] as? String ?? "?"))" : "engine failed to load the model",
+                                     extra: ["webServing": st["serving"] as? String ?? "?", "webBuiltIn": st["builtIn"] as? String ?? "?"])
+            await MainActor.run {
+                self.server = srv
+                if ok { self.log("engine ready on 127.0.0.1:8319"); self.phase = .ready; if self.selftest { self.runSelfTest() } else { SelfUpdater.shared.checkIfDue(reason: "launch") } }
+                else { self.phase = .refused("Engine failed to load the model.") }
+            }
+        }
+    }
+
+    nonisolated static func sha256(_ url: URL) -> String {
+        guard let h = try? FileHandle(forReadingFrom: url) else { return "unreadable" }
+        var hasher = SHA256()
+        while let d = try? h.read(upToCount: 8 << 20), !d.isEmpty { hasher.update(data: d) }
+        return hasher.finalize().map { String(format: "%02x", $0) }.joined()
+    }
+
+    func runSelfTest() {
+        let qs = ["Who are you, and are you online?", "What is (2+4+6)/3? Give the number."]
+        Task.detached {
+            for q in qs {
+                var r = URLRequest(url: URL(string: "http://127.0.0.1:8319/engine/v1/chat/completions")!)
+                r.httpMethod = "POST"; r.setValue("application/json", forHTTPHeaderField: "Content-Type"); r.timeoutInterval = 300
+                r.httpBody = try? JSONSerialization.data(withJSONObject: ["messages": [["role": "user", "content": q]], "max_tokens": 128, "temperature": 0])
+                let t0 = Date()
+                var ans = "(no answer)"
+                if let (d, _) = try? await URLSession.shared.data(for: r), let o = try? JSONSerialization.jsonObject(with: d) as? [String: Any],
+                   let ch = o["choices"] as? [[String: Any]], let m = ch.first?["message"] as? [String: Any] { ans = (m["content"] as? String) ?? "" }
+                let dt = String(format: "%.1f", Date().timeIntervalSince(t0))
+                await MainActor.run { self.log("SELFTEST Q: \(q) | A (\(dt)s): \(ans.replacingOccurrences(of: "\n", with: " "))") }
+            }
+            await MainActor.run { self.log("SELFTEST DONE") }
+        }
+    }
+}
+
+struct WebView: UIViewRepresentable {
+    let selftest: Bool
+    func makeUIView(context: Context) -> WKWebView {
+        let cfg = WKWebViewConfiguration()
+        cfg.websiteDataStore = .nonPersistent()
+        let w = WKWebView(frame: .zero, configuration: cfg)
+        w.isOpaque = false; w.backgroundColor = .black; w.scrollView.backgroundColor = .black
+        w.scrollView.contentInsetAdjustmentBehavior = .never
+        // DRAGONGATE: WebKit-layer drawbridge. Every http(s)/ws load that is not 127.0.0.1/localhost is blocked unless the gate is
+        // online with an allowlist (covers <img>/<script>/<iframe> that dg-web.js cannot see). Page loads only after the rules are on.
+        DGWebSink.install(on: w)
+        // Typed chat commands (/gate …, :commands): the only door. Token lives in dg-cmd.js's closure; code shown in a native pop-up only.
+        let cmd = DGCmdSink()
+        cmd.showCode = { code in
+            let a = UIAlertController(title: "DRAGONGATE confirm", message: "Type in the chat box within 60 seconds:\n\n/gate confirm \(code)", preferredStyle: .alert)
+            a.addAction(UIAlertAction(title: "OK", style: .default))
+            var top = w.window?.rootViewController; while let p = top?.presentedViewController { top = p }
+            top?.present(a, animated: true)
+        }
+        cmd.onChange = { [weak w] in       // re-apply the WebKit drawbridge for the new online / kill / allowlist state
+            guard let w else { return }
+            WKContentRuleListStore.default().compileContentRuleList(forIdentifier: "dragongate", encodedContentRuleList: DGGate.shared.contentRuleListJSON()) { list, _ in
+                guard let list else { return }
+                w.configuration.userContentController.removeAllContentRuleLists(); w.configuration.userContentController.add(list)
+            }
+        }
+        w.configuration.userContentController.addScriptMessageHandler(cmd, contentWorld: .page, name: "dsGateCmd")
+        if let u = Bundle.main.resourceURL?.appendingPathComponent("web/dg-cmd.js"), let js = try? String(contentsOf: u, encoding: .utf8) {
+            w.configuration.userContentController.addUserScript(WKUserScript(source: cmd.userScript(dgCmdJS: js), injectionTime: .atDocumentStart, forMainFrameOnly: true))
+        }
+        w.configuration.userContentController.addUserScript(WKUserScript(source: DGGate.shared.userScriptSource(dgWebJS: ""), injectionTime: .atDocumentStart, forMainFrameOnly: true))   // policy snapshot for dg-web.js
+        WKContentRuleListStore.default().compileContentRuleList(forIdentifier: "dragongate", encodedContentRuleList: DGGate.shared.contentRuleListJSON()) { list, err in
+            if let list { w.configuration.userContentController.add(list) }
+            else { MemoryStore.shared.event("gate", "gate-webkit-rules-error", "WKContentRuleList compile failed: \(err.map { "\($0)" } ?? "?") · dg-web.js still gates fetch/XHR/WS") }
+            w.load(URLRequest(url: URL(string: "http://127.0.0.1:8319/scout.html")!))
+        }
+        if selftest {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+                w.evaluateJavaScript("(function(){var m=document.getElementById('message'),f=document.getElementById('composer');if(m&&f){m.value='What is (2+4+6)/3?';f.requestSubmit();}})()")
+            }
+        }
+        return w
+    }
+    func updateUIView(_ v: WKWebView, context: Context) {}
+}
+
+extension DGWebSink {
+    /// Main-frame records from dg-web.js (webkit.messageHandlers.rosGate). Subframes (RVM iframe, web content) are ignored by DGWebSink.
+    static func install(on w: WKWebView) { w.configuration.userContentController.add(DGWebSink(), name: "rosGate") }
+}
+
+struct RootView: View {
+    @StateObject var st = AppState()
+    @Environment(\.scenePhase) private var scenePhase
+    var body: some View {
+        ZStack {
+            Color.black.ignoresSafeArea()
+            switch st.phase {
+            case .checking: status("Checking model fingerprint…")
+            case .loading: status("Loading DRAGON SKULL engine…")
+            case .ready: WebView(selftest: st.selftest).ignoresSafeArea(.container, edges: .bottom)
+            case .refused(let why):
+                VStack(spacing: 14) {
+                    Text("☠︎ DRAGON SKULL refused to start").font(.title2.bold()).foregroundColor(.red)
+                    Text(why).font(.footnote.monospaced()).foregroundColor(.white).multilineTextAlignment(.center)
+                }.padding()
+            }
+        }
+        .preferredColorScheme(.dark)
+        .onAppear { st.boot() }
+        .onChange(of: scenePhase) { ph in
+            if ph == .active, let srv = st.server { srv.ensureAlive(); st.log("resume: local server checked"); SelfUpdater.shared.checkIfDue(reason: "resume") }
+        }
+    }
+    func status(_ s: String) -> some View {
+        VStack(spacing: 12) { ProgressView().tint(.white); Text(s).foregroundColor(.white) }
+    }
+}
+
+@main struct DragonSkullApp: App {
+    var body: some Scene { WindowGroup { RootView() } }
+}

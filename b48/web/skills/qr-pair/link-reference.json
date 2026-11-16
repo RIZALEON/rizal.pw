@@ -1,0 +1,53 @@
+{
+ "schema": "rzl.link.reference.v1",
+ "reference": "Neo (rizals-MacBook-Neo) · Rizal law: the Neo is the reference version",
+ "source": "read-only snapshot 2026-10-22 of Neo DRAGON SKULL web skills/qr-pair/state.json + Ghost Chain seq 121",
+ "dragonskull": {
+  "app": "com.rzl.dragonskull",
+  "version": "1.0.4",
+  "build": "10"
+ },
+ "manual": {
+  "id": "YAMANUAL-MERGED",
+  "version": null,
+  "note": "not declared as a number yet; Rizal/MEKANICA to set (latest file seen: YAMANUAL-MERGED-20261022-rev2)"
+ },
+ "updateSeq": {
+  "value": null,
+  "note": "proposal: Ghost Chain seq of the last egg event (121 at snapshot). Not set until Rizal agrees."
+ },
+ "commandsCount": 53,
+ "components": [
+  {
+   "id": "parts-guide",
+   "version": "0.1.0"
+  },
+  {
+   "id": "batibabox-rt",
+   "version": "2.1.7"
+  },
+  {
+   "id": "rvm",
+   "version": "0.1.4"
+  }
+ ],
+ "eggs": [
+  {
+   "id": "batibabox-embed",
+   "version": "2.1.7"
+  },
+  {
+   "id": "trust-keys",
+   "version": "0.0.2"
+  },
+  {
+   "id": "qr-pair",
+   "version": "0.1.0"
+  },
+  {
+   "id": "qr-pair",
+   "version": "0.2.0",
+   "state": "staged unsigned"
+  }
+ ]
+}

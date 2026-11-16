@@ -1,0 +1,82 @@
+/* RDRAGON iOS media+audio up1 (2026-10-25).
+   Images: inline display of image links / data URLs / /api/img paths in chat, tap to zoom; photo-library pick (<input type=file>) or paste -> inline + SEE request.
+   SEE/SSHOT: the 1.0.4(8) binary links no Vision framework and exposes no vision bridge, so SEE is RELAYED: private {v:1,kind:'rdragon.job',job:'see',...} to the Neo outbox;
+   the answer comes back as rdragon.reply. SSHOT of the phone screen is not possible from an egg.
+   Audio: /say /voices /voice /speed /stop run on-device via Web Speech speechSynthesis (WKWebView = AVSpeechSynthesizer underneath). Heavy jobs relayed to the Neo as SCOUT's rdragon.job {v,kind,id,cmd,args{},media,par?,by,device,ts,sig:null}; results rdragon.job.result render under the originating post/command.
+   /listen /transcribe-mic: BLOCKED (no NSMicrophoneUsageDescription in the 1.0.4(8) Info.plist). No network, no keys. */
+(function(root,f){var m=f();if(typeof module==='object'&&module.exports)module.exports=m;else root.RDRAGON_MEDIA=m})(typeof self!=='undefined'?self:this,function(){
+ /* SCOUT final job cmds; extra relay commands map to the closest one, the rest are FLAGGED (not sent) */
+ var CMDS=['img','see','sshot','say','narrate','sfx','music','beat','mix','makevoice','sing','rap'];
+ var MAP={beats:'beat',readback:'narrate',loop:'mix',trim:'mix',louder:'mix',quieter:'mix',rhyme:'rap',instrumental:'music'};
+ var FLAG={transcribe:'transcribe is not in the job list'};var FB=['reflect','teach'];
+ var HEAVY=CMDS.filter(function(c){return c!=='say'}).concat(Object.keys(MAP),['make'],Object.keys(FLAG));
+ var SAFE=/^(blob:|data:(image|audio)\/[a-z0-9.+-]+;base64,|\.\/|\/api\/(img|audio)\/)/i;
+ var LOCAL=['say','speak','voices','voice','speed','stop','audio','play'];
+ var IMG=/(data:image\/(png|jpe?g|gif|webp);base64,[A-Za-z0-9+\/=]+|\/api\/img\/(file|shot)\?[^\s"'<>]+|https:\/\/[^\s"'<>]+\.(png|jpe?g|gif|webp))/gi;
+ /* IOS-GAPS 23: commands.json shape copied from Android data/commands.json, iOS 'where' values */
+ var COMMANDS=[{cmd:'SEE',help:'describe the last picture',where:'neo'},{cmd:'/say TEXT',help:'speak (speechSynthesis)',where:'phone'},{cmd:'/narrate TEXT',help:'deep slow narrator',where:'phone'},{cmd:'/readback',help:'speak the last answer',where:'phone'},{cmd:'/voices · /voice NAME · /speed N · /stop',help:'voices',where:'phone'},{cmd:'/make voice NAME PITCH RATE · /use voice NAME · /delete voice NAME',help:'voice sets',where:'phone'},{cmd:'/make voice like',help:'clone from an attached clip',where:'neo'},{cmd:'/beat STYLE BPM BARS · /beats',help:'WebAudio beatmaker',where:'phone'},{cmd:'/loop N · /trim A B · /louder · /quieter · /mix',help:'WebAudio edits of the last clip',where:'phone'},{cmd:'/sfx · /music · /make instrumental',help:'AudioLDM / MusicGen',where:'neo'},{cmd:'/sing · /rap · /rhyme',help:'vocals',where:'neo'},{cmd:'/sshot',help:'Neo screen',where:'neo'},{cmd:'/listen · /transcribe',help:'mic',where:'blocked'},{cmd:'/img [WxH] PROMPT',help:'image generation',where:'neo'},{cmd:'/reflect TEXT · /teach TEXT',help:'private correction feedback',where:'neo'}];
+ function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,8)}
+ function E(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+ function images(t){return(String(t||'').match(IMG)||[])}
+ function inline(t){var a=images(t);return a.map(function(u){return'<img class="gm-img" data-zoom="1" src="'+E(u)+'" alt="image">'}).join('')}
+ function create(o){o=o||{};var S=o.speech||(typeof window!=='undefined'&&window.speechSynthesis)||null,st={voice:null,rate:1},jobs=[],neo=o.neoReplica||null;
+  var LS=o.storage||(typeof localStorage!=='undefined'?localStorage:null),JK='rdragon.jobs.v1',WA=o.wa||(typeof window!=='undefined'&&window.RDRAGON_WA)||null,VK='rdragon.voicesets.v1';st.lastAudio=null;st.prevAudio=null;
+  function sets(){try{return JSON.parse(LS&&LS.getItem(VK)||'{}')}catch(e){return{}}}function putSets(v){try{LS&&LS.setItem(VK,JSON.stringify(v))}catch(e){}}
+  function setAudio(u){st.prevAudio=st.lastAudio;st.lastAudio=u;return u}
+  var results={},by=o.by||'@chaserizal',device=o.device||'17e';
+  function job(cmd,args,media,par){if(CMDS.indexOf(cmd)<0)return null;var j={v:1,kind:'rdragon.job',id:'job-'+uid(),cmd:cmd,args:(args&&typeof args==='object')?args:{text:String(args||'').slice(0,2000)},media:(media||[]).map(function(m){return{type:m.type,name:m.name,key:m.key,src:m.src}}),by:by,device:device,to:'neo',ts:new Date().toISOString(),sig:null};/* to:'neo' matches Android */if(par)j.par=par;jobs.push(j);try{if(neo&&neo.append)neo.append(j);else if(LS){var q=JSON.parse(LS.getItem(JK)||'[]');q.push(j);LS.setItem(JK,JSON.stringify(q.slice(-200)))}}catch(e){}return j}
+  var fbs=[];function feedback(mode,text,par){var f={v:1,kind:'rdragon.feedback',id:'fb-'+uid(),mode:mode,correction:String(text).trim().slice(0,1000),by:by,device:device,to:'neo',private:true,ts:new Date().toISOString(),sig:null};if(par)f.par=par;if(o.reply)f.reply=o.reply;fbs.push(f);try{if(neo&&neo.append)neo.append(f);else if(LS){var q=JSON.parse(LS.getItem('rdragon.feedback.v1')||'[]');q.push(f);LS.setItem('rdragon.feedback.v1',JSON.stringify(q.slice(-200)))}}catch(e){}return f}
+  function fileHtml(f){if(!f||!SAFE.test(f.src||''))return'<span class="csp-dim">'+E(f&&f.name||'file')+'</span>';var t=(f.type||'')+' '+(f.name||'')+' '+f.src;if(/audio|\.(wav|mp3|m4a|ogg|aac)\b/i.test(t))return'<audio controls preload="none" src="'+E(f.src)+'"></audio>';if(/image|\.(png|jpe?g|gif|webp)\b/i.test(t))return'<img class="gm-img" data-zoom="1" src="'+E(f.src)+'" alt="'+E(f.name||'')+'">';return'<span class="csp-dim">'+E(f.name||'file')+'</span>'}
+  function voices(){try{return S?S.getVoices().filter(function(v){return/^en/i.test(v.lang)}):[]}catch(e){return[]}}
+  function say(t,op){op=op||{};if(!S||typeof SpeechSynthesisUtterance==='undefined')return'speech not available here; sent to the Neo instead: '+job('say',{text:t}).id;var u=new SpeechSynthesisUtterance(String(t).slice(0,4000));u.rate=op.rate||st.rate;u.pitch=op.pitch||st.pitch||1;var v=voices().filter(function(x){return x.name===st.voice})[0];if(v)u.voice=v;S.cancel();S.speak(u);return(op.pitch?'narrating':'speaking')+(v?' ('+v.name+')':'')}
+  var M={feedbacks:function(){return fbs},st:st,setAudio:setAudio,sets:sets,COMMANDS:COMMANDS,HEAVY:HEAVY,CMDS:CMDS,MAP:MAP,FLAG:FLAG,
+   /* read-only: rdragon.job.result from sync; latest per job wins */
+   ingest:function(a){(a||[]).forEach(function(r){if(r&&r.v===1&&r.kind==='rdragon.job.result'&&r.job){var x=results[r.job];if(!x||(r.ts||'')>=(x.ts||''))results[r.job]=r}})},
+   result:function(jobId){return results[jobId]||null},
+   jobsFor:function(par){return jobs.filter(function(j){return j.par===par})},
+   resultHtml:function(jobId){var r=results[jobId],j=jobs.filter(function(x){return x.id===jobId})[0];if(!r)return'<div class="gm-job csp-dim">/'+E(j?j.cmd:'job')+' · queued for the Neo</div>';return'<div class="gm-job"><span class="csp-dim">/'+E(j?j.cmd:'job')+' · '+E(r.status)+'</span>'+(r.text?'<div>'+E(r.text)+'</div>':'')+(r.files||[]).map(fileHtml).join('')+'</div>'},
+   fileHtml:fileHtml,LOCAL:LOCAL,images:images,inline:inline,jobs:function(){return jobs},job:job,
+   /* returns {handled,text} for a composer line */
+   cmd:function(line,par){var m=/^\/(\w+)\s*([\s\S]*)$/.exec(String(line||'').trim());if(!m)return{handled:false};var c=m[1].toLowerCase(),a=m[2];
+    if(c==='listen'||(c==='transcribe'&&!/last/i.test(a)))return{handled:true,blocked:true,text:'/'+c+' needs the microphone, which RDRAGON iOS 1.0.4 (8) has no permission for. It needs a rebuild with a mic usage description. Record on the Neo with /listen there.'};
+    if(c==='say'||c==='speak')return{handled:true,text:say(a)};
+    /* IOS-GAPS 22: narrator voice local (pitch .7 rate .85) */
+    if(c==='narrate')return{handled:true,local:true,text:say(a,{pitch:.7,rate:.85})};
+    if(c==='readback'){var lt=o.lastText?o.lastText():'';if(!lt&&typeof document!=='undefined'){var b=[].slice.call(document.querySelectorAll('#log .turn.bot')).pop();lt=b?b.textContent:''}return{handled:true,local:true,text:lt?say(lt):'nothing to read back'}}
+    if(c==='commands'||c==='help')return{handled:true,text:COMMANDS.map(function(x){return x.cmd+' — '+x.help+' ['+x.where+']'}).join('\n')};
+    /* IOS-GAPS 19-21: WebAudio beat/loop/trim/louder/quieter/mix on the phone (port of Android); relay only if WebAudio is missing */
+    if(c==='beats')return{handled:true,local:true,text:'Beat styles: '+Object.keys(WA?WA.STY:{hiphop:1,trap:1,house:1,boombap:1,lofi:1,drill:1,rock:1,reggaeton:1}).join(', ')};
+    if(WA&&c==='beat'){var ba=a.trim().split(/\s+/);var pr=WA.beat((ba[0]||'hiphop').toLowerCase(),+ba[1]||0,+ba[2]||0).then(function(b){setAudio(b.url);return{text:'beat '+b.style+' '+b.bpm+' BPM, '+b.sec+' s',files:[{type:'audio',name:'beat.wav',src:b.url}]}});return{handled:true,local:true,text:'making a beat on the phone…',promise:pr}}
+    if(WA&&/^(loop|trim|louder|quieter)$/.test(c)){if(!st.lastAudio)return{handled:true,local:true,text:'No audio yet. Make a /beat or attach a clip first.'};var n=a.trim().split(/\s+/).map(Number),arg=c==='trim'?[n[0]||0,n[1]||0]:(n[0]||0);var pf=WA.fx(st.lastAudio,c,arg).then(function(u){setAudio(u);return{text:c+' done',files:[{type:'audio',name:c+'.wav',src:u}]}});return{handled:true,local:true,text:c+'…',promise:pf}}
+    if(WA&&c==='mix'&&st.lastAudio&&st.prevAudio){var pm=WA.mix(st.prevAudio,st.lastAudio).then(function(u){setAudio(u);return{text:'mixed the last two clips',files:[{type:'audio',name:'mix.wav',src:u}]}});return{handled:true,local:true,text:'mixing…',promise:pm}}
+    /* IOS-GAPS 24: voice sets local; clone (make voice like) relayed as makevoice */
+    if(c==='make'&&/^voice\s+(?!like\b)\S+/i.test(a)){var vp=a.trim().split(/\s+/).slice(1),vs=sets();vs[vp[0]]={voice:st.voice,pitch:+vp[1]||1,rate:+vp[2]||st.rate};putSets(vs);return{handled:true,local:true,text:'voice set '+vp[0]+' saved'}}
+    if(c==='use'&&/^voice\s+\S+/i.test(a)){var nm=a.trim().split(/\s+/)[1],x=sets()[nm];if(!x)return{handled:true,text:'no voice set '+nm};st.voice=x.voice;st.pitch=x.pitch;st.rate=x.rate;return{handled:true,local:true,text:'using voice set '+nm}}
+    if(c==='delete'&&/^voice\s+\S+/i.test(a)){var dn=a.trim().split(/\s+/)[1],dv=sets();delete dv[dn];putSets(dv);return{handled:true,local:true,text:'deleted voice set '+dn}}
+    if(c==='voices')return{handled:true,text:voices().map(function(v){return v.name}).join(', ')||'no on-device voices reported; Neo voice sets: use /voice <name> after sync'};
+    if(c==='voice'){st.voice=a.trim()||null;return{handled:true,text:'voice: '+(st.voice||'default')}}
+    if(c==='speed'){var r=parseFloat(a);if(r>0.4&&r<2.1)st.rate=r;return{handled:true,text:'speed '+st.rate}}
+    if(c==='stop'){try{S&&S.cancel()}catch(e){}return{handled:true,text:'stopped'}}
+    if(c==='audio')return{handled:true,text:'On the phone: /say /voices /voice /speed /stop. Sent to the Neo: /'+HEAVY.join(' /')}
+    /* /reflect /teach -> private rdragon.feedback with a correction, Neo only (not a job, never public) */
+    if(FB.indexOf(c)>=0){if(!a.trim())return{handled:true,text:'/'+c+' needs a correction text'};var f=feedback(c,a,par);return{handled:true,feedback:f,text:'/'+c+' sent privately to the Neo as feedback ('+f.id+').'}}
+    /* /img [WxH] prompt -> job {cmd:'img',args:{prompt,size?}} */
+    if(c==='img'){var sm=/^\s*(\d{2,4}x\d{2,4})\s+/i.exec(a),ia={prompt:(sm?a.slice(sm[0].length):a).trim().slice(0,2000)};if(sm)ia.size=sm[1].toLowerCase();if(!ia.prompt)return{handled:true,text:'/img needs a prompt'};var ij=job('img',ia,null,par);return{handled:true,relayed:true,job:ij,text:'/img queued for the Neo (job '+ij.id+'). The picture shows here when it syncs.'}}
+    if(FLAG[c])return{handled:true,flagged:true,text:'/'+c+': '+FLAG[c]+'.'};
+    if(HEAVY.indexOf(c)>=0||CMDS.indexOf(c)>=0){var k=MAP[c]||c;if(c==='make'){if(/^voice\b/i.test(a))k='makevoice';else if(/^(instrumental|music)\b/i.test(a))k='music';else return{handled:true,flagged:true,text:'/make: say /make voice … or /make instrumental …'}}
+     var args={text:a};if(k==='makevoice'&&/^voice\s+like\b/i.test(a)&&st.lastUpload)args.ref=st.lastUpload.key;if(MAP[c]==='mix')args.op=c;var j=job(k,args,null,par);return{handled:true,relayed:true,job:j,text:'/'+c+' queued for the Neo as '+k+' (job '+j.id+'). The result shows here when it syncs.'}}
+    return{handled:false}},
+   /* a picked/pasted picture: returns media ref + queues SEE on the Neo */
+   picture:function(name,dataUrl,par){if(!/^data:image\/(png|jpe?g|gif|webp|heic);base64,/.test(dataUrl||''))return null;var m={type:'image',name:name||'photo',src:dataUrl,key:'img-'+uid()};st.lastUpload=m;m.job=job('see',{q:'describe'},[{type:'image',name:m.name,key:m.key,src:dataUrl}],par||null).id;return m}};
+  return M}
+ /* browser wiring: composer commands + inline images + zoom */
+ if(typeof window!=='undefined'&&typeof document!=='undefined'){var I=create({neoReplica:window.RDRAGON_NEO_REPLICA});window.RDRAGON_MEDIA_I=I;
+  function out(role,html){var log=document.getElementById('log');if(!log)return;var d=document.createElement('div');d.className='turn '+role;d.innerHTML=html;log.appendChild(d);d.scrollIntoView&&d.scrollIntoView()}
+  window.addEventListener('submit',function(e){var f=e.target;if(!f||f.id!=='composer')return;var m=document.getElementById('message'),t=m?String(m.value||'').trim():'';var r=I.cmd(t);if(!r.handled)return;e.preventDefault();e.stopImmediatePropagation();m.value='';out('user',E('You: '+t));out('bot',E(r.text)+(r.job?'<div data-job="'+E(r.job.id)+'"></div>':''));if(r.promise)r.promise.then(function(x){out('bot',E(x.text)+(x.files||[]).map(I.fileHtml).join(''))},function(er){out('bot',E('audio failed: '+(er&&er.message||er)))})},true);
+  function paint(){[].forEach.call(document.querySelectorAll('[data-job]'),function(d){d.innerHTML=I.resultHtml(d.getAttribute('data-job'))})}window.RDRAGON_MEDIA_PAINT=paint;
+  var RP=window.RDRAGON_REPLICA;if(RP&&RP.entries)I.ingest(RP.entries());if(RP&&RP.onChange)RP.onChange(function(r){I.ingest(r.added);paint()});
+  new MutationObserver(function(ms){ms.forEach(function(x){[].forEach.call(x.addedNodes,function(n){if(n.nodeType===1&&!n.__img&&/turn/.test(n.className||'')){n.__img=1;var h=inline(n.textContent);if(h){var d=document.createElement('div');d.innerHTML=h;n.appendChild(d)}}})})}).observe(document.documentElement,{childList:true,subtree:true});
+  document.addEventListener('click',function(e){var t=e.target;if(t&&t.getAttribute&&t.getAttribute('data-zoom')){t.classList.toggle('gm-zoom')}});
+  document.addEventListener('paste',function(e){var it=(e.clipboardData&&e.clipboardData.items)||[];[].forEach.call(it,function(i){if(/^image\//.test(i.type)){var fr=new FileReader();fr.onload=function(){var m=I.picture('pasted',fr.result);if(m)out('user','<img class="gm-img" data-zoom="1" src="'+E(m.src)+'"> <span class="csp-dim">SEE queued for the Neo</span>')};fr.readAsDataURL(i.getAsFile())}})});
+ }
+ return{create:create,VERSION:'up1-20261025'}});

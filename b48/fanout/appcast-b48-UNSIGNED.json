@@ -1,0 +1,35 @@
+{
+ "format": "rlab-appcast.v1",
+ "signed": false,
+ "published": false,
+ "note": "UNSIGNED staging entry written by b48-fanout.sh. Apps will refuse this until Charles signs with Face ID (ed25519 keyId e5833fdfbbfe) and a separate GO publishes it to RIZALEON/RZL-EGG main dragon-skull/ios-web/appcast.json. This file is NOT the live feed.",
+ "keyId": "e5833fdfbbfe",
+ "updated": "2026-11-15 17:06:28 MST",
+ "native": {
+  "marketing_version": "1.0.6.0",
+  "build": "48",
+  "sha256": "\u2014",
+  "size": "\u2014",
+  "product_path": "\u2014"
+ },
+ "apps": {
+  "ios-web": {
+   "kind": "web",
+   "id": "info.rizal.dragonskull",
+   "version": "unknown",
+   "name": "",
+   "size": -1,
+   "sha256": "",
+   "url": "",
+   "ed25519": "",
+   "signed": false,
+   "published": false,
+   "keyId": "e5833fdfbbfe",
+   "notes": "UNSIGNED. Native product stamp is 1.0.6.0 build 48. Do not offer to devices until signed."
+  }
+ },
+ "signaturesPending": [
+  "ios-web",
+  "native-1.0.6.0-48"
+ ]
+}

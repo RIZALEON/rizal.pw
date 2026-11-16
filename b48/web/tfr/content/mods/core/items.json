@@ -1,0 +1,2827 @@
+[
+  {
+    "key": "dirt",
+    "name": "Dirt",
+    "places": "core:dirt",
+    "icon": "dirt"
+  },
+  {
+    "key": "stone",
+    "name": "Stone",
+    "places": "core:stone",
+    "icon": "stone"
+  },
+  {
+    "key": "planks",
+    "name": "Wood Planks",
+    "places": "core:planks",
+    "icon": "planks"
+  },
+  {
+    "key": "coal",
+    "name": "Coal",
+    "places": "",
+    "icon": "coal"
+  },
+  {
+    "key": "iron",
+    "name": "Iron",
+    "places": "",
+    "icon": "iron"
+  },
+  {
+    "key": "torch",
+    "name": "Torch",
+    "places": "core:torch",
+    "icon": "torch"
+  },
+  {
+    "key": "stone_brick",
+    "name": "Stone Brick",
+    "places": "core:stone_brick",
+    "icon": "stone_brick"
+  },
+  {
+    "key": "platform",
+    "name": "Wood Platform",
+    "places": "core:platform",
+    "icon": "platform"
+  },
+  {
+    "key": "sand",
+    "name": "Sand",
+    "places": "core:sand",
+    "icon": "sand"
+  },
+  {
+    "key": "gold",
+    "name": "Gold",
+    "places": "",
+    "icon": "gold"
+  },
+  {
+    "key": "crystal",
+    "name": "Glow Crystal",
+    "places": "core:crystal",
+    "icon": "crystal"
+  },
+  {
+    "key": "headaxe",
+    "name": "Igorot Headaxe",
+    "places": "",
+    "icon": "headaxe",
+    "tool": {
+      "axe": 60,
+      "use_time": 18,
+      "range": 5
+    },
+    "weapon": {
+      "damage": 24,
+      "knockback": 6.0,
+      "arc": "overhead"
+    },
+    "max_stack": 1
+  },
+  {
+    "key": "wood",
+    "name": "Wood",
+    "places": "",
+    "icon": "wood"
+  },
+  {
+    "key": "workbench",
+    "name": "Work Bench",
+    "places": "core:workbench",
+    "icon": "workbench"
+  },
+  {
+    "key": "door",
+    "name": "Wooden Door",
+    "places": "core:door_closed",
+    "icon": "door",
+    "tall": 3
+  },
+  {
+    "key": "chest",
+    "name": "Chest",
+    "places": "core:chest",
+    "icon": "chest"
+  },
+  {
+    "key": "sign",
+    "name": "Wooden Sign",
+    "places": "core:sign",
+    "icon": "sign"
+  },
+  {
+    "key": "rice",
+    "name": "Rice",
+    "places": "core:rice",
+    "icon": "rice"
+  },
+  {
+    "key": "rice_cake",
+    "name": "Rice Cake (heals 50)",
+    "places": "",
+    "icon": "rice_cake",
+    "heal": 50
+  },
+  {
+    "key": "blue_tea",
+    "name": "Blue Ternate Tea (+10 mana)",
+    "places": "",
+    "icon": "blue_tea",
+    "mana": 10
+  },
+  {
+    "key": "salabat",
+    "name": "Salabat (swiftness 60 s)",
+    "places": "",
+    "icon": "salabat",
+    "buff": "swiftness",
+    "buff_s": 60
+  },
+  {
+    "key": "terra_tool",
+    "name": "Terra-Tool",
+    "places": "",
+    "icon": "terra_tool",
+    "tool": {
+      "pick": 55,
+      "shovel": 70,
+      "use_time": 14,
+      "range": 5
+    },
+    "max_stack": 1
+  },
+  {
+    "key": "terrace_stone",
+    "name": "Terrace Stone",
+    "places": "core:terrace_stone",
+    "icon": "terrace_stone"
+  },
+  {
+    "key": "thatch",
+    "name": "Thatch",
+    "places": "core:thatch",
+    "icon": "thatch"
+  },
+  {
+    "key": "hut_wood",
+    "name": "Hut Wood",
+    "places": "core:hut_wood",
+    "icon": "hut_wood"
+  },
+  {
+    "key": "ladder",
+    "name": "Ladder",
+    "places": "core:ladder",
+    "icon": "ladder"
+  },
+  {
+    "key": "hide",
+    "name": "Raw Hide",
+    "icon": "hide",
+    "material": true
+  },
+  {
+    "key": "leather",
+    "name": "Leather (Katad)",
+    "icon": "leather",
+    "material": true
+  },
+  {
+    "key": "fur",
+    "name": "Fur",
+    "icon": "fur",
+    "material": true
+  },
+  {
+    "key": "feather",
+    "name": "Feather",
+    "icon": "feather",
+    "material": true
+  },
+  {
+    "key": "bone",
+    "name": "Bone",
+    "icon": "bone",
+    "material": true
+  },
+  {
+    "key": "scales",
+    "name": "Scales",
+    "icon": "scales",
+    "material": true
+  },
+  {
+    "key": "shell",
+    "name": "Shell",
+    "icon": "shell",
+    "material": true
+  },
+  {
+    "key": "venom",
+    "name": "Venom Gland",
+    "icon": "venom",
+    "material": true
+  },
+  {
+    "key": "silk",
+    "name": "Wild Silk",
+    "icon": "silk",
+    "material": true
+  },
+  {
+    "key": "honey",
+    "name": "Wild Honey (Pulot)",
+    "icon": "honey",
+    "material": true
+  },
+  {
+    "key": "fish_oil",
+    "name": "Fish Oil",
+    "icon": "fish_oil",
+    "material": true
+  },
+  {
+    "key": "chitin",
+    "name": "Chitin",
+    "icon": "chitin",
+    "material": true
+  },
+  {
+    "key": "ink",
+    "name": "Ink Sac",
+    "icon": "ink",
+    "material": true
+  },
+  {
+    "key": "pearl",
+    "name": "Pearl (Perlas)",
+    "icon": "pearl",
+    "material": true
+  },
+  {
+    "key": "tusk",
+    "name": "Tusk",
+    "icon": "tusk",
+    "material": true
+  },
+  {
+    "key": "horn",
+    "name": "Horn",
+    "icon": "horn",
+    "material": true
+  },
+  {
+    "key": "antler",
+    "name": "Antler",
+    "icon": "antler",
+    "material": true
+  },
+  {
+    "key": "talon",
+    "name": "Talon",
+    "icon": "talon",
+    "material": true
+  },
+  {
+    "key": "tooth",
+    "name": "Tooth",
+    "icon": "tooth",
+    "material": true
+  },
+  {
+    "key": "quill",
+    "name": "Quill",
+    "icon": "quill",
+    "material": true
+  },
+  {
+    "key": "wool",
+    "name": "Wool",
+    "icon": "wool",
+    "material": true
+  },
+  {
+    "key": "fiber",
+    "name": "Abaca Fiber",
+    "icon": "fiber",
+    "material": true
+  },
+  {
+    "key": "cloth",
+    "name": "Woven Cloth (Habi)",
+    "icon": "cloth",
+    "material": true
+  },
+  {
+    "key": "musk",
+    "name": "Musk",
+    "icon": "musk",
+    "material": true
+  },
+  {
+    "key": "toxin",
+    "name": "Frog Toxin",
+    "icon": "toxin",
+    "material": true
+  },
+  {
+    "key": "snake_skin",
+    "name": "Shed Snake Skin",
+    "icon": "snake_skin",
+    "material": true
+  },
+  {
+    "key": "wing_scale",
+    "name": "Wing Scales",
+    "icon": "wing_scale",
+    "material": true
+  },
+  {
+    "key": "molt",
+    "name": "Cicada Molt",
+    "icon": "molt",
+    "material": true
+  },
+  {
+    "key": "fossil",
+    "name": "Fossil",
+    "icon": "fossil",
+    "material": true
+  },
+  {
+    "key": "coral_piece",
+    "name": "Coral Piece",
+    "icon": "coral_piece",
+    "material": true
+  },
+  {
+    "key": "basalt",
+    "name": "Basalt",
+    "icon": "basalt",
+    "material": true,
+    "places": "core:basalt"
+  },
+  {
+    "key": "seeds",
+    "name": "Seeds",
+    "icon": "seeds",
+    "material": true
+  },
+  {
+    "key": "grub",
+    "name": "Grub",
+    "icon": "grub",
+    "material": true
+  },
+  {
+    "key": "trepang",
+    "name": "Trepang",
+    "icon": "trepang",
+    "material": true
+  },
+  {
+    "key": "raw_meat",
+    "name": "Raw Meat",
+    "icon": "raw_meat",
+    "heal": 5,
+    "food": true
+  },
+  {
+    "key": "raw_fish",
+    "name": "Raw Fish",
+    "icon": "raw_fish",
+    "heal": 5,
+    "food": true
+  },
+  {
+    "key": "egg",
+    "name": "Egg (Itlog)",
+    "icon": "egg",
+    "heal": 8,
+    "food": true
+  },
+  {
+    "key": "milk",
+    "name": "Carabao Milk (Gatas)",
+    "icon": "milk",
+    "heal": 15,
+    "food": true
+  },
+  {
+    "key": "turtle_egg",
+    "name": "Turtle Egg",
+    "icon": "turtle_egg",
+    "note": "protected - better left on the beach",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "fruit",
+    "name": "Wild Mango (Mangga)",
+    "icon": "fruit",
+    "heal": 10,
+    "food": true
+  },
+  {
+    "key": "herb",
+    "name": "Herbs (Halamang-gamot)",
+    "icon": "herb",
+    "food": true
+  },
+  {
+    "key": "root_crop",
+    "name": "Ube (Purple Yam)",
+    "icon": "root_crop",
+    "heal": 12,
+    "food": true
+  },
+  {
+    "key": "coffee_cherry",
+    "name": "Coffee Cherry (Kape)",
+    "icon": "coffee_cherry",
+    "food": true,
+    "heal": 4
+  },
+  {
+    "key": "kumpay",
+    "name": "Fodder (Kumpay)",
+    "icon": "kumpay",
+    "food": true,
+    "note": "every grazer likes it"
+  },
+  {
+    "key": "inihaw",
+    "name": "Inihaw na Karne",
+    "icon": "inihaw",
+    "heal": 35
+  },
+  {
+    "key": "inihaw_isda",
+    "name": "Inihaw na Isda",
+    "icon": "inihaw_isda",
+    "heal": 30
+  },
+  {
+    "key": "nilagang_itlog",
+    "name": "Boiled Egg",
+    "icon": "nilagang_itlog",
+    "heal": 20
+  },
+  {
+    "key": "lambat",
+    "name": "Net (Lambat)",
+    "icon": "lambat",
+    "capture": "net",
+    "note": "use on a tiny-medium creature; better when it is hurt or stunned"
+  },
+  {
+    "key": "snare",
+    "name": "Snare (Silo)",
+    "icon": "snare",
+    "places": "core:snare"
+  },
+  {
+    "key": "fish_trap",
+    "name": "Fish Trap (Bubo)",
+    "icon": "fish_trap",
+    "places": "core:fish_trap"
+  },
+  {
+    "key": "cage",
+    "name": "Cage (Kulungan)",
+    "icon": "cage",
+    "places": "core:cage"
+  },
+  {
+    "key": "fence",
+    "name": "Bamboo Fence (Bakod)",
+    "icon": "fence",
+    "places": "core:fence"
+  },
+  {
+    "key": "pen_gate",
+    "name": "Pen Gate (Kural)",
+    "icon": "pen_gate",
+    "places": "core:pen_gate"
+  },
+  {
+    "key": "tanning_rack",
+    "name": "Tanning Rack",
+    "icon": "tanning_rack",
+    "places": "core:tanning_rack"
+  },
+  {
+    "key": "loom",
+    "name": "Loom (Habihan)",
+    "icon": "loom",
+    "places": "core:loom"
+  },
+  {
+    "key": "apothecary",
+    "name": "Albularyo Table",
+    "icon": "apothecary",
+    "places": "core:apothecary"
+  },
+  {
+    "key": "dapog",
+    "name": "Dapog Hearth",
+    "icon": "dapog",
+    "places": "core:dapog"
+  },
+  {
+    "key": "pamalo",
+    "name": "Stun Club (Pamalo)",
+    "icon": "pamalo",
+    "weapon": {
+      "damage": 3,
+      "stun": 4.0,
+      "knockback": 2.0,
+      "arc": "overhead"
+    },
+    "tool": {
+      "use_time": 20,
+      "range": 3
+    }
+  },
+  {
+    "key": "sumpit",
+    "name": "Blowgun (Sumpit)",
+    "icon": "sumpit",
+    "weapon": {
+      "damage": 1,
+      "stun": 6.0,
+      "ranged": 10,
+      "ammo": "core:dart"
+    },
+    "tool": {
+      "use_time": 30,
+      "range": 10
+    }
+  },
+  {
+    "key": "dart",
+    "name": "Sleep Dart (Pana)",
+    "icon": "dart",
+    "max_stack": 99
+  },
+  {
+    "key": "sibat",
+    "name": "Spear (Sibat)",
+    "icon": "sibat",
+    "weapon": {
+      "damage": 18,
+      "knockback": 4.0,
+      "arc": "thrust",
+      "reach": 4
+    },
+    "tool": {
+      "use_time": 22,
+      "range": 4
+    }
+  },
+  {
+    "key": "bahag",
+    "name": "Bahag (Loincloth)",
+    "icon": "bahag",
+    "wear": {
+      "slot": "body",
+      "def": 1
+    }
+  },
+  {
+    "key": "tapis",
+    "name": "Tapis (Wrap Skirt)",
+    "icon": "tapis",
+    "wear": {
+      "slot": "body",
+      "def": 1,
+      "trust": 0.1
+    }
+  },
+  {
+    "key": "salakot",
+    "name": "Salakot (Hat)",
+    "icon": "salakot",
+    "wear": {
+      "slot": "head",
+      "def": 1
+    }
+  },
+  {
+    "key": "baluti",
+    "name": "Baluti (Scale Armor)",
+    "icon": "baluti",
+    "wear": {
+      "slot": "body",
+      "def": 5
+    }
+  },
+  {
+    "key": "kalasag",
+    "name": "Kalasag (Shield)",
+    "icon": "kalasag",
+    "wear": {
+      "slot": "hand",
+      "def": 3
+    }
+  },
+  {
+    "key": "putong",
+    "name": "Feather Putong (Headdress)",
+    "icon": "putong",
+    "wear": {
+      "slot": "head",
+      "def": 1,
+      "trust": 0.25
+    }
+  },
+  {
+    "key": "anting_anting",
+    "name": "Pearl Anting-anting (Amulet)",
+    "icon": "anting_anting",
+    "wear": {
+      "slot": "neck",
+      "def": 0,
+      "gift": 0.5
+    }
+  },
+  {
+    "key": "balabal",
+    "name": "Fur Balabal (Cloak)",
+    "icon": "balabal",
+    "wear": {
+      "slot": "back",
+      "def": 2
+    }
+  },
+  {
+    "key": "lagundi_syrup",
+    "name": "Lagundi Syrup",
+    "icon": "lagundi_syrup",
+    "heal": 45,
+    "medicine": true
+  },
+  {
+    "key": "hilot_oil",
+    "name": "Hilot Oil",
+    "icon": "hilot_oil",
+    "heal": 20,
+    "regen": 30,
+    "medicine": true
+  },
+  {
+    "key": "antivenom",
+    "name": "Antivenom (Kontra-kamandag)",
+    "icon": "antivenom",
+    "cure": "poison",
+    "heal": 10,
+    "medicine": true
+  },
+  {
+    "key": "sambong_tonic",
+    "name": "Sambong Tonic",
+    "icon": "sambong_tonic",
+    "cure": "poison",
+    "heal": 25,
+    "medicine": true
+  },
+  {
+    "key": "night_eye_tea",
+    "name": "Night-eye Tea",
+    "icon": "night_eye_tea",
+    "buff": "night_eye",
+    "medicine": true
+  },
+  {
+    "key": "swim_draught",
+    "name": "Pawikan Draught",
+    "icon": "swim_draught",
+    "buff": "swim",
+    "medicine": true
+  },
+  {
+    "key": "lakas_brew",
+    "name": "Lakas Brew (Strength)",
+    "icon": "lakas_brew",
+    "buff": "strength",
+    "medicine": true
+  },
+  {
+    "key": "agar_agar_seed",
+    "name": "Agar-agar Cutting",
+    "icon": "fl_agar_agar",
+    "plants": "agar_agar"
+  },
+  {
+    "key": "aglaonema_seed",
+    "name": "Aglaonema Cutting",
+    "icon": "fl_aglaonema",
+    "plants": "aglaonema"
+  },
+  {
+    "key": "alimpigao_seed",
+    "name": "Alimpigao Cutting",
+    "icon": "fl_alimpigao",
+    "plants": "alimpigao"
+  },
+  {
+    "key": "almaciga_resin",
+    "name": "Almaciga Resin",
+    "icon": "fl_almaciga",
+    "flora": "almaciga",
+    "material": true
+  },
+  {
+    "key": "almaciga_seed",
+    "name": "Almaciga Sapling",
+    "icon": "fl_almaciga",
+    "plants": "almaciga"
+  },
+  {
+    "key": "alugbati",
+    "name": "Alugbati",
+    "icon": "fl_alugbati",
+    "flora": "alugbati",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "alugbati_seed",
+    "name": "Alugbati Cutting",
+    "icon": "fl_alugbati",
+    "plants": "alugbati"
+  },
+  {
+    "key": "ampalaya",
+    "name": "Ampalaya",
+    "icon": "fl_ampalaya",
+    "flora": "ampalaya",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "ampalaya_seed",
+    "name": "Ampalaya Seeds",
+    "icon": "seeds",
+    "plants": "ampalaya"
+  },
+  {
+    "key": "anahaw_leaf",
+    "name": "Anahaw Leaf",
+    "icon": "fl_anahaw",
+    "flora": "anahaw",
+    "material": true
+  },
+  {
+    "key": "anahaw_seed",
+    "name": "Anahaw Sapling",
+    "icon": "fl_anahaw",
+    "plants": "anahaw"
+  },
+  {
+    "key": "apitong_seed",
+    "name": "Apitong Sapling",
+    "icon": "fl_apitong",
+    "plants": "apitong"
+  },
+  {
+    "key": "ar_arosip_seed",
+    "name": "Ar-arosip Cutting",
+    "icon": "fl_ar_arosip",
+    "plants": "ar_arosip"
+  },
+  {
+    "key": "arrowroot",
+    "name": "Arrowroot",
+    "icon": "fl_arrowroot",
+    "flora": "arrowroot",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "arrowroot_seed",
+    "name": "Arrowroot Tuber",
+    "icon": "fl_arrowroot",
+    "plants": "arrowroot"
+  },
+  {
+    "key": "atis",
+    "name": "Atis",
+    "icon": "fl_atis",
+    "flora": "atis",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "atis_seed",
+    "name": "Atis Seeds",
+    "icon": "seeds",
+    "plants": "atis"
+  },
+  {
+    "key": "bago_fruit",
+    "name": "Bago Fruit",
+    "icon": "fl_bago",
+    "flora": "bago",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "bago_seed",
+    "name": "Bago Sapling",
+    "icon": "fl_bago",
+    "plants": "bago"
+  },
+  {
+    "key": "bakaw_fruit_seed",
+    "name": "Bakaw Fruit Cutting",
+    "icon": "fl_bakaw_fruit",
+    "plants": "bakaw_fruit"
+  },
+  {
+    "key": "bakawan_wood",
+    "name": "Bakawan Wood",
+    "icon": "fl_red_mangrove",
+    "flora": "red_mangrove",
+    "material": true
+  },
+  {
+    "key": "balimbing",
+    "name": "Balimbing",
+    "icon": "fl_balimbing",
+    "flora": "balimbing",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "balimbing_seed",
+    "name": "Balimbing Sapling",
+    "icon": "fl_balimbing",
+    "plants": "balimbing"
+  },
+  {
+    "key": "banaba_fruiting_seed",
+    "name": "Banaba Sapling",
+    "icon": "fl_banaba_fruiting",
+    "plants": "banaba_fruiting"
+  },
+  {
+    "key": "banaba_leaf",
+    "name": "Banaba Leaf",
+    "icon": "fl_banaba_fruiting",
+    "flora": "banaba_fruiting",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "banaba_seed",
+    "name": "Banaba Sapling",
+    "icon": "fl_banaba",
+    "plants": "banaba"
+  },
+  {
+    "key": "banana_fiber",
+    "name": "Banana Fiber",
+    "icon": "fl_banana",
+    "flora": "banana",
+    "material": true
+  },
+  {
+    "key": "banana_leaf",
+    "name": "Banana Leaf",
+    "icon": "fl_banana",
+    "flora": "banana",
+    "material": true
+  },
+  {
+    "key": "banana_seed",
+    "name": "Banana Sucker",
+    "icon": "fl_banana",
+    "plants": "banana"
+  },
+  {
+    "key": "bataw",
+    "name": "Bataw",
+    "icon": "fl_bataw",
+    "flora": "bataw",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "bataw_seed",
+    "name": "Bataw Seeds",
+    "icon": "seeds",
+    "plants": "bataw"
+  },
+  {
+    "key": "bawang",
+    "name": "Bawang",
+    "icon": "fl_bawang",
+    "flora": "bawang",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "bawang_seed",
+    "name": "Bawang Bulb",
+    "icon": "fl_bawang",
+    "plants": "bawang"
+  },
+  {
+    "key": "beach_morning_glory_seed",
+    "name": "Beach Morning Glory Cutting",
+    "icon": "fl_beach_morning_glory",
+    "plants": "beach_morning_glory"
+  },
+  {
+    "key": "beach_spinifex_seed",
+    "name": "Beach Spinifex Seeds",
+    "icon": "seeds",
+    "plants": "beach_spinifex"
+  },
+  {
+    "key": "bignay",
+    "name": "Bignay",
+    "icon": "fl_bignay",
+    "flora": "bignay",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "bignay_seed",
+    "name": "Bignay Seeds",
+    "icon": "seeds",
+    "plants": "bignay"
+  },
+  {
+    "key": "black_gram_seed",
+    "name": "Mungo Seeds",
+    "icon": "seeds",
+    "plants": "black_gram"
+  },
+  {
+    "key": "black_mangrove_seed",
+    "name": "Black Mangrove Sapling",
+    "icon": "fl_black_mangrove",
+    "plants": "black_mangrove"
+  },
+  {
+    "key": "blue_sponge_seed",
+    "name": "Blue Sponge Fragment",
+    "icon": "fl_blue_sponge",
+    "plants": "blue_sponge"
+  },
+  {
+    "key": "brain_coral_seed",
+    "name": "Brain Coral Fragment",
+    "icon": "fl_brain_coral",
+    "plants": "brain_coral"
+  },
+  {
+    "key": "breadfruit_seed",
+    "name": "Breadfruit Sapling",
+    "icon": "fl_breadfruit",
+    "plants": "breadfruit"
+  },
+  {
+    "key": "brown_algae_seed",
+    "name": "Brown Algae Cutting",
+    "icon": "fl_brown_algae",
+    "plants": "brown_algae"
+  },
+  {
+    "key": "bugnay",
+    "name": "Bugnay",
+    "icon": "fl_bugnay",
+    "flora": "bugnay",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "bugnay_seed",
+    "name": "Bugnay Seeds",
+    "icon": "seeds",
+    "plants": "bugnay"
+  },
+  {
+    "key": "buho_seed",
+    "name": "Buho Bamboo Cutting",
+    "icon": "fl_buho",
+    "plants": "buho"
+  },
+  {
+    "key": "buri_fiber",
+    "name": "Buri Fiber",
+    "icon": "fl_buri_palm",
+    "flora": "buri_palm",
+    "material": true
+  },
+  {
+    "key": "buri_palm_seed",
+    "name": "Buri Palm Sapling",
+    "icon": "fl_buri_palm",
+    "plants": "buri_palm"
+  },
+  {
+    "key": "cacao",
+    "name": "Cacao",
+    "icon": "fl_cacao",
+    "flora": "cacao",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "cacao_seed",
+    "name": "Cacao Cutting",
+    "icon": "fl_cacao",
+    "plants": "cacao"
+  },
+  {
+    "key": "caimito",
+    "name": "Caimito",
+    "icon": "fl_caimito",
+    "flora": "caimito",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "caimito_seed",
+    "name": "Caimito Seeds",
+    "icon": "seeds",
+    "plants": "caimito"
+  },
+  {
+    "key": "camote",
+    "name": "Camote",
+    "icon": "fl_camote",
+    "flora": "camote",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "camote_seed",
+    "name": "Camote Tuber",
+    "icon": "fl_camote",
+    "plants": "camote"
+  },
+  {
+    "key": "cassava",
+    "name": "Cassava",
+    "icon": "fl_cassava",
+    "flora": "cassava",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "cassava_seed",
+    "name": "Cassava Cutting",
+    "icon": "fl_cassava",
+    "plants": "cassava"
+  },
+  {
+    "key": "coco_lumber",
+    "name": "Coco Lumber",
+    "icon": "fl_coconut",
+    "flora": "coconut",
+    "material": true
+  },
+  {
+    "key": "coconut_seed",
+    "name": "Coconut Sapling",
+    "icon": "fl_coconut",
+    "plants": "coconut"
+  },
+  {
+    "key": "coffee_seed",
+    "name": "Coffee Cutting",
+    "icon": "fl_coffee",
+    "plants": "coffee"
+  },
+  {
+    "key": "cogon",
+    "name": "Cogon grass",
+    "icon": "fl_cogon",
+    "flora": "cogon",
+    "material": true
+  },
+  {
+    "key": "cogon_seed",
+    "name": "Alang-alang Seeds",
+    "icon": "seeds",
+    "plants": "cogon"
+  },
+  {
+    "key": "coir",
+    "name": "Coir (coconut fibre)",
+    "icon": "fl_coconut",
+    "flora": "coconut",
+    "material": true
+  },
+  {
+    "key": "coral_sand",
+    "name": "Coral Sand",
+    "icon": "fl_halimeda",
+    "flora": "halimeda",
+    "material": true
+  },
+  {
+    "key": "corn_seed",
+    "name": "Corn Seeds",
+    "icon": "seeds",
+    "plants": "corn"
+  },
+  {
+    "key": "dao_seed",
+    "name": "Dao Sapling",
+    "icon": "fl_dao",
+    "plants": "dao"
+  },
+  {
+    "key": "dictyota_seed",
+    "name": "Dictyota Cutting",
+    "icon": "fl_dictyota",
+    "plants": "dictyota"
+  },
+  {
+    "key": "duhat",
+    "name": "Duhat",
+    "icon": "fl_duhat",
+    "flora": "duhat",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "duhat_seed",
+    "name": "Duhat Sapling",
+    "icon": "fl_duhat",
+    "plants": "duhat"
+  },
+  {
+    "key": "durian",
+    "name": "Durian",
+    "icon": "fl_durian",
+    "flora": "durian",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "durian_seed",
+    "name": "Durian Sapling",
+    "icon": "fl_durian",
+    "plants": "durian"
+  },
+  {
+    "key": "fan_palm_seed",
+    "name": "Fan Palm Sapling",
+    "icon": "fl_fan_palm",
+    "plants": "fan_palm"
+  },
+  {
+    "key": "fern_trunk",
+    "name": "Fern Trunk",
+    "icon": "fl_tree_fern",
+    "flora": "tree_fern",
+    "material": true
+  },
+  {
+    "key": "fire_coral_seed",
+    "name": "Fire Coral Fragment",
+    "icon": "fl_fire_coral",
+    "plants": "fire_coral"
+  },
+  {
+    "key": "flower_orchid",
+    "name": "Flower Orchid",
+    "icon": "fl_moon_orchid",
+    "flora": "moon_orchid"
+  },
+  {
+    "key": "flower_pink",
+    "name": "Flower Pink",
+    "icon": "fl_medinilla",
+    "flora": "medinilla"
+  },
+  {
+    "key": "flower_red",
+    "name": "Flower Red",
+    "icon": "fl_kapisias",
+    "flora": "kapisias"
+  },
+  {
+    "key": "flower_waling",
+    "name": "Flower Waling",
+    "icon": "fl_waling_waling",
+    "flora": "waling_waling"
+  },
+  {
+    "key": "gabi",
+    "name": "Gabi",
+    "icon": "fl_taro",
+    "flora": "taro",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "giant_bamboo_seed",
+    "name": "Giant Bamboo Cutting",
+    "icon": "fl_giant_bamboo",
+    "plants": "giant_bamboo"
+  },
+  {
+    "key": "green_algae_seed",
+    "name": "Green Algae Cutting",
+    "icon": "fl_green_algae",
+    "plants": "green_algae"
+  },
+  {
+    "key": "gulaman",
+    "name": "Gulaman (agar seaweed)",
+    "icon": "fl_ar_arosip",
+    "flora": "ar_arosip",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "gumamela",
+    "name": "Gumamela",
+    "icon": "fl_gumamela",
+    "flora": "gumamela"
+  },
+  {
+    "key": "gumamela_seed",
+    "name": "Hibiscus Cutting",
+    "icon": "fl_gumamela",
+    "plants": "gumamela"
+  },
+  {
+    "key": "guyabano",
+    "name": "Guyabano",
+    "icon": "fl_guyabano",
+    "flora": "guyabano",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "guyabano_seed",
+    "name": "Guyabano Seeds",
+    "icon": "seeds",
+    "plants": "guyabano"
+  },
+  {
+    "key": "halimeda_seed",
+    "name": "Halimeda Cutting",
+    "icon": "fl_halimeda",
+    "plants": "halimeda"
+  },
+  {
+    "key": "hydrilla_seed",
+    "name": "Hydrilla Cutting",
+    "icon": "fl_hydrilla",
+    "plants": "hydrilla"
+  },
+  {
+    "key": "ilang_ilang",
+    "name": "Ilang Ilang",
+    "icon": "fl_ilang_ilang",
+    "flora": "ilang_ilang"
+  },
+  {
+    "key": "ilang_ilang_seed",
+    "name": "Ilang-ilang Cutting",
+    "icon": "fl_ilang_ilang",
+    "plants": "ilang_ilang"
+  },
+  {
+    "key": "jackfruit_seed",
+    "name": "Jackfruit Sapling",
+    "icon": "fl_jackfruit",
+    "plants": "jackfruit"
+  },
+  {
+    "key": "kabute",
+    "name": "Kabute",
+    "icon": "fl_kabute",
+    "flora": "kabute",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "kabute_seed",
+    "name": "Kabute Spores",
+    "icon": "seeds",
+    "plants": "kabute"
+  },
+  {
+    "key": "kalabasa",
+    "name": "Kalabasa",
+    "icon": "fl_kalabasa",
+    "flora": "kalabasa",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "kalabasa_seed",
+    "name": "Kalabasa Seeds",
+    "icon": "seeds",
+    "plants": "kalabasa"
+  },
+  {
+    "key": "kalumpit_seed",
+    "name": "Kalumpit Tuber",
+    "icon": "fl_kalumpit",
+    "plants": "kalumpit"
+  },
+  {
+    "key": "kamagong_seed",
+    "name": "Kamagong Sapling",
+    "icon": "fl_kamagong",
+    "plants": "kamagong"
+  },
+  {
+    "key": "kamagong_wood",
+    "name": "Kamagong (ebony)",
+    "icon": "fl_kamagong",
+    "flora": "kamagong",
+    "material": true
+  },
+  {
+    "key": "kamatis",
+    "name": "Kamatis",
+    "icon": "fl_kamatis",
+    "flora": "kamatis",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "kamatis_seed",
+    "name": "Kamatis Seeds",
+    "icon": "seeds",
+    "plants": "kamatis"
+  },
+  {
+    "key": "kamias",
+    "name": "Kamias",
+    "icon": "fl_kamias",
+    "flora": "kamias",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "kamias_seed",
+    "name": "Kamias Seeds",
+    "icon": "seeds",
+    "plants": "kamias"
+  },
+  {
+    "key": "kangkong",
+    "name": "Kangkong",
+    "icon": "fl_kangkong",
+    "flora": "kangkong",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "kangkong_seed",
+    "name": "Kangkong Cutting",
+    "icon": "fl_kangkong",
+    "plants": "kangkong"
+  },
+  {
+    "key": "kapisias_seed",
+    "name": "Kapisias Cutting",
+    "icon": "fl_kapisias",
+    "plants": "kapisias"
+  },
+  {
+    "key": "kawayan",
+    "name": "Kawayan (bamboo)",
+    "icon": "fl_kawayan_tinik",
+    "flora": "kawayan_tinik",
+    "material": true
+  },
+  {
+    "key": "kawayan_tinik_seed",
+    "name": "Kawayan Tinik Cutting",
+    "icon": "fl_kawayan_tinik",
+    "plants": "kawayan_tinik"
+  },
+  {
+    "key": "kugon_seed",
+    "name": "Kugon Tuber",
+    "icon": "fl_kugon",
+    "plants": "kugon"
+  },
+  {
+    "key": "kulasip_seed",
+    "name": "Kulasip Cutting",
+    "icon": "fl_kulasip",
+    "plants": "kulasip"
+  },
+  {
+    "key": "labanos",
+    "name": "Labanos",
+    "icon": "fl_labanos",
+    "flora": "labanos",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "labanos_seed",
+    "name": "Labanos Seeds",
+    "icon": "seeds",
+    "plants": "labanos"
+  },
+  {
+    "key": "labong",
+    "name": "Labong",
+    "icon": "fl_labong",
+    "flora": "labong",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "labuyo_gourd_seed",
+    "name": "Labuyo Seeds",
+    "icon": "seeds",
+    "plants": "labuyo_gourd"
+  },
+  {
+    "key": "lamang_dagat_seed",
+    "name": "Lamang-dagat Cutting",
+    "icon": "fl_lamang_dagat",
+    "plants": "lamang_dagat"
+  },
+  {
+    "key": "langka",
+    "name": "Langka (jackfruit)",
+    "icon": "fl_jackfruit",
+    "flora": "jackfruit",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "lansones",
+    "name": "Lansones",
+    "icon": "fl_lansones",
+    "flora": "lansones",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "lansones_seed",
+    "name": "Lansones Seeds",
+    "icon": "seeds",
+    "plants": "lansones"
+  },
+  {
+    "key": "lato",
+    "name": "Lato",
+    "icon": "fl_lato",
+    "flora": "lato",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "lato_seed",
+    "name": "Lato Cutting",
+    "icon": "fl_lato",
+    "plants": "lato"
+  },
+  {
+    "key": "lauan_seed",
+    "name": "Lauan Sapling",
+    "icon": "fl_lauan",
+    "plants": "lauan"
+  },
+  {
+    "key": "lauan_wood",
+    "name": "Lauan Wood",
+    "icon": "fl_tangile",
+    "flora": "tangile",
+    "material": true
+  },
+  {
+    "key": "lily_root",
+    "name": "Lily Root",
+    "icon": "fl_tubig_lily_roots",
+    "flora": "tubig_lily_roots",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "lily_stem",
+    "name": "Lily Stem",
+    "icon": "fl_water_lily",
+    "flora": "water_lily",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "linga",
+    "name": "Linga (sesame)",
+    "icon": "fl_sesame",
+    "flora": "sesame",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "lipote_palm_seed",
+    "name": "Lipote Palm Sapling",
+    "icon": "fl_lipote_palm",
+    "plants": "lipote_palm"
+  },
+  {
+    "key": "lotus_root",
+    "name": "Lotus Root",
+    "icon": "fl_lotus",
+    "flora": "lotus",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "lotus_seed",
+    "name": "Lotus Seed",
+    "icon": "fl_lotus",
+    "flora": "lotus",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "lumbang",
+    "name": "Lumbang",
+    "icon": "fl_lumbang",
+    "flora": "lumbang",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "lumbang_seed",
+    "name": "Lumbang / Candlenut Sapling",
+    "icon": "fl_lumbang",
+    "plants": "lumbang"
+  },
+  {
+    "key": "luya",
+    "name": "Luya",
+    "icon": "fl_luya",
+    "flora": "luya",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "luya_seed",
+    "name": "Luya Tuber",
+    "icon": "fl_luya",
+    "plants": "luya"
+  },
+  {
+    "key": "luyang_dilaw",
+    "name": "Luyang Dilaw (turmeric)",
+    "icon": "fl_turmeric",
+    "flora": "turmeric",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "mabolo",
+    "name": "Mabolo",
+    "icon": "fl_kamagong",
+    "flora": "kamagong",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "mais",
+    "name": "Mais (corn)",
+    "icon": "fl_corn",
+    "flora": "corn",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "makopa",
+    "name": "Makopa",
+    "icon": "fl_makopa",
+    "flora": "makopa",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "makopa_seed",
+    "name": "Makopa Seeds",
+    "icon": "seeds",
+    "plants": "makopa"
+  },
+  {
+    "key": "malagkit",
+    "name": "Malagkit (sticky rice)",
+    "icon": "fl_rice",
+    "flora": "rice",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "malunggay",
+    "name": "Malunggay",
+    "icon": "fl_malunggay",
+    "flora": "malunggay",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "malunggay_seed",
+    "name": "Malunggay Cutting",
+    "icon": "fl_malunggay",
+    "plants": "malunggay"
+  },
+  {
+    "key": "manatee_grass_seed",
+    "name": "Manatee Grass Cutting",
+    "icon": "fl_manatee_grass",
+    "plants": "manatee_grass"
+  },
+  {
+    "key": "mangga",
+    "name": "Mangga (mango)",
+    "icon": "fl_mango",
+    "flora": "mango",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "mango_seed",
+    "name": "Mango Sapling",
+    "icon": "fl_mango",
+    "plants": "mango"
+  },
+  {
+    "key": "mangosteen",
+    "name": "Mangosteen",
+    "icon": "fl_mangosteen",
+    "flora": "mangosteen",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "mangosteen_seed",
+    "name": "Mangosteen Seeds",
+    "icon": "seeds",
+    "plants": "mangosteen"
+  },
+  {
+    "key": "mani",
+    "name": "Mani",
+    "icon": "fl_mani",
+    "flora": "mani",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "mani_seed",
+    "name": "Mani Seeds",
+    "icon": "seeds",
+    "plants": "mani"
+  },
+  {
+    "key": "medicinal_ginger_seed",
+    "name": "Medicinal Ginger Cutting",
+    "icon": "fl_medicinal_ginger",
+    "plants": "medicinal_ginger"
+  },
+  {
+    "key": "medinilla_seed",
+    "name": "Medinilla Cutting",
+    "icon": "fl_medinilla",
+    "plants": "medinilla"
+  },
+  {
+    "key": "millet",
+    "name": "Millet",
+    "icon": "fl_millet",
+    "flora": "millet",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "millet_seed",
+    "name": "Millet Seeds",
+    "icon": "seeds",
+    "plants": "millet"
+  },
+  {
+    "key": "molave_seed",
+    "name": "Molave Sapling",
+    "icon": "fl_molave",
+    "plants": "molave"
+  },
+  {
+    "key": "molave_wood",
+    "name": "Molave Wood",
+    "icon": "fl_molave",
+    "flora": "molave",
+    "material": true
+  },
+  {
+    "key": "moon_orchid_seed",
+    "name": "Moon Orchid Cutting",
+    "icon": "fl_moon_orchid",
+    "plants": "moon_orchid"
+  },
+  {
+    "key": "munggo",
+    "name": "Munggo",
+    "icon": "fl_munggo",
+    "flora": "munggo",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "munggo_seed",
+    "name": "Munggo Seeds",
+    "icon": "seeds",
+    "plants": "munggo"
+  },
+  {
+    "key": "narra_fruit_seed",
+    "name": "Narra Fruit Seeds",
+    "icon": "seeds",
+    "plants": "narra_fruit"
+  },
+  {
+    "key": "narra_pod",
+    "name": "Narra Pod",
+    "icon": "fl_narra_fruit",
+    "flora": "narra_fruit",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "narra_seed",
+    "name": "Narra Sapling",
+    "icon": "fl_narra",
+    "plants": "narra"
+  },
+  {
+    "key": "narra_wood",
+    "name": "Narra Wood",
+    "icon": "fl_narra",
+    "flora": "narra",
+    "material": true
+  },
+  {
+    "key": "nato",
+    "name": "Nato",
+    "icon": "fl_nato",
+    "flora": "nato",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "nato_seed",
+    "name": "Nato Seeds",
+    "icon": "seeds",
+    "plants": "nato"
+  },
+  {
+    "key": "nipa_heart",
+    "name": "Nipa Heart",
+    "icon": "fl_nipa_palm",
+    "flora": "nipa_palm",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "nipa_leaf",
+    "name": "Nipa Leaf",
+    "icon": "fl_nipa_palm",
+    "flora": "nipa_palm",
+    "material": true
+  },
+  {
+    "key": "nipa_palm_seed",
+    "name": "Nipa Palm Sapling",
+    "icon": "fl_nipa_palm",
+    "plants": "nipa_palm"
+  },
+  {
+    "key": "nipa_sap",
+    "name": "Nipa Sap",
+    "icon": "fl_nipa_palm",
+    "flora": "nipa_palm"
+  },
+  {
+    "key": "niyog",
+    "name": "Niyog (coconut)",
+    "icon": "fl_coconut",
+    "flora": "coconut",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "okra",
+    "name": "Okra",
+    "icon": "fl_okra",
+    "flora": "okra",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "okra_seed",
+    "name": "Okra Seeds",
+    "icon": "seeds",
+    "plants": "okra"
+  },
+  {
+    "key": "padina_seed",
+    "name": "Padina Cutting",
+    "icon": "fl_padina",
+    "plants": "padina"
+  },
+  {
+    "key": "pagatpat",
+    "name": "Pagatpat fruit",
+    "icon": "fl_bakaw_fruit",
+    "flora": "bakaw_fruit",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "pako",
+    "name": "Pako",
+    "icon": "fl_pako",
+    "flora": "pako",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "pako_seed",
+    "name": "Pako Cutting",
+    "icon": "fl_pako",
+    "plants": "pako"
+  },
+  {
+    "key": "palay",
+    "name": "Palay (rice seed)",
+    "icon": "fl_rice",
+    "flora": "rice",
+    "plants": "rice"
+  },
+  {
+    "key": "paminta",
+    "name": "Paminta",
+    "icon": "fl_paminta",
+    "flora": "paminta",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "paminta_seed",
+    "name": "Paminta Cutting",
+    "icon": "fl_paminta",
+    "plants": "paminta"
+  },
+  {
+    "key": "pandan",
+    "name": "Pandan",
+    "icon": "fl_pandan",
+    "flora": "pandan",
+    "material": true
+  },
+  {
+    "key": "pandan_seed",
+    "name": "Pandan Cutting",
+    "icon": "fl_pandan",
+    "plants": "pandan"
+  },
+  {
+    "key": "papaya",
+    "name": "Papaya",
+    "icon": "fl_papaya",
+    "flora": "papaya",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "papaya_seed",
+    "name": "Papaya Seeds",
+    "icon": "seeds",
+    "plants": "papaya"
+  },
+  {
+    "key": "patola",
+    "name": "Patola",
+    "icon": "fl_patola",
+    "flora": "patola",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "patola_seed",
+    "name": "Patola Seeds",
+    "icon": "seeds",
+    "plants": "patola"
+  },
+  {
+    "key": "pechay",
+    "name": "Pechay",
+    "icon": "fl_pechay",
+    "flora": "pechay",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "pechay_seed",
+    "name": "Petchay Seeds",
+    "icon": "seeds",
+    "plants": "pechay"
+  },
+  {
+    "key": "ph_cycad_seed",
+    "name": "Philippine Cycad Sapling",
+    "icon": "fl_ph_cycad",
+    "plants": "ph_cycad"
+  },
+  {
+    "key": "ph_palm_seed",
+    "name": "Philippine Palm Sapling",
+    "icon": "fl_ph_palm",
+    "plants": "ph_palm"
+  },
+  {
+    "key": "ph_teak_seed",
+    "name": "Philippine Teak Sapling",
+    "icon": "fl_ph_teak",
+    "plants": "ph_teak"
+  },
+  {
+    "key": "pili_nut",
+    "name": "Pili Nut",
+    "icon": "fl_pili",
+    "flora": "pili",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "pili_resin",
+    "name": "Pili Resin",
+    "icon": "fl_pili",
+    "flora": "pili",
+    "material": true
+  },
+  {
+    "key": "pili_seed",
+    "name": "Pili Sapling",
+    "icon": "fl_pili",
+    "plants": "pili"
+  },
+  {
+    "key": "pili_wood",
+    "name": "Pili Wood",
+    "icon": "fl_pili",
+    "flora": "pili",
+    "material": true
+  },
+  {
+    "key": "pitcher_flower_seed",
+    "name": "Small Pitcher Flower Cutting",
+    "icon": "fl_pitcher_flower",
+    "plants": "pitcher_flower"
+  },
+  {
+    "key": "rambutan",
+    "name": "Rambutan",
+    "icon": "fl_rambutan",
+    "flora": "rambutan",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "rambutan_seed",
+    "name": "Rambutan Seeds",
+    "icon": "seeds",
+    "plants": "rambutan"
+  },
+  {
+    "key": "rattan",
+    "name": "Rattan",
+    "icon": "fl_rattan",
+    "flora": "rattan",
+    "material": true
+  },
+  {
+    "key": "rattan_seed",
+    "name": "Rattan Cutting",
+    "icon": "fl_rattan",
+    "plants": "rattan"
+  },
+  {
+    "key": "red_algae_seed",
+    "name": "Red Algae Cutting",
+    "icon": "fl_red_algae",
+    "plants": "red_algae"
+  },
+  {
+    "key": "red_mangrove_seed",
+    "name": "Red Mangrove Sapling",
+    "icon": "fl_red_mangrove",
+    "plants": "red_mangrove"
+  },
+  {
+    "key": "reef_algae_9_seed",
+    "name": "Reef Algae Cutting",
+    "icon": "fl_reef_algae_9",
+    "plants": "reef_algae_9"
+  },
+  {
+    "key": "resin",
+    "name": "Resin",
+    "icon": "fl_apitong",
+    "flora": "apitong",
+    "material": true
+  },
+  {
+    "key": "rimas",
+    "name": "Rimas (breadfruit)",
+    "icon": "fl_breadfruit",
+    "flora": "breadfruit",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "ruby_vine_seed",
+    "name": "Ruby Vine Cutting",
+    "icon": "fl_ruby_vine",
+    "plants": "ruby_vine"
+  },
+  {
+    "key": "saging",
+    "name": "Saging (banana)",
+    "icon": "fl_banana",
+    "flora": "banana",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "sago",
+    "name": "Sago",
+    "icon": "fl_sago_palm",
+    "flora": "sago_palm",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "sago_palm_seed",
+    "name": "Sago Palm Sapling",
+    "icon": "fl_sago_palm",
+    "plants": "sago_palm"
+  },
+  {
+    "key": "sampaguita",
+    "name": "Sampaguita",
+    "icon": "fl_sampaguita",
+    "flora": "sampaguita"
+  },
+  {
+    "key": "sampaguita_seed",
+    "name": "Sampaguita Cutting",
+    "icon": "fl_sampaguita",
+    "plants": "sampaguita"
+  },
+  {
+    "key": "sampalok",
+    "name": "Sampalok (tamarind)",
+    "icon": "fl_tamarind",
+    "flora": "tamarind",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "santol",
+    "name": "Santol",
+    "icon": "fl_santol",
+    "flora": "santol",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "santol_seed",
+    "name": "Santol Seeds",
+    "icon": "seeds",
+    "plants": "santol"
+  },
+  {
+    "key": "sayote",
+    "name": "Sayote",
+    "icon": "fl_sayote",
+    "flora": "sayote",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "sayote_seed",
+    "name": "Sayote Seeds",
+    "icon": "seeds",
+    "plants": "sayote"
+  },
+  {
+    "key": "sea_fan_seed",
+    "name": "Sea Fan Fragment",
+    "icon": "fl_sea_fan",
+    "plants": "sea_fan"
+  },
+  {
+    "key": "seagrass_blade",
+    "name": "Seagrass Blade",
+    "icon": "fl_seagrass_shoots",
+    "flora": "seagrass_shoots",
+    "material": true
+  },
+  {
+    "key": "seagrass_shoots_seed",
+    "name": "Seagrass Shoots Cutting",
+    "icon": "fl_seagrass_shoots",
+    "plants": "seagrass_shoots"
+  },
+  {
+    "key": "seaweed",
+    "name": "Seaweed",
+    "icon": "fl_brown_algae",
+    "flora": "brown_algae",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "sesame_seed",
+    "name": "Sesame Seeds",
+    "icon": "seeds",
+    "plants": "sesame"
+  },
+  {
+    "key": "sibuyas",
+    "name": "Sibuyas",
+    "icon": "fl_sibuyas",
+    "flora": "sibuyas",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "sibuyas_seed",
+    "name": "Sibuyas Bulb",
+    "icon": "fl_sibuyas",
+    "plants": "sibuyas"
+  },
+  {
+    "key": "sigarilyas",
+    "name": "Sigarilyas",
+    "icon": "fl_sigarilyas",
+    "flora": "sigarilyas",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "sigarilyas_seed",
+    "name": "Sigarilyas Seeds",
+    "icon": "seeds",
+    "plants": "sigarilyas"
+  },
+  {
+    "key": "sili",
+    "name": "Siling Labuyo",
+    "icon": "fl_siling_labuyo",
+    "flora": "siling_labuyo",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "siling_labuyo_seed",
+    "name": "Siling Labuyo Seeds",
+    "icon": "seeds",
+    "plants": "siling_labuyo"
+  },
+  {
+    "key": "sitaw",
+    "name": "Sitaw",
+    "icon": "fl_sitaw",
+    "flora": "sitaw",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "sitaw_seed",
+    "name": "Sitaw Seed",
+    "icon": "fl_sitaw",
+    "flora": "sitaw"
+  },
+  {
+    "key": "soft_coral_seed",
+    "name": "Soft Coral Fragment",
+    "icon": "fl_soft_coral",
+    "plants": "soft_coral"
+  },
+  {
+    "key": "sonneratia_seed",
+    "name": "Sonneratia Sapling",
+    "icon": "fl_sonneratia",
+    "plants": "sonneratia"
+  },
+  {
+    "key": "sponge",
+    "name": "Sponge",
+    "icon": "fl_blue_sponge",
+    "flora": "blue_sponge",
+    "material": true
+  },
+  {
+    "key": "staghorn_coral_seed",
+    "name": "Staghorn Coral Fragment",
+    "icon": "fl_staghorn_coral",
+    "plants": "staghorn_coral"
+  },
+  {
+    "key": "sugar_cane_seed",
+    "name": "Sugar Cane Cutting",
+    "icon": "fl_sugar_cane",
+    "plants": "sugar_cane"
+  },
+  {
+    "key": "table_coral_seed",
+    "name": "Table Coral Fragment",
+    "icon": "fl_table_coral",
+    "plants": "table_coral"
+  },
+  {
+    "key": "talisay_nut",
+    "name": "Talisay Nut",
+    "icon": "fl_talisay",
+    "flora": "talisay",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "talisay_seed",
+    "name": "Talisay Nut Sapling",
+    "icon": "fl_talisay",
+    "plants": "talisay"
+  },
+  {
+    "key": "talong",
+    "name": "Talong",
+    "icon": "fl_talong",
+    "flora": "talong",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "talong_seed",
+    "name": "Talong Seeds",
+    "icon": "seeds",
+    "plants": "talong"
+  },
+  {
+    "key": "tamarind_seed",
+    "name": "Tamarindo Sapling",
+    "icon": "fl_tamarind",
+    "plants": "tamarind"
+  },
+  {
+    "key": "tangile_seed",
+    "name": "Tangile Sapling",
+    "icon": "fl_tangile",
+    "plants": "tangile"
+  },
+  {
+    "key": "tangkad_seed",
+    "name": "Tangkad Cutting",
+    "icon": "fl_tangkad",
+    "plants": "tangkad"
+  },
+  {
+    "key": "tanglad",
+    "name": "Tanglad",
+    "icon": "fl_tanglad",
+    "flora": "tanglad",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "tanglad_seed",
+    "name": "Tang-lad Cutting",
+    "icon": "fl_tanglad",
+    "plants": "tanglad"
+  },
+  {
+    "key": "tannin",
+    "name": "Tannin",
+    "icon": "fl_red_mangrove",
+    "flora": "red_mangrove",
+    "material": true
+  },
+  {
+    "key": "tape_seagrass_seed",
+    "name": "Tape Seagrass Cutting",
+    "icon": "fl_tape_seagrass",
+    "plants": "tape_seagrass"
+  },
+  {
+    "key": "taro_seed",
+    "name": "Taro / Gabi Tuber",
+    "icon": "fl_taro",
+    "plants": "taro"
+  },
+  {
+    "key": "teak_wood",
+    "name": "Philippine Teak Wood",
+    "icon": "fl_ph_teak",
+    "flora": "ph_teak",
+    "material": true
+  },
+  {
+    "key": "tigi",
+    "name": "Tigi",
+    "icon": "fl_tigi",
+    "flora": "tigi",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "tigi_seed",
+    "name": "Tigi Tuber",
+    "icon": "fl_tigi",
+    "plants": "tigi"
+  },
+  {
+    "key": "tree_fern_seed",
+    "name": "Tree Fern Sapling",
+    "icon": "fl_tree_fern",
+    "plants": "tree_fern"
+  },
+  {
+    "key": "tuba",
+    "name": "Tuba (coconut sap)",
+    "icon": "fl_coconut",
+    "flora": "coconut"
+  },
+  {
+    "key": "tube_sponge_seed",
+    "name": "Tube Sponge Fragment",
+    "icon": "fl_tube_sponge",
+    "plants": "tube_sponge"
+  },
+  {
+    "key": "tubig_lily_roots_seed",
+    "name": "Tubig-lily Roots Tuber",
+    "icon": "fl_tubig_lily_roots",
+    "plants": "tubig_lily_roots"
+  },
+  {
+    "key": "tubo",
+    "name": "Tubo (sugar cane)",
+    "icon": "fl_sugar_cane",
+    "flora": "sugar_cane",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "turbinaria_seed",
+    "name": "Turbinaria Cutting",
+    "icon": "fl_turbinaria",
+    "plants": "turbinaria"
+  },
+  {
+    "key": "turmeric_seed",
+    "name": "Turmeric Tuber",
+    "icon": "fl_turmeric",
+    "plants": "turmeric"
+  },
+  {
+    "key": "ube",
+    "name": "Ube",
+    "icon": "fl_ube",
+    "flora": "ube",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "ube_seed",
+    "name": "Uwi / Yam Tuber",
+    "icon": "fl_ube",
+    "plants": "ube"
+  },
+  {
+    "key": "ubod",
+    "name": "Ubod (palm heart)",
+    "icon": "fl_ubod",
+    "flora": "ubod",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "upo",
+    "name": "Upo",
+    "icon": "fl_upo",
+    "flora": "upo",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "upo_seed",
+    "name": "Upo Seeds",
+    "icon": "seeds",
+    "plants": "upo"
+  },
+  {
+    "key": "waling_waling_seed",
+    "name": "Waling-waling Cutting",
+    "icon": "fl_waling_waling",
+    "plants": "waling_waling"
+  },
+  {
+    "key": "water_hyacinth_seed",
+    "name": "Water Hyacinth Cutting",
+    "icon": "fl_water_hyacinth",
+    "plants": "water_hyacinth"
+  },
+  {
+    "key": "water_lily_seed",
+    "name": "Water Lily Tuber",
+    "icon": "fl_water_lily",
+    "plants": "water_lily"
+  },
+  {
+    "key": "white_mangrove_seed",
+    "name": "White Mangrove Sapling",
+    "icon": "fl_white_mangrove",
+    "plants": "white_mangrove"
+  },
+  {
+    "key": "wild_berries",
+    "name": "Wild Berries",
+    "icon": "fl_wild_berry_red",
+    "flora": "wild_berry_red",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "wild_berry_dark_seed",
+    "name": "Wild Dark Berries Seeds",
+    "icon": "seeds",
+    "plants": "wild_berry_dark"
+  },
+  {
+    "key": "wild_berry_red_seed",
+    "name": "Wild Red Berries Seeds",
+    "icon": "seeds",
+    "plants": "wild_berry_red"
+  },
+  {
+    "key": "wild_pods",
+    "name": "Wild Pods",
+    "icon": "fl_wild_pods",
+    "flora": "wild_pods",
+    "food": true,
+    "heal": 6
+  },
+  {
+    "key": "wild_pods_seed",
+    "name": "Wild Brown Pods Seeds",
+    "icon": "seeds",
+    "plants": "wild_pods"
+  },
+  {
+    "key": "wild_tubers_seed",
+    "name": "Wild Tubers Tuber",
+    "icon": "fl_wild_tubers",
+    "plants": "wild_tubers"
+  },
+  {
+    "key": "yakal_seed",
+    "name": "Yakal Sapling",
+    "icon": "fl_yakal",
+    "plants": "yakal"
+  },
+  {
+    "key": "yakal_wood",
+    "name": "Yakal Wood",
+    "icon": "fl_yakal",
+    "flora": "yakal",
+    "material": true
+  },
+  {
+    "key": "kanin",
+    "name": "Kanin (steamed rice)",
+    "heal": 15,
+    "food": true,
+    "icon": "rice_cake"
+  },
+  {
+    "key": "sinigang",
+    "name": "Sinigang na Isda",
+    "heal": 45,
+    "food": true,
+    "icon": "fl_kamias"
+  },
+  {
+    "key": "tinola",
+    "name": "Tinola",
+    "heal": 45,
+    "food": true,
+    "icon": "fl_malunggay"
+  },
+  {
+    "key": "pinakbet",
+    "name": "Pinakbet",
+    "heal": 50,
+    "food": true,
+    "icon": "fl_talong"
+  },
+  {
+    "key": "kinilaw",
+    "name": "Kinilaw",
+    "heal": 35,
+    "food": true,
+    "icon": "fl_siling_labuyo"
+  },
+  {
+    "key": "ginataan",
+    "name": "Ginataang Bilo-bilo",
+    "heal": 35,
+    "food": true,
+    "icon": "fl_ube"
+  },
+  {
+    "key": "suman",
+    "name": "Suman sa Dahon",
+    "heal": 30,
+    "food": true,
+    "icon": "fl_banana"
+  },
+  {
+    "key": "laing",
+    "name": "Laing",
+    "heal": 30,
+    "food": true,
+    "icon": "fl_taro"
+  },
+  {
+    "key": "ensaladang_pako",
+    "name": "Ensaladang Pako",
+    "heal": 20,
+    "food": true,
+    "icon": "fl_pako"
+  },
+  {
+    "key": "suka",
+    "name": "Suka (vinegar)",
+    "icon": "fl_nipa_palm",
+    "material": true
+  },
+  {
+    "key": "kape",
+    "name": "Kapeng Barako",
+    "food": true,
+    "heal": 5,
+    "buff": "swiftness",
+    "buff_s": 60,
+    "icon": "fl_coffee"
+  },
+  {
+    "key": "tsokolate",
+    "name": "Tsokolate (cacao drink)",
+    "food": true,
+    "heal": 15,
+    "icon": "fl_cacao"
+  },
+  {
+    "key": "tanglad_tea",
+    "name": "Tanglad Tea",
+    "food": true,
+    "heal": 10,
+    "icon": "fl_tanglad"
+  },
+  {
+    "key": "banaba_tea",
+    "name": "Banaba Tea",
+    "medicine": true,
+    "heal": 15,
+    "regen": 20,
+    "icon": "fl_banaba"
+  },
+  {
+    "key": "luyang_dilaw_poultice",
+    "name": "Luyang Dilaw Poultice",
+    "medicine": true,
+    "heal": 30,
+    "regen": 30,
+    "icon": "fl_turmeric"
+  },
+  {
+    "key": "gumamela_syrup",
+    "name": "Gumamela Syrup",
+    "medicine": true,
+    "heal": 25,
+    "icon": "fl_gumamela"
+  },
+  {
+    "key": "bawang_tonic",
+    "name": "Bawang-Ampalaya Tonic",
+    "medicine": true,
+    "heal": 20,
+    "cure": "poison",
+    "icon": "fl_bawang"
+  },
+  {
+    "key": "morning_glory_salve",
+    "name": "Sea-sting Salve",
+    "medicine": true,
+    "heal": 15,
+    "cure": "poison",
+    "icon": "fl_beach_morning_glory"
+  },
+  {
+    "key": "tina_pula",
+    "name": "Red Dye (narra)",
+    "material": true,
+    "icon": "fl_narra"
+  },
+  {
+    "key": "tina_dilaw",
+    "name": "Yellow Dye (turmeric)",
+    "material": true,
+    "icon": "fl_turmeric"
+  },
+  {
+    "key": "tina_ube",
+    "name": "Violet Dye (duhat/ube)",
+    "material": true,
+    "icon": "fl_duhat"
+  },
+  {
+    "key": "sinamay",
+    "name": "Sinamay Cloth (banana/abaca-type fibre)",
+    "material": true,
+    "icon": "cloth"
+  },
+  {
+    "key": "tela_pula",
+    "name": "Red Woven Cloth",
+    "material": true,
+    "icon": "cloth"
+  },
+  {
+    "key": "banig",
+    "name": "Banig (pandan mat)",
+    "material": true,
+    "icon": "fl_pandan"
+  },
+  {
+    "key": "lubid",
+    "name": "Lubid (rope)",
+    "material": true,
+    "icon": "fiber"
+  },
+  {
+    "key": "kaing",
+    "name": "Kaing (rattan basket)",
+    "material": true,
+    "icon": "fl_rattan"
+  },
+  {
+    "key": "buntal_hat",
+    "name": "Buntal Hat",
+    "wear": {
+      "slot": "head",
+      "def": 1,
+      "trust": 0.05
+    },
+    "icon": "salakot"
+  },
+  {
+    "key": "barong_tela",
+    "name": "Woven Tunic (dyed)",
+    "wear": {
+      "slot": "body",
+      "def": 2,
+      "trust": 0.1
+    },
+    "icon": "tapis"
+  },
+  {
+    "key": "anahaw_cape",
+    "name": "Anahaw Rain Cape",
+    "wear": {
+      "slot": "back",
+      "def": 1
+    },
+    "icon": "fl_anahaw"
+  },
+  {
+    "key": "barnis",
+    "name": "Almaciga Varnish",
+    "material": true,
+    "icon": "fl_almaciga"
+  },
+  {
+    "key": "molave_haft",
+    "name": "Molave Haft",
+    "material": true,
+    "icon": "fl_molave"
+  },
+  {
+    "key": "headaxe_molave",
+    "name": "Molave-hafted Headaxe",
+    "places": "",
+    "icon": "headaxe",
+    "max_stack": 1,
+    "tool": {
+      "axe": 75,
+      "use_time": 15,
+      "range": 5
+    },
+    "weapon": {
+      "damage": 30,
+      "knockback": 6.5,
+      "arc": "overhead"
+    }
+  },
+  {
+    "key": "terra_tool_yakal",
+    "name": "Yakal Terra-Tool",
+    "places": "",
+    "icon": "terra_tool",
+    "max_stack": 1,
+    "tool": {
+      "pick": 70,
+      "shovel": 85,
+      "use_time": 11,
+      "range": 5
+    }
+  },
+  {
+    "key": "baston",
+    "name": "Kamagong Baston (arnis stick)",
+    "weapon": {
+      "damage": 10,
+      "stun": 2.0,
+      "knockback": 3.0,
+      "arc": "overhead"
+    },
+    "tool": {
+      "use_time": 14,
+      "range": 3
+    },
+    "icon": "pamalo"
+  },
+  {
+    "key": "bumbong",
+    "name": "Bumbong (bamboo water tube)",
+    "water": true,
+    "max_stack": 1,
+    "icon": "fl_kawayan_tinik"
+  },
+  {
+    "key": "abono",
+    "name": "Abono (fertilizer)",
+    "fertilizer": true,
+    "icon": "fl_brown_algae"
+  },
+  {
+    "key": "patuka",
+    "name": "Patuka (chicken feed)",
+    "food": true,
+    "icon": "seeds"
+  },
+  {
+    "key": "narra_planks",
+    "name": "Narra Planks",
+    "places": "core:narra_planks",
+    "icon": "planks"
+  },
+  {
+    "key": "molave_planks",
+    "name": "Molave Planks",
+    "places": "core:molave_planks",
+    "icon": "planks"
+  },
+  {
+    "key": "yakal_planks",
+    "name": "Yakal Planks",
+    "places": "core:yakal_planks",
+    "icon": "planks"
+  },
+  {
+    "key": "kawayan_wall",
+    "name": "Bamboo Wall (sawali)",
+    "places": "core:kawayan_wall",
+    "icon": "fl_buho"
+  },
+  {
+    "key": "pawid",
+    "name": "Pawid (nipa thatch)",
+    "places": "core:pawid",
+    "icon": "thatch"
+  }
+]

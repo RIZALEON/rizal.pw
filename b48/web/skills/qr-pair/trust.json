@@ -1,0 +1,54 @@
+{
+ "schema": "rlab-trust-keys.v1",
+ "seq": 2,
+ "keys": [
+  {
+   "keyId": "e5833fdfbbfe",
+   "ed25519": "zs7M4OOB0zQhWOQw3SHpAY+XYxbZJvcPESy1y400Ti0=",
+   "device": "Neo",
+   "scope": "all-eggs",
+   "devices": "all",
+   "role": "full-signer"
+  },
+  {
+   "keyId": "fd723a98c3b7",
+   "p256": "BPwgSMki6MFHvVD4KbpaqYgmR+/d5VpmPF8awmV/tuOgjbVzUgx9iuBr12pHm0E/7RR+0W6erDy/TMXcltRzONA=",
+   "device": "iPhone 17e · ЯBOT",
+   "gate": "Face ID (Secure Enclave)",
+   "scope": "all-eggs",
+   "devices": "all",
+   "role": "full-signer"
+  },
+  {
+   "keyId": "74cd87b6425e",
+   "p256": "BCUZwAGkBq04P82dgE+mytIjlgalKDqu7Xpuaz5k6vMxhnSzIOjRCSr0egeyrMptyDJutI4F3uo+ILU6NdZSLbs=",
+   "device": "iPhone 17e · ЯBOWZR",
+   "gate": "Face ID (Secure Enclave)",
+   "scope": "all-eggs",
+   "devices": "all",
+   "role": "full-signer"
+  },
+  {
+   "keyId": "18d60c052a15",
+   "p256": "BOyw9WYJ4eTwLyYvceiNKBNyP6uRysbA6irvXJAXMUAxQbX/KwWio7M5F46TnjBVknzs4sU7pGAfio8tGuOtVoA=",
+   "device": "moto ZN3223FVDH · ЯBOWZR Android 2.1.9",
+   "gate": "BIOMETRIC_STRONG (Android Keystore, hw TEE)",
+   "hw": "TEE",
+   "scope": "all-eggs",
+   "devices": "all",
+   "role": "full-signer"
+  }
+ ],
+ "signatures": [
+  {
+   "v": 1,
+   "keyId": "e5833fdfbbfe",
+   "sig": "G6oOHxS4+G2ioyrlVESL75ULUjlRlw4ov4NnUTLBlis0s16k2OECRlqD5t1KMdlkFph/JUlMFRoLnSNLH8RoCw=="
+  },
+  {
+   "v": 2,
+   "keyId": "e5833fdfbbfe",
+   "sig": "PVRi96YIRY7DhWLGy9Z/hqT3HjNNGUJ/ybZKS0dYpZNHLwUHxfwBXXtRWAzS1htHlGUmplB+gkANnddvcDyrAQ=="
+  }
+ ]
+}

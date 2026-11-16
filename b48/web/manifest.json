@@ -1,0 +1,322 @@
+{
+ "schema": "rzl.v1",
+ "kind": "app",
+ "offline": true,
+ "stealth": true,
+ "dataOnly": true,
+ "hosts": [
+  "rbowzr"
+ ],
+ "platforms": [
+  "ios",
+  "ipados"
+ ],
+ "install": {
+  "overlay": {
+   "rbowzr": "ShellResources",
+   "ybot": "rbowzr-classic"
+  }
+ },
+ "minHostVersion": {
+  "rbowzr": "2.1.9"
+ },
+ "id": "ios-219-overlay-public",
+ "name": "iOS 2.1.9 PUBLIC OVERLAY",
+ "version": "2.1.9.1-pub",
+ "entry": "scout.html",
+ "open": "scout.html",
+ "built": "2026-10-16 · PUBLIC SCRUB · no roster data, no ЯIDs, no names; seats read at runtime from the device roster",
+ "note": "THUNDR Live 0.4.1 + folding bot sidebar + identity guard (runtime seats) + stub roster (self slot minted on first run) with Latin/Cyrillic look-alike lookup.",
+ "components": [
+  {
+   "name": "LICENSE",
+   "path": "LICENSE",
+   "sha256": "1f55c5245f1bdc7e52f17060c06bb9094e704f58a8190c27f0379e471bf71a25",
+   "size": 1062
+  },
+  {
+   "name": "rid-roster.js",
+   "path": "rid-roster.js",
+   "sha256": "2a9cc1859832bcda11d6fe1fc74dd7f6a17dedcaaa1019442be9bed04ff4250d",
+   "size": 2754
+  },
+  {
+   "name": "scout.html",
+   "path": "scout.html",
+   "sha256": "f8ae084c31fb2919ed3feaf518df218e0a5a1839dae59d8509b6c2ad77760ee4",
+   "size": 2330
+  },
+  {
+   "name": "bot-sidebar.js",
+   "path": "skills/bot-sidebar/bot-sidebar.js",
+   "sha256": "bf5ed646351d0fb95d8a726151abb83c707c8a2600cce1b3dc5ec9b79f39f588",
+   "size": 16742
+  },
+  {
+   "name": "identity-guard-rt.js",
+   "path": "skills/identity-guard/identity-guard-rt.js",
+   "sha256": "5295feedc49877e4095df80d0dec04ec933410411bb25b44d0e9ac9f4aa154e6",
+   "size": 4966
+  },
+  {
+   "name": "thundr-adapter.js",
+   "path": "skills/thundr-live/thundr-adapter.js",
+   "sha256": "62cf8f6a6150e81c9d1e9ac9bde7172af07840f47ce0e82a4f462ae78e454627",
+   "size": 8275
+  },
+  {
+   "name": "thundr-live.js",
+   "path": "skills/thundr-live/thundr-live.js",
+   "sha256": "9f0882f6350b33fabddc10910d3b2462104117c20ac1a68ba92b8bee905f3d58",
+   "size": 21905
+  },
+  {
+   "name": "thundr-128-egg.webp",
+   "path": "skills/thundr-live/atlas/thundr-128-egg.webp",
+   "sha256": "a44a1a003f9701df88772482cd86477b78b09758a48e9ebe8789611a84bf5f2a",
+   "size": 15200
+  },
+  {
+   "name": "thundr-128-error.webp",
+   "path": "skills/thundr-live/atlas/thundr-128-error.webp",
+   "sha256": "a3bdc0f778fd23a54297b449600950a7a5f7b29c5377f5e05be0529d45d4a65e",
+   "size": 18452
+  },
+  {
+   "name": "thundr-128-hatch.webp",
+   "path": "skills/thundr-live/atlas/thundr-128-hatch.webp",
+   "sha256": "e3efecbf3fe9b714e309ecf5e4893180449bc0cc7c0f5bd71a4be1cb9ff3d252",
+   "size": 32494
+  },
+  {
+   "name": "thundr-128-idle.webp",
+   "path": "skills/thundr-live/atlas/thundr-128-idle.webp",
+   "sha256": "c435e4c41958fefc1257854e7d920f13ddc25a62c0a41c4bb83ffa894161a56a",
+   "size": 24980
+  },
+  {
+   "name": "thundr-128-searching.webp",
+   "path": "skills/thundr-live/atlas/thundr-128-searching.webp",
+   "sha256": "0caa2902df3a6643dcb1f93a7b320edf9ca754f609899fd65d0283b3441ccb51",
+   "size": 32200
+  },
+  {
+   "name": "thundr-128-sleeping.webp",
+   "path": "skills/thundr-live/atlas/thundr-128-sleeping.webp",
+   "sha256": "6b8c96e5ba0b01d06f0939bf3e7257280e02bf6d49a27d8a7b05fb09e7e94b57",
+   "size": 23340
+  },
+  {
+   "name": "thundr-128-success.webp",
+   "path": "skills/thundr-live/atlas/thundr-128-success.webp",
+   "sha256": "ff0a66e63cf502ad3f259a7923c03ee80db03c796162e3e6cc90d7784ddda935",
+   "size": 27934
+  },
+  {
+   "name": "thundr-128-thinking.webp",
+   "path": "skills/thundr-live/atlas/thundr-128-thinking.webp",
+   "sha256": "7cfd81064071ae85fe6b79eb890026c2b208c8b926fb16be82a9186987fafff2",
+   "size": 13566
+  },
+  {
+   "name": "thundr-128-working.webp",
+   "path": "skills/thundr-live/atlas/thundr-128-working.webp",
+   "sha256": "f189f91488a5ba110bc5888447cdbb12e97157d470907195764dcd04ba5849b6",
+   "size": 9480
+  },
+  {
+   "name": "thundr-128.json",
+   "path": "skills/thundr-live/atlas/thundr-128.json",
+   "sha256": "a08584a3e7d345670dca45507dfa07b8cc34fe0f1accfb67874b8f6b57ba07f9",
+   "size": 970
+  },
+  {
+   "name": "thundr-32-egg.webp",
+   "path": "skills/thundr-live/atlas/thundr-32-egg.webp",
+   "sha256": "4a97961a2f6e13b38ffdccd9118a561b4d2228f49f7eae9e2966526f16430394",
+   "size": 2038
+  },
+  {
+   "name": "thundr-32-error.webp",
+   "path": "skills/thundr-live/atlas/thundr-32-error.webp",
+   "sha256": "275ca1f6af95a1ea9b261e87ec648abd32ace5a3f82b6f2e64cf980b14c63c7a",
+   "size": 2034
+  },
+  {
+   "name": "thundr-32-hatch.webp",
+   "path": "skills/thundr-live/atlas/thundr-32-hatch.webp",
+   "sha256": "5fd73ec3e210495ec2650e47cc8dedfd0cdc51d1d8306cc8ce9edf8819b7e89b",
+   "size": 3798
+  },
+  {
+   "name": "thundr-32-idle.webp",
+   "path": "skills/thundr-live/atlas/thundr-32-idle.webp",
+   "sha256": "7566842a3b2f890407ecd5ab0e5fa0b3cb4fda2783a1fe4c195c46cd25a31572",
+   "size": 3338
+  },
+  {
+   "name": "thundr-32-searching.webp",
+   "path": "skills/thundr-live/atlas/thundr-32-searching.webp",
+   "sha256": "4c2d64124db62182639a502a5b0279ec9636ce1351a33a160e89a766be36766c",
+   "size": 3542
+  },
+  {
+   "name": "thundr-32-sleeping.webp",
+   "path": "skills/thundr-live/atlas/thundr-32-sleeping.webp",
+   "sha256": "c6f4547bffad5700d191783bbeddb3654facca37414c30d22ac56d479e7fc0b9",
+   "size": 2556
+  },
+  {
+   "name": "thundr-32-success.webp",
+   "path": "skills/thundr-live/atlas/thundr-32-success.webp",
+   "sha256": "02db84fc5fe0aa97f1e9d5814fa378ac39de341967c5aeaf99b4d442d3d90eba",
+   "size": 3180
+  },
+  {
+   "name": "thundr-32-thinking.webp",
+   "path": "skills/thundr-live/atlas/thundr-32-thinking.webp",
+   "sha256": "573444317ef5947085a913bfaf631e20ed9c45172e4d596ccedb8c264ee1ea28",
+   "size": 2648
+  },
+  {
+   "name": "thundr-32-working.webp",
+   "path": "skills/thundr-live/atlas/thundr-32-working.webp",
+   "sha256": "f7cf898ca025c8a0757539f63cb48322657ea4405c7634304249082f553f6bce",
+   "size": 1474
+  },
+  {
+   "name": "thundr-32.json",
+   "path": "skills/thundr-live/atlas/thundr-32.json",
+   "sha256": "8fa34e884e39b3fcca400837890085b30215808e9389bc59a371c45d6886171b",
+   "size": 960
+  },
+  {
+   "name": "thundr-48-egg.webp",
+   "path": "skills/thundr-live/atlas/thundr-48-egg.webp",
+   "sha256": "6ff73dc55bd56eb25e039712f386e6baef7436d48bd3a4b368666cce42d46d92",
+   "size": 3400
+  },
+  {
+   "name": "thundr-48-error.webp",
+   "path": "skills/thundr-live/atlas/thundr-48-error.webp",
+   "sha256": "cc9f2adef579ccb8be2df22ccb844ed0e270ba55ee1a2fdb69bdcdedb39b68af",
+   "size": 3394
+  },
+  {
+   "name": "thundr-48-hatch.webp",
+   "path": "skills/thundr-live/atlas/thundr-48-hatch.webp",
+   "sha256": "9ef47f1ba2156dbde0db8c2b6dd14bbb239ad60a0c6ac012b7dbf82483cbd459",
+   "size": 6546
+  },
+  {
+   "name": "thundr-48-idle.webp",
+   "path": "skills/thundr-live/atlas/thundr-48-idle.webp",
+   "sha256": "4b667557f198f4939576eb2c9cf102cd1da8bf49755c79ae46b001ebecfef9bc",
+   "size": 6368
+  },
+  {
+   "name": "thundr-48-searching.webp",
+   "path": "skills/thundr-live/atlas/thundr-48-searching.webp",
+   "sha256": "7006463a9371e046d04c2c8e6d3674f805d0f4f2f560cb88947817ca2d344663",
+   "size": 6280
+  },
+  {
+   "name": "thundr-48-sleeping.webp",
+   "path": "skills/thundr-live/atlas/thundr-48-sleeping.webp",
+   "sha256": "d5d3330f2d4a07b8fe3a15754ea692ab391b33cf120994ff81f839811b464f2d",
+   "size": 4490
+  },
+  {
+   "name": "thundr-48-success.webp",
+   "path": "skills/thundr-live/atlas/thundr-48-success.webp",
+   "sha256": "069784f6becd8a72a1d68c75ebfcda9342fccfaad32df46b400bba5f25eaf9d7",
+   "size": 5358
+  },
+  {
+   "name": "thundr-48-thinking.webp",
+   "path": "skills/thundr-live/atlas/thundr-48-thinking.webp",
+   "sha256": "2077372fcf4853b2cc39a2fd0175e753fe5eb972d0462885bda93c2830df7b01",
+   "size": 4596
+  },
+  {
+   "name": "thundr-48-working.webp",
+   "path": "skills/thundr-live/atlas/thundr-48-working.webp",
+   "sha256": "33c7bea35514c5de819387986d142076ccd7b4cbd1f30ef14d4a07f146d6f7e2",
+   "size": 2238
+  },
+  {
+   "name": "thundr-48.json",
+   "path": "skills/thundr-live/atlas/thundr-48.json",
+   "sha256": "1979147838e60929628084107a343b370dcf983cc4a12ff528d350e43cfd73e0",
+   "size": 960
+  },
+  {
+   "name": "thundr-64-egg.webp",
+   "path": "skills/thundr-live/atlas/thundr-64-egg.webp",
+   "sha256": "22e23de8efec9135ac7367d9d852321e1c6770bd8c5664f7067088a3e4935426",
+   "size": 5116
+  },
+  {
+   "name": "thundr-64-error.webp",
+   "path": "skills/thundr-live/atlas/thundr-64-error.webp",
+   "sha256": "29e7408bd0789a1dfdf8fccf35cdf5efa4361ffe151043720d7a1793e49ffdec",
+   "size": 5220
+  },
+  {
+   "name": "thundr-64-hatch.webp",
+   "path": "skills/thundr-live/atlas/thundr-64-hatch.webp",
+   "sha256": "7151c58a0fbec80b7a8c1e8d926639a6b22ec8999fac9a80088308e2cd55a402",
+   "size": 9862
+  },
+  {
+   "name": "thundr-64-idle.webp",
+   "path": "skills/thundr-live/atlas/thundr-64-idle.webp",
+   "sha256": "e181ad6892a158069704c278d477fb3747a5f6579462fde8766745377206efeb",
+   "size": 7726
+  },
+  {
+   "name": "thundr-64-searching.webp",
+   "path": "skills/thundr-live/atlas/thundr-64-searching.webp",
+   "sha256": "68f33316453028c84465bf8a2ade8c9bd62fa9732a6a992c896ad09a9b1d0714",
+   "size": 9348
+  },
+  {
+   "name": "thundr-64-sleeping.webp",
+   "path": "skills/thundr-live/atlas/thundr-64-sleeping.webp",
+   "sha256": "51ecfc2c95af0468cc5f99dfd73979bf6549f72f7ef5e238e3ffb615a94714f6",
+   "size": 7102
+  },
+  {
+   "name": "thundr-64-success.webp",
+   "path": "skills/thundr-live/atlas/thundr-64-success.webp",
+   "sha256": "b0612529dbfb092501ffc20ee37562c9c7f0440e6db5c10c808d7bd624bb0d97",
+   "size": 7772
+  },
+  {
+   "name": "thundr-64-thinking.webp",
+   "path": "skills/thundr-live/atlas/thundr-64-thinking.webp",
+   "sha256": "0face654938985e3766d30da684a6a3b1b039a8ffbf515dbe2471ee8e0489fe5",
+   "size": 6190
+  },
+  {
+   "name": "thundr-64-working.webp",
+   "path": "skills/thundr-live/atlas/thundr-64-working.webp",
+   "sha256": "d975f378ba4928b851ab5288777b3154c7f1cb8d22083cd3bb3cb713271ab211",
+   "size": 3206
+  },
+  {
+   "name": "thundr-64.json",
+   "path": "skills/thundr-live/atlas/thundr-64.json",
+   "sha256": "f650d9cfab3e99d4e08e8917950a44ecd8cd97799c64f6334b62f3c7ba97431c",
+   "size": 960
+  }
+ ],
+ "heart": {
+  "bytes": 639446688,
+  "id": "qwen3-0.6b-q8",
+  "path": "FusedPygmy.rzl/heart/heart.gguf",
+  "sha256": "9465e63a22add5354d9bb4b99e90117043c7124007664907259bd16d043bb031",
+  "pin": "reference-only (not bundled): fused 0.6B heart from the public feed, verify by sha256"
+ },
+ "license": "MIT (see LICENSE); bundled Qwen/llama components keep their Apache-2.0 licenses"
+}

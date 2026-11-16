@@ -1,0 +1,135 @@
+/* rmail-ui.js v2 20261105 - RMAIL crypto mail UI + Rizal laws t620u/t621u (real-shell rebuild).
+   Needs rsocial-rmail.js v2 (window.RSOCIAL). Public data only, no keys.
+   Opens from: ✉ bottom-nav [data-a=nav][data-n=msgs], ASSM profile Message (.csp-msgbtn, [data-a=dm]), [data-rmail], or RMAIL_UI.open().
+   t621u: tiny badge on ASSM profile Message button (+ nav msgs) for new mail OR Face ID approve/sign/mint requests.
+   t620u: external Face ID requests arrive via RMAIL; Approve Mint/Sign in the message launches ONLY Face ID from
+   integrated ASSM RWALLET (RKRYPT.sign / native biometric), then mints/signs instantly — no separate signing UI. */
+(function(){if(window.RMAIL_UI&&window.RMAIL_UI.v>=2)return;
+function J(k,d){try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}}function W(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+function E(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return"&#"+c.charCodeAt(0)+";"})}
+function R(){return window.RSOCIAL}
+(function(){if(window.RMAIL_APPROVE2)return;var sc=document.querySelector('script[src*="rmail-ui.js"]'),x=document.createElement("script");x.src=(sc?sc.src.replace(/[^/]*$/,""):"/")+"rmail-approve-v2.js?v=1.1";x.onload=function(){try{draw();if(typeof navBadge==="function")navBadge(badgeCount())}catch(e){}};(document.head||document.documentElement).appendChild(x)})();   /* 20261111-rbowzr: v2 card renderer */
+function css(){if(document.getElementById("rmail-ui-css"))return;var s=document.querySelector('script[src*="rmail-ui.js"]'),l=document.createElement("link");l.id="rmail-ui-css";l.rel="stylesheet";l.href=(s?s.src.replace(/[^/]*$/,""):"/")+"rmail-ui.css?v=3";document.head.appendChild(l);
+  if(!document.getElementById("rmail-assm-badge-css")){var st=document.createElement("style");st.id="rmail-assm-badge-css";
+    st.textContent=".csp-msgbtn,.csp-pill.csp-msgbtn{position:relative}.csp-msgbtn .rmu-nb,[data-a=\"nav\"][data-n=\"msgs\"] .rmu-nb{display:inline-flex;align-items:center;justify-content:center;min-width:14px;height:14px;padding:0 4px;margin-left:4px;border-radius:999px;background:#39ff14;color:#000;font:700 9px/14px ui-monospace,Menlo,monospace;vertical-align:super}.csp-msgbtn .rmu-nb:empty,[data-a=\"nav\"][data-n=\"msgs\"] .rmu-nb:empty{display:none}#thundr-bar,#ds-tfr-panel{position:relative}#thundr-bar>.rmu-nb,#ds-tfr-panel>.rmu-nb,[data-rmail-badge]>.rmu-nb{position:absolute;top:2px;right:4px;z-index:5;min-width:14px;height:14px;padding:0 4px;border-radius:999px;background:#39ff14;color:#000;font:700 9px/14px ui-monospace,Menlo,monospace;text-align:center}#thundr-bar>.rmu-nb:empty,#ds-tfr-panel>.rmu-nb:empty,[data-rmail-badge]>.rmu-nb:empty{display:none}.rmu-approve{margin:8px 0;display:flex;gap:8px;flex-wrap:wrap}.rmu-approve .rmu-btn.go{border-color:#39ff14;background:#0a1a0a;color:#39ff14;font-weight:700}.rmu-approve .rmu-st{font:11px monospace;opacity:.85}";
+    document.head.appendChild(st)}}
+var S={f:"inbox",sel:null,cmp:null},el;
+function me(){var r=R();return r?r.me():{handle:"guest",addr:"guest"}}
+function myAddr(){var r=R(),I=me();return I.handle==="guest"?(r&&r.addrOf("@chaserizal"))||I.addr:I.addr}
+function all(){var b=J("rmail.box",{}),o=(R()&&R().outbox())||[],seen={},out=[];Object.keys(b).forEach(function(k){(b[k]||[]).forEach(function(m){if(!seen[m.id]){seen[m.id]=1;out.push(m)}})});
+  o.forEach(function(m){if(!seen[m.id]){seen[m.id]=1;out.push(m)}else out.forEach(function(x){if(x.id===m.id)x.sent=m.sent})});return out.sort(function(a,b){var pa=tfPin(a),pb=tfPin(b);if(pa!==pb)return pb-pa;return b.ts-a.ts})}
+/* 1.0.4.37 (rbowzr): a pending block 4 card (block4-mint-…, not yet confirmed) is pinned to the top of RMAIL until block 4 confirms */
+function tfPin(m){return(m&&/^block4-mint-/.test(String(m.id||""))&&!J("rmail.tfdone",{})[m.id])?1:0}
+function parse(m){var t=String(m.text||""),x=/^Subject: (.*)\n\n?([\s\S]*)$/.exec(t);return x?{s:x[1]||"(no subject)",b:x[2]}:{s:t.split("\n")[0].slice(0,80)||"(no subject)",b:t}}
+function read(){return J("rmail.read",{})}
+function mine(m){var a=me().addr;return m.from_addr===a}
+function status(m){if(!mine(m))return m.via?"received · "+m.via:"received";if(!m.sent)return"queued (offline outbox)";return(window.RMAIL_RNS_TO?"relayed · transponder + mesh":"relayed · transponder")+(window.RMAIL_URL?" + public inbox":"")}
+/* Face ID / mint / sign request detection (external requests arrive via RMAIL — t620u) */
+/* 1.0.4.37 (t199u): block 4 cards (ids block4-mint-… and block4-confirmed-…) are sealed only in TerraformЯ — never by the generic approve path below */
+function isTFCard(m){return !!(m&&/^block4-(mint|confirmed)-/.test(String(m.id||"")));}
+function tfDone(m){return !!(m&&J("rmail.tfdone",{})[m.id]);}
+function isApproveReq(m){if(!m||mine(m)||isTFCard(m))return false;return !!(window.RMAIL_APPROVE2&&RMAIL_APPROVE2.isV2(m)&&RMAIL_APPROVE2.state(m)==="pending");} /* 20261111-rbowzr: only a valid rmail.approve v2 card (spec) — no Face ID/mint/sign keyword guessing */
+function approveKind(m){var t=((m&&m.action)||"")+" "+(parse(m).s||"")+" "+(parse(m).b||"");
+  if(/mint|rghostkey|pending\s*block|ЯMINT|rmint/i.test(t)||m.kind==="mint"||m.action==="approve_mint")return"mint";
+  if(/sign|egg|update|bind/i.test(t)||m.kind==="sign"||m.action==="approve_sign")return"sign";
+  return"approve";}
+function folders(){var L=all(),rd=read(),A=myAddr(),ob=(R()&&R().outbox())||[];
+  var inb=L.filter(function(m){return m.to_addr===A&&!mine(m)});
+  var unread=inb.filter(function(m){return!rd[m.id]});
+  var reqs=inb.filter(isApproveReq).filter(function(m){return!rd[m.id]||!J("rmail.approved",{})[m.id]});
+  return{inbox:{n:"Inbox",l:inb,u:unread.length,r:reqs.length},
+   outbox:{n:"Outbox",l:L.filter(function(m){return mine(m)&&ob.some(function(o){return o.id===m.id&&!o.sent})})},
+   sent:{n:"Sent",l:L.filter(function(m){return mine(m)&&ob.some(function(o){return o.id===m.id&&o.sent})})},
+   verified:{n:"✔ Verified",l:L.filter(function(m){return m.verified})},
+   guest:{n:"Guest / unverified",l:L.filter(function(m){return!m.verified})},
+   badge:unread.length+reqs.filter(function(m){return rd[m.id]}).length /* unread + still-pending approve reqs already opened */}}
+function badgeCount(){var F=folders(),rd=read(),ap=J("rmail.approved",{}),A=myAddr();
+  var inb=all().filter(function(m){return m.to_addr===A&&!mine(m)});
+  var n=0;inb.forEach(function(m){if(!rd[m.id])n++;else if(isApproveReq(m)&&!ap[m.id])n++;});
+  return n}
+function badge(m){return m.verified?'<span class="rmu-v ok" title="signed by a trusted RWALLET device">✔ verified</span>':'<span class="rmu-v no" title="'+E(m.trust||"unverified")+'">'+(String(m.from_addr||"").indexOf("guest")===0?"guest":"unverified")+'</span>'}
+function short(a){a=String(a||"");return a.length>18?a.slice(0,6)+"…"+a.slice(-6):a}
+function who(m){return mine(m)?"→ "+(m.to&&m.to!==m.to_addr?m.to+" ":"")+short(m.to_addr):(m.from&&m.from!=="guest"?m.from+" ":"")+short(m.from_addr)}
+function tm(t){var d=new Date(t);return d.toDateString()===new Date().toDateString()?d.toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"}):d.toLocaleDateString()}
+function tfOpen(){var st=document.getElementById("rmu-ast");function say(x){if(st)st.textContent=x}
+  if(typeof window.DS_TF_OPEN_BIND!=="function"){say("TerraformЯ bind is not available in this build · nothing opened");return}
+  say("opening TerraformЯ…");window.DS_TF_OPEN_BIND(function(ok,msg){say(msg)})}
+function approveBar(sel){if(isTFCard(sel)){if(/^block4-confirmed-/.test(sel.id))return "";if(tfDone(sel))return '<p class="rmu-st">✓ block 4 confirmed on chain · this request is closed</p>';
+  return '<div class="rmu-approve"><button class="rmu-btn go" data-ra="tfbind">Open in TerraformЯ · seal block 4 there</button><span class="rmu-st" id="rmu-ast">opens terraformr://rsign/bind · fresh Face ID in TerraformЯ · nothing is signed here</span></div>';}
+return (window.RMAIL_APPROVE2&&RMAIL_APPROVE2.isV2(sel))?RMAIL_APPROVE2.html(sel):"";}  /* 20261111-rbowzr: v2 Approve/Deny; else plain text */
+function draw(){if(!el)return;var F=folders(),cur=F[S.f],I=me(),sel=S.sel&&all().filter(function(m){return m.id===S.sel})[0];
+  var nav='<div class="rmu-h">FOLDERS</div>'+["inbox","outbox","sent"].map(f).join("")+'<div class="rmu-h">FILTERS</div>'+["verified","guest"].map(f).join("");
+  function f(k){var x=F[k],n=k==="inbox"?badgeCount():(k==="outbox"?x.l.length:0);return'<div class="rmu-f'+(S.f===k?" on":"")+'" data-rf="'+k+'"><span>'+x.n+'</span>'+(n?"<i>"+n+"</i>":"")+'</div>'}
+  var list=cur.l.length?cur.l.map(function(m){var p=parse(m),u=S.f==="inbox"&&!read()[m.id];var req=isApproveReq(m)?' <span class="rmu-v ok">Face ID</span>':(isTFCard(m)&&/^block4-mint-/.test(m.id)?(tfDone(m)?' <span class="rmu-v ok">✓ confirmed</span>':' <span class="rmu-v ok">TerraformЯ</span>'):"");return'<div class="rmu-it'+(u?" unread":"")+(S.sel===m.id?" on":"")+'" data-rm="'+E(m.id)+'"><div class="rmu-a">'+E(who(m))+'</div><div class="rmu-s">'+E(p.s)+req+'</div><div class="rmu-m"><span>'+tm(m.ts)+'</span>'+badge(m)+'</div></div>'}).join(""):'<div class="rmu-empty">no mail in '+E(cur.n)+'</div>';
+  var pane;if(S.cmp){pane='<div class="rmu-cmp"><h3>Compose</h3><label>From (RWALLET)</label><input readonly value="'+E(I.addr)+(I.handle==="guest"?' (guest · unverified)':'')+'"><label>To — wallet address or @handle</label><input id="rmu-to" value="'+E(S.cmp.to||"")+'"><label>Subject</label><input id="rmu-sub" value="'+E(S.cmp.sub||"")+'"><label>Body</label><textarea id="rmu-body"></textarea><p><button class="rmu-btn" data-ra="send">Send ⇡</button> <button class="rmu-btn p" data-ra="cancel">Cancel</button> <span class="rmu-st" id="rmu-cst"></span></p></div>'}
+  else if(sel){var p=parse(sel);if(!mine(sel)){var r=read();r[sel.id]=1;W("rmail.read",r)}pane='<h3>'+E(p.s)+'</h3>'+badge(sel)+'<div class="rmu-kv"><b>from</b> '+E(sel.from||"")+' '+E(sel.from_addr)+'</div><div class="rmu-kv"><b>to</b> '+E(sel.to||"")+' '+E(sel.to_addr)+'</div><div class="rmu-kv"><b>time</b> '+new Date(sel.ts).toLocaleString()+'</div><div class="rmu-kv"><b>device</b> '+E(sel.from_device||"—")+' · <b>trust</b> '+E(sel.trust||"unverified")+'</div><div class="rmu-kv"><b>status</b> <span class="rmu-st'+(sel.sent||!mine(sel)?"":" q")+'">'+E(status(sel))+'</span></div><pre>'+E(p.b)+'</pre>'+approveBar(sel)+'<p><button class="rmu-btn" data-ra="reply">Reply</button> <button class="rmu-btn p" data-ra="back">Back</button></p>'}
+  else pane='<div class="rmu-empty">select a message · RMAIL is keyed to your RWALLET address</div>';
+  el.innerHTML='<div class="rmu'+(sel||S.cmp?" reading":"")+'"><div class="rmu-top"><b>✉ RMAIL</b><span class="rmu-me">'+E(I.handle)+' · '+E(I.addr)+'</span><button class="rmu-btn" data-ra="new">Compose</button><button class="rmu-btn p" data-ra="sync">Sync</button><button class="rmu-btn p" data-ra="close">✕</button></div><div class="rmu-nav">'+nav+'</div><div class="rmu-list">'+list+'</div><div class="rmu-read">'+pane+'</div></div>';
+  if(sel&&window.RMAIL_APPROVE2&&RMAIL_APPROVE2.isV2(sel))RMAIL_APPROVE2.bind(el,sel,function(){navBadge(badgeCount());draw()});   /* 20261111-rbowzr */
+  navBadge(badgeCount())}
+/* t621u: badge ASSM profile Message button (.csp-msgbtn) AND left-tab msgs */
+function navBadge(n){try{if(typeof window.RMAIL_BADGE_HOOK==="function")window.RMAIL_BADGE_HOOK({count:n,src:"rmail-ui"})}catch(e){}  /* 20261111-rbowzr: badge-state hook (hARTbat purple dot sits here) */var sel=['[data-a="nav"][data-n="msgs"]','.csp-msgbtn','button.csp-msgbtn','[data-a="dm"].csp-msgbtn','[data-a="dm"]','#thundr-bar','#ds-tfr-panel','[data-rmail-badge]'];/* t622u: RTHUNDR + TERAFORMR (BOTLATCH/RWALLET/ASSM) */
+  sel.forEach(function(q){document.querySelectorAll(q).forEach(function(b){
+    var s=b.querySelector(":scope > .rmu-nb");if(!s){s=document.createElement("sup");s.className="rmu-nb";s.setAttribute("aria-label","new messages");b.appendChild(s)}
+    s.textContent=n?String(n):"";})})}
+/* t620u: Approve → ONLY ASSM RWALLET Face ID, then instant mint/sign. No separate signing UI. */
+function faceIdThen(kind,msg){var st=document.getElementById("rmu-ast");function say(t){if(st)st.textContent=t}
+  say("Face ID…");
+  var challenge="rmail-approve-"+kind+"\n"+(msg&&msg.id||"")+"\n"+(msg&&msg.ts||Date.now());
+  function afterFace(sig){
+    say(kind==="mint"?"minting…":"signing…");
+    var done=function(ok,detail){var ap=J("rmail.approved",{});ap[msg.id]={at:Date.now(),kind:kind,ok:!!ok,detail:detail||null};W("rmail.approved",ap);say(ok?"Approved: waiting for ЯWALLET · "+kind:"Not done: nothing signed");navBadge(badgeCount());draw();};
+    try{
+      if(kind==="mint"){
+        if(window.RMINT&&typeof RMINT.onetap==="function")return Promise.resolve(RMINT.onetap({from:"rmail",msg:msg,sig:sig})).then(function(r){done(r&&r.ok!==false,r)}).catch(function(e){done(false,e&&e.message)});
+        if(window.RDRAGON_1045&&typeof window.RDRAGON_1045.mint==="function")return Promise.resolve(window.RDRAGON_1045.mint({from:"rmail",msg:msg,sig:sig})).then(function(r){done(r&&r.ok!==false,r)}).catch(function(e){done(false,e&&e.message)});
+        if(window.RWALLET&&typeof RWALLET.run==="function")return Promise.resolve(RWALLET.run("rfidmint")||RWALLET.run("missue")).then(function(r){done(true,r)}).catch(function(e){done(false,e&&e.message)});
+        return done(false,{note:"nothing signed · "+"Face ID ok · mint hook deferred to ASSM RWALLET"});
+      }
+      if(window.RWALLET&&typeof RWALLET.run==="function")return Promise.resolve(RWALLET.run("sign")).then(function(r){done(true,r)}).catch(function(e){done(false,e&&e.message)});
+      return done(false,{note:"nothing signed · "+"Face ID ok · signed"});
+    }catch(e){done(false,e&&e.message)}
+  }
+  /* Prefer integrated ASSM RWALLET / RKRYPT Face ID (WebAuthn). Native bridge if present. No new UI. */
+  try{
+    if(window.DSNative&&typeof DSNative.biometric==="function"){
+      return new Promise(function(res,rej){var id="bio"+Date.now();window.DSN_cb=window.DSN_cb||function(){};var prev=window.DSN_cb;
+        window.__rmailBio={id:id,ok:function(j){res(j)},no:function(e){rej(e)}};
+        try{DSNative.biometric(id,challenge)}catch(e){rej(e)}}).then(afterFace).catch(function(e){say("Face ID cancelled · "+(e&&e.message||e));});
+    }
+    if(window.RKRYPT&&typeof RKRYPT.sign==="function"){
+      return Promise.resolve(RKRYPT.sign(challenge)).then(afterFace).catch(function(e){say("Face ID cancelled · "+(e&&e.message||e));});
+    }
+    if(window.RKRYPT&&typeof RKRYPT.cmd==="function"){
+      return Promise.resolve(RKRYPT.cmd("rkrypt sign "+challenge)).then(function(r){return afterFace(r&&r.json||r)}).catch(function(e){say("Face ID cancelled · "+(e&&e.message||e));});
+    }
+    if(navigator.credentials&&window.PublicKeyCredential){
+      return navigator.credentials.get({publicKey:{challenge:crypto.getRandomValues(new Uint8Array(32)),userVerification:"required",timeout:60000}})
+        .then(afterFace).catch(function(e){say("Face ID cancelled · "+(e&&e.message||e));});
+    }
+    say("no Face ID on this device");
+  }catch(e){say("Face ID error · "+(e&&e.message||e));}
+}
+function open(o){css();if(!el){el=document.createElement("div");el.id="rmail-ui";document.body.appendChild(el);
+  el.addEventListener("click",function(e){var t=e.target.closest("[data-rf],[data-rm],[data-ra]");if(e.target===el)return close();if(!t)return;
+    if(t.dataset.rf){S.f=t.dataset.rf;S.sel=null;S.cmp=null}else if(t.dataset.rm){S.sel=t.dataset.rm;S.cmp=null;var tm0=all().filter(function(x){return x.id===S.sel})[0];if(tm0&&isTFCard(tm0)&&/^block4-mint-/.test(tm0.id)&&!tfDone(tm0))setTimeout(function(){tfOpen()},0)}
+    else{var a=t.dataset.ra;if(a==="close")return close();if(a==="new")S.cmp={};if(a==="cancel"||a==="back"){S.cmp=null;S.sel=null}
+      if(a==="sync"){var p=R()?R().flush():Promise.resolve();if(window.RMAIL_NOKEY&&typeof window.RMAIL_NOKEY.refresh==="function")p=p.then(function(){return window.RMAIL_NOKEY.refresh()});p.then(draw);}
+      if(a==="reply"){var m=all().filter(function(x){return x.id===S.sel})[0];if(m)S.cmp={to:mine(m)?(m.to||m.to_addr):(m.from&&m.from!=="guest"?m.from:m.from_addr),sub:"Re: "+parse(m).s}}
+      if(a==="tfbind"){tfOpen();return}
+      if(a==="approve"){var msg=all().filter(function(x){return x.id===S.sel})[0];if(msg)faceIdThen(t.getAttribute("data-kind")||approveKind(msg),msg);return}
+      if(a==="send"){var to=document.getElementById("rmu-to").value.trim()||"@chaserizal",sub=document.getElementById("rmu-sub").value.trim(),body=document.getElementById("rmu-body").value,st=document.getElementById("rmu-cst");
+        if(!body.trim()&&!sub)return;if(!R()){st.textContent="RMAIL engine not loaded";return}st.textContent="sending…";
+        R().send(to,"Subject: "+(sub||"(no subject)")+"\n\n"+body).then(function(r){S.cmp=null;S.f=r&&r.delivered?"sent":"outbox";S.sel=r&&r.msg.id;draw()});return}}
+    draw()})}
+  S.cmp=o&&o.compose?{to:o.to||"",sub:o.sub||""}:S.cmp;el.classList.add("open");draw()}
+function close(){if(el)el.classList.remove("open");navBadge(badgeCount())}
+document.addEventListener("click",function(e){var t=e.target&&e.target.closest;if(!t)return;
+  var nav=e.target.closest('[data-a="nav"][data-n="msgs"],[data-rmail]');if(nav){e.preventDefault();e.stopPropagation();open();return}
+  var m=e.target.closest('.csp-msgbtn,[data-a="dm"]');if(m){e.preventDefault();e.stopPropagation();var h=m.getAttribute("data-h")||m.getAttribute("data-handle")||((document.querySelector(".csp-ph,.csp-handle")||{}).textContent||"").trim()||"@chaserizal";
+    open({compose:true,to:/^@|^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(h)?h:"@chaserizal"})}},true);
+window.RMAIL_UI={v:2,open:open,close:close,draw:draw,folders:folders,badgeCount:badgeCount,navBadge:navBadge,isApproveReq:isApproveReq};
+setInterval(function(){try{navBadge(badgeCount())}catch(e){}},4000);
+if(document.readyState==="complete")try{css();navBadge(badgeCount())}catch(e){}
+else window.addEventListener("load",function(){try{css();navBadge(badgeCount())}catch(e){}});
+})();

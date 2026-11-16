@@ -1,0 +1,26 @@
+{
+  "kind": "rghostkey.trusted_devices.public.v1",
+  "law": "PUBLIC keys only. Private keys stay in each device's Keystore/Keychain. No IPs, MACs, tokens or secrets.",
+  "rule": "ONE part (assm|faceid|fingerprint) from a trusted device",
+  "decider": "ЯID-0001-3QQS",
+  "source_registry_sha256": "4b8b14b8885e07d28452f7d5729502f26c7b2fc0684911a2fd90a57f3a4065a4",
+  "devices": [
+    {
+      "device_id": "moto-ZN3223FVDH",
+      "label": "moto g 5G 2024",
+      "os": "Android 15",
+      "rsd_device_id": "rsd-d2c47824f778ecd64b364f9e6688963e",
+      "pubkey_spki_b64": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEnaBy6N26lNQ+RjBYiQ62hKYJrAQywlRrUVmks4wyElaZeecHeNDwU5yEtRiQyjmFIuxBjvr/Oy+JLTXmwCsnDw==",
+      "pubkey_sha256": "d2c47824f778ecd64b364f9e6688963e2f590ba68dd602d2219f208f1280329f",
+      "parts": [
+        "fingerprint",
+        "assm",
+        "faceid"
+      ],
+      "status": "active",
+      "approved": "2026-10-30T22:53:07-06:00",
+      "reconfirmed": "2026-11-04",
+      "approved_by": "ЯID-0001-3QQS"
+    }
+  ]
+}

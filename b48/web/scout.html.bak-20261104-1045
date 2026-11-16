@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en" data-ds-theme="dark">
+  <head><script src="./rwallet/rwallet-guard.js?v=20261026"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1" />
+    <title>RDRAGON</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="./ds-icon-32.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="./ds-icon-192.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png" />
+    <link rel="stylesheet" href="./scout-style.css" />
+    <link rel="stylesheet" href="./ds-mobile.css" />
+    <script defer src="./dg-web.js"></script>
+    <script defer src="./ds-mobile.js"></script>
+  <script src="skills/crypto-side-panel/rnetwork-config.js?v=1"></script><script defer src="skills/crypto-side-panel/rmail-ui.js?v=1"></script></head>
+  <body>
+    <aside id="roster" class="ds-nav" aria-label="Bots" data-ds-id="DS-NAV-01" data-ds-name="Sidebar / Drawer">
+      <nav id="roster-list" class="roster-list"></nav>
+      <!-- Legacy single-tile hook kept for ROS_BOT applyBot + clay icon path -->
+      <button id="tile" class="tile sr-only" type="button" aria-hidden="true" tabindex="-1">
+        <img src="./ybot-tile.png" alt="" />
+        <span>ЯBOT</span>
+      </button>
+      <small id="legacy-rid" class="sr-only"></small>
+    </aside>
+    <main>
+      <header id="bot-hero" class="ds-bar-top" data-ds-id="DS-BAR-01" data-ds-name="Top Status Bar">
+        <button id="hero-avatar-btn" type="button" title="Click the picture to edit this bot" aria-label="Edit profile">
+          <img id="chat-avatar" alt="" />
+          <span class="hero-pen" aria-hidden="true">✎</span>
+        </button>
+        <span id="chat-title">RDRAGON</span>
+        <img id="ds-logo" src="./ds-logo.png" alt="RDRAGON logo" />
+        <small id="ds-status" class="ds-status ds-chip" data-ds-id="DS-CHIP-01" data-ds-name="ENGINE">ENGINE</small>
+        <small id="chat-sub" title="ЯID · read-only">Select a bot</small>
+        <button id="chat-edit" type="button" onclick="window.ROS_EDIT_PROFILE &amp;&amp; window.ROS_EDIT_PROFILE()">✎ Edit profile</button>
+      </header>
+      <section id="bot-edit" hidden aria-label="Edit this bot"></section>
+      <section id="log" class="ds-log" aria-live="polite" data-ds-id="DS-LIST-02" data-ds-name="Message Log"></section>
+      <form id="composer" class="ds-input" data-ds-id="DS-BAR-03" data-ds-name="Input Bar">
+        <input id="message" class="ds-field" data-ds-id="DS-FLD-01" data-ds-name="Message Field" autofocus autocomplete="off" placeholder="Message your bot" />
+        <button type="submit" class="ds-btn primary" data-ds-id="DS-BTN-01" data-ds-name="Send Button">Send</button>
+      </form>
+    </main>
+    <script defer src="./rid-roster.js"></script>
+    <script defer src="./skills/notes-reader/rzl-notes-reader.js"></script>
+    <script defer src="./COMMANDS-MASTER.js"></script>
+    <script defer src="./skills/tfr-panel/tfr-panel.js?v=20261030"></script>
+    <script defer src="./scout-app.js?v=20261024rd"></script>
+    <script defer src="./chatlist.js"></script>
+    <script defer src="./skills/bot-sidebar/bot-sidebar.js"></script>
+    <script defer src="./skills/batibabox-rt/bbx-rt.js"></script>
+    <script defer src="./skills/identity-guard/identity-guard-rt.js"></script>
+    <script defer src="./skills/botwin/botwin.js"></script>
+    <script defer src="./skills/thundr-live/thundr-adapter.js"></script>
+    <!-- THUNDR 2.2.0.5 from signed egg ios-219-superdragon 2.2.0.5 (e5833fdfbbfe), injected 2026-10-23 -->
+    <script defer src="./skills/thundr-live/thundr-visible.js"></script>
+    <script defer src="./skills/thundr-live/thundr-bus.js"></script>
+    <script defer src="./skills/thundr-live/thundr-link.js"></script>
+    <script defer src="./skills/superdragon/superdragon.js"></script>
+    <script defer src="./skills/rzl-repair/rzl-repair.js"></script>
+    <script defer src="./skills/thundr-live/thundr-ios.js"></script>
+    <script defer src="./skills/thundr-live/thundr-merge.js"></script>
+    <script defer src="./skills/thundr-live/thundr-moods.js"></script>
+    <script defer src="./ds-selfupdate.js"></script>
+    <script defer src="./skills/batibabox-ds/bbx-ds-core.js"></script>
+    <script defer src="./skills/batibabox-ds/bbx-ds.js"></script>
+    <script defer src="./skills/batibabox-ds/ds-mind-view.js"></script>
+    <script defer src="./skills/parts-guide/parts-guide.js"></script>
+    <script defer src="./skills/qr-pair/qrcode-gen.js"></script>
+    <script defer src="./skills/qr-pair/qr-pair.js"></script>
+    <script defer src="./skills/qr-pair/link.js"></script><!-- qr-pair 0.2.0 link -->
+      <!-- parity 0.1.0 (add-only) -->
+    <script defer src="./skills/terminal-direct/terminal-direct.js?v=20261023xcode"></script>
+    <script defer src="./skills/parity/parity-registry.js"></script>
+    <script defer src="./skills/parity/parity.js"></script>
+      <script defer src="./ds-history.js"></script>
+    <script defer src="./skills/walis/walis.js"></script>
+    <script defer src="./skills/mind-learn/mind-learn-core.js"></script>
+    <script defer src="./skills/mind-learn/mind-learn.js"></script>
+<script defer src="./skills/rdragon-label/rdragon-label.js?v=20261024"></script><script defer src="./skills/chat-images/chat-images.js?v=20261025audio"></script><script src="./skills/rdragon-chrome/rdragon-chrome.js?v=20261024b"></script><script defer src="./skills/rdragon-speaker/rdragon-speaker.js?v=20261024"></script><link rel="stylesheet" href="./skills/crypto-side-panel/crypto-side-panel.css?v=20261104rwallet"><script defer src="./skills/siteclone/siteclone-config.js?v=20261026SC"></script><script defer src="./skills/siteclone/rsync-core.js?v=20261026SC"></script><script defer src="./skills/siteclone/siteclone-sync.js?v=20261026SC"></script><script defer src="./skills/crypto-side-panel/crypto-side-panel.js?v=20261104rwallet"></script><script defer src="./rkrypt/rkrypt-hook.js"></script><!-- RKRYPT.rdos hook 20261025 -->
+<!-- R:\ RWALLET UNIFIED 20261026 --><link rel="stylesheet" href="/rwallet-shared/rwallet/rwallet-ghost.css?v=20261027"><script defer src="./rkrypt/rkrypt.rzl.js"></script><script defer src="/rwallet-shared/rwallet/rwallet-unified.js?v=20261027"></script><script defer src="./skills/thundr-live/thundr-rwallet.js?v=20261026"></script><script defer src="/rwallet-shared/rwallet/rwallet-ghost.js?v=20261027"></script><script defer src="/rwallet-shared/rgenerator/rid.js?v=20261027"></script><script defer src="/rwallet-shared/rgenerator/rgenerator-ridtags.js?v=20261027"></script><script defer src="/rwallet-shared/rwallet/rid-link.js?v=20261027"></script><script defer src="./skills/rsync-view/rsync-view.js?v=20261027b"></script><div id="rw" class="rw-dock" style="display:none;position:fixed;right:8px;top:8px;width:380px;max-height:92vh;overflow:auto;z-index:9999;background:#050505;border:1px solid #39ff14"></div>  <!-- mobileparity 20261030-mobileparity: ios platform-only scripts kept from previous scout.html -->
+  <script defer src="./rdragon-thread/rsync-core.js?v=rt1"></script>
+  <script defer src="./rdragon-thread/rdragon-thread.js?v=rt1"></script>
+  <script defer src="./rdragon-up/granite-prompt.js?v=up1"></script>
+  <script defer src="./rdragon-up/webaudio.js?v=up1"></script>
+  <script defer src="./rdragon-up/media-audio.js?v=up2"></script>
+  <script defer src="./rdragon-up/gm-replies.js?v=up1"></script>
+  <script defer src="./ghostmachine/ghostmachine-sidebar.js?v=up1"></script>
+  <script defer src="./skills/fullprofile/fullprofile.js?v=20261104"></script><!-- fullprofile 20261104 -->
+</body>
+</html>

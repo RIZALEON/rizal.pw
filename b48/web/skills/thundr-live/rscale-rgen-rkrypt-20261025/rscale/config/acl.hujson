@@ -1,0 +1,20 @@
+// RSCALE ACL policy · Decider devices + app seats only (from rscale-linux 0.1.0, extended).
+{
+  "groups": { "group:decider": ["rizal@"] },
+  "tagOwners": {
+    "tag:door":  ["group:decider"],   // Neo/box/far-device service ports 4871-4875, 8341
+    "tag:seat":  ["group:decider"],   // app seats: ЯBOT, ЯBOWZR, DRAGON SKULL, Linux machines
+    "tag:relay": ["group:decider"],   // far device / exit node / DERP host
+    "tag:test":  ["group:decider"]
+  },
+  "acls": [
+    { "action": "accept", "src": ["group:decider"], "dst": ["*:*"] },
+    { "action": "accept", "src": ["tag:seat"], "dst": ["tag:door:4871-4875,8341", "tag:seat:*", "tag:relay:*"] },
+    { "action": "accept", "src": ["tag:relay"], "dst": ["tag:door:4871-4875,8341"] },
+    { "action": "accept", "src": ["tag:test"], "dst": ["tag:test:*"] }
+  ],
+  "autoApprovers": {
+    "routes":   { "192.168.0.0/16": ["tag:relay"] },
+    "exitNode": ["tag:relay"]
+  }
+}

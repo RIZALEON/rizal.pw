@@ -1,0 +1,6 @@
+{
+ "qr-peer-save": {"args": ["/qr/peers.json", "{}"], "caps": ["fs.write"], "doc": "qr-pair 0.1.0: persist the peer table (public data only: device, app, version, build, fingerprints) inside the VM fs", "rasm": "load arg0\nload arg1\ncall fs.write 2\nhalt"},
+ "qr-peer-read": {"args": ["/qr/peers.json"], "caps": ["fs.read"], "doc": "qr-pair 0.1.0 read-only: return the stored peer table", "rasm": "load arg0\ncall fs.read 1\nhalt"},
+ "qr-propose":   {"args": ["/qr/proposals/x.json", "{}", "x", {}], "caps": ["fs.write", "chain.append"], "doc": "qr-pair 0.1.0 gated: write a Decider proposal (egg install offer from a paired peer) for ЯID-0001-3QQS + chain it. Never installs.",
+                  "rasm": "load arg0\nload arg1\ncall fs.write 2\nstore w\npush \"qr-proposal\"\nload arg3\ncall chain.append 2\nstore c\npush \"executed\"\npush false\npush \"proposal\"\nload arg2\npush \"written\"\nload w\npush \"chain\"\nload c\nmkobj 4\nhalt"}
+}

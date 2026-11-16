@@ -1,0 +1,29 @@
+<!doctype html>
+<!-- DRAGON SKULL iOS · RVM host (all-in-one 2026-10-19, SCOUT). Offline. The guest has NO network device (root-riscv64.cfg: no eth,
+     net_state = null). The only path out of the guest is the rvmget OSC bridge (ESC ]777;rvm-fetch;<url> BEL), which boot.html turns
+     into postMessage {t:'rvm.linux.fetch'}. This host answers it ONLY through DRAGONGATE (dg-web.js wraps fetch): with online:false,
+     or kill, or no core/policy (subframe = ClosedCore), every off-device URL is denied and logged. Loopback stays local. -->
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ЯVM · DRAGON SKULL</title>
+<script src="../../dg-web.js"></script>
+<style>html,body{margin:0;height:100%;background:#000;color:#ddd;font:12px ui-monospace,monospace}iframe{border:0;width:100%;height:calc(100% - 22px)}#s{height:22px;line-height:22px;padding:0 6px}</style>
+</head><body><div id="s">ЯVM · offline · DRAGONGATE</div>
+<iframe id="vm" src="linux/boot.html" title="ЯVM Linux"></iframe>
+<script>
+(function(){
+  var vm = document.getElementById('vm'), st = document.getElementById('s');
+  function say(t){ st.textContent = 'ЯVM · ' + t; }
+  window.addEventListener('message', function(e){
+    if (e.source !== vm.contentWindow || !e.data) return;
+    var d = e.data;
+    if (d.t === 'rvm.linux.ready') say('booting · offline · DRAGONGATE');
+    if (d.t !== 'rvm.linux.fetch') return;
+    var url = String(d.url || '').slice(0, 2048);
+    // Through the gate only. No dg-web.js => refuse (fail closed).
+    if (!window.DG || typeof fetch !== 'function') { say('blocked (no gate) ' + url); return; }
+    fetch(url, { cache: 'no-store', redirect: 'error' }).then(function(r){ say('fetch ' + r.status + ' ' + url); })
+      .catch(function(err){ say('DRAGONGATE blocked ' + url + ' · ' + (err && err.message || err)); });
+  });
+})();
+</script><p>Granite 4.0 H 1B (Q4_K_M) is SHA-pinned and downloaded onto the device — it is not packed. See <a href="granite-rvm-hookup.json">granite-rvm-hookup.json</a>. LINUX RIZAL 1.1.1.6 + 1.1.1.7 components.</p>
+</body></html>

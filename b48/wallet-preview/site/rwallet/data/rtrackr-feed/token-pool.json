@@ -1,0 +1,77 @@
+{
+ "schema": "rzl.rtrackr.pool.v1",
+ "fetched_at": "2026-11-14T21:05:14-07:00",
+ "chain": "solana-mainnet",
+ "note": "Read-only snapshot of tracked pools for RTRACKR offline fallback. Live page reads the same pool over public Solana RPC. Tracking only: no swaps, no liquidity actions, no keys.",
+ "ghostchain": {
+  "registry": "RGHOSTCHAIN/rtrackr/pools.json",
+  "registry_schema": "rzl.rtrackr.pools.v1",
+  "onchain_rghostchain": false,
+  "sealed": false
+ },
+ "pools": [
+  {
+   "pool_id": "pool.orca.R-SOL.HSroUxVk",
+   "label": "Orca Я/SOL splash pool",
+   "pair": "Я/SOL",
+   "dex": "Orca",
+   "address": "HSroUxVkVKv6kX9e7dpoJtbFqKcL76BzrkuuRfAGxs9s",
+   "program": "whirLbMiicVdio4qvUfM5KAg6Ct8VwpYzGff3uctyCc",
+   "lamports": 3967480,
+   "slot": 469589000,
+   "rpc": "https://solana-rpc.publicnode.com",
+   "tracking_only": true,
+   "no_swap": true,
+   "no_liquidity_actions": true,
+   "position_nft": "24uKAFYiLQaycBeiVCpKQgsjUwAn9XiKsuiMAZeoaRV7",
+   "token_a": {
+    "symbol": "SOL",
+    "mint": "So11111111111111111111111111111111111111112",
+    "vault": "9m3eqYYF7mP3gPvcrknbCQHhsVXRVpH9AKAKagdETqmb",
+    "decimals": 9,
+    "amount_raw": "15571399",
+    "amount_ui": "0.015571399"
+   },
+   "token_b": {
+    "symbol": "Я",
+    "mint": "BB9uA5BuacDnWyDf5Npc9nMb9yFbyThsNrQPBYJ5Q1Lv",
+    "vault": "8uYFzTDTDq18z1gPFgjaNRAxmZ3c52tbVHGBLN2CVF3G",
+    "decimals": 9,
+    "amount_raw": "67413195901945",
+    "amount_ui": "67413.195901945"
+   },
+   "tick_spacing": 32896,
+   "fee_rate": 10000,
+   "fee_pct": 1.0,
+   "liquidity": "31622776601",
+   "sqrt_price_x64": "39183078610856339195039",
+   "tick_current_index": 153229,
+   "price_b_per_a": 4511881.304097264,
+   "price_a_per_b": 2.2163703621633276e-07,
+   "tvl_in_a": 0.03051265994157812,
+   "tvl_in_b": 137669.49992868383,
+   "tvl_sol": 0.03051265994157812,
+   "whirlpools_config": "2LecshUwdy9xi7meFgHtFJQNSKk4KdTrcpvaB56dP2NQ",
+   "recent_signatures": [],
+   "links": {
+    "orca": "https://www.orca.so/pools?tokens=So11111111111111111111111111111111111111112",
+    "solscan": "https://solscan.io/account/HSroUxVkVKv6kX9e7dpoJtbFqKcL76BzrkuuRfAGxs9s",
+    "explorer": "https://explorer.solana.com/address/HSroUxVkVKv6kX9e7dpoJtbFqKcL76BzrkuuRfAGxs9s",
+    "geckoterminal": "https://www.geckoterminal.com/solana/pools/HSroUxVkVKv6kX9e7dpoJtbFqKcL76BzrkuuRfAGxs9s",
+    "dexscreener": "https://dexscreener.com/solana/HSroUxVkVKv6kX9e7dpoJtbFqKcL76BzrkuuRfAGxs9s"
+   },
+   "market": {
+    "source": "GeckoTerminal public API",
+    "reserve_usd": "4.0647",
+    "volume_24h_usd": "0.0",
+    "trades_24h": 0,
+    "base_price_usd": "0.00003672334606",
+    "quote_price_usd": "107.5081972145",
+    "fdv_usd": "36.72334606",
+    "pool_created_at": "2026-10-13T23:50:16Z",
+    "fetched_at": "2026-11-14T21:05:14-07:00"
+   }
+  }
+ ],
+ "errors": []
+}

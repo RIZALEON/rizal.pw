@@ -1,0 +1,32 @@
+# ~/.reticulum/config for MacBook Neo (home transport node). Template only, no keys.
+[reticulum]
+  enable_transport = Yes
+  share_instance = Yes
+  panic_on_interface_error = No
+
+[logging]
+  loglevel = 4
+
+[interfaces]
+  [[LAN Auto]]
+    type = AutoInterface
+    enabled = yes
+
+  [[Home TCP Server]]
+    type = TCPServerInterface
+    enabled = yes
+    listen_ip = 0.0.0.0
+    listen_port = 4242
+
+  [[Testnet Amsterdam]]
+    type = TCPClientInterface
+    enabled = yes
+    target_host = amsterdam.connect.reticulum.network
+    target_port = 4965
+
+  # Direct link to the box relay. Enable only if the box gets a public IP/port.
+  [[Box Relay]]
+    type = TCPClientInterface
+    enabled = no
+    target_host = BOX_PUBLIC_HOST
+    target_port = 4242

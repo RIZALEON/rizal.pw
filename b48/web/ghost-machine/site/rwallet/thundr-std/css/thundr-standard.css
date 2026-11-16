@@ -1,0 +1,288 @@
+/* THUNDR DESIGN STANDARD 20261111
+   Drop this into web, RVM, LINUX RIZAL, and Android WebViews.
+   Source of truth for colors is ../tokens/thundr-design-tokens.json
+   The CHAT / ASSM / RMAIL / ЯWALLET / >ThundR row above the composer
+   is NOT part of this standard and must not be drawn. */
+
+@font-face{
+  font-family:"VT323";
+  src:url("../fonts/VT323-Regular.ttf") format("truetype");
+  font-display:swap;
+}
+@font-face{
+  font-family:"Press Start 2P";
+  src:url("../fonts/PressStart2P-Regular.ttf") format("truetype");
+  font-display:swap;
+}
+@font-face{
+  font-family:"IBM Plex Mono";
+  src:url("../fonts/IBMPlexMono-Regular.ttf") format("truetype");
+  font-display:swap;
+}
+@font-face{
+  font-family:"Noto Sans Tagalog";
+  src:url("../fonts/NotoSansTagalog-Regular.ttf") format("truetype");
+  font-display:swap;
+}
+@font-face{
+  font-family:"RFONT";
+  src:url("../fonts/RFONT.ttf") format("truetype"),
+      url("../fonts/RFONT.otf") format("opentype");
+  font-display:swap;
+}
+
+:root{
+  --r-bg:#000000;
+  --r-green:#39FF14;
+  --r-green-engine:#66CC66;
+  --r-green-dim:#21850F;
+  --r-green-tab:#117733;
+  --r-mint:#CCFFEE;
+  --r-engine-alert:#EF4444;
+  --r-chrome:#EEEEEE;
+  --r-muted:#888888;
+  --r-purple:#8A2BE2;
+  --r-purple-hot:#B388FF;
+  --r-user-fill:#1A0630;
+  --r-panel:#110D1C;
+  --r-panel-border:#2B2160;
+  --r-pill:#6B4FD8;
+  --r-purple-deep:#3A2D70;
+  --r-footer:#0C0A16;
+  --r-gold:#FFE46B;
+  --r-gold-bolt:#FFD600;
+  --r-cyan:#9AD0FF;
+  --r-bot-fill:#0A0A0A;
+  --r-rboard-frame:#3F117E;
+  --r-globe:#2095E2;
+  --r-glow-g:0 0 8px rgba(57,255,20,.45);
+  --r-glow-p:0 0 12px rgba(138,43,226,.55);
+  --font-rfont:"RFONT","VT323","IBM Plex Mono",ui-monospace,monospace;
+  --font-display:"RFONT",system-ui,"SF Pro Display","Helvetica Neue",sans-serif;
+  --font-pixel:"Press Start 2P","RFONT",monospace;
+  --font-bay:"Noto Sans Tagalog","RFONT",sans-serif;
+  --font-key:"RFONT","IBM Plex Mono",ui-rounded,system-ui,sans-serif;
+  --bubble-radius:22px;
+  --composer-radius:16px;
+  --header-h:52px;
+  --composer-h:52px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--r-bg);color:var(--r-green);font-family:var(--font-rfont)}
+button,input{font:inherit;color:inherit;background:none;border:0}
+button{cursor:pointer}
+img{display:block}
+
+/* ---- twilight ---- */
+.r-starfield{position:absolute;inset:0;z-index:0;pointer-events:none;background:var(--r-bg)}
+
+/* ---- app shell (phone, Android, LINUX RIZAL) ---- */
+.rd-app{
+  position:relative;
+  display:flex;flex-direction:column;
+  width:100%;height:100%;
+  background:var(--r-bg);
+  color:var(--r-green);
+  overflow:hidden;
+  font-family:var(--font-rfont);
+}
+.rd-app > *{position:relative;z-index:1}
+.rd-app > .r-starfield{position:absolute;inset:0;z-index:0;pointer-events:none;width:100%;height:100%}
+
+/* ---- header ---- */
+.rd-header{
+  display:flex;align-items:center;gap:10px;
+  height:var(--header-h);flex-shrink:0;
+  padding:0 12px;
+  border-bottom:1px solid #111;
+  background:var(--r-bg);
+}
+.rd-menu{
+  width:36px;height:32px;flex-shrink:0;
+  display:grid;place-items:center;gap:4px;
+  border:1.5px solid var(--r-green);
+  border-radius:8px;
+  box-shadow:var(--r-glow-g);
+}
+.rd-menu span{display:block;width:16px;height:1.5px;background:var(--r-green);border-radius:1px}
+.rd-name{
+  font-family:var(--font-display);
+  font-size:17px;font-weight:650;letter-spacing:.04em;
+  color:var(--r-chrome);
+}
+.rd-portrait{
+  width:32px;height:32px;border-radius:6px;
+  object-fit:cover;flex-shrink:0;
+  border:1px solid #333;
+}
+.rd-engine{
+  margin-left:auto;display:flex;align-items:baseline;gap:8px;
+  font-family:var(--font-rfont);letter-spacing:.04em;
+}
+.rd-engine .lab{color:var(--r-green-engine);font-size:13px;font-weight:700}
+.rd-engine.alert .lab{color:var(--r-engine-alert)}
+.rd-engine .ver{color:var(--r-muted);font-size:12px}
+
+/* ---- messages ---- */
+.rd-log{
+  flex:1;min-height:0;overflow:auto;
+  display:flex;flex-direction:column;gap:14px;
+  padding:14px 14px 18px;
+}
+.rd-bubble{
+  position:relative;
+  max-width:94%;
+  padding:12px 16px;
+  border-radius:var(--bubble-radius);
+  line-height:1.35;
+  font-size:18px;
+  word-break:break-word;
+}
+.rd-bubble.bot{
+  align-self:stretch;
+  background:var(--r-bot-fill);
+  border:1.5px solid var(--r-green);
+  color:var(--r-green);
+  box-shadow:var(--r-glow-g);
+  font-family:var(--font-rfont);
+}
+.rd-bubble.you{
+  align-self:stretch;
+  background:var(--r-user-fill);
+  border:1.5px solid var(--r-purple);
+  color:var(--r-chrome);
+  box-shadow:var(--r-glow-p);
+  display:flex;align-items:center;gap:10px;
+  font-family:var(--font-rfont);
+}
+.rd-bubble.you img{width:28px;height:28px;flex-shrink:0}
+.rd-status{
+  position:absolute;left:14px;top:-11px;
+  font-size:11px;color:var(--r-gold);
+  font-family:var(--font-display);
+  text-shadow:0 0 6px #000;
+  pointer-events:none;
+}
+
+/* ---- ThundR panel ---- */
+.th-panel{
+  align-self:stretch;
+  background:var(--r-panel);
+  border:1.5px solid var(--r-panel-border);
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 0 16px rgba(43,33,96,.55);
+  font-family:var(--font-rfont);
+}
+.th-head{
+  display:flex;align-items:center;gap:8px;
+  padding:10px 12px 8px;
+}
+.th-head .ttl{color:var(--r-gold);font-size:16px;flex:1}
+.th-head .bolt{color:var(--r-gold-bolt);font-size:16px}
+.th-pills{display:flex;gap:6px;flex-wrap:wrap}
+.th-pills button{
+  border:1px solid var(--r-pill);
+  background:#0c0a16;
+  color:var(--r-chrome);
+  border-radius:12px;
+  padding:3px 10px;
+  font-size:13px;
+}
+.th-pills button.x{width:26px;padding:3px 0;text-align:center}
+.th-body{padding:4px 14px 12px;color:var(--r-chrome);font-size:16px;line-height:1.4}
+.th-body .cmd{color:var(--r-cyan)}
+.th-body .via{color:var(--r-muted);font-size:14px;margin-top:4px}
+.th-foot{
+  display:flex;align-items:center;gap:8px;
+  background:var(--r-footer);
+  padding:10px 12px;
+  border-top:1px solid var(--r-panel-border);
+  color:var(--r-muted);font-size:13px;
+  flex-wrap:wrap;
+  min-height:48px;
+}
+.th-foot .hint{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.th-foot .approve{
+  flex-shrink:0;
+  background:var(--r-purple);
+  color:#fff;
+  border-radius:12px;
+  padding:6px 14px;
+  box-shadow:var(--r-glow-p);
+  font-size:14px;
+}
+
+/* ---- idle ThundR ---- */
+.th-idle{
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  padding:18px 0 8px;
+}
+.th-idle img{width:56px;height:56px;image-rendering:auto}
+.th-idle .lab{color:var(--r-gold);font-size:12px;font-family:var(--font-display)}
+
+/* ---- GHOSTMACHINE tab ---- */
+.rd-gm{
+  position:absolute;right:0;top:46%;
+  transform:translateY(-50%);
+  z-index:5;
+  writing-mode:vertical-rl;
+  text-orientation:mixed;
+  background:var(--r-green-tab);
+  color:var(--r-mint);
+  font-family:var(--font-display);
+  font-size:11px;font-weight:700;letter-spacing:.18em;
+  padding:16px 6px;
+  border-radius:10px 0 0 10px;
+  box-shadow:var(--r-glow-g);
+}
+
+/* ---- composer. NO seat-button row above this. ---- */
+.rd-composer{
+  flex-shrink:0;
+  display:flex;align-items:center;gap:8px;
+  padding:10px 12px 14px;
+  background:var(--r-bg);
+}
+.rd-plus{
+  width:46px;height:46px;flex-shrink:0;
+  display:grid;place-items:center;
+  border:1.5px solid var(--r-green);
+  border-radius:14px;
+  color:var(--r-green);
+  font-size:28px;line-height:1;
+  box-shadow:var(--r-glow-g);
+}
+.rd-field{
+  flex:1;min-width:0;height:46px;
+  display:flex;align-items:center;
+  border:1.5px solid var(--r-green);
+  border-radius:var(--composer-radius);
+  padding:0 14px;
+  box-shadow:var(--r-glow-g);
+  background:#000;
+}
+.rd-field .pfx{color:var(--r-green);margin-right:6px;white-space:nowrap}
+.rd-field input{
+  flex:1;min-width:0;height:100%;
+  background:transparent;outline:none;
+  color:var(--r-green);
+  caret-color:var(--r-green);
+  font-family:var(--font-rfont);
+  font-size:16px;
+}
+.rd-field input::placeholder{color:var(--r-green);opacity:.85}
+.rd-send{
+  flex-shrink:0;height:46px;
+  padding:0 18px;
+  background:var(--r-purple);
+  color:#fff;
+  border-radius:14px;
+  font-family:var(--font-display);
+  font-size:16px;font-weight:600;
+  box-shadow:var(--r-glow-p);
+}
+.rd-send:active{background:var(--r-purple-hot)}
+
+/* Intentionally no .rd-seats / CHAT-ASSM-RMAIL-ЯWALLET->ThundR row. */

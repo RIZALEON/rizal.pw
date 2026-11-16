@@ -1,0 +1,79 @@
+/* rdragon-hub.js · 1.0.4.37 (t198u/t199u: `request approval terraformr bind` / approve… / RMAIL card all open TerraformЯ on the bind screen; RMAIL gets the block 4 card from the native status too) · 1.0.4.36 (t193u/t194u) · the hub key row is gone; every view is a command typed into the chat box + Send:
+   chat · assm · rmail · rwallet · thundr · terraformr · terraformr bind · help   (with or without a leading "/").
+   ThundR card: TerraformЯ status + pending block-4 request (read-only, public fields) + Open TerraformЯ (terraformr:// URL scheme).
+   A pending block-4 request is announced in the chat. Never signs, mints or sends anything: signing stays in TerraformЯ. */
+(function(){"use strict";
+ if(window.__dsHub)return;window.__dsHub=1;
+ function $(s){return document.querySelector(s);}
+ function nat(){return window.webkit&&window.webkit.messageHandlers&&window.webkit.messageHandlers.dsAttach;}
+ function show(role,text){var log=$("#log");if(!log)return null;var d=document.createElement("div");d.className="turn "+role+" dg-cmd";d.textContent=text;log.appendChild(d);if(d.scrollIntoView)d.scrollIntoView();return d;}
+ function closeViews(){try{window.RMAIL_UI&&window.RMAIL_UI.close&&window.RMAIL_UI.close();}catch(_){}
+  try{window.RDRAGON_CSP&&typeof window.RDRAGON_CSP.close==="function"&&window.RDRAGON_CSP.close();}catch(_){}
+  var c=$("#ds-thundr-card");if(c)c.hidden=true;var l=$("#log");if(l)l.scrollTop=l.scrollHeight;}
+ function say(t){var c=$("#ds-thundr-card .st");if(c)c.textContent=t;}
+ var last={},waitOpen=[],waitStat=[],seen="";
+ function openTF(path,cb){if(!nat()){cb&&cb(false,"TerraformЯ opens from the 17e app only.");return;}if(cb)waitOpen.push(cb);nat().postMessage({op:"openTF",path:path||"open"});}
+ function status(cb){if(!nat()){cb&&cb(null);return;}if(cb)waitStat.push(cb);nat().postMessage({op:"tfStatus"});}
+ function card(){var c=$("#ds-thundr-card");if(c)return c;c=document.createElement("div");c.id="ds-thundr-card";c.className="ds-star-panel";c.hidden=true;
+  c.innerHTML='<div class="hd">⚡ ThundR</div><div class="tf"></div><div class="rq"></div>'+
+   '<div class="ks"><button type="button" class="ds-key" data-k="tf-open">TerraformЯ</button><button type="button" class="ds-key" data-k="tf-bind">Open block 4 in TerraformЯ</button><button type="button" class="ds-key" data-k="tf-refresh">↻</button><button type="button" class="ds-key" data-k="tf-close">×</button></div>'+
+   '<div class="st">Signing stays in TerraformЯ. Read-only here.</div>';
+  var comp=$("#composer");if(!comp)return c;var anchor=$("#ds-attach")||comp;anchor.parentNode.insertBefore(c,anchor);
+  c.addEventListener("click",function(e){var b=e.target.closest("[data-k]");if(!b)return;var k=b.dataset.k;
+   if(k==="tf-close")c.hidden=true;else if(k==="tf-refresh")refresh();
+   else if(k==="tf-bind")window.DS_HUB_CMD("terraformr bind");
+   else if(k==="tf-open")openTF("open",function(ok,why){say(why||(ok?"Opened TerraformЯ.":"TerraformЯ did not open: it is not installed or the terraformr:// scheme is missing."));});});
+  return c;}
+ function reqId(r){return r&&String(r.id||r.req_id||"");}
+ function reqLine(r,mod){return "Block 4 request · "+(r.label||r.ui_label||r.status||r.state||"pending")+(reqId(r)?" · id "+reqId(r):"")+(r.block_sha256?" · block "+String(r.block_sha256).slice(0,16)+"…":"")+(r.state?" · "+r.state:"")+(mod?" · "+mod:"");}
+ function refresh(){var c=card();c.querySelector(".tf").textContent="TerraformЯ · checking…";if(!nat())c.querySelector(".tf").textContent="TerraformЯ · status on the 17e only";else status();}
+ window.DS_TF_STATUS=function(s){s=s||{};last=s;var c=card();
+  c.querySelector(".tf").textContent="TerraformЯ (info.rizal.terraformr) · "+(s.canOpen?"installed · opens via "+s.scheme+"://":"not reachable: TerraformЯ is not installed or has no "+s.scheme+":// URL scheme");
+  var r=s.request;c.querySelector(".rq").textContent=r?reqLine(r,s.requestModified):"Block 4 request · none pending";
+  if(r){try{rmailSync(r);}catch(_){}}
+  if(r&&reqId(r)&&reqId(r)!==seen&&!/done|clear|cancel/i.test(String(r.state||r.status||""))){seen=reqId(r);show("bot","⚡ ThundR: "+reqLine(r)+" · type `terraformr bind` and Send to open TerraformЯ and seal it there with your own Face ID.");}
+  var w=waitStat;waitStat=[];w.forEach(function(f){try{f(s);}catch(_){}});};
+ window.DS_TF_OPENED=function(ok){say(ok?"Opened TerraformЯ.":"TerraformЯ did not open: it is not installed or the terraformr:// scheme is missing.");var w=waitOpen;waitOpen=[];w.forEach(function(f){try{f(ok);}catch(_){}});};
+ function pendingId(){var r=last&&last.request;var id=reqId(r);return (id&&!/done|clear|cancel/i.test(String(r.state||r.status||"")))?id:"";}
+ /* one bind opener for the chat box, the ThundR panel (request approval / approve…), the ThundR card and the RMAIL card */
+ function tfBind(cb){status(function(st){if(!st){cb(false,"TerraformЯ bind: works in the 17e app only.");return;}
+   var r=st.request,id=reqId(r);
+   if(!r||!id||/done|clear|cancel/i.test(String(r.state||r.status||""))){cb(false,"TerraformЯ bind: no block 4 request is pending. Nothing to open.");return;}
+   if(!/^[A-Za-z0-9._-]{3,80}$/.test(id)){cb(false,"TerraformЯ bind: the pending request id is not valid · not opened.");return;}
+   openTF("rsign/bind?req="+id,function(ok,why){cb(!!ok,why||(ok?"TerraformЯ: opened on block 4 request "+id+" (terraformr://rsign/bind?req="+id+"). Seal it there with your own Face ID; nothing is signed here.":"TerraformЯ did not open: it is not installed on this phone or the terraformr:// scheme is not registered. Nothing was signed."));});});}
+ window.DS_TF_OPEN_BIND=tfBind;window.DS_TF_PENDING=pendingId;
+ window.DS_TF_OPEN=function(cb){openTF("open",function(ok,why){cb&&cb(!!ok,why||(ok?"TerraformЯ: opened (terraformr://open).":"TerraformЯ did not open: it is not installed on this phone or the terraformr:// scheme is not registered."));});};
+ /* RMAIL: the pending block 4 card also comes from the native status (public fields only), so it shows even when no hub answers.
+    Same rmail.v1 shape as the Neo hub copy (id block4-mint-<req>); dedupe by id keeps one card. On done the card is marked confirmed. */
+ var OWNER_ADDR="BwpVNk1Rtncpv5HMTLwxB4Yfjkfv6mFaBQUTpjneH1F9";
+ function lsJ(k,d){try{return JSON.parse(localStorage.getItem(k))||d;}catch(_){return d;}}
+ function lsW(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(_){}}
+ function rmailSync(r){var id=reqId(r);if(!id||!/^rm-/.test(id))return;var mid="block4-mint-"+id.slice(3),done=/done|clear/i.test(String(r.state||r.status||""));
+  if(done){var d=lsJ("rmail.tfdone",{});if(!d[mid]){d[mid]={at:Date.now(),req:id,block:r.block_sha256||"",state:String(r.state||r.status)};lsW("rmail.tfdone",d);try{window.RMAIL_UI&&window.RMAIL_UI.draw&&window.RMAIL_UI.draw();}catch(_){}}return;}
+  if(/cancel/i.test(String(r.state||r.status||"")))return;
+  var box=lsJ("rmail.box",{}),have=Object.keys(box).some(function(k){return (box[k]||[]).some(function(m){return m&&m.id===mid;});});if(have)return;
+  var text="Block 4 mint: tap to seal in TerraformЯ (pending)\n\nBlock: 4\nBlock hash: "+(r.block_sha256||"?")+"\nRequest id: "+id+"\nStatus: PENDING — not sealed, not on chain.\n\nTap this card (or type terraformr bind) to open TerraformЯ on the bind screen, then press SEAL BLOCK 4 WITH FACE ID there.";
+  var m={v:2,kind:"rmail",id:mid,from:"neo-rdragon",from_addr:"neo-rdragon",to:"@chaserizal",to_addr:OWNER_ADDR,text:text,ts:Number(r.ts)||Date.now(),via:"rdragon-native",verified:false,trust:"unverified",origin:"17e"};
+  if(window.RSOCIAL&&typeof window.RSOCIAL.receive==="function"){try{window.RSOCIAL.receive(m);}catch(_){}}}
+ var HELP="Commands (type one, then Send; a leading / is optional):\n"+
+  "chat · back to the chat\nassm · ASSM login (bottom of the wallet)\nrmail · RMAIL\nrwallet · ЯWALLET\nthundr · ThundR card with TerraformЯ status + pending block 4 request\n"+
+  "terraformr · open the TerraformЯ app\nterraformr bind · open TerraformЯ on the pending block 4 request (you seal it there with Face ID)\nrequest approval terraformr bind · same as terraformr bind (also from the ThundR panel and its approve… button)\nhelp · this list";
+ /* called by dg-cmd.js handle() before any other command; returns true when it handled the text */
+ window.DS_HUB_CMD=function(t){var s=String(t||"").trim(),m=/^\/?(chat|assm|rmail|rwallet|wallet|thundr|help|terraformr(\s+bind)?)$/i.exec(s);
+  if(!m){var ap=/^\/?(?:request\s+approval|approve)(?:\s+(terraformr(?:\s+bind)?|block\s*4))?\s*$/i.exec(s);
+   if(ap&&(ap[1]||pendingId()))m=[s,/^terraformr$/i.test(ap[1]||"")?"terraformr":"terraformr bind"];}
+  if(!m)return false;
+  var k=m[1].toLowerCase().replace(/\s+/g," ");show("user","You: "+s);
+  if(k==="chat"){closeViews();show("bot","Chat.");return true;}
+  if(k==="assm"){if(window.CSP_OPEN_ASSM){window.CSP_OPEN_ASSM();show("bot","ASSM: opened the login at the bottom of the wallet");}else show("bot","ASSM is not available in this build.");return true;}
+  if(k==="rmail"){if(window.RMAIL_UI){window.RMAIL_UI.open();show("bot","RMAIL: opened");}else show("bot","RMAIL is not available in this build.");return true;}
+  if(k==="rwallet"||k==="wallet"){if(window.CSP_OPEN_WALLET){window.CSP_OPEN_WALLET();show("bot","RWALLET: opened the wallet layer");}else show("bot","ЯWALLET is not available in this build.");return true;}
+  if(k==="help"){show("bot",HELP);return true;}
+  if(k==="thundr"){var c=card();c.hidden=false;refresh();show("bot","⚡ ThundR: card open above the chat box (TerraformЯ status + block 4 request).");return true;}
+  if(k==="terraformr"){openTF("open",function(ok,why){show("bot",why||(ok?"TerraformЯ: opened (terraformr://open).":"TerraformЯ did not open: it is not installed on this phone or the terraformr:// scheme is not registered. Nothing was signed."));});return true;}
+  tfBind(function(ok,msg){show("bot",msg);});
+  return true;};
+ window.DS_TF_BIND=function(){return window.DS_HUB_CMD("terraformr bind");};
+ function boot(){if(!$("#composer"))return false;card();if(nat()){status();setInterval(function(){status();},30000);}return true;}
+ if(!boot()){document.addEventListener("DOMContentLoaded",boot);var n=0,t=setInterval(function(){if(boot()||++n>40)clearInterval(t);},250);}
+})();

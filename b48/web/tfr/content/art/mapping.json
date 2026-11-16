@@ -1,0 +1,3094 @@
+{
+ "schema": "terraformya.art.v1",
+ "tile": 16,
+ "palette": [
+  "#9d2d2c",
+  "#2f1910",
+  "#502a1a",
+  "#b8522b",
+  "#62442c",
+  "#815431",
+  "#b66c32",
+  "#cd9245",
+  "#6e6a60",
+  "#d3a35c",
+  "#5b7130",
+  "#a6a7a2",
+  "#9ac438",
+  "#6ea337",
+  "#528937",
+  "#335a28",
+  "#1a6e20",
+  "#0d2314",
+  "#1f3727",
+  "#1e8d42",
+  "#0d5098",
+  "#0047a4",
+  "#64a9e0",
+  "#565d6e",
+  "#7b89a0",
+  "#c7daec",
+  "#31348d",
+  "#5c3576",
+  "#472f48",
+  "#793a80",
+  "#c78bc2",
+  "#7f2e48"
+ ],
+ "atlas": "tiles.png",
+ "framing": {
+  "combo_index": "t*27 + r*9 + b*3 + l  with 0=air 1=same 2=other-solid",
+  "columns": 81,
+  "variants": 3
+ },
+ "tiles": {
+  "dirt": {
+   "kind": "framed",
+   "row": 0,
+   "variants": 3,
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "v01.png",
+     "rect_xywh": [
+      73,
+      156,
+      26,
+      26
+     ],
+     "note": "lower dirt of v0.1 grass/dirt cell"
+    },
+    {
+     "provenance": "cut",
+     "source": "v01.png",
+     "rect_xywh": [
+      83,
+      206,
+      23,
+      23
+     ],
+     "note": "lower dirt of v0.1 grass/dirt cell"
+    },
+    {
+     "provenance": "cut",
+     "source": "v01.png",
+     "rect_xywh": [
+      91,
+      258,
+      28,
+      28
+     ],
+     "note": "lower dirt of v0.1 grass/dirt cell"
+    }
+   ]
+  },
+  "grass": {
+   "kind": "framed",
+   "row": 3,
+   "variants": 3,
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "v01.png",
+     "rect_xywh": [
+      15,
+      135,
+      47,
+      49
+     ],
+     "note": "grass cap from v0.1 Grass column over dirt fill"
+    },
+    {
+     "provenance": "cut",
+     "source": "v01.png",
+     "rect_xywh": [
+      15,
+      135,
+      47,
+      49
+     ],
+     "note": "grass cap from v0.1 Grass column over dirt fill"
+    },
+    {
+     "provenance": "cut",
+     "source": "v01.png",
+     "rect_xywh": [
+      15,
+      135,
+      47,
+      49
+     ],
+     "note": "grass cap from v0.1 Grass column over dirt fill"
+    }
+   ]
+  },
+  "stone": {
+   "kind": "framed",
+   "row": 6,
+   "variants": 3,
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "v01.png",
+     "rect_xywh": [
+      130,
+      135,
+      35,
+      49
+     ],
+     "note": ""
+    },
+    {
+     "provenance": "cut",
+     "source": "v01.png",
+     "rect_xywh": [
+      130,
+      236,
+      35,
+      52
+     ],
+     "note": ""
+    },
+    {
+     "provenance": "cut",
+     "source": "v01.png",
+     "rect_xywh": [
+      170,
+      189,
+      39,
+      42
+     ],
+     "note": ""
+    }
+   ]
+  },
+  "moss_stone": {
+   "kind": "framed",
+   "row": 9,
+   "variants": 3,
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "v01.png",
+     "rect_xywh": [
+      217,
+      135,
+      39,
+      49
+     ],
+     "note": ""
+    },
+    {
+     "provenance": "cut",
+     "source": "v01.png",
+     "rect_xywh": [
+      217,
+      189,
+      39,
+      42
+     ],
+     "note": ""
+    },
+    {
+     "provenance": "cut",
+     "source": "v01.png",
+     "rect_xywh": [
+      217,
+      236,
+      39,
+      52
+     ],
+     "note": ""
+    }
+   ]
+  },
+  "sand": {
+   "kind": "framed",
+   "row": 12,
+   "variants": 3,
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "v01.png",
+     "rect_xywh": [
+      371,
+      135,
+      44,
+      49
+     ],
+     "note": ""
+    },
+    {
+     "provenance": "cut",
+     "source": "v01.png",
+     "rect_xywh": [
+      371,
+      189,
+      44,
+      42
+     ],
+     "note": ""
+    },
+    {
+     "provenance": "cut",
+     "source": "v01.png",
+     "rect_xywh": [
+      371,
+      236,
+      44,
+      52
+     ],
+     "note": ""
+    }
+   ]
+  },
+  "snow": {
+   "kind": "framed",
+   "row": 15,
+   "variants": 3,
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "v01.png",
+     "rect_xywh": [
+      419,
+      135,
+      41,
+      49
+     ],
+     "note": ""
+    },
+    {
+     "provenance": "cut",
+     "source": "v01.png",
+     "rect_xywh": [
+      419,
+      189,
+      41,
+      42
+     ],
+     "note": ""
+    },
+    {
+     "provenance": "cut",
+     "source": "v01.png",
+     "rect_xywh": [
+      419,
+      236,
+      41,
+      52
+     ],
+     "note": ""
+    }
+   ]
+  },
+  "coal_ore": {
+   "kind": "framed",
+   "row": 18,
+   "variants": 3,
+   "sources": [
+    {
+     "provenance": "generated filler",
+     "note": "Ricky's stone cut + dark coal specks"
+    },
+    {
+     "provenance": "generated filler",
+     "note": "Ricky's stone cut + dark coal specks"
+    },
+    {
+     "provenance": "generated filler",
+     "note": "Ricky's stone cut + dark coal specks"
+    }
+   ]
+  },
+  "iron_ore": {
+   "kind": "framed",
+   "row": 21,
+   "variants": 3,
+   "sources": [
+    {
+     "provenance": "generated filler",
+     "note": "Ricky's stone cut + iron specks"
+    },
+    {
+     "provenance": "generated filler",
+     "note": "Ricky's stone cut + iron specks"
+    },
+    {
+     "provenance": "generated filler",
+     "note": "Ricky's stone cut + iron specks"
+    }
+   ]
+  },
+  "gold_ore": {
+   "kind": "framed",
+   "row": 24,
+   "variants": 3,
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "v01.png",
+     "rect_xywh": [
+      264,
+      135,
+      39,
+      49
+     ],
+     "note": ""
+    },
+    {
+     "provenance": "cut",
+     "source": "v01.png",
+     "rect_xywh": [
+      264,
+      189,
+      39,
+      42
+     ],
+     "note": ""
+    },
+    {
+     "provenance": "cut",
+     "source": "v01.png",
+     "rect_xywh": [
+      264,
+      236,
+      39,
+      52
+     ],
+     "note": ""
+    }
+   ]
+  },
+  "crystal_ore": {
+   "kind": "framed",
+   "row": 27,
+   "variants": 3,
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "v01.png",
+     "rect_xywh": [
+      312,
+      135,
+      26,
+      49
+     ],
+     "note": ""
+    },
+    {
+     "provenance": "cut",
+     "source": "v01.png",
+     "rect_xywh": [
+      312,
+      189,
+      26,
+      42
+     ],
+     "note": ""
+    },
+    {
+     "provenance": "cut",
+     "source": "v01.png",
+     "rect_xywh": [
+      312,
+      236,
+      26,
+      52
+     ],
+     "note": ""
+    }
+   ]
+  },
+  "planks": {
+   "kind": "framed",
+   "row": 30,
+   "variants": 3,
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "build.jpg",
+     "rect_xywh": [
+      36,
+      103,
+      116,
+      131
+     ],
+     "note": ""
+    },
+    {
+     "provenance": "cut",
+     "source": "build.jpg",
+     "rect_xywh": [
+      176,
+      98,
+      116,
+      136
+     ],
+     "note": ""
+    },
+    {
+     "provenance": "cut",
+     "source": "build.jpg",
+     "rect_xywh": [
+      316,
+      98,
+      116,
+      136
+     ],
+     "note": ""
+    }
+   ]
+  },
+  "stone_brick": {
+   "kind": "framed",
+   "row": 33,
+   "variants": 3,
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "build.jpg",
+     "rect_xywh": [
+      35,
+      531,
+      117,
+      130
+     ],
+     "note": ""
+    },
+    {
+     "provenance": "cut",
+     "source": "build.jpg",
+     "rect_xywh": [
+      173,
+      531,
+      119,
+      130
+     ],
+     "note": ""
+    },
+    {
+     "provenance": "cut",
+     "source": "build.jpg",
+     "rect_xywh": [
+      443,
+      525,
+      117,
+      136
+     ],
+     "note": ""
+    }
+   ]
+  },
+  "bedrock": {
+   "kind": "framed",
+   "row": 36,
+   "variants": 3,
+   "sources": [
+    {
+     "provenance": "generated filler",
+     "note": "Ricky's stone cut darkened"
+    },
+    {
+     "provenance": "generated filler",
+     "note": "Ricky's stone cut darkened"
+    },
+    {
+     "provenance": "generated filler",
+     "note": "Ricky's stone cut darkened"
+    }
+   ]
+  },
+  "terrace_stone": {
+   "kind": "framed",
+   "row": 39,
+   "variants": 3,
+   "sources": [
+    {
+     "provenance": "derived",
+     "source": "ref/v5/5-terraced-world.jpg",
+     "rect_xyxy": [
+      586,
+      116,
+      618,
+      148
+     ],
+     "note": "dry-stone retaining wall / mountain core"
+    },
+    {
+     "provenance": "derived",
+     "source": "ref/v5/5-terraced-world.jpg",
+     "rect_xyxy": [
+      604,
+      140,
+      636,
+      172
+     ],
+     "note": "dry-stone retaining wall / mountain core"
+    },
+    {
+     "provenance": "derived",
+     "source": "ref/v5/5-terraced-world.jpg",
+     "rect_xyxy": [
+      560,
+      300,
+      592,
+      332
+     ],
+     "note": "dry-stone retaining wall / mountain core"
+    }
+   ]
+  },
+  "terrace_grass": {
+   "kind": "framed",
+   "row": 42,
+   "variants": 3,
+   "sources": [
+    {
+     "provenance": "derived",
+     "source": "ref/v5/5-terraced-world.jpg",
+     "rect_xyxy": [
+      30,
+      660,
+      62,
+      692
+     ],
+     "note": "terrace earth with Ricky's grass cap"
+    },
+    {
+     "provenance": "derived",
+     "source": "ref/v5/5-terraced-world.jpg",
+     "rect_xyxy": [
+      110,
+      664,
+      142,
+      696
+     ],
+     "note": "terrace earth with Ricky's grass cap"
+    },
+    {
+     "provenance": "derived",
+     "source": "ref/v5/5-terraced-world.jpg",
+     "rect_xyxy": [
+      170,
+      668,
+      202,
+      700
+     ],
+     "note": "terrace earth with Ricky's grass cap"
+    }
+   ]
+  },
+  "terrace_earth": {
+   "kind": "framed",
+   "row": 45,
+   "variants": 3,
+   "sources": [
+    {
+     "provenance": "derived",
+     "source": "ref/v5/5-terraced-world.jpg",
+     "rect_xyxy": [
+      30,
+      660,
+      62,
+      692
+     ],
+     "note": "terrace earth"
+    },
+    {
+     "provenance": "derived",
+     "source": "ref/v5/5-terraced-world.jpg",
+     "rect_xyxy": [
+      110,
+      664,
+      142,
+      696
+     ],
+     "note": "terrace earth"
+    },
+    {
+     "provenance": "derived",
+     "source": "ref/v5/5-terraced-world.jpg",
+     "rect_xyxy": [
+      170,
+      668,
+      202,
+      700
+     ],
+     "note": "terrace earth"
+    }
+   ]
+  },
+  "paddy_mud": {
+   "kind": "framed",
+   "row": 48,
+   "variants": 3,
+   "sources": [
+    {
+     "provenance": "derived",
+     "source": "ref/v5/5-terraced-world.jpg",
+     "rect_xyxy": [
+      30,
+      660,
+      62,
+      692
+     ],
+     "note": "rice-paddy mud"
+    },
+    {
+     "provenance": "derived",
+     "source": "ref/v5/5-terraced-world.jpg",
+     "rect_xyxy": [
+      110,
+      664,
+      142,
+      696
+     ],
+     "note": "rice-paddy mud"
+    },
+    {
+     "provenance": "derived",
+     "source": "ref/v5/5-terraced-world.jpg",
+     "rect_xyxy": [
+      170,
+      668,
+      202,
+      700
+     ],
+     "note": "rice-paddy mud"
+    }
+   ]
+  },
+  "thatch": {
+   "kind": "framed",
+   "row": 51,
+   "variants": 3,
+   "sources": [
+    {
+     "provenance": "derived",
+     "source": "ref/v5/5-terraced-world.jpg",
+     "rect_xyxy": [
+      150,
+      462,
+      182,
+      494
+     ],
+     "note": "hut thatch roof"
+    },
+    {
+     "provenance": "derived",
+     "source": "ref/v5/5-terraced-world.jpg",
+     "rect_xyxy": [
+      160,
+      466,
+      192,
+      498
+     ],
+     "note": "hut thatch roof"
+    },
+    {
+     "provenance": "derived",
+     "source": "ref/v5/5-terraced-world.jpg",
+     "rect_xyxy": [
+      60,
+      486,
+      92,
+      518
+     ],
+     "note": "hut thatch roof"
+    }
+   ]
+  },
+  "hut_wood": {
+   "kind": "framed",
+   "row": 54,
+   "variants": 3,
+   "sources": [
+    {
+     "provenance": "derived",
+     "source": "ref/v5/5-terraced-world.jpg",
+     "rect_xyxy": [
+      200,
+      502,
+      224,
+      526
+     ],
+     "note": "hut plank wall"
+    },
+    {
+     "provenance": "derived",
+     "source": "ref/v5/5-terraced-world.jpg",
+     "rect_xyxy": [
+      202,
+      506,
+      226,
+      530
+     ],
+     "note": "hut plank wall"
+    },
+    {
+     "provenance": "derived",
+     "source": "ref/v5/5-terraced-world.jpg",
+     "rect_xyxy": [
+      104,
+      530,
+      128,
+      554
+     ],
+     "note": "hut plank wall"
+    }
+   ]
+  },
+  "mangrove_mud": {
+   "kind": "framed",
+   "row": 57,
+   "variants": 3,
+   "sources": [
+    {
+     "provenance": "generated",
+     "source": "tools/art/world_v6.py",
+     "note": "mangrove_mud_0"
+    },
+    {
+     "provenance": "generated",
+     "source": "tools/art/world_v6.py",
+     "note": "mangrove_mud_1"
+    },
+    {
+     "provenance": "generated",
+     "source": "tools/art/world_v6.py",
+     "note": "mangrove_mud_2"
+    }
+   ]
+  },
+  "basalt": {
+   "kind": "framed",
+   "row": 60,
+   "variants": 3,
+   "sources": [
+    {
+     "provenance": "generated",
+     "source": "tools/art/world_v6.py",
+     "note": "basalt_0"
+    },
+    {
+     "provenance": "generated",
+     "source": "tools/art/world_v6.py",
+     "note": "basalt_1"
+    },
+    {
+     "provenance": "generated",
+     "source": "tools/art/world_v6.py",
+     "note": "basalt_2"
+    }
+   ]
+  },
+  "ash": {
+   "kind": "framed",
+   "row": 63,
+   "variants": 3,
+   "sources": [
+    {
+     "provenance": "generated",
+     "source": "tools/art/world_v6.py",
+     "note": "ash_0"
+    },
+    {
+     "provenance": "generated",
+     "source": "tools/art/world_v6.py",
+     "note": "ash_1"
+    },
+    {
+     "provenance": "generated",
+     "source": "tools/art/world_v6.py",
+     "note": "ash_2"
+    }
+   ]
+  },
+  "magma": {
+   "kind": "framed",
+   "row": 66,
+   "variants": 3,
+   "sources": [
+    {
+     "provenance": "generated",
+     "source": "tools/art/world_v6.py",
+     "note": "magma_0"
+    },
+    {
+     "provenance": "generated",
+     "source": "tools/art/world_v6.py",
+     "note": "magma_1"
+    },
+    {
+     "provenance": "generated",
+     "source": "tools/art/world_v6.py",
+     "note": "magma_2"
+    }
+   ]
+  },
+  "fossil_rock": {
+   "kind": "framed",
+   "row": 69,
+   "variants": 3,
+   "sources": [
+    {
+     "provenance": "generated",
+     "source": "tools/art/world_v6.py",
+     "note": "fossil_rock_0"
+    },
+    {
+     "provenance": "generated",
+     "source": "tools/art/world_v6.py",
+     "note": "fossil_rock_1"
+    },
+    {
+     "provenance": "generated",
+     "source": "tools/art/world_v6.py",
+     "note": "fossil_rock_2"
+    }
+   ]
+  },
+  "dirt_wall": {
+   "kind": "wall16",
+   "row": 72,
+   "variants": 2,
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "v01.png",
+     "rect_xywh": [
+      73,
+      156,
+      26,
+      26
+     ],
+     "note": "contrast-softened, darkened, half-bright palette"
+    }
+   ]
+  },
+  "stone_wall": {
+   "kind": "wall16",
+   "row": 74,
+   "variants": 2,
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "v01.png",
+     "rect_xywh": [
+      130,
+      189,
+      35,
+      42
+     ],
+     "note": "contrast-softened, darkened, half-bright palette"
+    }
+   ]
+  },
+  "wood_wall": {
+   "kind": "wall16",
+   "row": 76,
+   "variants": 2,
+   "sources": [
+    {
+     "provenance": "derived",
+     "source": "ref/v5/5-terraced-world.jpg",
+     "rect_xyxy": [
+      200,
+      502,
+      224,
+      526
+     ],
+     "note": "hut planks, darkened back wall"
+    }
+   ]
+  },
+  "inner_corner": {
+   "kind": "overlay16",
+   "row": 78,
+   "sources": [
+    {
+     "provenance": "generated filler",
+     "note": "dark corner notches"
+    }
+   ]
+  },
+  "water": {
+   "kind": "liquid16",
+   "row": 79,
+   "index": "(level8-1)*2 + surface",
+   "sources": [
+    {
+     "provenance": "generated filler",
+     "note": "palette blues; v0.1 water panel too painterly to cut"
+    }
+   ]
+  },
+  "cedar_trunk_0": {
+   "kind": "single",
+   "col": 0,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "redwood.jpg",
+     "rect_xywh": [
+      29,
+      20,
+      72,
+      71
+     ],
+     "note": ""
+    }
+   ]
+  },
+  "cedar_trunk_1": {
+   "kind": "single",
+   "col": 1,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "redwood.jpg",
+     "rect_xywh": [
+      29,
+      94,
+      72,
+      71
+     ],
+     "note": ""
+    }
+   ]
+  },
+  "cedar_trunk_2": {
+   "kind": "single",
+   "col": 2,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "redwood.jpg",
+     "rect_xywh": [
+      29,
+      169,
+      72,
+      71
+     ],
+     "note": ""
+    }
+   ]
+  },
+  "cedar_trunk_3": {
+   "kind": "single",
+   "col": 3,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "redwood.jpg",
+     "rect_xywh": [
+      29,
+      243,
+      72,
+      72
+     ],
+     "note": ""
+    }
+   ]
+  },
+  "cedar_branch_r_0": {
+   "kind": "single",
+   "col": 4,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "redwood.jpg",
+     "rect_xywh": [
+      428,
+      169,
+      72,
+      71
+     ],
+     "note": ""
+    }
+   ]
+  },
+  "cedar_branch_l_0": {
+   "kind": "single",
+   "col": 5,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "redwood.jpg",
+     "rect_xywh": [
+      428,
+      169,
+      72,
+      71
+     ],
+     "note": "mirrored"
+    }
+   ]
+  },
+  "cedar_branch_r_1": {
+   "kind": "single",
+   "col": 6,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "redwood.jpg",
+     "rect_xywh": [
+      428,
+      243,
+      72,
+      72
+     ],
+     "note": ""
+    }
+   ]
+  },
+  "cedar_branch_l_1": {
+   "kind": "single",
+   "col": 7,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "redwood.jpg",
+     "rect_xywh": [
+      428,
+      243,
+      72,
+      72
+     ],
+     "note": "mirrored"
+    }
+   ]
+  },
+  "cedar_branch_r_2": {
+   "kind": "single",
+   "col": 8,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "redwood.jpg",
+     "rect_xywh": [
+      428,
+      318,
+      72,
+      72
+     ],
+     "note": ""
+    }
+   ]
+  },
+  "cedar_branch_l_2": {
+   "kind": "single",
+   "col": 9,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "redwood.jpg",
+     "rect_xywh": [
+      428,
+      318,
+      72,
+      72
+     ],
+     "note": "mirrored"
+    }
+   ]
+  },
+  "cedar_base": {
+   "kind": "single",
+   "col": 10,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "redwood.jpg",
+     "rect_xywh": [
+      587,
+      542,
+      71,
+      71
+     ],
+     "note": ""
+    }
+   ]
+  },
+  "pine_trunk_0": {
+   "kind": "single",
+   "col": 11,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "pine.jpg",
+     "rect_xywh": [
+      14,
+      11,
+      81,
+      101
+     ],
+     "note": ""
+    }
+   ]
+  },
+  "pine_trunk_1": {
+   "kind": "single",
+   "col": 12,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "pine.jpg",
+     "rect_xywh": [
+      131,
+      11,
+      81,
+      101
+     ],
+     "note": ""
+    }
+   ]
+  },
+  "pine_trunk_2": {
+   "kind": "single",
+   "col": 13,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "pine.jpg",
+     "rect_xywh": [
+      247,
+      11,
+      83,
+      101
+     ],
+     "note": ""
+    }
+   ]
+  },
+  "pine_branch_r_0": {
+   "kind": "single",
+   "col": 14,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "leaves.jpg",
+     "rect_xywh": [
+      257,
+      8,
+      74,
+      88
+     ],
+     "note": ""
+    }
+   ]
+  },
+  "pine_branch_l_0": {
+   "kind": "single",
+   "col": 15,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "leaves.jpg",
+     "rect_xywh": [
+      257,
+      8,
+      74,
+      88
+     ],
+     "note": "mirrored"
+    }
+   ]
+  },
+  "pine_branch_r_1": {
+   "kind": "single",
+   "col": 16,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "leaves.jpg",
+     "rect_xywh": [
+      340,
+      8,
+      74,
+      88
+     ],
+     "note": ""
+    }
+   ]
+  },
+  "pine_branch_l_1": {
+   "kind": "single",
+   "col": 17,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "leaves.jpg",
+     "rect_xywh": [
+      340,
+      8,
+      74,
+      88
+     ],
+     "note": "mirrored"
+    }
+   ]
+  },
+  "tuft_0": {
+   "kind": "single",
+   "col": 18,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "leaves.jpg",
+     "rect_xywh": [
+      11,
+      591,
+      67,
+      78
+     ],
+     "note": ""
+    }
+   ]
+  },
+  "tuft_1": {
+   "kind": "single",
+   "col": 19,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "leaves.jpg",
+     "rect_xywh": [
+      175,
+      591,
+      73,
+      78
+     ],
+     "note": ""
+    }
+   ]
+  },
+  "tuft_2": {
+   "kind": "single",
+   "col": 20,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "leaves.jpg",
+     "rect_xywh": [
+      423,
+      591,
+      73,
+      78
+     ],
+     "note": ""
+    }
+   ]
+  },
+  "tuft_3": {
+   "kind": "single",
+   "col": 21,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "leaves.jpg",
+     "rect_xywh": [
+      92,
+      683,
+      73,
+      78
+     ],
+     "note": ""
+    }
+   ]
+  },
+  "flower_0": {
+   "kind": "single",
+   "col": 22,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "v01.png",
+     "rect_xywh": [
+      650,
+      378,
+      24,
+      34
+     ],
+     "note": ""
+    }
+   ]
+  },
+  "flower_1": {
+   "kind": "single",
+   "col": 23,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "v01.png",
+     "rect_xywh": [
+      678,
+      378,
+      24,
+      34
+     ],
+     "note": ""
+    }
+   ]
+  },
+  "flower_2": {
+   "kind": "single",
+   "col": 24,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "v01.png",
+     "rect_xywh": [
+      705,
+      378,
+      24,
+      34
+     ],
+     "note": ""
+    }
+   ]
+  },
+  "flower_3": {
+   "kind": "single",
+   "col": 25,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "v01.png",
+     "rect_xywh": [
+      725,
+      378,
+      24,
+      34
+     ],
+     "note": ""
+    }
+   ]
+  },
+  "vine_0": {
+   "kind": "single",
+   "col": 26,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "leaves.jpg",
+     "rect_xywh": [
+      11,
+      488,
+      67,
+      81
+     ],
+     "note": ""
+    }
+   ]
+  },
+  "vine_1": {
+   "kind": "single",
+   "col": 27,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "leaves.jpg",
+     "rect_xywh": [
+      257,
+      488,
+      74,
+      81
+     ],
+     "note": ""
+    }
+   ]
+  },
+  "vine_2": {
+   "kind": "single",
+   "col": 28,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "leaves.jpg",
+     "rect_xywh": [
+      506,
+      488,
+      73,
+      81
+     ],
+     "note": ""
+    }
+   ]
+  },
+  "vine_3": {
+   "kind": "single",
+   "col": 29,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "leaves.jpg",
+     "rect_xywh": [
+      754,
+      488,
+      73,
+      81
+     ],
+     "note": ""
+    }
+   ]
+  },
+  "torch": {
+   "kind": "single",
+   "col": 30,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "v01.png",
+     "rect_xywh": [
+      1272,
+      360,
+      30,
+      60
+     ],
+     "note": "wall torch"
+    }
+   ]
+  },
+  "crystal": {
+   "kind": "single",
+   "col": 31,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "v02.png",
+     "rect_xywh": [
+      1022,
+      950,
+      60,
+      68
+     ],
+     "note": ""
+    }
+   ]
+  },
+  "platform_single": {
+   "kind": "single",
+   "col": 32,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "build.jpg",
+     "rect_xywh": [
+      832,
+      565,
+      159,
+      62
+     ],
+     "note": "end/mid variants derived"
+    }
+   ]
+  },
+  "platform_left": {
+   "kind": "single",
+   "col": 33,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "build.jpg",
+     "rect_xywh": [
+      832,
+      565,
+      159,
+      62
+     ],
+     "note": "end/mid variants derived"
+    }
+   ]
+  },
+  "platform_mid": {
+   "kind": "single",
+   "col": 34,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "build.jpg",
+     "rect_xywh": [
+      832,
+      565,
+      159,
+      62
+     ],
+     "note": "end/mid variants derived"
+    }
+   ]
+  },
+  "platform_right": {
+   "kind": "single",
+   "col": 35,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "build.jpg",
+     "rect_xywh": [
+      832,
+      565,
+      159,
+      62
+     ],
+     "note": "end/mid variants derived"
+    }
+   ]
+  },
+  "sign": {
+   "kind": "single",
+   "col": 36,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "generated filler",
+     "note": "wooden sign (v3)"
+    }
+   ]
+  },
+  "workbench": {
+   "kind": "single",
+   "col": 37,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "generated filler",
+     "note": "work bench (v3)"
+    }
+   ]
+  },
+  "chest": {
+   "kind": "single",
+   "col": 38,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "generated filler",
+     "note": "chest (v3)"
+    }
+   ]
+  },
+  "coral_0": {
+   "kind": "single",
+   "col": 39,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "generated",
+     "source": "tools/art/world_v6.py",
+     "note": "coral_0"
+    }
+   ]
+  },
+  "coral_1": {
+   "kind": "single",
+   "col": 40,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "generated",
+     "source": "tools/art/world_v6.py",
+     "note": "coral_1"
+    }
+   ]
+  },
+  "coral_2": {
+   "kind": "single",
+   "col": 41,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "generated",
+     "source": "tools/art/world_v6.py",
+     "note": "coral_2"
+    }
+   ]
+  },
+  "coral_fan_0": {
+   "kind": "single",
+   "col": 42,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "generated",
+     "source": "tools/art/world_v6.py",
+     "note": "coral_fan_0"
+    }
+   ]
+  },
+  "coral_fan_1": {
+   "kind": "single",
+   "col": 43,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "generated",
+     "source": "tools/art/world_v6.py",
+     "note": "coral_fan_1"
+    }
+   ]
+  },
+  "coral_fan_2": {
+   "kind": "single",
+   "col": 44,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "generated",
+     "source": "tools/art/world_v6.py",
+     "note": "coral_fan_2"
+    }
+   ]
+  },
+  "seagrass_0": {
+   "kind": "single",
+   "col": 45,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "generated",
+     "source": "tools/art/world_v6.py",
+     "note": "seagrass_0"
+    }
+   ]
+  },
+  "seagrass_1": {
+   "kind": "single",
+   "col": 46,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "generated",
+     "source": "tools/art/world_v6.py",
+     "note": "seagrass_1"
+    }
+   ]
+  },
+  "seagrass_2": {
+   "kind": "single",
+   "col": 47,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "generated",
+     "source": "tools/art/world_v6.py",
+     "note": "seagrass_2"
+    }
+   ]
+  },
+  "mangrove_root_0": {
+   "kind": "single",
+   "col": 48,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "generated",
+     "source": "tools/art/world_v6.py",
+     "note": "mangrove_root_0"
+    }
+   ]
+  },
+  "mangrove_root_1": {
+   "kind": "single",
+   "col": 49,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "generated",
+     "source": "tools/art/world_v6.py",
+     "note": "mangrove_root_1"
+    }
+   ]
+  },
+  "fern_0": {
+   "kind": "single",
+   "col": 50,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "generated",
+     "source": "tools/art/world_v6.py",
+     "note": "fern_0"
+    }
+   ]
+  },
+  "fern_1": {
+   "kind": "single",
+   "col": 51,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "generated",
+     "source": "tools/art/world_v6.py",
+     "note": "fern_1"
+    }
+   ]
+  },
+  "fern_2": {
+   "kind": "single",
+   "col": 52,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "generated",
+     "source": "tools/art/world_v6.py",
+     "note": "fern_2"
+    }
+   ]
+  },
+  "fern_3": {
+   "kind": "single",
+   "col": 53,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "generated",
+     "source": "tools/art/world_v6.py",
+     "note": "fern_3"
+    }
+   ]
+  },
+  "fence": {
+   "kind": "single",
+   "col": 54,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "generated",
+     "source": "tools/art/world_v6.py",
+     "note": "fence"
+    }
+   ]
+  },
+  "pen_gate": {
+   "kind": "single",
+   "col": 55,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "generated",
+     "source": "tools/art/world_v6.py",
+     "note": "pen_gate"
+    }
+   ]
+  },
+  "tanning_rack": {
+   "kind": "single",
+   "col": 56,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "generated",
+     "source": "tools/art/world_v6.py",
+     "note": "tanning_rack"
+    }
+   ]
+  },
+  "loom": {
+   "kind": "single",
+   "col": 57,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "generated",
+     "source": "tools/art/world_v6.py",
+     "note": "loom"
+    }
+   ]
+  },
+  "apothecary": {
+   "kind": "single",
+   "col": 58,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "generated",
+     "source": "tools/art/world_v6.py",
+     "note": "apothecary"
+    }
+   ]
+  },
+  "dapog": {
+   "kind": "single",
+   "col": 59,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "generated",
+     "source": "tools/art/world_v6.py",
+     "note": "dapog"
+    }
+   ]
+  },
+  "snare": {
+   "kind": "single",
+   "col": 60,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "generated",
+     "source": "tools/art/world_v6.py",
+     "note": "snare"
+    }
+   ]
+  },
+  "fish_trap": {
+   "kind": "single",
+   "col": 61,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "generated",
+     "source": "tools/art/world_v6.py",
+     "note": "fish_trap"
+    }
+   ]
+  },
+  "cage": {
+   "kind": "single",
+   "col": 62,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "generated",
+     "source": "tools/art/world_v6.py",
+     "note": "cage"
+    }
+   ]
+  },
+  "door_closed_top": {
+   "kind": "single",
+   "col": 63,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "generated filler",
+     "note": "door_closed top (v3, 1x3 door)"
+    }
+   ]
+  },
+  "door_closed_mid": {
+   "kind": "single",
+   "col": 64,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "generated filler",
+     "note": "door_closed mid (v3, 1x3 door)"
+    }
+   ]
+  },
+  "door_closed_bot": {
+   "kind": "single",
+   "col": 65,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "generated filler",
+     "note": "door_closed bot (v3, 1x3 door)"
+    }
+   ]
+  },
+  "door_open_top": {
+   "kind": "single",
+   "col": 66,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "generated filler",
+     "note": "door_open top (v3, 1x3 door)"
+    }
+   ]
+  },
+  "door_open_mid": {
+   "kind": "single",
+   "col": 67,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "generated filler",
+     "note": "door_open mid (v3, 1x3 door)"
+    }
+   ]
+  },
+  "door_open_bot": {
+   "kind": "single",
+   "col": 68,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "generated filler",
+     "note": "door_open bot (v3, 1x3 door)"
+    }
+   ]
+  },
+  "rice_0": {
+   "kind": "single",
+   "col": 69,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "generated filler",
+     "note": "rice plant (v3, terrace water/ground)"
+    }
+   ]
+  },
+  "rice_1": {
+   "kind": "single",
+   "col": 70,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "generated filler",
+     "note": "rice plant (v3, terrace water/ground)"
+    }
+   ]
+  },
+  "rice_2": {
+   "kind": "single",
+   "col": 71,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "generated filler",
+     "note": "rice plant (v3, terrace water/ground)"
+    }
+   ]
+  },
+  "waterfall_0": {
+   "kind": "single",
+   "col": 72,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "drawn",
+     "source": "ref/v5/5-terraced-world.jpg",
+     "rect_xyxy": null,
+     "note": "waterfall frame 0; hue from the painting's falls (x496-536,y610-700)"
+    }
+   ]
+  },
+  "waterfall_1": {
+   "kind": "single",
+   "col": 73,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "drawn",
+     "source": "ref/v5/5-terraced-world.jpg",
+     "rect_xyxy": null,
+     "note": "waterfall frame 1; hue from the painting's falls (x496-536,y610-700)"
+    }
+   ]
+  },
+  "waterfall_2": {
+   "kind": "single",
+   "col": 74,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "drawn",
+     "source": "ref/v5/5-terraced-world.jpg",
+     "rect_xyxy": null,
+     "note": "waterfall frame 2; hue from the painting's falls (x496-536,y610-700)"
+    }
+   ]
+  },
+  "waterfall_3": {
+   "kind": "single",
+   "col": 75,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "drawn",
+     "source": "ref/v5/5-terraced-world.jpg",
+     "rect_xyxy": null,
+     "note": "waterfall frame 3; hue from the painting's falls (x496-536,y610-700)"
+    }
+   ]
+  },
+  "ladder": {
+   "kind": "single",
+   "col": 76,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "drawn",
+     "source": "ref/v5/5-terraced-world.jpg",
+     "rect_xyxy": null,
+     "note": "ladder in the painting's rail colours (sampled near x1000-1050,y330-460)"
+    }
+   ]
+  },
+  "mine_beam": {
+   "kind": "single",
+   "col": 77,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "drawn",
+     "source": "ref/v5/5-terraced-world.jpg",
+     "rect_xyxy": null,
+     "note": "timber post, mine-entrance colours (painting x440-540,y420-520)"
+    }
+   ]
+  },
+  "mine_lintel": {
+   "kind": "single",
+   "col": 78,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "drawn",
+     "source": "ref/v5/5-terraced-world.jpg",
+     "rect_xyxy": null,
+     "note": "timber lintel"
+    }
+   ]
+  },
+  "lip_top_0": {
+   "kind": "single",
+   "col": 79,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "drawn",
+     "source": "ref/v5/5-terraced-world.jpg",
+     "rect_xyxy": null,
+     "note": "grass blades over a top edge, painting greens"
+    }
+   ]
+  },
+  "lip_top_1": {
+   "kind": "single",
+   "col": 80,
+   "row": 80,
+   "sources": [
+    {
+     "provenance": "drawn",
+     "source": "ref/v5/5-terraced-world.jpg",
+     "rect_xyxy": null,
+     "note": "grass blades over a top edge, painting greens"
+    }
+   ]
+  },
+  "lip_top_2": {
+   "kind": "single",
+   "col": 0,
+   "row": 81,
+   "sources": [
+    {
+     "provenance": "drawn",
+     "source": "ref/v5/5-terraced-world.jpg",
+     "rect_xyxy": null,
+     "note": "grass blades over a top edge, painting greens"
+    }
+   ]
+  },
+  "lip_l": {
+   "kind": "single",
+   "col": 1,
+   "row": 81,
+   "sources": [
+    {
+     "provenance": "drawn",
+     "source": "ref/v5/5-terraced-world.jpg",
+     "rect_xyxy": null,
+     "note": "grass overhang draping over a left cliff edge (painting x560-660,y440-500)"
+    }
+   ]
+  },
+  "lip_r": {
+   "kind": "single",
+   "col": 2,
+   "row": 81,
+   "sources": [
+    {
+     "provenance": "drawn",
+     "source": "ref/v5/5-terraced-world.jpg",
+     "rect_xyxy": null,
+     "note": "grass overhang draping over a right cliff edge (painting x560-660,y440-500)"
+    }
+   ]
+  },
+  "crack_0": {
+   "kind": "single",
+   "col": 3,
+   "row": 81,
+   "sources": [
+    {
+     "provenance": "generated filler",
+     "note": "dig crack stage 0"
+    }
+   ]
+  },
+  "crack_1": {
+   "kind": "single",
+   "col": 4,
+   "row": 81,
+   "sources": [
+    {
+     "provenance": "generated filler",
+     "note": "dig crack stage 1"
+    }
+   ]
+  },
+  "crack_2": {
+   "kind": "single",
+   "col": 5,
+   "row": 81,
+   "sources": [
+    {
+     "provenance": "generated filler",
+     "note": "dig crack stage 2"
+    }
+   ]
+  }
+ },
+ "sprites": {
+  "canopy_cedar_0": {
+   "file": "canopy_cedar_0.png",
+   "size": [
+    84,
+    78
+   ],
+   "anchor": "bottom-centre on top trunk tile",
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "redwood.jpg",
+     "rect_xywh": [
+      587,
+      20,
+      71,
+      71
+     ],
+     "note": "7 of Ricky's Sequoia crown cuts composited"
+    }
+   ]
+  },
+  "canopy_cedar_1": {
+   "file": "canopy_cedar_1.png",
+   "size": [
+    84,
+    78
+   ],
+   "anchor": "bottom-centre on top trunk tile",
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "redwood.jpg",
+     "rect_xywh": [
+      587,
+      20,
+      71,
+      71
+     ],
+     "note": "7 of Ricky's Sequoia crown cuts composited"
+    }
+   ]
+  },
+  "canopy_cedar_2": {
+   "file": "canopy_cedar_2.png",
+   "size": [
+    84,
+    78
+   ],
+   "anchor": "bottom-centre on top trunk tile",
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "redwood.jpg",
+     "rect_xywh": [
+      587,
+      20,
+      71,
+      71
+     ],
+     "note": "7 of Ricky's Sequoia crown cuts composited"
+    }
+   ]
+  },
+  "canopy_pine_0": {
+   "file": "canopy_pine_0.png",
+   "size": [
+    44,
+    104
+   ],
+   "anchor": "bottom-centre on top trunk tile",
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "pine.jpg",
+     "rect_xywh": [
+      14,
+      389,
+      81,
+      96
+     ],
+     "note": "three of Ricky's Baguio pine cuts stacked in tiers"
+    }
+   ]
+  },
+  "canopy_pine_1": {
+   "file": "canopy_pine_1.png",
+   "size": [
+    44,
+    104
+   ],
+   "anchor": "bottom-centre on top trunk tile",
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "pine.jpg",
+     "rect_xywh": [
+      131,
+      389,
+      81,
+      96
+     ],
+     "note": "three of Ricky's Baguio pine cuts stacked in tiers"
+    }
+   ]
+  },
+  "canopy_pine_2": {
+   "file": "canopy_pine_2.png",
+   "size": [
+    44,
+    104
+   ],
+   "anchor": "bottom-centre on top trunk tile",
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "pine.jpg",
+     "rect_xywh": [
+      247,
+      389,
+      83,
+      96
+     ],
+     "note": "three of Ricky's Baguio pine cuts stacked in tiers"
+    }
+   ]
+  },
+  "player": {
+   "file": "player.png",
+   "frame": [
+    20,
+    28
+   ],
+   "frames": [
+    "idle_0",
+    "idle_1",
+    "walk_0",
+    "walk_1",
+    "walk_2",
+    "walk_3",
+    "walk_4",
+    "walk_5",
+    "jump",
+    "fall"
+   ],
+   "sources": [
+    {
+     "provenance": "generated filler",
+     "note": "no player art supplied; generated pixel humanoid in palette"
+    }
+   ]
+  },
+  "icons": {
+   "file": "icons.png",
+   "order": [
+    "anting_anting",
+    "antivenom",
+    "antler",
+    "apothecary",
+    "bahag",
+    "balabal",
+    "baluti",
+    "basalt",
+    "blue_tea",
+    "bone",
+    "cage",
+    "cedar_wood",
+    "chest",
+    "chitin",
+    "cloth",
+    "coal",
+    "coal_ore",
+    "coffee_cherry",
+    "coral_piece",
+    "crystal",
+    "crystal_ore",
+    "dapog",
+    "dart",
+    "dirt",
+    "door",
+    "egg",
+    "feather",
+    "fence",
+    "fiber",
+    "fish_oil",
+    "fish_trap",
+    "fl_agar_agar",
+    "fl_aglaonema",
+    "fl_alimpigao",
+    "fl_almaciga",
+    "fl_alugbati",
+    "fl_ampalaya",
+    "fl_anahaw",
+    "fl_apitong",
+    "fl_ar_arosip",
+    "fl_arrowroot",
+    "fl_atis",
+    "fl_bago",
+    "fl_bakaw_fruit",
+    "fl_balimbing",
+    "fl_banaba",
+    "fl_banaba_fruiting",
+    "fl_banana",
+    "fl_bataw",
+    "fl_bawang",
+    "fl_beach_morning_glory",
+    "fl_beach_spinifex",
+    "fl_bignay",
+    "fl_black_gram",
+    "fl_black_mangrove",
+    "fl_blue_sponge",
+    "fl_brain_coral",
+    "fl_breadfruit",
+    "fl_brown_algae",
+    "fl_bugnay",
+    "fl_buho",
+    "fl_buri_palm",
+    "fl_cacao",
+    "fl_caimito",
+    "fl_camote",
+    "fl_cassava",
+    "fl_coconut",
+    "fl_coconut_sap",
+    "fl_coffee",
+    "fl_cogon",
+    "fl_corn",
+    "fl_dao",
+    "fl_dictyota",
+    "fl_duhat",
+    "fl_durian",
+    "fl_fan_palm",
+    "fl_fire_coral",
+    "fl_giant_bamboo",
+    "fl_green_algae",
+    "fl_gumamela",
+    "fl_guyabano",
+    "fl_halimeda",
+    "fl_hydrilla",
+    "fl_ilang_ilang",
+    "fl_jackfruit",
+    "fl_kabute",
+    "fl_kalabasa",
+    "fl_kalumpit",
+    "fl_kamagong",
+    "fl_kamatis",
+    "fl_kamias",
+    "fl_kangkong",
+    "fl_kapisias",
+    "fl_kawayan_tinik",
+    "fl_kugon",
+    "fl_kulasip",
+    "fl_labanos",
+    "fl_labong",
+    "fl_labuyo_gourd",
+    "fl_lamang_dagat",
+    "fl_lansones",
+    "fl_lato",
+    "fl_lauan",
+    "fl_lipote_palm",
+    "fl_lotus",
+    "fl_lumbang",
+    "fl_luya",
+    "fl_makopa",
+    "fl_malunggay",
+    "fl_manatee_grass",
+    "fl_mango",
+    "fl_mangosteen",
+    "fl_mani",
+    "fl_medicinal_ginger",
+    "fl_medinilla",
+    "fl_millet",
+    "fl_molave",
+    "fl_moon_orchid",
+    "fl_munggo",
+    "fl_narra",
+    "fl_narra_fruit",
+    "fl_nato",
+    "fl_nipa_palm",
+    "fl_okra",
+    "fl_padina",
+    "fl_pako",
+    "fl_paminta",
+    "fl_pandan",
+    "fl_papaya",
+    "fl_patola",
+    "fl_pechay",
+    "fl_ph_cycad",
+    "fl_ph_palm",
+    "fl_ph_teak",
+    "fl_pili",
+    "fl_pitcher_flower",
+    "fl_rambutan",
+    "fl_rattan",
+    "fl_red_algae",
+    "fl_red_mangrove",
+    "fl_reef_algae_9",
+    "fl_rice",
+    "fl_ruby_vine",
+    "fl_sago_palm",
+    "fl_sampaguita",
+    "fl_santol",
+    "fl_sayote",
+    "fl_sea_fan",
+    "fl_seagrass_shoots",
+    "fl_sesame",
+    "fl_sibuyas",
+    "fl_sigarilyas",
+    "fl_siling_labuyo",
+    "fl_sitaw",
+    "fl_soft_coral",
+    "fl_sonneratia",
+    "fl_staghorn_coral",
+    "fl_sugar_cane",
+    "fl_table_coral",
+    "fl_talisay",
+    "fl_talong",
+    "fl_tamarind",
+    "fl_tangile",
+    "fl_tangkad",
+    "fl_tanglad",
+    "fl_tape_seagrass",
+    "fl_taro",
+    "fl_tigi",
+    "fl_tree_fern",
+    "fl_tube_sponge",
+    "fl_tubig_lily_roots",
+    "fl_turbinaria",
+    "fl_turmeric",
+    "fl_ube",
+    "fl_ubod",
+    "fl_upo",
+    "fl_waling_waling",
+    "fl_water_hyacinth",
+    "fl_water_lily",
+    "fl_white_mangrove",
+    "fl_wild_berry_dark",
+    "fl_wild_berry_red",
+    "fl_wild_honey",
+    "fl_wild_pods",
+    "fl_wild_tubers",
+    "fl_yakal",
+    "fossil",
+    "fruit",
+    "fur",
+    "gold",
+    "gold_ore",
+    "grub",
+    "headaxe",
+    "herb",
+    "hide",
+    "hilot_oil",
+    "honey",
+    "horn",
+    "hut_wood",
+    "inihaw",
+    "inihaw_isda",
+    "ink",
+    "iron",
+    "iron_ore",
+    "kalasag",
+    "kumpay",
+    "ladder",
+    "lagundi_syrup",
+    "lakas_brew",
+    "lambat",
+    "leather",
+    "loom",
+    "milk",
+    "molt",
+    "moss_stone",
+    "musk",
+    "night_eye_tea",
+    "nilagang_itlog",
+    "pamalo",
+    "pearl",
+    "pen_gate",
+    "planks",
+    "platform",
+    "putong",
+    "quill",
+    "raw_fish",
+    "raw_meat",
+    "rice",
+    "rice_cake",
+    "root_crop",
+    "salabat",
+    "salakot",
+    "sambong_tonic",
+    "sand",
+    "scales",
+    "seeds",
+    "shell",
+    "sibat",
+    "sign",
+    "silk",
+    "snake_skin",
+    "snare",
+    "snow",
+    "stone",
+    "stone_brick",
+    "sumpit",
+    "swim_draught",
+    "talon",
+    "tanning_rack",
+    "tapis",
+    "terra_tool",
+    "terrace_stone",
+    "thatch",
+    "tooth",
+    "torch",
+    "toxin",
+    "trepang",
+    "turtle_egg",
+    "tusk",
+    "venom",
+    "wing_scale",
+    "wood",
+    "wool",
+    "workbench"
+   ]
+  },
+  "sun": {
+   "file": "sun.png",
+   "sources": [
+    {
+     "provenance": "generated filler",
+     "note": ""
+    }
+   ]
+  },
+  "moon": {
+   "file": "moon.png",
+   "sources": [
+    {
+     "provenance": "generated filler",
+     "note": ""
+    }
+   ]
+  },
+  "bg_mountains": {
+   "file": "bg_mountains.png",
+   "provenance": "cut",
+   "source": "v02.png",
+   "rect_xywh": [
+    378,
+    846,
+    410,
+    102
+   ],
+   "note": "BACKGROUND LAYERS panel (mountains + clouds), mirrored pair for seamless tiling; top fades into the sky gradient"
+  },
+  "clouds": {
+   "file": "clouds.png",
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "ref/v5/5-terraced-world.jpg",
+     "rect_xyxy": null,
+     "note": "sky-keyed, 1/3 scale, palette snap"
+    }
+   ]
+  },
+  "bg_peaks": {
+   "file": "bg_peaks.png",
+   "sources": [
+    {
+     "provenance": "drawn",
+     "source": "ref/v5/5-terraced-world.jpg",
+     "rect_xyxy": null,
+     "note": "far karst peaks in colours measured from the painting's distant range"
+    }
+   ]
+  },
+  "bg_ridge": {
+   "file": "bg_ridge.png",
+   "sources": [
+    {
+     "provenance": "drawn",
+     "source": "ref/v5/5-terraced-world.jpg",
+     "rect_xyxy": null,
+     "note": "mid peaks, measured painting blues"
+    }
+   ]
+  },
+  "bg_forest": {
+   "file": "bg_forest.png",
+   "sources": [
+    {
+     "provenance": "cut",
+     "source": "pine.jpg",
+     "rect_xywh": [
+      14,
+      389,
+      81,
+      96
+     ],
+     "note": "Ricky's pine cuts, darkened, scattered into a wrapping treeline"
+    }
+   ]
+  }
+ },
+ "sources": {},
+ "palette_note": "19 swatches read from the v0.1 '32 COLOR PALETTE' strip + 13 k-means colours from Ricky's cut tiles = 32",
+ "palette_ext": [
+  "#80817e",
+  "#997372"
+ ],
+ "palette_ext_note": "colours measured from ref/v5 paintings (tools.py + world_v5.py), used alongside the base 32",
+ "misc": {
+  "cedar_trunk_0": [
+   0,
+   80
+  ],
+  "cedar_trunk_1": [
+   1,
+   80
+  ],
+  "cedar_trunk_2": [
+   2,
+   80
+  ],
+  "cedar_trunk_3": [
+   3,
+   80
+  ],
+  "cedar_branch_r_0": [
+   4,
+   80
+  ],
+  "cedar_branch_l_0": [
+   5,
+   80
+  ],
+  "cedar_branch_r_1": [
+   6,
+   80
+  ],
+  "cedar_branch_l_1": [
+   7,
+   80
+  ],
+  "cedar_branch_r_2": [
+   8,
+   80
+  ],
+  "cedar_branch_l_2": [
+   9,
+   80
+  ],
+  "cedar_base": [
+   10,
+   80
+  ],
+  "pine_trunk_0": [
+   11,
+   80
+  ],
+  "pine_trunk_1": [
+   12,
+   80
+  ],
+  "pine_trunk_2": [
+   13,
+   80
+  ],
+  "pine_branch_r_0": [
+   14,
+   80
+  ],
+  "pine_branch_l_0": [
+   15,
+   80
+  ],
+  "pine_branch_r_1": [
+   16,
+   80
+  ],
+  "pine_branch_l_1": [
+   17,
+   80
+  ],
+  "tuft_0": [
+   18,
+   80
+  ],
+  "tuft_1": [
+   19,
+   80
+  ],
+  "tuft_2": [
+   20,
+   80
+  ],
+  "tuft_3": [
+   21,
+   80
+  ],
+  "flower_0": [
+   22,
+   80
+  ],
+  "flower_1": [
+   23,
+   80
+  ],
+  "flower_2": [
+   24,
+   80
+  ],
+  "flower_3": [
+   25,
+   80
+  ],
+  "vine_0": [
+   26,
+   80
+  ],
+  "vine_1": [
+   27,
+   80
+  ],
+  "vine_2": [
+   28,
+   80
+  ],
+  "vine_3": [
+   29,
+   80
+  ],
+  "torch": [
+   30,
+   80
+  ],
+  "crystal": [
+   31,
+   80
+  ],
+  "platform_single": [
+   32,
+   80
+  ],
+  "platform_left": [
+   33,
+   80
+  ],
+  "platform_mid": [
+   34,
+   80
+  ],
+  "platform_right": [
+   35,
+   80
+  ],
+  "sign": [
+   36,
+   80
+  ],
+  "workbench": [
+   37,
+   80
+  ],
+  "chest": [
+   38,
+   80
+  ],
+  "coral_0": [
+   39,
+   80
+  ],
+  "coral_1": [
+   40,
+   80
+  ],
+  "coral_2": [
+   41,
+   80
+  ],
+  "coral_fan_0": [
+   42,
+   80
+  ],
+  "coral_fan_1": [
+   43,
+   80
+  ],
+  "coral_fan_2": [
+   44,
+   80
+  ],
+  "seagrass_0": [
+   45,
+   80
+  ],
+  "seagrass_1": [
+   46,
+   80
+  ],
+  "seagrass_2": [
+   47,
+   80
+  ],
+  "mangrove_root_0": [
+   48,
+   80
+  ],
+  "mangrove_root_1": [
+   49,
+   80
+  ],
+  "fern_0": [
+   50,
+   80
+  ],
+  "fern_1": [
+   51,
+   80
+  ],
+  "fern_2": [
+   52,
+   80
+  ],
+  "fern_3": [
+   53,
+   80
+  ],
+  "fence": [
+   54,
+   80
+  ],
+  "pen_gate": [
+   55,
+   80
+  ],
+  "tanning_rack": [
+   56,
+   80
+  ],
+  "loom": [
+   57,
+   80
+  ],
+  "apothecary": [
+   58,
+   80
+  ],
+  "dapog": [
+   59,
+   80
+  ],
+  "snare": [
+   60,
+   80
+  ],
+  "fish_trap": [
+   61,
+   80
+  ],
+  "cage": [
+   62,
+   80
+  ],
+  "door_closed_top": [
+   63,
+   80
+  ],
+  "door_closed_mid": [
+   64,
+   80
+  ],
+  "door_closed_bot": [
+   65,
+   80
+  ],
+  "door_open_top": [
+   66,
+   80
+  ],
+  "door_open_mid": [
+   67,
+   80
+  ],
+  "door_open_bot": [
+   68,
+   80
+  ],
+  "rice_0": [
+   69,
+   80
+  ],
+  "rice_1": [
+   70,
+   80
+  ],
+  "rice_2": [
+   71,
+   80
+  ],
+  "waterfall_0": [
+   72,
+   80
+  ],
+  "waterfall_1": [
+   73,
+   80
+  ],
+  "waterfall_2": [
+   74,
+   80
+  ],
+  "waterfall_3": [
+   75,
+   80
+  ],
+  "ladder": [
+   76,
+   80
+  ],
+  "mine_beam": [
+   77,
+   80
+  ],
+  "mine_lintel": [
+   78,
+   80
+  ],
+  "lip_top_0": [
+   79,
+   80
+  ],
+  "lip_top_1": [
+   80,
+   80
+  ],
+  "lip_top_2": [
+   0,
+   81
+  ],
+  "lip_l": [
+   1,
+   81
+  ],
+  "lip_r": [
+   2,
+   81
+  ],
+  "crack_0": [
+   3,
+   81
+  ],
+  "crack_1": [
+   4,
+   81
+  ],
+  "crack_2": [
+   5,
+   81
+  ]
+ },
+ "atlas_size": [
+  1296,
+  1312
+ ],
+ "block_rows": {
+  "dirt": 0,
+  "grass": 3,
+  "stone": 6,
+  "moss_stone": 9,
+  "sand": 12,
+  "snow": 15,
+  "coal_ore": 18,
+  "iron_ore": 21,
+  "gold_ore": 24,
+  "crystal_ore": 27,
+  "planks": 30,
+  "stone_brick": 33,
+  "bedrock": 36,
+  "terrace_stone": 39,
+  "terrace_grass": 42,
+  "terrace_earth": 45,
+  "paddy_mud": 48,
+  "thatch": 51,
+  "hut_wood": 54,
+  "mangrove_mud": 57,
+  "basalt": 60,
+  "ash": 63,
+  "magma": 66,
+  "fossil_rock": 69
+ },
+ "wall_rows": {
+  "dirt_wall": 72,
+  "stone_wall": 74,
+  "wood_wall": 76
+ },
+ "rows": {
+  "inner_corner": 78,
+  "water": 79
+ },
+ "source_files": {
+  "build.jpg": "11b8125b60966ef108bdac11d71790389af065836418af74b2b3dba4d85dcbc2",
+  "leaves.jpg": "c135dc5cadee7ea8b7c5e55410a140a0fdae9f8fcdd86fef882bd2cdb2f46ad4",
+  "pine.jpg": "8f53b3159ba9d2459a4c809010b2fd920e1b3e0ce28d67c2717c7b5ac24fe44e",
+  "redwood.jpg": "127504a6215388606d439be4fd67fc2722174a3517afee465eeb33227a2560ac",
+  "v01.png": "3cb1b3bcfaf12337ddf488fee39fda68f9055620daa0e386981c3ac453a9c576",
+  "v02.png": "580bf35553a41581850a9abb9349344af29393fe8627f8ea3a320adb68683de3"
+ },
+ "counts": {
+  "cut": 68,
+  "generated_filler": 26
+ }
+}

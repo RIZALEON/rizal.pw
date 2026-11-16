@@ -1,0 +1,995 @@
+[
+  {
+    "out": "core:planks",
+    "n": 2,
+    "in": {
+      "core:wood": 1
+    },
+    "station": ""
+  },
+  {
+    "out": "core:workbench",
+    "n": 1,
+    "in": {
+      "core:wood": 10
+    },
+    "station": ""
+  },
+  {
+    "out": "core:torch",
+    "n": 3,
+    "in": {
+      "core:wood": 1,
+      "core:coal": 1
+    },
+    "station": ""
+  },
+  {
+    "out": "core:platform",
+    "n": 2,
+    "in": {
+      "core:planks": 1
+    },
+    "station": "workbench"
+  },
+  {
+    "out": "core:stone_brick",
+    "n": 1,
+    "in": {
+      "core:stone": 2
+    },
+    "station": "workbench"
+  },
+  {
+    "out": "core:door",
+    "n": 1,
+    "in": {
+      "core:planks": 6
+    },
+    "station": "workbench"
+  },
+  {
+    "out": "core:sign",
+    "n": 1,
+    "in": {
+      "core:planks": 6
+    },
+    "station": "workbench"
+  },
+  {
+    "out": "core:chest",
+    "n": 1,
+    "in": {
+      "core:planks": 8,
+      "core:iron": 2
+    },
+    "station": "workbench"
+  },
+  {
+    "out": "core:rice_cake",
+    "n": 1,
+    "in": {
+      "core:rice": 3
+    },
+    "station": "workbench"
+  },
+  {
+    "out": "core:tanning_rack",
+    "n": 1,
+    "in": {
+      "core:wood": 6,
+      "core:fiber": 2
+    },
+    "station": "workbench"
+  },
+  {
+    "out": "core:loom",
+    "n": 1,
+    "in": {
+      "core:wood": 8,
+      "core:fiber": 4
+    },
+    "station": "workbench"
+  },
+  {
+    "out": "core:apothecary",
+    "n": 1,
+    "in": {
+      "core:planks": 6,
+      "core:shell": 2
+    },
+    "station": "workbench"
+  },
+  {
+    "out": "core:dapog",
+    "n": 1,
+    "in": {
+      "core:stone": 8
+    },
+    "station": "workbench"
+  },
+  {
+    "out": "core:fence",
+    "n": 4,
+    "in": {
+      "core:wood": 2
+    },
+    "station": "workbench"
+  },
+  {
+    "out": "core:pen_gate",
+    "n": 1,
+    "in": {
+      "core:wood": 4,
+      "core:fiber": 2
+    },
+    "station": "workbench"
+  },
+  {
+    "out": "core:fiber",
+    "n": 2,
+    "in": {
+      "core:herb": 2
+    },
+    "station": "loom"
+  },
+  {
+    "out": "core:lambat",
+    "n": 1,
+    "in": {
+      "core:fiber": 6
+    },
+    "station": "loom"
+  },
+  {
+    "out": "core:snare",
+    "n": 1,
+    "in": {
+      "core:fiber": 3,
+      "core:wood": 1
+    },
+    "station": "workbench"
+  },
+  {
+    "out": "core:fish_trap",
+    "n": 1,
+    "in": {
+      "core:wood": 4,
+      "core:fiber": 2
+    },
+    "station": "workbench"
+  },
+  {
+    "out": "core:cage",
+    "n": 1,
+    "in": {
+      "core:planks": 6,
+      "core:iron": 1
+    },
+    "station": "workbench"
+  },
+  {
+    "out": "core:pamalo",
+    "n": 1,
+    "in": {
+      "core:wood": 3,
+      "core:leather": 1
+    },
+    "station": "workbench"
+  },
+  {
+    "out": "core:sumpit",
+    "n": 1,
+    "in": {
+      "core:wood": 4,
+      "core:fiber": 1
+    },
+    "station": "workbench"
+  },
+  {
+    "out": "core:dart",
+    "n": 6,
+    "in": {
+      "core:bone": 1,
+      "core:toxin": 1
+    },
+    "station": "apothecary"
+  },
+  {
+    "out": "core:dart",
+    "n": 6,
+    "in": {
+      "core:bone": 1,
+      "core:venom": 1
+    },
+    "station": "apothecary"
+  },
+  {
+    "out": "core:sibat",
+    "n": 1,
+    "in": {
+      "core:wood": 3,
+      "core:iron": 1,
+      "core:fiber": 1
+    },
+    "station": "workbench"
+  },
+  {
+    "out": "core:leather",
+    "n": 1,
+    "in": {
+      "core:hide": 2
+    },
+    "station": "tanning_rack"
+  },
+  {
+    "out": "core:leather",
+    "n": 1,
+    "in": {
+      "core:snake_skin": 3
+    },
+    "station": "tanning_rack"
+  },
+  {
+    "out": "core:cloth",
+    "n": 1,
+    "in": {
+      "core:fiber": 4
+    },
+    "station": "loom"
+  },
+  {
+    "out": "core:cloth",
+    "n": 2,
+    "in": {
+      "core:silk": 2
+    },
+    "station": "loom"
+  },
+  {
+    "out": "core:cloth",
+    "n": 2,
+    "in": {
+      "core:wool": 2
+    },
+    "station": "loom"
+  },
+  {
+    "out": "core:bahag",
+    "n": 1,
+    "in": {
+      "core:cloth": 2
+    },
+    "station": "loom"
+  },
+  {
+    "out": "core:tapis",
+    "n": 1,
+    "in": {
+      "core:cloth": 4
+    },
+    "station": "loom"
+  },
+  {
+    "out": "core:salakot",
+    "n": 1,
+    "in": {
+      "core:fiber": 6,
+      "core:wood": 1
+    },
+    "station": "loom"
+  },
+  {
+    "out": "core:putong",
+    "n": 1,
+    "in": {
+      "core:cloth": 1,
+      "core:feather": 6
+    },
+    "station": "loom"
+  },
+  {
+    "out": "core:balabal",
+    "n": 1,
+    "in": {
+      "core:fur": 6,
+      "core:fiber": 2
+    },
+    "station": "tanning_rack"
+  },
+  {
+    "out": "core:baluti",
+    "n": 1,
+    "in": {
+      "core:leather": 6,
+      "core:scales": 8
+    },
+    "station": "tanning_rack"
+  },
+  {
+    "out": "core:kalasag",
+    "n": 1,
+    "in": {
+      "core:planks": 6,
+      "core:leather": 2
+    },
+    "station": "workbench"
+  },
+  {
+    "out": "core:anting_anting",
+    "n": 1,
+    "in": {
+      "core:pearl": 1,
+      "core:fiber": 2
+    },
+    "station": "apothecary"
+  },
+  {
+    "out": "core:fish_oil",
+    "n": 1,
+    "in": {
+      "core:raw_fish": 2
+    },
+    "station": "apothecary"
+  },
+  {
+    "out": "core:lagundi_syrup",
+    "n": 1,
+    "in": {
+      "core:herb": 3,
+      "core:honey": 1
+    },
+    "station": "apothecary"
+  },
+  {
+    "out": "core:hilot_oil",
+    "n": 1,
+    "in": {
+      "core:fish_oil": 1,
+      "core:herb": 2
+    },
+    "station": "apothecary"
+  },
+  {
+    "out": "core:antivenom",
+    "n": 1,
+    "in": {
+      "core:venom": 2,
+      "core:honey": 1
+    },
+    "station": "apothecary"
+  },
+  {
+    "out": "core:sambong_tonic",
+    "n": 1,
+    "in": {
+      "core:herb": 4
+    },
+    "station": "apothecary"
+  },
+  {
+    "out": "core:night_eye_tea",
+    "n": 1,
+    "in": {
+      "core:feather": 2,
+      "core:crystal": 1,
+      "core:herb": 1
+    },
+    "station": "apothecary"
+  },
+  {
+    "out": "core:swim_draught",
+    "n": 1,
+    "in": {
+      "core:scales": 2,
+      "core:fish_oil": 1
+    },
+    "station": "apothecary"
+  },
+  {
+    "out": "core:lakas_brew",
+    "n": 1,
+    "in": {
+      "core:bone": 2,
+      "core:honey": 1,
+      "core:root_crop": 1
+    },
+    "station": "apothecary"
+  },
+  {
+    "out": "core:kumpay",
+    "n": 3,
+    "in": {
+      "core:herb": 2,
+      "core:rice": 1
+    },
+    "station": ""
+  },
+  {
+    "out": "core:inihaw",
+    "n": 1,
+    "in": {
+      "core:raw_meat": 1
+    },
+    "station": "dapog"
+  },
+  {
+    "out": "core:inihaw_isda",
+    "n": 1,
+    "in": {
+      "core:raw_fish": 1
+    },
+    "station": "dapog"
+  },
+  {
+    "out": "core:nilagang_itlog",
+    "n": 1,
+    "in": {
+      "core:egg": 1
+    },
+    "station": "dapog"
+  },
+  {
+    "out": "core:kanin",
+    "n": 2,
+    "in": {
+      "core:rice": 2
+    },
+    "station": "dapog"
+  },
+  {
+    "out": "core:sinigang",
+    "n": 1,
+    "in": {
+      "core:raw_fish": 1,
+      "core:sampalok": 1,
+      "core:kangkong": 1,
+      "core:kamatis": 1
+    },
+    "station": "dapog"
+  },
+  {
+    "out": "core:sinigang",
+    "n": 1,
+    "in": {
+      "core:raw_fish": 1,
+      "core:kamias": 2,
+      "core:kangkong": 1
+    },
+    "station": "dapog"
+  },
+  {
+    "out": "core:tinola",
+    "n": 1,
+    "in": {
+      "core:raw_meat": 1,
+      "core:luya": 1,
+      "core:papaya": 1,
+      "core:malunggay": 1
+    },
+    "station": "dapog"
+  },
+  {
+    "out": "core:pinakbet",
+    "n": 2,
+    "in": {
+      "core:talong": 1,
+      "core:okra": 1,
+      "core:ampalaya": 1,
+      "core:kalabasa": 1
+    },
+    "station": "dapog"
+  },
+  {
+    "out": "core:suka",
+    "n": 2,
+    "in": {
+      "core:tuba": 2
+    },
+    "station": "dapog"
+  },
+  {
+    "out": "core:suka",
+    "n": 2,
+    "in": {
+      "core:nipa_sap": 2
+    },
+    "station": "dapog"
+  },
+  {
+    "out": "core:kinilaw",
+    "n": 1,
+    "in": {
+      "core:raw_fish": 1,
+      "core:suka": 1,
+      "core:sili": 1,
+      "core:luya": 1
+    },
+    "station": "dapog"
+  },
+  {
+    "out": "core:ginataan",
+    "n": 2,
+    "in": {
+      "core:niyog": 1,
+      "core:camote": 1,
+      "core:ube": 1
+    },
+    "station": "dapog"
+  },
+  {
+    "out": "core:suman",
+    "n": 3,
+    "in": {
+      "core:malagkit": 2,
+      "core:niyog": 1,
+      "core:banana_leaf": 1
+    },
+    "station": "dapog"
+  },
+  {
+    "out": "core:laing",
+    "n": 1,
+    "in": {
+      "core:gabi": 2,
+      "core:niyog": 1,
+      "core:sili": 1
+    },
+    "station": "dapog"
+  },
+  {
+    "out": "core:ensaladang_pako",
+    "n": 1,
+    "in": {
+      "core:pako": 2,
+      "core:kamatis": 1
+    },
+    "station": "dapog"
+  },
+  {
+    "out": "core:salabat",
+    "n": 2,
+    "in": {
+      "core:luya": 2,
+      "core:tubo": 1
+    },
+    "station": "dapog"
+  },
+  {
+    "out": "core:kape",
+    "n": 2,
+    "in": {
+      "core:coffee_cherry": 3
+    },
+    "station": "dapog"
+  },
+  {
+    "out": "core:tsokolate",
+    "n": 2,
+    "in": {
+      "core:cacao": 2,
+      "core:tubo": 1
+    },
+    "station": "dapog"
+  },
+  {
+    "out": "core:tanglad_tea",
+    "n": 2,
+    "in": {
+      "core:tanglad": 2
+    },
+    "station": "dapog"
+  },
+  {
+    "out": "core:banaba_tea",
+    "n": 2,
+    "in": {
+      "core:banaba_leaf": 2
+    },
+    "station": "dapog"
+  },
+  {
+    "out": "core:luyang_dilaw_poultice",
+    "n": 1,
+    "in": {
+      "core:luyang_dilaw": 2,
+      "core:niyog": 1
+    },
+    "station": "apothecary"
+  },
+  {
+    "out": "core:gumamela_syrup",
+    "n": 1,
+    "in": {
+      "core:gumamela": 2,
+      "core:tubo": 1
+    },
+    "station": "apothecary"
+  },
+  {
+    "out": "core:bawang_tonic",
+    "n": 1,
+    "in": {
+      "core:bawang": 2,
+      "core:ampalaya": 1
+    },
+    "station": "apothecary"
+  },
+  {
+    "out": "core:morning_glory_salve",
+    "n": 1,
+    "in": {
+      "core:herb": 2,
+      "core:niyog": 1
+    },
+    "station": "apothecary"
+  },
+  {
+    "out": "core:lagundi_syrup",
+    "n": 1,
+    "in": {
+      "core:malunggay": 2,
+      "core:tubo": 1
+    },
+    "station": "apothecary"
+  },
+  {
+    "out": "core:tina_pula",
+    "n": 2,
+    "in": {
+      "core:narra_wood": 1
+    },
+    "station": "dapog"
+  },
+  {
+    "out": "core:tina_dilaw",
+    "n": 2,
+    "in": {
+      "core:luyang_dilaw": 2
+    },
+    "station": "dapog"
+  },
+  {
+    "out": "core:tina_ube",
+    "n": 2,
+    "in": {
+      "core:duhat": 3
+    },
+    "station": "dapog"
+  },
+  {
+    "out": "core:tina_ube",
+    "n": 2,
+    "in": {
+      "core:ube": 2
+    },
+    "station": "dapog"
+  },
+  {
+    "out": "core:sinamay",
+    "n": 1,
+    "in": {
+      "core:banana_fiber": 3
+    },
+    "station": "loom"
+  },
+  {
+    "out": "core:cloth",
+    "n": 1,
+    "in": {
+      "core:buri_fiber": 3
+    },
+    "station": "loom"
+  },
+  {
+    "out": "core:tela_pula",
+    "n": 1,
+    "in": {
+      "core:cloth": 1,
+      "core:tina_pula": 1
+    },
+    "station": "loom"
+  },
+  {
+    "out": "core:barong_tela",
+    "n": 1,
+    "in": {
+      "core:sinamay": 2,
+      "core:tina_dilaw": 1
+    },
+    "station": "loom"
+  },
+  {
+    "out": "core:banig",
+    "n": 1,
+    "in": {
+      "core:pandan": 4
+    },
+    "station": "loom"
+  },
+  {
+    "out": "core:buntal_hat",
+    "n": 1,
+    "in": {
+      "core:buri_fiber": 3
+    },
+    "station": "loom"
+  },
+  {
+    "out": "core:anahaw_cape",
+    "n": 1,
+    "in": {
+      "core:anahaw_leaf": 4,
+      "core:lubid": 1
+    },
+    "station": "loom"
+  },
+  {
+    "out": "core:lubid",
+    "n": 2,
+    "in": {
+      "core:coir": 3
+    },
+    "station": ""
+  },
+  {
+    "out": "core:lubid",
+    "n": 1,
+    "in": {
+      "core:fiber": 3
+    },
+    "station": ""
+  },
+  {
+    "out": "core:kaing",
+    "n": 1,
+    "in": {
+      "core:rattan": 4
+    },
+    "station": "workbench"
+  },
+  {
+    "out": "core:ladder",
+    "n": 4,
+    "in": {
+      "core:kawayan": 2,
+      "core:lubid": 1
+    },
+    "station": "workbench"
+  },
+  {
+    "out": "core:ladder",
+    "n": 3,
+    "in": {
+      "core:rattan": 3
+    },
+    "station": "workbench"
+  },
+  {
+    "out": "core:narra_planks",
+    "n": 4,
+    "in": {
+      "core:narra_wood": 1
+    },
+    "station": "workbench"
+  },
+  {
+    "out": "core:molave_planks",
+    "n": 4,
+    "in": {
+      "core:molave_wood": 1
+    },
+    "station": "workbench"
+  },
+  {
+    "out": "core:yakal_planks",
+    "n": 4,
+    "in": {
+      "core:yakal_wood": 1
+    },
+    "station": "workbench"
+  },
+  {
+    "out": "core:planks",
+    "n": 4,
+    "in": {
+      "core:lauan_wood": 1
+    },
+    "station": "workbench"
+  },
+  {
+    "out": "core:planks",
+    "n": 4,
+    "in": {
+      "core:teak_wood": 1
+    },
+    "station": "workbench"
+  },
+  {
+    "out": "core:planks",
+    "n": 3,
+    "in": {
+      "core:bakawan_wood": 1
+    },
+    "station": "workbench"
+  },
+  {
+    "out": "core:planks",
+    "n": 3,
+    "in": {
+      "core:coco_lumber": 1
+    },
+    "station": "workbench"
+  },
+  {
+    "out": "core:kawayan_wall",
+    "n": 4,
+    "in": {
+      "core:kawayan": 2
+    },
+    "station": "workbench"
+  },
+  {
+    "out": "core:pawid",
+    "n": 4,
+    "in": {
+      "core:nipa_leaf": 3
+    },
+    "station": ""
+  },
+  {
+    "out": "core:pawid",
+    "n": 3,
+    "in": {
+      "core:cogon": 4
+    },
+    "station": ""
+  },
+  {
+    "out": "core:thatch",
+    "n": 4,
+    "in": {
+      "core:anahaw_leaf": 3
+    },
+    "station": ""
+  },
+  {
+    "out": "core:torch",
+    "n": 4,
+    "in": {
+      "core:almaciga_resin": 1,
+      "core:wood": 1
+    },
+    "station": ""
+  },
+  {
+    "out": "core:torch",
+    "n": 3,
+    "in": {
+      "core:pili_resin": 1,
+      "core:wood": 1
+    },
+    "station": ""
+  },
+  {
+    "out": "core:torch",
+    "n": 3,
+    "in": {
+      "core:lumbang": 2,
+      "core:wood": 1
+    },
+    "station": ""
+  },
+  {
+    "out": "core:barnis",
+    "n": 2,
+    "in": {
+      "core:almaciga_resin": 2
+    },
+    "station": "apothecary"
+  },
+  {
+    "out": "core:molave_haft",
+    "n": 1,
+    "in": {
+      "core:molave_wood": 2
+    },
+    "station": "workbench"
+  },
+  {
+    "out": "core:headaxe_molave",
+    "n": 1,
+    "in": {
+      "core:headaxe": 1,
+      "core:molave_haft": 1,
+      "core:iron": 2,
+      "core:barnis": 1
+    },
+    "station": "workbench"
+  },
+  {
+    "out": "core:terra_tool_yakal",
+    "n": 1,
+    "in": {
+      "core:terra_tool": 1,
+      "core:yakal_wood": 2,
+      "core:iron": 2
+    },
+    "station": "workbench"
+  },
+  {
+    "out": "core:baston",
+    "n": 1,
+    "in": {
+      "core:kamagong_wood": 2
+    },
+    "station": "workbench"
+  },
+  {
+    "out": "core:bumbong",
+    "n": 1,
+    "in": {
+      "core:kawayan": 2
+    },
+    "station": "workbench"
+  },
+  {
+    "out": "core:abono",
+    "n": 3,
+    "in": {
+      "core:seaweed": 2
+    },
+    "station": ""
+  },
+  {
+    "out": "core:abono",
+    "n": 2,
+    "in": {
+      "core:egg": 1,
+      "core:seeds": 2
+    },
+    "station": ""
+  },
+  {
+    "out": "core:patuka",
+    "n": 4,
+    "in": {
+      "core:munggo": 2
+    },
+    "station": ""
+  },
+  {
+    "out": "core:patuka",
+    "n": 4,
+    "in": {
+      "core:mais": 2
+    },
+    "station": ""
+  },
+  {
+    "out": "core:kumpay",
+    "n": 3,
+    "in": {
+      "core:cogon": 3
+    },
+    "station": ""
+  },
+  {
+    "out": "core:kumpay",
+    "n": 3,
+    "in": {
+      "core:camote": 1,
+      "core:kangkong": 1
+    },
+    "station": ""
+  },
+  {
+    "out": "core:leather",
+    "n": 2,
+    "in": {
+      "core:hide": 2,
+      "core:tannin": 1
+    },
+    "station": "tanning_rack"
+  }
+]

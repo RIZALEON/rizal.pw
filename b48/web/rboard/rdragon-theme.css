@@ -1,0 +1,33 @@
+/* RFONT (t182u): same @font-face set as the LINUX RIZAL 1.1.1.6 RVM (rizal-fonts.css), local files in ./rfont, SIL OFL 1.1 (rfont/OFL.txt). */
+@font-face{font-family:"RIZAL";src:url("rfont/RIZAL-Regular.woff2") format("woff2"),url("rfont/RIZAL-Regular.ttf") format("truetype");font-weight:100 900;font-display:swap}
+@font-face{font-family:"RIZAL Mono";src:url("rfont/RIZALMono-Regular.woff2") format("woff2"),url("rfont/RIZALMono-Regular.ttf") format("truetype");font-weight:100 900;font-display:swap}
+@font-face{font-family:"Noto Sans Tagalog";src:url("rfont/NotoSansTagalog-Regular.ttf") format("truetype");unicode-range:U+1700-171F,U+1735-1736,U+25CC;font-display:swap}
+@font-face{font-family:"Noto Sans Mayan Numerals";src:url("rfont/NotoSansMayanNumerals-Regular.ttf") format("truetype");unicode-range:U+1D2E0-1D2FF;font-display:swap}
+/* rdragon-theme.css · 1.0.4.34 (t181u/t182u) · main chat + composer in the RBOARD key / ЯWALLET unified card style.
+   Colors = the RVM's unified wallet palette (linux-rizal-1.1.1.6 …/RWALLET/ui/css/rwallet-ghost2.css --gm-*, identical to rwallet-shared here); font = RFONT RIZAL Mono first so iOS matches the RVM (Menlo only as fallback) and the RBOARD key shape (8px keys). No R logo button.
+   Header, GHOSTMACHINE and ThundR badge keep their own styles and positions. */
+:root{--rt-bg:#000;--rt-panel:#0a0a0a;--rt-fg:#39ff14;--rt-dim:#1f8f0f;--rt-ac:#8a2be2;--rt-ac2:#b388ff;--rt-deep:#1a0630;--rt-line:#333;--rt-glow:#39ff1422;--rt-font:"RIZAL Mono","Noto Sans Tagalog","Noto Sans Mayan Numerals","Menlo","SF Mono",ui-monospace,"Consolas","Courier New",monospace}
+html,html body,html body main{background:var(--rt-bg)!important}
+html body #log{background:var(--rt-bg)!important;padding:10px 10px 6px!important}
+html body #log .turn{background:var(--rt-panel);border:1px solid var(--rt-fg);border-radius:12px;padding:8px 10px;margin:8px 0;color:var(--rt-fg);font:12.5px/1.45 var(--rt-font);box-shadow:0 0 10px var(--rt-glow) inset;max-width:92%;box-sizing:border-box}
+html body #log .turn.user{background:var(--rt-deep);border-color:var(--rt-ac);color:var(--rt-ac2);margin-left:auto}
+html body #log .turn.sys{background:var(--rt-bg);border-color:var(--rt-line);color:var(--rt-dim)}
+html body #composer{background:var(--rt-bg)!important;border-top:1px solid var(--rt-line)!important;gap:6px;align-items:center}
+html body #composer #message{background:var(--rt-bg)!important;color:var(--rt-fg)!important;caret-color:var(--rt-fg);border:1px solid var(--rt-fg)!important;border-radius:8px!important;font:16px var(--rt-font)!important;padding:9px 10px!important;box-shadow:0 0 10px var(--rt-glow) inset!important;outline:none}
+html body #composer #message::placeholder{color:var(--rt-dim);opacity:1}
+html body #composer #message:focus{border-color:var(--rt-fg)!important;box-shadow:0 0 10px var(--rt-glow) inset,0 0 0 1px var(--rt-glow)!important}
+html body #composer button[type=submit]{background:var(--rt-ac)!important;border:1px solid var(--rt-ac2)!important;color:#fff!important;border-radius:8px!important;font:700 14px var(--rt-font)!important;padding:9px 14px!important;min-height:38px;box-shadow:0 1px 0 #0008}
+html body #composer #rbs-plus{background:var(--rt-bg)!important;border:1px solid var(--rt-fg)!important;color:var(--rt-fg)!important;border-radius:8px!important;width:38px!important;height:38px!important;font:20px var(--rt-font)!important;box-shadow:0 0 10px var(--rt-glow) inset}
+html body #ds-attach .ds-attach-chip{background:var(--rt-deep)!important;border-color:var(--rt-fg)!important;color:var(--rt-fg)!important;font-family:var(--rt-font)!important}
+html body #rw,html body #rw *,html body #ds-attach{font-family:var(--rt-font)!important} /* panels: RFONT like the RVM */
+/* 1.0.4.35 (t185u): GHOSTMACHINE pixel starfield panels, neon-green rounded borders + purple glow (RVM --rs-glow), RBOARD-style view keys. */
+:root{--rt-glow2:0 0 18px #9b30ff88,0 0 4px #9b30ffaa;--rt-stars:radial-gradient(1px 1px at 12% 18%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 68% 9%,#b388ff 50%,transparent 51%),radial-gradient(1px 1px at 38% 62%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 86% 44%,#39ff14 50%,transparent 51%),radial-gradient(1px 1px at 22% 84%,#b388ff 50%,transparent 51%),radial-gradient(1px 1px at 55% 33%,#ddd 50%,transparent 51%),radial-gradient(1px 1px at 93% 78%,#fff 50%,transparent 51%)}
+html body #log{background-color:var(--rt-bg)!important;background-image:var(--rt-stars)!important;background-size:180px 180px!important}
+html body .ds-key{flex:0 0 auto;min-height:34px;padding:0 10px;border:1px solid var(--rt-fg);border-radius:8px;background:var(--rt-bg);color:var(--rt-fg);font:600 12px var(--rt-font);box-shadow:0 0 10px var(--rt-glow) inset;touch-action:manipulation}
+html body .ds-key:active{background:var(--rt-deep);border-color:var(--rt-ac2)}
+html body .ds-star-panel{margin:6px 8px 0;padding:10px 12px;border:1px solid var(--rt-fg);border-radius:14px;background-color:var(--rt-bg);background-image:var(--rt-stars);background-size:160px 160px;box-shadow:var(--rt-glow2);color:var(--rt-fg);font:12.5px/1.5 var(--rt-font)}
+html body .ds-star-panel .hd{color:var(--rt-ac2);font-weight:700;margin-bottom:4px}
+html body .ds-star-panel .ks{display:flex;gap:6px;margin:8px 0 4px}
+html body .ds-star-panel .st{color:var(--rt-dim)}
+html body #ds-thundr-card[hidden]{display:none}
+html body #rmail-ui,html body #rw{box-shadow:var(--rt-glow2)!important;font-family:var(--rt-font)!important}

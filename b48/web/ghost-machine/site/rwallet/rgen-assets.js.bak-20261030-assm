@@ -1,0 +1,12 @@
+/* RGENERATR asset feed reader (PROVISIONAL, to align with BOTLATCH spec). Read-only, same-origin, no inline code. */
+(function(){var B=(document.currentScript&&document.currentScript.src||'').replace(/rgen-assets\.js.*$/,'')||'/rwallet/';
+function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
+fetch(B+'assets.json',{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(f){
+ var box=el('section','rgen-assets');box.id='rgen-assets';box.setAttribute('style','');box.appendChild(el('h3',null,'RGENERATR · RID assets'));
+ (f.owners||[]).forEach(function(o){(o.assets||[]).forEach(function(a){var d=el('div','rgen-asset');
+  d.appendChild(el('div',null,a.label+' · '+a.asset_id));d.appendChild(el('div',null,a.owner_handle+' · '+a.rid));
+  d.appendChild(el('div','rgen-status '+(a.status==='live'?'live':'preview'),'Status: '+a.status));
+  d.appendChild(el('div',null,'Seal: '+(a.seal_hash||'none').slice(0,16)+'…'+(a.seal_sig_present?' (signed)':' (no signature)')));
+  if(a.block)d.appendChild(el('div',null,'Block #'+a.block.height+' '+a.block.hash.slice(0,16)+'… '+a.block.ts));
+  d.appendChild(el('div',null,'Chain verify: '+(a.chain_verify&&a.chain_verify.ok?'ok':'FAIL')));box.appendChild(d)})});
+ window.RGEN_ASSETS=f;(document.getElementById('rwallet')||document.body).appendChild(box)}).catch(function(){})})();

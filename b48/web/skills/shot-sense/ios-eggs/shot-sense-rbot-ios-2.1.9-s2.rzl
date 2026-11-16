@@ -1,0 +1,28 @@
+{
+ "schema": "rzl.egg.v1",
+ "id": "shot-sense-rbot-ios",
+ "name": "shot-sense-rbot-ios-2.1.9-s2.rzl",
+ "version": "2.1.9-s2",
+ "kind": "skill",
+ "platform": "ios",
+ "app": "ЯBOT iOS (+twin)",
+ "bundle": "io.github.rizaleon.yaaim",
+ "stamp": "ЯID-0003-P4M6 · ЯМАХ · 2026-10-24 MT",
+ "signed": false,
+ "note": "Relay via BOTBRIDGE :4873/shot-sense (paired-device token). Relays SHOT/SSHOT/SEE/SEE <path>/SSHOT SEE to Neo; inline result + ThundR STATUS. No vision model.",
+ "commands": [
+  "SHOT",
+  "SSHOT",
+  "SEE",
+  "SEE <path>",
+  "SSHOT SEE"
+ ],
+ "relay": [
+  "http://{neo}:4873/shot-sense",
+  "native:relay-macos"
+ ],
+ "files": {
+  "shot-sense.js": "/* shot-sense ios relay · ЯID-0003-P4M6 · ЯМАХ */\n(function(){var CFG=window.SHOT_SENSE_CFG||{};var H=CFG.neo||\"neo.local\";\nvar RX=/^\\s*(sshot\\s+see|shot\\s+see|see|sshot|shot)(\\s+.+)?\\s*$/i;\nfunction st(t){try{(window.THUNDR_STATUS||console.log)(\"ThundR STATUS · \"+t)}catch(e){}}\nfunction tok(){try{return CFG.token||localStorage.getItem(\"shotSense.token\")||localStorage.getItem(\"rbotbridge.token\")||\"\"}catch(e){return CFG.token||\"\"}}\nasync function post(u,b){var t=tok();if(!t)throw \"pair token missing\";var r=await fetch(u,{method:\"POST\",headers:{\"Content-Type\":\"application/json\",\"Authorization\":\"Bearer \"+t},body:JSON.stringify(b)});if(r.status==401)throw \"token not paired\";if(r.status==403)throw \"command not allowed\";if(r.status==429)throw \"rate limited\";if(!r.ok)throw r.status;return r.json()}\nasync function run(text){st(\"relay \"+text+\" → Neo\");var routes=CFG.routes||[\"http://{neo}:4873/shot-sense\", \"native:relay-macos\"],last;\n for(var i=0;i<routes.length;i++){var u=routes[i].replace(\"{neo}\",H);if(u.indexOf(\"native:\")==0){try{window.webkit.messageHandlers.labShot.postMessage({text:\"relay-macos:\"+text});st(\"queued via ЯBOT relay-macos inbox → bridge\");return {text:\"queued \"+text+\" → Neo (reply in rbot-bridge-replies)\"}}catch(e){last=e;continue}}try{var j=await post(u,{text:text,from:\"rbot-ios\"});st(j.status||(\"ok via \"+u.split(\"/\")[2]));return j}catch(e){last=e}}\n st(\"Neo unreachable (\"+last+\")\");return {text:\"SHOT relay failed: Neo unreachable\"}}\nfunction render(j,el){var d=document.createElement(\"div\");d.className=\"shot-sense-reply\";d.textContent=j.text||j.reply||\"\";\n var m=/data:image\\/[a-z]+;base64,[A-Za-z0-9+\\/=]+/.exec(JSON.stringify(j));if(j.image_b64||m){var i=new Image();i.src=j.image_b64?(\"data:image/jpeg;base64,\"+j.image_b64):m[0];i.style.maxWidth=\"100%\";d.appendChild(i)}\n (el||document.body).appendChild(d);return d}\nwindow.SHOT_SENSE={match:function(t){return RX.test(t||\"\")},run:run,render:render,\n handle:async function(t,el){if(!RX.test(t||\"\"))return false;render(await run(t.trim()),el);return true}};})();",
+  "rbwzr-shot.js": "// shot-sense 2.1.9-s1 · ЯBOWZR/RBWZR egg-side SHOT/SSHOT/SEE · ЯID-0003-P4M6 · ЯМАХ\n// Loaded by the ЯBOWZR web layer (macOS seat). Calls DRAGOSKUL :8319 (loopback, CORS ok from :8319 origin;\n// other origins fall back to the ЯBOT inbox bridge). Self-view capture: uses the native bridge if the\n// WKWebView exposes window.webkit.messageHandlers.rbwzrSnapshot (staged native step), else Neo full screen.\n(function (g) {\n  const DS = \"http://127.0.0.1:8319/api/ds/cmd\";\n  async function ds(text) {\n    const r = await fetch(DS, { method: \"POST\", headers: { \"Content-Type\": \"application/json\" }, body: JSON.stringify({ text }) });\n    return (await r.json()).text;\n  }\n  function selfView() {\n    const h = g.webkit && g.webkit.messageHandlers && g.webkit.messageHandlers.rbwzrSnapshot;\n    if (!h) return null;\n    return new Promise(res => { g.__rbwzrSnapDone = res; h.postMessage({ want: \"jpg\" }); });\n  }\n  g.RBWZR_SHOT = {\n    SHOT: () => ds(\"SHOT\"),\n    SSHOT: () => ds(\"SSHOT\"),\n    SEE: (path) => ds(path ? \"SEE \" + path : \"SEE\"),\n    \"SSHOT SEE\": () => ds(\"SSHOT SEE\"),\n    SELF: async () => (await selfView()) || ds(\"SSHOT\"),\n    route(t) { const k = String(t || \"\").trim().toUpperCase(); const m = k.match(/^SEE\\s+(.+)$/);\n      if (m) return this.SEE(String(t).trim().slice(4)); return this[k] ? this[k]() : null; }\n  };\n})(typeof window !== \"undefined\" ? window : globalThis);\n"
+ }
+}

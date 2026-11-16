@@ -1,0 +1,61 @@
+{
+ "cell": 128,
+ "version": "0.4-sheet-20261017",
+ "theme": "light",
+ "states": {
+  "idle": {
+   "file": "thundr-128-idle.webp",
+   "frames": 12,
+   "fps": 10,
+   "loop": true
+  },
+  "working": {
+   "file": "thundr-128-working.webp",
+   "frames": 8,
+   "fps": 12,
+   "loop": true
+  },
+  "thinking": {
+   "file": "thundr-128-thinking.webp",
+   "frames": 12,
+   "fps": 10,
+   "loop": true
+  },
+  "searching": {
+   "file": "thundr-128-searching.webp",
+   "frames": 12,
+   "fps": 12,
+   "loop": true
+  },
+  "success": {
+   "file": "thundr-128-success.webp",
+   "frames": 8,
+   "fps": 14,
+   "loop": false
+  },
+  "error": {
+   "file": "thundr-128-error.webp",
+   "frames": 6,
+   "fps": 12,
+   "loop": false
+  },
+  "sleeping": {
+   "file": "thundr-128-sleeping.webp",
+   "frames": 12,
+   "fps": 6,
+   "loop": true
+  },
+  "egg": {
+   "file": "thundr-128-egg.webp",
+   "frames": 8,
+   "fps": 8,
+   "loop": true
+  },
+  "hatch": {
+   "file": "thundr-128-hatch.webp",
+   "frames": 10,
+   "fps": 10,
+   "loop": false
+  }
+ }
+}
