@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Rizal.pw · RKLOWD File Transfer</title>
+<style>
+:root{color-scheme:dark;--bg:#0b1020;--panel:#151d31;--line:#293650;--muted:#9aabc5;--accent:#72b7ff}*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(135deg,#0b1020,#101b2d);color:#edf4ff;font:16px system-ui,sans-serif}
+main{max-width:760px;margin:6vh auto;padding:22px}.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:22px;margin:16px 0}
+h1{margin:0 0 5px;font-size:2rem}.muted,small{color:var(--muted)}label{display:block;margin:14px 0 6px}
+input,button{width:100%;padding:12px;border-radius:10px;border:1px solid var(--line);background:#0d1527;color:#edf4ff;font:inherit}
+button{background:#1b5fa7;border:0;cursor:pointer;margin-top:12px}.secondary{background:#27364f}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.status{padding:12px;border-radius:10px;background:#0d1527;color:var(--muted);overflow-wrap:anywhere}a{color:var(--accent)}@media(max-width:560px){.grid{grid-template-columns:1fr}}
+</style></head><body><main>
+<h1>Rizal.pw</h1><div class="muted">RKLOWD · Private file transfer</div>
+<section class="card"><h2>Connect iPhone</h2><p class="muted">Enter the server URL displayed by the RKLOWD iPhone app. Use the NetBird overlay address for invited remote users, or the LAN address on the same Wi-Fi.</p>
+<label for="server">iPhone server URL</label><input id="server" placeholder="http://100.x.y.z:8787">
+<label for="token">Access token</label><input id="token" type="password" autocomplete="off" placeholder="Personal access token">
+<div class="grid"><button id="connect">Connect</button><button id="clear" class="secondary">Clear</button></div><p id="status" class="status">Not connected.</p></section>
+<section class="card"><h2>RKLOWD files</h2><div class="grid"><button id="refresh" class="secondary">Refresh</button><button id="health" class="secondary">Check connection</button></div><div id="files" class="status" style="margin-top:12px">Connect to browse files.</div>
+<h3>Upload files to iPhone</h3><input id="pick" type="file" multiple><button id="upload">Upload selected files</button><small>Downloads and uploads require a running iPhone server and an authorized token.</small></section>
+<section class="card"><h3>Connection safety</h3><p class="muted">The website does not expose your iPhone to the public internet. Keep the companion app open while serving files. Remote access should use a private encrypted overlay network; never put a private or changing iPhone IP in public DNS.</p></section>
+<script>
+const $=id=>document.getElementById(id);let base='',token='';
+function auth(){return {'Authorization':'Bearer '+token}}
+async function req(path,opts={}){if(!base||!token)throw Error('Enter server URL and token.');return fetch(base.replace(/\/$/,'')+path,{...opts,headers:{...auth(),...(opts.headers||{})}})}
+$('connect').onclick=async()=>{base=$('server').value.trim();token=$('token').value.trim();try{let r=await req('/api/health');if(!r.ok)throw Error('HTTP '+r.status);$('status').textContent='Connected: '+await r.text();await list()}catch(e){$('status').textContent='Connection failed: '+e.message}};
+$('clear').onclick=()=>{base=token='';$('server').value=$('token').value='';$('status').textContent='Cleared';$('files').textContent='Connect to browse files.'};
+$('health').onclick=async()=>{try{let r=await req('/api/health');$('status').textContent=await r.text()}catch(e){$('status').textContent=e.message}};
+async function list(){try{let r=await req('/api/files');if(!r.ok)throw Error('HTTP '+r.status);let d=await r.json();$('files').replaceChildren();if(!d.files?.length){$('files').textContent='No files found.';return}for(const f of d.files){const row=document.createElement('p'),a=document.createElement('a');a.href='#';a.textContent=f.name+' · '+f.size+' bytes';a.onclick=async e=>{e.preventDefault();let x=await req('/api/download/'+encodeURIComponent(f.name));if(!x.ok){$('status').textContent='Download failed: HTTP '+x.status;return}let u=URL.createObjectURL(await x.blob()),el=document.createElement('a');el.href=u;el.download=f.name;el.click();URL.revokeObjectURL(u)};row.append(a);$('files').append(row)}}catch(e){$('files').textContent='Could not list: '+e.message}}
+$('refresh').onclick=list;
+$('upload').onclick=async()=>{for(const f of $('pick').files){const data=new FormData();data.append('file',f,f.name);let r=await req('/api/upload',{method:'POST',body:data});if(!r.ok){$('status').textContent='Upload failed for '+f.name+': HTTP '+r.status;return}}$('status').textContent='Upload complete.';await list()};
+</script></main></body></html>
