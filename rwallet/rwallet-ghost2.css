@@ -26,7 +26,7 @@
 .rw2 .chip.gold{border-color:var(--gm-gold);color:var(--gm-gold)}
 .rw2 .chip.warn{border-color:var(--gm-warn);color:var(--gm-warn)}
 .rw2 /* balance */
-.bal{text-align:center;padding:14px 16px 4px}
+.bal{text-align:center;padding:8px 16px 4px}
 .rw2 .bal .n{font-size:38px;color:#fff;letter-spacing:1px}
 .rw2 .bal .u{color:var(--gm-fg);font-size:22px}
 .rw2 .bal .s{color:var(--gm-dim);font-size:11px;margin-top:2px}
@@ -326,3 +326,34 @@ body > button#go{min-height:44px;width:min(100%,360px)}
 .app .top{padding-top:calc(24px + var(--fit-sat))}
 .app .demo{top:calc(4px + var(--fit-sat));right:calc(8px + var(--fit-sar))}
 @media (min-width:601px) and (max-width:1199px){.picker{position:static;flex-direction:row;flex-wrap:wrap;justify-content:center;padding:8px;max-width:100%}}
+
+/* b48 preview: hide leftover lock circle; no empty strip gap under the header */
+.rw2 .big.lock{display:none !important}
+.rw2 .dev.on{border-color:var(--gm-fg);color:var(--gm-fg)}
+.rw2 .dev.on i{background:var(--gm-fg);box-shadow:0 0 6px var(--gm-fg)}
+.rw2 .app{overflow-y:auto;padding-bottom:88px}
+.rw2 .reqacts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 16px}
+.rw2 .reqacts > div{border:1px solid var(--gm-fg);border-radius:12px;padding:10px 8px;text-align:center;color:var(--gm-fg);font-size:12px;cursor:pointer}
+.rw2 .reqacts .mint1{grid-column:1/-1;border-color:var(--gm-ac);color:var(--gm-ac2)}
+.rw2 .reqacts .mint1 b{display:block;letter-spacing:.08em}
+.rw2 .reqacts .mint1 small{display:block;color:var(--gm-dim);font-size:10px;margin-top:2px}
+.rw2 .rw2q{width:100%;box-sizing:border-box;background:#000;border:1px solid var(--gm-line);color:var(--gm-fg);border-radius:8px;padding:8px;font:12px var(--gm-font);margin:6px 0}
+.rw2 .fns .fnlist{max-height:280px;overflow:auto}
+.rw2 .csp-rwx .rs-card{border:1px solid var(--gm-fg);background:#0a0a0a;padding:10px;margin:0}
+.rw2 .csp-rwx .rs-h{color:var(--gm-fg);letter-spacing:.08em;font-size:11px;margin-bottom:8px}
+.rw2 .csp-rwx .rs-row{display:flex;justify-content:space-between;gap:8px;color:#eee;font-size:12px}
+.rw2 .csp-rwx .rs-d{color:var(--gm-dim);font-size:10.5px;margin:0 0 8px}
+
+/* b48 preview: R token + R coin assets, Orca pool, ours wallets */
+.rw2 .assets{display:grid;gap:8px;margin:10px 16px 4px}
+.rw2 .acard{border:1px solid var(--gm-fg);border-radius:12px;padding:10px 12px;cursor:pointer;background:var(--gm-panel)}
+.rw2 .acard .k{color:var(--gm-dim);font-size:10.5px;letter-spacing:.08em}
+.rw2 .acard .n{color:#fff;font-size:28px;letter-spacing:1px;line-height:1.15;margin-top:2px}
+.rw2 .acard .u{color:var(--gm-fg);font-size:16px}
+.rw2 .acard .s{color:var(--gm-dim);font-size:11px;margin-top:2px}
+.rw2 .tag.ours{border-color:var(--gm-fg);color:var(--gm-fg)}
+.rw2 .wl.ours{margin:8px 16px;border:1px solid var(--gm-line);border-radius:var(--r);padding:10px 12px;display:flex;align-items:center;gap:10px;background:var(--gm-panel)}
+.rw2 .wl.ours .vl{text-align:right}
+.rw2 .wl.ours .vl b{display:block;color:#fff;font-size:12px}
+.rw2 .wl.ours .vl small{display:block;color:var(--gm-dim);font-size:10px}
+.rw2 .card.pool .row span:last-child{text-align:right;max-width:62%;word-break:break-word}
