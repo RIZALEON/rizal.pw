@@ -1,21 +1,25 @@
 # Rizal.pw File Transfer
 
-Open the portal at `https://Rizal.pw/file-transfer/` after GitHub Pages publishes this repository.
-
-## What is included
-- `index.html`: browser portal for connecting to the iPhone companion server.
-- `ios/`: SwiftUI starter project source and setup notes.
-- `DEPLOYMENT.md`: GitHub Pages, DNS, and safe remote-access instructions.
+The portal frontend is at `index.html` and is intended to be published at `https://Rizal.pw/file-transfer/` by the repository's existing website deployment.
 
 ## Architecture
-The iPhone remains the source of truth for files in the user-selected RKLOWD folder. The website is only a static client; it cannot directly read iPhone storage. The iPhone companion app must be running in the foreground to accept inbound HTTP requests. Bonjour advertises the service on local Wi-Fi. For remote authorized users, use a private overlay such as NetBird and test inbound peer reachability on the actual iPhone. Do not publish the phone's IP in public DNS.
+- **Storage:** RKLOWD folder selected on the iPhone using Apple's document picker.
+- **Website:** static browser interface in this repository.
+- **Local access:** iPhone companion app runs an authenticated HTTP server and advertises `_http._tcp` through Bonjour on the same Wi-Fi.
+- **Remote access:** recommended VPS relay. The iPhone makes an outbound encrypted TLS/WebSocket connection; the website communicates with the relay over HTTPS. The relay streams authenticated uploads/downloads to the iPhone.
+- **Domain:** Unstoppable Domains DNS continues to point at the website host. Never publish the phone's LAN or mobile IP in public DNS.
 
 ## Status
-This is an initial source scaffold. It has not been compiled, signed, installed, or connected to the live iPhone. A Mac with Xcode is required to build and sign the iOS app. iOS background execution restrictions mean the inbound server is not guaranteed to remain available when the app is suspended.
+- [x] Frontend committed.
+- [x] Architecture and deployment instructions committed.
+- [ ] iOS companion app server, authentication, and Bonjour implementation.
+- [ ] Remote relay/API implementation and VPS deployment.
+- [ ] GitHub Pages/custom-domain publishing verification.
+- [ ] iOS app compilation, signing, and on-device testing.
+
+The existing SwiftUI code is a folder-picker scaffold, not yet a working file server. The web upload/download controls require the relay API and iOS agent before transfers will function.
 
 ## Security
-- Do not expose the iPhone server to the public internet.
-- Use per-user high-entropy bearer tokens and read-only/read-write scopes.
-- Restrict CORS to `https://Rizal.pw`.
-- Canonicalize all paths and prevent traversal/symlink escapes.
-- Use HTTPS for the portal and a private encrypted network for remote access.
+Use HTTPS, individual high-entropy revocable tokens, read-only/read-write scopes, folder-scoped file access, file-size/rate limits, and path traversal/symlink protection. No anonymous public uploads. iOS background execution is restricted; keep the companion app foregrounded for the initial inbound-serving implementation.
+
+See [DEPLOYMENT.md](DEPLOYMENT.md) and [ios/README.md](ios/README.md).
