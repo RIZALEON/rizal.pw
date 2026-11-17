@@ -1,0 +1,31 @@
+{
+ "schema": "rzl.rtrackr.pools.v1",
+ "updated": "2026-11-14T20:30:00-07:00",
+ "note": "GhostChain pool registry (metadata sidecar to rtrackr/registry.json). Tracking only. Not a chain block: no mint, no seal, no signature. Kept outside registry.json because submitd ingest rebuilds that file with only registered/game_assets.",
+ "pools": [
+  {
+   "pool_id": "pool.orca.R-SOL.HSroUxVk",
+   "kind": "pool.track",
+   "label": "Orca Я/SOL splash pool",
+   "pair": "Я/SOL",
+   "dex": "Orca",
+   "pool_type": "Whirlpool (splash)",
+   "chain": "solana-mainnet",
+   "address": "HSroUxVkVKv6kX9e7dpoJtbFqKcL76BzrkuuRfAGxs9s",
+   "program": "whirLbMiicVdio4qvUfM5KAg6Ct8VwpYzGff3uctyCc",
+   "token_a": {"symbol": "Я", "mint": "BB9uA5BuacDnWyDf5Npc9nMb9yFbyThsNrQPBYJ5Q1Lv"},
+   "token_b": {"symbol": "SOL", "mint": "So11111111111111111111111111111111111111112"},
+   "position_nft": "24uKAFYiLQaycBeiVCpKQgsjUwAn9XiKsuiMAZeoaRV7",
+   "created_onchain": "2026-10-13T23:50:16Z",
+   "tracking_only": true,
+   "no_swap": true,
+   "no_liquidity_actions": true,
+   "status": "tracked",
+   "onchain_rghostchain": false,
+   "block_hash": null,
+   "registered": "2026-11-14T20:30:00-07:00",
+   "registered_by": "Grok Bot (Decider t237u: integrate the pool into our ghostchain and trackr)",
+   "snapshot": "rizal.pw/rtrackr/data/token-pool.json (tools/pool_snapshot.py)"
+  }
+ ]
+}

@@ -1,0 +1,41 @@
+{
+  "schema": "rzl.rwallet.rmail-handoff.v1",
+  "watch": false,
+  "private": true,
+  "note": "PRIVATE staged hand-off config. Change these URLs to point the wallet at a LINUX RIZAL 1.1.1.8 helper without editing panel code. Mail from RMAIL or the mesh never triggers sign or mint.",
+  "source_image": "LINUX RIZAL 1.1.1.6 (Debian 13, from RVM 0.3.1, unsigned, never booted)",
+  "rsocial_rmail": "vendor/rsocial-rmail.js  (v2.1, pulled from the 1.1.1.6 image /opt/rizal/rizal.pw/rdragon-cryptosocial/rsocial-rmail.js)",
+  "browser_outbox": true,
+  "active": "relay_8797",
+  "targets": {
+    "relay_8797": {
+      "label": "RSCALE / transponder drop on loopback :8797 (current default)",
+      "url": "http://127.0.0.1:8797/send",
+      "drop": "http://127.0.0.1:8797/rscale/rmail/drop",
+      "kind": "http-relay"
+    },
+    "helper_1_1_1_8": {
+      "label": "LINUX RIZAL 1.1.1.8 helper (SCRIBE draft; configurable — not baked into 1.1.1.6)",
+      "url": "http://127.0.0.1:8797/",
+      "kind": "http-helper",
+      "notes": "Point active at this key when the 1.1.1.8 helper is up. Hubs off, LXMF/RNS local :4242."
+    },
+    "lxmf_local_4242": {
+      "label": "Reticulum / LXMF local path",
+      "url": "tcp://127.0.0.1:4242",
+      "kind": "lxmf-rns",
+      "config_in_image": "linux-rizal-1.1.1.6/etc/reticulum/config listen_port 4242; linux-rizal-1.1.1.6/etc/lxmd/config"
+    },
+    "rklowd_queue": {
+      "label": "RKLOWD RMAIL queue fallback",
+      "path": "linux-rizal-1.1.1.6/opt/rizal/rklowd/RMAIL",
+      "sync": "rmail/rmail_sync.py",
+      "kind": "rklowd-fallback"
+    }
+  },
+  "hubs": "off",
+  "hubs_note": "Wallet default for 1.1.1.8-ready operation: public Reticulum hubs off; local :4242 only. The 1.1.1.6 image config still has rmap.world and rns.beleth.net enabled — that image was not modified. This file is what the wallet uses.",
+  "rmail_rns_to": null,
+  "rmail_url": null,
+  "never_sign_or_mint_from_mail": true
+}

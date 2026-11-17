@@ -1,0 +1,23 @@
+{
+  "schema": "rzl.rmail.route.v1",
+  "version": "1.0-20261111-rbowzr",
+  "note": "ONE RMAIL Approve route for every ЯWALLET version (MEKANICA t-20261111 suggestion). Primary = the :8797 relay. While the relay is off (MEKANICA owns switching on PIPE/rscale/rvm_approve_relay.py), each platform keeps its current route as the fallback, so nothing breaks. Mail never signs or mints. No keys, no secrets, no Cloudflare, loopback only.",
+  "primary": {
+    "id": "relay_8797",
+    "kind": "http-relay",
+    "url": "http://127.0.0.1:8797/send",
+    "drop": "http://127.0.0.1:8797/rscale/rmail/drop",
+    "state": "off-until-mekanica-go"
+  },
+  "fallback": {
+    "rwallet-unified-8760": {"kind": "http-relay", "url": "http://127.0.0.1:8797/send", "note": "already relay_8797 via data/rmail-handoff.json"},
+    "rwallet-ios-standalone": {"kind": "node-folder", "path": "Documents/ЯLAB/RKLOWD/nodes/<node>/rmail-*.json"},
+    "rbot-ios": {"kind": "node-folder", "path": "Documents/ЯLAB/RKLOWD/nodes/<node>/rmail-*.json", "queue": "http://127.0.0.1:8741/rmint/queue"},
+    "thundr-rbot-fused-ios": {"kind": "node-folder", "path": "Documents/ЯLAB/RKLOWD/nodes/<node>/rmail-*.json", "queue": "http://127.0.0.1:8741/rmint/queue"},
+    "rbot-linux": {"kind": "outbox", "path": "/var/lib/rizal/rmail/outbox", "note": "relay reads it read-only via :18851/api/approvals"},
+    "ghostmachine-rwallet": {"kind": "http-queue", "url": "http://127.0.0.1:8741/rmint/queue"},
+    "linux-rizal-1.1.1.6-rklowd": {"kind": "rklowd-fallback", "path": "/opt/rizal/rklowd/RMAIL"}
+  },
+  "order": ["primary", "fallback"],
+  "never_sign_or_mint_from_mail": true
+}
