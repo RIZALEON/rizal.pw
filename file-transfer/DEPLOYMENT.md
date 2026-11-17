@@ -1,12 +1,32 @@
-# Deploy Rizal.pw File Transfer portal
+# Deploy Rizal.pw File Transfer
 
-1. This directory is in the existing `RIZALEON/rizal.pw` repository. GitHub Pages must be enabled for the repository's existing deployment configuration.
-2. The portal path will be `https://Rizal.pw/file-transfer/` once the Pages build publishes the commit.
-3. The website is static HTML. It does not host file bytes or run an upload API.
-4. In Unstoppable Domains DNS, preserve the current Rizal.pw records. Do not change apex or www records for this subdirectory. A subdirectory needs no DNS record.
-5. For iPhone access, build/install the SwiftUI companion app and select RKLOWD using the iOS document picker.
-6. For same-Wi-Fi use, the app advertises Bonjour and shows its local address.
-7. For invited remote users, connect devices to the same NetBird private network and use the iPhone's overlay address only after confirming inbound connectivity. If the iPhone cannot accept inbound peer traffic, implement a VPS relay before remote use.
+## Current repository
+The portal frontend is committed in `RIZALEON/rizal.pw` at `file-transfer/index.html`. The intended URL is `https://Rizal.pw/file-transfer/`, provided the existing site deployment publishes repository subdirectories. The root site was not replaced.
 
-GitHub Pages documentation: https://docs.github.com/en/pages
-Unstoppable Domains DNS help: https://support.unstoppabledomains.com/
+## Website and DNS
+- GitHub hosts the source code. GitHub Pages or the repository's existing hosting pipeline can serve the static portal.
+- A subdirectory such as `/file-transfer/` requires no separate DNS record.
+- Keep existing Unstoppable Domains DNS records unchanged. Do not repoint the domain or publish the iPhone IP.
+- Confirm GitHub Pages/custom-domain configuration and HTTPS before announcing the URL.
+
+## File storage and connectivity
+The RKLOWD folder remains on the iPhone. The iOS app must obtain folder permission through Apple's document picker.
+
+Local Wi-Fi: the iOS app runs an authenticated HTTP server and advertises `_http._tcp` using Bonjour. This is for same-LAN discovery only.
+
+Remote access: use a VPS relay. The iPhone companion initiates an outbound TLS/WebSocket connection to the relay; the website calls the relay over HTTPS. The relay authenticates invited users and streams file operations to the connected iPhone. This avoids carrier NAT and browser mixed-content problems. NetBird may be used for private administration or peer testing, but do not assume inbound connections to an iPhone work on every carrier/network.
+
+## Required relay API
+- `GET /api/file-transfer/health`
+- `GET /api/file-transfer/files`
+- `GET /api/file-transfer/download/{opaqueFileId}`
+- `POST /api/file-transfer/upload` (multipart `file`)
+- authenticated WebSocket for iPhone agent registration and streaming transfer messages.
+
+The relay must not persist file contents by default. Add per-user tokens, revocation, read-only/read-write scopes, upload size limits, rate limits, audit events, and strict opaque file IDs.
+
+## iOS build
+The SwiftUI folder-picker scaffold is in `ios/`. It is not yet a complete server or a signed installable app. Build/signing requires Xcode on a Mac. iOS may suspend apps in the background; the initial version should clearly require the app to remain open while serving files.
+
+## Unstoppable Domains
+Only configure DNS if changing the current site host. Use the current DNS values from the hosting provider's official setup instructions. Never point DNS at a private LAN address or a changing mobile IP.
