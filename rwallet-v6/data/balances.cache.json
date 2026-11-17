@@ -1,0 +1,157 @@
+{
+ "fetched": "2026-10-23 17:21:48 MDT",
+ "source": "mainnet RPC (live)",
+ "rows": [
+  {
+   "name": "CROWN (mint/freeze authority, fee payer)",
+   "pubkey": "BwpVNk1Rtncpv5HMTLwxB4Yfjkfv6mFaBQUTpjneH1F9",
+   "kind": "sol",
+   "balance": 0.007194044,
+   "unit": "SOL"
+  },
+  {
+   "name": "CROWN Я account (ATA)",
+   "pubkey": "8bCnr63CTdC2YbELK3x4vxJYNt6cueGBbEvRURFZc9Q1",
+   "kind": "token_account",
+   "balance": 899989.000002178,
+   "unit": "token"
+  },
+  {
+   "name": "Я mint",
+   "pubkey": "BB9uA5BuacDnWyDf5Npc9nMb9yFbyThsNrQPBYJ5Q1Lv",
+   "kind": "mint",
+   "balance": 1000000.0,
+   "unit": "supply"
+  },
+  {
+   "name": "DESKTOP WALLET",
+   "pubkey": "",
+   "kind": "sol",
+   "note": "not seated yet (pubkey empty in DeviceWalletSeat.json)",
+   "balance": null
+  },
+  {
+   "name": "MOBILE WALLET",
+   "pubkey": "",
+   "kind": "sol",
+   "note": "not seated yet (pubkey empty in DeviceWalletSeat.json)",
+   "balance": null
+  },
+  {
+   "name": "BOOMERANG WALLET",
+   "pubkey": "",
+   "kind": "sol",
+   "note": "not seated yet (pubkey empty in DeviceWalletSeat.json)",
+   "balance": null
+  },
+  {
+   "name": "POOL",
+   "pubkey": "",
+   "kind": "sol",
+   "note": "no public pool address found in ЯBOT/RVM files",
+   "balance": null
+  },
+  {
+   "name": "WATCHED HOLDER (OpenSea)",
+   "pubkey": "12872Chwv88d9JcNnPPThtSQWJM296kpkDqm7tpBWB28",
+   "kind": "sol",
+   "unit": "SOL",
+   "balance": 0.002958055,
+   "note": "baked 1:55 PM MT · refresh live when online"
+  },
+  {
+   "name": "WATCHED HOLDER Я account (ATA)",
+   "pubkey": "BNFLK9bU7CJ4mY87DHpgZ8wj4a1atxwRVpmSuxBUsG8Z",
+   "kind": "token_account",
+   "unit": "Я",
+   "balance": 32586.804095877,
+   "note": "baked 1:55 PM MT · refresh live when online"
+  },
+  {
+   "name": "PREVIOUS RBOT DESKTOP",
+   "pubkey": "3gLUfDdw1etDGeJ2PnqUtitam5TwZAsC3BhXCQYx2Gfk",
+   "kind": "sol",
+   "unit": "SOL",
+   "balance": 0.009995,
+   "note": "previous · baked 1:55 PM MT"
+  },
+  {
+   "name": "PREVIOUS RBOT DESKTOP Я account (ATA)",
+   "pubkey": "3HHKmD1RT4mrL7iGfydu8jc9rceZbkoLQmWpUfbe6Cvx",
+   "kind": "token_account",
+   "unit": "Я",
+   "balance": 9,
+   "note": "previous · baked 1:55 PM MT"
+  },
+  {
+   "name": "PREVIOUS RBOT MOBILE (17e)",
+   "pubkey": "E611TFJh9y2eipt984hhBjhUQ1EsrUDodbLsrpN9Zmhn",
+   "kind": "sol",
+   "unit": "SOL",
+   "balance": 0.003,
+   "note": "previous · on-chain 984hh spelling · baked 1:55 PM MT"
+  },
+  {
+   "name": "PREVIOUS RBOT MOBILE Я account (ATA)",
+   "pubkey": "FyHLAiaFkQMvBRe2RUoMkH1wBk4M51E9ntoWDQrnvR9j",
+   "kind": "token_account",
+   "unit": "Я",
+   "balance": 2,
+   "note": "previous · baked 1:55 PM MT"
+  },
+  {
+   "name": "PREVIOUS RBOT MOBILE typo (984h)",
+   "pubkey": "E611TFJh9y2eipt984hBjhUQ1EsrUDodbLsrpN9Zmhn",
+   "kind": "sol",
+   "unit": "SOL",
+   "balance": null,
+   "note": "typo variant · no on-chain account · missing"
+  },
+  {
+   "name": "PREVIOUS DESKTOP / BOOMERANG",
+   "pubkey": "2E4eAKWUU5akXTUfP7ZrgjebE3TPUhzZZfaRkQUpwyaj",
+   "kind": "sol",
+   "unit": "SOL",
+   "balance": 0.0,
+   "note": "previous · no Я ATA · baked 1:55 PM MT"
+  },
+  {
+   "name": "ORCA SPLASH POOL Я/SOL",
+   "pubkey": "HSroUxVkVKv6kX9e7dpoJtbFqKcL76BzrkuuRfAGxs9s",
+   "kind": "pool",
+   "unit": "",
+   "balance": null,
+   "note": "Orca splashpool · vaults and price in rtrackr-snapshot.json"
+  },
+  {
+   "name": "ORCA Я vault",
+   "pubkey": "8uYFzTDTDq18z1gPFgjaNRAxmZ3c52tbVHGBLN2CVF3G",
+   "kind": "token_account",
+   "unit": "Я",
+   "balance": 67413.195901945,
+   "note": "pool vault · baked 1:55 PM MT"
+  },
+  {
+   "name": "ORCA SOL vault",
+   "pubkey": "9m3eqYYF7mP3gPvcrknbCQHhsVXRVpH9AKAKagdETqmb",
+   "kind": "sol_vault",
+   "unit": "SOL",
+   "balance": null,
+   "note": "see rtrackr-snapshot.json pool.orca_token_balance_sol_ui"
+  },
+  {
+   "name": "ORCA position NFT",
+   "pubkey": "24uKAFYiLQaycBeiVCpKQgsjUwAn9XiKsuiMAZeoaRV7",
+   "kind": "nft",
+   "unit": "",
+   "balance": null,
+   "note": "Orca position NFT"
+  }
+ ],
+ "staged_append": {
+  "at": "2026-11-10T15:04:00-07:00",
+  "at_label": "Tuesday, Nov 10, 2026, 3:04 PM MT",
+  "note": "Add-only rows for the staged unified roster. Original rows were not edited. Live balances are read by rwallet-roster.js from public RPC + the RTRACKR snapshot, not from this cache alone.",
+  "added_rows": 12
+ }
+}

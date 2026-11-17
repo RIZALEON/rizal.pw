@@ -1,0 +1,586 @@
+{
+  "schema": "rzl.rpotlatch.rtrackr.snapshot.v2",
+  "generated": "2026-11-10T13:55:41-07:00",
+  "generated_label": "Tuesday, Nov 10, 2026, 1:55 PM MT",
+  "note": "Public snapshot only. Registry rows: RID, name, kind, mode, block hash, status. Ghostroot entries are the unsigned branch, not signed mints. Token, pool, authority, holdings, RWALLET and OpenSea-alert sections are baked from public RPC/API and local public registries; each value has a source and a fetched time. This file is static and is read from the same site path only. No keys, seeds, or local paths.",
+  "sources": {
+    "signed_name": "RGHOSTCHAIN · signed",
+    "signed_schema": "rzl.rtrackr.registry.v1",
+    "signed_updated": "2026-11-01T18:39:41-07:00",
+    "ghostroot_name": "Ghostroot · unsigned",
+    "ghostroot_schema": "rzl.rtrackr.ghostroot.registry.v1",
+    "ghostroot_chain": "GHOSTROOT",
+    "ghostroot_mode": "ghostroot-unsigned",
+    "ghostroot_updated": null,
+    "market_bake": "tools/rtrackr-market-bake.json (baked public facts; no live fetch on the page)"
+  },
+  "entries": [
+    {
+      "rid": "ЯID-0001-3QQS",
+      "name": "ASSM profile @chaserizal",
+      "kind": "wallet.asset.rid",
+      "mode": null,
+      "block_hash": "e3d6a6c4a8b037e2f0ad855f9b4347723646dcaa24d202d5f85788ea7c90147e",
+      "status": "dry",
+      "source_label": "RGHOSTCHAIN · signed",
+      "record_source": "registered",
+      "label": "GAME-MINTED GENESIS"
+    },
+    {
+      "rid": "ЯID-0014-KREH",
+      "name": "ThundR CRYPTOBOT wallet RID",
+      "kind": "wallet.asset.rid",
+      "mode": null,
+      "block_hash": null,
+      "status": "registered",
+      "source_label": "RGHOSTCHAIN · signed",
+      "record_source": "registered",
+      "label": "RGHOSTCHAIN · signed"
+    },
+    {
+      "rid": "ЯID-0001-3QQS",
+      "name": "@chaserizal",
+      "kind": "wallet.asset.rid",
+      "mode": "dry",
+      "block_hash": "bdd8a0bb9fcf84a4afb1a956459482776261b38239e35910080db7fd03d26451",
+      "status": null,
+      "source_label": "RGHOSTCHAIN · signed",
+      "record_source": "registered",
+      "label": "RGHOSTCHAIN · signed"
+    },
+    {
+      "rid": "ЯID-0001-3QQS",
+      "name": "@chaserizal",
+      "kind": "wallet.asset.rid",
+      "mode": "live",
+      "block_hash": "3ce4be265ca605a5f82e1f752090b2123eed18e31549fb5cfd9e56daf210a2bd",
+      "status": null,
+      "source_label": "RGHOSTCHAIN · signed",
+      "record_source": "registered",
+      "label": "RGHOSTCHAIN · signed"
+    },
+    {
+      "rid": "ЯID-0014-KREH",
+      "name": "@thundr",
+      "kind": "cryptobot",
+      "mode": "live",
+      "block_hash": "56e6a940eae08b1cf8415e314c9ae56a8790883f775d01dd4e07ee018b49ddb4",
+      "status": null,
+      "source_label": "RGHOSTCHAIN · signed",
+      "record_source": "registered",
+      "label": "RGHOSTCHAIN · signed"
+    },
+    {
+      "rid": "ЯID-0015-0HJP",
+      "name": "@chaserizal",
+      "kind": "cryptobot",
+      "mode": "live",
+      "block_hash": "5bb1d6f0cb9d5b0d53839cfe9669a59037161aefbee5795c0a944d12f2b7eb0d",
+      "status": null,
+      "source_label": "RGHOSTCHAIN · signed",
+      "record_source": "registered",
+      "label": "RGHOSTCHAIN · signed"
+    },
+    {
+      "rid": "ЯID-0001-3QQS",
+      "name": "GAME-MINTED GENESIS",
+      "kind": "wallet.asset.rid",
+      "mode": null,
+      "block_hash": "3ce4be265ca605a5f82e1f752090b2123eed18e31549fb5cfd9e56daf210a2bd",
+      "status": "live",
+      "source_label": "RGHOSTCHAIN · signed",
+      "record_source": "game_assets",
+      "label": "GAME-MINTED GENESIS"
+    },
+    {
+      "rid": "ЯID-0014-KREH",
+      "name": "ThundR CRYPTOBOT wallet RID",
+      "kind": "wallet.asset.rid",
+      "mode": null,
+      "block_hash": null,
+      "status": "registered",
+      "source_label": "RGHOSTCHAIN · signed",
+      "record_source": "game_assets"
+    },
+    {
+      "rid": "ЯID-0014-KREH",
+      "name": "CRYPTOBOT · ThundR · ЯID-0014-KREH",
+      "kind": "cryptobot",
+      "mode": null,
+      "block_hash": "56e6a940eae08b1cf8415e314c9ae56a8790883f775d01dd4e07ee018b49ddb4",
+      "status": "live",
+      "source_label": "RGHOSTCHAIN · signed",
+      "record_source": "game_assets",
+      "label": "CRYPTOBOT · ThundR · ЯID-0014-KREH"
+    },
+    {
+      "rid": "ЯID-0015-0HJP",
+      "name": "TERAFORMR CRYPTOGAME",
+      "kind": "cryptobot",
+      "mode": null,
+      "block_hash": "5bb1d6f0cb9d5b0d53839cfe9669a59037161aefbee5795c0a944d12f2b7eb0d",
+      "status": "live",
+      "source_label": "RGHOSTCHAIN · signed",
+      "record_source": "game_assets",
+      "label": "TERAFORMR CRYPTOGAME"
+    },
+    {
+      "rid": "ЯID-0016-CG2C",
+      "name": "GHOSTROOT · unsigned branch · order-authorized",
+      "kind": "ghostcube",
+      "mode": "ghostroot-unsigned",
+      "block_hash": "675519be4115b6b8dbad107b08f60e7b3932a1d0ee068f82594fcefa6a4ea35b",
+      "status": "unsigned · order-authorized (Rizal t313u–t320u)",
+      "source_label": "Ghostroot · unsigned branch",
+      "record_source": "ghostroot"
+    }
+  ],
+  "token": {
+    "name": "Я",
+    "symbol": "Я",
+    "also_called": "Rtoken · Я / R Token (RTOKEN = Я TOKEN)",
+    "chain": "solana-mainnet",
+    "mint": "BB9uA5BuacDnWyDf5Npc9nMb9yFbyThsNrQPBYJ5Q1Lv",
+    "note": "The address Rizal gave (BB9uA5BuacDnWyDf5Npc9nMb9yFbyThsNrQPBYJ5Q1Lv) is the Я mint, not the Orca pool. The Orca Я / SOL pool that holds this mint is HSroUxVkVKv6kX9e7dpoJtbFqKcL76BzrkuuRfAGxs9s.",
+    "decimals": 9,
+    "token_program": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "supply_raw": "1000000000000000",
+    "supply_ui": "1000000",
+    "created_at_utc": "2026-09-19 03:07:39 UTC",
+    "created_at_label": "Friday, Sep 18, 2026, 9:07:39 PM MT",
+    "mint_tx": "2Lxr2mEZnFnwwBMQjCgRt8EJLaJbwEp61K51mdx16z8oncWg2JCXzCKnisMi78V3L4w7w2pizQ8P1p2H5XMLvx94",
+    "metadata_account": "Ci9V7hLbsGJPnrWTN5pvT5H5JPoi6EAiF1b2KVZwr5M9",
+    "metadata_uri": "https://raw.githubusercontent.com/RIZALEON/RIZALBOT/seat-wallet-landing/twin/ya-metadata.json",
+    "metadata_name": "Я",
+    "metadata_symbol": "Я",
+    "metadata_description": "Я — crown twin of ЯBOT / CHANNEL Я. Clay on-device is source. Explorers and aggregators are mirrors only.",
+    "geckoterminal_description": "Crown Я. Clay owns source. Explorers are mirrors. NonNuclear. Decider Rizal.",
+    "source": "Solana RPC jsonParsed mint + WalletCard.json + Metaplex metadata URI + GeckoTerminal token info",
+    "sources": [
+      {
+        "field": "mint account / supply / decimals / authorities",
+        "source": "Solana RPC getAccountInfo jsonParsed (api.mainnet-beta.solana.com)",
+        "at": "2026-11-10T13:47:41-07:00",
+        "at_label": "Tuesday, Nov 10, 2026, 1:47:41 PM MT",
+        "slot": 467860307
+      },
+      {
+        "field": "mint_tx / created_at / metadata_account / metadata_uri",
+        "source": "WalletCard.json (RWALLET public card)",
+        "at": "card verified_at 2026-09-19 06:01:48 UTC"
+      },
+      {
+        "field": "on-chain metadata account exists",
+        "source": "Solana RPC getAccountInfo (owner metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s)",
+        "at": "2026-11-10T13:52:32-07:00",
+        "at_label": "Tuesday, Nov 10, 2026, 1:52:32 PM MT"
+      },
+      {
+        "field": "metadata name/symbol/description",
+        "source": "https://raw.githubusercontent.com/RIZALEON/RIZALBOT/seat-wallet-landing/twin/ya-metadata.json",
+        "at": "2026-11-10T13:52:32-07:00",
+        "at_label": "Tuesday, Nov 10, 2026, 1:52:32 PM MT"
+      }
+    ]
+  },
+  "authority": {
+    "title": "Control · freeze · release",
+    "mint_authority": "BwpVNk1Rtncpv5HMTLwxB4Yfjkfv6mFaBQUTpjneH1F9",
+    "mint_authority_status": "set",
+    "mint_authority_name": "Crown wallet",
+    "mint_control": "not released — mint authority is still set, so new Я can still be minted",
+    "freeze_authority": null,
+    "freeze_authority_status": "revoked",
+    "freeze_control": "released — freeze authority is null (revoked), so this mint cannot freeze token accounts",
+    "geckoterminal_mint_authority": null,
+    "geckoterminal_note": "GeckoTerminal token info reports mint_authority null. That does not match the on-chain mint account, which still has mint authority set to the Crown wallet. On-chain Solana RPC is the authority for this row.",
+    "wallet_card_freeze_note": "WalletCard.json already recorded freeze revoked, verified on-chain 2026-10-29, with mint authority still the Crown key.",
+    "source": "Solana RPC getAccountInfo jsonParsed (api.mainnet-beta.solana.com)",
+    "at": "2026-11-10T13:47:41-07:00",
+    "at_label": "Tuesday, Nov 10, 2026, 1:47:41 PM MT",
+    "slot": 467860307
+  },
+  "pool": {
+    "dex": "Orca",
+    "pool_type": "splashpool",
+    "pair": "Я / SOL",
+    "address": "HSroUxVkVKv6kX9e7dpoJtbFqKcL76BzrkuuRfAGxs9s",
+    "base_mint": "BB9uA5BuacDnWyDf5Npc9nMb9yFbyThsNrQPBYJ5Q1Lv",
+    "quote_mint": "So11111111111111111111111111111111111111112",
+    "token_vault_sol": "9m3eqYYF7mP3gPvcrknbCQHhsVXRVpH9AKAKagdETqmb",
+    "token_vault_ya": "8uYFzTDTDq18z1gPFgjaNRAxmZ3c52tbVHGBLN2CVF3G",
+    "position_nft": "24uKAFYiLQaycBeiVCpKQgsjUwAn9XiKsuiMAZeoaRV7",
+    "whirlpool_program": "whirLbMiicVdio4qvUfM5KAg6Ct8VwpYzGff3uctyCc",
+    "created_at_utc": "2026-10-13T23:50:16Z",
+    "created_at_label": "Tuesday, Oct 13, 2026, 5:50:16 PM MT",
+    "jupiter_first_pool_created_at_utc": "2026-10-13T23:49:45Z",
+    "jupiter_first_pool_created_at_label": "Tuesday, Oct 13, 2026, 5:49:45 PM MT",
+    "price_usd": "0.00003672334606",
+    "price_sol": "0.000000347267581175445",
+    "sol_price_usd": "107.5081972145",
+    "fdv_usd": "36.72334606",
+    "market_cap_usd": null,
+    "market_cap_display": "missing",
+    "liquidity_usd": "4.0647",
+    "volume_24h_usd": "0.0",
+    "volume_24h_note": "GeckoTerminal reports 0 buys and 0 sells across 5m, 15m, 30m, 1h, 6h and 24h.",
+    "price_change_24h": "0",
+    "locked_liquidity_percentage": "0.0",
+    "pool_fee_percentage_geckoterminal": null,
+    "fee_rate_orca": 10000,
+    "fee_lp_percent": "1.00",
+    "fee_note": "Orca feeRate is in millionths. 10000 / 1,000,000 = 1.00% LP fee. protocolFeeRate 1300 = 13% of LP fees.",
+    "protocol_fee_rate_orca": 1300,
+    "orca_api_updated_at_utc": "2026-10-20T14:53:02.890887Z",
+    "orca_api_updated_at_label": "Tuesday, Oct 20, 2026, 8:53:02 AM MT",
+    "orca_api_stale_note": "Orca API pool document last updated Oct 20, 2026. Use it for fee, vault addresses, pool type and 30-day stats. Do not use its TVL or price as current; those come from GeckoTerminal and live vault balances.",
+    "orca_tvl_usdc_stale": "1.2962994012126301",
+    "orca_token_balance_sol_raw": "15571399",
+    "orca_token_balance_sol_ui": "0.015571399",
+    "orca_token_balance_ya_raw": "67413195901945",
+    "orca_token_balance_ya_ui": "67413.195901945",
+    "live_vault_ya_ui": "67413.195901945",
+    "live_vault_ya_matches_orca_document": true,
+    "orca_has_warning": true,
+    "orca_volume_30d_usd": "2.2756851645410900",
+    "orca_fees_30d_usd": "0.02267672109833578000",
+    "dexscreener": "no pair found for this mint or pool address",
+    "geckoterminal_page": "https://www.geckoterminal.com/solana/pools/HSroUxVkVKv6kX9e7dpoJtbFqKcL76BzrkuuRfAGxs9s",
+    "source": "GeckoTerminal API (current price/liquidity/volume) + Orca API (fee, vaults, pool type) + Solana RPC (live Я vault)",
+    "sources": [
+      {
+        "field": "price, FDV, liquidity, 24h volume, created_at, locked liquidity",
+        "source": "GeckoTerminal API https://api.geckoterminal.com/api/v2/networks/solana/pools/HSroUxVkVKv6kX9e7dpoJtbFqKcL76BzrkuuRfAGxs9s",
+        "at": "2026-11-10T13:47:37-07:00",
+        "at_label": "Tuesday, Nov 10, 2026, 1:47:37 PM MT"
+      },
+      {
+        "field": "feeRate, vaults, pool type, 30d volume/fees, stale TVL",
+        "source": "Orca API https://api.orca.so/v2/solana/pools/HSroUxVkVKv6kX9e7dpoJtbFqKcL76BzrkuuRfAGxs9s",
+        "at": "2026-11-10T13:47:48-07:00",
+        "at_label": "Tuesday, Nov 10, 2026, 1:47:48 PM MT",
+        "data_updated_at": "2026-10-20T14:53:02.890887Z"
+      },
+      {
+        "field": "live Я vault balance",
+        "source": "Solana RPC getAccountInfo on vault 8uYFzTDTDq18z1gPFgjaNRAxmZ3c52tbVHGBLN2CVF3G",
+        "at": "2026-11-10T13:48:20-07:00",
+        "at_label": "Tuesday, Nov 10, 2026, 1:48:20 PM MT"
+      },
+      {
+        "field": "DexScreener",
+        "source": "DexScreener API latest/dex/tokens and latest/dex/search",
+        "at": "2026-11-10T13:47:20-07:00",
+        "at_label": "Tuesday, Nov 10, 2026, 1:47:20 PM MT",
+        "result": "no pair"
+      }
+    ]
+  },
+  "holders": {
+    "count": 5,
+    "total_supply_ui": "1000000",
+    "top_10_share_on_chain": "100.0%",
+    "top_10_note": "There are only 5 token accounts. Together they hold the full 1,000,000 supply.",
+    "excluding_pool_share": "93.2586804095877%",
+    "excluding_pool_note": "Jupiter lite-api reported topHoldersPercentage 93.25868040980549, which matches the four non-pool accounts (Crown + watched holder + previous desktop + previous mobile).",
+    "dev_share": "89.9989000002178%",
+    "opensea_flag_note": "OpenSea's moderate flag says 'Unbalanced ownership — top 10 holders own 50%'. That is OpenSea's threshold wording, not the measured share. On-chain, the top 10 (all 5 accounts) own 100%.",
+    "source": "Solana RPC getProgramAccounts (Tokenkeg, mint filter) reconfirmed by getTokenAccountsByOwner / getAccountInfo",
+    "at": "2026-11-10T13:52:32-07:00",
+    "at_label": "Tuesday, Nov 10, 2026, 1:52:32 PM MT",
+    "geckoterminal_holders_updated_at_utc": "2026-11-08T16:30:19Z",
+    "geckoterminal_holders_updated_at_label": "Sunday, Nov 8, 2026, 9:30:19 AM MT",
+    "accounts": [
+      {
+        "rank": 1,
+        "owner": "BwpVNk1Rtncpv5HMTLwxB4Yfjkfv6mFaBQUTpjneH1F9",
+        "token_account": "8bCnr63CTdC2YbELK3x4vxJYNt6cueGBbEvRURFZc9Q1",
+        "amount_ui": "899989.000002178",
+        "share": "89.9989000002178%",
+        "role": "Crown wallet · mint authority"
+      },
+      {
+        "rank": 2,
+        "owner": "HSroUxVkVKv6kX9e7dpoJtbFqKcL76BzrkuuRfAGxs9s",
+        "token_account": "8uYFzTDTDq18z1gPFgjaNRAxmZ3c52tbVHGBLN2CVF3G",
+        "amount_ui": "67413.195901945",
+        "share": "6.7413195901945%",
+        "role": "Orca Я / SOL pool vault"
+      },
+      {
+        "rank": 3,
+        "owner": "12872Chwv88d9JcNnPPThtSQWJM296kpkDqm7tpBWB28",
+        "token_account": "BNFLK9bU7CJ4mY87DHpgZ8wj4a1atxwRVpmSuxBUsG8Z",
+        "amount_ui": "32586.804095877",
+        "share": "3.2586804095877%",
+        "role": "Watched holder · matches OpenSea 32.6K Я screenshot"
+      },
+      {
+        "rank": 4,
+        "owner": "3gLUfDdw1etDGeJ2PnqUtitam5TwZAsC3BhXCQYx2Gfk",
+        "token_account": "3HHKmD1RT4mrL7iGfydu8jc9rceZbkoLQmWpUfbe6Cvx",
+        "amount_ui": "9",
+        "share": "0.0009000000000%",
+        "role": "Previous RBOT desktop seat (knownRoster)"
+      },
+      {
+        "rank": 5,
+        "owner": "E611TFJh9y2eipt984hhBjhUQ1EsrUDodbLsrpN9Zmhn",
+        "token_account": "FyHLAiaFkQMvBRe2RUoMkH1wBk4M51E9ntoWDQrnvR9j",
+        "amount_ui": "2",
+        "share": "0.0002000000000%",
+        "role": "Previous RBOT mobile seat (knownRoster)"
+      }
+    ]
+  },
+  "opensea_observation": {
+    "kind": "user-provided screenshot observation",
+    "source": "OpenSea app screenshot",
+    "at": "2026-11-10T13:43:00-07:00",
+    "at_label": "Tuesday, Nov 10, 2026, about 1:43 PM MT",
+    "note": "Recorded from screenshots Rizal sent. These figures were not fetched from an API. OpenSea flags are OpenSea's own labels, not an on-chain verdict.",
+    "token": "Я",
+    "price_usd_display": "$0.0₄4₄3654",
+    "price_usd": "0.00003654",
+    "fdv_usd": "36.54",
+    "mcap_usd": "36.54",
+    "volume": "$0.00",
+    "liquidity_usd": "4.13",
+    "change_1y": "+134%",
+    "balance_display": "32.6K Я",
+    "balance_usd_display": "$1.19",
+    "invested_usd": "0.51",
+    "unrealized_usd": "+0.68",
+    "held": "3 weeks",
+    "buy": "one Buy 3 weeks ago at $20.41 FDV for $0.6653",
+    "signal": "FUTURE PAST PRESENT (public Signal he posted)",
+    "alerts": [
+      {
+        "severity": "Critical",
+        "text": "Honeypot — may not be able to sell after buying"
+      },
+      {
+        "severity": "Moderate",
+        "text": "Wash trading"
+      },
+      {
+        "severity": "Moderate",
+        "text": "Unbalanced ownership — top 10 holders own 50%"
+      }
+    ],
+    "on_chain_cross_check": "The watched holder 12872Chwv88d9JcNnPPThtSQWJM296kpkDqm7tpBWB28 holds 32,586.804095877 Я, which rounds to the 32.6K shown. OpenSea's price $0.00003654 is close to, but not the same as, the GeckoTerminal pool price $0.00003672334606 fetched at 1:47:37 PM MT."
+  },
+  "wallets": {
+    "note": "Public Solana addresses and RID-linked RWALLET seats only. Deduped by address. Current DeviceWalletSeat desktop/mobile/boomerang pubkeys are empty (not seated). Previous RBOT knownRoster addresses are marked previous. No private keys, seeds or keystores were read.",
+    "solana": [
+      {
+        "name": "Crown wallet",
+        "rid": "ЯID-0001-3QQS",
+        "app_or_device": "RWALLET · mint / freeze-authority seat (freeze later revoked)",
+        "address": "BwpVNk1Rtncpv5HMTLwxB4Yfjkfv6mFaBQUTpjneH1F9",
+        "token_account": "8bCnr63CTdC2YbELK3x4vxJYNt6cueGBbEvRURFZc9Q1",
+        "chain": "solana-mainnet",
+        "ya_balance": "899989.000002178",
+        "sol_balance": "0.007194044",
+        "status": "current",
+        "first_seen_source": "WalletCard.json · PUBLIC-NUMBERS.md · wallets-public-2.1.7.json",
+        "balance_source": "Solana RPC getTokenAccountsByOwner + getBalance",
+        "balance_at": "2026-11-10T13:52:00-07:00",
+        "balance_at_label": "Tuesday, Nov 10, 2026, 1:52:00 PM MT"
+      },
+      {
+        "name": "Watched holder · OpenSea Я holdings",
+        "rid": null,
+        "app_or_device": "OpenSea app (screenshot) · already the watched holder on the rizal.pw RTRACKR Rtoken feed",
+        "address": "12872Chwv88d9JcNnPPThtSQWJM296kpkDqm7tpBWB28",
+        "token_account": "BNFLK9bU7CJ4mY87DHpgZ8wj4a1atxwRVpmSuxBUsG8Z",
+        "chain": "solana-mainnet",
+        "ya_balance": "32586.804095877",
+        "sol_balance": "0.002958055",
+        "status": "current",
+        "first_seen_source": "rizal.pw RTRACKR rtoken.json (holder, exported Nov 7, 2026, 7:54:58 AM MT)",
+        "balance_source": "Solana RPC getTokenAccountsByOwner + getBalance",
+        "balance_at": "2026-11-10T13:52:00-07:00",
+        "balance_at_label": "Tuesday, Nov 10, 2026, 1:52:00 PM MT"
+      },
+      {
+        "name": "Previous RBOT desktop seat",
+        "rid": "ЯID-0001-3QQS",
+        "app_or_device": "RBOT knownRoster desktop · Linked Wallets desktop",
+        "address": "3gLUfDdw1etDGeJ2PnqUtitam5TwZAsC3BhXCQYx2Gfk",
+        "token_account": "3HHKmD1RT4mrL7iGfydu8jc9rceZbkoLQmWpUfbe6Cvx",
+        "chain": "solana-mainnet",
+        "ya_balance": "9",
+        "sol_balance": "0.009995",
+        "status": "previous",
+        "first_seen_source": "RBOT WalletSend.swift knownRoster + wallet-harness output; PUBLIC-NUMBERS.md notes this as the Linked Wallets desktop address",
+        "balance_source": "Solana RPC getTokenAccountsByOwner + getBalance",
+        "balance_at": "2026-11-10T13:52:00-07:00",
+        "balance_at_label": "Tuesday, Nov 10, 2026, 1:52:00 PM MT"
+      },
+      {
+        "name": "Previous RBOT mobile seat (17e)",
+        "rid": "ЯID-0001-3QQS",
+        "app_or_device": "RBOT knownRoster mobile · PUBLIC-NUMBERS 'Mobile wallet (17e)'",
+        "address": "E611TFJh9y2eipt984hhBjhUQ1EsrUDodbLsrpN9Zmhn",
+        "token_account": "FyHLAiaFkQMvBRe2RUoMkH1wBk4M51E9ntoWDQrnvR9j",
+        "chain": "solana-mainnet",
+        "ya_balance": "2",
+        "sol_balance": "0.003",
+        "status": "previous",
+        "first_seen_source": "RBOT WalletSend.swift knownRoster + wallet-harness output (on-chain spelling, double h after 984)",
+        "balance_source": "Solana RPC getTokenAccountsByOwner + getBalance",
+        "balance_at": "2026-11-10T13:52:00-07:00",
+        "balance_at_label": "Tuesday, Nov 10, 2026, 1:52:00 PM MT",
+        "typo_note": "PUBLIC-NUMBERS.md, wallets-public-2.1.7.json and one Potlatch pane list a typo that drops one h: E611TFJh9y2eipt984hBjhUQ1EsrUDodbLsrpN9Zmhn. That typo is a valid 32-byte pubkey but has no account on chain (0 SOL, account missing) as of 1:52:32 PM MT. The live holder is the double-h address."
+      },
+      {
+        "name": "Previous Desktop / Boomerang wallet",
+        "rid": "ЯID-0001-3QQS",
+        "app_or_device": "RBOT knownRoster boomerang · wallets-public-2.1.7 'Desktop / Boomerang' · PUBLIC-NUMBERS 'Desktop/Boomerang wallet (WalletCard)'",
+        "address": "2E4eAKWUU5akXTUfP7ZrgjebE3TPUhzZZfaRkQUpwyaj",
+        "token_account": null,
+        "chain": "solana-mainnet",
+        "ya_balance": "0",
+        "ya_balance_note": "no Я token account",
+        "sol_balance": "0.0",
+        "status": "previous",
+        "first_seen_source": "wallets-public-2.1.7.json (Oct 13, 2026) · PUBLIC-NUMBERS.md · RBOT WalletSend.swift knownRoster boomerang",
+        "balance_source": "Solana RPC getBalance + getTokenAccountsByOwner",
+        "balance_at": "2026-11-10T13:52:00-07:00",
+        "balance_at_label": "Tuesday, Nov 10, 2026, 1:52:00 PM MT"
+      }
+    ],
+    "rid_linked": [
+      {
+        "n": 1,
+        "name": "TerraformR in-game RWALLET · ASSM profile",
+        "holder": "@chaserizal (Rizal, Decider)",
+        "rid": "ЯID-0001-3QQS",
+        "app_or_device": "TerraformЯ",
+        "address": null,
+        "chain": "RGHOSTCHAIN / in-game",
+        "ya_balance": null,
+        "status": "current · Solana address missing (not seated in DeviceWalletSeat)",
+        "first_seen_source": "rgenerator wallet-rids.json (updated Oct 30, 2026, 12:40 PM MT)"
+      },
+      {
+        "n": 2,
+        "name": "RWALLET web (canonical)",
+        "holder": "Rizal",
+        "rid": "ЯID-0001-3QQS",
+        "app_or_device": "RWALLET web",
+        "address": null,
+        "chain": "missing (Solana pubkey not seated)",
+        "ya_balance": null,
+        "status": "current · Solana address missing",
+        "first_seen_source": "rgenerator wallet-rids.json"
+      },
+      {
+        "n": 3,
+        "name": "RWALLET seat DESKTOP",
+        "holder": "Rizal",
+        "rid": "ЯID-0001-3QQS",
+        "app_or_device": "desktop",
+        "address": null,
+        "chain": "solana-mainnet",
+        "ya_balance": null,
+        "status": "current seat file · pubkey empty (not seated yet). Previous desktop pubkey is listed above.",
+        "first_seen_source": "DeviceWalletSeat.json (pubkey empty) · wallet-rids.json"
+      },
+      {
+        "n": 4,
+        "name": "RWALLET seat MOBILE",
+        "holder": "Rizal",
+        "rid": "ЯID-0001-3QQS",
+        "app_or_device": "mobile",
+        "address": null,
+        "chain": "solana-mainnet",
+        "ya_balance": null,
+        "status": "current seat file · pubkey empty (not seated yet). Previous mobile pubkey is listed above.",
+        "first_seen_source": "DeviceWalletSeat.json (pubkey empty) · wallet-rids.json"
+      },
+      {
+        "n": 5,
+        "name": "RWALLET seat BOOMERANG",
+        "holder": "Rizal",
+        "rid": "ЯID-0001-3QQS",
+        "app_or_device": "boomerang / local",
+        "address": null,
+        "chain": "solana-mainnet",
+        "ya_balance": null,
+        "status": "current seat file · pubkey empty (not seated yet). Previous boomerang pubkey is listed above.",
+        "first_seen_source": "DeviceWalletSeat.json (pubkey empty) · wallet-rids.json"
+      },
+      {
+        "n": 6,
+        "name": "rizal.pw RWALLET (site copy)",
+        "holder": "Rizal",
+        "rid": "ЯID-0001-3QQS",
+        "app_or_device": "rizal.pw RWALLET",
+        "address": null,
+        "chain": "missing (Solana pubkey not seated)",
+        "ya_balance": null,
+        "status": "current · site copy of the shared @chaserizal RWALLET",
+        "first_seen_source": "rgenerator wallet-rids.json"
+      },
+      {
+        "n": 7,
+        "name": "RDRAGONSKULL iOS RWALLET",
+        "holder": "Rizal",
+        "rid": "ЯID-0001-3QQS",
+        "app_or_device": "RDRAGONSKULL iOS",
+        "address": null,
+        "chain": "missing (Solana pubkey not seated)",
+        "ya_balance": null,
+        "status": "current · shared ASSM RID, not a separate Solana wallet",
+        "first_seen_source": "rgenerator wallet-rids.json"
+      },
+      {
+        "n": 8,
+        "name": "RDRAGONSKULL Android 1.0.3 RWALLET",
+        "holder": "Rizal",
+        "rid": "ЯID-0001-3QQS",
+        "app_or_device": "RDRAGONSKULL Android 1.0.3",
+        "address": null,
+        "chain": "missing (Solana pubkey not seated)",
+        "ya_balance": null,
+        "status": "current · shared ASSM RID, not a separate Solana wallet",
+        "first_seen_source": "rgenerator wallet-rids.json"
+      },
+      {
+        "n": 9,
+        "name": "ThundR CRYPTOBOT link",
+        "holder": "ThundR",
+        "rid": "ЯID-0014-KREH",
+        "app_or_device": "ThundR",
+        "address": null,
+        "chain": "RGHOSTCHAIN",
+        "ya_balance": null,
+        "status": "current · RID registered; no Solana address on file. RTRACKR flag: marked registered but no sealed block behind the wallet-RID row.",
+        "first_seen_source": "rgenerator wallet-rids.json · RGHOSTCHAIN RTRACKR registry"
+      },
+      {
+        "n": 10,
+        "name": "GHOSTCUBE · RGHOSTCHAIN 0..3",
+        "holder": "@chaserizal",
+        "rid": "ЯID-0016-CG2C",
+        "app_or_device": "GHOSTCUBE (first landing: Neo RDRAGON ASSM RWALLET)",
+        "address": null,
+        "chain": "GHOSTROOT unsigned branch (not a Solana mint)",
+        "ya_balance": null,
+        "status": "unsigned · order-authorized; not minted",
+        "first_seen_source": "rgenerator wallet-rids.json issued_assets · Ghostroot RTRACKR registry"
+      }
+    ],
+    "missing": [
+      "BSC GENESIS FIRST MINT contract, name, symbol, deploy tx and date are blank in GENESIS-FIRST-MINT.txt (awaiting Rizal).",
+      "Current DeviceWalletSeat desktop, mobile and boomerang Solana pubkeys are empty.",
+      "No published Rcoin-to-Rtoken market rate (Rcoin price: missing).",
+      "DexScreener has no pair for this mint or pool.",
+      "GeckoTerminal market_cap_usd is missing (null); FDV is present.",
+      "GeckoTerminal pool_fee_percentage is missing (null); the 1.00% fee comes from the Orca API feeRate instead."
+    ]
+  },
+  "market_bake_label": "Tuesday, Nov 10, 2026, 1:53 PM MT"
+}

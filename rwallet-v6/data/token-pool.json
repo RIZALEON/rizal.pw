@@ -1,0 +1,48 @@
+{
+  "schema": "rzl.rwallet.token-pool.v1",
+  "watch_only": true,
+  "unit": "Я / R",
+  "note": "Pointers into data/rtrackr-snapshot.json so this wallet does not fork token/pool numbers. Live refresh (public Solana RPC + GeckoTerminal) overwrites the displayed values when online; otherwise the baked 1:55 PM MT snapshot is used. Each displayed value is labeled with source and time. Missing stays 'missing'.",
+  "rtrackr_snapshot": "data/rtrackr-snapshot.json",
+  "rtrackr_schema": "rzl.rpotlatch.rtrackr.snapshot.v2",
+  "baked_at": "2026-11-10T13:55:41-07:00",
+  "baked_at_label": "Tuesday, Nov 10, 2026, 1:55 PM MT",
+  "mint": "BB9uA5BuacDnWyDf5Npc9nMb9yFbyThsNrQPBYJ5Q1Lv",
+  "decimals": 9,
+  "supply_ui": "1000000",
+  "token_program": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+  "mint_authority": "BwpVNk1Rtncpv5HMTLwxB4Yfjkfv6mFaBQUTpjneH1F9",
+  "freeze_authority": "revoked",
+  "pool": {
+    "dex": "Orca",
+    "pool_type": "splashpool",
+    "pair": "Я / SOL",
+    "address": "HSroUxVkVKv6kX9e7dpoJtbFqKcL76BzrkuuRfAGxs9s",
+    "token_vault_ya": "8uYFzTDTDq18z1gPFgjaNRAxmZ3c52tbVHGBLN2CVF3G",
+    "token_vault_sol": "9m3eqYYF7mP3gPvcrknbCQHhsVXRVpH9AKAKagdETqmb",
+    "position_nft": "24uKAFYiLQaycBeiVCpKQgsjUwAn9XiKsuiMAZeoaRV7",
+    "whirlpool_program": "whirLbMiicVdio4qvUfM5KAg6Ct8VwpYzGff3uctyCc"
+  },
+  "snapshot_paths": {
+    "token": "token",
+    "authority": "authority",
+    "pool": "pool",
+    "holders": "holders",
+    "wallets": "wallets",
+    "opensea_observation": "opensea_observation"
+  },
+  "live": {
+    "solana_rpc": [
+      "https://api.mainnet-beta.solana.com",
+      "https://solana-rpc.publicnode.com",
+      "https://solana.drpc.org"
+    ],
+    "geckoterminal_pool": "https://api.geckoterminal.com/api/v2/networks/solana/pools/HSroUxVkVKv6kX9e7dpoJtbFqKcL76BzrkuuRfAGxs9s",
+    "mode": "live public Solana RPC + GeckoTerminal when online, else baked rtrackr-snapshot.json"
+  },
+  "explorers": {
+    "mint": "https://solscan.io/token/BB9uA5BuacDnWyDf5Npc9nMb9yFbyThsNrQPBYJ5Q1Lv",
+    "pool_geckoterminal": "https://www.geckoterminal.com/solana/pools/HSroUxVkVKv6kX9e7dpoJtbFqKcL76BzrkuuRfAGxs9s",
+    "crown": "https://solscan.io/account/BwpVNk1Rtncpv5HMTLwxB4Yfjkfv6mFaBQUTpjneH1F9"
+  }
+}

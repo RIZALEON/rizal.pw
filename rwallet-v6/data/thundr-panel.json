@@ -1,0 +1,20 @@
+{
+  "schema": "rzl.rwallet.thundr-panel.v1",
+  "private": true,
+  "rid": "ЯID-0014-KREH",
+  "name": "ThundR / RTHUNDR",
+  "build": "RTHUNDR.app 1.2.0 (CFBundleShortVersionString 1.2.0, CFBundleVersion 3)",
+  "source": "cryptoapp/ThundR (newest on Neo); public hub snapshot copied, the .app itself was not copied",
+  "hub": "thundr/hub/index.html",
+  "note": "Chat and history are linked, not driven. ThundR does not trigger RWALLET sign or mint.",
+  "actions": [
+    {
+      "id": "open-hub",
+      "label": "Open ThundR hub (view)"
+    },
+    {
+      "id": "chat",
+      "label": "Chat / history (link only)"
+    }
+  ]
+}
