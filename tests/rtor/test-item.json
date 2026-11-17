@@ -1,0 +1,9 @@
+{
+ "kind": "web",
+ "id": "rtor-test",
+ "version": "1.0.0",
+ "name": "payload.txt",
+ "size": 38,
+ "sha256": "bc7bfd1b000170da5f65a69c3fa3a8be2eb61bf302ea2779527934255d97ef5d",
+ "ed25519": "9levi/bxohk69Ff5QuhzD3ZYNPEfCirpm/0/xedL6itPYDspb80ly3NeYEwRJ8FWZTBxvW/SnTRk/0B8Cvf0Dw=="
+}
