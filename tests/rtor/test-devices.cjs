@@ -1,7 +1,7 @@
 // RTOR verify 1.1 lab-device sources (Rizal t176u, 2026-11-18). Throwaway in-memory TEST keys only (never written, never device keys).
 const V = require('../../rtor/rtor-verify.js'); const fs = require('fs'); const nc = require('crypto'); const subtle = globalThis.crypto.subtle;
 const owner = JSON.parse(fs.readFileSync(__dirname + '/owner-signed-items.json'));
-const reg = JSON.parse(fs.readFileSync(__dirname + '/../../rtor/rtor-devices.json'));
+const reg = JSON.parse(fs.readFileSync(__dirname + '/../../rtor/ghostkey.json'));
 const bytes = fs.readFileSync(__dirname + '/payload.txt');
 let pass = 0, fail = 0; const t = async (name, p, want) => { const r = await p; const ok = r.ok === want; ok ? pass++ : fail++; console.log((ok ? 'PASS ' : 'FAIL ') + name + ' -> ' + (r.ok ? 'accepted (' + r.signer + ')' : 'refused: ' + r.why)); };
 const eq = (name, c) => { c ? pass++ : fail++; console.log((c ? 'PASS ' : 'FAIL ') + name); };
@@ -18,10 +18,10 @@ async function sign(k, item, der) {
 }
 (async () => {
   // pinned list == rtor-devices.json, fingerprints recompute, public keys only
-  eq('pinned DEVICES match rtor-devices.json (' + V.DEVICES.length + ' keys)', JSON.stringify(V.DEVICES.map(d => [d.fp, d.pub, d.ops, d.status])) === JSON.stringify(reg.keys.map(d => [d.fp, d.pub, d.ops, d.status])));
+  eq('pinned DEVICES match ghostkey.json members (' + V.DEVICES.length + ' keys)', JSON.stringify(V.DEVICES.map(d => [d.fp, d.pub, d.ops, d.status])) === JSON.stringify(reg.members.map(d => [d.fp, d.pub, d.ops, d.status])));
   for (const d of V.DEVICES) eq('pinned ' + d.device + ' ' + d.name + ' fp ' + d.fp + ' = sha256(pub)', fpOf(Buffer.from(d.pub, 'base64')) === d.fp && Buffer.from(d.pub, 'base64').length === 65);
   eq('three lab devices pinned (iphone-17e, macbook-neo, moto-android)', ['iphone-17e', 'macbook-neo', 'moto-android'].every(x => V.DEVICES.some(d => d.device === x)));
-  eq('no private material in rtor-devices.json', reg.keys.every(k => Object.keys(k).every(n => !/priv|secret|^d$|seed$|mnemonic/i.test(n))));
+  eq('no private material in ghostkey.json', reg.members.every(k => Object.keys(k).every(n => !/priv|secret|^d$|seed$|mnemonic/i.test(n))));
   const item = { kind: 'data', id: 'test.device-source', version: '1', name: 'payload.txt', size: bytes.length, sha256: nc.createHash('sha256').update(bytes).digest('hex') };
   const neo = await testKey('macbook-neo', V.OPS), e17 = await testKey('iphone-17e', V.OPS), moto = await testKey('moto-android', V.OPS);
   const seedOnly = await testKey('moto-android', ['seed']), revoked = await testKey('iphone-17e', V.OPS, 'REVOKED'), stranger = await testKey('stranger', V.OPS);

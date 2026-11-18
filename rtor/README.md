@@ -38,10 +38,21 @@ Gates added:
 ## 1.1 — lab-device sources (Rizal t176u, 2026-11-18)
 "All updates with a source from one of our three devices are accepted for seed, leech, send and receive."
 A plain `source` label is spoofable, so device origin is cryptographic:
-- `rtor-devices.json` pins the lab devices' **public** P-256 keys (iPhone 17e, MacBook Neo, Moto Android; from the Rizal-edited ASSM-RSYNC `trusted-devices.json`), fingerprint = first 12 hex of sha256(raw key), ops `seed leech send receive`.
+- `ghostkey.json` (was `rtor-devices.json`, now an alias) pins the lab devices' **public** P-256 keys (iPhone 17e, MacBook Neo, Moto Android; from the Rizal-edited ASSM-RSYNC `trusted-devices.json`), fingerprint = first 12 hex of sha256(raw key), ops `seed leech send receive`.
 - A device-sourced sidecar carries `device` (fingerprint) and `p256` (ECDSA-P256-SHA256, raw r||s or DER, base64) over
   `rlab-device-update-v1\n<fp>\n<kind>\n<id>\n<version>\n<name>\n<size>\n<sha256>`.
 - `verifyItemFrom(item, op)` / `verifyItemBytesFrom(item, bytes, op)`: owner `e5833fdfbbfe` (ed25519) for every op, or a pinned ACTIVE device allowed that op. Size + sha256 always checked.
 - Refused: unsigned, label-only (`source: "neo"`), unknown or revoked device, op not allowed, tampered fields or bytes.
 - The list is pinned in the verifier; a remote copy counts only if owner-signed. No private key is ever in this repo or held by a bot.
 - Tests: `node tests/rtor/test-devices.cjs` (throwaway in-memory TEST keys).
+
+## 1.2 — GHOSTKEY (Rizal t177u, 2026-11-18): "Change owner command to Ghostkey and integrate all keys into that one"
+Private keys cannot be merged, so GHOSTKEY is ONE trust root + keyring (`/rtor/ghostkey.json`, schema `ghostkey-ring-v1`):
+- **root** = owner key `e5833fdfbbfe` (ed25519, ЯCASKET / Face ID); **members** = the six registered device/app P-256 keys
+  (17e `772af9d72bb8` `cd8e3026fe33` · Neo `f905b7901a31` `75b0428a4d67` `5e110f5d1b4c` · Moto `da2a35874ca0`), each with ops + status.
+- Apps check one thing: `verifyGhostkey(item, op)` / `verifyGhostkeyBytes(item, bytes, op)` = signed by the root OR by an ACTIVE member allowed `op`.
+- A ring from the web replaces the pinned ring only through `ringFromSigned(ringBytes, sidecar)`: sidecar `ghostkey.json.sig.json`
+  (kind `ghostkey`, id `ghostkey-ring`, name `ghostkey.json`) signed by the root. Until Rizal signs it, the ring pinned in the verifier counts.
+- The authorization label `owner-command` / `authorized-by-owner-command` is renamed `ghostkey` / `authorized-by-ghostkey`;
+  the old names are read-only aliases. A label (either name) without a real signature + size/sha256 is refused.
+- Tests: `node tests/rtor/test-ghostkey.cjs`.

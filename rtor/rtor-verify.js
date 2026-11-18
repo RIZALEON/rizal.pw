@@ -1,4 +1,4 @@
-/* RTOR verify 1.1 (1.0 2026-11-17 RBOT for Rizal t31u; 1.1 2026-11-18 Rizal t176u: lab-device sources). Browser + Node + WebView. MIT-style, no deps.
+/* RTOR verify 1.2 (1.0 2026-11-17 RBOT for Rizal t31u; 1.1 2026-11-18 Rizal t176u: lab-device sources; 1.2 Rizal t177u: GHOSTKEY). Browser + Node + WebView. MIT-style, no deps.
  * Pinned owner release key (Ed25519, keyId e5833fdfbbfe) = the same key already embedded in RDRAGON SelfUpdate,
  * DragonGate and ThundR thundr-link, and used by rlab-sign / ЯCASKET Face ID. PUBLIC key only.
  * Message format = rlab-update-v1 (identical to rlab-sign entry_message), so phone signatures verify directly:
@@ -10,6 +10,11 @@
  *   "rlab-device-update-v1\n<fp>\n<kind>\n<id>\n<version>\n<name>\n<size>\n<sha256 lowercase>".
  *   A plain 'source' / 'from' / 'device' label is NOT a signature: refused. Owner e5833fdfbbfe stays accepted for every op.
  *   Use verifyItemFrom(item, op) / verifyItemBytesFrom(item, bytes, op); verifyItem / verifyItemBytes (owner only) are unchanged.
+ * 1.2 (t177u): GHOSTKEY = ONE trust root + keyring. root = owner e5833fdfbbfe; members = the pinned lab-device keys (ghostkey.json).
+ *   'signed by GHOSTKEY' = verifyGhostkey(item, op[, {ring}]): root signature, or an ACTIVE member allowed op. A ring fetched from
+ *   the web counts only via ringFromSigned(ringBytes, rootSidecar) (root-signed); otherwise the PINNED ring is used.
+ *   The authorization label 'owner-command' / 'authorized-by-owner-command' is renamed 'ghostkey' / 'authorized-by-ghostkey'
+ *   (old names = read-only aliases). Any label without a real signature + size/sha256 is REFUSED.
  */
 (function (root, factory) {
   if (typeof module === 'object' && module.exports) module.exports = factory();
@@ -61,7 +66,11 @@
   }
   // ---- 1.1 lab-device sources (t176u) ----
   var OPS = ['seed', 'leech', 'send', 'receive'];
-  var DEVICES = [{"device": "moto-android", "name": "Moto Android (moto g 5G 2024)", "alg": "p256", "fp": "da2a35874ca0", "pub": "BJ2gcujdupTUPkYwWIkOtoSmCawEMsJUa1FZpLOMMhJWmXnnB3jQ8FOchLUYkMo5hSLsQY76/zsviS015sArJw8=", "ops": ["seed", "leech", "send", "receive"], "status": "ACTIVE"}, {"device": "iphone-17e", "name": "iPhone 17e", "alg": "p256", "fp": "772af9d72bb8", "pub": "BNgvRd5vEs5IY99EYQJEw8gRjyBzXzKVd+mqXWZ4O5jC30WUZPzN61OlrCkS5zlkqrBFUrmbwcy2y4XwrlL42E0=", "ops": ["seed", "leech", "send", "receive"], "status": "ACTIVE"}, {"device": "macbook-neo", "name": "MacBook Neo", "alg": "p256", "fp": "f905b7901a31", "pub": "BOoPUkxxeAbH6dEckSD/5Yd8oITBeMcFv4U93YMjskOS4MUdrSWKN3SslcKtlOgOGZ1f1XzcR1JPPLV1nO7+nZo=", "ops": ["seed", "leech", "send", "receive"], "status": "ACTIVE"}, {"device": "iphone-17e", "name": "RCODE iPhone 17e", "alg": "p256", "fp": "cd8e3026fe33", "pub": "BCcy7Y8Lj/r+1RbjCd63/bT6jgfh4RMEPfodtyu+ChLyNT1ExNpfKRTENXf2MkItuP6aOdFYCTmtc1Gn1t/c7Mo=", "ops": ["seed", "leech", "send", "receive"], "status": "ACTIVE"}, {"device": "macbook-neo", "name": "RCODE MacBook Neo", "alg": "p256", "fp": "75b0428a4d67", "pub": "BEH5Ycewp3ijwMS8lRudQRdzar8ZDfQC8da3Im8VRGdGKKPokdb+fqXSuhX21xJppFmes+kLnYAilGLpSTTCYiM=", "ops": ["seed", "leech", "send", "receive"], "status": "ACTIVE"}, {"device": "macbook-neo", "name": "RCODE MacBook Neo approver", "alg": "p256", "fp": "5e110f5d1b4c", "pub": "BFXXdb55AHC7g9se6/z07WMClqN8qJySo+O9b5gKM2JOWyO0N9UpcKeNdkHFDQiCRIrBltsUGExYkuFphOKJLV0=", "ops": ["seed", "leech", "send", "receive"], "status": "ACTIVE"}];   // PINNED: PUBLIC keys only (rtor-devices.json 2026-11-18.1)
+  var DEVICES = [{"device": "moto-android", "name": "Moto Android (moto g 5G 2024)", "alg": "p256", "fp": "da2a35874ca0", "pub": "BJ2gcujdupTUPkYwWIkOtoSmCawEMsJUa1FZpLOMMhJWmXnnB3jQ8FOchLUYkMo5hSLsQY76/zsviS015sArJw8=", "ops": ["seed", "leech", "send", "receive"], "status": "ACTIVE"}, {"device": "iphone-17e", "name": "iPhone 17e", "alg": "p256", "fp": "772af9d72bb8", "pub": "BNgvRd5vEs5IY99EYQJEw8gRjyBzXzKVd+mqXWZ4O5jC30WUZPzN61OlrCkS5zlkqrBFUrmbwcy2y4XwrlL42E0=", "ops": ["seed", "leech", "send", "receive"], "status": "ACTIVE"}, {"device": "macbook-neo", "name": "MacBook Neo", "alg": "p256", "fp": "f905b7901a31", "pub": "BOoPUkxxeAbH6dEckSD/5Yd8oITBeMcFv4U93YMjskOS4MUdrSWKN3SslcKtlOgOGZ1f1XzcR1JPPLV1nO7+nZo=", "ops": ["seed", "leech", "send", "receive"], "status": "ACTIVE"}, {"device": "iphone-17e", "name": "RCODE iPhone 17e", "alg": "p256", "fp": "cd8e3026fe33", "pub": "BCcy7Y8Lj/r+1RbjCd63/bT6jgfh4RMEPfodtyu+ChLyNT1ExNpfKRTENXf2MkItuP6aOdFYCTmtc1Gn1t/c7Mo=", "ops": ["seed", "leech", "send", "receive"], "status": "ACTIVE"}, {"device": "macbook-neo", "name": "RCODE MacBook Neo", "alg": "p256", "fp": "75b0428a4d67", "pub": "BEH5Ycewp3ijwMS8lRudQRdzar8ZDfQC8da3Im8VRGdGKKPokdb+fqXSuhX21xJppFmes+kLnYAilGLpSTTCYiM=", "ops": ["seed", "leech", "send", "receive"], "status": "ACTIVE"}, {"device": "macbook-neo", "name": "RCODE MacBook Neo approver", "alg": "p256", "fp": "5e110f5d1b4c", "pub": "BFXXdb55AHC7g9se6/z07WMClqN8qJySo+O9b5gKM2JOWyO0N9UpcKeNdkHFDQiCRIrBltsUGExYkuFphOKJLV0=", "ops": ["seed", "leech", "send", "receive"], "status": "ACTIVE"}];   // PINNED GHOSTKEY ring members: PUBLIC keys only (ghostkey.json 2026-11-18.2, was rtor-devices.json)
+  var GHOSTKEY = { name: 'GHOSTKEY', root: { keyId: KEY_ID, alg: 'ed25519', pub: PUBKEY_B64 }, members: DEVICES, ringVersion: '2026-11-18.2', ringSigned: false };   // PINNED ring (ghostkey.json)
+  var AUTH_ALIASES = { 'owner-command': 'ghostkey', 'authorized-by-owner-command': 'authorized-by-ghostkey' };   // read-only aliases (t177u)
+  function authOf(i) { var a = i && (i.authorization || i.status); if (!a) return null; a = String(a); return AUTH_ALIASES[a] || a; }
+  function isLabel(i) { return !!(i.source || i.from || i.device || /ghostkey|owner-command/i.test(String(i.authorization || '') + ' ' + String(i.status || ''))); }
   function shapeOnly(i) { var x = checkItemShape(Object.assign({}, i, { ed25519: 'x' })); return x; }
   function deviceMessage(i, fp) { return te.encode('rlab-device-update-v1\n' + fp + '\n' + i.kind + '\n' + i.id + '\n' + i.version + '\n' + i.name + '\n' + (i.size | 0) + '\n' + String(i.sha256).toLowerCase()); }
   function derToRaw(u) {   // ECDSA DER -> raw r||s (64 bytes); raw passes through
@@ -84,8 +93,8 @@
     var bad = shapeOnly(i); if (bad) return refuse(bad);
     var owner = i.ed25519 ? verifyItem(i, opts) : Promise.resolve({ ok: false, why: 'UNSIGNED - refused' });
     return owner.then(function (r) {
-      if (r.ok) return { ok: true, signer: 'owner ' + KEY_ID, op: op };
-      if (!i.p256) return (i.ed25519 ? r : { ok: false, why: (i.source || i.from || i.device) ? 'UNSIGNED - a source/device label is not a signature - refused' : 'UNSIGNED - refused' });
+      if (r.ok) return { ok: true, signer: 'GHOSTKEY root ' + KEY_ID, op: op, authorization: authOf(i) };
+      if (!i.p256) return (i.ed25519 ? r : { ok: false, why: isLabel(i) ? 'UNSIGNED - a label (ghostkey / owner-command / source / device) is not a signature - refused' : 'UNSIGNED - refused' });
       var list = (opts && opts.devices) || DEVICES, d = null;
       for (var k = 0; k < list.length; k++) if (list[k].fp === i.device) d = list[k];
       if (!d) return { ok: false, why: 'unknown device ' + String(i.device) + ' - refused' };
@@ -94,11 +103,28 @@
       return sha256Hex(b64d(d.pub)).then(function (h) {
         if (h.slice(0, 12) !== d.fp) return { ok: false, why: 'pinned key fingerprint mismatch - refused' };
         return p256Verify(d.pub, deviceMessage(i, d.fp), i.p256).then(function (ok) {
-          return ok ? { ok: true, signer: 'device ' + d.device + ' ' + d.fp, op: op } : { ok: false, why: 'device signature invalid - refused' };
+          return ok ? { ok: true, signer: 'GHOSTKEY member ' + d.device + ' ' + d.fp, op: op, authorization: authOf(i) } : { ok: false, why: 'device signature invalid - refused' };
         });
       });
     });
   }
+  /** A GHOSTKEY ring from the web counts only if the ROOT signed it: sidecar {kind:'ghostkey', id:'ghostkey-ring', name:'ghostkey.json'}.
+   *  Resolves {ok, why, ring:{version, members}}. opts.pubKeyB64 is for TEST fixtures only. */
+  function ringFromSigned(ringBytes, sidecar, opts) {
+    if (!sidecar || sidecar.kind !== 'ghostkey' || sidecar.id !== 'ghostkey-ring' || sidecar.name !== 'ghostkey.json') return refuse('not a GHOSTKEY ring sidecar - refused');
+    return verifyItemBytes(sidecar, ringBytes, opts).then(function (r) {
+      if (!r.ok) return { ok: false, why: 'ring not root-signed: ' + r.why };
+      var g; try { g = JSON.parse(new TextDecoder().decode(ringBytes instanceof Uint8Array ? ringBytes : new Uint8Array(ringBytes))); } catch (e) { return { ok: false, why: 'ring unreadable - refused' }; }
+      var ms = g.members || g.keys; if (!Array.isArray(ms)) return { ok: false, why: 'ring has no members - refused' };
+      return Promise.all(ms.map(function (m) { return sha256Hex(b64d(m.pub)).then(function (h) { return m.alg === 'p256' && h.slice(0, 12) === m.fp; }); })).then(function (oks) {
+        if (oks.indexOf(false) >= 0) return { ok: false, why: 'ring member fingerprint mismatch - refused' };
+        return { ok: true, ring: { version: g.version, members: ms, ringSigned: true } };
+      });
+    });
+  }
+  /** 'signed by GHOSTKEY': root OR ACTIVE ring member allowed op. opts.ring = a ring from ringFromSigned (else the pinned ring). */
+  function verifyGhostkey(i, op, opts) { var o = Object.assign({}, opts || {}); if (o.ring) o.devices = o.ring.members; return verifyItemFrom(i, op, o); }
+  function verifyGhostkeyBytes(i, bytes, op, opts) { var o = Object.assign({}, opts || {}); if (o.ring) o.devices = o.ring.members; return verifyItemBytesFrom(i, bytes, op, o); }
   function verifyItemBytesFrom(i, bytes, op, opts) {
     return verifyItemFrom(i, op, opts).then(function (r) {
       if (!r.ok) return r;
@@ -132,5 +158,5 @@
       .then(function (x) { if (!Array.isArray(x)) return x; var bytes = new Uint8Array(x[0]); return verifyItemBytes(x[1], bytes, opts).then(function (r) { r.bytes = r.ok ? bytes : null; r.entry = x[1]; return r; }); })
       .catch(function (e) { return { ok: false, why: 'verify error: ' + (e && e.message) }; });
   }
-  return { VERSION: '1.1', KEY_ID: KEY_ID, PUBKEY_B64: PUBKEY_B64, OPS: OPS, DEVICES: DEVICES, message: message, deviceMessage: deviceMessage, verifyItem: verifyItem, verifyItemBytes: verifyItemBytes, verifyItemFrom: verifyItemFrom, verifyItemBytesFrom: verifyItemBytesFrom, fetchVerified: fetchVerified, _pureVerify: pureVerify };
+  return { VERSION: '1.2', KEY_ID: KEY_ID, PUBKEY_B64: PUBKEY_B64, OPS: OPS, DEVICES: DEVICES, GHOSTKEY: GHOSTKEY, AUTH_ALIASES: AUTH_ALIASES, authOf: authOf, ringFromSigned: ringFromSigned, verifyGhostkey: verifyGhostkey, verifyGhostkeyBytes: verifyGhostkeyBytes, message: message, deviceMessage: deviceMessage, verifyItem: verifyItem, verifyItemBytes: verifyItemBytes, verifyItemFrom: verifyItemFrom, verifyItemBytesFrom: verifyItemBytesFrom, fetchVerified: fetchVerified, _pureVerify: pureVerify };
 }));
