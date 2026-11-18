@@ -1,0 +1,60 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rtor · rOS signed-update verify · rizal.pw</title>
+<meta name="description" content="Rtor: rOS signed-update verify for rizal.pw. Updates only apply when Rizal's Face ID signature verifies.">
+<style>
+html,body{margin:0;background:#000;color:#39ff14}
+body{font:14px/1.55 "RIZAL Mono",RIZAL,Menlo,ui-monospace,"Noto Sans Tagalog","Noto Sans Mayan Numerals",monospace;padding:18px}
+main{max-width:760px;margin:0 auto}
+.float{border:1px solid #39ff14;border-radius:14px;padding:14px 16px;margin:14px 0;background:#020a02;box-shadow:0 0 18px rgba(57,255,20,.18)}
+h1{font-size:20px;margin:0 0 4px} h2{font-size:15px;margin:0 0 8px}
+.brand{font-size:11px;letter-spacing:.2em;opacity:.8}
+a{color:#9dff8a} a:hover{color:#fff} code{color:#d6ffd0}
+.warn{color:#ffd23f} .ok{color:#39ff14} .bad{color:#ff5f56}
+ul{padding-left:18px} li{margin:4px 0}
+.prompt::before{content:"R:\\> ";opacity:.7}
+footer{font-size:11px;opacity:.7;margin-top:18px}
+</style></head><body><main>
+<div class="brand">rOS · RCRYPTOFORGE · rizal.pw</div>
+<div class="float">
+<h1>Rtor</h1>
+<p class="prompt">signed-update verify</p>
+<p>Rtor is the rOS check that refuses any update that isn't signed by Rizal. Each release manifest has a <code>.sig.json</code> next to it. It's an Ed25519 signature made only after Rizal's Face ID approval on his own ЯCASKET device (owner key id <code>e5833fdfbbfe</code>, public key only). The browser checks the exact bytes against that key. Unsigned or tampered files are refused (fail-closed).</p>
+<p class="warn"><b>Status:</b> signatures are <b>pending</b>. Rizal approved them on his phone, and they still have to be collected from it. Until then nothing below shows as verified, and the in-page updater refuses updates on purpose.</p>
+</div>
+<div class="float">
+<h2>Live verify on this site</h2>
+<ul id="items">
+<li data-u="/rdragon-version.json"><code>/rdragon-version.json</code> · RDRAGON site version manifest (rizal.pw in-page updater) · <b class="st">checking…</b></li>
+<li data-u="/rwallet-v6/RWALLET.sha256"><code>/rwallet-v6/RWALLET.sha256</code> · RWALLET v6 signed file list · <b class="st">checking…</b></li>
+</ul>
+<p>Verifier script: <a href="/rtor/rtor-verify.js">/rtor/rtor-verify.js</a> · notes: <a href="/rtor/README.md">/rtor/README.md</a> · same page on <a href="https://rizal.info/rtor/">rizal.info/rtor/</a></p>
+</div>
+<div class="float">
+<h2>@chaserizal ASSM profile</h2>
+<p>Rtor belongs to Rizal's ASSM identity. Open the profile: <a href="https://rizal.pw/">Rizal the Younger · @chaserizal</a> (the same profile the RDRAGON apps and rizal.info link to).</p>
+</div>
+<div class="float" id="thundr">
+<h2>ThundR · cryptobot</h2>
+<p>ThundR is the rOS cryptobot that floats over every app. For Rtor it only <i>prepares</i> one sign request per release and sends it to Rizal's Face ID phone. It never holds or copies the key and never signs by itself.</p>
+<p>macOS feed: <a href="/thundr-float/macos/appcast.json">thundr-float/macos/appcast.json</a></p>
+</div>
+<div class="float" id="gizmo">
+<h2>Gizmo · cryptobot</h2>
+<p>Gizmo lives inside TerraformЯ. It only carries Rizal's signed envelopes, and TerraformЯ already refuses unsigned updates. Gizmo holds no key.</p>
+</div>
+<div class="float" id="apps">
+<h2>Apps on every device</h2>
+<p><b>RDRAGON</b> (DRAGON SKULL) update feeds: <a href="/dragon-skull/ios-web/appcast.json">iOS</a> · <a href="/dragon-skull/android/appcast.json">Android</a> · <a href="/dragon-skull/macos/appcast.json">macOS</a> · <a href="/dragon-skull/linux/appcast.json">Linux</a>. These are the feeds Rtor will check.</p>
+<p id="rcode"><b>RCODE</b>: the rOS coding app for iOS, iPadOS and macOS. It opens this page from its own Rtor link. There's no public download yet, so it's built from source.</p>
+</div>
+<footer>Rtor 1.0 · nothing on this page signs, mints or holds keys · rizal.pw</footer>
+</main>
+<script src="/rtor/rtor-verify.js?v=1.0"></script>
+<script>
+(function(){var V=window.RTOR_VERIFY;document.querySelectorAll("#items li").forEach(function(li){var u=li.getAttribute("data-u"),st=li.querySelector(".st");
+fetch(u+".sig.json",{cache:"no-store"}).then(function(r){if(!r.ok){st.textContent="signature pending (no .sig.json yet)";st.className="st warn";return}
+if(!V){st.textContent="verifier not loaded";st.className="st bad";return}
+return V.fetchVerified(u).then(function(x){st.textContent=x.ok?"verified ✓ owner key e5833fdfbbfe":"refused: "+(x.why||"bad signature");st.className="st "+(x.ok?"ok":"bad")})}).catch(function(){st.textContent="check failed (network)";st.className="st bad"})})})();
+</script>
+</body></html>
