@@ -1,0 +1,10 @@
+{
+ "kind": "appcast",
+ "id": "appcast.p.chaserizal.dragon-egg",
+ "version": "sha-0f1f1297fd10",
+ "name": "appcast.json",
+ "size": 228,
+ "sha256": "0f1f1297fd10307adeb3d531cdbb14b65dfa081d072b260dd441fc2cfd179f38",
+ "ed25519": "NetLTz9JSfs86tOemzzhE1Xg6BsmrLPVGeJNnNDKJE19W0sgxz4BunShdmWXVCFYskT/PVhc1hFZjuSg/spQDQ==",
+ "keyId": "e5833fdfbbfe"
+}

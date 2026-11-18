@@ -1,0 +1,10 @@
+{
+ "kind": "appcast",
+ "id": "appcast.rscribe.macos",
+ "version": "20261024T190500Z",
+ "name": "appcast.json",
+ "size": 657,
+ "sha256": "7fd806b12295d233ea50e1084d6056e72d98b52af42b0fd610957a812e572331",
+ "ed25519": "1KC9Xqn8DhpMaP74WvD1zSuwBSnPetD1J26REs0Jn74xG3Dw8FbQXuVVPH5FPxslqMKRXKeMiwXR6rZqez7fAQ==",
+ "keyId": "e5833fdfbbfe"
+}

@@ -1,0 +1,10 @@
+{
+ "kind": "appcast",
+ "id": "appcast.thundr-float.macos",
+ "version": "20261024T190500Z",
+ "name": "appcast.json",
+ "size": 663,
+ "sha256": "14dc0dbaaf114a375529a62f7f1d501a017eda0d1f00e7f498b3970b50135e85",
+ "ed25519": "UozhtSWkwUkhQICbdC8LmPrqmXftm7eYJl8qNqnXGt3JLqJwQDYmtuPKcN+jdZ2G42a9EQ25MJ1zUTGFG2B6Cg==",
+ "keyId": "e5833fdfbbfe"
+}

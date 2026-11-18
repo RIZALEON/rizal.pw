@@ -1,0 +1,10 @@
+{
+ "kind": "appcast",
+ "id": "all-appcasts",
+ "version": "sha-b780ccf281f7",
+ "name": "ALL-APPCASTS.json",
+ "size": 13837,
+ "sha256": "b780ccf281f73438a219d3eab5e0c8672d5bf1b360d48a8528d9bd6a895b3466",
+ "ed25519": "CycY541N7znUZ/pJtGYCEVB79YLFswfZSXgtAgjCdGNb8W/WQt3mvZbGxIImIdobyLHtcbzBXI4yIRTAkf6DDQ==",
+ "keyId": "e5833fdfbbfe"
+}

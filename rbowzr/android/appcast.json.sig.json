@@ -1,0 +1,10 @@
+{
+ "kind": "appcast",
+ "id": "appcast.rbowzr.android",
+ "version": "20261024T190500Z",
+ "name": "appcast.json",
+ "size": 681,
+ "sha256": "f8bbe99e30bf52e89d32635ac3244c81adce4ad11be54bcbd4a9864c6b95b7b8",
+ "ed25519": "U/W/QQmxAWxT+yCw6GTxmalj6PgWP+6dU04H6KmIGWl8MJgjSWqKlOZKwCwN5Z0Vuum4UBd9LrT+SnwFMxvUBw==",
+ "keyId": "e5833fdfbbfe"
+}

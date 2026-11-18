@@ -1,0 +1,10 @@
+{
+ "kind": "appcast",
+ "id": "appcast.dragoskul.macos",
+ "version": "20261024T190500Z",
+ "name": "appcast.json",
+ "size": 691,
+ "sha256": "f13ecfa9814475020eabb96deca927aa04a6f08e988c6947cedae8625f2892b9",
+ "ed25519": "LL+N2+qyV2iZbgtf0MihXA+auYSIWLh/pal1AOffi/pGJTKTQw966XWnrrgaU1r2TJEA8N1PubYEqfpYOOrwAQ==",
+ "keyId": "e5833fdfbbfe"
+}
