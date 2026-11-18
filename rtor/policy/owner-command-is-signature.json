@@ -1,0 +1,10 @@
+{
+ "kind": "rlab-policy-v1",
+ "id": "owner-command-is-signature",
+ "version": "1.0",
+ "owner": "Rizal ЯID-0001-3QQS",
+ "keyId": "e5833fdfbbfe",
+ "effective": "2026-11-18T14:30:00-07:00",
+ "statement": "This Face ID batch is the last time Rizal signs this way. From this point forward, a command from Rizal (owner) recorded in the hash-chained command journal counts as his signature. The owner key signs this policy once and is never given to any bot.",
+ "ordered_by": "Rizal t680u 2026-11-18 1:57 PM MT"
+}

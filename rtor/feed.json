@@ -76,8 +76,8 @@
    "sig": "/ALL-APPCASTS.json.sig.json",
    "role": "appcast index",
    "keyId": "e5833fdfbbfe",
-   "signed": false,
-   "status": "pending-owner-signature"
+   "signed": true,
+   "status": "signed-by-owner"
   },
   {
    "kind": "appcast",
@@ -90,8 +90,8 @@
    "sig": "/dragon-skull/android/appcast.json.sig.json",
    "role": "app update feed (catalog)",
    "keyId": "e5833fdfbbfe",
-   "signed": false,
-   "status": "pending-owner-signature"
+   "signed": true,
+   "status": "signed-by-owner"
   },
   {
    "kind": "appcast",
@@ -104,8 +104,8 @@
    "sig": "/dragon-skull/ios-web/appcast.json.sig.json",
    "role": "app update feed (catalog)",
    "keyId": "e5833fdfbbfe",
-   "signed": false,
-   "status": "pending-owner-signature"
+   "signed": true,
+   "status": "signed-by-owner"
   },
   {
    "kind": "appcast",
@@ -118,8 +118,8 @@
    "sig": "/dragon-skull/linux/appcast.json.sig.json",
    "role": "app update feed (catalog)",
    "keyId": "e5833fdfbbfe",
-   "signed": false,
-   "status": "pending-owner-signature"
+   "signed": true,
+   "status": "signed-by-owner"
   },
   {
    "kind": "appcast",
@@ -132,8 +132,8 @@
    "sig": "/dragon-skull/macos/appcast.json.sig.json",
    "role": "app update feed (catalog)",
    "keyId": "e5833fdfbbfe",
-   "signed": false,
-   "status": "pending-owner-signature"
+   "signed": true,
+   "status": "signed-by-owner"
   },
   {
    "kind": "appcast",
@@ -146,8 +146,8 @@
    "sig": "/dragonbridge/macos/appcast.json.sig.json",
    "role": "app update feed (catalog)",
    "keyId": "e5833fdfbbfe",
-   "signed": false,
-   "status": "pending-owner-signature"
+   "signed": true,
+   "status": "signed-by-owner"
   },
   {
    "kind": "appcast",
@@ -160,8 +160,8 @@
    "sig": "/dragoskul/macos/appcast.json.sig.json",
    "role": "app update feed (catalog)",
    "keyId": "e5833fdfbbfe",
-   "signed": false,
-   "status": "pending-owner-signature"
+   "signed": true,
+   "status": "signed-by-owner"
   },
   {
    "kind": "appcast",
@@ -174,8 +174,8 @@
    "sig": "/p/chaserizal/dragon-egg/appcast.json.sig.json",
    "role": "app update feed (catalog)",
    "keyId": "e5833fdfbbfe",
-   "signed": false,
-   "status": "pending-owner-signature"
+   "signed": true,
+   "status": "signed-by-owner"
   },
   {
    "kind": "appcast",
@@ -188,8 +188,8 @@
    "sig": "/rbot/ios/appcast.json.sig.json",
    "role": "app update feed (catalog)",
    "keyId": "e5833fdfbbfe",
-   "signed": false,
-   "status": "pending-owner-signature"
+   "signed": true,
+   "status": "signed-by-owner"
   },
   {
    "kind": "appcast",
@@ -202,8 +202,8 @@
    "sig": "/rbot/macos/appcast.json.sig.json",
    "role": "app update feed (catalog)",
    "keyId": "e5833fdfbbfe",
-   "signed": false,
-   "status": "pending-owner-signature"
+   "signed": true,
+   "status": "signed-by-owner"
   },
   {
    "kind": "appcast",
@@ -216,8 +216,8 @@
    "sig": "/rbowzr-repair/macos/appcast.json.sig.json",
    "role": "app update feed (catalog)",
    "keyId": "e5833fdfbbfe",
-   "signed": false,
-   "status": "pending-owner-signature"
+   "signed": true,
+   "status": "signed-by-owner"
   },
   {
    "kind": "appcast",
@@ -230,8 +230,8 @@
    "sig": "/rbowzr-test/macos/appcast.json.sig.json",
    "role": "app update feed (catalog)",
    "keyId": "e5833fdfbbfe",
-   "signed": false,
-   "status": "pending-owner-signature"
+   "signed": true,
+   "status": "signed-by-owner"
   },
   {
    "kind": "appcast",
@@ -244,8 +244,8 @@
    "sig": "/rbowzr/android/appcast.json.sig.json",
    "role": "app update feed (catalog)",
    "keyId": "e5833fdfbbfe",
-   "signed": false,
-   "status": "pending-owner-signature"
+   "signed": true,
+   "status": "signed-by-owner"
   },
   {
    "kind": "appcast",
@@ -258,8 +258,8 @@
    "sig": "/rbowzr/ios/appcast.json.sig.json",
    "role": "app update feed (catalog)",
    "keyId": "e5833fdfbbfe",
-   "signed": false,
-   "status": "pending-owner-signature"
+   "signed": true,
+   "status": "signed-by-owner"
   },
   {
    "kind": "appcast",
@@ -272,8 +272,8 @@
    "sig": "/rbowzr/macos/appcast.json.sig.json",
    "role": "app update feed (catalog)",
    "keyId": "e5833fdfbbfe",
-   "signed": false,
-   "status": "pending-owner-signature"
+   "signed": true,
+   "status": "signed-by-owner"
   },
   {
    "kind": "appcast",
@@ -302,8 +302,8 @@
    "sig": "/rscribe/macos/appcast.json.sig.json",
    "role": "app update feed (catalog)",
    "keyId": "e5833fdfbbfe",
-   "signed": false,
-   "status": "pending-owner-signature"
+   "signed": true,
+   "status": "signed-by-owner"
   },
   {
    "kind": "appcast",
@@ -316,8 +316,8 @@
    "sig": "/thundr-float/macos/appcast.json.sig.json",
    "role": "app update feed (catalog)",
    "keyId": "e5833fdfbbfe",
-   "signed": false,
-   "status": "pending-owner-signature"
+   "signed": true,
+   "status": "signed-by-owner"
   },
   {
    "kind": "web",
@@ -330,8 +330,8 @@
    "sig": "/terraformya/updates/manifest.json.sig.json",
    "role": "TerraformЯ / GIZMO update manifest (test channel)",
    "keyId": "e5833fdfbbfe",
-   "signed": false,
-   "status": "pending-owner-signature"
+   "signed": true,
+   "status": "signed-by-owner"
   },
   {
    "kind": "pck",
@@ -344,8 +344,8 @@
    "sig": "/terraformya/updates/gizmo_species_nx112-1.0.0.pck.sig.json",
    "role": "TerraformЯ GIZMO pack listed in manifest.json",
    "keyId": "e5833fdfbbfe",
-   "signed": false,
-   "status": "pending-owner-signature"
+   "signed": true,
+   "status": "signed-by-owner"
   },
   {
    "kind": "data",
@@ -358,8 +358,8 @@
    "sig": "/rtrackr/data/rghostchain.json.sig.json",
    "role": "GHOSTCHAIN public copy (read-only; RMINT on Neo is the only writer)",
    "keyId": "e5833fdfbbfe",
-   "signed": false,
-   "status": "pending-owner-signature"
+   "signed": true,
+   "status": "signed-by-owner"
   },
   {
    "kind": "data",
@@ -372,8 +372,8 @@
    "sig": "/rtrackr/data/rtoken.json.sig.json",
    "role": "RTRACKR public data (read-only)",
    "keyId": "e5833fdfbbfe",
-   "signed": false,
-   "status": "pending-owner-signature"
+   "signed": true,
+   "status": "signed-by-owner"
   },
   {
    "kind": "data",
@@ -386,8 +386,8 @@
    "sig": "/rtrackr/data/token-pool.json.sig.json",
    "role": "RTRACKR public data (read-only)",
    "keyId": "e5833fdfbbfe",
-   "signed": false,
-   "status": "pending-owner-signature"
+   "signed": true,
+   "status": "signed-by-owner"
   },
   {
    "kind": "data",
@@ -400,8 +400,8 @@
    "sig": "/rtrackr/data/economy-rates.json.sig.json",
    "role": "RTRACKR public data (read-only)",
    "keyId": "e5833fdfbbfe",
-   "signed": false,
-   "status": "pending-owner-signature"
+   "signed": true,
+   "status": "signed-by-owner"
   }
  ]
 }
