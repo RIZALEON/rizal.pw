@@ -1,0 +1,23 @@
+{
+ "schema": "rtor-owner-commands-v1",
+ "policy": {
+  "id": "owner-command-is-signature",
+  "kind": "rlab-policy-v1",
+  "effective": "2026-11-18T14:30:00-07:00",
+  "note": "Rizal: a recorded owner command counts as his authorization. No key is used and no signature is implied."
+ },
+ "rule": "An entry here authorizes exactly one file (id + name + size + sha256). Any byte change voids it. Bots never sign; nothing here is a cryptographic signature.",
+ "entries": [
+  {
+   "kind": "appcast",
+   "id": "appcast.rcode.ios",
+   "name": "appcast.json",
+   "url": "/rcode/ios/appcast.json",
+   "size": 1345,
+   "sha256": "efdc8ef469a993f0e9a3cf91106322b2555ed4f6e42a52c54e42dd4d36ca8584",
+   "authorization": "owner-command",
+   "ref": "Rizal 2026-11-18 15:35 MT: No Face ID is needed for updates just do it",
+   "recorded": "2026-11-18T15:40:00-07:00"
+  }
+ ]
+}

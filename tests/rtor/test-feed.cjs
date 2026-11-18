@@ -16,6 +16,11 @@ let pass = 0, fail = 0; const t = (name, ok, why) => { ok ? pass++ : fail++; con
       const sp = path.join(ROOT, e.sig.replace(/^\//, '')); const s = fs.existsSync(sp) ? JSON.parse(fs.readFileSync(sp, 'utf8')) : null;
       t(e.url + ' marked signed-by-owner, sidecar path set, no inline signature', e.status === 'signed-by-owner' && e.sig === e.url + '.sig.json' && !('ed25519' in e) && e.name === path.basename(e.url));
       const r = s ? await V.verifyItemBytes(s, b || Buffer.alloc(0)) : { ok: false, why: 'no sidecar' }; t(e.url + ' owner sidecar verifies against pinned key + real bytes', r.ok === true && s.version === e.version, r.why);
+    } else if (e.status === 'authorized-by-owner-command') {
+      const oc = JSON.parse(fs.readFileSync(path.join(ROOT, 'rtor/owner-commands.json'), 'utf8')).entries || [];
+      const o = oc.find((c) => c.id === e.id && c.name === e.name && c.size === e.size && c.sha256 === e.sha256 && c.authorization === 'owner-command' && c.ref);
+      t(e.url + ' owner-command authorization binds this exact size+sha256 (no signature claimed)', !!o && e.signed === false && e.authorization === 'owner-command' && e.authorizationRef === o.ref && !('ed25519' in e));
+      const r = await V.verifyItem(e); t(e.url + ' still refused by rtor-verify.js as a signature (none exists)', r.ok === false, r.why);
     } else {
       t(e.url + ' marked unsigned/pending, sidecar path set, no inline signature', e.signed === false && e.status === 'pending-owner-signature' && e.sig === e.url + '.sig.json' && !('ed25519' in e) && e.name === path.basename(e.url));
       const r = await V.verifyItem(e); t(e.url + ' refused by rtor-verify.js while unsigned', r.ok === false, r.why);
