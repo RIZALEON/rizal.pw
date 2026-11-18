@@ -25,6 +25,7 @@ Live approvals happen on the ASSM rsync API (the `live` URL below), which runs o
 - `mode` — `"static"` here; the live API answers the same shape with `"mode": "live"`.
 - `updated` — ISO-8601 UTC time this file was last written.
 - `live` — base URL of the live ASSM rsync API, or `null` when it is off. Clients that cannot reach their configured live URL read this field to discover the current one (quick-tunnel URLs change when the tunnel restarts).
+- `note` / `rtor_feed` — (2026-11-18) `live` is `null`: the old quick-tunnel URL was dead and was removed, and no other tunnel was put in its place. Live discovery moves to the Rtor feed (`/rtor/feed.json`) once Rizal publishes it with its owner signature. Clients must treat `live: null` as "no live API".
 - `entries` — sealed rsync entries (see `rdragon-cryptosocial/rsync-core.js`). Only `device.enroll` approvals are published:
   `{id, t:"device.enroll", profile, device, nonce, req_ts, req_sig, device_name, ts, signer, cid, rgen:{scope, msg, pub, value}}`.
   `device` and `rgen.pub` are **public** P-256 keys; `req_sig` / `rgen.value` are signatures. Clients must verify them; this file is not trusted on its own.

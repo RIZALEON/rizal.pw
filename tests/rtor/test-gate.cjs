@@ -1,4 +1,4 @@
-// Gate test: RDIAG.update.* must refuse unsigned / wrong-key / tampered / other-file manifests, accept a correctly signed one.
+// Gate test (check / hot / force): RDIAG.update.* must refuse unsigned / wrong-key / tampered / other-file manifests, accept a correctly signed one.
 // The accept case uses a THROWAWAY test key injected by this harness only (production pins the owner key).
 const fs = require('fs'), vm = require('vm'), path = require('path'), crypto = require('crypto');
 const ROOT = path.join(__dirname, '..', '..');
@@ -16,8 +16,11 @@ async function run(name, files, useTestKey, want, action) {
   vm.runInContext(fs.readFileSync(path.join(ROOT, 'rtor/rtor-verify.js'), 'utf8'), win);
   if (useTestKey) { const R = win.RTOR_VERIFY, f = R.fetchVerified; win.RTOR_VERIFY = Object.assign({}, R, { fetchVerified: (u) => f(u, { pubKeyB64: tpub }) }); }
   vm.runInContext(fs.readFileSync(path.join(ROOT, 'rdragon-cryptosocial/rdiag.js'), 'utf8'), win);
-  const r = await (action === 'force' ? win.RDIAG.update.force() : win.RDIAG.update.check());
-  const accepted = !r.refused; const ok = accepted === want && !(action === 'force' && !want && reloaded);
+  const r = await (action === 'force' ? win.RDIAG.update.force() : action === 'hot' ? win.RDIAG.update.hot() : win.RDIAG.update.check());
+  const accepted = !r.refused; let ok = accepted === want && !(action === 'force' && !want && reloaded);
+  // A refusal must never be reported as "up to date" (hot() used to return upToDate:true on refuse) and must say why.
+  if (!want && (r.upToDate !== false || r.status !== 'refused: signature missing/invalid' || !r.why)) ok = false;
+  if (action === 'hot' && !want && ((r.hot || []).length || (r.needsReload || []).length)) ok = false;
   console.log((ok ? 'PASS ' : 'FAIL ') + name + ' -> ' + (accepted ? 'accepted' : 'refused: ' + r.why)); return ok;
 }
 (async () => {
@@ -28,6 +31,10 @@ async function run(name, files, useTestKey, want, action) {
   res.push(await run('test-key signature refused under pinned owner key', { [M]: man, [S]: good }, false, false));
   res.push(await run('correctly signed TEST fixture accepted (harness test key)', { [M]: man, [S]: good }, true, true));
   res.push(await run('tampered manifest bytes refused', { [M]: tampered, [S]: good }, true, false));
+  res.push(await run('unsigned manifest: hot() refused (not "up to date"), nothing loaded', { [M]: man }, false, false, 'hot'));
+  res.push(await run('test-key signature: hot() refused under pinned owner key', { [M]: man, [S]: good }, false, false, 'hot'));
+  res.push(await run('tampered manifest: hot() refused', { [M]: tampered, [S]: good }, true, false, 'hot'));
+  res.push(await run('correctly signed TEST fixture: hot() accepted (harness test key)', { [M]: man, [S]: good }, true, true, 'hot'));
   res.push(await run('signature for another file refused', { [M]: man, [S]: JSON.stringify(entryFor(man, { id: 'other-app' })) }, true, false));
   const f = res.filter(x => !x).length; console.log(`GATE ${res.length - f} pass ${f} fail`); process.exit(f ? 1 : 0);
 })();

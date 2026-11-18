@@ -1,8 +1,10 @@
 {
   "version": 1,
   "mode": "static",
-  "updated": "2026-11-17T03:48:45Z",
-  "live": "https://oriental-attraction-fishing-capital.trycloudflare.com",
+  "updated": "2026-11-18T20:47:15Z",
+  "live": null,
+  "note": "live is null: the old quick-tunnel URL is dead and was removed (no tunnel substituted). Live discovery will come from the Rtor feed at https://rizal.pw/rtor/feed.json once Rizal publishes it and its signature. Treat this file as untrusted discovery.",
+  "rtor_feed": "/rtor/feed.json",
   "entries_path": "/api/rsync/entries",
   "entries": []
 }
