@@ -1,0 +1,10 @@
+{
+ "kind": "web",
+ "id": "rwallet-v6",
+ "version": "20261117-bac2a66",
+ "name": "RWALLET.sha256",
+ "size": 4534,
+ "sha256": "02332f98fb0adedd1b5c26b81430e0bcb4d99b55bb1fb60676ef582007fabd91",
+ "ed25519": "O1xWwOFy/dCJPwRkrntR71vHR5zHhgCQr28BlfZ7XWbPWnQwtYgI+6LJXg7avGcQmbTba23d5xhfsXWF0lhaDA==",
+ "keyId": "e5833fdfbbfe"
+}

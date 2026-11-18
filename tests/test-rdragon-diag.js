@@ -56,6 +56,10 @@ const PC=JSON.parse(fs.readFileSync(path.join(ROOT,'sw-precache.json'),'utf8')),
  {const W=full({storage:{ok:false,mode:'memory'},caches:[]});const x=await W.sb.RDIAG.repair.clearStaleCaches();A.ok(x.ok&&/skipped/.test(x.sw));A.ok(!Object.keys(W.store).some(k=>/^rdiag\.bak\./.test(k)));A.strictEqual(W.sb.RDIAG.backups().length,1);pass('repair under no-storage: memory-only backups, no SW');}
  // 5) UPDATE: check live manifest, hot-reload engine modules, force update busts cache (no reload in test)
  {const W=full({caches:[CUR,'rizalpw-models'],regs:1,patch:u=>u.replace(/rdragon-learn\.js\?v=\d+/,'rdragon-learn.js?v=0').replace(/rdragon-cryptosocial\.js\?v=\d+/,'rdragon-cryptosocial.js?v=1')}),U=W.sb.RDIAG.update;
+  // Rtor gate (20261118): with no verifier / no owner signature every update path refuses and never says "up to date".
+  {const r0=await U.check();A.ok(r0.refused&&r0.upToDate===false&&/signature missing\/invalid/.test(r0.status));const h0=await U.hot();A.ok(h0.refused&&h0.upToDate===false&&!h0.hot.length&&!h0.needsReload.length);const f0=await U.force({reload:false});A.ok(f0.refused&&!f0.reloadTo);}
+  // TEST-ONLY stub verifier: stands in for an owner-signed manifest so the compare/hot/force logic below can be exercised. Real signature checks live in tests/rtor/.
+  if(!W.sb.TextDecoder)W.sb.TextDecoder=TextDecoder;W.sb.RTOR_VERIFY={fetchVerified:u=>W.sb.fetch(u).then(r=>r.text()).then(t=>({ok:true,bytes:new TextEncoder().encode(t),entry:{kind:'web',id:'rizal.pw-version',name:'rdragon-version.json'}}))};
   const c=await U.check();A.strictEqual(c.upToDate,false);eq(c.hotable,['rdragon-cryptosocial/engine/rdragon-learn.js']);
   const h=await U.hot();eq(h.hot,['rdragon-cryptosocial/engine/rdragon-learn.js']);eq(h.needsReload,['rdragon-cryptosocial/rdragon-cryptosocial.js']);A.ok(h.backup);
   const c2=await U.check();eq(c2.newer.map(x=>x.file),['rdragon-cryptosocial/rdragon-cryptosocial.js']);

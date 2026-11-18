@@ -1,0 +1,70 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rtor join · RSYNC seed/leech · ЯLOGIN option 3</title>
+<meta name="description" content="Join the RSYNC feed (carried by Rtor) through ЯLOGIN option 3. Every join needs Rizal's Face ID approval. This page holds no secrets.">
+<meta name="referrer" content="no-referrer">
+<style>
+html,body{margin:0;background:#000;color:#39ff14}
+body{font:14px/1.55 "RIZAL Mono",RIZAL,Menlo,ui-monospace,monospace;padding:18px}
+main{max-width:760px;margin:0 auto}
+.float{border:1px solid #39ff14;border-radius:14px;padding:14px 16px;margin:14px 0;background:#020a02;box-shadow:0 0 18px rgba(57,255,20,.18)}
+h1{font-size:20px;margin:0 0 4px} h2{font-size:15px;margin:0 0 8px}
+.brand{font-size:11px;letter-spacing:.2em;opacity:.8}
+a{color:#9dff8a} a:hover{color:#fff} code{color:#d6ffd0}
+.warn{color:#ffd23f} .bad{color:#ff5f56}
+.go{display:inline-block;border:1px solid #39ff14;border-radius:10px;padding:10px 16px;margin:8px 0;text-decoration:none;font-weight:bold}
+ol,ul{padding-left:20px} li{margin:4px 0}
+.prompt::before{content:"R:\\> ";opacity:.7}
+footer{font-size:11px;opacity:.7;margin-top:18px}
+</style></head><body><main>
+<div class="brand">rOS · RSYNC · Rtor join</div>
+<div class="float">
+<h1>Rtor join</h1>
+<p class="prompt">rsync feed · join</p>
+<p>This page is where the RSYNC QR codes land. It reads the labels in the link, shows them to you, and sends you to the one real login: <b>ЯLOGIN option 3 · Approve from an enrolled device</b>.</p>
+<p class="warn">The labels below carry <b>no authority</b>. This page has no passwords, keys, tokens, seed phrases or pre-approved enrollments, and it never approves anything. A device or bot gets in only after Rizal approves its 8-digit code with Face ID in ЯCASKET on a trusted device.</p>
+<ul>
+<li>role: <code id="l-role">leech</code></li>
+<li>kind: <code id="l-kind">device</code></li>
+<li>peer: <code id="l-peer">(not set)</code></li>
+</ul>
+<p id="l-note" class="bad" hidden></p>
+<a class="go" id="go" href="https://rizal.pw/login/options/">Open ЯLOGIN · option 3 →</a>
+</div>
+<div class="float">
+<h2>How the join works</h2>
+<ol>
+<li>Tap <b>Open ЯLOGIN</b>. On the ЯLOGIN page go to <b>3 · Approve from an enrolled device</b> and tap <b>Request approval</b>.</li>
+<li>Your device makes its own P-256 key. The key never leaves the device. The page shows an <b>8-digit code</b> and an <code>rsync-enroll:</code> request QR with public fields only.</li>
+<li>Give Rizal the 8-digit code only (say it, show it, or post the code itself, never a key). It expires in 5 minutes.</li>
+<li>Rizal approves it with <b>Face ID</b> in ЯCASKET on a trusted, already-enrolled device. The server accepts it only if the approving key is ACTIVE.</li>
+<li>The approval arrives at your next sync, or Rizal hands you an approval bundle to import. You are then enrolled for @chaserizal's profile.</li>
+</ol>
+<p>If the code expires, request a new one when Rizal is ready. Don't retry in a loop. A bot never approves itself or another bot.</p>
+</div>
+<div class="float">
+<h2>After you're enrolled</h2>
+<p>Leeches fetch <a href="/rtor/feed.json">/rtor/feed.json</a> and check every item with <a href="/rtor/rtor-verify.js">rtor-verify.js</a> (or <code>rtor_verify.py</code>) against Rizal's pinned public key <code>e5833fdfbbfe</code>. Unsigned means refused. Today every feed entry is still <b>pending</b> Rizal's signature, so nothing is applied yet.</p>
+<p>Approved devices for RSYNC: iPhone 17e, MacBook Neo, Moto Android, the newest RVM (LINUX RIZAL guest) and RTHUNDR. Phones seed only on Wi-Fi while charging; on cellular they leech only.</p>
+<p>Back to <a href="/rtor/">Rtor</a> · same page on <a href="https://rizal.pw/rtor/join/">rizal.pw</a> and <a href="https://rizal.info/rtor/join/">rizal.info</a></p>
+</div>
+<footer>Rtor join · nothing on this page signs, mints, approves or holds keys</footer>
+</main>
+<script>
+(function(){
+  // Labels only. Whitelisted and written with textContent; never used for any decision.
+  var q = new URLSearchParams(location.search), ROLES = { seed: 1, leech: 1 }, KINDS = { bot: 1, app: 1, space: 1, device: 1, dest: 1 };
+  var role = (q.get('role') || 'leech').toLowerCase(), kind = (q.get('kind') || 'device').toLowerCase(), peer = q.get('peer') || '', bad = [];
+  if (!ROLES[role]) { bad.push('role'); role = 'leech'; }
+  if (!KINDS[kind]) { bad.push('kind'); kind = 'device'; }
+  if (peer && !/^[A-Za-z0-9._-]{1,40}$/.test(peer)) { bad.push('peer'); peer = ''; }
+  document.getElementById('l-role').textContent = role;
+  document.getElementById('l-kind').textContent = kind;
+  document.getElementById('l-peer').textContent = peer || '(not set)';
+  if (bad.length) { var n = document.getElementById('l-note'); n.hidden = false; n.textContent = 'Ignored an unrecognised label (' + bad.join(', ') + '). Labels carry no authority anyway.'; }
+  var u = new URL('https://rizal.pw/login/options/');
+  u.searchParams.set('join', 'rsync'); u.searchParams.set('role', role); u.searchParams.set('kind', kind); if (peer) u.searchParams.set('peer', peer);
+  document.getElementById('go').href = u.toString();
+})();
+</script>
+</body></html>
