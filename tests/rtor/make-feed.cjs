@@ -9,7 +9,7 @@ const fs = require('fs'), path = require('path'), crypto = require('crypto');
 const ROOT = path.join(__dirname, '..', '..');
 const HOST = fs.existsSync(path.join(ROOT, 'CNAME')) ? fs.readFileSync(path.join(ROOT, 'CNAME'), 'utf8').trim() : 'rizal.pw';
 const PEER = HOST === 'rizal.pw' ? 'rizal.info' : 'rizal.pw';
-const FEED_VERSION = '20261118-1'; // bump by hand when the entry list changes; every bump needs a new feed.json.sig.json
+const FEED_VERSION = '20261118-3'; // bump by hand when the entry list changes; every bump needs a new feed.json.sig.json
 const KEY_ID = 'e5833fdfbbfe';
 const rd = (p) => fs.readFileSync(path.join(ROOT, p));
 const has = (p) => fs.existsSync(path.join(ROOT, p));
@@ -31,8 +31,12 @@ function list() {
     for (const pt of (m.patches || [])) if (pt.url && !/[\/:]/.test(pt.url)) add('terraformya/updates/' + pt.url, 'pck', pt.id, pt.version, 'TerraformЯ GIZMO pack listed in manifest.json'); }
   for (const f of ['rghostchain.json', 'rtoken.json', 'token-pool.json', 'economy-rates.json'])
     add('rtrackr/data/' + f, 'data', 'rtrackr.' + f.replace(/\.json$/, ''), 'sha-' + (has('rtrackr/data/' + f) ? sha(rd('rtrackr/data/' + f)).slice(0, 12) : ''), f === 'rghostchain.json' ? 'GHOSTCHAIN public copy (read-only; RMINT on Neo is the only writer)' : 'RTRACKR public data (read-only)');
+  // Owner-command authorizations (rtor/owner-commands.json, Rizal 2026-11-18): bind one exact file (id+name+size+sha256). Not a signature.
+  let oc = []; if (has('rtor/owner-commands.json')) { try { oc = JSON.parse(rd('rtor/owner-commands.json')).entries || []; } catch (x) { oc = []; } }
   return out.map((e) => { const sp = e.sig.slice(1); let s = null; if (has(sp)) { try { s = JSON.parse(rd(sp)); } catch (x) { s = null; } }
     if (s && s.keyId === KEY_ID && s.sha256 === e.sha256 && s.size === e.size && s.id === e.id && s.kind === e.kind) return Object.assign(e, { version: String(s.version), keyId: KEY_ID, signed: true, status: 'signed-by-owner' });
+    const o = oc.find((c) => c.authorization === 'owner-command' && c.ref && c.id === e.id && c.kind === e.kind && c.name === e.name && c.size === e.size && c.sha256 === e.sha256);
+    if (o) return Object.assign(e, { keyId: KEY_ID, signed: false, authorization: 'owner-command', authorizationRef: o.ref, status: 'authorized-by-owner-command' });
     return Object.assign(e, { keyId: KEY_ID, signed: false, status: 'pending-owner-signature' }); });
 }
 function build() {

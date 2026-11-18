@@ -1,0 +1,26 @@
+{
+ "product": "RCODE",
+ "id": "rcode-ios",
+ "platform": "ios",
+ "bundleId": "info.rizal.rcode",
+ "lineVersion": "1.0",
+ "latest": {
+  "version": "1.0",
+  "build": 6,
+  "commit": "4e3efcb",
+  "repo": "RIZALEON/RCODE (private), branch offline-model",
+  "appTreeSha256": "86d5fd433eb55c51175f59bffc3d464069b87321ca9b03e7689ee1170a32eebe",
+  "appTreeFiles": 28,
+  "modelSha256": "061b54daade076b5d3362dac252678d17da8c68f07560be70818cace6590cb1a",
+  "notes": "Build 6: Rtor update check (owner signature or owner-command authorization + exact sha256), Qwen3-1.7B fused in, add/delete/rename chats, honest offline model, message order fix."
+ },
+ "install": {
+  "method": "devicectl from the Neo seeder (iOS apps cannot replace themselves)",
+  "tool": "tools/rtor-install-rcode.py install <RCODE.app> (RCODE repo): accepts Rizal's e5833fdfbbfe sidecar, or an owner-command-authorized feed entry whose size+sha256 match this file; then checks the app-tree sha256 and build and runs xcrun devicectl device install app",
+  "itms-services": "none (no OTA manifest exists)"
+ },
+ "signed": false,
+ "note": "No cryptographic signature (none was made or faked). Authorized by owner command; the feed entry carries this file's exact size and sha256, and RCODE refuses any mismatch.",
+ "updated": "2026-11-18T15:40:00-07:00",
+ "authorization": "owner-command"
+}
