@@ -1,0 +1,14 @@
+const V = require('../../rtor/rtor-verify.js'); const fs = require('fs');
+const owner = JSON.parse(fs.readFileSync(__dirname + '/owner-signed-items.json')); const ti = JSON.parse(fs.readFileSync(__dirname + '/test-item.json'));
+const tpub = fs.readFileSync(__dirname + '/test-pub.b64', 'utf8').trim(); const bytes = fs.readFileSync(__dirname + '/payload.txt');
+let pass = 0, fail = 0; const t = async (name, p, want) => { const r = await p; const ok = r.ok === want; ok ? pass++ : fail++; console.log((ok ? 'PASS ' : 'FAIL ') + name + ' -> ' + (r.ok ? 'accepted' : 'refused: ' + r.why)); };
+(async () => { for (const pure of [false, true]) { const o = pure ? { forcePure: true } : {}; const tag = pure ? '[pure-js] ' : '[webcrypto] ';
+  for (const it of owner) await t(tag + 'real owner-signed ' + it.id + ' accepted', V.verifyItem(it, o), true);
+  await t(tag + 'owner item with tampered version refused', V.verifyItem({ ...owner[0], version: owner[0].version + '9' }, o), false);
+  await t(tag + 'owner item with tampered sha256 refused', V.verifyItem({ ...owner[0], sha256: 'f'.repeat(64) }, o), false);
+  await t(tag + 'unsigned item refused', V.verifyItem({ ...owner[0], ed25519: '' }, o), false);
+  await t(tag + 'TEST-key-signed item refused under pinned owner key', V.verifyItem(ti, o), false);
+  await t(tag + 'TEST fixture accepted with explicit test key', V.verifyItem(ti, { ...o, pubKeyB64: tpub }), true);
+  await t(tag + 'TEST fixture bytes accepted', V.verifyItemBytes(ti, bytes, { ...o, pubKeyB64: tpub }), true);
+  const bad = Buffer.from(bytes); bad[0] ^= 1; await t(tag + 'tampered bytes refused', V.verifyItemBytes(ti, bad, { ...o, pubKeyB64: tpub }), false);
+ } console.log(`JS ${pass} pass ${fail} fail`); process.exit(fail ? 1 : 0); })();

@@ -20,12 +20,13 @@ function banner(res){
   if(!sent){for(i=0;i<tgs.length;i++){t=tgs[i];try{if(typeof t.RL_THUNDR_SAY==="function"){t.RL_THUNDR_SAY({organ:"rwallet",kind:"drift",state:"error",text:msg});sent=true;break}}catch(e){}try{if(t.RL_THUNDR&&t.RL_THUNDR.bus&&typeof t.RL_THUNDR.bus.emit==="function"){t.RL_THUNDR.bus.emit({organ:"rwallet",kind:"drift",state:"error",text:msg});sent=true;break}}catch(e){}}}
   if(!sent){for(i=0;i<tgs.length;i++){try{doc=tgs[i].document;log=doc&&doc.querySelector&&doc.querySelector("#th-chat .log");if(log){div=doc.createElement("div");div.setAttribute("data-rwallet-drift","1");div.appendChild(doc.createTextNode(msg));log.appendChild(div);sent=true;break}}catch(e){}}}
 }
-function check(){return find().then(function(f){return f.r.text().then(function(t){
+function signedList(dir,t){var R=w.RTOR_VERIFY;if(!R)return Promise.resolve({ok:false,why:"Rtor verify not loaded"});return get(dir+"RWALLET.sha256.sig.json").then(function(r){return r.json()}).then(function(e){if(e.name!=="RWALLET.sha256")return {ok:false,why:"signature is for another file"};return R.verifyItemBytes(e,new TextEncoder().encode(t))},function(){return {ok:false,why:"RWALLET.sha256 is not signed yet"}})}
+function check(){return find().then(function(f){return f.r.text().then(function(t){return signedList(f.dir,t).then(function(sv){
   var lines=t.split("\n").map(function(l){var m=l.match(/^([0-9a-f]{64})\s+\*?(.+)$/);return m&&{h:m[1],p:m[2].trim()}}).filter(Boolean);
   return get(f.dir+"RWALLET.version").then(function(r){return r.text()},function(){return""}).then(function(ver){
    return Promise.all(lines.map(function(x){return get(f.dir+x.p).then(function(r){return r.arrayBuffer()}).then(function(b){return w.crypto.subtle.digest("SHA-256",b)}).then(function(d){return hex(d)===x.h?null:x.p},function(){return x.p+" (missing)"})}))
-    .then(function(r){var bad=r.filter(Boolean),res={ok:!bad.length,bad:bad,checked:lines.length,version:String(ver).trim()};w.RWALLET_DRIFT.result=res;banner(res);
-      try{w.dispatchEvent(new CustomEvent("rwallet:drift",{detail:res}))}catch(e){}return res})})})},function(){return{ok:true,skipped:"no RWALLET.sha256 here"}})}
+    .then(function(r){var bad=r.filter(Boolean);if(!sv.ok)bad.unshift("RWALLET.sha256 not owner-signed ("+sv.why+")");var res={ok:!bad.length,bad:bad,checked:lines.length,version:String(ver).trim(),signed:!!sv.ok};w.RWALLET_DRIFT.result=res;banner(res);
+      try{w.dispatchEvent(new CustomEvent("rwallet:drift",{detail:res}))}catch(e){}return res})})})})},function(){return{ok:true,skipped:"no RWALLET.sha256 here"}})}
 w.RWALLET_DRIFT={version:"1.0",check:check,result:null};
 D.readyState==="loading"?D.addEventListener("DOMContentLoaded",function(){setTimeout(check,1500)}):setTimeout(check,1500);
 })(window);

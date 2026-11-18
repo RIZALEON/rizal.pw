@@ -1,0 +1,29 @@
+[
+ {
+  "kind": "egg",
+  "id": "shot-sense-dragonskull-ios",
+  "version": "2.1.9-s2",
+  "name": "shot-sense-dragonskull-ios-2.1.9-s2.rzl",
+  "size": 4287,
+  "sha256": "ea5f36dbf87d2377a5b5f78acb9ef0f53651911b9621f3784113d9ad1eefa55e",
+  "ed25519": "iOnSesVkgQcpInYXGLZLxcyakm2L2+KC4myX4oluLFxcNpng89QcKoJ1VmBUqPBw5d5ebAf/Rh5bBAtJBDotAw=="
+ },
+ {
+  "kind": "egg",
+  "id": "social-autoreply-dragonskull-ios",
+  "version": "1.0.4-8-sar1",
+  "name": "social-autoreply-dragonskull-ios-1.0.4-8-sar1.rzl",
+  "size": 34117,
+  "sha256": "cc608e158a2bd1fdac9b048a9a06575886e9dba2baae81d63fc24f39bebb850b",
+  "ed25519": "hlXcuQY4QLWRR4aQ3XeNqlducttEbjBfN/yR8m71l8VbWXZIsW/XzO3uKYtWcpUWE39eNP+PnBPKPr/LTxRKDg=="
+ },
+ {
+  "kind": "egg",
+  "id": "rdragon-ios-ipa",
+  "version": "1.0.4.8",
+  "name": "RDRAGON-1.0.4-8-social-autoreply.ipa",
+  "size": 902729694,
+  "sha256": "77540599ac4fafaf233507dd5e93dd70e3a6959fd13c817dd13fa92f58b2d276",
+  "ed25519": "m6t3GsXy7vcxVFdUIQJy4bNFpw9tC5A1ze691YsZHe9Vqb7Ngs3ahbPEggLpAWiV3WfnONxEFL4FvL9e29kQDQ=="
+ }
+]
