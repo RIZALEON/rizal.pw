@@ -34,6 +34,7 @@ footer{font-size:11px;opacity:.7;margin-top:18px}
 <div class="float" id="feed">
 <h2>Rtor feed · join</h2>
 <p><b>Feed:</b> <a href="/rtor/feed.json">/rtor/feed.json</a> (schema <code>rtor-feed-v1</code>). It lists the public files leeches fetch, each with size, sha256 and the <code>.sig.json</code> it needs. <b id="feed-st" class="warn">checking…</b></p>
+<details><summary>Every feed entry, checked live (app appcasts, TerraformЯ/GIZMO manifest, wallet list, data)</summary><ul id="feed-items"></ul></details>
 <p>Every entry is <b>pending</b> until Rizal's signature is published next to it. Unsigned means refused: the feed never claims anything is signed. GHOSTCHAIN and RTRACKR are read-only here; only the RMINT service on the Neo writes the chain.</p>
 <p><b>Join:</b> <a href="/rtor/join/">/rtor/join/</a> is where the RSYNC QR codes land. It sends you to ЯLOGIN option 3, and every join needs Rizal's Face ID approval. No secrets on the page.</p>
 </div>
@@ -52,7 +53,7 @@ footer{font-size:11px;opacity:.7;margin-top:18px}
 </div>
 <div class="float" id="apps">
 <h2>Apps on every device</h2>
-<p><b>RDRAGON</b> (DRAGON SKULL) update feeds: <a href="/dragon-skull/ios-web/appcast.json">iOS</a> · <a href="/dragon-skull/android/appcast.json">Android</a> · <a href="/dragon-skull/macos/appcast.json">macOS</a> · <a href="/dragon-skull/linux/appcast.json">Linux</a>. These are the feeds Rtor will check.</p>
+<p><b>RDRAGON</b> (DRAGON SKULL) update feeds: <a href="/dragon-skull/ios-web/appcast.json">iOS</a> · <a href="/dragon-skull/android/appcast.json">Android</a> · <a href="/dragon-skull/macos/appcast.json">macOS</a> · <a href="/dragon-skull/linux/appcast.json">Linux</a>. Rtor checks these feeds: each one is refused until its <code>.sig.json</code> from Rizal verifies (see the feed list above).</p>
 <p id="rcode"><b>RCODE</b>: the rOS coding app for iOS, iPadOS and macOS. It opens this page from its own Rtor link. There's no public download yet, so it's built from source.</p>
 </div>
 <footer>Rtor 1.0 · nothing on this page signs, mints or holds keys · rizal.pw</footer>
@@ -64,7 +65,16 @@ fetch(u+".sig.json",{cache:"no-store"}).then(function(r){if(!r.ok){st.textConten
 if(!V){st.textContent="verifier not loaded";st.className="st bad";return}
 return V.fetchVerified(u).then(function(x){st.textContent=x.ok?"verified ✓ owner key e5833fdfbbfe":"refused: "+(x.why||"bad signature");st.className="st "+(x.ok?"ok":"bad")})}).catch(function(){st.textContent="check failed (network)";st.className="st bad"})})})();
 </script>
+<script src="/rtor/rtor-feeds.js?v=1.0"></script>
 <script>
-(function(){var st=document.getElementById("feed-st");if(!st)return;fetch("/rtor/feed.json",{cache:"no-store"}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(f){var n=(f.entries||[]).length,p=(f.entries||[]).filter(function(e){return e.signed!==true}).length;st.textContent=n+" entries · "+p+" pending signature · feed signed: "+(f.signed===true?"claimed (verify it)":"no");st.className=p?"warn":"ok"}).catch(function(){st.textContent="feed not published yet";st.className="bad"})})();
+(function(){var st=document.getElementById("feed-st"),ul=document.getElementById("feed-items"),F=window.RTOR_FEEDS;if(!st||!ul)return;
+fetch("/rtor/feed.json",{cache:"no-store"}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(f){var es=f.entries||[],n=es.length,ok=0,pend=0,bad=0;
+function upd(){st.textContent=n+" entries · "+ok+" verified · "+pend+" pending signature · "+bad+" refused · feed signed: "+(f.signed===true?"claimed (verify it)":"no");st.className="st "+(bad?"bad":(pend?"warn":"ok"))}upd();
+es.forEach(function(e){var li=document.createElement("li"),c=document.createElement("code"),b=document.createElement("b");c.textContent=e.url;li.appendChild(c);li.appendChild(document.createTextNode(" · "+e.kind+" · "));b.textContent="checking…";li.appendChild(b);ul.appendChild(li);
+var want=(F&&F.expectFor(e.url))||{id:e.id,name:e.name};
+fetch(e.sig,{cache:"no-store"}).then(function(r){if(!r.ok){pend++;b.textContent="signature pending (no .sig.json yet)";b.className="warn";return}
+if(!F){bad++;b.textContent="refused: signature missing/invalid (Rtor feeds not loaded)";b.className="bad";return}
+return F.fetchVerifiedBytes(e.url,want).then(function(x){if(x.ok){ok++;b.textContent="verified ✓ owner key e5833fdfbbfe";b.className="ok"}else{bad++;b.textContent=x.status+" ("+x.why+")";b.className="bad"}})}).catch(function(){bad++;b.textContent="check failed (network)";b.className="bad"}).then(upd)})
+}).catch(function(){st.textContent="feed not published yet";st.className="st bad"})})();
 </script>
 </body></html>

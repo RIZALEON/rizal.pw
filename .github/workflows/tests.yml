@@ -18,7 +18,7 @@ jobs:
       - name: syntax check
         run: for f in rdragon-cryptosocial/*.js rdragon-cryptosocial/engine/*.js tests/diag-profile/*.js; do node --check "$f" || exit 1; done
       - name: Rtor signature verify (owner key; refuses unsigned/tampered)
-        run: node tests/rtor/test-verify.cjs && node tests/rtor/test-gate.cjs && node tests/rtor/test-feed.cjs
+        run: node tests/rtor/test-verify.cjs && node tests/rtor/test-gate.cjs && node tests/rtor/test-feed.cjs && node tests/rtor/test-feeds.cjs
       - name: version manifest is current
         run: node tests/diag-profile/make-version-manifest.js && git diff --exit-code rdragon-version.json
       - name: test suites
