@@ -31,7 +31,9 @@ function list() {
     for (const pt of (m.patches || [])) if (pt.url && !/[\/:]/.test(pt.url)) add('terraformya/updates/' + pt.url, 'pck', pt.id, pt.version, 'TerraformЯ GIZMO pack listed in manifest.json'); }
   for (const f of ['rghostchain.json', 'rtoken.json', 'token-pool.json', 'economy-rates.json'])
     add('rtrackr/data/' + f, 'data', 'rtrackr.' + f.replace(/\.json$/, ''), 'sha-' + (has('rtrackr/data/' + f) ? sha(rd('rtrackr/data/' + f)).slice(0, 12) : ''), f === 'rghostchain.json' ? 'GHOSTCHAIN public copy (read-only; RMINT on Neo is the only writer)' : 'RTRACKR public data (read-only)');
-  return out.map((e) => Object.assign(e, { keyId: KEY_ID, signed: false, status: 'pending-owner-signature' }));
+  return out.map((e) => { const sp = e.sig.slice(1); let s = null; if (has(sp)) { try { s = JSON.parse(rd(sp)); } catch (x) { s = null; } }
+    if (s && s.keyId === KEY_ID && s.sha256 === e.sha256 && s.size === e.size && s.id === e.id && s.kind === e.kind) return Object.assign(e, { version: String(s.version), keyId: KEY_ID, signed: true, status: 'signed-by-owner' });
+    return Object.assign(e, { keyId: KEY_ID, signed: false, status: 'pending-owner-signature' }); });
 }
 function build() {
   return {
@@ -52,5 +54,5 @@ function build() {
 module.exports = { build, list };
 if (require.main === module) {
   if (process.argv.includes('--sign-list')) { console.log(JSON.stringify(list().map(({ kind, id, version, name, size, sha256, url, sig }) => ({ kind, id, version, name, size, sha256, url, sig })), null, 1)); }
-  else { const out = JSON.stringify(build(), null, 1) + '\n'; fs.mkdirSync(path.join(ROOT, 'rtor'), { recursive: true }); fs.writeFileSync(path.join(ROOT, 'rtor/feed.json'), out); console.log('wrote rtor/feed.json', build().entries.length, 'entries (all unsigned/pending)'); }
+  else { const out = JSON.stringify(build(), null, 1) + '\n'; fs.mkdirSync(path.join(ROOT, 'rtor'), { recursive: true }); fs.writeFileSync(path.join(ROOT, 'rtor/feed.json'), out); console.log('wrote rtor/feed.json', build().entries.length, 'entries (signed where an owner sidecar matches)'); }
 }

@@ -12,8 +12,14 @@ let pass = 0, fail = 0; const t = (name, ok, why) => { ok ? pass++ : fail++; con
   for (const e of feed.entries) {
     const f = path.join(ROOT, e.url.replace(/^\//, '')); const b = fs.existsSync(f) ? fs.readFileSync(f) : null;
     t(e.url + ' exists, size+sha256 match', !!b && b.length === e.size && crypto.createHash('sha256').update(b).digest('hex') === e.sha256);
-    t(e.url + ' marked unsigned/pending, sidecar path set, no inline signature', e.signed === false && e.status === 'pending-owner-signature' && e.sig === e.url + '.sig.json' && !('ed25519' in e) && e.name === path.basename(e.url));
-    const r = await V.verifyItem(e); t(e.url + ' refused by rtor-verify.js while unsigned', r.ok === false, r.why);
+    if (e.signed === true) {
+      const sp = path.join(ROOT, e.sig.replace(/^\//, '')); const s = fs.existsSync(sp) ? JSON.parse(fs.readFileSync(sp, 'utf8')) : null;
+      t(e.url + ' marked signed-by-owner, sidecar path set, no inline signature', e.status === 'signed-by-owner' && e.sig === e.url + '.sig.json' && !('ed25519' in e) && e.name === path.basename(e.url));
+      const r = s ? await V.verifyItemBytes(s, b || Buffer.alloc(0)) : { ok: false, why: 'no sidecar' }; t(e.url + ' owner sidecar verifies against pinned key + real bytes', r.ok === true && s.version === e.version, r.why);
+    } else {
+      t(e.url + ' marked unsigned/pending, sidecar path set, no inline signature', e.signed === false && e.status === 'pending-owner-signature' && e.sig === e.url + '.sig.json' && !('ed25519' in e) && e.name === path.basename(e.url));
+      const r = await V.verifyItem(e); t(e.url + ' refused by rtor-verify.js while unsigned', r.ok === false, r.why);
+    }
     const rb = await V.verifyItemBytes(Object.assign({}, e, { ed25519: Buffer.alloc(64).toString('base64') }), b || Buffer.alloc(0)); t(e.url + ' forged signature refused', rb.ok === false, rb.why);
   }
   t('no Cloudflare / tunnel / NetBird URLs in feed', !/trycloudflare|cloudflare|netbird|ngrok|tailscale/i.test(raw));

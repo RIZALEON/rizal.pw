@@ -40,7 +40,7 @@
   {
    "kind": "web",
    "id": "rizal.pw-version",
-   "version": "rtoken20261105-race-pack",
+   "version": "20261117-bac2a66",
    "name": "rdragon-version.json",
    "size": 2386,
    "sha256": "44e2f1d203301d95ac2848038681365125a0573dc6302b3ded3a0aa9a6a9b5ca",
@@ -48,13 +48,13 @@
    "sig": "/rdragon-version.json.sig.json",
    "role": "site version manifest (RDIAG in-page updater gate)",
    "keyId": "e5833fdfbbfe",
-   "signed": false,
-   "status": "pending-owner-signature"
+   "signed": true,
+   "status": "signed-by-owner"
   },
   {
    "kind": "web",
    "id": "rwallet-v6",
-   "version": "0.1.5",
+   "version": "20261117-bac2a66",
    "name": "RWALLET.sha256",
    "size": 4534,
    "sha256": "02332f98fb0adedd1b5c26b81430e0bcb4d99b55bb1fb60676ef582007fabd91",
@@ -62,8 +62,8 @@
    "sig": "/rwallet-v6/RWALLET.sha256.sig.json",
    "role": "RWALLET v6 signed file list (drift check)",
    "keyId": "e5833fdfbbfe",
-   "signed": false,
-   "status": "pending-owner-signature"
+   "signed": true,
+   "status": "signed-by-owner"
   },
   {
    "kind": "appcast",
