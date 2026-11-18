@@ -34,3 +34,14 @@ Gates added:
 - Native apps (RDRAGON SelfUpdate, ThundR, RCODE, GIZMO) read these appcasts outside this repo; they need the same
   sidecar rule in RtorVerify.swift / rtor_verify.py on their own branches (not done here).
 - Until Rizal's sidecars are placed, all of these show "refused: signature missing/invalid" on purpose.
+
+## 1.1 — lab-device sources (Rizal t176u, 2026-11-18)
+"All updates with a source from one of our three devices are accepted for seed, leech, send and receive."
+A plain `source` label is spoofable, so device origin is cryptographic:
+- `rtor-devices.json` pins the lab devices' **public** P-256 keys (iPhone 17e, MacBook Neo, Moto Android; from the Rizal-edited ASSM-RSYNC `trusted-devices.json`), fingerprint = first 12 hex of sha256(raw key), ops `seed leech send receive`.
+- A device-sourced sidecar carries `device` (fingerprint) and `p256` (ECDSA-P256-SHA256, raw r||s or DER, base64) over
+  `rlab-device-update-v1\n<fp>\n<kind>\n<id>\n<version>\n<name>\n<size>\n<sha256>`.
+- `verifyItemFrom(item, op)` / `verifyItemBytesFrom(item, bytes, op)`: owner `e5833fdfbbfe` (ed25519) for every op, or a pinned ACTIVE device allowed that op. Size + sha256 always checked.
+- Refused: unsigned, label-only (`source: "neo"`), unknown or revoked device, op not allowed, tampered fields or bytes.
+- The list is pinned in the verifier; a remote copy counts only if owner-signed. No private key is ever in this repo or held by a bot.
+- Tests: `node tests/rtor/test-devices.cjs` (throwaway in-memory TEST keys).
