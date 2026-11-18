@@ -1,0 +1,10 @@
+{
+ "kind": "web",
+ "id": "owner-command-is-signature",
+ "version": "1.0",
+ "name": "owner-command-is-signature.json",
+ "size": 508,
+ "sha256": "e8e4944dad4ba90f9fda47499d91153732fc536f09e5868409d0bda7329a7cb5",
+ "ed25519": "QAcGHbtmYv5r5pl4raKmWljDALdaM5Aajiq3BQQ4m5obUFJ0RGfVAcLPBUcW8qLc3n9tg9gZ2tVuEluA1blhCA==",
+ "keyId": "e5833fdfbbfe"
+}
