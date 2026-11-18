@@ -1,0 +1,10 @@
+{
+ "kind": "appcast",
+ "id": "appcast.dragonbridge.macos",
+ "version": "20261024T190500Z",
+ "name": "appcast.json",
+ "size": 666,
+ "sha256": "b473a14618e4290825275db7a468a549ab58d648e5873619f13df47aad31f4a3",
+ "ed25519": "5kzAGlRxS03cEBYYRvPuvoSbcqukVZxskwdzHuapYvaO6aq9rKxHXGYWKhrFiFvawp5pnCHh52Hc8ciOYzfbBA==",
+ "keyId": "e5833fdfbbfe"
+}

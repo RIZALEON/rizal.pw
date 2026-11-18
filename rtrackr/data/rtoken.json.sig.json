@@ -1,0 +1,10 @@
+{
+ "kind": "data",
+ "id": "rtrackr.rtoken",
+ "version": "sha-a7b44d624d52",
+ "name": "rtoken.json",
+ "size": 10385,
+ "sha256": "a7b44d624d5212731aa7bbed1d4af1c2714e7c7349405537e68cc8bb5003483d",
+ "ed25519": "skEnW+IUbk01LLjsJtfyxL/R3/znhx0JokGFqrVPGxIGN5sWciT2c0isCV26uxA0KCaiSQI7B/+KRhhe+RTQDg==",
+ "keyId": "e5833fdfbbfe"
+}

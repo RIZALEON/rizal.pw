@@ -1,0 +1,10 @@
+{
+ "kind": "appcast",
+ "id": "appcast.rbot.macos",
+ "version": "20261024T190500Z",
+ "name": "appcast.json",
+ "size": 659,
+ "sha256": "2b9e3f3a50bdedcfd03f2e4fab312596712f7981badc6cffb004e35522660927",
+ "ed25519": "ZfP6K3qbQgbX5xvvnlhaFNwG7ssyRX4kAXjt9xVPw/UVGCuuEgf3fP2qhlwqeJLFUQDdh8QGj5rQiIzLnOABAg==",
+ "keyId": "e5833fdfbbfe"
+}

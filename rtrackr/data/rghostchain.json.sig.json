@@ -1,0 +1,10 @@
+{
+ "kind": "data",
+ "id": "rtrackr.rghostchain",
+ "version": "sha-72fdf4a69a78",
+ "name": "rghostchain.json",
+ "size": 6950529,
+ "sha256": "72fdf4a69a784e22124eabe9ae8b41a60972a83834280947311fff1196732e70",
+ "ed25519": "64L+0W4+6NovnGSxgqYvzWK8eaEQ0Jjz/6hfpLAuwBfnDk/jY5efmE6P0g0RpReHLwVpoktWqN1xEuBkdoiADA==",
+ "keyId": "e5833fdfbbfe"
+}

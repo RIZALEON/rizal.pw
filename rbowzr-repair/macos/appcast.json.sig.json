@@ -1,0 +1,10 @@
+{
+ "kind": "appcast",
+ "id": "appcast.rbowzr-repair.macos",
+ "version": "20261024T190500Z",
+ "name": "appcast.json",
+ "size": 684,
+ "sha256": "8b7f9aec522cfab4b4b13327acdb6b3c2280dacbb43b7b5715fb9ead5070b10c",
+ "ed25519": "vqAOGcXLDTQTOEZx/Qq3TbVBn0pTZEcF7/ZYqdwnI2fIlMsAtdOczBB58dH1E+8cx7FR2bF7pOCLUCZHCYOCDg==",
+ "keyId": "e5833fdfbbfe"
+}
