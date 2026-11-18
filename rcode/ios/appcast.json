@@ -1,0 +1,25 @@
+{
+ "product": "RCODE",
+ "id": "rcode-ios",
+ "platform": "ios",
+ "bundleId": "info.rizal.rcode",
+ "lineVersion": "1.0",
+ "latest": {
+  "version": "1.0",
+  "build": 5,
+  "commit": "0b9a56b",
+  "repo": "RIZALEON/RCODE (private), branch offline-model",
+  "appTreeSha256": "59547cc75126940af894893bcf461121c3eb2ab67cd9daaa14e49293b4d620dd",
+  "appTreeFiles": 26,
+  "modelSha256": "061b54daade076b5d3362dac252678d17da8c68f07560be70818cace6590cb1a",
+  "notes": "Build 5: Qwen3-1.7B fused in, add/delete/rename chats, honest offline model, message order fix, Rtor update check."
+ },
+ "install": {
+  "method": "devicectl from the Neo seeder (iOS apps cannot replace themselves)",
+  "tool": "tools/rtor-install-rcode.py install <RCODE.app> (RCODE repo): verifies this appcast's owner signature, the app-tree sha256 and the build, then runs xcrun devicectl device install app",
+  "itms-services": "none (no OTA manifest exists)"
+ },
+ "signed": false,
+ "note": "Owner signature lives only in the sidecar appcast.json.sig.json (rlab-update-v1, key e5833fdfbbfe). Without it RCODE and the seeder refuse this update.",
+ "updated": "2026-11-18T15:13:00-07:00"
+}

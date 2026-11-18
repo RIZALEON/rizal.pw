@@ -9,7 +9,7 @@ const fs = require('fs'), path = require('path'), crypto = require('crypto');
 const ROOT = path.join(__dirname, '..', '..');
 const HOST = fs.existsSync(path.join(ROOT, 'CNAME')) ? fs.readFileSync(path.join(ROOT, 'CNAME'), 'utf8').trim() : 'rizal.pw';
 const PEER = HOST === 'rizal.pw' ? 'rizal.info' : 'rizal.pw';
-const FEED_VERSION = '20261118-1'; // bump by hand when the entry list changes; every bump needs a new feed.json.sig.json
+const FEED_VERSION = '20261118-2'; // bump by hand when the entry list changes; every bump needs a new feed.json.sig.json
 const KEY_ID = 'e5833fdfbbfe';
 const rd = (p) => fs.readFileSync(path.join(ROOT, p));
 const has = (p) => fs.existsSync(path.join(ROOT, p));
