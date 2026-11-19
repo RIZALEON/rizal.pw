@@ -1,0 +1,10 @@
+{
+ "kind": "appcast",
+ "id": "appcast.rcode.ios",
+ "version": "20261119T013000Z",
+ "name": "appcast.json",
+ "size": 1871,
+ "sha256": "5bcd6c253177f5f31a3d78f6085b02fedf320760dd5fd406f524aa6d997e0503",
+ "ed25519": "tNFNKjsQ/xD/sTt5MIwqy1nKNzGufs6Io7IbjsntxHdNtyHeRzDDnWdeIzTLVU3IiY+a/dHh4880sU1WztglDA==",
+ "keyId": "e5833fdfbbfe"
+}
