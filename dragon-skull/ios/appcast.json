@@ -1,0 +1,34 @@
+{
+ "product": "RDRGN (DRAGON SKULL iOS native)",
+ "id": "rdrgn-ios",
+ "platform": "ios",
+ "bundleId": "info.rizal.dragonskull",
+ "lineVersion": "1.0.6.8",
+ "latest": {
+  "version": "1.0.6.8",
+  "build": "55",
+  "source": "RDRAGONSKULL/source/ios (Neo, not in git)",
+  "appTreeSha256": "2ab085561f2d44099fce3eb3d7f2c24133dcf1abe7fd194c477e004f986574a0",
+  "appTreeFiles": 1675,
+  "notes": "Build 55: SelfUpdate (web overlay) now requires GHOSTKEY: Rtor 1.2 GHOSTKEY: updates accepted only when signed by the GHOSTKEY root e5833fdfbbfe or an ACTIVE ring member (iPhone 17e, MacBook Neo, Moto Android; /rtor/ghostkey.json 2026-11-18.2) for seed/leech/send/receive. Unsigned, label-only, unknown, revoked and tampered items are refused. Replaces the 2026-11-16 unsigned-egg allowance; size + sha256 still checked. Otherwise identical to build 54.",
+  "trust": {
+   "ring": "/rtor/ghostkey.json",
+   "ringVersion": "2026-11-18.2",
+   "root": "e5833fdfbbfe",
+   "members": 6,
+   "ops": [
+    "seed",
+    "leech",
+    "send",
+    "receive"
+   ]
+  }
+ },
+ "install": {
+  "method": "devicectl from the Neo seeder (iOS apps cannot replace themselves)",
+  "itms-services": "none (no OTA manifest exists)"
+ },
+ "signed": false,
+ "note": "Listing only: no cryptographic signature (none was made or faked) and no download is offered. The app's own signed feeds are unchanged.",
+ "updated": "2026-11-18T18:30:00-07:00"
+}
