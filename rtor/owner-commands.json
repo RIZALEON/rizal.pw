@@ -13,11 +13,16 @@
    "id": "appcast.rcode.ios",
    "name": "appcast.json",
    "url": "/rcode/ios/appcast.json",
-   "size": 1345,
-   "sha256": "efdc8ef469a993f0e9a3cf91106322b2555ed4f6e42a52c54e42dd4d36ca8584",
+   "size": 1371,
+   "sha256": "0beaf58b5e2d4fc25fe9a284e31ae94bf70c1df6670e92f14c3e5ab246e71ac5",
    "authorization": "owner-command",
-   "ref": "Rizal 2026-11-18 15:35 MT: No Face ID is needed for updates just do it",
-   "recorded": "2026-11-18T15:40:00-07:00"
+   "ref": "Rizal 2026-11-18 16:53 MT: Install it into the TeraformR in RDRAGON and RCODE on 17 e now",
+   "alias": "GHOSTKEY (owner-command authorization; not a cryptographic signature)",
+   "recorded": "2026-11-18T17:05:00-07:00",
+   "previous": {
+    "ref": "Rizal 2026-11-18 15:35 MT: No Face ID is needed for updates just do it",
+    "sha256": "efdc8ef469a993f0e9a3cf91106322b2555ed4f6e42a52c54e42dd4d36ca8584"
+   }
   }
  ]
 }
