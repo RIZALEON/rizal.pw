@@ -1,0 +1,136 @@
+{
+ "schema": "ghostkey-ring-v1",
+ "name": "GHOSTKEY",
+ "version": "2026-11-18.2",
+ "ordered_by": [
+  "Rizal t176u 2026-11-18 4:39 PM MT: updates with a source from one of our three devices are accepted for seed, leech, send and receive",
+  "Rizal t177u 2026-11-18 4:54 PM MT: Change owner command to Ghostkey and integrate all keys into that one"
+ ],
+ "what": "GHOSTKEY is ONE trust root + keyring (RGHOSTKEY · ЯWALLET · RTRACKR · ASSM, the lab's ROS signing method). Private keys are never merged or moved: 'signed by GHOSTKEY' = signed by the root key OR by an ACTIVE member key of a ring the root signed, for the op requested.",
+ "rule": "Root: ed25519 over 'rlab-update-v1\\n<kind>\\n<id>\\n<version>\\n<name>\\n<size>\\n<sha256>' (field ed25519). Member: P-256 ECDSA-SHA256 (field p256, raw r||s or DER) over 'rlab-device-update-v1\\n<fp>\\n<kind>\\n<id>\\n<version>\\n<name>\\n<size>\\n<sha256>' with field device=<fp>. Size + sha256 always checked. A label ('ghostkey', 'owner-command', 'source', 'device') without a signature is REFUSED.",
+ "authorization": {
+  "label": "ghostkey",
+  "status": "authorized-by-ghostkey",
+  "aliases_read_only": {
+   "owner-command": "ghostkey",
+   "authorized-by-owner-command": "authorized-by-ghostkey"
+  },
+  "note": "A GHOSTKEY label is informational; the signature is what counts."
+ },
+ "ops": [
+  "seed",
+  "leech",
+  "send",
+  "receive"
+ ],
+ "root": {
+  "keyId": "e5833fdfbbfe",
+  "alg": "ed25519",
+  "pub": "zs7M4OOB0zQhWOQw3SHpAY+XYxbZJvcPESy1y400Ti0=",
+  "ops": [
+   "seed",
+   "leech",
+   "send",
+   "receive"
+  ],
+  "name": "GHOSTKEY root (Rizal owner key, ЯCASKET / Face ID)"
+ },
+ "ring_signature": {
+  "status": "PENDING: Rizal signs this ring once with the root e5833fdfbbfe (sidecar ghostkey.json.sig.json, kind 'ghostkey', id 'ghostkey-ring', name 'ghostkey.json'). Until then apps use the ring PINNED in their verifier.",
+  "sidecar": "/rtor/ghostkey.json.sig.json"
+ },
+ "pinning": "Apps pin this ring in code. A remote ring replaces the pinned one ONLY if its root-signed sidecar verifies (size + sha256 + ed25519). Public keys only; bots never hold any key.",
+ "source_of_member_keys": "ASSM-RSYNC data/trusted-devices.json on the Neo (Rizal-edited; ACTIVE P-256 device public keys from rsync-core deviceSigner()). fp = first 12 hex of sha256(raw 65-byte key).",
+ "devices": {
+  "iphone-17e": "iPhone 17e",
+  "macbook-neo": "MacBook Neo",
+  "moto-android": "Moto Android (moto g 5G 2024)"
+ },
+ "members": [
+  {
+   "device": "moto-android",
+   "name": "Moto Android (moto g 5G 2024)",
+   "alg": "p256",
+   "fp": "da2a35874ca0",
+   "pub": "BJ2gcujdupTUPkYwWIkOtoSmCawEMsJUa1FZpLOMMhJWmXnnB3jQ8FOchLUYkMo5hSLsQY76/zsviS015sArJw8=",
+   "ops": [
+    "seed",
+    "leech",
+    "send",
+    "receive"
+   ],
+   "status": "ACTIVE"
+  },
+  {
+   "device": "iphone-17e",
+   "name": "iPhone 17e",
+   "alg": "p256",
+   "fp": "772af9d72bb8",
+   "pub": "BNgvRd5vEs5IY99EYQJEw8gRjyBzXzKVd+mqXWZ4O5jC30WUZPzN61OlrCkS5zlkqrBFUrmbwcy2y4XwrlL42E0=",
+   "ops": [
+    "seed",
+    "leech",
+    "send",
+    "receive"
+   ],
+   "status": "ACTIVE"
+  },
+  {
+   "device": "macbook-neo",
+   "name": "MacBook Neo",
+   "alg": "p256",
+   "fp": "f905b7901a31",
+   "pub": "BOoPUkxxeAbH6dEckSD/5Yd8oITBeMcFv4U93YMjskOS4MUdrSWKN3SslcKtlOgOGZ1f1XzcR1JPPLV1nO7+nZo=",
+   "ops": [
+    "seed",
+    "leech",
+    "send",
+    "receive"
+   ],
+   "status": "ACTIVE"
+  },
+  {
+   "device": "iphone-17e",
+   "name": "RCODE iPhone 17e",
+   "alg": "p256",
+   "fp": "cd8e3026fe33",
+   "pub": "BCcy7Y8Lj/r+1RbjCd63/bT6jgfh4RMEPfodtyu+ChLyNT1ExNpfKRTENXf2MkItuP6aOdFYCTmtc1Gn1t/c7Mo=",
+   "ops": [
+    "seed",
+    "leech",
+    "send",
+    "receive"
+   ],
+   "status": "ACTIVE"
+  },
+  {
+   "device": "macbook-neo",
+   "name": "RCODE MacBook Neo",
+   "alg": "p256",
+   "fp": "75b0428a4d67",
+   "pub": "BEH5Ycewp3ijwMS8lRudQRdzar8ZDfQC8da3Im8VRGdGKKPokdb+fqXSuhX21xJppFmes+kLnYAilGLpSTTCYiM=",
+   "ops": [
+    "seed",
+    "leech",
+    "send",
+    "receive"
+   ],
+   "status": "ACTIVE"
+  },
+  {
+   "device": "macbook-neo",
+   "name": "RCODE MacBook Neo approver",
+   "alg": "p256",
+   "fp": "5e110f5d1b4c",
+   "pub": "BFXXdb55AHC7g9se6/z07WMClqN8qJySo+O9b5gKM2JOWyO0N9UpcKeNdkHFDQiCRIrBltsUGExYkuFphOKJLV0=",
+   "ops": [
+    "seed",
+    "leech",
+    "send",
+    "receive"
+   ],
+   "status": "ACTIVE"
+  }
+ ],
+ "revoke": "Set a member's status to REVOKED (or remove it), bump version, Rizal re-signs the ring; verifiers refuse it immediately."
+}

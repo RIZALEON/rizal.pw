@@ -44,7 +44,7 @@ footer{font-size:11px;opacity:.7;margin-top:18px}
 </div>
 <div class="float">
 <h2>After you're enrolled</h2>
-<p>Leeches fetch <a href="/rtor/feed.json">/rtor/feed.json</a> and check every item with <a href="/rtor/rtor-verify.js">rtor-verify.js</a> (or <code>rtor_verify.py</code>) against Rizal's pinned public key <code>e5833fdfbbfe</code>. Unsigned means refused. Today every feed entry is still <b>pending</b> Rizal's signature, so nothing is applied yet.</p>
+<p>Leeches fetch <a href="/rtor/feed.json">/rtor/feed.json</a> and check every item with <a href="/rtor/rtor-verify.js">rtor-verify.js</a> (or <code>rtor_verify.py</code>) against Rizal's pinned public key <code>e5833fdfbbfe</code>. Unsigned means refused. Since rtor-verify 1.1 (Rizal t176u) an item whose source is one of the three lab devices (iPhone 17e, MacBook Neo, Moto Android) is also accepted for seed, leech, send and receive, but only if it carries that device's signature by its pinned public key in the GHOSTKEY ring <a href="/rtor/ghostkey.json">ghostkey.json</a> (root <code>e5833fdfbbfe</code> + the registered device keys; Rizal t177u). A <code>source</code> label alone is refused; size and sha256 are always checked. Today every feed entry is still <b>pending</b> Rizal's signature, so nothing is applied yet.</p>
 <p>Approved devices for RSYNC: iPhone 17e, MacBook Neo, Moto Android, the newest RVM (LINUX RIZAL guest) and RTHUNDR. Phones seed only on Wi-Fi while charging; on cellular they leech only.</p>
 <p>Back to <a href="/rtor/">Rtor</a> · same page on <a href="https://rizal.pw/rtor/join/">rizal.pw</a> and <a href="https://rizal.info/rtor/join/">rizal.info</a></p>
 </div>
