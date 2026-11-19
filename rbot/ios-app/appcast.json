@@ -1,0 +1,34 @@
+{
+ "product": "ЯBOT iOS",
+ "id": "rbot-ios-app",
+ "platform": "ios",
+ "bundleId": "io.github.rizaleon.yaaim",
+ "lineVersion": "2.2.0",
+ "latest": {
+  "version": "2.2.0",
+  "build": "2026111801",
+  "source": "THUNDR-RBOT-FUSED-IOS-20261111/src (Neo, not in git)",
+  "appTreeSha256": "5be5d710f300df8e72d90b891723cde45553330050a0a60e09e8bec0aef1456d",
+  "appTreeFiles": 770,
+  "notes": "Build 2026111801: egg trust (REggKit) and update notices (RLabNotices) also accept GHOSTKEY ring members: Rtor 1.2 GHOSTKEY: updates accepted only when signed by the GHOSTKEY root e5833fdfbbfe or an ACTIVE ring member (iPhone 17e, MacBook Neo, Moto Android; /rtor/ghostkey.json 2026-11-18.2) for seed/leech/send/receive. Unsigned, label-only, unknown, revoked and tampered items are refused. Native code eggs (REggCode) stay root-only. Otherwise identical to 2026111401.",
+  "trust": {
+   "ring": "/rtor/ghostkey.json",
+   "ringVersion": "2026-11-18.2",
+   "root": "e5833fdfbbfe",
+   "members": 6,
+   "ops": [
+    "seed",
+    "leech",
+    "send",
+    "receive"
+   ]
+  }
+ },
+ "install": {
+  "method": "devicectl from the Neo seeder (iOS apps cannot replace themselves)",
+  "itms-services": "none (no OTA manifest exists)"
+ },
+ "signed": false,
+ "note": "Listing only: no cryptographic signature (none was made or faked) and no download is offered. The app's own signed feeds are unchanged.",
+ "updated": "2026-11-18T18:30:00-07:00"
+}
