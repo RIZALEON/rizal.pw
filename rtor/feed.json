@@ -202,8 +202,8 @@
    "sig": "/rbot/ios-app/appcast.json.sig.json",
    "role": "app update feed (catalog)",
    "keyId": "e5833fdfbbfe",
-   "signed": false,
-   "status": "pending-owner-signature"
+   "signed": true,
+   "status": "signed-by-owner"
   },
   {
    "kind": "appcast",
