@@ -1,0 +1,10 @@
+{
+ "kind": "appcast",
+ "id": "appcast.dragon-skull.ios",
+ "version": "20261119T013000Z",
+ "name": "appcast.json",
+ "size": 1405,
+ "sha256": "de47b1ab8d6934092e1ff212876ca8168b6aff085d2776f8a594c8bff3964ee3",
+ "ed25519": "iUS2ZVbLFl5dBA+KHUbsNC1teMnwl/hMWQKSw/2hk4i1XyY5M2yMuhYuxd4m6X0r7ASgP9r1h4u2I+ijecJeAQ==",
+ "keyId": "e5833fdfbbfe"
+}
