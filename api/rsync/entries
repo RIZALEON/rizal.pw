@@ -1,10 +1,25 @@
 {
   "version": 1,
   "mode": "static",
-  "updated": "2026-11-18T20:47:15Z",
-  "live": null,
-  "note": "live is null: the old quick-tunnel URL is dead and was removed (no tunnel substituted). Live discovery will come from the Rtor feed at https://rizal.pw/rtor/feed.json once Rizal publishes it and its signature. Treat this file as untrusted discovery.",
+  "updated": "2026-11-20T17:10:26Z",
+  "live": "https://trails-sheet-skirt-travis.trycloudflare.com",
+  "note": "static discovery. live is the ASSM-RSYNC API (last 24h of entries). Authorization of the dated entry is owner-command (pt59u Go), not a cryptographic signature.",
   "rtor_feed": "/rtor/feed.json",
   "entries_path": "/api/rsync/entries",
-  "entries": []
+  "entries": [
+    {
+      "t": "rsync.owner-command",
+      "id": "rsync-20261120-linktest-go-pt59u",
+      "ts": "2026-11-20T17:09:32.188Z",
+      "authorization": "authorized-by-owner-command",
+      "policy": "owner-command-is-signature (GHOSTKEY)",
+      "command_ref": "pt59u",
+      "command_text": "Go",
+      "command_ts": "2026-11-20T10:01:00-07:00",
+      "journal_seq": 3,
+      "journal_hash": "622fa722d81cc1d618c8a93afd91d402855955657857ee9a99fb41e60d4edcb6",
+      "recorded_by": "SCRIBE",
+      "note": "Owner Go (2026-11-20 10:01 AM MT) authorizes the four RTOR/RSYNC link-test fixes. Not a cryptographic signature."
+    }
+  ]
 }
