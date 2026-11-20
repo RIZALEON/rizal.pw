@@ -1,17 +1,17 @@
 {
  "schema": "rzl.rtrackr.export.v1",
  "pending": false,
- "exported_at": "2026-11-11T08:21:54-07:00",
+ "exported_at": "2026-11-20T14:43:28-07:00",
  "chain": "RGHOSTCHAIN",
- "source": "RGHOSTCHAIN real chain on Neo, rghostchain.py export-json 2026-11-11T08:21",
+ "source": "Neo RMINT hybrid live export, published 2026-11-20T14:43:28 (GO t203u)",
  "verify": {
   "ok": true,
   "errors": [],
-  "blocks": 5,
-  "method": "rghostchain.py verify on Neo (prev_hash links + block hashes)"
+  "blocks": 6,
+  "method": "rghostchain.py verify (player-mint service)"
  },
- "height": 4,
- "tip": "e34dc66a8e4bcdd39b3d42df7ea280c5ef4567206f39dcbf575fe6945311e147",
+ "height": 5,
+ "tip": "4006b570883c31aff44891971dd1935a3a58a822293f919ace27e59d8cf0bb5b",
  "blocks": [
   {
    "index": 0,
@@ -303,9 +303,97 @@
     },
     "via": "RGHOSTCHAIN submitd (RDRAGON MINT)"
    }
+  },
+  {
+   "index": 5,
+   "hash": "4006b570883c31aff44891971dd1935a3a58a822293f919ace27e59d8cf0bb5b",
+   "prev_hash": "e34dc66a8e4bcdd39b3d42df7ea280c5ef4567206f39dcbf575fe6945311e147",
+   "ts": "2026-11-19T23:43:41-07:00",
+   "type": "nft_mint",
+   "schema": "rzl.rghostchain.block.v1.1",
+   "sig": {
+    "alg": null,
+    "method": "pending: ЯCASKET Face ID phone gate",
+    "value": "unsigned"
+   },
+   "payload": {
+    "artifact_id": "krog-test-mint-001",
+    "artifact_kind": "item",
+    "asset_hash": "a6ab04031cee4d8d41542aaccc2a1a4f08aff9b55a8cf317e2fb2cc7419d41d3",
+    "category": "player-mint",
+    "chain_target": "live",
+    "handle": "@chaserizal",
+    "holder_handle": "@chaserizal",
+    "holder_rid": null,
+    "kind": "game.asset",
+    "label": "ITEM · krog-test-mint-001",
+    "metadata": {
+     "name": "krog-test-mint-001",
+     "note": "KROG live test of Rizal command-mint rule, Nov 19 2026",
+     "owner_handle": "@chaserizal",
+     "owner_rid": "ЯID-0001-3QQS",
+     "test_kind": "test",
+     "unit": "R"
+    },
+    "metadata_sha256": "74c05b2ff423a105243d5e3a7d081e86dbdad67d2caf5379cd89776fab07950c",
+    "minted_by": {
+     "id": "@krog",
+     "type": "bot"
+    },
+    "official_game_minted": true,
+    "onchain": true,
+    "pair": {
+     "cap_rtoken_per_person_per_day": 100,
+     "capped": false,
+     "pair_id": "CRYPTOGAME:RCOIN/Я",
+     "rate": "100 Rcoins = 1 Rtoken",
+     "rcoins_per_rtoken": 100,
+     "used_before": 0
+    },
+    "player": "@chaserizal",
+    "rcoin": {
+     "amount": 100,
+     "symbol": "RCOIN"
+    },
+    "rid": "ЯID-3003-1RCQ",
+    "rtoken": {
+     "amount": 1,
+     "symbol": "RTOKEN"
+    },
+    "seat": "kbot-test",
+    "serial": 3,
+    "sign_policy": "none: Rizal t11u 2026-11-17 (no sign, no Face ID, automatic on player command)",
+    "unsigned": true,
+    "via": "player-mint/1.1.0"
+   }
   }
  ],
  "assets": [
+  {
+   "kind": "genesis",
+   "rid": null,
+   "label": "GENESIS",
+   "record": true,
+   "type": "genesis",
+   "status": "live",
+   "history": true,
+   "origin": "history",
+   "block_index": 0,
+   "block_hash": "536dc8a00491fae8e2fa15778310c288d7599d8b528100b1fc3176a7da4219ee",
+   "ts": "2026-10-29T09:55:25-06:00",
+   "on_chain": true,
+   "chain": "RGHOSTCHAIN",
+   "holder_handle": null,
+   "owner_handle": null,
+   "block": {
+    "height": 0,
+    "hash": "536dc8a00491fae8e2fa15778310c288d7599d8b528100b1fc3176a7da4219ee",
+    "ts": "2026-10-29T09:55:25-06:00"
+   },
+   "rsign_device": null,
+   "rsign_entry_hash": null,
+   "payload_bytes": 107
+  },
   {
    "asset_hash": "566d70a1533be285abe56d0711e92aaf4f0bf9e12ee77a9a0ad146304744fadd",
    "genesis": 1,
@@ -329,6 +417,7 @@
    "serial": 1,
    "via": "RGHOSTCHAIN submitd",
    "status": "live",
+   "history": true,
    "block_index": 1,
    "block_hash": "3ce4be265ca605a5f82e1f752090b2123eed18e31549fb5cfd9e56daf210a2bd",
    "ts": "2026-10-30T23:16:37-06:00",
@@ -336,6 +425,16 @@
    "chain": "RGHOSTCHAIN",
    "registered": true,
    "rtrackr_refs": [
+    {
+     "block_index": 2,
+     "block_hash": "e3d6a6c4a8b037e2f0ad855f9b4347723646dcaa24d202d5f85788ea7c90147e",
+     "mode": "dry"
+    },
+    {
+     "block_index": 3,
+     "block_hash": "bdd8a0bb9fcf84a4afb1a956459482776261b38239e35910080db7fd03d26451",
+     "mode": "dry"
+    },
     {
      "block_index": 1,
      "block_hash": "3ce4be265ca605a5f82e1f752090b2123eed18e31549fb5cfd9e56daf210a2bd",
@@ -347,7 +446,8 @@
     "hash": "3ce4be265ca605a5f82e1f752090b2123eed18e31549fb5cfd9e56daf210a2bd",
     "ts": "2026-10-30T23:16:37-06:00"
    },
-   "owner_handle": "@chaserizal"
+   "owner_handle": "@chaserizal",
+   "origin": "history"
   },
   {
    "asset_hash": "b4ba12a3f9a60b05e789e4635d58d0a89959fad9d6686d40c059021cc66cbfc1",
@@ -375,6 +475,7 @@
    "serial": 2,
    "via": "RGHOSTCHAIN submitd",
    "status": "live",
+   "history": true,
    "block_index": 2,
    "block_hash": "56e6a940eae08b1cf8415e314c9ae56a8790883f775d01dd4e07ee018b49ddb4",
    "ts": "2026-10-31T23:24:41-06:00",
@@ -393,7 +494,8 @@
     "hash": "56e6a940eae08b1cf8415e314c9ae56a8790883f775d01dd4e07ee018b49ddb4",
     "ts": "2026-10-31T23:24:41-06:00"
    },
-   "owner_handle": "@chaserizal"
+   "owner_handle": "@chaserizal",
+   "origin": "history"
   },
   {
    "asset_hash": "85f56353867f731a779d3643fbbc6741855a5e386e9b85c2493bf4240c59ebce",
@@ -410,6 +512,7 @@
    "rsign_entry_sig": "MEQCIBlN5x7Q…",
    "via": "RGHOSTCHAIN submitd",
    "status": "live",
+   "history": true,
    "block_index": 3,
    "block_hash": "5bb1d6f0cb9d5b0d53839cfe9669a59037161aefbee5795c0a944d12f2b7eb0d",
    "ts": "2026-11-01T18:39:30-07:00",
@@ -428,7 +531,122 @@
     "hash": "5bb1d6f0cb9d5b0d53839cfe9669a59037161aefbee5795c0a944d12f2b7eb0d",
     "ts": "2026-11-01T18:39:30-07:00"
    },
-   "owner_handle": "@chaserizal"
+   "owner_handle": "@chaserizal",
+   "origin": "history"
+  },
+  {
+   "kind": "rghostkey.bind+device_approval+basecode.v1",
+   "rid": "ЯID-0001-3QQS",
+   "label": "RGHOSTKEY BIND · @chaserizal",
+   "record": true,
+   "type": "rghostkey_bind",
+   "status": "live",
+   "history": true,
+   "origin": "history",
+   "block_index": 4,
+   "block_hash": "e34dc66a8e4bcdd39b3d42df7ea280c5ef4567206f39dcbf575fe6945311e147",
+   "ts": "2026-11-10T22:24:00-07:00",
+   "on_chain": true,
+   "chain": "RGHOSTCHAIN",
+   "holder_handle": "@chaserizal",
+   "owner_handle": "@chaserizal",
+   "block": {
+    "height": 4,
+    "hash": "e34dc66a8e4bcdd39b3d42df7ea280c5ef4567206f39dcbf575fe6945311e147",
+    "ts": "2026-11-10T22:24:00-07:00"
+   },
+   "rsign_device": "rsd-772af9d7…",
+   "rsign_entry_hash": "a7e0e6b6e30568ffbeb147de4be69e4dea03a561e3f78ba89bf4473d1fb4b90f",
+   "payload_bytes": 6941263
+  },
+  {
+   "artifact_id": "krog-test-mint-001",
+   "artifact_kind": "item",
+   "asset_hash": "a6ab04031cee4d8d41542aaccc2a1a4f08aff9b55a8cf317e2fb2cc7419d41d3",
+   "category": "player-mint",
+   "chain_target": "live",
+   "handle": "@chaserizal",
+   "holder_handle": "@chaserizal",
+   "holder_rid": null,
+   "kind": "game.asset",
+   "label": "ITEM · krog-test-mint-001",
+   "metadata": {
+    "name": "krog-test-mint-001",
+    "note": "KROG live test of Rizal command-mint rule, Nov 19 2026",
+    "owner_handle": "@chaserizal",
+    "owner_rid": "ЯID-0001-3QQS",
+    "test_kind": "test",
+    "unit": "R"
+   },
+   "metadata_sha256": "74c05b2ff423a105243d5e3a7d081e86dbdad67d2caf5379cd89776fab07950c",
+   "minted_by": {
+    "id": "@krog",
+    "type": "bot"
+   },
+   "official_game_minted": true,
+   "onchain": true,
+   "pair": {
+    "cap_rtoken_per_person_per_day": 100,
+    "capped": false,
+    "pair_id": "CRYPTOGAME:RCOIN/Я",
+    "rate": "100 Rcoins = 1 Rtoken",
+    "rcoins_per_rtoken": 100,
+    "used_before": 0
+   },
+   "player": "@chaserizal",
+   "rcoin": {
+    "amount": 100,
+    "symbol": "RCOIN"
+   },
+   "rid": "ЯID-3003-1RCQ",
+   "rtoken": {
+    "amount": 1,
+    "symbol": "RTOKEN"
+   },
+   "seat": "kbot-test",
+   "serial": 3,
+   "sign_policy": "none: Rizal t11u 2026-11-17 (no sign, no Face ID, automatic on player command)",
+   "unsigned": true,
+   "via": "player-mint/1.1.0",
+   "status": "live",
+   "history": false,
+   "block_index": 5,
+   "block_hash": "4006b570883c31aff44891971dd1935a3a58a822293f919ace27e59d8cf0bb5b",
+   "ts": "2026-11-19T23:43:41-07:00",
+   "on_chain": true,
+   "chain": "RGHOSTCHAIN",
+   "registered": true,
+   "rtrackr_refs": [
+    {
+     "block_index": 5,
+     "block_hash": "4006b570883c31aff44891971dd1935a3a58a822293f919ace27e59d8cf0bb5b",
+     "mode": "live"
+    }
+   ],
+   "block": {
+    "height": 5,
+    "hash": "4006b570883c31aff44891971dd1935a3a58a822293f919ace27e59d8cf0bb5b",
+    "ts": "2026-11-19T23:43:41-07:00"
+   },
+   "owner_handle": "@chaserizal",
+   "origin": "player-mint"
+  },
+  {
+   "kind": "wallet.asset.rid",
+   "rid": "ЯID-0014-KREH",
+   "handle": "ThundR",
+   "title": "ThundR CRYPTOBOT wallet RID",
+   "genesis": 14,
+   "origin": "rtrackr-registry",
+   "official_game_minted": true,
+   "registered": "2026-10-30T12:30:30-06:00",
+   "asset_hash": "ddf5d9766e6c5b32814114c5f7b982485db7291f9e4b61b986c9a3e61dbb8f1e",
+   "status": "registered",
+   "history": true,
+   "on_chain": false,
+   "chain": "RTRACKR registry (not on chain)",
+   "block_index": null,
+   "block_hash": null
   }
  ],
  "stripped_keys": []
