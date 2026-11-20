@@ -1,13 +1,20 @@
-// Rtor feed test: /rtor/feed.json must be current, point at real files with correct size/sha256, never claim signed,
-// carry no signatures inline, contain no tunnel/Cloudflare URLs or secrets, and every entry must be REFUSED by rtor-verify.js
-// until an owner .sig.json exists. Also checks the /rtor/join/ page is secret-free and routes to ЯLOGIN option 3.
+// Rtor feed test: /rtor/feed.json must be current, point at real files with correct size/sha256, claim signed
+// only when its self-sidecar verifies, carry no signatures inline, contain no tunnel/Cloudflare URLs or
+// secrets, and every entry must be REFUSED by rtor-verify.js until an owner .sig.json exists. Also checks
+// the /rtor/join/ page is secret-free and routes to ЯLOGIN option 3.
 const fs = require('fs'), path = require('path'), crypto = require('crypto');
 const ROOT = path.join(__dirname, '..', '..'); const V = require('../../rtor/rtor-verify.js'); const { build } = require('./make-feed.cjs');
 let pass = 0, fail = 0; const t = (name, ok, why) => { ok ? pass++ : fail++; console.log((ok ? 'PASS ' : 'FAIL ') + name + (why ? ' -> ' + why : '')); };
 (async () => {
   const raw = fs.readFileSync(path.join(ROOT, 'rtor/feed.json'), 'utf8'); const feed = JSON.parse(raw);
   t('feed.json is current (node tests/rtor/make-feed.cjs)', raw === JSON.stringify(build(), null, 1) + '\n');
-  t('feed is rtor-feed-v1 and signed:false', feed.schema === 'rtor-feed-v1' && feed.signed === false);
+  t('feed is rtor-feed-v1', feed.schema === 'rtor-feed-v1');
+  const selfPath = path.join(ROOT, 'rtor/feed.json.sig.json');
+  const selfSig = fs.existsSync(selfPath) ? JSON.parse(fs.readFileSync(selfPath, 'utf8')) : null;
+  const selfOk = selfSig ? (await V.verifyItemBytes(selfSig, Buffer.from(raw, 'utf8'))).ok : false;
+  t('feed signed:true only with a verifying self-sidecar', feed.signed === false || selfOk === true, feed.signed ? 'self-sidecar verifies: ' + selfOk : 'signed:false, no claim made');
+  t('feed signed:false carries the PENDING status', feed.signed === true || /^PENDING/.test(feed.status));
+  t('feed signed:true carries the SIGNED status', feed.signed === false || /^SIGNED/.test(feed.status));
   t('feed has entries', feed.entries.length > 0, feed.entries.length + ' entries');
   for (const e of feed.entries) {
     const f = path.join(ROOT, e.url.replace(/^\//, '')); const b = fs.existsSync(f) ? fs.readFileSync(f) : null;

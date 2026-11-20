@@ -1,21 +1,45 @@
 #!/usr/bin/env node
 // Rtor feed generator (rtor-feed-v1). Builds /rtor/feed.json from the real public files in this repo.
 // FAIL-CLOSED BY CONSTRUCTION: no entry carries an `ed25519` field, so RTOR_VERIFY.verifyItem() refuses every
-// entry ("UNSIGNED - refused") until Rizal's Face ID signature is published as <file>.sig.json next to the file.
+// entry ("UNSIGNED - refused") until Rizal's owner signature is published as <file>.sig.json next to the file.
 // This script never signs, never holds keys, never writes GHOSTCHAIN/RTRACKR (it only reads/hashes files).
-// Run:  node tests/rtor/make-feed.cjs            (writes rtor/feed.json; CI test fails if it is stale)
-//       node tests/rtor/make-feed.cjs --sign-list  (prints the rlab-update-v1 sign-request fields as JSON)
+// The feed's top-level `signed` flag is COMPUTED, never hardcoded: the generator emits the SIGNED state only
+// when a published feed self-sidecar (rtor/feed.json.sig.json) verifies against those exact bytes (size +
+// sha256 + Ed25519 over the rlab-update-v1 message, owner key e5833fdfbbfe). Any change to the entries drops
+// the feed back to PENDING until Rizal signs the new bytes. The flag therefore never lies in either direction.
+// Run:  node tests/rtor/make-feed.cjs                                    (writes rtor/feed.json; CI test fails if it is stale)
+//       node tests/rtor/make-feed.cjs --sign-list                        (prints the rlab-update-v1 sign-request fields as JSON)
+//       node tests/rtor/make-feed.cjs --sign-candidate [--assume-signed id,...]
+//           (writes rtor/feed.sign-candidate.json — the SIGNED-state bytes for Rizal to sign; never feed.json.
+//            --assume-signed marks listed entries as signed because their sidecars are in the same signing
+//            packet; the candidate then equals what the generator produces once those sidecars land.)
 const fs = require('fs'), path = require('path'), crypto = require('crypto');
 const ROOT = path.join(__dirname, '..', '..');
 const HOST = fs.existsSync(path.join(ROOT, 'CNAME')) ? fs.readFileSync(path.join(ROOT, 'CNAME'), 'utf8').trim() : 'rizal.pw';
 const PEER = HOST === 'rizal.pw' ? 'rizal.info' : 'rizal.pw';
-const FEED_VERSION = '20261118-5'; // bump by hand when the entry list changes; every bump needs a new feed.json.sig.json
+const FEED_VERSION = '20261120-1'; // bump by hand when the entry list changes; every bump needs a new feed.json.sig.json
 const KEY_ID = 'e5833fdfbbfe';
+const PUBKEY_B64 = 'zs7M4OOB0zQhWOQw3SHpAY+XYxbZJvcPESy1y400Ti0='; // pinned owner Ed25519 public key (same as rtor/rtor-verify.js)
+const FEED_ID = 'rtor-feed.rizal.pw';
+const SPKI_PREFIX = Buffer.from('302a300506032b6570032100', 'hex'); // Ed25519 SPKI prefix for Node crypto.verify
 const rd = (p) => fs.readFileSync(path.join(ROOT, p));
 const has = (p) => fs.existsSync(path.join(ROOT, p));
 const sha = (b) => crypto.createHash('sha256').update(b).digest('hex');
 function stamp(s) { const d = new Date(s); return isNaN(d) ? null : d.toISOString().replace(/[-:]/g, '').replace(/\.\d+Z$/, 'Z'); }
-function list() {
+/** True only if the published feed self-sidecar verifies against these exact candidate bytes
+ *  (keyId + kind + id + version + name + size + sha256 + Ed25519 over the rlab-update-v1 message). */
+function feedSelfSigned(candidateText) {
+  if (!has('rtor/feed.json.sig.json')) return false;
+  let s; try { s = JSON.parse(rd('rtor/feed.json.sig.json')); } catch (e) { return false; }
+  const b = Buffer.from(candidateText, 'utf8');
+  if (s.keyId !== KEY_ID || s.kind !== 'web' || s.id !== FEED_ID || s.version !== FEED_VERSION || s.name !== 'feed.json') return false;
+  if (s.size !== b.length || s.sha256 !== sha(b)) return false;
+  const msg = Buffer.from('rlab-update-v1\n' + s.kind + '\n' + s.id + '\n' + s.version + '\n' + s.name + '\n' + s.size + '\n' + s.sha256, 'utf8');
+  let key; try { key = crypto.createPublicKey({ key: Buffer.concat([SPKI_PREFIX, Buffer.from(PUBKEY_B64, 'base64')]), format: 'der', type: 'spki' }); } catch (e) { return false; }
+  try { return crypto.verify(null, msg, key, Buffer.from(s.ed25519, 'base64')); } catch (e) { return false; }
+}
+function list(assumeSigned) {
+  const assume = assumeSigned instanceof Set ? assumeSigned : new Set();
   const out = [];
   const add = (p, kind, id, version, role) => { if (!has(p)) return; const b = rd(p); out.push({ kind, id, version: String(version), name: path.basename(p), size: b.length, sha256: sha(b), url: '/' + p, sig: '/' + p + '.sig.json', role }); };
   if (has('rdragon-version.json')) add('rdragon-version.json', 'web', 'rizal.pw-version', JSON.parse(rd('rdragon-version.json')).v, 'site version manifest (RDIAG in-page updater gate)');
@@ -35,14 +59,17 @@ function list() {
   let oc = []; if (has('rtor/owner-commands.json')) { try { oc = JSON.parse(rd('rtor/owner-commands.json')).entries || []; } catch (x) { oc = []; } }
   return out.map((e) => { const sp = e.sig.slice(1); let s = null; if (has(sp)) { try { s = JSON.parse(rd(sp)); } catch (x) { s = null; } }
     if (s && s.keyId === KEY_ID && s.sha256 === e.sha256 && s.size === e.size && s.id === e.id && s.kind === e.kind) return Object.assign(e, { version: String(s.version), keyId: KEY_ID, signed: true, status: 'signed-by-owner' });
+    if (assume.has(e.id)) return Object.assign(e, { keyId: KEY_ID, signed: true, status: 'signed-by-owner' });
     const o = oc.find((c) => c.authorization === 'owner-command' && c.ref && c.id === e.id && c.kind === e.kind && c.name === e.name && c.size === e.size && c.sha256 === e.sha256);
     if (o) return Object.assign(e, { keyId: KEY_ID, signed: false, authorization: 'owner-command', authorizationRef: o.ref, status: 'authorized-by-owner-command' });
     return Object.assign(e, { keyId: KEY_ID, signed: false, status: 'pending-owner-signature' }); });
 }
-function build() {
+function feedObject(entries, signed) {
   return {
-    schema: 'rtor-feed-v1', host: HOST, version: FEED_VERSION, signed: false,
-    status: 'PENDING: no owner signatures published yet. Every entry is REFUSED until its .sig.json verifies against owner key ' + KEY_ID + ' (Face ID, ЯCASKET). Bots never sign.',
+    schema: 'rtor-feed-v1', host: HOST, version: FEED_VERSION, signed: signed,
+    status: signed
+      ? 'SIGNED: this feed and every signed entry verify against owner key ' + KEY_ID + ' (owner-command, GHOSTKEY). Unsigned or tampered entries are still REFUSED. Bots never sign.'
+      : 'PENDING: no owner signature for this feed version yet. Every entry is REFUSED until its .sig.json verifies against owner key ' + KEY_ID + ' (owner-command, GHOSTKEY). Bots never sign.',
     note: 'Generated by tests/rtor/make-feed.cjs. Entries carry kind/id/version/name/size/sha256 (rlab-update-v1 fields) but no ed25519; the signature lives only in the sidecar.',
     verify: { message: 'rlab-update-v1', keyId: KEY_ID, verifier: '/rtor/rtor-verify.js', python: 'rtor_verify.py <file> <file>.sig.json', sidecar: '<url>.sig.json', rule: 'unsigned, tampered, wrong key or size/sha256 mismatch = REFUSED (quarantine, keep old version)' },
     feed_sig: '/rtor/feed.json.sig.json',
@@ -52,11 +79,27 @@ function build() {
     rtrackr: { url: '/rtrackr/', mode: 'read-only', note: 'bots never write rtrackr/registry.json' },
     webseed: { base: 'https://' + HOST + '/', tree: '/rtor/<app>/<version>/', status: 'not published' },
     seeders: { website: 'permanent HTTPS webseed', neo: 'not running (needs Rizal GO)', network: 'website is the only public endpoint; no tunnels, no public DHT or trackers' },
-    entries: list(),
+    entries: entries,
   };
 }
-module.exports = { build, list };
+function build(opts) {
+  const o = opts || {};
+  const entries = list(o.assume);
+  if (o.forceSigned) return feedObject(entries, true);
+  const signed = feedObject(entries, true);
+  if (feedSelfSigned(JSON.stringify(signed, null, 1) + '\n')) return signed;
+  return feedObject(entries, false);
+}
+module.exports = { build, list, feedSelfSigned, feedObject, FEED_VERSION, KEY_ID };
 if (require.main === module) {
-  if (process.argv.includes('--sign-list')) { console.log(JSON.stringify(list().map(({ kind, id, version, name, size, sha256, url, sig }) => ({ kind, id, version, name, size, sha256, url, sig })), null, 1)); }
+  const args = process.argv.slice(2);
+  if (args.includes('--sign-list')) { console.log(JSON.stringify(list().map(({ kind, id, version, name, size, sha256, url, sig }) => ({ kind, id, version, name, size, sha256, url, sig })), null, 1)); }
+  else if (args.includes('--sign-candidate')) {
+    const ai = args.indexOf('--assume-signed');
+    const assume = new Set(ai >= 0 && args[ai + 1] ? args[ai + 1].split(',').map((s) => s.trim()).filter(Boolean) : []);
+    const out = JSON.stringify(build({ assume: assume, forceSigned: true }), null, 1) + '\n';
+    fs.mkdirSync(path.join(ROOT, 'rtor'), { recursive: true }); fs.writeFileSync(path.join(ROOT, 'rtor/feed.sign-candidate.json'), out);
+    console.log('wrote rtor/feed.sign-candidate.json', build({ assume: assume, forceSigned: true }).entries.length, 'entries,', Buffer.byteLength(out), 'bytes, sha256', sha(Buffer.from(out, 'utf8')), '(SIGNED-state bytes for Rizal to sign; NOT feed.json)');
+  }
   else { const out = JSON.stringify(build(), null, 1) + '\n'; fs.mkdirSync(path.join(ROOT, 'rtor'), { recursive: true }); fs.writeFileSync(path.join(ROOT, 'rtor/feed.json'), out); console.log('wrote rtor/feed.json', build().entries.length, 'entries (signed where an owner sidecar matches)'); }
 }
