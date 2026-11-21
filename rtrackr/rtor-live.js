@@ -18,12 +18,19 @@
   function pill(ok, label){return '<span class="rtor-pill '+(ok?'on':'off')+'">'+E(label)+'</span>'}
   function magnetBtn(uri, label){if(!uri)return '<span class="dim">—</span>';return '<a class="rt-btn" href="'+E(uri)+'">'+E(label||'MAGNET')+'</a>'}
   function seedCell(on){return on?'<span class="ok">SEED</span>':'<span class="dim">—</span>'}
+  function ratePair(f){
+    return '<span class="rtor-up">↑ '+E(fmtRate(f.up_bps))+'</span> <span class="rtor-down">↓ '+E(fmtRate(f.down_bps))+'</span>';
+  }
   function filesTable(files){
     if(!files||!files.length) return '<p class="dim">no seeder files in this snapshot</p>';
     var rows=files.map(function(f){
-      return '<tr><td>'+E(f.name||'—')+'</td><td class="h">'+E(sh(f.sha256))+'</td><td>'+E(fmtBytes(f.size))+'</td><td>'+E(fmtRate(f.up_bps))+'</td><td>'+E(fmtRate(f.down_bps))+'</td><td>'+seedCell(f.seeding)+'</td><td>'+magnetBtn(f.magnet,'MAGNET')+'</td></tr>';
+      return '<tr><td class="rtor-fn">'+E(f.name||'—')+'</td><td class="h" title="'+E(f.sha256||'')+'">'+E(sh(f.sha256))+'</td><td>'+E(fmtBytes(f.size))+'</td><td class="rtor-rates">'+ratePair(f)+'</td><td>'+seedCell(f.seeding)+'</td><td class="rtor-mag">'+magnetBtn(f.magnet,'MAGNET')+'</td></tr>';
     }).join('');
-    return '<table class="rtor-files"><tr><th>name</th><th>sha256</th><th>size</th><th>up</th><th>down</th><th>seed</th><th>magnet</th></tr>'+rows+'</table>';
+    var table='<table class="rtor-files rtor-files-wide"><tr><th>name</th><th>sha256</th><th>size</th><th>up / down</th><th>seed</th><th>magnet</th></tr>'+rows+'</table>';
+    var cards=files.map(function(f){
+      return '<article class="rtor-file-card"><div class="rtor-fc-top"><strong class="rtor-fn">'+E(f.name||'—')+'</strong>'+seedCell(f.seeding)+'</div><div class="rtor-fc-meta"><span class="h" title="'+E(f.sha256||'')+'">'+E(sh(f.sha256))+'</span> · '+E(fmtBytes(f.size))+'</div><div class="rtor-fc-row">'+ratePair(f)+' '+magnetBtn(f.magnet,'MAGNET')+'</div></article>';
+    }).join('');
+    return '<div class="rtor-files-wrap">'+table+'<div class="rtor-files-cards">'+cards+'</div></div>';
   }
   function peersTable(peers){
     if(!peers||!peers.length) return '<p class="dim">no peers in this snapshot</p>';
