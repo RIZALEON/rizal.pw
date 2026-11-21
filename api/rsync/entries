@@ -103,7 +103,7 @@
       "RPROFILE (GHOSTMACHINE memory/long/rtor-assm, `rprofile assm`)"
     ],
     "feed": "/rtor/feed.json",
-    "topology": "decentralized peer mesh: RTOR runs on every device (Neo, Pixel, Moto, iPhone 17e, and the sites as spaces); all peers are equal",
+    "topology": "decentralized, bidirectional peer mesh: RTOR runs on every device (Neo, Pixel, Moto, iPhone 17e, and the sites as spaces); every peer sends to and receives from every other peer; all peers equal",
     "mesh_check": {
       "at": "2026-11-21T12:34:44-07:00",
       "union_files": 51,
@@ -127,6 +127,22 @@
           "profile_sha_ok": true
         }
       }
+    },
+    "directions_12:38": {
+      "flowing": [
+        "Neo→Pixel",
+        "Pixel→Neo",
+        "Neo→Moto",
+        "Moto→Neo"
+      ],
+      "discovery_only": [
+        "Pixel→Moto",
+        "Moto→Pixel"
+      ],
+      "not_yet": [
+        "17e↔any peer"
+      ],
+      "pending_go": "0.2.4 gossip on Pixel and Moto; RTOR peer listener on the 17e"
     }
   },
   "devices": [
