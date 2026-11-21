@@ -1,9 +1,47 @@
 {
  "schema": "rzl.botlatch.listings.v1",
  "chain_id": "RGHOSTCHAIN/TERAFORMR-GAME",
- "generated": "2026-11-21T13:15:34-07:00",
- "height": 0,
- "tip": "02ba76ed95e8aef3f414b71dd31b7f480c3b771a0bca0520bc62c795ba02b72b",
- "open": [],
+ "generated": "2026-11-21T13:22:28-07:00",
+ "height": 1,
+ "tip": "5415fd0936bcc0ebb3d74f0d9f4f17a7054f3cadfdb85dbd5a951bbab669120b",
+ "open": [
+  {
+   "listing_id": "5415fd0936bcc0ebb3d74f0d9f4f17a7054f3cadfdb85dbd5a951bbab669120b",
+   "game_block": 1,
+   "game_hash": "5415fd0936bcc0ebb3d74f0d9f4f17a7054f3cadfdb85dbd5a951bbab669120b",
+   "item": {
+    "id": "terra-tool",
+    "kind": "tool",
+    "name": "TERRA-TOOL (Igorot Headaxe)",
+    "rarity": "legendary",
+    "stats": {
+     "atk": 50,
+     "hp": 99
+    }
+   },
+   "qty": 1,
+   "price_rtoken": 125000,
+   "currency": "RToken",
+   "seller": "@chaserizal",
+   "ts": "2026-11-21T13:22:28-07:00",
+   "status": "open",
+   "buyer": null,
+   "sold_block": null,
+   "main_link": {
+    "last": {
+     "hash": "4006b570883c31aff44891971dd1935a3a58a822293f919ace27e59d8cf0bb5b",
+     "height": 5,
+     "piece": "4006b570883c31af"
+    },
+    "next": {
+     "commit": "70b9d3d0223619d5c06d2cdf7710b783fd456adbadc47e65179130ea956303c0",
+     "commit_kind": "asset_hash",
+     "height": 6,
+     "source": "pending-mint-t193u.json#pm-20261120-t193u-b6-rghostkey",
+     "status": "pending"
+    }
+   }
+  }
+ ],
  "sold": []
 }
