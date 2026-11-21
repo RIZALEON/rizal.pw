@@ -152,9 +152,9 @@ function rtokenSection(){var T=token(),L=T.links||{},mint=T.mint,crown=T.crown,p
   '<h2>Watched holder</h2><div id="rt-holder"></div>'+
   '<h2>R TOKEN events</h2><div id="rt-events">'+eventsHTML(seed,{msg:seed.length?(seed.length+' from snapshot · live poll starting…'):'loading…'})+'</div></section>'}
 function home(){var B=blocks(),tip=B[B.length-1]||{},V=D.verify||{},bad=links(),A=D.assets||[],nm=B.filter(function(b){return RTYPE(b)==='nft_mint'}).length,cb=B.filter(function(b){return RTYPE(b)==='cryptobot'}).length,cu=B.filter(function(b){return RTYPE(b)==='cryptoupdate'}).length;
- app.innerHTML=(G.rtorLiveSection?G.rtorLiveSection():'')+'<div class="stats">'+[['height',B.length?tip.index:'—'],['blocks',B.length],['tip hash',sh(tip.hash)],['nft mints',nm],['cryptobots',cb],['cryptoupdates',cu],['live assets',A.length],['chain verify (Neo)',V.ok?'OK':'FAIL'],['prev_hash links',bad.length?'BROKEN at '+bad.join(','):'OK'],['last block',tip.ts?mt(tip.ts):'—']].map(function(s){return '<div class="st"><span>'+s[0]+'</span><b>'+(s[0]==='last block'?s[1]:E(s[1]))+'</b></div>'}).join('')+'</div>'+
+ app.innerHTML=(G.rtorLiveSection?G.rtorLiveSection():'')+(G.rtorAssmSection?G.rtorAssmSection():'')+'<div class="stats">'+[['height',B.length?tip.index:'—'],['blocks',B.length],['tip hash',sh(tip.hash)],['nft mints',nm],['cryptobots',cb],['cryptoupdates',cu],['live assets',A.length],['chain verify (Neo)',V.ok?'OK':'FAIL'],['prev_hash links',bad.length?'BROKEN at '+bad.join(','):'OK'],['last block',tip.ts?mt(tip.ts):'—']].map(function(s){return '<div class="st"><span>'+s[0]+'</span><b>'+(s[0]==='last block'?s[1]:E(s[1]))+'</b></div>'}).join('')+'</div>'+
  (D.source?'<p class="dim">source: '+E(D.source)+'</p>':'')+rtokenSection()+'<h2>Latest blocks</h2>'+tbl(B.slice().reverse().slice(0,25))+'<h2>Assets (RTRACKR live entries)</h2>'+assetsT(A);
- setTimeout(function(){if(G.refreshRtorLive)G.refreshRtorLive().then(G.startRtorPoll);paintPair(poolSnap(),{msg:'saved snapshot'});refreshEvents().then(startPoll)},0)}
+ setTimeout(function(){if(G.refreshRtorAssm)G.refreshRtorAssm();if(G.refreshRtorLive)G.refreshRtorLive().then(G.startRtorPoll);paintPair(poolSnap(),{msg:'saved snapshot'});refreshEvents().then(startPoll)},0)}
 function block(n){var b=blocks().filter(function(x){return String(x.index)===String(n)||x.hash===n})[0];if(!b){app.innerHTML='<p class="no">block '+E(n)+' not found</p>';return}
  var prev=blocks()[b.index-1],lk=b.index===0||(prev&&prev.hash===b.prev_hash);
  if(pollT){clearInterval(pollT);pollT=null}if(G.stopRtorPoll)G.stopRtorPoll();
@@ -164,11 +164,13 @@ function rid(r){var q=r.toLowerCase(),B=blocks().filter(function(b){return rids(
  app.innerHTML='<h2>Address '+E(r)+'</h2><div class="stats"><div class="st"><span>blocks</span><b>'+B.length+'</b></div><div class="st"><span>live assets</span><b>'+A.length+'</b></div></div><h2>Assets</h2>'+assetsT(A)+'<h2>Blocks</h2>'+(B.length?tbl(B):'<p class="dim">no blocks for this ЯID / handle</p>')}
 function rtokenPage(){app.innerHTML=rtokenSection();setTimeout(function(){if(G.refreshRtorLive)G.refreshRtorLive().then(G.startRtorPoll);paintPair(poolSnap(),{msg:'saved snapshot'});refreshEvents().then(startPoll)},0)}
 function route(){if(!D)return;var h=decodeURIComponent(location.hash.slice(1)),m;
+ if(/^(assm|rtor-assm|network|devices)$/i.test(h)&&G.rtorAssmSection){if(G.stopRtorPoll)G.stopRtorPoll();app.innerHTML=G.rtorAssmSection()+'<p><a href="/rtrackr/">← RTRACKR</a></p>';G.refreshRtorAssm();return}
  if(h==='rtor'||h==='rtor/'||h==='live-rtor'||h==='livertor'){if(G.stopRtorPoll)G.stopRtorPoll();app.innerHTML=(G.rtorLiveSection?G.rtorLiveSection():'<p class="no">rtor-live.js missing</p>')+'<p><a href="/rtrackr/">← RTRACKR</a> · <a href="/rtrackr/rtor/">standalone page</a></p>';if(G.refreshRtorLive)G.refreshRtorLive().then(G.startRtorPoll);return;}
  if(h==='rtoken'||h==='rtoken/'||h==='pool'||h==='pool/'||h==='wallets'||h==='wallets/'||h==='pair'||h==='pair/'||h==='rcoin')return rtokenPage();
  if((m=h.match(/^block\/(.+)$/)))return block(m[1]);if((m=h.match(/^rid\/(.+)$/)))return rid(m[1]);home()}
 document.getElementById('q').addEventListener('submit',function(e){e.preventDefault();var v=document.getElementById('qi').value.trim();if(!v)return;
  if(/^(rtor|live[\s-]?rtor)$/i.test(v)){location.hash='rtor';return}
+ if(/^(assm|rtor[\s-]?assm|network|devices)$/i.test(v)){location.hash='assm';return}
  if(/^(rtoken|pool|wallets?|pair|rcoins?)$/i.test(v)||v===poolAddr()||walletRoster().some(function(w){return w.address===v||w.token_account===v})||v===token().holder||v===token().holder_ata||(v.length>=8&&(token().holder.indexOf(v)===0||token().holder_ata.indexOf(v)===0))){location.hash='rtoken';return}
  if(/^\d+$/.test(v)||/^[0-9a-f]{16,}$/i.test(v)){var b=blocks().filter(function(x){return String(x.index)===v||x.hash===v||x.hash.indexOf(v.toLowerCase())===0})[0];location.hash=b?'block/'+b.index:'block/'+v}else location.hash='rid/'+encodeURIComponent(v)});
 window.addEventListener('hashchange',route);

@@ -82,3 +82,8 @@ table.rtor-devices th,table.rtor-devices td{overflow:hidden;overflow-wrap:anywhe
   table.rtor-devices-wide{display:none}
   .rtor-dev-cards{display:block}
 }
+
+/* 20261121 RTOR <-> ASSM network panel (pt256u) */
+.rtor-assm table{width:100%;table-layout:auto}
+.rtor-assm td{overflow-wrap:anywhere}
+.rtor-assm .rtor-pill.on{color:#39ff14}.rtor-assm .rtor-pill.off{color:#fc0}

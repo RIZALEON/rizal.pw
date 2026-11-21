@@ -26,3 +26,9 @@ Live, read-only RTOR status on this site:
 - Snapshot: `data/rtor-live.json` (schema `rzl.rtrackr.rtor-live.v1`)
 
 The page polls the snapshot every 15 seconds and shows a last-seen / offline state. Neo publishes a sanitized snapshot at most every 2 minutes (`RGHOSTCHAIN/tools/rtor_live_publish.py`, LaunchAgent `pw.rizal.rtrackr-rtor-live`), with a no-op when unchanged. The snapshot includes the official RGHOSTCHAIN height and tip, RTOR listener and ghostchain status, the seeder file table (name, sha256, size, up/down rates, SEED/MAGNET), and peers. Private IPs, tokens, keys, mailbox contents, and filesystem paths are stripped before publish.
+
+## RTOR ↔ ASSM network (2026-11-21, Decider pt256u)
+Read-only panel on the home page and at `https://rizal.pw/rtrackr/#assm` (also `#network`, `#devices`; search `assm`).
+- Snapshot: `data/rtor-assm.json` (schema `rzl.rtrackr.rtor-assm.v1`), rendered by `rtor-assm.js`.
+- Shows the ASSM profile @chaserizal ЯID-0001-3QQS (sha256 db3535091e3e…) and where it matches (Neo, iPhone 17e, Pixel, Moto), device versions, every RTOR space ЯID (0017–0028), and the rizal.info feed / ASSM link / ЯWALLET service status, with a last-updated time in MT.
+- Public fields only; no keys, tokens, private IPs or paths. Creates no GhostChain blocks or mints. Additive: no existing panel was changed.

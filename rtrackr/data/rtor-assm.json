@@ -1,0 +1,189 @@
+{
+ "schema": "rzl.rtrackr.rtor-assm.v1",
+ "title": "RTOR ↔ ASSM network",
+ "updated_at": "2026-11-21T12:30:00-07:00",
+ "updated_mt": "Nov 21, 2026, 12:30 PM MT",
+ "source": "Decider Rizal pt250u–pt256u (2026-11-21); published by Grok Bot on request, RTRACKR writer ЯBEE notified in SCROLL RTOR-ASSM.md",
+ "note": "Read-only snapshot. Public fields only: no keys, tokens, salts, private IPs or filesystem paths. No GhostChain block or mint is created by this panel.",
+ "profile": {
+  "handle": "@chaserizal",
+  "rid": "ЯID-0001-3QQS",
+  "file": "assm-profile.json",
+  "schema": "rzl.rtor.assm.profile.v1",
+  "sha256": "db3535091e3ec236d96bb28ac7d6b7d0bf6a9e8075e484895af71d023cd39fc1",
+  "size": 648,
+  "session": "existing app login reused; no token carried",
+  "matches": [
+   {
+    "device": "Neo",
+    "where": "neo.assm RTOR drop",
+    "sha_ok": true,
+    "checked": "12:29 PM MT"
+   },
+   {
+    "device": "iPhone 17e",
+    "where": "RDRAGON 55 drop (nodes/17e)",
+    "sha_ok": true,
+    "checked": "12:29 PM MT"
+   },
+   {
+    "device": "Pixel",
+    "where": "pixel.dragonskull drop + RDRAGON 1.0.6.1 /rtor/assm/",
+    "sha_ok": true,
+    "checked": "12:29 PM MT"
+   },
+   {
+    "device": "Moto",
+    "where": "RTOR library (peer PUT, sha verified)",
+    "sha_ok": true,
+    "checked": "12:29 PM MT"
+   }
+  ]
+ },
+ "assm": {
+  "service": "ASSM-RSYNC",
+  "version": "1.0.0",
+  "mode": "live",
+  "trusted_devices": 6,
+  "link": "/api/rsync/entries",
+  "sync": "Neo bridge rtor-assm-sync every 5 min: imports the profile into RTOR when its sha changes, seeds drops + RDRAGON/RPROFILE subscribers; fail-closed, loopback-only"
+ },
+ "spaces": [
+  {
+   "rid": "ЯID-0027-Z3N5",
+   "space": "neo.assm",
+   "node": "neo.ASSM",
+   "rmail": "rtor-neo-assm@rizal.pw",
+   "status": "confirmed",
+   "note": "ASSM space (origin)"
+  },
+  {
+   "rid": "ЯID-0026-C7MD",
+   "space": "pixel.rtor",
+   "node": "rklowd.pixel",
+   "rmail": "rtor-pixel-rtor@rizal.pw",
+   "status": "confirmed",
+   "note": "confirmed 2026-11-21"
+  },
+  {
+   "rid": "ЯID-0028-9GZ3",
+   "space": "pixel.dragonskull",
+   "node": "rklowd.pixel",
+   "rmail": "rtor-pixel-dragonskull@rizal.pw",
+   "status": "confirmed",
+   "note": "RDRAGON Pixel drop"
+  },
+  {
+   "rid": "ЯID-0017-WST7",
+   "space": "17e.dragonskull",
+   "node": "17e.RDRAGON",
+   "rmail": "rtor-17e-dragonskull@rizal.pw",
+   "status": "unsigned-pending-founder"
+  },
+  {
+   "rid": "ЯID-0018-AS6M",
+   "space": "17e.rcode",
+   "node": "17e.RCODE",
+   "rmail": "rtor-17e-rcode@rizal.pw",
+   "status": "unsigned-pending-founder"
+  },
+  {
+   "rid": "ЯID-0019-KCG5",
+   "space": "17e.yabot",
+   "node": "17e.RBOT",
+   "rmail": "rtor-17e-yabot@rizal.pw",
+   "status": "unsigned-pending-founder"
+  },
+  {
+   "rid": "ЯID-0020-CKQK",
+   "space": "moto.dragonskull",
+   "node": "rklowd.moto",
+   "rmail": "rtor-moto-dragonskull@rizal.pw",
+   "status": "unsigned-pending-founder"
+  },
+  {
+   "rid": "ЯID-0021-32CZ",
+   "space": "moto.rcode",
+   "node": "rklowd.moto",
+   "rmail": "rtor-moto-rcode@rizal.pw",
+   "status": "unsigned-pending-founder"
+  },
+  {
+   "rid": "ЯID-0022-ZWHQ",
+   "space": "moto.terraformr",
+   "node": "rklowd.moto",
+   "rmail": "rtor-moto-terraformr@rizal.pw",
+   "status": "unsigned-pending-founder"
+  },
+  {
+   "rid": "ЯID-0023-YM9V",
+   "space": "moto.rboard",
+   "node": "rklowd.moto",
+   "rmail": "rtor-moto-rboard@rizal.pw",
+   "status": "unsigned-pending-founder"
+  },
+  {
+   "rid": "ЯID-0024-WQTJ",
+   "space": "site.rizal.pw",
+   "node": "site.rizal.pw",
+   "rmail": "rtor-rizal-pw@rizal.pw",
+   "status": "unsigned-pending-founder"
+  },
+  {
+   "rid": "ЯID-0025-R0EG",
+   "space": "site.rizal.info",
+   "node": "site.rizal.info",
+   "rmail": "rtor-rizal-info@rizal.pw",
+   "status": "unsigned-pending-founder"
+  }
+ ],
+ "devices": [
+  {
+   "device": "Neo",
+   "role": "ASSM origin · RTOR seeder",
+   "apps": "rtor-ghostchain 0.2.4 (peer fill: every peer gets every file) · ASSM-RSYNC 1.0.0",
+   "files": 49,
+   "assm": "origin"
+  },
+  {
+   "device": "Pixel (Ubuntu Touch)",
+   "role": "RTOR peer · RDRAGON",
+   "apps": "RDRAGON 1.0.6.1 (ASSM via RTOR reader) · RTOR 0.2.3",
+   "files": 49,
+   "assm": "db3535… in drop + app"
+  },
+  {
+   "device": "iPhone 17e",
+   "role": "RDRAGON drop",
+   "apps": "RDRAGON 55 1.0.6.8 b70 · RCODE 17 · ЯBOT 2026112003",
+   "files": null,
+   "assm": "db3535… in drop"
+  },
+  {
+   "device": "Moto (Android)",
+   "role": "RTOR peer",
+   "apps": "RTOR Android 0.2.3, synced by Neo 0.2.4 peer fill (36/36 at 12:03 PM MT; 48/49 at 12:29 PM MT, still filling as the library grows)",
+   "files": 48,
+   "assm": "db3535… in library"
+  }
+ ],
+ "sites": [
+  {
+   "item": "rizal.info /rtor/feed.json",
+   "value": "20261120-2 (sha ed7661ee1bac…), matches rizal.pw; 20261118-5 kept as /rtor/feed-20261118-5.json"
+  },
+  {
+   "item": "rizal.pw ASSM link /api/rsync/entries",
+   "value": "infused: live URL, ЯID, devices, profile sha, neo.assm ЯID-0027-Z3N5, sync info; nothing removed"
+  },
+  {
+   "item": "ЯWALLET :8760 / :8761 (Neo, loopback)",
+   "value": "permanent LaunchAgents info.rizal.rwallet-8760 (unified FULL) + info.rizal.rwallet-8761 (unified ALL)"
+  }
+ ],
+ "ghostchain": {
+  "height": 5,
+  "tip": "4006b570883c…f0bb5b",
+  "note": "unchanged; no new blocks or mints"
+ }
+}
