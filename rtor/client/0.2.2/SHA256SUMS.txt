@@ -1,0 +1,5 @@
+108c66640bcc0a9857c8b6ccc526fd92bc115bcae268b288aa39d607ac63fe64  RTOR-GHOSTCHAIN-0.2.2-release-UNSIGNED.apk
+6f3f478d950be81068ba3f1ea22e7b41ee997b9d7fd3fdbcb7bf78068d6c5aaf  rtor-ghostchain-0.2.2-linux-arm64.tar.gz
+69c26808d21c30d58c95797f5178f022b152e70fb971efbdb5224263319b6ffc  rtor-ghostchain-0.2.2-linux-riscv64.tar.gz
+ad3072e3c12f432a002d4b8f7637bb9b0ef5bc02e48d0ed8c49d155b732c7e20  rtor-ghostchain-0.2.2-linux-x86_64.tar.gz
+a154f28ece23e842e75d272b9d1fcba40a8c304855e19a95c79f8f1bea70899e  rtor.rizal_0.2.2_arm64.click

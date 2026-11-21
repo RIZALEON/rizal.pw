@@ -1,0 +1,23 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RTOR client 0.2.2 · GHOSTCHAIN cryptoclient</title>
+<style>:root{--g:#39FF14;--p:#8A2BE2;--dim:#9a94c4}body{margin:0;background:radial-gradient(ellipse at top,#1d0f4a,#0b0726 60%);color:#e8e4ff;font:15px/1.5 system-ui,sans-serif}
+main{max-width:1000px;margin:auto;padding:24px}h1{color:var(--g);margin:0}h2{color:var(--p);border-bottom:1px solid #2c1f66;padding-bottom:4px}
+.dim{color:var(--dim);font-size:13px}.mono{font-family:ui-monospace,monospace;font-size:12px;word-break:break-all}table{width:100%;border-collapse:collapse}
+td,th{border-bottom:1px solid #2c1f66;padding:8px;text-align:left;vertical-align:top}a{color:var(--g)}.tag{background:var(--g);color:#000;padding:1px 6px;border-radius:4px;font-size:12px}</style></head>
+<body><main><h1>RTOR GHOSTCHAIN cryptoclient <span class="tag">0.2.2</span></h1>
+<p class="dim">Released Nov 20, 2026 (MT). Unsigned builds — signing stays with Rizal (Face ID on the 17e). No keys in any build.</p>
+<h2>What 0.2.2 does</h2><ul>
+<li>Seeding ↑ and Leeching ↓ side by side for every file, both always on, rates measured from real bytes (idle shows 0).</li>
+<li>Always-on keepalive: at least 1 KB/s each way per file (runs at 1.5 KB/s), every pass SHA-256 verified.</li>
+<li>Connects to a peer immediately at start: Neo (RTRACKR backside) → Pixel → Moto on LAN port 4985; public RTRACKR download fallback, then the local drop.</li>
+<li>Starts by itself: Ubuntu Touch user service, Android foreground service with start-at-boot, Neo launchd.</li>
+<li>RE-SEED panel reads the live RGHOSTCHAIN and clears only when the sealed, signed RGHOSTKEY block 6 is on-chain.</li></ul>
+<p class="dim">Measured Nov 20, 2026 10:29 PM MT: Pixel ↔ Neo about 3 KB/s each way per file.</p>
+<h2>Downloads</h2><table><tr><th>File</th><th>Size</th><th>SHA-256</th><th>Status</th></tr>
+<tr><td><a href="0.2.2/RTOR-GHOSTCHAIN-0.2.2-release-UNSIGNED.apk">RTOR-GHOSTCHAIN-0.2.2-release-UNSIGNED.apk</a><div class="dim">Android (arm64 + x86_64), versionCode 5</div></td><td>8.4 MB</td><td class="mono">108c66640bcc0a9857c8b6ccc526fd92bc115bcae268b288aa39d607ac63fe64</td><td>UNSIGNED — waits for Rizal&#x27;s Face ID signing before it can install</td></tr>
+<tr><td><a href="0.2.2/rtor-ghostchain-0.2.2-linux-arm64.tar.gz">rtor-ghostchain-0.2.2-linux-arm64.tar.gz</a><div class="dim">Linux arm64 (static)</div></td><td>4.9 MB</td><td class="mono">6f3f478d950be81068ba3f1ea22e7b41ee997b9d7fd3fdbcb7bf78068d6c5aaf</td><td>run-linux.sh</td></tr>
+<tr><td><a href="0.2.2/rtor-ghostchain-0.2.2-linux-riscv64.tar.gz">rtor-ghostchain-0.2.2-linux-riscv64.tar.gz</a><div class="dim">Linux riscv64 (static, RVM)</div></td><td>5.1 MB</td><td class="mono">69c26808d21c30d58c95797f5178f022b152e70fb971efbdb5224263319b6ffc</td><td>run-linux.sh</td></tr>
+<tr><td><a href="0.2.2/rtor-ghostchain-0.2.2-linux-x86_64.tar.gz">rtor-ghostchain-0.2.2-linux-x86_64.tar.gz</a><div class="dim">Linux x86_64 (static)</div></td><td>5.2 MB</td><td class="mono">ad3072e3c12f432a002d4b8f7637bb9b0ef5bc02e48d0ed8c49d155b732c7e20</td><td>run-linux.sh</td></tr>
+<tr><td><a href="0.2.2/rtor.rizal_0.2.2_arm64.click">rtor.rizal_0.2.2_arm64.click</a><div class="dim">Ubuntu Touch 24.04 (arm64) click</div></td><td>4.9 MB</td><td class="mono">a154f28ece23e842e75d272b9d1fcba40a8c304855e19a95c79f8f1bea70899e</td><td>Unsigned click; installed and running on the Pixel 3a</td></tr></table>
+<p><a href="SHA256SUMS.txt">SHA256SUMS.txt</a> · <a href="rtor-client.json">rtor-client.json</a> · <a href="CHANGELOG.md">CHANGELOG.md</a></p>
+<p class="dim">Check a download: <span class="mono">shasum -a 256 FILE</span> must equal the hash above.</p></main></body></html>
