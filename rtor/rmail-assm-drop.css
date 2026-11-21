@@ -1,0 +1,8 @@
+/* rmail-assm-drop.css v1 (2026-11-21) - panel style for /rtor/rmail-assm-drop.js */
+.rmd{max-width:760px;margin:14px auto;padding:12px;border:1px solid #39ff14;border-radius:12px;background:#020a02;color:#39ff14;font:13px/1.45 Menlo,ui-monospace,monospace}
+.rmd h3{margin:0 0 6px;font-size:14px}
+.rmd input,.rmd textarea{width:100%;box-sizing:border-box;background:#000;color:#d6ffd0;border:1px solid #2a5;border-radius:6px;padding:6px;margin:3px 0;font:inherit}
+.rmd button{background:#000;color:#39ff14;border:1px solid #39ff14;border-radius:8px;padding:5px 10px;margin:4px 4px 0 0;font:inherit;cursor:pointer}
+.rmd pre{white-space:pre-wrap;max-height:140px;overflow:auto;background:#000;padding:6px;border-radius:6px;color:#9c9;font-size:11px}
+.rmd small{opacity:.75}
+.rmd a.rmd-a{color:#9dff8a}
