@@ -7,7 +7,7 @@ const wait=ms=>new Promise(r=>setTimeout(r,ms));
 function page(file,{idb:init={},ls:lsInit={}}={}){const html=R(file),E={};ids(html).forEach(i=>{E[i]={id:i,value:'',textContent:'',hidden:false,disabled:false,dataset:{},className:'',classList:{toggle(){}},style:{},firstChild:{style:{}},files:null,focus(){},onclick:null}});
  const m=new Map(Object.entries(init));const db={transaction(){const st={get(k){const r={};setTimeout(()=>{r.result=m.get(k);r.onsuccess&&r.onsuccess()},0);return r},getAllKeys(){const r={};setTimeout(()=>{r.result=[...m.keys()];r.onsuccess&&r.onsuccess()},0);return r},put(v,k){m.set(k,v)}};const t={objectStore:()=>st};setTimeout(()=>t.oncomplete&&t.oncomplete(),1);return t},createObjectStore(){}};
  const L={...lsInit};const ls={getItem:k=>k in L?L[k]:null,setItem:(k,v)=>{L[k]=String(v)},removeItem:k=>{delete L[k]},key:i=>Object.keys(L)[i]||null,get length(){return Object.keys(L).length}};
- const sb={console,setTimeout,clearTimeout,setInterval:()=>0,Promise,TextEncoder,TextDecoder,URL,crypto:globalThis.crypto,atob,btoa,Uint8Array,ArrayBuffer,
+ const sb={console,addEventListener(){},setTimeout,clearTimeout,setInterval:()=>0,Promise,TextEncoder,TextDecoder,URL,crypto:globalThis.crypto,atob,btoa,Uint8Array,ArrayBuffer,
   localStorage:ls,indexedDB:{open(){const q={result:db};setTimeout(()=>q.onsuccess&&q.onsuccess(),0);return q}},navigator:{platform:'test'},
   location:{href:'https://rizal.pw/login/',search:'',origin:'https://rizal.pw',hostname:'rizal.pw'},
   document:{body:{dataset:{}},getElementById:i=>E[i]||null,querySelectorAll:()=>[],querySelector:()=>null,createElement:()=>({style:{},dataset:{},classList:{toggle(){}}})},
@@ -20,7 +20,7 @@ async function login(P,user,pw){P.E['l-user'].value=user;P.E['l-pass'].value=pw;
   ['l-user','l-pass','b-login','a-create','a-options','msg'].forEach(i=>A.ok(si.includes(i),i));['b-auto','f-pkg','b-pkg','b-rgen','b-req','t-signup'].forEach(i=>A.ok(!si.includes(i),'simple has no '+i));
   A.ok(/href="\/login\/options\/\?tab=signup"[^>]*>Create account/.test(s)&&/href="\/login\/options\/"[^>]*>Other options/.test(s));
   const oi=ids(o);['b-auto','f-pkg','b-pkg','b-file','b-rgen','b-req','b-imp','t-signup','s-user','s-pass','b-signup','b-dlpkg','rg-status','owners','p0','founder-st','auto-note','b-selfcheck','selfcheck','l-user','l-pass','b-login'].forEach(i=>A.ok(oi.includes(i),'options keeps '+i));
-  A.ok(/rlogin-page\.js\?v=(19|[2-9]\d)/.test(s)&&/rlogin-page\.js\?v=(19|[2-9]\d)/.test(o)&&/rsync-core\.js\?v=16/.test(s));pass('simple login page + options page (nothing removed, self-check added)');}
+  A.ok(/rlogin-page\.js\?v=(19|[2-9]\d)/.test(s)&&/rlogin-page\.js\?v=(19|[2-9]\d)/.test(o)&&/rsync-core\.js\?v=20261104/.test(s));pass('simple login page + options page (nothing removed, self-check added)');}
  // 2) no record anywhere -> specific reason, no lockout increment
  {const P=page('login/index.html');await wait(50);const t=await login(P,'chaserizal','Correct-Horse-9!');A.ok(/no login record for @chaserizal on this browser/.test(t),t);A.strictEqual(P.sb.RLOGIN_LAST_FAIL,'no-record');
   A.ok(!('rdragon.csp.rl.v1' in P.L)||!JSON.parse(P.L['rdragon.csp.rl.v1'])['@chaserizal']||!JSON.parse(P.L['rdragon.csp.rl.v1'])['@chaserizal'].fails,'no lockout count');pass('no record -> "no login record … Restore from file once", no lockout');}

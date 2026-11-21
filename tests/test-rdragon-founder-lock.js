@@ -7,7 +7,7 @@ const PW='Fake-Test-Passphrase-42!',ITER=1000;
 function page(file,{idb:init={},ls:lsInit={},cfg={},site=null}={}){const html=R(file),E={};ids(html).forEach(i=>{E[i]={id:i,value:'',textContent:'',hidden:false,disabled:false,dataset:{},className:'',classList:{toggle(){}},style:{},firstChild:{style:{}},files:null,focus(){},onclick:null}});
  const m=new Map(Object.entries(init));const db={transaction(){const st={get(k){const r={};setTimeout(()=>{r.result=m.get(k);r.onsuccess&&r.onsuccess()},0);return r},getAllKeys(){const r={};setTimeout(()=>{r.result=[...m.keys()];r.onsuccess&&r.onsuccess()},0);return r},put(v,k){m.set(k,v)}};const t={objectStore:()=>st};setTimeout(()=>t.oncomplete&&t.oncomplete(),5);return t}};
  const L={...lsInit};const ls={getItem:k=>k in L?L[k]:null,setItem:(k,v)=>{L[k]=String(v)},removeItem:k=>{delete L[k]},key:i=>Object.keys(L)[i]||null,get length(){return Object.keys(L).length}};
- const sb={console,setTimeout,clearTimeout,setInterval:()=>0,Promise,TextEncoder,TextDecoder,URL,crypto:globalThis.crypto,atob,btoa,Uint8Array,ArrayBuffer,RFOUNDER_MIN_ITER:ITER,
+ const sb={console,addEventListener(){},setTimeout,clearTimeout,setInterval:()=>0,Promise,TextEncoder,TextDecoder,URL,crypto:globalThis.crypto,atob,btoa,Uint8Array,ArrayBuffer,RFOUNDER_MIN_ITER:ITER,
   fetch:async u=>(String(u).includes('/data/founder/recovery.json')&&site?{ok:true,json:async()=>site}:{ok:false,json:async()=>null}),
   localStorage:ls,indexedDB:{open(){const q={result:db};setTimeout(()=>q.onsuccess&&q.onsuccess(),0);return q}},navigator:{platform:'test'},
   location:{href:'https://rizal.pw/login/',search:'',origin:'https://rizal.pw',hostname:'rizal.pw'},
