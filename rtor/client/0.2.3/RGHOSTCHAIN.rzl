@@ -1,0 +1,50 @@
+RGHOSTCHAIN.rzl — rzl.ghostchain.v1
+Live GHOSTCHAIN as pulled from RTRACKR https://rizal.pw/rtrackr,
+snapshot Nov 20, 2026 2:43:28 PM MT, source Neo RMINT hybrid live export (GO t203u).
+Height 5, 6 blocks, tip 4006b57088...f0bb5b, chain verify (Neo) OK.
+Authorized-by-owner-command. NOT a cryptographic signature, no ghostkey accessed.
+
+# RGHOSTCHAIN.rzl
+
+Format: rzl.ghostchain.v1. The live GHOSTCHAIN as pulled from RTRACKR
+(https://rizal.pw/rtrackr), snapshot Nov 20, 2026 2:43:28 PM MT, source Neo
+RMINT hybrid live export (GO t203u). Height 5, 6 blocks, tip
+4006b57088…f0bb5b, chain verify (Neo) OK, prev_hash links OK.
+
+To add it to the Renjin Torrent RTOR client: open the file to seed, or leech
+by its magnet (built from this file's SHA-256, tracker https://rizal.pw/rtrackr).
+The client accepts a file only if its SHA-256 matches.
+
+Authorized-by-owner-command. NOT a cryptographic signature, no ghostkey accessed.
+
+--- GHOSTCHAIN.json ---
+{
+  "format": "rzl.ghostchain.v1",
+  "name": "RGHOSTCHAIN",
+  "source": "RTRACKR https://rizal.pw/rtrackr — Neo RMINT hybrid live export (GO t203u)",
+  "snapshot_as_of": "2026-11-20T14:43:28-07:00",
+  "height": 5,
+  "blocks": 6,
+  "tip": "4006b570883c31aff44891971dd1935a3a58a822293f919ace27e59d8cf0bb5b",
+  "chain_verify_neo": "OK",
+  "prev_hash_links": "OK",
+  "last_block": "2026-11-19T23:43:41-07:00",
+  "entries": [
+    {"height": 0, "hash": "536dc8a00491fae8e2fa15778310c288d7599d8b528100b1fc3176a7da4219ee", "type": "genesis", "time": "2026-10-29T09:55:25-06:00", "prev": "0000000000000000000000000000000000000000000000000000000000000000"},
+    {"height": 1, "hash": "3ce4be265ca605a5f82e1f752090b2123eed18e31549fb5cfd9e56daf210a2bd", "type": "nft mint", "time": "2026-10-30T23:16:37-06:00", "prev": "536dc8a00491fae8e2fa15778310c288d7599d8b528100b1fc3176a7da4219ee"},
+    {"height": 2, "hash": "56e6a940eae08b1cf8415e314c9ae56a8790883f775d01dd4e07ee018b49ddb4", "type": "cryptobot", "time": "2026-10-31T23:24:41-06:00", "prev": "3ce4be265ca605a5f82e1f752090b2123eed18e31549fb5cfd9e56daf210a2bd"},
+    {"height": 3, "hash": "5bb1d6f0cb9d5b0d53839cfe9669a59037161aefbee5795c0a944d12f2b7eb0d", "type": "cryptobot", "time": "2026-11-01T18:39:30-06:00", "prev": "56e6a940eae08b1cf8415e314c9ae56a8790883f775d01dd4e07ee018b49ddb4"},
+    {"height": 4, "hash": "e34dc66a8e4bcdd39b3d42df7ea280c5ef4567206f39dcbf575fe6945311e147", "type": "rghostkey_bind", "time": "2026-11-10T22:24:00-07:00", "prev": "5bb1d6f0cb9d5b0d53839cfe9669a59037161aefbee5795c0a944d12f2b7eb0d"},
+    {"height": 5, "hash": "4006b570883c31aff44891971dd1935a3a58a822293f919ace27e59d8cf0bb5b", "type": "nft mint", "time": "2026-11-19T23:43:41-07:00", "prev": "e34dc66a8e4bcdd39b3d42df7ea280c5ef4567206f39dcbf575fe6945311e147"}
+  ],
+  "assets": [
+    {"name": "GENESIS", "rid": null, "block": 0, "status": "live"},
+    {"name": "GAME-MINTED GENESIS", "rid": "ЯID-0001-3QQS", "holder": "@chaserizal", "block": 1, "status": "live"},
+    {"name": "CRYPTOBOT · ThundR", "rid": "ЯID-0014-KREH", "holder": "@chaserizal", "block": 2, "status": "live"},
+    {"name": "TERAFORMR CRYPTOGAME", "rid": "ЯID-0015-0HJP", "holder": "@chaserizal", "block": 3, "status": "live"},
+    {"name": "RGHOSTKEY BIND", "rid": "ЯID-0001-3QQS", "holder": "@chaserizal", "block": 4, "status": "live"},
+    {"name": "ITEM · krog-test-mint-001", "rid": "ЯID-3003-1RCQ", "holder": "@chaserizal", "block": 5, "status": "live"},
+    {"name": "", "rid": "ЯID-0014-KREH", "holder": null, "block": null, "status": "registered"}
+  ],
+  "rtoken": {"mint": "BB9uA5BuacDnWyDf5Npc9nMb9yFbyThsNrQPBYJ5Q1Lv", "crown_mint_authority": "BwpVNk1Rtncpv5HMTLwxB4Yfjkfv6mFaBQUTpjneH1F9"}
+}
