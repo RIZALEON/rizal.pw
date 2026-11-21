@@ -2,10 +2,10 @@
  "schema": "rzl.rgamechain.public.v1",
  "chain_id": "RGHOSTCHAIN/TERAFORMR-GAME",
  "linked_main": "RGHOSTCHAIN",
- "generated": "2026-11-21T13:15:34-07:00",
- "height": 0,
- "tip": "02ba76ed95e8aef3f414b71dd31b7f480c3b771a0bca0520bc62c795ba02b72b",
- "next_commit": "a461b1ae265e0710c4123e6728704b8cd059667409217d7bc904c47878858fee",
+ "generated": "2026-11-21T13:22:28-07:00",
+ "height": 1,
+ "tip": "5415fd0936bcc0ebb3d74f0d9f4f17a7054f3cadfdb85dbd5a951bbab669120b",
+ "next_commit": "ab367a97a033bdd55c1961f59e0009a12ebd96056f8fce6fc3ff6b29a702fa9a",
  "verify": {
   "ok": true,
   "errors": [],
@@ -49,6 +49,64 @@
     },
     "note": "separate TERAFORMR game chain, linked to the main RGHOSTCHAIN; hashes and public data only; no keys",
     "transport": "RTOR"
+   }
+  },
+  {
+   "index": 1,
+   "ts": "2026-11-21T13:22:28-07:00",
+   "type": "game.tx",
+   "hash": "5415fd0936bcc0ebb3d74f0d9f4f17a7054f3cadfdb85dbd5a951bbab669120b",
+   "prev_hash": "02ba76ed95e8aef3f414b71dd31b7f480c3b771a0bca0520bc62c795ba02b72b",
+   "prev_commit": "a461b1ae265e0710c4123e6728704b8cd059667409217d7bc904c47878858fee",
+   "next_commit": "ab367a97a033bdd55c1961f59e0009a12ebd96056f8fce6fc3ff6b29a702fa9a",
+   "main_link": {
+    "chain_id": "RGHOSTCHAIN",
+    "genesis": "536dc8a00491fae8e2fa15778310c288d7599d8b528100b1fc3176a7da4219ee",
+    "last": {
+     "hash": "4006b570883c31aff44891971dd1935a3a58a822293f919ace27e59d8cf0bb5b",
+     "height": 5,
+     "piece": "4006b570883c31af"
+    },
+    "next": {
+     "commit": "70b9d3d0223619d5c06d2cdf7710b783fd456adbadc47e65179130ea956303c0",
+     "commit_kind": "asset_hash",
+     "height": 6,
+     "source": "pending-mint-t193u.json#pm-20261120-t193u-b6-rghostkey",
+     "status": "pending"
+    }
+   },
+   "payload": {
+    "auth": {
+     "bot_rid": "ЯID-0014-KREH",
+     "command_ref": "TEST-t205u-isolated",
+     "conversation_ref": "TEST",
+     "handle": "@thundr",
+     "key_id": "p256:886f1ce94822d539",
+     "kind": "bot-signed",
+     "route": "bot mint authority (Decider t169u/t170u, t205u)",
+     "seat": "terraformr-cryptobot",
+     "sig_sha256": "4f69e9fe262d1b3b7b09172cabeb4572c50279da9ecdf70d68496863783f317f"
+    },
+    "botlatch": "list",
+    "rtrackr": "register",
+    "source": "bot-signed",
+    "tx": {
+     "action": "sell",
+     "item": {
+      "id": "terra-tool",
+      "kind": "tool",
+      "name": "TERRA-TOOL (Igorot Headaxe)",
+      "rarity": "legendary",
+      "stats": {
+       "atk": 50,
+       "hp": 99
+      }
+     },
+     "player": "@chaserizal",
+     "price_rtoken": 125000,
+     "qty": 1
+    },
+    "tx_sha256": "e8c753a4ced0df26d8f6781605a0ef94d6649154226ee80beff02e297b9c2020"
    }
   }
  ]
