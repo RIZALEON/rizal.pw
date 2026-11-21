@@ -1,0 +1,5 @@
+{"schema": "rzl.rkast.notices.v1",
+ "note": "Website-originated RKAST notices. Display only. Add a notice here, run rkast_build.py, commit; every device that polls /rkast/feed.json or an own relay gets it.",
+ "notices": [
+  {"title": "RKAST website channel staged", "text": "rizal.pw now casts appcasts, RTRACKR blocks and Cryptoupdates to your devices as one RKAST feed. Own relays first; the Neo is optional; public Nostr is encrypted backup only. Display only: nothing here signs or mints.", "ref": "/rkast/", "ts": "2026-11-14T19:00:00-07:00"}
+ ]}

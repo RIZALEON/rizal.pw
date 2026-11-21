@@ -1,0 +1,338 @@
+{
+ "format": "rsync.bundle.v1",
+ "version": "rkast-1.0",
+ "entries": [
+  {
+   "t": "rkast.msg",
+   "kind": "rtrackr.block",
+   "title": "RGHOSTCHAIN #0 · genesis",
+   "text": "genesis block 536dc8a00491… on the real RGHOSTCHAIN (RTRACKR snapshot).",
+   "ref": "/rtrackr/#block/0",
+   "src": "rizal.pw",
+   "ts": "2026-10-29T09:55:25-06:00",
+   "data": {
+    "index": 0,
+    "hash": "536dc8a00491fae8e2fa15778310c288d7599d8b528100b1fc3176a7da4219ee",
+    "type": "genesis",
+    "live": true
+   },
+   "id": "rk-55a75a167ae042914275e58a"
+  },
+  {
+   "t": "rkast.msg",
+   "kind": "rtrackr.block",
+   "title": "RGHOSTCHAIN #1 · GAME-MINTED GENESIS",
+   "text": "nft_mint block 3ce4be265ca6… on the real RGHOSTCHAIN (RTRACKR snapshot).",
+   "ref": "/rtrackr/#block/1",
+   "src": "rizal.pw",
+   "ts": "2026-10-30T23:16:37-06:00",
+   "data": {
+    "index": 1,
+    "hash": "3ce4be265ca605a5f82e1f752090b2123eed18e31549fb5cfd9e56daf210a2bd",
+    "type": "nft_mint",
+    "live": true
+   },
+   "id": "rk-f97135d9a68917207e3a46f7"
+  },
+  {
+   "t": "rkast.msg",
+   "kind": "rtrackr.block",
+   "title": "RGHOSTCHAIN #2 · CRYPTOBOT · ThundR · ЯID-0014-KREH",
+   "text": "cryptobot_mint block 56e6a940eae0… on the real RGHOSTCHAIN (RTRACKR snapshot).",
+   "ref": "/rtrackr/#block/2",
+   "src": "rizal.pw",
+   "ts": "2026-10-31T23:24:41-06:00",
+   "data": {
+    "index": 2,
+    "hash": "56e6a940eae08b1cf8415e314c9ae56a8790883f775d01dd4e07ee018b49ddb4",
+    "type": "cryptobot_mint",
+    "live": true
+   },
+   "id": "rk-21da89f73af136265c445c37"
+  },
+  {
+   "t": "rkast.msg",
+   "kind": "rtrackr.block",
+   "title": "RGHOSTCHAIN #3 · TERAFORMR CRYPTOGAME",
+   "text": "cryptobot_mint block 5bb1d6f0cb9d… on the real RGHOSTCHAIN (RTRACKR snapshot).",
+   "ref": "/rtrackr/#block/3",
+   "src": "rizal.pw",
+   "ts": "2026-11-01T18:39:30-07:00",
+   "data": {
+    "index": 3,
+    "hash": "5bb1d6f0cb9d5b0d53839cfe9669a59037161aefbee5795c0a944d12f2b7eb0d",
+    "type": "cryptobot_mint",
+    "live": true
+   },
+   "id": "rk-41f431f096f1e4bc42b04508"
+  },
+  {
+   "t": "rkast.msg",
+   "kind": "rtrackr.block",
+   "title": "RGHOSTCHAIN #4 · rghostkey_bind",
+   "text": "rghostkey_bind block e34dc66a8e4b… on the real RGHOSTCHAIN (RTRACKR snapshot).",
+   "ref": "/rtrackr/#block/4",
+   "src": "rizal.pw",
+   "ts": "2026-11-10T22:24:00-07:00",
+   "data": {
+    "index": 4,
+    "hash": "e34dc66a8e4bcdd39b3d42df7ea280c5ef4567206f39dcbf575fe6945311e147",
+    "type": "rghostkey_bind",
+    "live": true
+   },
+   "id": "rk-11a6d01d3bac0eb91b4aa805"
+  },
+  {
+   "t": "rkast.msg",
+   "kind": "appcast",
+   "title": "ЯBOT · ios 2.1.9",
+   "text": "UNSIGNED - no update offered (no real egg yet); ed25519 after GO + Face ID",
+   "ref": "/ALL-APPCASTS.json#rbot/ios",
+   "src": "rizal.pw",
+   "ts": "2026-11-11T08:21:54-07:00",
+   "data": {
+    "key": "rbot/ios",
+    "signed": false,
+    "sha256": "d74eb593a3562e8bdfa1678433a136bf46d60e225f5bcec9f2072ba70d9c9c82"
+   },
+   "id": "rk-04b31e99c0c9f4eefc373df6"
+  },
+  {
+   "t": "rkast.msg",
+   "kind": "appcast",
+   "title": "ЯBOWZR TEST · macos 2.1.9",
+   "text": "UNSIGNED - no update offered (no real egg yet); ed25519 after GO + Face ID",
+   "ref": "/ALL-APPCASTS.json#rbowzr-test/macos",
+   "src": "rizal.pw",
+   "ts": "2026-11-11T08:21:54-07:00",
+   "data": {
+    "key": "rbowzr-test/macos",
+    "signed": false,
+    "sha256": "1a814e667c41b882b3e9bdd6a079d9940433de1bd5d1742c2370940324388f6b"
+   },
+   "id": "rk-0c6a203657e711c0931c9463"
+  },
+  {
+   "t": "rkast.msg",
+   "kind": "appcast",
+   "title": "ЯBOWZR · ios 2.1.9",
+   "text": "UNSIGNED - no update offered (no real egg yet); ed25519 after GO + Face ID",
+   "ref": "/ALL-APPCASTS.json#rbowzr/ios",
+   "src": "rizal.pw",
+   "ts": "2026-11-11T08:21:54-07:00",
+   "data": {
+    "key": "rbowzr/ios",
+    "signed": false,
+    "sha256": "2d96c201a9d0dcb78be8b76b85b86a55d3c91de5f03af1c18bbadfdd24c2a1c6"
+   },
+   "id": "rk-0eef6a75dad0d8e07a5db1c0"
+  },
+  {
+   "t": "rkast.msg",
+   "kind": "appcast",
+   "title": "DRAGON SKULL iOS ·  ",
+   "text": "UNSIGNED - current build only, no new egg offered; ed25519 added via RDRAGON/SIGNING-METHOD/sign.sh after GO + Face ID",
+   "ref": "/ALL-APPCASTS.json#dragon-skull/ios-web",
+   "src": "rizal.pw",
+   "ts": "2026-11-11T08:21:54-07:00",
+   "data": {
+    "key": "dragon-skull/ios-web",
+    "signed": false,
+    "sha256": "23c78257dfc23cac33247ed5d121f1652b1c53234e84417592203a85acea628f"
+   },
+   "id": "rk-2105978163eaf1b994ffd535"
+  },
+  {
+   "t": "rkast.msg",
+   "kind": "appcast",
+   "title": "THUNDR-FLOAT · macos 2.1.9",
+   "text": "UNSIGNED - no update offered (no real egg yet); ed25519 after GO + Face ID",
+   "ref": "/ALL-APPCASTS.json#thundr-float/macos",
+   "src": "rizal.pw",
+   "ts": "2026-11-11T08:21:54-07:00",
+   "data": {
+    "key": "thundr-float/macos",
+    "signed": false,
+    "sha256": "b11b869971b395900130360f2fb6cd292d26a4e72d2f96ab360cf7001e88b3e7"
+   },
+   "id": "rk-29a52b9246bd009ec49c596d"
+  },
+  {
+   "t": "rkast.msg",
+   "kind": "appcast",
+   "title": "ЯBOT · macos 2.1.9",
+   "text": "UNSIGNED - no update offered (no real egg yet); ed25519 after GO + Face ID",
+   "ref": "/ALL-APPCASTS.json#rbot/macos",
+   "src": "rizal.pw",
+   "ts": "2026-11-11T08:21:54-07:00",
+   "data": {
+    "key": "rbot/macos",
+    "signed": false,
+    "sha256": "a6f6b7e6d383c7275cfa59e09181995ca88a9b4bcb0d54d5adad1c6594487654"
+   },
+   "id": "rk-2db745b7b39f5aa88e21eaa1"
+  },
+  {
+   "t": "rkast.msg",
+   "kind": "appcast",
+   "title": "DRAGON SKULL · android 2.1.9",
+   "text": "UNSIGNED - no update offered (no real egg yet); ed25519 after GO + Face ID",
+   "ref": "/ALL-APPCASTS.json#dragon-skull/android",
+   "src": "rizal.pw",
+   "ts": "2026-11-11T08:21:54-07:00",
+   "data": {
+    "key": "dragon-skull/android",
+    "signed": false,
+    "sha256": "650ef7d95ba71d4e94e5caa2bb138e42236817f966d64db13f90834c1c3d3f11"
+   },
+   "id": "rk-41c3e2cb4250ff8cdf1129d0"
+  },
+  {
+   "t": "rkast.msg",
+   "kind": "appcast",
+   "title": "DRAGON SKULL · linux 2.1.9",
+   "text": "UNSIGNED - no update offered (no real egg yet); ed25519 after GO + Face ID",
+   "ref": "/ALL-APPCASTS.json#dragon-skull/linux",
+   "src": "rizal.pw",
+   "ts": "2026-11-11T08:21:54-07:00",
+   "data": {
+    "key": "dragon-skull/linux",
+    "signed": false,
+    "sha256": "1f0cc462b6ebbb377f02e4a3836c52344668a342bbf18f82686bdd62bd590eef"
+   },
+   "id": "rk-5bc6dea5d5523b765e25362d"
+  },
+  {
+   "t": "rkast.msg",
+   "kind": "appcast",
+   "title": "ЯBOWZR Repair · macos 2.1.9",
+   "text": "UNSIGNED - no update offered (no real egg yet); ed25519 after GO + Face ID",
+   "ref": "/ALL-APPCASTS.json#rbowzr-repair/macos",
+   "src": "rizal.pw",
+   "ts": "2026-11-11T08:21:54-07:00",
+   "data": {
+    "key": "rbowzr-repair/macos",
+    "signed": false,
+    "sha256": "e1f0eb4406a1bc784749bc0e5bfc84de28f1402cb3863efaea98197e9fb2e4a8"
+   },
+   "id": "rk-682b7c187babca0eb269e4ef"
+  },
+  {
+   "t": "rkast.msg",
+   "kind": "appcast",
+   "title": "DRAGON SKULL · macos 2.1.9",
+   "text": "UNSIGNED - no update offered (no real egg yet); ed25519 after GO + Face ID",
+   "ref": "/ALL-APPCASTS.json#dragon-skull/macos",
+   "src": "rizal.pw",
+   "ts": "2026-11-11T08:21:54-07:00",
+   "data": {
+    "key": "dragon-skull/macos",
+    "signed": false,
+    "sha256": "db413edf49caca301e604d1b41018a872174cbf1f03627f4a1250ea26465226c"
+   },
+   "id": "rk-6d83b0f2908864e15e47ff35"
+  },
+  {
+   "t": "rkast.msg",
+   "kind": "appcast",
+   "title": "ЯSCRIBE · macos 2.1.9",
+   "text": "UNSIGNED - no update offered (no real egg yet); ed25519 after GO + Face ID",
+   "ref": "/ALL-APPCASTS.json#rscribe/macos",
+   "src": "rizal.pw",
+   "ts": "2026-11-11T08:21:54-07:00",
+   "data": {
+    "key": "rscribe/macos",
+    "signed": false,
+    "sha256": "513a3e23b0feba0b5b86a6f3efc2f24f9463b92e7ae636b97232c97db51dc570"
+   },
+   "id": "rk-723db8a3d35cd3c58470d595"
+  },
+  {
+   "t": "rkast.msg",
+   "kind": "appcast",
+   "title": "DRAGONBRIDGE · macos 2.1.9",
+   "text": "UNSIGNED - no update offered (no real egg yet); ed25519 after GO + Face ID",
+   "ref": "/ALL-APPCASTS.json#dragonbridge/macos",
+   "src": "rizal.pw",
+   "ts": "2026-11-11T08:21:54-07:00",
+   "data": {
+    "key": "dragonbridge/macos",
+    "signed": false,
+    "sha256": "82aeedb121c70cdcf448687f1dc562bacacf842d5cad37b86df6676589f4fa54"
+   },
+   "id": "rk-81c4480a456f444e8d630b87"
+  },
+  {
+   "t": "rkast.msg",
+   "kind": "appcast",
+   "title": "DRAGOSKUL · macos 2.1.9",
+   "text": "UNSIGNED - no update offered (no real egg yet); ed25519 after GO + Face ID",
+   "ref": "/ALL-APPCASTS.json#dragoskul/macos",
+   "src": "rizal.pw",
+   "ts": "2026-11-11T08:21:54-07:00",
+   "data": {
+    "key": "dragoskul/macos",
+    "signed": false,
+    "sha256": "6c3ef53dfd49de852a303ce9494f7be99bea5045424fabd7a94a09e68b3bd54d"
+   },
+   "id": "rk-8c491d6956b8e1eedc6669ce"
+  },
+  {
+   "t": "rkast.msg",
+   "kind": "appcast",
+   "title": "ЯBOWZR · macos 2.1.9",
+   "text": "UNSIGNED - no update offered (no real egg yet); ed25519 after GO + Face ID",
+   "ref": "/ALL-APPCASTS.json#rbowzr/macos",
+   "src": "rizal.pw",
+   "ts": "2026-11-11T08:21:54-07:00",
+   "data": {
+    "key": "rbowzr/macos",
+    "signed": false,
+    "sha256": "9b53ddcd59d8b8ba3ff18a330ba21341ce656f0a5e18fd15e176266203f53ed0"
+   },
+   "id": "rk-d411ce3d8da628ca085ae7e5"
+  },
+  {
+   "t": "rkast.msg",
+   "kind": "appcast",
+   "title": "ЯBOWZR · android 2.1.9",
+   "text": "UNSIGNED - no update offered (no real egg yet); ed25519 after GO + Face ID",
+   "ref": "/ALL-APPCASTS.json#rbowzr/android",
+   "src": "rizal.pw",
+   "ts": "2026-11-11T08:21:54-07:00",
+   "data": {
+    "key": "rbowzr/android",
+    "signed": false,
+    "sha256": "ce25d5377d8e6a003559f9dbcda89bebb35434bd29888e214d810aecd2a90e17"
+   },
+   "id": "rk-dcb1b0d2e7c3fb707b3c1c3f"
+  },
+  {
+   "t": "rkast.msg",
+   "kind": "notice",
+   "title": "RKAST website channel staged",
+   "text": "rizal.pw now casts appcasts, RTRACKR blocks and Cryptoupdates to your devices as one RKAST feed. Own relays first; the Neo is optional; public Nostr is encrypted backup only. Display only: nothing here signs or mints.",
+   "ref": "/rkast/",
+   "src": "rizal.pw",
+   "ts": "2026-11-14T19:00:00-07:00",
+   "id": "rk-ee4e994c25a25761d8288fbf"
+  }
+ ],
+ "rkast": {
+  "schema": "rzl.rkast.feed.v1",
+  "as_of": "2026-11-11T08:21:54-07:00",
+  "sources_sha256": {
+   "ALL-APPCASTS.json": "b780ccf281f73438a219d3eab5e0c8672d5bf1b360d48a8528d9bd6a895b3466",
+   "rtrackr/data/rghostchain.json": "72fdf4a69a784e22124eabe9ae8b41a60972a83834280947311fff1196732e70",
+   "rkast/notices.json": "fa31fe7d2296930762b3b8836d4bbc7840121a43f3f0a09e275f6b3ab741c0f8"
+  },
+  "counts": {
+   "appcast": 15,
+   "notice": 1,
+   "rtrackr.block": 5
+  },
+  "rule": "display only; own relays first; public Nostr backup only as RKRYPT-encrypted boxes",
+  "dry_included": false,
+  "warnings": []
+ }
+}
