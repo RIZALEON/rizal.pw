@@ -1,4 +1,4 @@
-/* Live RTOR TrackR (t176u, 2026-11-21). Polls rtrackr/data/rtor-live.json every 15s. */
+/* Live RTOR TrackR (t176u/t181u, 2026-11-21). Polls rtrackr/data/rtor-live.json every 15s. Shows every network device. */
 (function(G){
   var POLL=15000, tickT=null, pollT=null, lastDoc=null, lastOkAt=0, lastErr=null, DATA='/rtrackr/data/rtor-live.json';
   function E(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
@@ -41,6 +41,32 @@
     }).join('');
     return '<table class="rtor-peers"><tr><th>peer</th><th>status</th><th>device</th><th>version</th><th>files</th><th>checked</th></tr>'+rows+'</table>';
   }
+  function devicesTable(devices, publisher){
+    if(!devices||!devices.length) return '<p class="dim">no device reports in this snapshot yet</p>';
+    function st(d){
+      var s=d.status||'pending';
+      var cls=s==='live'?'ok':(s==='stale'?'stale':'dim');
+      return '<span class="rtor-pill '+(s==='live'?'on':(s==='stale'?'stale':'off'))+'">'+E(s)+'</span>';
+    }
+    var pub=publisher||{};
+    var rows=devices.map(function(d){
+      var name=E(d.name||d.id||'—')+(d.self?' <span class="dim">self</span>':'');
+      if(pub.device_id && d.id===pub.device_id) name+=' <span class="dim">publisher</span>';
+      var assm=d.assm_sync||{};
+      var assmTxt=assm.status?E(assm.status)+(assm.drops_ok!=null?(' · '+assm.drops_ok+' drops'):''):'—';
+      var when=d.reported_at_mt||(d.reported_at?mt(d.reported_at):'pending');
+      return '<tr><td>'+name+'</td><td>'+st(d)+'</td><td>'+E(d.kind||d.platform||'—')+'</td><td>'+E((d.app||'')+(d.build?(' b'+d.build):'')||'—')+'</td><td>'+(d.files==null?'—':E(d.files))+'</td><td>'+((d.peers_up==null&&d.peers==null)?'—':E((d.peers_up||0)+' / '+(d.peers||0)))+'</td><td>'+assmTxt+'</td><td class="dim">'+E(when)+'</td></tr>';
+    }).join('');
+    var table='<table class="rtor-devices rtor-devices-wide"><tr><th>device</th><th>status</th><th>kind</th><th>app</th><th>files</th><th>peers</th><th>ASSM</th><th>reported</th></tr>'+rows+'</table>';
+    var cards=devices.map(function(d){
+      var assm=d.assm_sync||{};
+      var assmTxt=assm.status?E(assm.status):'—';
+      var tag=pub.device_id && d.id===pub.device_id?' <span class="dim">publisher</span>':'';
+      return '<article class="rtor-dev-card"><div class="rtor-fc-top"><strong class="rtor-fn">'+E(d.name||d.id||'—')+tag+'</strong>'+st(d)+'</div><div class="rtor-fc-meta">'+E(d.kind||d.platform||'—')+(d.build?(' · b'+E(d.build)):'')+' · files '+(d.files==null?'—':E(d.files))+' · peers '+((d.peers_up==null&&d.peers==null)?'—':E((d.peers_up||0)+'/'+(d.peers||0)))+'</div><div class="rtor-fc-row"><span>ASSM '+assmTxt+'</span><span class="dim">'+E(d.reported_at_mt||(d.reported_at?mt(d.reported_at):'pending'))+'</span></div></article>';
+    }).join('');
+    var note=pub.failover?('<p class="dim">Publisher: '+E(pub.device_name||pub.device_id||'—')+(pub.role?(' · '+E(pub.role)):'')+'. '+E(pub.failover)+'</p>'):'';
+    return '<div class="rtor-files-wrap">'+table+'<div class="rtor-dev-cards">'+cards+'</div></div>'+note;
+  }
   function rtorLiveSection(){
     return '<section id="rtor" class="rtor-live">'+
       '<div class="rtor-head"><h2>◈ Live RTOR TrackR</h2>'+
@@ -63,6 +89,8 @@
     var gc=doc.ghostchain||{}, rtor=doc.rtor||{}, lis=rtor.listener||{}, gh=rtor.ghostchain||{}, sd=rtor.seeder||{};
     var lisUp=lis.status==='up', ghUp=gh.status==='up', sdUp=sd.status==='seeding'||sd.status==='up';
     var livePeers=(doc.peers||[]).filter(function(p){return p.reachable}).length;
+    var devs=doc.devices||[];
+    var liveDevs=devs.filter(function(d){return d.status==='live'}).length;
     var stats=[
       ['RGHOSTCHAIN height', gc.height==null?'—':gc.height],
       ['RGHOSTCHAIN tip', sh(gc.tip)],
@@ -71,6 +99,7 @@
       ['seeder', sd.status||'down'],
       ['library files', (doc.files||[]).length],
       ['peers up', livePeers+' / '+(doc.peers||[]).length],
+      ['devices live', liveDevs+' / '+devs.length],
       ['updated', doc.updated_at_mt||mt(doc.updated_at)]
     ].map(function(s){return '<div class="st"><span>'+E(s[0])+'</span><b>'+E(s[1])+'</b></div>'}).join('');
     var svc='<table class="kv rtor-svc"><tr><td>official chain</td><td class="ok">height '+E(gc.height)+' · tip <span class="h" title="'+E(gc.tip||'')+'">'+E(sh(gc.tip))+'</span> · '+E(gc.status||'—')+'</td></tr>'+
@@ -80,8 +109,8 @@
       '<tr><td>seeder pack</td><td class="'+(sdUp?'ok':'no')+'">'+pill(sdUp, sd.status||'down')+' '+E(sd.files==null?'':'· '+sd.files+' files')+' '+E(sd.bytes==null?'':'· '+fmtBytes(sd.bytes))+(sd.info_hash?' · infohash <span class="h" title="'+E(sd.info_hash)+'">'+E(sh(sd.info_hash))+'</span>':'')+' '+magnetBtn(sd.magnet,'SEED MAGNET')+'</td></tr></table>';
     var rs=gh.reseed||{};
     var reseed=rs.state?('<p class="dim">reseed '+E(rs.state)+(rs.text?': '+E(rs.text):'')+(rs.unmet&&rs.unmet.length?' · '+E(rs.unmet.join('; ')): '')+'</p>'):'';
-    body.innerHTML='<div class="stats">'+stats+'</div>'+svc+reseed+'<h3>Seeder files</h3>'+filesTable(doc.files)+'<h3>Peers</h3>'+peersTable(doc.peers)+
-      '<p class="dim">Sanitized snapshot from Neo, published at most every 2 minutes. This page polls every 15 seconds. No keys, no mailbox contents, no private addresses.</p>';
+    body.innerHTML='<div class="stats">'+stats+'</div>'+svc+reseed+'<h3>Devices</h3>'+devicesTable(doc.devices, doc.publisher)+'<h3>Seeder files</h3>'+filesTable(doc.files)+'<h3>Peers</h3>'+peersTable(doc.peers)+
+      '<p class="dim">Sanitized snapshot merged from every device that reports over RTOR. One elected publisher (Neo primary) writes this file at most every 2 minutes. This page polls every 15 seconds. No keys, no mailbox contents, no private addresses.</p>';
   }
   function refreshRtorLive(){
     return fetch(DATA+'?t='+Date.now(),{cache:'no-store'}).then(function(r){
