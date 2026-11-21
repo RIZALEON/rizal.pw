@@ -71,3 +71,14 @@ table.rtor-peers th,table.rtor-peers td{overflow:hidden;overflow-wrap:anywhere;w
   table.rtor-peers th:nth-child(4),table.rtor-peers td:nth-child(4),
   table.rtor-peers th:nth-child(6),table.rtor-peers td:nth-child(6){display:none}
 }
+
+/* 20261121 t181u network devices */
+table.rtor-devices{width:100%;table-layout:fixed}
+table.rtor-devices th,table.rtor-devices td{overflow:hidden;overflow-wrap:anywhere;word-break:break-word}
+.rtor-dev-cards{display:none}
+.rtor-dev-card{border:1px solid #133;border-radius:8px;padding:8px;margin:0 0 8px;overflow:hidden;min-width:0}
+.rtor-pill.stale{color:#fc0;border-color:#fc0}
+@media (max-width:520px){
+  table.rtor-devices-wide{display:none}
+  .rtor-dev-cards{display:block}
+}
