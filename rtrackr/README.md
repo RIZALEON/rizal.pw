@@ -17,3 +17,12 @@ Static, read-only snapshot of the REAL local RGHOSTCHAIN (not a public blockchai
     python3 ~/ЯLAB/RCRYPTOFORGE/GHOSTMACHINE/RGHOSTCHAIN/tools/rtrackr_export.py   (copy kept at rizal.pw/rtrackr/rtrackr_export.py) --site ~/path/to/rizal.pw
 This reads chain/rghostchain.jsonl + rtrackr/registry.json read-only, runs rghostchain.verify, strips secret-looking keys, keeps only live registry entries, writes rtrackr-export/rghostchain.json + SHA256SUMS and copies them to <site>/rtrackr/data/. Then commit + push and mirror per lab rules.
 Deep links: #block/<n>, #rid/<ЯID or @handle>, #rtoken. DRY-SUBMIT test chains are never exported.
+
+
+## Live RTOR TrackR
+Live, read-only RTOR status on this site:
+- Section: `https://rizal.pw/rtrackr/#rtor`
+- Standalone page: `https://rizal.pw/rtrackr/rtor/`
+- Snapshot: `data/rtor-live.json` (schema `rzl.rtrackr.rtor-live.v1`)
+
+The page polls the snapshot every 15 seconds and shows a last-seen / offline state. Neo publishes a sanitized snapshot at most every 2 minutes (`RGHOSTCHAIN/tools/rtor_live_publish.py`, LaunchAgent `pw.rizal.rtrackr-rtor-live`), with a no-op when unchanged. The snapshot includes the official RGHOSTCHAIN height and tip, RTOR listener and ghostchain status, the seeder file table (name, sha256, size, up/down rates, SEED/MAGNET), and peers. Private IPs, tokens, keys, mailbox contents, and filesystem paths are stripped before publish.

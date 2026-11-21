@@ -26,3 +26,18 @@ table.upd td:first-child{color:#7fd7ff}
 /* 20261114 wallets table */
 table.wallets td{vertical-align:top}
 table.wallets td .dim{font-size:.85em}
+
+/* 20261121 Live RTOR TrackR */
+.rtor-nav{margin-left:auto;color:#777;font-size:11px}
+.rtor-live{margin:18px 0 8px;padding:12px;border:1px solid #39ff14;background:#040a04;border-radius:10px}
+.rtor-live h2{color:#39ff14;margin:0}
+.rtor-live h3{color:#39ff14;font-size:13px;margin:14px 0 6px}
+.rtor-head{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:8px}
+.rtor-badge{display:inline-block;border:1px solid #39ff14;color:#39ff14;padding:4px 8px;font-size:11px}
+.rtor-badge.stale{border-color:#fc0;color:#fc0}
+.rtor-badge.off{border-color:#f44;color:#f44}
+.rtor-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:currentColor;margin-right:2px;vertical-align:middle}
+.rtor-badge.on .rtor-dot{box-shadow:0 0 6px #39ff14}
+.rtor-pill{display:inline-block;border:1px solid currentColor;padding:1px 6px;border-radius:8px;font-size:10px;text-transform:uppercase}
+.rtor-pill.on{color:#39ff14} .rtor-pill.off{color:#f44}
+table.rtor-files td:nth-child(3),table.rtor-files td:nth-child(4),table.rtor-files td:nth-child(5){white-space:nowrap}

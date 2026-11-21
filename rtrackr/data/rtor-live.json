@@ -1,0 +1,267 @@
+{
+ "schema": "rzl.rtrackr.rtor-live.v1",
+ "updated_at": "2026-11-21T10:54:24-07:00",
+ "updated_at_mt": "Nov 21, 2026, 10:54:24 AM MT",
+ "timezone": "America/Denver",
+ "stale_after_s": 300,
+ "ghostchain": {
+  "status": "ok",
+  "height": 5,
+  "tip": "4006b570883c31aff44891971dd1935a3a58a822293f919ace27e59d8cf0bb5b",
+  "source": "rtrackr/data/rghostchain.json"
+ },
+ "rtor": {
+  "listener": {
+   "status": "up",
+   "service": "rtor-lan-listener",
+   "version": "1.0.0",
+   "ok": true,
+   "chain_height": 5,
+   "chain_tip": "4006b570883c31aff44891971dd1935a3a58a822293f919ace27e59d8cf0bb5b",
+   "chain_target": "live",
+   "chain_mode": "live"
+  },
+  "ghostchain": {
+   "status": "up",
+   "client": "RTOR GHOSTCHAIN cryptoclient 0.2.3",
+   "http": "up",
+   "swarm": "up",
+   "device": "rtor-neo-rtrackr-backside",
+   "os": "darwin/arm64",
+   "library_items": 15,
+   "uptime_s": 3853,
+   "magnet_ok": true,
+   "filechain_height": 19,
+   "filechain_head": "220420d7a00823f5fd6081c78fbf731c5b52e6cfe23ab5f284376da590ef571f",
+   "swarm_claim": "none claimed",
+   "reseed": {
+    "state": "waiting",
+    "text": "Waiting for Rizal's RGHOSTKEY tap on the trusted device.",
+    "official_height": 5,
+    "official_tip": "4006b570883c31aff44891971dd1935a3a58a822293f919ace27e59d8cf0bb5b",
+    "source": "https://rizal.pw/rtrackr/data/rghostchain.json",
+    "unmet": [
+     "no block 6 on the chain yet"
+    ]
+   }
+  },
+  "seeder": {
+   "status": "seeding",
+   "schema": "rtor-seed-v1",
+   "files": 199,
+   "bytes": 14253135,
+   "info_hash": "8dfd6869850e5aea29e70dc657201afd5cdee09d",
+   "http_port": 8977,
+   "torrent_port": 8978,
+   "magnet": "magnet:?xt=urn:btih:8dfd6869850e5aea29e70dc657201afd5cdee09d&dn=SEED",
+   "started": "2026-11-19T06:31:03.874Z"
+  }
+ },
+ "files": [
+  {
+   "name": "assm-profile.json",
+   "type": "crypto-json",
+   "sha256": "db3535091e3ec236d96bb28ac7d6b7d0bf6a9e8075e484895af71d023cd39fc1",
+   "size": 648,
+   "verified": true,
+   "seeding": true,
+   "leeching": true,
+   "up_bps": 2851,
+   "down_bps": 2916,
+   "magnet": "magnet:?xt=urn:sha256:db3535091e3ec236d96bb28ac7d6b7d0bf6a9e8075e484895af71d023cd39fc1&dn=assm-profile.json&tr=https://rizal.pw/rtrackr&xl=648"
+  },
+  {
+   "name": "rmail-test-t173u.txt",
+   "type": "file",
+   "sha256": "9a718417cdcba6e2a792a509136fdc37074596256109760e8f99a9ee666ad370",
+   "size": 100,
+   "verified": true,
+   "seeding": true,
+   "leeching": true,
+   "up_bps": 2310,
+   "down_bps": 2280,
+   "magnet": "magnet:?xt=urn:sha256:9a718417cdcba6e2a792a509136fdc37074596256109760e8f99a9ee666ad370&dn=rmail-test-t173u.txt&tr=https://rizal.pw/rtrackr&xl=100"
+  },
+  {
+   "name": "RTORMail.swift",
+   "type": "file",
+   "sha256": "a7f5d0c8a7a963c453d11f2a86be9b80a38accaba4eabcfca91085c5c19ec33f",
+   "size": 3540,
+   "verified": true,
+   "seeding": true,
+   "leeching": true,
+   "up_bps": 3130,
+   "down_bps": 2981,
+   "magnet": "magnet:?xt=urn:sha256:a7f5d0c8a7a963c453d11f2a86be9b80a38accaba4eabcfca91085c5c19ec33f&dn=RTORMail.swift&tr=https://rizal.pw/rtrackr&xl=3540"
+  },
+  {
+   "name": "RTORLibrary.swift",
+   "type": "file",
+   "sha256": "b6246774f4346f29c89312c40fdf4d0132edd6bbe5bdf48901ec007ac182a088",
+   "size": 12571,
+   "verified": true,
+   "seeding": true,
+   "leeching": true,
+   "up_bps": 3077,
+   "down_bps": 3077,
+   "magnet": "magnet:?xt=urn:sha256:b6246774f4346f29c89312c40fdf4d0132edd6bbe5bdf48901ec007ac182a088&dn=RTORLibrary.swift&tr=https://rizal.pw/rtrackr&xl=12571"
+  },
+  {
+   "name": "peers.json",
+   "type": "crypto-json",
+   "sha256": "a19377b661c6bc64068d9a7f7ae10c463f979a94d101bd34e1a1b5ed3f5f2bfd",
+   "size": 162,
+   "verified": true,
+   "seeding": true,
+   "leeching": true,
+   "up_bps": 2770,
+   "down_bps": 2754,
+   "magnet": "magnet:?xt=urn:sha256:a19377b661c6bc64068d9a7f7ae10c463f979a94d101bd34e1a1b5ed3f5f2bfd&dn=peers.json&tr=https://rizal.pw/rtrackr&xl=162"
+  },
+  {
+   "name": "RTORSpace.swift",
+   "type": "file",
+   "sha256": "a3b5d07ff6de40c4c2c639e94ca5338259388a4860b53a6500ca89d27b8c909d",
+   "size": 2829,
+   "verified": true,
+   "seeding": true,
+   "leeching": true,
+   "up_bps": 3085,
+   "down_bps": 3085,
+   "magnet": "magnet:?xt=urn:sha256:a3b5d07ff6de40c4c2c639e94ca5338259388a4860b53a6500ca89d27b8c909d&dn=RTORSpace.swift&tr=https://rizal.pw/rtrackr&xl=2829"
+  },
+  {
+   "name": "RTORView.swift",
+   "type": "file",
+   "sha256": "c37ee33dcf926b027d6cb2755080e68689ada637966348bd0f083b31b8d1fbed",
+   "size": 13771,
+   "verified": true,
+   "seeding": true,
+   "leeching": true,
+   "up_bps": 3061,
+   "down_bps": 3061,
+   "magnet": "magnet:?xt=urn:sha256:c37ee33dcf926b027d6cb2755080e68689ada637966348bd0f083b31b8d1fbed&dn=RTORView.swift&tr=https://rizal.pw/rtrackr&xl=13771"
+  },
+  {
+   "name": "RTORMagnet.swift",
+   "type": "file",
+   "sha256": "f293a6f4ca17a306aaf81f194afb780cbc1f75e14da7c9345dedc378feb04490",
+   "size": 5229,
+   "verified": true,
+   "seeding": true,
+   "leeching": true,
+   "up_bps": 3086,
+   "down_bps": 3086,
+   "magnet": "magnet:?xt=urn:sha256:f293a6f4ca17a306aaf81f194afb780cbc1f75e14da7c9345dedc378feb04490&dn=RTORMagnet.swift&tr=https://rizal.pw/rtrackr&xl=5229"
+  },
+  {
+   "name": "RTORNet.swift",
+   "type": "file",
+   "sha256": "d4464bd2ae3e5c633d794550aacf56b6faeaa90137e0571799b21200abab2c86",
+   "size": 40824,
+   "verified": true,
+   "seeding": true,
+   "leeching": true,
+   "up_bps": 3161,
+   "down_bps": 3072,
+   "magnet": "magnet:?xt=urn:sha256:d4464bd2ae3e5c633d794550aacf56b6faeaa90137e0571799b21200abab2c86&dn=RTORNet.swift&tr=https://rizal.pw/rtrackr&xl=40824"
+  },
+  {
+   "name": "RTORTransfer.swift",
+   "type": "file",
+   "sha256": "101e627ed64bc47979daeb7f7f806bbf8d4bc57a01d59cabc6ee443a7014737d",
+   "size": 4265,
+   "verified": true,
+   "seeding": true,
+   "leeching": true,
+   "up_bps": 3088,
+   "down_bps": 3054,
+   "magnet": "magnet:?xt=urn:sha256:101e627ed64bc47979daeb7f7f806bbf8d4bc57a01d59cabc6ee443a7014737d&dn=RTORTransfer.swift&tr=https://rizal.pw/rtrackr&xl=4265"
+  },
+  {
+   "name": "RENJIN-COMPONENT.rzl",
+   "type": "rzl",
+   "sha256": "67a8c186f45de7359db1ff2c4385dceaeeda9d4d4ace5e79a1024ddb3184f5aa",
+   "size": 922650,
+   "verified": true,
+   "seeding": true,
+   "leeching": true,
+   "up_bps": 3072,
+   "down_bps": 3072,
+   "magnet": "magnet:?xt=urn:sha256:67a8c186f45de7359db1ff2c4385dceaeeda9d4d4ace5e79a1024ddb3184f5aa&dn=RENJIN-COMPONENT.rzl&tr=https://rizal.pw/rtrackr&xl=922650"
+  },
+  {
+   "name": "RENJIN-KUBO.rzl",
+   "type": "rzl",
+   "sha256": "04b7b1e27d2198bce73936f0e96c09ce90e96fef0d06505f03c232bce98b3a97",
+   "size": 932923,
+   "verified": true,
+   "seeding": true,
+   "leeching": true,
+   "up_bps": 3072,
+   "down_bps": 3072,
+   "magnet": "magnet:?xt=urn:sha256:04b7b1e27d2198bce73936f0e96c09ce90e96fef0d06505f03c232bce98b3a97&dn=RENJIN-KUBO.rzl&tr=https://rizal.pw/rtrackr&xl=932923"
+  },
+  {
+   "name": "RTOR-COMPONENT.json",
+   "type": "crypto-json",
+   "sha256": "ab662b33debe53f98f8ce06128d7631fa623de0f1f41ac663617ff068c2ecf13",
+   "size": 582,
+   "verified": true,
+   "seeding": true,
+   "leeching": true,
+   "up_bps": 2910,
+   "down_bps": 2852,
+   "magnet": "magnet:?xt=urn:sha256:ab662b33debe53f98f8ce06128d7631fa623de0f1f41ac663617ff068c2ecf13&dn=RTOR-COMPONENT.json&tr=https://rizal.pw/rtrackr&xl=582"
+  },
+  {
+   "name": "RGHOSTCHAIN.rzl",
+   "type": "rzl",
+   "sha256": "92d1572a642aa073efa1979000e7705126e8924fbf94403b6617f65a45e81e37",
+   "size": 3669,
+   "verified": true,
+   "seeding": true,
+   "leeching": true,
+   "up_bps": 3140,
+   "down_bps": 2986,
+   "magnet": "magnet:?xt=urn:sha256:92d1572a642aa073efa1979000e7705126e8924fbf94403b6617f65a45e81e37&dn=RGHOSTCHAIN.rzl&tr=https://rizal.pw/rtrackr&xl=3669"
+  },
+  {
+   "name": "RGHOSTCHAIN-RECORD.md",
+   "type": "file",
+   "sha256": "fb05fb01c0da34ba04c791b4a74d0730de74e07c1db07d8b6df967ca42aaec24",
+   "size": 1374,
+   "verified": true,
+   "seeding": true,
+   "leeching": true,
+   "up_bps": 3109,
+   "down_bps": 2988,
+   "magnet": "magnet:?xt=urn:sha256:fb05fb01c0da34ba04c791b4a74d0730de74e07c1db07d8b6df967ca42aaec24&dn=RGHOSTCHAIN-RECORD.md&tr=https://rizal.pw/rtrackr&xl=1374"
+  }
+ ],
+ "peers": [
+  {
+   "name": "neo",
+   "reachable": true,
+   "self": true,
+   "device": "rtor-neo-rtrackr-backside",
+   "version": "0.2.3",
+   "files": 15,
+   "checked": "2026-11-21T10:54:18-07:00"
+  },
+  {
+   "name": "pixel",
+   "reachable": true,
+   "device": "rtor-linux-ubuntu-phablet",
+   "version": "0.2.3",
+   "files": 15,
+   "checked": "2026-11-21T10:54:18-07:00"
+  },
+  {
+   "name": "moto",
+   "reachable": false,
+   "files": 0,
+   "checked": "2026-11-21T10:54:18-07:00"
+  }
+ ]
+}
