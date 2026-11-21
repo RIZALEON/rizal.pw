@@ -1,38 +1,55 @@
 {
   "schema": "rtor-tracker-status-v1",
-  "generated": "2026-11-20T16:56:21-0700",
+  "generated": "2026-11-20T17:22:12-0700",
   "note": "Telemetry only — unsigned, informational. Trust comes from the feed's sidecars, never from this file.",
   "feed": {
-    "version": "20261120-1",
-    "signed": false,
     "entries": 28,
+    "pending": [
+      "data:rtrackr.rghostchain@sha-d55fcd36b299"
+    ],
+    "signed": false,
     "signed_entries": 27,
-    "pending": ["data:rtrackr.rghostchain@sha-d55fcd36b299"]
+    "version": "20261120-2"
   },
   "seeder": {
-    "status": "seeding",
-    "since": "2026-11-18T23:31:03-0700",
-    "pid": 868,
-    "host": "rizals-MacBook-Neo.local",
-    "lan_ip": "192.168.0.113",
-    "http_port": 8977,
-    "torrent_port": 8978,
-    "files": 199,
     "bytes": 14253135,
-    "info_hash": "8dfd6869850e5aea29e70dc657201afd5cdee09d"
+    "files": 199,
+    "host": "rizals-MacBook-Neo.local",
+    "http_port": 8977,
+    "info_hash": "8dfd6869850e5aea29e70dc657201afd5cdee09d",
+    "lan_ip": "192.168.0.113",
+    "pid": 868,
+    "since": "2026-11-18T23:31:03-0700",
+    "status": "seeding",
+    "torrent_port": 8978
   },
   "leech": {
-    "status": "running",
     "interval_seconds": 900,
-    "last_run": "2026-11-20T16:48:07-0700",
-    "rizal_pw": {"feed_version": "20261120-1", "accepted": 0, "unchanged": 27, "refused": 1},
-    "rizal_info": {"feed_version": "20261118-5", "accepted": 0, "unchanged": 22, "refused": 6}
+    "last_run": "2026-11-20T17:18:40-0700",
+    "rizal_info": {
+      "accepted": 0,
+      "feed_version": "20261118-5",
+      "refused": 6,
+      "unchanged": 22
+    },
+    "rizal_pw": {
+      "accepted": 0,
+      "feed_version": "20261120-2",
+      "refused": 1,
+      "unchanged": 27
+    },
+    "status": "running"
   },
   "lan_listener": {
-    "status": "live",
     "bind": "192.168.0.113:8765",
+    "last_client": "192.168.0.6",
     "last_request": "2026-11-20T15:47:48-0700",
-    "last_client": "192.168.0.6"
+    "status": "live"
   },
-  "chain": {"height": 5, "blocks": 6, "assets": 7, "tip": "4006b570883c…"}
+  "chain": {
+    "assets": 7,
+    "blocks": 6,
+    "height": 5,
+    "tip": "4006b570883c…"
+  }
 }
