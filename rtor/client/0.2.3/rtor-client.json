@@ -1,0 +1,62 @@
+{
+ "schema": "rzl.rtor.client.release.v1",
+ "name": "RTOR GHOSTCHAIN cryptoclient",
+ "version": "0.2.3",
+ "released": "2026-11-20T23:00:00-07:00",
+ "android_signing_cert_sha256": "40:56:AD:65:34:83:5C:F7:41:F4:99:96:82:46:2F:5B:3A:4B:35:A0:0C:6B:78:F8:B3:90:23:64:31:C4:F7:D5",
+ "artifacts": [
+  {
+   "file": "RTOR-GHOSTCHAIN-0.2.3-release-SIGNED.apk",
+   "url": "RTOR-GHOSTCHAIN-0.2.3-release-SIGNED.apk",
+   "bytes": 8868549,
+   "sha256": "e386df61af576bce3faac3aa80582c1febeb0bbb77809f261115177426af3557",
+   "platform": "Android (arm64 + x86_64), versionCode 6",
+   "note": "Signed with the RTOR release key; installed on the Moto"
+  },
+  {
+   "file": "RTOR-GHOSTCHAIN-0.2.3-release-UNSIGNED.apk",
+   "url": "RTOR-GHOSTCHAIN-0.2.3-release-UNSIGNED.apk",
+   "bytes": 8855669,
+   "sha256": "a8451b1040da4780ea9b90ff01fec62d3afac5d1e0bd4d2e111d2ee5538d3ca5",
+   "platform": "Android, versionCode 6",
+   "note": "Unsigned build, same contents"
+  },
+  {
+   "file": "rtor.rizal_0.2.3_arm64.click",
+   "url": "rtor.rizal_0.2.3_arm64.click",
+   "bytes": 5181452,
+   "sha256": "b3673eed04d55361009a8ab90ff31a5ae47a6a95043f4ef3e6606e0a73dc120b",
+   "platform": "Ubuntu Touch 24.04 (arm64) click",
+   "note": "Unsigned click; installed and running on the Pixel 3a"
+  },
+  {
+   "file": "rtor-ghostchain-0.2.3-linux-arm64.tar.gz",
+   "url": "rtor-ghostchain-0.2.3-linux-arm64.tar.gz",
+   "bytes": 5174836,
+   "sha256": "d6321b6bb53bad155120191e9e69b252f3014b639eaa7d713490bf46a5aedadc",
+   "platform": "Linux arm64 (static)",
+   "note": "run-linux.sh"
+  },
+  {
+   "file": "rtor-ghostchain-0.2.3-linux-x86_64.tar.gz",
+   "url": "rtor-ghostchain-0.2.3-linux-x86_64.tar.gz",
+   "bytes": 5512109,
+   "sha256": "e19b3eb09602d536ee63777f1ec5a07af679a224747832538390335da8cbcac0",
+   "platform": "Linux x86_64 (static)",
+   "note": "run-linux.sh"
+  },
+  {
+   "file": "rtor-ghostchain-0.2.3-linux-riscv64.tar.gz",
+   "url": "rtor-ghostchain-0.2.3-linux-riscv64.tar.gz",
+   "bytes": 5313080,
+   "sha256": "51e88bb65a771f04d3cbeecb6e8c9f3601e048f22f0dbd2b9d2a2b89540729e3",
+   "platform": "Linux riscv64 (static, RVM)",
+   "note": "run-linux.sh"
+  }
+ ],
+ "previous": {
+  "version": "0.2.2",
+  "signed_apk": "../0.2.2/RTOR-GHOSTCHAIN-0.2.2-release-SIGNED.apk",
+  "signed_apk_sha256": "f445092b1ae613663138cd03de4a1f1214f23c16e245ed852af3192496ae0e3d"
+ }
+}
