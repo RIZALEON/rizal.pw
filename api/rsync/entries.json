@@ -1,9 +1,9 @@
 {
   "version": 1,
   "mode": "static",
-  "updated": "2026-11-21T18:38:39Z",
+  "updated": "2026-11-21T19:36:00Z",
   "live": "https://mixer-morris-feel-purpose.trycloudflare.com",
-  "note": "static discovery. live is the ASSM-RSYNC API (last 24h of entries). Authorization of the dated entry is owner-command (pt59u Go), not a cryptographic signature. | 2026-11-21 pt253u: infused with ASSM/RTOR link details (live URL refreshed, ЯID, devices, profile sha, RTOR space neo.assm ЯID-0027-Z3N5, sync info). Nothing removed.",
+  "note": "static discovery. live is the ASSM-RSYNC API (last 24h of entries). Authorization of the dated entry is owner-command (pt59u Go), not a cryptographic signature. | 2026-11-21 pt253u: infused with ASSM/RTOR link details (live URL refreshed, ЯID, devices, profile sha, RTOR space neo.assm ЯID-0027-Z3N5, sync info). Nothing removed. | 2026-11-21 12:36 MT pt257u correction: RTOR is a decentralized mesh of equal peers, not Neo-centric; role/state wording updated, old wording kept in superseded_wording.",
   "rtor_feed": "/rtor/feed.json",
   "entries_path": "/api/rsync/entries",
   "entries": [
@@ -32,6 +32,18 @@
       "command_ts": "2026-11-21T11:24:00-07:00",
       "recorded_by": "SCRIBE",
       "note": "ASSM link entry infused (live URL, ЯID, devices, profile sha, RTOR space neo.assm ЯID-0027-Z3N5, sync). No ASSM ID or field removed. Not a cryptographic signature."
+    },
+    {
+      "t": "rsync.owner-command",
+      "id": "rsync-20261121-mesh-correction-pt257u",
+      "ts": "2026-11-21T19:36:00Z",
+      "authorization": "authorized-by-owner-command",
+      "policy": "owner-command-is-signature (GHOSTKEY)",
+      "command_ref": "pt257u",
+      "command_text": "no rtor is rand decentralized from all devices",
+      "command_ts": "2026-11-21T12:34:00-07:00",
+      "recorded_by": "SCRIBE",
+      "note": "Correction: RTOR runs decentralized on every device; all peers equal. Wording only; no ASSM ID or entry removed. Not a cryptographic signature."
     }
   ],
   "live_history": [
@@ -82,7 +94,7 @@
       "bridge": "RTOR/tools/rtor-assm-sync.py",
       "launchd": "info.rizal.rtor-assm-sync",
       "interval_s": 300,
-      "mode": "import into RTOR when the profile sha changes, read back via /api/library/raw, seed drops + subscribers",
+      "mode": "ASSM-RSYNC feeds the profile into the RTOR mesh via the neo.assm space when its sha changes; every peer then shares it with every other peer (no hub). Bridge also seeds drops + subscribers.",
       "fail_closed": true,
       "loopback_only": true
     },
@@ -90,12 +102,37 @@
       "RDRAGON (Neo web /rtor/assm/, Pixel 1.0.6.1 /rtor/assm/)",
       "RPROFILE (GHOSTMACHINE memory/long/rtor-assm, `rprofile assm`)"
     ],
-    "feed": "/rtor/feed.json"
+    "feed": "/rtor/feed.json",
+    "topology": "decentralized peer mesh: RTOR runs on every device (Neo, Pixel, Moto, iPhone 17e, and the sites as spaces); all peers are equal",
+    "mesh_check": {
+      "at": "2026-11-21T12:34:44-07:00",
+      "union_files": 51,
+      "peers": {
+        "neo": {
+          "rtor": "0.2.4",
+          "files": 51,
+          "missing": 0,
+          "profile_sha_ok": true
+        },
+        "pixel": {
+          "rtor": "0.2.3",
+          "files": 51,
+          "missing": 0,
+          "profile_sha_ok": true
+        },
+        "moto": {
+          "rtor": "0.2.3",
+          "files": 51,
+          "missing": 0,
+          "profile_sha_ok": true
+        }
+      }
+    }
   },
   "devices": [
     {
       "device": "neo",
-      "role": "ASSM origin + RTOR seeder",
+      "role": "RTOR peer (equal) · hosts ASSM-RSYNC",
       "spaces": [
         {
           "rid": "ЯID-0027-Z3N5",
@@ -127,7 +164,8 @@
         }
       ],
       "profile_sha256": "db3535091e3e…",
-      "state": "drop seeded over RTOR"
+      "state": "profile in its drop + library, shared with the mesh",
+      "role": "RTOR peer (equal)"
     },
     {
       "device": "moto (Android)",
@@ -162,7 +200,8 @@
         }
       ],
       "profile_sha256": "db3535091e3e…",
-      "state": "profile in RTOR library (peer PUT, sha verified)"
+      "state": "profile in its RTOR library, received from the mesh (sha verified)",
+      "role": "RTOR peer (equal)"
     },
     {
       "device": "iPhone 17e",
@@ -190,7 +229,33 @@
         }
       ],
       "profile_sha256": "db3535091e3e…",
-      "state": "drop copied (read back 2026-11-21 11:03 MT)"
+      "state": "drop copied (read back 2026-11-21 11:03 MT)",
+      "role": "RTOR peer (equal)"
     }
-  ]
+  ],
+  "superseded_wording": {
+    "devices_roles_states_11:38": [
+      {
+        "device": "neo",
+        "role": "ASSM origin + RTOR seeder",
+        "state": "live"
+      },
+      {
+        "device": "pixel (Ubuntu Touch)",
+        "role": null,
+        "state": "drop seeded over RTOR"
+      },
+      {
+        "device": "moto (Android)",
+        "role": null,
+        "state": "profile in RTOR library (peer PUT, sha verified)"
+      },
+      {
+        "device": "iPhone 17e",
+        "role": null,
+        "state": "drop copied (read back 2026-11-21 11:03 MT)"
+      }
+    ],
+    "rtor.sync.mode_11:38": "import into RTOR when the profile sha changes, read back via /api/library/raw, seed drops + subscribers"
+  }
 }

@@ -32,3 +32,5 @@ Read-only panel on the home page and at `https://rizal.pw/rtrackr/#assm` (also `
 - Snapshot: `data/rtor-assm.json` (schema `rzl.rtrackr.rtor-assm.v1`), rendered by `rtor-assm.js`.
 - Shows the ASSM profile @chaserizal ЯID-0001-3QQS (sha256 db3535091e3e…) and where it matches (Neo, iPhone 17e, Pixel, Moto), device versions, every RTOR space ЯID (0017–0028), and the rizal.info feed / ASSM link / ЯWALLET service status, with a last-updated time in MT.
 - Public fields only; no keys, tokens, private IPs or paths. Creates no GhostChain blocks or mints. Additive: no existing panel was changed.
+
+Correction 2026-11-21 12:36 PM MT (Decider pt257u): RTOR runs decentralized on every device. The panel now shows a **peer mesh** of equal peers: each peer's RTOR version, file count vs the **mesh library** (union of what every reachable peer announces), files it is missing, profile sha match, and its own gossip behavior. Earlier Neo-centric wording is kept in `rtor-assm.json` under `superseded_wording`.
