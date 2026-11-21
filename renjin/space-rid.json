@@ -1,0 +1,36 @@
+{
+  "rid": "ЯID-0024-WQTJ",
+  "space": "site.rizal.pw",
+  "rklowd_node": "site.rizal.pw",
+  "rmail_address": "rtor-rizal-pw@rizal.pw",
+  "status": "unsigned-pending-founder",
+  "drop_paths": [
+    {
+      "address": "nodes/pw/drop",
+      "kind": "rklowd",
+      "role": "rtor-drop",
+      "hub_path": "~/R/ЯLAB/RKLOWD/nodes/pw/drop"
+    },
+    {
+      "address": "rtor-rizal-pw@rizal.pw",
+      "kind": "rmail",
+      "role": "rtor-drop",
+      "aliases_to": "ghost@rizal.pw"
+    },
+    {
+      "address": "/renjin/",
+      "kind": "renjin",
+      "role": "rtor-drop"
+    },
+    {
+      "address": "https://rizal.pw/renjin/",
+      "kind": "site",
+      "role": "rtor-drop"
+    },
+    {
+      "address": "https://rizal.pw/renjin/space-rid.json",
+      "kind": "site",
+      "role": "rtor-drop"
+    }
+  ]
+}
