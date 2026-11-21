@@ -7,6 +7,11 @@
 // when a published feed self-sidecar (rtor/feed.json.sig.json) verifies against those exact bytes (size +
 // sha256 + Ed25519 over the rlab-update-v1 message, owner key e5833fdfbbfe). Any change to the entries drops
 // the feed back to PENDING until Rizal signs the new bytes. The flag therefore never lies in either direction.
+// The Neo seeder claim is DERIVED from rtor/tracker-status.json (v3, 2026-11-20): the old hardcoded
+// 'not running' string survived the seeder coming up on Nov 18, so the generator now reads the tracker's
+// stable seeder fields (status/since/files/bytes/ports) and says 'state unknown' when the file is absent.
+// Volatile fields (pid, generated, last_run) are never used, so the feed stays byte-stable across tracker
+// refreshes and goes stale only when the seeder itself changes.
 // Run:  node tests/rtor/make-feed.cjs                                    (writes rtor/feed.json; CI test fails if it is stale)
 //       node tests/rtor/make-feed.cjs --sign-list                        (prints the rlab-update-v1 sign-request fields as JSON)
 //       node tests/rtor/make-feed.cjs --sign-candidate [--assume-signed id,...]
@@ -17,7 +22,7 @@ const fs = require('fs'), path = require('path'), crypto = require('crypto');
 const ROOT = path.join(__dirname, '..', '..');
 const HOST = fs.existsSync(path.join(ROOT, 'CNAME')) ? fs.readFileSync(path.join(ROOT, 'CNAME'), 'utf8').trim() : 'rizal.pw';
 const PEER = HOST === 'rizal.pw' ? 'rizal.info' : 'rizal.pw';
-const FEED_VERSION = '20261120-1'; // bump by hand when the entry list changes; every bump needs a new feed.json.sig.json
+const FEED_VERSION = '20261120-2'; // bump by hand when the feed content changes (entries, seeder claim, anything); every bump needs a new feed.json.sig.json
 const KEY_ID = 'e5833fdfbbfe';
 const PUBKEY_B64 = 'zs7M4OOB0zQhWOQw3SHpAY+XYxbZJvcPESy1y400Ti0='; // pinned owner Ed25519 public key (same as rtor/rtor-verify.js)
 const FEED_ID = 'rtor-feed.rizal.pw';
@@ -64,6 +69,20 @@ function list(assumeSigned) {
     if (o) return Object.assign(e, { keyId: KEY_ID, signed: false, authorization: 'owner-command', authorizationRef: o.ref, status: 'authorized-by-owner-command' });
     return Object.assign(e, { keyId: KEY_ID, signed: false, status: 'pending-owner-signature' }); });
 }
+// The Neo seeder claim, derived from rtor/tracker-status.json (see the header note). Only stable
+// seeder fields feed the string; anything missing or not-seeding yields an honest unknown/not-seeding
+// claim instead of an asserted state we cannot see.
+function seederString() {
+  const unknown = 'state unknown — see rtor/tracker-status.json (unsigned telemetry)';
+  let s; try { s = JSON.parse(rd('rtor/tracker-status.json')).seeder; } catch (e) { return unknown; }
+  if (!s || typeof s !== 'object') return unknown;
+  if (s.status !== 'seeding') return 'not seeding — see rtor/tracker-status.json (unsigned telemetry)';
+  if (!s.since || typeof s.files !== 'number' || typeof s.bytes !== 'number') return unknown;
+  const since = String(s.since).slice(0, 10) + ' ' + String(s.since).slice(11, 16);
+  const mb = (s.bytes / 1e6).toFixed(2);
+  const ports = (s.http_port && s.torrent_port) ? ', webseed :' + s.http_port + ' + WebTorrent :' + s.torrent_port : '';
+  return 'seeding since ' + since + ' (' + s.files + ' files, ' + mb + ' MB' + ports + ')';
+}
 function feedObject(entries, signed) {
   return {
     schema: 'rtor-feed-v1', host: HOST, version: FEED_VERSION, signed: signed,
@@ -78,7 +97,7 @@ function feedObject(entries, signed) {
     ghostchain: { url: '/rtrackr/data/rghostchain.json', mode: 'read-only', writer: 'RMINT hybrid service on Neo only; Rtor never writes the chain' },
     rtrackr: { url: '/rtrackr/', mode: 'read-only', note: 'bots never write rtrackr/registry.json' },
     webseed: { base: 'https://' + HOST + '/', tree: '/rtor/<app>/<version>/', status: 'not published' },
-    seeders: { website: 'permanent HTTPS webseed', neo: 'not running (needs Rizal GO)', network: 'website is the only public endpoint; no tunnels, no public DHT or trackers' },
+    seeders: { website: 'permanent HTTPS webseed', neo: seederString(), network: 'website is the only public endpoint; no tunnels, no public DHT or trackers' },
     entries: entries,
   };
 }
