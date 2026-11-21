@@ -1,7 +1,7 @@
 {
  "schema": "rzl.rtrackr.rtor-live.v2",
- "updated_at": "2026-11-21T12:56:22-07:00",
- "updated_at_mt": "Nov 21, 2026, 12:56:22 PM MT",
+ "updated_at": "2026-11-21T12:58:30-07:00",
+ "updated_at_mt": "Nov 21, 2026, 12:58:30 PM MT",
  "timezone": "America/Denver",
  "stale_after_s": 1200,
  "ghostchain": {
@@ -28,11 +28,11 @@
    "swarm": "up",
    "device": "rtor-neo-rtrackr-backside",
    "os": "darwin/arm64",
-   "library_items": 62,
-   "uptime_s": 4458,
+   "library_items": 63,
+   "uptime_s": 4588,
    "magnet_ok": true,
-   "filechain_height": 68,
-   "filechain_head": "5cdeafd20c07253765edfa889301681739caa083d9a3beb3a2f39bd392143ba7",
+   "filechain_height": 69,
+   "filechain_head": "8a031d9753774ee7d6f178d8f71434d1ab7cfdb233f0a2c31df5351d665ce05a",
    "swarm_claim": "none claimed",
    "reseed": {
     "state": "waiting",
@@ -66,8 +66,8 @@
    "verified": true,
    "seeding": true,
    "leeching": true,
-   "up_bps": 4522,
-   "down_bps": 4277,
+   "up_bps": 4471,
+   "down_bps": 4161,
    "magnet": "magnet:?xt=urn:sha256:db3535091e3ec236d96bb28ac7d6b7d0bf6a9e8075e484895af71d023cd39fc1&dn=assm-profile.json&tr=https://rizal.pw/rtrackr&xl=648"
   },
   {
@@ -78,8 +78,8 @@
    "verified": true,
    "seeding": true,
    "leeching": true,
-   "up_bps": 4066,
-   "down_bps": 3839,
+   "up_bps": 3839,
+   "down_bps": 3661,
    "magnet": "magnet:?xt=urn:sha256:a19377b661c6bc64068d9a7f7ae10c463f979a94d101bd34e1a1b5ed3f5f2bfd&dn=peers.json&tr=https://rizal.pw/rtrackr&xl=162"
   },
   {
@@ -90,8 +90,8 @@
    "verified": true,
    "seeding": true,
    "leeching": true,
-   "up_bps": 4524,
-   "down_bps": 4371,
+   "up_bps": 4359,
+   "down_bps": 4524,
    "magnet": "magnet:?xt=urn:sha256:6764826a3f5c9d5b44bd336ec0ff2f34441be90fb469ae77b21892aabd1b0bff&dn=pixel.dragonskull.SPACE-RID.json&tr=https://rizal.pw/rtrackr&xl=1147"
   },
   {
@@ -102,8 +102,8 @@
    "verified": true,
    "seeding": true,
    "leeching": true,
-   "up_bps": 4665,
-   "down_bps": 4552,
+   "up_bps": 4608,
+   "down_bps": 4562,
    "magnet": "magnet:?xt=urn:sha256:30034908b8df1f792beea8dd989aba5a5be1946c0778f7300b377aa16926dc3d&dn=pixel.rtor.SPACE-RID.json&tr=https://rizal.pw/rtrackr&xl=1589"
   },
   {
@@ -150,7 +150,7 @@
    "verified": true,
    "seeding": true,
    "leeching": true,
-   "up_bps": 4454,
+   "up_bps": 4608,
    "down_bps": 4505,
    "magnet": "magnet:?xt=urn:sha256:92d1572a642aa073efa1979000e7705126e8924fbf94403b6617f65a45e81e37&dn=RGHOSTCHAIN.rzl&tr=https://rizal.pw/rtrackr&xl=3669"
   },
@@ -162,8 +162,8 @@
    "verified": true,
    "seeding": true,
    "leeching": true,
-   "up_bps": 3510,
-   "down_bps": 3070,
+   "up_bps": 3290,
+   "down_bps": 2870,
    "magnet": "magnet:?xt=urn:sha256:9a718417cdcba6e2a792a509136fdc37074596256109760e8f99a9ee666ad370&dn=rmail-test-t173u.txt&tr=https://rizal.pw/rtrackr&xl=100"
   },
   {
@@ -174,8 +174,8 @@
    "verified": true,
    "seeding": true,
    "leeching": true,
-   "up_bps": 4423,
-   "down_bps": 4358,
+   "up_bps": 4249,
+   "down_bps": 4190,
    "magnet": "magnet:?xt=urn:sha256:ab662b33debe53f98f8ce06128d7631fa623de0f1f41ac663617ff068c2ecf13&dn=RTOR-COMPONENT.json&tr=https://rizal.pw/rtrackr&xl=582"
   },
   {
@@ -199,7 +199,7 @@
    "seeding": true,
    "leeching": true,
    "up_bps": 4550,
-   "down_bps": 4550,
+   "down_bps": 4499,
    "magnet": "magnet:?xt=urn:sha256:091bca4c963b9493df5c7faf7c28feec1cda6bd1ac4c9c1f8f6e753b22a37ea7&dn=rtor-live-report-neo.json&tr=https://rizal.pw/rtrackr&xl=3877"
   },
   {
@@ -222,7 +222,7 @@
    "verified": true,
    "seeding": true,
    "leeching": true,
-   "up_bps": 4550,
+   "up_bps": 4601,
    "down_bps": 4550,
    "magnet": "magnet:?xt=urn:sha256:1fd061b930149d969aafc679aa311b73d7caacee20b4067f396e5099f592200c&dn=rtor-live-report-neo.json&tr=https://rizal.pw/rtrackr&xl=3877"
   },
@@ -235,7 +235,7 @@
    "seeding": true,
    "leeching": true,
    "up_bps": 4601,
-   "down_bps": 4550,
+   "down_bps": 4448,
    "magnet": "magnet:?xt=urn:sha256:218cfaf1e8079b1160ee374805461fee524ecf3f8e5fe63d3b31e0b2b5065775&dn=rtor-live-report-neo.json&tr=https://rizal.pw/rtrackr&xl=3877"
   },
   {
@@ -247,7 +247,7 @@
    "seeding": true,
    "leeching": true,
    "up_bps": 4550,
-   "down_bps": 4550,
+   "down_bps": 4499,
    "magnet": "magnet:?xt=urn:sha256:232baa4b2221b599a7c1a4d69c7f18f21c0d4a8bc042f13127fef76cf29cbf33&dn=rtor-live-report-neo.json&tr=https://rizal.pw/rtrackr&xl=3877"
   },
   {
@@ -271,7 +271,7 @@
    "seeding": true,
    "leeching": true,
    "up_bps": 4601,
-   "down_bps": 4499,
+   "down_bps": 4550,
    "magnet": "magnet:?xt=urn:sha256:2f7d337b9c77784250189944d9c4df40681a14a1fd09839a27ab2e5b4b1106a9&dn=rtor-live-report-neo.json&tr=https://rizal.pw/rtrackr&xl=3877"
   },
   {
@@ -283,7 +283,7 @@
    "seeding": true,
    "leeching": true,
    "up_bps": 4601,
-   "down_bps": 4550,
+   "down_bps": 4499,
    "magnet": "magnet:?xt=urn:sha256:370b33694c06e5a53d613294cacd79e70083799c12522debefe3c331834ebb81&dn=rtor-live-report-neo.json&tr=https://rizal.pw/rtrackr&xl=3877"
   },
   {
@@ -294,7 +294,7 @@
    "verified": true,
    "seeding": true,
    "leeching": true,
-   "up_bps": 4550,
+   "up_bps": 4601,
    "down_bps": 4550,
    "magnet": "magnet:?xt=urn:sha256:3836f200df2adf923e29e8058ce30a8d1154d5299cdd01ec511764acc1a69c5c&dn=rtor-live-report-neo.json&tr=https://rizal.pw/rtrackr&xl=3877"
   },
@@ -331,7 +331,7 @@
    "seeding": true,
    "leeching": true,
    "up_bps": 4601,
-   "down_bps": 4499,
+   "down_bps": 4550,
    "magnet": "magnet:?xt=urn:sha256:39c2219c789b68cb6e5d180c73743276ddf714eb1a027d07e2ce63caf96af4b8&dn=rtor-live-report-neo.json&tr=https://rizal.pw/rtrackr&xl=3877"
   },
   {
@@ -343,7 +343,7 @@
    "seeding": true,
    "leeching": true,
    "up_bps": 4601,
-   "down_bps": 4550,
+   "down_bps": 4499,
    "magnet": "magnet:?xt=urn:sha256:4017419529e224374d384aa5f2528620817a81e5d97a281cf772625eb95ec1fb&dn=rtor-live-report-neo.json&tr=https://rizal.pw/rtrackr&xl=3877"
   },
   {
@@ -354,7 +354,7 @@
    "verified": true,
    "seeding": true,
    "leeching": true,
-   "up_bps": 4601,
+   "up_bps": 4550,
    "down_bps": 4550,
    "magnet": "magnet:?xt=urn:sha256:4a7379473239e4b2fd935574112fbded07a83514f4ac4d1c79a5f73aa6955a66&dn=rtor-live-report-neo.json&tr=https://rizal.pw/rtrackr&xl=3877"
   },
@@ -378,8 +378,8 @@
    "verified": true,
    "seeding": true,
    "leeching": true,
-   "up_bps": 4550,
-   "down_bps": 4499,
+   "up_bps": 4448,
+   "down_bps": 4550,
    "magnet": "magnet:?xt=urn:sha256:5b081fb5102f6f03ebb673203793248cc56a7bd182558a6179c26bdbe3b4e6d4&dn=rtor-live-report-neo.json&tr=https://rizal.pw/rtrackr&xl=3877"
   },
   {
@@ -402,7 +402,7 @@
    "verified": true,
    "seeding": true,
    "leeching": true,
-   "up_bps": 4601,
+   "up_bps": 4550,
    "down_bps": 4550,
    "magnet": "magnet:?xt=urn:sha256:5ecc0ae04f5f2ce9c2005e3e6a43c47f9991b4206c802b53b6eae8a3cdda359e&dn=rtor-live-report-neo.json&tr=https://rizal.pw/rtrackr&xl=3877"
   },
@@ -427,7 +427,7 @@
    "seeding": true,
    "leeching": true,
    "up_bps": 4601,
-   "down_bps": 4499,
+   "down_bps": 4550,
    "magnet": "magnet:?xt=urn:sha256:6efc43590ca3bff860502bbfcab8051b2c2b326bb9bead5a6285b22f13016dea&dn=rtor-live-report-neo.json&tr=https://rizal.pw/rtrackr&xl=3877"
   },
   {
@@ -438,7 +438,7 @@
    "verified": true,
    "seeding": true,
    "leeching": true,
-   "up_bps": 4550,
+   "up_bps": 4601,
    "down_bps": 4550,
    "magnet": "magnet:?xt=urn:sha256:7613403a1d44a8affaf19476d12be1b807b110aebd50b2b765eb29a876105ad3&dn=rtor-live-report-neo.json&tr=https://rizal.pw/rtrackr&xl=3877"
   },
@@ -498,8 +498,8 @@
    "verified": true,
    "seeding": true,
    "leeching": true,
-   "up_bps": 4550,
-   "down_bps": 4550,
+   "up_bps": 4601,
+   "down_bps": 4396,
    "magnet": "magnet:?xt=urn:sha256:9bc4a315a7fa29aed0f44b6c725252f597a47c18b61a5f3abed9485adbbe10e4&dn=rtor-live-report-neo.json&tr=https://rizal.pw/rtrackr&xl=3877"
   },
   {
@@ -511,7 +511,7 @@
    "seeding": true,
    "leeching": true,
    "up_bps": 4601,
-   "down_bps": 4499,
+   "down_bps": 4396,
    "magnet": "magnet:?xt=urn:sha256:9eb36879c49e2bcad1b0ea93b24b50d150e79f517996dfb6915f4f3652c91205&dn=rtor-live-report-neo.json&tr=https://rizal.pw/rtrackr&xl=3877"
   },
   {
@@ -523,7 +523,7 @@
    "seeding": true,
    "leeching": true,
    "up_bps": 4601,
-   "down_bps": 4550,
+   "down_bps": 4499,
    "magnet": "magnet:?xt=urn:sha256:ab7278a21a754e3d4cbd6a7b0ea8f1437d4aa674f1e89ca23f57fad86a754c1b&dn=rtor-live-report-neo.json&tr=https://rizal.pw/rtrackr&xl=3877"
   },
   {
@@ -534,9 +534,21 @@
    "verified": true,
    "seeding": true,
    "leeching": true,
-   "up_bps": 4550,
+   "up_bps": 4601,
    "down_bps": 4550,
    "magnet": "magnet:?xt=urn:sha256:ab7ccf8ba7f425ee46f33f1f33a70b5b9f357ff5c01d464da14fe4d0088f80ff&dn=rtor-live-report-neo.json&tr=https://rizal.pw/rtrackr&xl=3877"
+  },
+  {
+   "name": "rtor-live-report-neo.json",
+   "type": "crypto-json",
+   "sha256": "ac1f0913b84392a6e39a01d2d6f3f2e99a77a0527b7141d06f544b09b7815454",
+   "size": 3877,
+   "verified": true,
+   "seeding": true,
+   "leeching": true,
+   "up_bps": 4601,
+   "down_bps": 4550,
+   "magnet": "magnet:?xt=urn:sha256:ac1f0913b84392a6e39a01d2d6f3f2e99a77a0527b7141d06f544b09b7815454&dn=rtor-live-report-neo.json&tr=https://rizal.pw/rtrackr&xl=3877"
   },
   {
    "name": "rtor-live-report-neo.json",
@@ -558,8 +570,8 @@
    "verified": true,
    "seeding": true,
    "leeching": true,
-   "up_bps": 4550,
-   "down_bps": 4470,
+   "up_bps": 4601,
+   "down_bps": 4550,
    "magnet": "magnet:?xt=urn:sha256:ba0ae1ff4cbabfcd13c42360e1286833cd055636ec2d36599d05a2aea288472a&dn=rtor-live-report-neo.json&tr=https://rizal.pw/rtrackr&xl=3877"
   },
   {
@@ -571,7 +583,7 @@
    "seeding": true,
    "leeching": true,
    "up_bps": 4601,
-   "down_bps": 4499,
+   "down_bps": 4550,
    "magnet": "magnet:?xt=urn:sha256:bcaa36f32ebd26857c74c1f2a0537e0cdbd8605f28445ba3a9b95c1761b5b95c&dn=rtor-live-report-neo.json&tr=https://rizal.pw/rtrackr&xl=3877"
   },
   {
@@ -594,8 +606,8 @@
    "verified": true,
    "seeding": true,
    "leeching": true,
-   "up_bps": 4601,
-   "down_bps": 4367,
+   "up_bps": 4448,
+   "down_bps": 4521,
    "magnet": "magnet:?xt=urn:sha256:bf93345a7cb5159bb045441325171dece7da3e9385ed842741b772f4203a633b&dn=rtor-live-report-neo.json&tr=https://rizal.pw/rtrackr&xl=3877"
   },
   {
@@ -607,7 +619,7 @@
    "seeding": true,
    "leeching": true,
    "up_bps": 4550,
-   "down_bps": 4550,
+   "down_bps": 4499,
    "magnet": "magnet:?xt=urn:sha256:c9f315a151e981ad73f7e4c8e6bc636eb16b1c84a48b73d9dbe94b307731340c&dn=rtor-live-report-neo.json&tr=https://rizal.pw/rtrackr&xl=3877"
   },
   {
@@ -619,7 +631,7 @@
    "seeding": true,
    "leeching": true,
    "up_bps": 4601,
-   "down_bps": 4499,
+   "down_bps": 4550,
    "magnet": "magnet:?xt=urn:sha256:d1e66d2bcddace4d152e4147c4be5a499bef116f574906c170f95b8f1444b336&dn=rtor-live-report-neo.json&tr=https://rizal.pw/rtrackr&xl=3877"
   },
   {
@@ -643,7 +655,7 @@
    "seeding": true,
    "leeching": true,
    "up_bps": 4601,
-   "down_bps": 4345,
+   "down_bps": 4550,
    "magnet": "magnet:?xt=urn:sha256:da132e2af81dc62cd808a726991f98647d3815ccdeac62427966146edfdcdc91&dn=rtor-live-report-neo.json&tr=https://rizal.pw/rtrackr&xl=3877"
   },
   {
@@ -667,7 +679,7 @@
    "seeding": true,
    "leeching": true,
    "up_bps": 4601,
-   "down_bps": 4448,
+   "down_bps": 4550,
    "magnet": "magnet:?xt=urn:sha256:e2a5c9fb448c221028efe90aacea86d4b9c4e063560b25f41ef0654546494514&dn=rtor-live-report-neo.json&tr=https://rizal.pw/rtrackr&xl=3877"
   },
   {
@@ -678,7 +690,7 @@
    "verified": true,
    "seeding": true,
    "leeching": true,
-   "up_bps": 4601,
+   "up_bps": 4448,
    "down_bps": 4550,
    "magnet": "magnet:?xt=urn:sha256:e739e4e9e3f6cb726fa8491ca38c0df4fc53beb51e3c49a702f0fba6213cfcc6&dn=rtor-live-report-neo.json&tr=https://rizal.pw/rtrackr&xl=3877"
   },
@@ -703,7 +715,7 @@
    "seeding": true,
    "leeching": true,
    "up_bps": 4601,
-   "down_bps": 4499,
+   "down_bps": 4345,
    "magnet": "magnet:?xt=urn:sha256:f8170b2a01c46469e783327ee292a46ca6aa5d26ec3e5e24cac1f7ffe9137e66&dn=rtor-live-report-neo.json&tr=https://rizal.pw/rtrackr&xl=3877"
   },
   {
@@ -715,7 +727,7 @@
    "seeding": true,
    "leeching": true,
    "up_bps": 4550,
-   "down_bps": 4499,
+   "down_bps": 4550,
    "magnet": "magnet:?xt=urn:sha256:f84738ff95623d9f4b8232691a5d4b5ebe1f8fbebcbcc62b7c55473292d46dfb&dn=rtor-live-report-neo.json&tr=https://rizal.pw/rtrackr&xl=3877"
   },
   {
@@ -726,8 +738,8 @@
    "verified": true,
    "seeding": true,
    "leeching": true,
-   "up_bps": 4670,
-   "down_bps": 4619,
+   "up_bps": 4516,
+   "down_bps": 4698,
    "magnet": "magnet:?xt=urn:sha256:b6246774f4346f29c89312c40fdf4d0132edd6bbe5bdf48901ec007ac182a088&dn=RTORLibrary.swift&tr=https://rizal.pw/rtrackr&xl=12571"
   },
   {
@@ -738,8 +750,8 @@
    "verified": true,
    "seeding": true,
    "leeching": true,
-   "up_bps": 4501,
-   "down_bps": 4552,
+   "up_bps": 4655,
+   "down_bps": 4450,
    "magnet": "magnet:?xt=urn:sha256:f293a6f4ca17a306aaf81f194afb780cbc1f75e14da7c9345dedc378feb04490&dn=RTORMagnet.swift&tr=https://rizal.pw/rtrackr&xl=5229"
   },
   {
@@ -750,8 +762,8 @@
    "verified": true,
    "seeding": true,
    "leeching": true,
-   "up_bps": 4504,
-   "down_bps": 4504,
+   "up_bps": 4593,
+   "down_bps": 4397,
    "magnet": "magnet:?xt=urn:sha256:a7f5d0c8a7a963c453d11f2a86be9b80a38accaba4eabcfca91085c5c19ec33f&dn=RTORMail.swift&tr=https://rizal.pw/rtrackr&xl=3540"
   },
   {
@@ -762,8 +774,8 @@
    "verified": true,
    "seeding": true,
    "leeching": true,
-   "up_bps": 4608,
-   "down_bps": 4594,
+   "up_bps": 4594,
+   "down_bps": 4581,
    "magnet": "magnet:?xt=urn:sha256:d4464bd2ae3e5c633d794550aacf56b6faeaa90137e0571799b21200abab2c86&dn=RTORNet.swift&tr=https://rizal.pw/rtrackr&xl=40824"
   },
   {
@@ -774,8 +786,8 @@
    "verified": true,
    "seeding": true,
    "leeching": true,
-   "up_bps": 4629,
-   "down_bps": 4553,
+   "up_bps": 4604,
+   "down_bps": 4475,
    "magnet": "magnet:?xt=urn:sha256:a3b5d07ff6de40c4c2c639e94ca5338259388a4860b53a6500ca89d27b8c909d&dn=RTORSpace.swift&tr=https://rizal.pw/rtrackr&xl=2829"
   },
   {
@@ -786,8 +798,8 @@
    "verified": true,
    "seeding": true,
    "leeching": true,
-   "up_bps": 4504,
-   "down_bps": 4623,
+   "up_bps": 4521,
+   "down_bps": 4572,
    "magnet": "magnet:?xt=urn:sha256:101e627ed64bc47979daeb7f7f806bbf8d4bc57a01d59cabc6ee443a7014737d&dn=RTORTransfer.swift&tr=https://rizal.pw/rtrackr&xl=4265"
   },
   {
@@ -799,7 +811,7 @@
    "seeding": true,
    "leeching": true,
    "up_bps": 4592,
-   "down_bps": 4592,
+   "down_bps": 4541,
    "magnet": "magnet:?xt=urn:sha256:c37ee33dcf926b027d6cb2755080e68689ada637966348bd0f083b31b8d1fbed&dn=RTORView.swift&tr=https://rizal.pw/rtrackr&xl=13771"
   }
  ],
@@ -810,24 +822,24 @@
    "self": true,
    "device": "rtor-neo-rtrackr-backside",
    "version": "0.2.4",
-   "files": 62,
-   "checked": "2026-11-21T12:56:14-07:00"
+   "files": 63,
+   "checked": "2026-11-21T12:58:30-07:00"
   },
   {
    "name": "moto",
    "reachable": true,
    "device": "rtor-android-moto-g-5G---2024",
    "version": "0.2.3",
-   "files": 62,
-   "checked": "2026-11-21T12:56:14-07:00"
+   "files": 63,
+   "checked": "2026-11-21T12:58:30-07:00"
   },
   {
    "name": "pixel",
    "reachable": true,
    "device": "rtor-linux-ubuntu-phablet",
    "version": "0.2.3",
-   "files": 62,
-   "checked": "2026-11-21T12:56:14-07:00"
+   "files": 63,
+   "checked": "2026-11-21T12:58:30-07:00"
   }
  ],
  "devices": [
@@ -839,14 +851,14 @@
    "app": "rtor-live-report",
    "version": "1",
    "status": "live",
-   "reported_at": "2026-11-21T12:56:22-07:00",
-   "reported_at_mt": "Nov 21, 2026, 12:56:22 PM MT",
+   "reported_at": "2026-11-21T12:58:32-07:00",
+   "reported_at_mt": "Nov 21, 2026, 12:58:32 PM MT",
    "rtor": {
     "status": "up",
     "client": "RTOR GHOSTCHAIN cryptoclient 0.2.4",
     "device": "rtor-neo-rtrackr-backside",
-    "library_items": 62,
-    "chain_height": 68
+    "library_items": 63,
+    "chain_height": 69
    },
    "files": 17,
    "peers_up": 0,
@@ -903,7 +915,7 @@
   "device_id": "neo",
   "device_name": "Neo",
   "role": "primary",
-  "lease_until": "2026-11-21T13:11:22-07:00",
+  "lease_until": "2026-11-21T13:13:30-07:00",
   "lease_s": 900,
   "failover": "Neo is primary. If this snapshot is older than stale_after_s, the next live device that holds a local publish mark and gh auth (LINUX-RIZAL when restored) takes the lease and writes rizal.pw. Phones report over RTOR only and never receive a publish token."
  }
