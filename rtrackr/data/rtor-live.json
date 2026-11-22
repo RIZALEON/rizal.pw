@@ -2742,5 +2742,13 @@
   "lease_until": "2026-11-21T18:18:44-07:00",
   "lease_s": 900,
   "failover": "Neo is primary. If this snapshot is older than stale_after_s, the next live device that holds a local publish mark and gh auth (LINUX-RIZAL when restored) takes the lease and writes rizal.pw. Phones report over RTOR only and never receive a publish token."
+ },
+ "ipfs": {
+  "domain": "frankensteinrizal.unstoppable",
+  "kind": "minimal-site",
+  "ipfs_cid": "QmYfsPeLtgTguSVHkHwNVUh7j3y4FUtXGWW2WpRKy2LNh8",
+  "magnet": "magnet:?xt=urn:btih:QmYfsPeLtgTguSVHkHwNVUh7j3y4FUtXGWW2WpRKy2LNh8&dn=frankensteinrizal.unstoppable-minimal-site&tr=https://rizal.pw/rtrackr",
+  "gateway": "https://ipfs.io/ipfs/QmYfsPeLtgTguSVHkHwNVUh7j3y4FUtXGWW2WpRKy2LNh8",
+  "note": "Minimal IPFS site (login + RTOR signals/stats + RMail files). UD-assigned hash — UD repacked the ZIP, so this Qm hash is authoritative. NOT the full 425 MB publish. Update to v2 CID once v2 is uploaded."
  }
 }

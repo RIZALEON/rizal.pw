@@ -428,6 +428,21 @@
    "keyId": "e5833fdfbbfe",
    "signed": true,
    "status": "signed-by-owner"
+  },
+  {
+   "kind": "ipfs",
+   "id": "frankensteinrizal.unstoppable-minimal-site",
+   "version": "20261121-min-v1",
+   "name": "frankensteinrizal.unstoppable",
+   "size": 5058453,
+   "ipfs_cid": "QmYfsPeLtgTguSVHkHwNVUh7j3y4FUtXGWW2WpRKy2LNh8",
+   "magnet": "magnet:?xt=urn:btih:QmYfsPeLtgTguSVHkHwNVUh7j3y4FUtXGWW2WpRKy2LNh8&dn=frankensteinrizal.unstoppable-minimal-site&tr=https://rizal.pw/rtrackr",
+   "url": "https://ipfs.io/ipfs/QmYfsPeLtgTguSVHkHwNVUh7j3y4FUtXGWW2WpRKy2LNh8",
+   "domain": "frankensteinrizal.unstoppable",
+   "role": "Minimal IPFS site (login + RTOR signals/stats + RMail files) on frankensteinrizal.unstoppable via UD. UD-assigned hash (UD repacked the ZIP, so this Qm hash is authoritative). NOT the full 425 MB publish.",
+   "keyId": "e5833fdfbbfe",
+   "signed": false,
+   "status": "unsigned — UD-assigned IPFS hash"
   }
  ]
 }
