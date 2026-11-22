@@ -443,6 +443,30 @@
    "keyId": "e5833fdfbbfe",
    "signed": false,
    "status": "unsigned — UD-assigned IPFS hash"
+  },
+  {
+   "kind": "site",
+   "id": "frankensteinrizal.unstoppable-verified-site",
+   "version": "20261121-verified-v1",
+   "name": "frankensteinrizal.unstoppable — verified GhostChain site",
+   "size": 5058453,
+   "files": 129,
+   "ipfs_cid": "QmTKiBqnbB42Ww2s6sNmUTkUp1naW6rX3t28MAxiTLJRso",
+   "wrapped_pin_cid": "QmYfsPeLtgTguSVHkHwNVUh7j3y4FUtXGWW2WpRKy2LNh8",
+   "payload_cid": "QmREKBj2h1QYCm5giRTVigwtqesz2ujpzJaqgjF7ZfUMr8",
+   "sha256": "1b30d5ffcb6cc0c016e1b59e5d4dceb166c3e324a6969db646eba053d1dd719a",
+   "magnet": "magnet:?xt=urn:btih:QmTKiBqnbB42Ww2s6sNmUTkUp1naW6rX3t28MAxiTLJRso&dn=frankensteinrizal.unstoppable-verified-site&tr=https://rizal.pw/rtrackr",
+   "url": "https://gateway.pinata.cloud/ipfs/QmTKiBqnbB42Ww2s6sNmUTkUp1naW6rX3t28MAxiTLJRso",
+   "domain": "frankensteinrizal.unstoppable",
+   "role": "The verified GhostChain site: the exact tree UD uploaded, pulled out of the wrapped pin and hash-verified end-to-end by RPULL (independent verified pull, 2026-11-21) — payload sha256 and payload CID reproduce the record, tree root CID computed from the unpacked 129 files with index.html at root. This is the CID for UD Link Website once the UD lock clears.",
+   "verified": {
+    "by": "RPULL — Lane B (Pinata door, hash-checked) + Lane C (unpack)",
+    "at": "2026-11-21T21:44-07:00",
+    "checks": "payload sha256 == UD ZIP record; payload CID == recorded inner CID; unpacked tree root CID == this entry's ipfs_cid"
+   },
+   "keyId": "e5833fdfbbfe",
+   "signed": false,
+   "status": "verified-pull — unsigned (owner signing pass pending, as for this whole feed version)"
   }
  ]
 }
