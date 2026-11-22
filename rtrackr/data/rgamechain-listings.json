@@ -1,9 +1,9 @@
 {
  "schema": "rzl.botlatch.listings.v1",
  "chain_id": "RGHOSTCHAIN/TERAFORMR-GAME",
- "generated": "2026-11-21T13:22:28-07:00",
- "height": 1,
- "tip": "5415fd0936bcc0ebb3d74f0d9f4f17a7054f3cadfdb85dbd5a951bbab669120b",
+ "generated": "2026-11-22T16:47:20-07:00",
+ "height": 2,
+ "tip": "bbaa8b0e8047766e101204fbfd678c4622dec6a8750535a057b6e04b4a0089fc",
  "open": [
   {
    "listing_id": "5415fd0936bcc0ebb3d74f0d9f4f17a7054f3cadfdb85dbd5a951bbab669120b",
@@ -24,6 +24,43 @@
    "currency": "RToken",
    "seller": "@chaserizal",
    "ts": "2026-11-21T13:22:28-07:00",
+   "status": "open",
+   "buyer": null,
+   "sold_block": null,
+   "main_link": {
+    "last": {
+     "hash": "4006b570883c31aff44891971dd1935a3a58a822293f919ace27e59d8cf0bb5b",
+     "height": 5,
+     "piece": "4006b570883c31af"
+    },
+    "next": {
+     "commit": "70b9d3d0223619d5c06d2cdf7710b783fd456adbadc47e65179130ea956303c0",
+     "commit_kind": "asset_hash",
+     "height": 6,
+     "source": "pending-mint-t193u.json#pm-20261120-t193u-b6-rghostkey",
+     "status": "pending"
+    }
+   }
+  },
+  {
+   "listing_id": "bbaa8b0e8047766e101204fbfd678c4622dec6a8750535a057b6e04b4a0089fc",
+   "game_block": 2,
+   "game_hash": "bbaa8b0e8047766e101204fbfd678c4622dec6a8750535a057b6e04b4a0089fc",
+   "item": {
+    "id": "terra-tool",
+    "kind": "tool",
+    "name": "TERRA-TOOL (Igorot Headaxe)",
+    "rarity": "legendary",
+    "stats": {
+     "atk": 50,
+     "hp": 99
+    }
+   },
+   "qty": 1,
+   "price_rtoken": 15,
+   "currency": "RToken",
+   "seller": "@chaserizal",
+   "ts": "2026-11-22T16:47:20-07:00",
    "status": "open",
    "buyer": null,
    "sold_block": null,
