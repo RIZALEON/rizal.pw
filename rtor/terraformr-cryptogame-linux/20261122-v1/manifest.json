@@ -1,0 +1,273 @@
+{
+ "format": "rtor-seat-manifest",
+ "name": "TERAFORMR-CRYPTOGAME-LINUX",
+ "version": "20261122-v1",
+ "title": "TERAFORMR CRYPTOGAME — clean Linux bundle: the current demo + site space in one self-contained file, plus the most up to date RENJIN complete build",
+ "owner": "@chaserizal",
+ "created": "2026-11-22T15:20-07:00",
+ "entry": "teraformr-cryptogame.html",
+ "install": "No install: open teraformr-cryptogame.html in any browser on Linux (see README-INSTALL-OPEN.txt). The RENJIN shell opens the same way at renjin-complete-build/rshell/RSHELL-RENJIN.html.",
+ "package_of_record": {
+  "file": "TERAFORMR-CRYPTOGAME-LINUX-2026-11-22.zip",
+  "bytes": 6204620,
+  "sha256": "ed37c25b8718c62ba729adf04983750fa255e675545a51b2430731cb6c030cd7",
+  "note": "The single downloadable zip delivered to the owner in chat 2026-11-22. It holds exactly the 51 parts listed below; this seat carries those same parts file-by-file plus this manifest, so the package can be rebuilt and hash-checked from the seat alone."
+ },
+ "parts": [
+  {
+   "path": "README-INSTALL-OPEN.txt",
+   "bytes": 4174,
+   "sha256": "994c566771933c5c8726982cc8e1b397f2cc8ae135bc9a147452b2d859e5b323"
+  },
+  {
+   "path": "renjin-complete-build/INSTRUCTIONS.md",
+   "bytes": 2237,
+   "sha256": "94196986e0f4ce4ac093a5338a4791f45cbb2a99b7ab1752d80424f4ea707ce8"
+  },
+  {
+   "path": "renjin-complete-build/SUMMARY.md",
+   "bytes": 2716,
+   "sha256": "1c0c39e7a2885ac7079ca3c4370bf0bf6f777ca37229499b3f6ba04546d60474"
+  },
+  {
+   "path": "renjin-complete-build/renjin-rzl-cryptobot-interface/README.md",
+   "bytes": 1750,
+   "sha256": "41dc8600cd4b797093d9e2814b6bbfe10231cdd4512a8b84ec2bea82219f1450"
+  },
+  {
+   "path": "renjin-complete-build/renjin-rzl-cryptobot-interface/RENJIN-INTERFACE.html",
+   "bytes": 753711,
+   "sha256": "7cf13c4d12770c9af1043b61d913ca12d8c04a598751ee4d20ef3ba6d6e281d4"
+  },
+  {
+   "path": "renjin-complete-build/renjin-rzl-cryptobot-interface/index.html",
+   "bytes": 84046,
+   "sha256": "d631022558a80d27abbe1c62295dcdea933f7df7a4a690b5c53b6a4920047aae"
+  },
+  {
+   "path": "renjin-complete-build/renjin/CITATION.md",
+   "bytes": 753,
+   "sha256": "48a45964fe3195c2f177ab8650f68aa4813bcdfdf79b7fab2c6912aecec8534e"
+  },
+  {
+   "path": "renjin-complete-build/renjin/LIVE-STATS.md",
+   "bytes": 4495,
+   "sha256": "4ee16f9c0168dccb04f52cb393716b490ea6ab6ffd1dde077be913da50db805e"
+  },
+  {
+   "path": "renjin-complete-build/renjin/README.md",
+   "bytes": 6192,
+   "sha256": "04da2a3a075d6f7d1a426d050e61cd29fc26bd0164d0e20d3c38cc920d4136ac"
+  },
+  {
+   "path": "renjin-complete-build/renjin/RZL-FILE-FORMAT.md",
+   "bytes": 7860,
+   "sha256": "9afe42ca57635a9354f8098747294734a359257451bf9d76844c86662c100ccb"
+  },
+  {
+   "path": "renjin-complete-build/renjin/adapters/RCODE-ADAPTER.md",
+   "bytes": 3112,
+   "sha256": "bc8b2f8ecf2b5b0dd4fee35f82d736774c513d87d5e6cda14ec792746c031a6e"
+  },
+  {
+   "path": "renjin-complete-build/renjin/adapters/RCodeHostBridge.swift",
+   "bytes": 3279,
+   "sha256": "86f9617f8a22b6cc526419dcaf9bdabff71b9675ff111ab2d08e8f456bece376"
+  },
+  {
+   "path": "renjin-complete-build/renjin/adapters/RKLOWD-INTEGRATION.md",
+   "bytes": 3993,
+   "sha256": "a10183db01c52539d55c7e1f3752104b48ab51d5f19d99a9080fc58e2e1d7754"
+  },
+  {
+   "path": "renjin-complete-build/renjin/adapters/linux/RCODE-LINUX-SEAT.md",
+   "bytes": 5499,
+   "sha256": "dd4effdb349812d57cb7297c327d0f38f5cee25623a6a7af7970653bd6f329a2"
+  },
+  {
+   "path": "renjin-complete-build/renjin/adapters/linux/rcode-linux-host.js",
+   "bytes": 5612,
+   "sha256": "849f434e340af7b28bd5f9e2285b6778c3c2c02a74589b5e07a2b758b4d2422a"
+  },
+  {
+   "path": "renjin-complete-build/renjin/adapters/linux/rcode-linux-shell.js",
+   "bytes": 5805,
+   "sha256": "eba20d71a2e37d1a368ebb71f41b8a5151218c9be269ea573ebdaac9fdc9a8ae"
+  },
+  {
+   "path": "renjin-complete-build/renjin/adapters/linux/run.sh",
+   "bytes": 727,
+   "sha256": "003ea1837970fec1fa0e7e899b9de8f9cf88eaf20bf060b1d1765765b401ab0a"
+  },
+  {
+   "path": "renjin-complete-build/renjin/adapters/linux/test-linux-seat.js",
+   "bytes": 6300,
+   "sha256": "eb478e608338ee98eda3675ae759c9f1d3ffaff9725b1ab13dd340e0bceec2f1"
+  },
+  {
+   "path": "renjin-complete-build/renjin/adapters/rcode-bridge-plugin.js",
+   "bytes": 2850,
+   "sha256": "c9ec9819f70bea3a0a28d77cd39d314ded8dd99491a38cf0f00abaff29a14ad0"
+  },
+  {
+   "path": "renjin-complete-build/renjin/adapters/rcode-host-adapter.js",
+   "bytes": 4252,
+   "sha256": "b4a3f2b7d7c2b3ec3034941ae608bdf71204755735a8ad567c52b18f921cc1df"
+  },
+  {
+   "path": "renjin-complete-build/renjin/adapters/test-rcode-adapter.js",
+   "bytes": 2480,
+   "sha256": "235cc6e0c0e4ef15fd60c931f8b2dda1c71092adc426cf3bb2db0e3928a6bc3a"
+  },
+  {
+   "path": "renjin-complete-build/renjin/build-ask-v3.js",
+   "bytes": 2237,
+   "sha256": "c5388062de84ed8fcbd87335f76e18c3a8b98af3452d33cb68e2f1360256493b"
+  },
+  {
+   "path": "renjin-complete-build/renjin/build-core-v3-chain.js",
+   "bytes": 8175,
+   "sha256": "ab7c84d027970321691b6cdd87aff3622f5c396afc9fbeb50a2fb51ed940a5b4"
+  },
+  {
+   "path": "renjin-complete-build/renjin/build-core-v3-persist.js",
+   "bytes": 4655,
+   "sha256": "ab110ab93d72f0a1386832eea73f32ad288c153383f4451e01d0fca1e95f503e"
+  },
+  {
+   "path": "renjin-complete-build/renjin/build-core-v3.js",
+   "bytes": 7664,
+   "sha256": "3349865ac27545b98438ff27e55de02f9250acf7539c9ef1d1afc070f377a59d"
+  },
+  {
+   "path": "renjin-complete-build/renjin/build-log-ask-v3.txt",
+   "bytes": 194,
+   "sha256": "09ddb389ba4b405e506cf9892d99b5341aa5a8815612d8030cf1fab53ed1a8be"
+  },
+  {
+   "path": "renjin-complete-build/renjin/build-log-v3-chain.txt",
+   "bytes": 2987,
+   "sha256": "5706bd5834bd0c93fb86447501971d18f0affabbb1d010f4b043f92387f7137e"
+  },
+  {
+   "path": "renjin-complete-build/renjin/build-log-v3-metrics.txt",
+   "bytes": 3002,
+   "sha256": "49923a81676a6ecf9347a7d89f2bb72d1aafc77981afa1486afe2ea41c6c8a03"
+  },
+  {
+   "path": "renjin-complete-build/renjin/build-log-v3-persist-verify.txt",
+   "bytes": 633,
+   "sha256": "a649c2c6028e0c3e655717ae5999105fceaf253a404b6a5e35a5fdba3bf77b00"
+  },
+  {
+   "path": "renjin-complete-build/renjin/build-log-v3-persist.txt",
+   "bytes": 478,
+   "sha256": "671f1f79881a073e38bcc2248dc35510a56833796e70af494c785949e2866702"
+  },
+  {
+   "path": "renjin-complete-build/renjin/build-log-v3.txt",
+   "bytes": 2182,
+   "sha256": "d05cb1958ba36984d43f3e038bb786afe13f14a42eecf5598618aa7420cbbc16"
+  },
+  {
+   "path": "renjin-complete-build/renjin/build-log.txt",
+   "bytes": 885,
+   "sha256": "6d6ab3916244e753bab4a72f0ad0dd6af5fed883024ad1f19dd283fccbc0f884"
+  },
+  {
+   "path": "renjin-complete-build/renjin/build-model-v2.js",
+   "bytes": 3928,
+   "sha256": "abc638d03281e992f3850978356604ec1bccdf571330cee9ba9144fe5f04a9af"
+  },
+  {
+   "path": "renjin-complete-build/renjin/build-rshell-single.js",
+   "bytes": 28552,
+   "sha256": "d6557e57e284a7ae7eaeb121dc9b2ddc7345d818d1d3ca6eeb90bdd5eebed14f"
+  },
+  {
+   "path": "renjin-complete-build/renjin/check-purity.js",
+   "bytes": 1439,
+   "sha256": "246f1f3ed24832b9cb56f14ab9e48062e91688a7a0c87baa5eefd8f0d12f52ca"
+  },
+  {
+   "path": "renjin-complete-build/renjin/src/Tokenizer.swift",
+   "bytes": 5625,
+   "sha256": "e8ea00600265ae47c9b6502b41e739eb69fb627040cf6a9d41f24e8c80a42a55"
+  },
+  {
+   "path": "renjin-complete-build/renjin/src/corpus-v1.txt",
+   "bytes": 6898,
+   "sha256": "3a6a00419021564ab5c88eb27c64e76d6caafeeceb7f3930b61ceee4a348a77e"
+  },
+  {
+   "path": "renjin-complete-build/renjin/src/corpus-v2.txt",
+   "bytes": 14277,
+   "sha256": "a26ae8e92ca54807dee54949b347ec423e60df706875f706b888990811ddc56d"
+  },
+  {
+   "path": "renjin-complete-build/renjin/src/egg-version.js",
+   "bytes": 578,
+   "sha256": "1ade0e958752722b086001df122cede894281eabf5ee3fbd0cf8ebaabf603662"
+  },
+  {
+   "path": "renjin-complete-build/renjin/src/model-config-v2.js",
+   "bytes": 1052,
+   "sha256": "6393dd110e58bf01168c2ccf908ec2d849b062f858415cf2302fb1ec696b1127"
+  },
+  {
+   "path": "renjin-complete-build/renjin/src/rzl-ask.js",
+   "bytes": 5613,
+   "sha256": "edd525b5cb9f87c5832629d4d7bc47cae4462f2c03aa6fab7f5ec7e05dc8d156"
+  },
+  {
+   "path": "renjin-complete-build/renjin/src/rzl-embed.js",
+   "bytes": 2675,
+   "sha256": "64d09a0aae2f6738bd3b386c43431d94abcbc2255f8f77d75317ea8028cc8808"
+  },
+  {
+   "path": "renjin-complete-build/renjin/src/store-v3.json",
+   "bytes": 549222,
+   "sha256": "e2fb3c5ccb0fc57189a4f52501a206fb4dfc65b513678fb0b0ebfca43a9c53d7"
+  },
+  {
+   "path": "renjin-complete-build/renjin/src/yaseed-core-v2.js",
+   "bytes": 77027,
+   "sha256": "d5274d70e24b3455bcf2a2e61e6c6ce74ca03f879c7c377514eb0cdd90835c94"
+  },
+  {
+   "path": "renjin-complete-build/renjin/src/yaseed-core-v3.js",
+   "bytes": 78999,
+   "sha256": "eae95a9776fd4f5d46568c3f62643b4cfbb9a127a0d18cf369f98843d1b556c9"
+  },
+  {
+   "path": "renjin-complete-build/renjin/tests/run-tests.js",
+   "bytes": 2295,
+   "sha256": "16a1a50cf9d09381fe9ee2382067501abaf61519c2705b0107ebbf294460c543"
+  },
+  {
+   "path": "renjin-complete-build/renjin/tests/test-log.txt",
+   "bytes": 394,
+   "sha256": "81a504a705518a0a929c0ca1e60e2a03fc4172b4425da0e11d9a9ff98203f622"
+  },
+  {
+   "path": "renjin-complete-build/rshell/RSHELL-RENJIN-MIN.html",
+   "bytes": 706318,
+   "sha256": "dfc4f980fa2596b4987255c325a5c6c93be2a2f8a65b20cc8b65c54cbacdd7d1"
+  },
+  {
+   "path": "renjin-complete-build/rshell/RSHELL-RENJIN.html",
+   "bytes": 753708,
+   "sha256": "7e1c263e7ee40fa17e8e30ed098d37af88e81f619ec692602e007f5b13900e5e"
+  },
+  {
+   "path": "renjin-complete-build/rshell/index.html",
+   "bytes": 84046,
+   "sha256": "d631022558a80d27abbe1c62295dcdea933f7df7a4a690b5c53b6a4920047aae"
+  },
+  {
+   "path": "teraformr-cryptogame.html",
+   "bytes": 6825394,
+   "sha256": "31d8f4622aecd9fe63af6897e0c47c0da8a6fa05a001c44cbabe52a14ad381b7"
+  }
+ ]
+}

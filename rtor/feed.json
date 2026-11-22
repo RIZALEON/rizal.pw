@@ -521,6 +521,25 @@
    "keyId": "e5833fdfbbfe",
    "signed": false,
    "status": "unsigned (owner signing pass pending, as for this whole feed version)"
+  },
+  {
+   "kind": "site",
+   "id": "terraformr-cryptogame-linux",
+   "version": "20261122-v1",
+   "name": "TERAFORMR CRYPTOGAME — Linux bundle (playable demo + site + current RENJIN)",
+   "size": 6204620,
+   "files": 51,
+   "sha256": "ed37c25b8718c62ba729adf04983750fa255e675545a51b2430731cb6c030cd7",
+   "url": "/rtor/terraformr-cryptogame-linux/20261122-v1/manifest.json",
+   "role": "Clean Linux bundle of the TERAFORMR CRYPTOGAME space as it stands 2026-11-22, plus the most up to date RENJIN: (1) teraformr-cryptogame.html — the whole space (playable demo + site) as ONE self-contained file, 6,825,394 B, sha256 31d8f4622aecd9fe63af6897e0c47c0da8a6fa05a001c44cbabe52a14ad381b7; the demo is a hand-written JS re-creation drawn with the real b33 art (genuine tiles.png atlas, REZAL sprite, UFO, BOTLATCH portal, the game's own joystick art), Terraria-style two-stick controls, full-wide auto-rotate; (2) renjin-complete-build/ — the current RENJIN complete build (Core v3 engine yaseed-core-v3.js 78,999 B; trained store store-v3.json 549,222 B sha256 e2fb3c5ccb0fc571...; corpus-v2 162 lessons, KB 45; shells RSHELL-RENJIN.html 753,708 B + MIN 706,318 B; RGHOSTCHAIN height 5), byte-identical to RIZALEON/RENJIN-CRYPTOBOT-AI GitHub main (hash-verified 2026-11-22 — GitHub holds no newer version); (3) README-INSTALL-OPEN.txt — install (none: the file is the app) and open instructions for Linux. size+sha256 above pin the single downloadable zip of record (TERAFORMR-CRYPTOGAME-LINUX-2026-11-22.zip, delivered to the owner in chat 2026-11-22); the seat at url carries the starter manifest.json plus all 51 parts file-by-file — every part is UTF-8 text, so unlike the GHOSTMACHINE seat nothing is missing here: the package rebuilds from the seat alone and every part hash-checks against the manifest. No install, no signature, no ASSM gate on this bundle — it opens in any Linux browser, fully offline.",
+   "verified": {
+    "by": "ThundR — file inspection + hash comparison vs GitHub main, run on this VM",
+    "at": "2026-11-22T13:01-07:00",
+    "checks": "store-v3.json / yaseed-core-v3.js / corpus-v2.txt / both shells byte-identical to GitHub main (blob hashes); space export inlined 24 assets with 0 unresolved; bundle zip contents = the 51 seated parts, 10,092,975 B uncompressed"
+   },
+   "keyId": "e5833fdfbbfe",
+   "signed": false,
+   "status": "unsigned (owner signing pass pending, as for this whole feed version)"
   }
  ]
 }

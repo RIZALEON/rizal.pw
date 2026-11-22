@@ -32,6 +32,7 @@
     if ((m = /^rtor\/rpull\/[^/]+\/rpull\.sh$/.exec(p))) return { id: 'rtor.rpull-ubuntu-touch', name: name };
     if ((m = /^rtor\/rcryptoforge-live\/[^/]+\/index\.html$/.exec(p))) return { id: 'rcryptoforge-live-track', name: name };
     if ((m = /^rtor\/ghostmachine-rzl\/[^/]+\/manifest\.json$/.exec(p))) return { id: 'ghostmachine-rtor-rzl', name: name };
+    if ((m = /^rtor\/terraformr-cryptogame-linux\/[^/]+\/manifest\.json$/.exec(p))) return { id: 'terraformr-cryptogame-linux', name: name };
     var IPFS_IDS = { 'QmYfsPeLtgTguSVHkHwNVUh7j3y4FUtXGWW2WpRKy2LNh8': 'frankensteinrizal.unstoppable-minimal-site', 'QmTKiBqnbB42Ww2s6sNmUTkUp1naW6rX3t28MAxiTLJRso': 'frankensteinrizal.unstoppable-verified-site' };
     if ((m = /^\/ipfs\/(Qm[1-9A-HJ-NP-Za-km-z]{44})$/.exec(u.pathname)) && IPFS_IDS[m[1]]) return { id: IPFS_IDS[m[1]], name: name };
     return null;
