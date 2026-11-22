@@ -467,6 +467,19 @@
    "keyId": "e5833fdfbbfe",
    "signed": false,
    "status": "verified-pull — unsigned (owner signing pass pending, as for this whole feed version)"
+  },
+  {
+   "kind": "data",
+   "id": "rtor.rpull-ubuntu-touch",
+   "version": "20261121-v1",
+   "name": "rpull.sh",
+   "size": 3812,
+   "sha256": "860db49ac07e5bc24d81ddb7e6c9271b5c1c7b07831a3ceceb14c52ac0164ade",
+   "url": "/rtor/rpull/20261121-v1/rpull.sh",
+   "role": "RSYNC-RTOR bridge drop for the Pixel (Ubuntu Touch, node rklowd.pixel): RPULL, the independent verified pull (gateway race + hash-check + auto-unpack) that powers the RTOR OPEN flow. The Pixel's RTOR client leeches it over the website endpoint and verifies it against this pin; on-device it pulls the verified GhostChain site out of UD's wrapped pin.",
+   "keyId": "e5833fdfbbfe",
+   "signed": false,
+   "status": "unsigned (owner signing pass pending, as for this whole feed version)"
   }
  ]
 }
