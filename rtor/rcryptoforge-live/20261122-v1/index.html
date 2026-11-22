@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RCRYPTOFORGE — LIVE TRACK · RENJIN CORE v3</title>
+<style>
+  :root{
+    --bg:#f2f4ec; --ink:#101510; --mut:#5c6656; --line:#d9decb;
+    --grn:#0b7a3e; --grn2:#12a150; --card:#eef1e4; --amber:#b97d0a; --red:#b3261e;
+    --mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+    --sans:-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);}
+  .wrap{max-width:1060px;margin:0 auto;padding:28px 20px 60px}
+  header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .brand{font-weight:900;letter-spacing:.14em;font-size:22px}
+  .brand small{display:block;font-family:var(--mono);font-weight:400;letter-spacing:.08em;color:var(--mut);font-size:11px;margin-top:3px}
+  .pill{display:inline-flex;align-items:center;gap:8px;border:2px solid var(--grn);border-radius:999px;padding:8px 16px;font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;color:var(--grn);background:#fff}
+  .dot{width:9px;height:9px;border-radius:50%;background:var(--grn2);flex:none}
+  .dot.warn{background:var(--amber)} .dot.bad{background:var(--red)}
+  h1.hero{font-size:clamp(34px,6vw,58px);line-height:1.02;margin:34px 0 14px;font-weight:900;letter-spacing:-.01em}
+  h1.hero .g{color:var(--grn)}
+  p.lede{font-size:clamp(16px,2.4vw,20px);line-height:1.55;color:#232a20;max-width:820px}
+  p.lede b{color:var(--ink)}
+  .grid{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line);border-left:1px solid var(--line);margin-top:30px}
+  .cell{border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:20px 18px 16px;background:var(--card)}
+  .cell .num{font-size:clamp(30px,5vw,46px);font-weight:800;font-family:var(--mono);letter-spacing:-.02em}
+  .cell .num.g{color:var(--grn)}
+  .cell .cap{color:#39412f;font-size:15px;line-height:1.45;margin-top:6px}
+  .cell .src{font-family:var(--mono);font-size:11.5px;letter-spacing:.05em;color:var(--mut);margin-top:10px;text-transform:uppercase}
+  .cell .src.live{color:var(--grn)}
+  .rows{margin-top:34px;border-top:1px solid var(--line)}
+  .row{display:flex;gap:14px;align-items:flex-start;padding:18px 2px;border-bottom:1px solid var(--line)}
+  .row .dot{margin-top:8px}
+  .row .k{font-family:var(--mono);font-size:12.5px;letter-spacing:.1em;color:var(--mut);text-transform:uppercase}
+  .row .v{font-family:var(--mono);font-size:clamp(19px,3.4vw,27px);font-weight:700;margin-top:2px}
+  .row .s{color:var(--mut);font-size:14.5px;margin-top:3px;line-height:1.45}
+  .row .s a{color:var(--grn)}
+  h2.sec{font-size:clamp(26px,4.6vw,40px);font-weight:900;margin:46px 0 10px}
+  h2.sec .n{color:var(--grn);font-size:.55em;vertical-align:top;margin-right:10px;font-family:var(--mono)}
+  .shellbox{border:1px solid #1d2b1d;border-radius:14px;overflow:hidden;background:#000;box-shadow:0 10px 34px rgba(16,30,16,.25)}
+  .shellbox iframe{width:100%;height:560px;border:0;display:block}
+  .shellnote{font-family:var(--mono);font-size:12.5px;color:var(--mut);margin-top:10px;line-height:1.6}
+  .shellnote a{color:var(--grn)}
+  footer{margin-top:52px;border-top:1px solid var(--line);padding-top:18px;color:var(--mut);font-size:13.5px;line-height:1.65}
+  footer .cite{font-family:var(--mono);font-size:12.5px;color:#39412f;margin-top:14px}
+  .meta{font-family:var(--mono);font-size:13px;color:var(--mut);line-height:1.9;margin-top:22px}
+  .meta b{color:var(--ink)}
+  @media (max-width:640px){ .grid{grid-template-columns:1fr} .shellbox iframe{height:480px} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div class="brand">RCRYPTOFORGE<small>RENJIN · R:&#92;&gt; SHELL · GHOSTCHAIN · RTOR</small></div>
+    <div class="pill"><span class="dot" id="allDot"></span><span id="pillText">LIVE TRACK · RE-CHECKING…</span></div>
+  </header>
+
+  <h1 class="hero">THE LITTLE ENGINE THAT<br><span class="g">REMEMBERS</span> — RENJIN<br>CORE v3</h1>
+  <p class="lede">A complete AI engine built from scratch in pure RZL — no borrowed weights, no outside
+  model. Its heart is <b>49,152 ternary weights</b> thinking through a <b>313-token vocabulary</b>,
+  now trained on <b>corpus-v2: <span data-bind="lessons">162</span> lessons</b> with the RGHOSTCHAIN ingrained, a persistent
+  on-disk store, and the whole engine carried in <b>one <span data-bind="shellkb">753</span> KB RSHELL RENJIN file</b> that boots
+  anywhere. Small enough to carry in one hand — and chained, so it cannot forget. The figures below
+  do not sit frozen: this track <b>re-reads the published sources live, every 60 seconds</b> — the corpus
+  and build log from the GitHub repo and the chain export from RTRACKR — so when the model grows,
+  the numbers here grow with it.</p>
+
+  <div class="meta">
+    Baked snapshot: <b>2026-11-22 · corpus-v2 persist retrain</b><br>
+    Live repo: <b><span data-bind="files">288</span> files · <span data-bind="repomb">18.35</span> MB published</b><br>
+    RGHOSTCHAIN: <b>height <span data-bind="height">5</span> · <span data-bind="blocks">6</span> blocks · verify <span data-bind="verify">✓</span></b><br>
+    Last live check: <b id="lastCheck">—</b> · <b id="srcCount">0/5 sources live</b><br>
+    Session: <b id="session">00:00</b>
+  </div>
+
+  <div class="grid">
+    <div class="cell"><div class="num">49,152</div><div class="cap">ternary weights (−1 / 0 / +1) in Core v3</div><div class="src">Architecture · Core v3</div></div>
+    <div class="cell"><div class="num">313</div><div class="cap">tokenizer vocab — byte tokens + 57 Я specials</div><div class="src">Architecture · tok.v1</div></div>
+    <div class="cell"><div class="num" data-bind="lessons">162</div><div class="cap">corpus-v2 lessons — RGHOSTCHAIN ingrained, all RZL-authored</div><div class="src live">↻ Live · counted from corpus-v2.txt</div></div>
+    <div class="cell"><div class="num g">12/12</div><div class="cap">v2 test suite passed · ЯVM 9/9</div><div class="src">Build record · 2026-11-19</div></div>
+    <div class="cell"><div class="num g" data-bind="heldout">3.246</div><div class="cap">held-out loss — corpus-v2 persist retrain (train <span data-bind="trainloss">3.26</span>, down from 27.631)</div><div class="src live">↻ Live · read from the build log</div></div>
+    <div class="cell"><div class="num"><span data-bind="shellkb">753</span> KB</div><div class="cap">one-file RSHELL RENJIN — boots anywhere · sized live from the repo tree</div><div class="src live">↻ Live · sized from the repo tree</div></div>
+  </div>
+
+  <div class="rows">
+    <div class="row"><span class="dot" id="dotRepo"></span><div>
+      <div class="k">Published repo · Live</div>
+      <div class="v"><span data-bind="repomb">18.35</span> MB · <span data-bind="files">288</span> files</div>
+      <div class="s">RIZALEON/RENJIN-CRYPTOBOT-AI on GitHub, working-tree total — grows with every push</div>
+    </div></div>
+    <div class="row"><span class="dot" id="dotPush"></span><div>
+      <div class="k">Last push · Live</div>
+      <div class="v" data-bind="lastpush">Nov 21, 2026</div>
+      <div class="s">most recent commit to main, read from the GitHub API</div>
+    </div></div>
+    <div class="row"><span class="dot" id="dotChain"></span><div>
+      <div class="k">RGHOSTCHAIN · Live</div>
+      <div class="v">height <span data-bind="height">5</span> · <span data-bind="blocks">6</span> blocks · verify <span data-bind="verify">✓</span></div>
+      <div class="s">published export at <a href="https://rizal.pw/rtrackr">rizal.pw/rtrackr</a> · exported <span data-bind="exported">Nov 20, 2026</span> · tip <span data-bind="tip">4006b570883c…</span> · sha256 <span data-bind="chainsha">d55fcd36…</span> checked against RTRACKR's published sums, linkage walked in this page</div>
+    </div></div>
+    <div class="row"><span class="dot" id="dotStore"></span><div>
+      <div class="k">Persistent store · Live</div>
+      <div class="v"><span data-bind="storekb">549</span> KB · on disk</div>
+      <div class="s">store-v3.json — the trained state persists and reloads hash-verified, no longer in-memory only</div>
+    </div></div>
+    <div class="row"><span class="dot" id="dotFeed"></span><div>
+      <div class="k">RTOR feed · Live</div>
+      <div class="v"><span data-bind="feedver">v20261120-2</span> · <span data-bind="feedn">31</span> entries</div>
+      <div class="s">rizal.pw/rtor/feed.json · signed: <span data-bind="feedsig">false — owner signing pass pending</span>. This page rides the same stream: load this folder into RTOR and it stays current with the chain it tracks.</div>
+    </div></div>
+  </div>
+
+  <h2 class="sec"><span class="n">01</span>Try the R:\&gt; Shell</h2>
+  <p class="lede" style="font-size:17px">The current shell itself — the most recent RSHELL RENJIN build, carried inside this
+  download beside the page. Everything runs locally. Try <b>HELP</b>, <b>STATUS</b>, <b>TRACK</b>, <b>THUNDR</b>,
+  <b>CHAIN VERIFY</b>, <b>LIVE</b> — or ask <i>what is the ghost chain?</i></p>
+  <div class="shellbox"><iframe id="shellFrame" title="RSHELL RENJIN" loading="lazy"></iframe></div>
+  <div class="shellnote">Shell file: <a href="shell/RSHELL-RENJIN.html">shell/RSHELL-RENJIN.html</a> (open full-page) ·
+  minimized build: <a href="shell/RSHELL-RENJIN-MIN.html">shell/RSHELL-RENJIN-MIN.html</a> ·
+  model source in <b>renjin/</b> · Linux tracker in <b>tools/renjin-track.sh</b></div>
+
+  <footer>
+    <div>RCRYPTOFORGE — LIVE TRACK, downloadable edition (2026-11-22). A remake of the Forge's growth clock as a single
+    folder: serve it, drop it into RTOR, or open it from disk. Figures are fetched live at view time from the published
+    sources (GitHub repo tree + raw corpus/build log, RTRACKR export + published SHA256SUMS, RTOR feed); where a source
+    cannot be reached, the last verified figure stays on screen and its dot turns amber — nothing here is invented.
+    The GHOSTCHAIN is live, real and true; this page verifies its published export, it does not write the chain.</div>
+    <div class="cite">🫈Providence &amp; Provenance 🦇 / RZL CITATION FORMAT: Prof. Marcum,C.A.,III (26,Nov 19) /.RZL AI CRYPTOBOT ENJIN MODEL, / RIZAL.PW, MAPS (MASTER of American Asia Pacific Systems) TECH Series, Aetaneo Rizal. Chase Rizal.</div>
+  </footer>
+</div>
+
+<script>
+"use strict";
+const RAW="https://raw.githubusercontent.com/RIZALEON/RENJIN-CRYPTOBOT-AI/main/";
+const API="https://api.github.com/repos/RIZALEON/RENJIN-CRYPTOBOT-AI";
+const SRC={repo:0,push:0,corpus:0,chain:0,feed:0};
+const $=s=>document.querySelectorAll("[data-bind='"+s+"']");
+function set(k,v){ $(k).forEach(e=>e.textContent=v); }
+function dot(id,ok){ const e=document.getElementById(id); if(e) e.className="dot"+(ok===true?"":ok===false?" bad":" warn"); }
+function refreshHeader(){
+  const n=Object.values(SRC).reduce((a,b)=>a+b,0);
+  document.getElementById("srcCount").textContent=n+"/5 sources live";
+  document.getElementById("lastCheck").textContent=new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  document.getElementById("pillText").textContent = n===5 ? "LIVE TRACK · TODAY'S BUILD — RE-CHECKED LIVE" : "LIVE TRACK · "+n+"/5 SOURCES LIVE";
+  document.getElementById("allDot").className="dot"+(n===5?"":n===0?" bad":" warn");
+}
+async function jget(u){ const r=await fetch(u,{cache:"no-store"}); if(!r.ok) throw new Error(r.status); return r.json(); }
+async function tget(u){ const r=await fetch(u,{cache:"no-store"}); if(!r.ok) throw new Error(r.status); return r.text(); }
+
+async function srcTree(){
+  try{
+    const t=await jget(API+"/git/trees/main?recursive=1");
+    const blobs=t.tree.filter(x=>x.type==="blob");
+    const total=blobs.reduce((a,x)=>a+(x.size||0),0);
+    set("files",String(blobs.length));
+    set("repomb",(total/1e6).toFixed(2));
+    const byPath={}; blobs.forEach(x=>byPath[x.path]=x.size||0);
+    const shell=byPath["renjin-complete-build/rshell/RSHELL-RENJIN.html"];
+    if(shell) set("shellkb",String(Math.floor(shell/1000)));
+    const store=byPath["renjin-complete-build/renjin/src/store-v3.json"];
+    if(store) set("storekb",String(Math.floor(store/1000)));
+    SRC.repo=1; dot("dotRepo",true); dot("dotStore",true);
+  }catch(e){ dot("dotRepo","warn"); dot("dotStore","warn"); }
+}
+async function srcPush(){
+  try{
+    const c=await jget(API+"/commits?per_page=1");
+    const d=new Date(c[0].commit.committer.date);
+    set("lastpush",d.toLocaleDateString([], {month:'short',day:'numeric',year:'numeric'}));
+    SRC.push=1; dot("dotPush",true);
+  }catch(e){ dot("dotPush","warn"); }
+}
+async function srcCorpus(){
+  try{
+    const [corpus,log]=await Promise.all([
+      tget(RAW+"renjin-complete-build/renjin/src/corpus-v2.txt"),
+      tget(RAW+"renjin-complete-build/renjin/build-log-v3-persist.txt")
+    ]);
+    const lessons=corpus.split("\n").filter(l=>{const s=l.trim(); return s && !s.startsWith("#");}).length;
+    set("lessons",String(lessons));
+    const m=log.match(/"held_out":\s*([0-9.]+)/); if(m) set("heldout",m[1]);
+    const t=log.match(/"loss_after":\s*([0-9.]+)/); if(t) set("trainloss",t[1]);
+    SRC.corpus=1;
+  }catch(e){ /* snapshot figures stay */ }
+}
+async function sha256hex(buf){
+  const h=await crypto.subtle.digest("SHA-256",buf);
+  return [...new Uint8Array(h)].map(b=>b.toString(16).padStart(2,"0")).join("");
+}
+async function srcChain(){
+  try{
+    const [buf,sums]=await Promise.all([
+      fetch("https://rizal.pw/rtrackr/data/rghostchain.json",{cache:"no-store"}).then(r=>{if(!r.ok)throw new Error(r.status);return r.arrayBuffer();}),
+      tget("https://rizal.pw/rtrackr/data/SHA256SUMS")
+    ]);
+    const sha=await sha256hex(buf);
+    const line=sums.split("\n").find(l=>l.trim().endsWith("rghostchain.json"));
+    const pinned=line?line.trim().split(/\s+/)[0]:"";
+    const d=JSON.parse(new TextDecoder().decode(buf));
+    let link=true;
+    for(let i=1;i<d.blocks.length;i++){ if(d.blocks[i].prev_hash!==d.blocks[i-1].hash){ link=false; break; } }
+    const ok = (sha===pinned) && link && d.verify && d.verify.ok;
+    set("height",String(d.height)); set("blocks",String(d.blocks.length));
+    set("tip",d.tip.slice(0,12)+"…"); set("chainsha",sha.slice(0,8)+"…");
+    set("exported",new Date(d.exported_at).toLocaleDateString([], {month:'short',day:'numeric',year:'numeric'}));
+    set("verify",ok?"✓":"✗");
+    SRC.chain= ok?1:0; dot("dotChain",ok?true:"bad");
+  }catch(e){ dot("dotChain","warn"); }
+}
+async function srcFeed(){
+  try{
+    const f=await jget("https://rizal.pw/rtor/feed.json");
+    set("feedver",String(f.version||"—")); set("feedn",String((f.entries||[]).length));
+    set("feedsig", f.signed? "true ✓" : "false — owner signing pass pending");
+    SRC.feed=1; dot("dotFeed",true);
+  }catch(e){ dot("dotFeed","warn"); }
+}
+async function tick(){
+  await Promise.allSettled([srcTree(),srcPush(),srcCorpus(),srcChain(),srcFeed()]);
+  refreshHeader();
+}
+const t0=Date.now();
+setInterval(()=>{ const s=Math.floor((Date.now()-t0)/1000);
+  document.getElementById("session").textContent=String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0");
+},1000);
+document.getElementById("shellFrame").src="shell/RSHELL-RENJIN.html";
+tick(); setInterval(tick,60000);
+</script>
+</body>
+</html>

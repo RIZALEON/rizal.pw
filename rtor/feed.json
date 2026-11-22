@@ -480,6 +480,25 @@
    "keyId": "e5833fdfbbfe",
    "signed": false,
    "status": "unsigned (owner signing pass pending, as for this whole feed version)"
+  },
+  {
+   "kind": "site",
+   "id": "rcryptoforge-live-track",
+   "version": "20261122-v1",
+   "name": "RCRYPTOFORGE — LIVE TRACK (downloadable edition)",
+   "size": 2365050,
+   "files": 47,
+   "sha256": "678d3db9e395a198a3f5371e45b29537de66e084a67a6fe72969b90b17474fbc",
+   "url": "/rtor/rcryptoforge-live/20261122-v1/index.html",
+   "role": "The Forge's growth clock remade as a downloadable live tree, seated in the webseed file-by-file: the LIVE TRACK page re-reads the published sources every 60 s (GitHub repo tree + corpus + build log; the RTRACKR chain export verified in-page against RTRACKR's published SHA256SUMS, block linkage walked in-page; the RTOR feed), the shell section runs the bundled current RSHELL RENJIN, and tools/renjin-track.sh is the same clock as a live Linux tool. Carries the most recent shell + RENJIN from GitHub and the forge sources: RSHELL-RENJIN.html (753,708 B) + MIN build (706,318 B) and the renjin/ model source seat, byte-identical to RIZALEON/RENJIN-CRYPTOBOT-AI main (hash-verified 2026-11-22). The sha256 above is the single-zip package of record delivered to the owner in chat 2026-11-22 (821,535 B, sums inside verify 46/46); the seated tree is that zip's exact contents.",
+   "verified": {
+    "by": "ThundR — hash comparison vs GitHub + live execution tests",
+    "at": "2026-11-22T12:33-07:00",
+    "checks": "store-v3.json / yaseed-core-v3.js / corpus-v2.txt / both shells blob-identical to GitHub main; page logic reproduces 162 lessons and held-out 3.246 from the live sources; renjin-track.sh run live on Linux: chain sha256 sums match, linkage OK, feed read at 31 entries"
+   },
+   "keyId": "e5833fdfbbfe",
+   "signed": false,
+   "status": "unsigned (owner signing pass pending, as for this whole feed version)"
   }
  ]
 }
