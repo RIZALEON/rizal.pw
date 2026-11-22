@@ -11,7 +11,7 @@
   "file": "TERAFORMR-CRYPTOGAME-LINUX-2026-11-22.zip",
   "bytes": 6204620,
   "sha256": "ed37c25b8718c62ba729adf04983750fa255e675545a51b2430731cb6c030cd7",
-  "note": "The single downloadable zip delivered to the owner in chat 2026-11-22. It holds exactly the 51 parts listed below; this seat carries those same parts file-by-file plus this manifest, so the package can be rebuilt and hash-checked from the seat alone."
+  "note": "The single downloadable zip delivered to the owner in chat 2026-11-22. It holds exactly the 51 parts listed below; this seat carries 50 of them file-by-file plus this manifest — see seat_note for the one unseated part and why."
  },
  "parts": [
   {
