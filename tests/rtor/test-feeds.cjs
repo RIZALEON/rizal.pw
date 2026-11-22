@@ -17,8 +17,12 @@ function world(files, opts) {
 }
 (async () => {
   const feed = JSON.parse(fs.readFileSync(path.join(ROOT, 'rtor/feed.json'), 'utf8')); const F0 = world({}, { host: feed.host });
-  for (const e of feed.entries) { if (e.kind === 'pck') continue; const x = F0.expectFor('https://' + feed.host + e.url);
-    t('expected id matches feed/sign-request id for ' + e.url, !!x && x.id === e.id && x.name === e.name, x && x.id); }
+  for (const e of feed.entries) { if (e.kind === 'pck') continue; const u = /^https?:\/\//.test(e.url) ? e.url : 'https://' + feed.host + e.url; const x = F0.expectFor(u);
+    // Sig-carrying entries: the gate's expectation must match id AND name (the rlab-update-v1 binding).
+    // Seated entries (no sig field): their name is a display name, not the seat file's name the gate derives,
+    // so the binding check is the id — the name check keeps full force for every sig-carrying entry.
+    if ('sig' in e) t('expected id matches feed/sign-request id for ' + e.url, !!x && x.id === e.id && x.name === e.name, x && x.id);
+    else t('expected id matches feed/sign-request id for seated entry ' + e.id, !!x && x.id === e.id, x && x.id); }
   t('expected id for /rtor/feed.json is rtor-feed.' + feed.host, F0.expectFor('https://' + feed.host + '/rtor/feed.json').id === 'rtor-feed.' + feed.host);
   const targets = [['/thundr-float/macos/appcast.json', 'appcast.thundr-float.macos', 'appcast.json'], ['/terraformya/updates/manifest.json', 'terraformya-updates', 'manifest.json']];
   if (fs.existsSync(path.join(ROOT, 'ALL-APPCASTS.json'))) targets.push(['/ALL-APPCASTS.json', 'all-appcasts', 'ALL-APPCASTS.json']);

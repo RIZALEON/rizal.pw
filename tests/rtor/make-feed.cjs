@@ -12,6 +12,12 @@
 // stable seeder fields (status/since/files/bytes/ports) and says 'state unknown' when the file is absent.
 // Volatile fields (pid, generated, last_run) are never used, so the feed stays byte-stable across tracker
 // refreshes and goes stale only when the seeder itself changes.
+// Seated entries (tests/rtor/external-entries.json, seated 2026-11-22 on the owner's order): packages whose
+// payloads live outside this repo's file walk — the frankensteinrizal IPFS entries and the webseed tree
+// packages — ride in a durable INPUT seat, so regeneration emits them instead of silently dropping them
+// (five hand-added entries, 29–33, failed CI for exactly that reason). The generator emits the seat's facts
+// verbatim and FAILS CLOSED on any seated entry claiming signed:true, a foreign keyId, a sig field, or a
+// status that does not say unsigned/record: it cannot verify a seated sidecar, so it will not emit one.
 // Run:  node tests/rtor/make-feed.cjs                                    (writes rtor/feed.json; CI test fails if it is stale)
 //       node tests/rtor/make-feed.cjs --sign-list                        (prints the rlab-update-v1 sign-request fields as JSON)
 //       node tests/rtor/make-feed.cjs --sign-candidate [--assume-signed id,...]
@@ -22,7 +28,7 @@ const fs = require('fs'), path = require('path'), crypto = require('crypto');
 const ROOT = path.join(__dirname, '..', '..');
 const HOST = fs.existsSync(path.join(ROOT, 'CNAME')) ? fs.readFileSync(path.join(ROOT, 'CNAME'), 'utf8').trim() : 'rizal.pw';
 const PEER = HOST === 'rizal.pw' ? 'rizal.info' : 'rizal.pw';
-const FEED_VERSION = '20261120-2'; // bump by hand when the feed content changes (entries, seeder claim, anything); every bump needs a new feed.json.sig.json
+const FEED_VERSION = '20261122-1'; // bump by hand when the feed content changes (entries, seeder claim, anything); every bump needs a new feed.json.sig.json
 const KEY_ID = 'e5833fdfbbfe';
 const PUBKEY_B64 = 'zs7M4OOB0zQhWOQw3SHpAY+XYxbZJvcPESy1y400Ti0='; // pinned owner Ed25519 public key (same as rtor/rtor-verify.js)
 const FEED_ID = 'rtor-feed.rizal.pw';
@@ -43,6 +49,18 @@ function feedSelfSigned(candidateText) {
   let key; try { key = crypto.createPublicKey({ key: Buffer.concat([SPKI_PREFIX, Buffer.from(PUBKEY_B64, 'base64')]), format: 'der', type: 'spki' }); } catch (e) { return false; }
   try { return crypto.verify(null, msg, key, Buffer.from(s.ed25519, 'base64')); } catch (e) { return false; }
 }
+/** Seated entries from tests/rtor/external-entries.json (see the header note). Emitted verbatim after the
+ *  file-walk entries, in seat order. Fail-closed: anything the generator cannot stand behind is a build error. */
+function seatedEntries() {
+  const p = 'tests/rtor/external-entries.json';
+  if (!has(p)) return [];
+  const seat = JSON.parse(rd(p));
+  return (seat.entries || []).map((e) => {
+    if (!e || e.signed !== false || e.keyId !== KEY_ID || ('sig' in e) || ('ed25519' in e) || !/unsigned|record/i.test(String(e.status || '')))
+      throw new Error('seated entry refused (fail-closed): ' + (e && e.id));
+    return e;
+  });
+}
 function list(assumeSigned) {
   const assume = assumeSigned instanceof Set ? assumeSigned : new Set();
   const out = [];
@@ -62,12 +80,13 @@ function list(assumeSigned) {
     add('rtrackr/data/' + f, 'data', 'rtrackr.' + f.replace(/\.json$/, ''), 'sha-' + (has('rtrackr/data/' + f) ? sha(rd('rtrackr/data/' + f)).slice(0, 12) : ''), f === 'rghostchain.json' ? 'GHOSTCHAIN public copy (read-only; RMINT on Neo is the only writer)' : 'RTRACKR public data (read-only)');
   // Owner-command authorizations (rtor/owner-commands.json, Rizal 2026-11-18): bind one exact file (id+name+size+sha256). Not a signature.
   let oc = []; if (has('rtor/owner-commands.json')) { try { oc = JSON.parse(rd('rtor/owner-commands.json')).entries || []; } catch (x) { oc = []; } }
-  return out.map((e) => { const sp = e.sig.slice(1); let s = null; if (has(sp)) { try { s = JSON.parse(rd(sp)); } catch (x) { s = null; } }
+  const mapped = out.map((e) => { const sp = e.sig.slice(1); let s = null; if (has(sp)) { try { s = JSON.parse(rd(sp)); } catch (x) { s = null; } }
     if (s && s.keyId === KEY_ID && s.sha256 === e.sha256 && s.size === e.size && s.id === e.id && s.kind === e.kind) return Object.assign(e, { version: String(s.version), keyId: KEY_ID, signed: true, status: 'signed-by-owner' });
     if (assume.has(e.id)) return Object.assign(e, { keyId: KEY_ID, signed: true, status: 'signed-by-owner' });
     const o = oc.find((c) => c.authorization === 'owner-command' && c.ref && c.id === e.id && c.kind === e.kind && c.name === e.name && c.size === e.size && c.sha256 === e.sha256);
     if (o) return Object.assign(e, { keyId: KEY_ID, signed: false, authorization: 'owner-command', authorizationRef: o.ref, status: 'authorized-by-owner-command' });
     return Object.assign(e, { keyId: KEY_ID, signed: false, status: 'pending-owner-signature' }); });
+  return mapped.concat(seatedEntries());
 }
 // The Neo seeder claim, derived from rtor/tracker-status.json (see the header note). Only stable
 // seeder fields feed the string; anything missing or not-seeding yields an honest unknown/not-seeding

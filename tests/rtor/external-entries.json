@@ -1,0 +1,98 @@
+{
+ "note": "Durable generator INPUT for tests/rtor/make-feed.cjs (seated 2026-11-22, Final Plan execution): entries whose payloads live outside the repo file walk — the frankensteinrizal IPFS entries and the webseed tree packages. The generator emits these facts verbatim and FAILS CLOSED on any seated entry claiming signed:true, a foreign keyId, a sig field, or a status that does not say unsigned/record. Step 1 (owner decision, 2026-11-22): the frankensteinrizal entry NAMES the unpacked site — frankensteinrizal.unstoppable-verified-site (ipfs_cid QmTKiBqnbB42Ww2s6sNmUTkUp1naW6rX3t28MAxiTLJRso); the wrapped pins ride as record fields on it (wrapped_pin_cid, payload_cid, launched_wrapper_cid) and the minimal-site entry is marked record_of it.",
+ "entries": [
+  {
+   "kind": "ipfs",
+   "id": "frankensteinrizal.unstoppable-minimal-site",
+   "version": "20261121-min-v1",
+   "name": "frankensteinrizal.unstoppable",
+   "size": 5058453,
+   "ipfs_cid": "QmYfsPeLtgTguSVHkHwNVUh7j3y4FUtXGWW2WpRKy2LNh8",
+   "magnet": "magnet:?xt=urn:btih:QmYfsPeLtgTguSVHkHwNVUh7j3y4FUtXGWW2WpRKy2LNh8&dn=frankensteinrizal.unstoppable-minimal-site&tr=https://rizal.pw/rtrackr",
+   "url": "https://ipfs.io/ipfs/QmYfsPeLtgTguSVHkHwNVUh7j3y4FUtXGWW2WpRKy2LNh8",
+   "domain": "frankensteinrizal.unstoppable",
+   "role": "RECORD ENTRY — Minimal IPFS site (login + RTOR signals/stats + RMail files) on frankensteinrizal.unstoppable via UD. UD-assigned hash (UD repacked the ZIP, so this Qm hash is authoritative). NOT the full 425 MB publish.",
+   "record_of": "frankensteinrizal.unstoppable-verified-site",
+   "keyId": "e5833fdfbbfe",
+   "signed": false,
+   "status": "record — wrapped UD pin; the frankensteinrizal entry that names the site is frankensteinrizal.unstoppable-verified-site (the unpacked tree); unsigned (owner signing pass pending, as for this whole feed version)"
+  },
+  {
+   "kind": "site",
+   "id": "frankensteinrizal.unstoppable-verified-site",
+   "version": "20261121-verified-v1",
+   "name": "frankensteinrizal.unstoppable — verified GhostChain site",
+   "size": 5058453,
+   "files": 129,
+   "ipfs_cid": "QmTKiBqnbB42Ww2s6sNmUTkUp1naW6rX3t28MAxiTLJRso",
+   "wrapped_pin_cid": "QmYfsPeLtgTguSVHkHwNVUh7j3y4FUtXGWW2WpRKy2LNh8",
+   "payload_cid": "QmREKBj2h1QYCm5giRTVigwtqesz2ujpzJaqgjF7ZfUMr8",
+   "sha256": "1b30d5ffcb6cc0c016e1b59e5d4dceb166c3e324a6969db646eba053d1dd719a",
+   "magnet": "magnet:?xt=urn:btih:QmTKiBqnbB42Ww2s6sNmUTkUp1naW6rX3t28MAxiTLJRso&dn=frankensteinrizal.unstoppable-verified-site&tr=https://rizal.pw/rtrackr",
+   "url": "https://gateway.pinata.cloud/ipfs/QmTKiBqnbB42Ww2s6sNmUTkUp1naW6rX3t28MAxiTLJRso",
+   "domain": "frankensteinrizal.unstoppable",
+   "role": "The verified GhostChain site: the exact tree UD uploaded, pulled out of the wrapped pin and hash-verified end-to-end by RPULL (independent verified pull, 2026-11-21) — payload sha256 and payload CID reproduce the record, tree root CID computed from the unpacked 129 files with index.html at root. This is the CID for UD Link Website once the UD lock clears.",
+   "verified": {
+    "by": "RPULL — Lane B (Pinata door, hash-checked) + Lane C (unpack)",
+    "at": "2026-11-21T21:44-07:00",
+    "checks": "payload sha256 == UD ZIP record; payload CID == recorded inner CID; unpacked tree root CID == this entry's ipfs_cid"
+   },
+   "names": "frankensteinrizal.unstoppable",
+   "launched_wrapper_cid": "QmXgK3Vp4j8y9bpay2vhzoLW8QCRvBcyqPuxg8rLsAVGKP",
+   "keyId": "e5833fdfbbfe",
+   "signed": false,
+   "status": "verified-pull — unsigned (owner signing pass pending, as for this whole feed version)"
+  },
+  {
+   "kind": "data",
+   "id": "rtor.rpull-ubuntu-touch",
+   "version": "20261121-v1",
+   "name": "rpull.sh",
+   "size": 3812,
+   "sha256": "860db49ac07e5bc24d81ddb7e6c9271b5c1c7b07831a3ceceb14c52ac0164ade",
+   "url": "/rtor/rpull/20261121-v1/rpull.sh",
+   "role": "RSYNC-RTOR bridge drop for the Pixel (Ubuntu Touch, node rklowd.pixel): RPULL, the independent verified pull (gateway race + hash-check + auto-unpack) that powers the RTOR OPEN flow. The Pixel's RTOR client leeches it over the website endpoint and verifies it against this pin; on-device it pulls the verified GhostChain site out of UD's wrapped pin.",
+   "keyId": "e5833fdfbbfe",
+   "signed": false,
+   "status": "unsigned (owner signing pass pending, as for this whole feed version)"
+  },
+  {
+   "kind": "site",
+   "id": "rcryptoforge-live-track",
+   "version": "20261122-v1",
+   "name": "RCRYPTOFORGE — LIVE TRACK (downloadable edition)",
+   "size": 2365050,
+   "files": 47,
+   "sha256": "678d3db9e395a198a3f5371e45b29537de66e084a67a6fe72969b90b17474fbc",
+   "url": "/rtor/rcryptoforge-live/20261122-v1/index.html",
+   "role": "The Forge's growth clock remade as a downloadable live tree, seated in the webseed file-by-file: the LIVE TRACK page re-reads the published sources every 60 s (GitHub repo tree + corpus + build log; the RTRACKR chain export verified in-page against RTRACKR's published SHA256SUMS, block linkage walked in-page; the RTOR feed), the shell section runs the bundled current RSHELL RENJIN, and tools/renjin-track.sh is the same clock as a live Linux tool. Carries the most recent shell + RENJIN from GitHub and the forge sources: RSHELL-RENJIN.html (753,708 B) + MIN build (706,318 B) and the renjin/ model source seat, byte-identical to RIZALEON/RENJIN-CRYPTOBOT-AI main (hash-verified 2026-11-22). The sha256 above is the single-zip package of record delivered to the owner in chat 2026-11-22 (821,535 B, sums inside verify 46/46); the seated tree is that zip's exact contents.",
+   "verified": {
+    "by": "ThundR — hash comparison vs GitHub + live execution tests",
+    "at": "2026-11-22T12:33-07:00",
+    "checks": "store-v3.json / yaseed-core-v3.js / corpus-v2.txt / both shells blob-identical to GitHub main; page logic reproduces 162 lessons and held-out 3.246 from the live sources; renjin-track.sh run live on Linux: chain sha256 sums match, linkage OK, feed read at 31 entries"
+   },
+   "keyId": "e5833fdfbbfe",
+   "signed": false,
+   "status": "unsigned (owner signing pass pending, as for this whole feed version)"
+  },
+  {
+   "kind": "site",
+   "id": "ghostmachine-rtor-rzl",
+   "version": "20261122-v1",
+   "name": "GHOSTMACHINE-RTOR.rzl — GHOSTMACHINE build + integrated RTOR systems + all projects",
+   "size": 2575480,
+   "files": 220,
+   "sha256": "64f3947283758aba52bd2e870184e366ebf8009fcd9a26e517ae789a42cd78a1",
+   "url": "/rtor/ghostmachine-rzl/20261122-v1/manifest.json",
+   "role": "One .RZL folder (folder-is-the-app): the current GHOSTMACHINE build (161 files — framed site behind the one ASSM login, RMAIL + RWALLET integrated, magnetized GHOSTCHAIN RTOR loader seated so it auto-updates with the UD file and the rizal.info RTOR file), the RTOR systems (RPULL, rsync-rtor.sh, ghostchain-loader.js, load/unload instructions, feed snapshot at 32 entries), the RENJIN Core v3 seat + current shells (byte-identical to GitHub main), the RGHOSTKEY PUBLIC ring only (keyId e5833fdfbbfe), and projects/PROJECTS.json indexing every project in-bundle or by verified hash pin. The ASSM gate is inside (ghostmachine/login, entry ghostmachine/index.html): sign-in is simply the @chaserizal username + password, verified against the live vault at rizal.pw — the password is never stored in the package or anywhere. Seated here file-by-file: 200 text parts ride the connector lane; the 20 image binaries (1,012,329 B of .webp/.jpg site assets) cannot ride this lane and are NOT in the webseed seat — each is named with its sha256 in the seated manifest.json parts list so their absence is detectable, and the complete folder is the zip of record (sha256 above, 2,575,480 B, delivered to the owner in chat 2026-11-22), which rides the IPFS/device lanes whole. Verify anywhere: bash VERIFY.sh --live inside the package.",
+   "verified": {
+    "by": "ThundR — VERIFY.sh local + live, run from a clean unpack of the zip of record",
+    "at": "2026-11-22T12:50-07:00",
+    "checks": "218/218 inventoried files match SHA256SUMS.txt; manifest identity + ASSM password_stored=false asserted; no private-key material in the payload; live checks during the run: feed 32 entries, GHOSTCHAIN sums match + linkage OK"
+   },
+   "keyId": "e5833fdfbbfe",
+   "signed": false,
+   "status": "unsigned (owner signing pass pending, as for this whole feed version)"
+  }
+ ]
+}
