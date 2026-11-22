@@ -30,9 +30,9 @@ function next(){return T().call("/rghostchain/bind/pending","GET").then(function
 /* press({factor, password, asset, mode, onStatus}) — the UI calls this only after the user picks/uses ONE factor */
 function press(o){o=o||{};var cb=o.onStatus||function(){},mode=o.mode==="dry"?"dry":"live";
   return G().mintGated().then(function(g){
-    if(g.soft){if(!g.signed_in){cb({state:"refused",msg:"Sign in with ASSM first"});return{ok:false,gate:false,why:"not signed in"}}   // SOFT: never seals, sends a REQUEST to a HARD device
+    if(g.soft){   // SOFT (rizal.pw): never seals; request only, Face ID on the 17e. Wallet owns the ASSM profile — no website login.
       return next().then(function(n){if(n.kind!=="bind")return{ok:false,err:n.label};var entry={stack:STACK,botlatch_ref:BOT,ts:now()};for(var k in n.v.seal_entry)entry[k]=n.v.seal_entry[k];
-        cb({state:"routing",msg:g.why});return O()?O().route("bind",mode,entry,null,n.label,cb):{ok:false,err:"rmint-onetap.js not loaded"}})}
+        cb({state:"routing",msg:g.why||"Request only · sign with Face ID on the 17e"});return O()?O().route("bind",mode,entry,null,n.label,cb):{ok:false,err:"rmint-onetap.js not loaded"}})}
     if(!g.ok){cb({state:"refused",msg:g.why});return{ok:false,gate:false,why:g.why}}             // refused BEFORE any prompt
     return next().then(function(n){var kind=o.asset?"mint":n.kind;
       if(kind!=="bind"&&kind!=="mint")return{ok:false,err:n.label};

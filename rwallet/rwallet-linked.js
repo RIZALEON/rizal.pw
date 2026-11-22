@@ -6,7 +6,7 @@
 var K="rwallet.linked.v1",OWNER="ЯID-0001-3QQS";
 function ls(v){try{if(v===undefined)return JSON.parse(w.localStorage.getItem(K)||"[]");w.localStorage.setItem(K,JSON.stringify(v))}catch(e){return[]}}
 function nonce(){var b=new Uint8Array(8);(w.crypto||{}).getRandomValues?w.crypto.getRandomValues(b):b.forEach(function(_,i){b[i]=Math.random()*256|0});return Array.prototype.map.call(b,function(x){return("0"+x.toString(16)).slice(-2)}).join("")}
-function msg(chain,addr,n){return"Link to "+OWNER+" · RWALLET watch-only\nchain: "+chain+"\naddress: "+addr+"\nnonce: "+n+"\nissued: "+new Date().toISOString()+"\nThis signature grants NO spend permission."}
+function msg(chain,addr,n){return"Link to "+OWNER+"\nchain: "+chain+"\naddress: "+addr+"\nnonce: "+n+"\nissued: "+new Date().toISOString()+"\nThis signature grants NO spend permission."}
 function hexOf(s){return"0x"+Array.prototype.map.call(new TextEncoder().encode(s),function(x){return("0"+x.toString(16)).slice(-2)}).join("")}
 function b64(u8){var s="";for(var i=0;i<u8.length;i++)s+=String.fromCharCode(u8[i]);return btoa(s)}
 var WALLETS={
@@ -29,7 +29,7 @@ function link(id){var W=WALLETS[id];if(!W)return Promise.reject(new Error("unkno
     try{w.dispatchEvent(new CustomEvent("rwallet:linked",{detail:x}))}catch(e){}return x})}
 function unlink(addr){ls(ls().filter(function(y){return y.address!==addr}));return true} /* local view only: hides the card; the external wallet is untouched */
 function list(){return ls()}
-function rows(){return ls().map(function(x){var W=WALLETS[x.wallet]||{name:x.wallet,icon:"◇"};return{name:W.name+" · watch-only",chain:x.chain,address:x.address,balance:null,unit:x.chain==="evm"?"ETH":"SOL",source:"linked",watch_only:true}})}
+function rows(){return ls().map(function(x){var W=WALLETS[x.wallet]||{name:x.wallet,icon:"◇"};return{name:W.name+" · ours",chain:x.chain,address:x.address,balance:null,unit:x.chain==="evm"?"ETH":"SOL",source:"linked",watch_only:true}})}
 function openExternal(addr){var x=ls().filter(function(y){return y.address===addr})[0],W=x&&WALLETS[x.wallet];if(W&&W.deeplink)w.open(W.deeplink,"_blank");return!!(W&&W.deeplink)}
 /* balance read (public RPC, watch-only). EVM RPC/ Solana RPC are config: window.RWALLET_RPC={evm:"…",solana:"…"} */
 function balance(x){var R=w.RWALLET_RPC||{evm:"https://ethereum-rpc.publicnode.com",solana:"https://solana-rpc.publicnode.com"};

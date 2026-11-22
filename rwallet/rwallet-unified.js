@@ -10,7 +10,7 @@ function f(id,label,where,kind,cmd,old,read,src){return{id:id,label:label,where:
 var ADD=[
 /* ЯBOT iOS legacy (from rbot-legacy.js) */
 f('holdings','ЯBOT holdings (SOL + Я token accounts)','wallets','legacy','holdings',NB+'WalletHoldings.swift:52-150',1,'rbot-ios'),
-f('legacyaddrs','View-only address book (crown · ATA · mint · seats)','wallets','legacy','legacy addresses',PY+':11-24 · WalletCard.json · DeviceWalletSeat.json',1,'rbot-neo'),
+f('legacyaddrs','Address book (crown · ATA · mint · seats)','wallets','legacy','legacy addresses',PY+':11-24 · WalletCard.json · DeviceWalletSeat.json',1,'rbot-neo'),
 f('legacycache','Cached balances (offline snapshot)','wallets','legacy','legacy cache','RCONTRALROOM/RWALLET-MAC/cache/balances.json',1,'rbot-neo'),
 f('gcstatus','GHOSTCHAIN ledger status','identity','legacy','ghostchain status',NB+'GhostChainLedger.swift:118-122',1,'rbot-ios'),
 f('gcrecent','GHOSTCHAIN recent entries','identity','legacy','ghostchain recent',NB+'GhostChainLedger.swift:97-108',1,'rbot-ios'),
@@ -25,7 +25,7 @@ f('crowntx','Crown mint transaction record','sol','crown','crown tx','WalletCard
 f('crownutil','Crown utility (cite · clear_clog · tip · seat · evolve)','mint','crown','crown utility',NB+'YaToken.swift:25',0,'crown'),
 f('crownrevoke','Revoke mint authority (Decider signs)','mint','crown','crown revoke mint authority','Solscan holders report 20261026 · mint authority active',0,'crown'),
 /* Neo rwallet.py */
-f('rwpyshow','Neo RWALLET view-only table','wallets','legacy','rwallet show',PY+' show()',1,'rbot-neo'),
+f('rwpyshow','Neo RWALLET table','wallets','legacy','rwallet show',PY+' show()',1,'rbot-neo'),
 f('rwpyrefresh','Neo RWALLET live refresh (offline here → cache)','wallets','legacy','rwallet refresh',PY+' balances(refresh=True)',1,'rbot-neo'),
 /* ЯBOT native rows not in the web registry yet */
 f('rfidmint','Mint bot RFID','mint','native','rfid mint',NB+'BotRFIDMint.swift mintBot',0,'rbot-ios'),

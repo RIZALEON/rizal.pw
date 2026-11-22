@@ -1,8 +1,8 @@
 /* rwallet-ghost2 1.0 · 20261108-rwallet (Rizal t36u GO) · ЯWALLET 2: the approved one-press UI on REAL data.
- * Screens: home · auth (biometric first + "Use ASSM password" always) · receipt · untrusted (refused before any prompt) · offline/queue
+ * Screens: home · receipt · offline/queue
  * · RTRACKR · wallets · link wallet · holdings · receive · settings (session + log out) · RDRAGON panel mode (data-panel or width < 300px).
  * Unit = R. Mounts where rwallet-ghost.js mounts (#rw / RWALLET_MOUNT) and replaces its render; the legacy function catalog stays one tap away
- * ("all functions ›") so nothing is removed. Never holds keys; never signs. Every mint = trusted device + ASSM session + one unlock. */
+ * ("all functions ›") so nothing is removed. Never holds keys; never signs. Mint is request-only; Face ID signing is on the 17e. The wallet owns the ASSM profile and RID. */
 (function(w){"use strict";
 var D=document,K="rwallet2.ui.v1",OWNER="ЯID-0001-3QQS",HANDLE="@chaserizal";
 var st;try{st=JSON.parse(localStorage.getItem(K))||{}}catch(e){st={}}st.scr=st.scr||"home";
@@ -73,8 +73,8 @@ function strip(){var q=qsize()?('<span class="chip gold" data-a="offline">⧗ '+
 function qsize(){var s=T()?T().status():{};return(s.queued_ops||0)+(s.queued_mints||0)}
 function bal(){return assetCards()}
 function unlockText(){var f=ctx.factors;if(!f.length)return"unlock on your trusted phone";return f.map(function(x){return(M[x]||[0,x])[1]}).join(" or ")}
-function bigBtn(){return'<div class="reqacts"><div data-a="send">↑ Send</div><div data-a="receive">↓ Receive</div><div class="mint1" data-a="press"><b>Я MINT</b><small>request only · sign on trusted device</small></div><div data-a="legacy">⛓ BOTLATCH</div></div>'}
-function what(){return'<div class="what">Send and Mint create an unsigned request · sign on a trusted device (17e Face ID, moto, or Neo)</div><div class="msg">'+E(ctx.msg)+'</div>'}
+function bigBtn(){return'<div class="reqacts"><div data-a="send">↑ Send</div><div data-a="receive">↓ Receive</div><div class="mint1" data-a="press"><b>Я MINT · REQUEST</b><small>request only · Face ID on the 17e</small></div><div data-a="legacy">⛓ BOTLATCH</div></div>'}
+function what(){return'<div class="what">Send and Mint create an unsigned request · sign with Face ID on the 17e</div><div class="msg">'+E(ctx.msg)+'</div>'}
 function devrows(){return'<div class="devs"><div><b>17e</b><span>◉ Face ID <i>or</i> ⁂ ASSM</span></div><div><b>moto</b><span>⌾ Fingerprint <i>or</i> ⁂ ASSM</span></div><div><b>Neo</b><span>⁂ ASSM username + password</span></div></div>'}
 function rtcard(mini){var d=RT(),assets=(d&&d.assets)||[],h=d&&d.height!=null?d.height:null,tip=d&&d.tip;
   return'<div class="card rt" data-a="rtrackr"><h4>▶ RTRACKR <em>RGHOSTCHAIN + R token + R coin</em></h4>'+
@@ -87,13 +87,7 @@ function rtcard(mini){var d=RT(),assets=(d&&d.assets)||[],h=d&&d.height!=null?d.
 function nav(a){var it=[["⌂","home"],["⛓","rtrackr"],["◫","wallets"],["⧗","offline"],["⚙","settings"]];return'<div class="nav">'+it.map(function(x){return'<span data-a="'+x[1]+'" class="'+(x[1]===a?"a":"")+'"><b>'+x[0]+'</b>'+(x[1]==="offline"?"queue":x[1]==="rtrackr"?"chain":x[1])+'</span>'}).join("")+'</div>'}
 function legacy(){return'<div class="legacy" data-a="legacy">all RWALLET functions · BOTLATCH · ledger ›</div>'}
 /* ---------- sheets ---------- */
-function authSheet(){var f=ctx.factors,bio=f.filter(function(x){return x!=="assm"})[0],sub=devName()+" · trusted ✔ · "+(sessInfo().signed_in?"Signed in · ASSM":"not signed in")+" · "+ctx.net,n=ctx.next||{};
-  var top=bio&&ctx.sheet!=="pw"?'<div class="bio">'+M[bio][0]+'</div><button class="btn" data-a="unlock" data-f="'+bio+'">UNLOCK WITH '+M[bio][1].toUpperCase()+'</button><button class="altbtn" data-a="pw">⁂ Use ASSM password</button>':
-   '<input class="pw" id="rw2-u" autocomplete="username" placeholder="ASSM username" value="'+E((S().info().user)||"")+'"><input class="pw" id="rw2-p" type="password" autocomplete="current-password" placeholder="ASSM password"><button class="btn" data-a="unlock" data-f="assm">UNLOCK &amp; SIGN</button>'+(bio?'<button class="altbtn" data-a="bio">'+M[bio][0]+' Use '+M[bio][1]+' instead</button>':"");
-  return'<div class="dim" data-a="close"></div><div class="sheet"><div class="grab"></div><h3>Unlock to sign</h3><p class="sub">'+E(sub)+'</p>'+top+
-   '<div class="note">Any ONE method unlocks · 5 wrong passwords → 15-min lockout · signed in stays on, every mint asks once</div>'+
-   '<div class="kv"><dt>signs</dt><dd>'+E(n.label||"…")+'</dd><dt>prev hash</dt><dd class="h">'+E(sh(n.prev))+'</dd><dt>key</dt><dd class="g">'+(devName()==="17e"?"Secure Enclave":devName()==="moto"?"Android Keystore":"Neo keychain")+' · never leaves '+E(devName())+'</dd></div>'+
-   '<button class="btn ghost" data-a="close">Cancel · nothing is sent</button></div>'}
+function authSheet(){return""} /* b48: no unlock/login sheet; wallet owns the ASSM profile and RID */
 function loginSheet(){return""} /* b48: no login in the wallet; the wallet owns the ASSM profile and RID */
 function receiptSheet(){var r=ctx.receipt||{};return'<div class="dim" data-a="close"></div><div class="sheet"><div class="grab"></div><div class="tick">✔</div><h3>Minted · '+E(String(r.mode||"live").toUpperCase())+'</h3><p class="sub">sealed on '+E(devName())+' · via '+E(r.route||"")+'</p>'+
   '<div class="kv"><dt>block</dt><dd class="k">#'+E(r.block_index!=null?r.block_index:r.index)+'</dd><dt>block hash</dt><dd class="h">'+E(sh(r.block_hash||r.hash))+'</dd><dt>signed by</dt><dd class="g">'+E(r.signed_by||"")+' · '+E((M[r.factor]||[0,r.factor||""])[1])+'</dd><dt>gate</dt><dd class="g">trusted ✔ · ASSM ✔ · nonce '+(r.nonce_consumed?"used ✔":"—")+'</dd><dt>RTRACKR</dt><dd class="g">'+(r.rtrackr===false?"register queued":"registered / autopub next run")+'</dd><dt>time</dt><dd>'+E(new Date().toLocaleString())+'</dd></div>'+
@@ -132,15 +126,14 @@ var SCR={
   '<div class="setrow"><span>Session</span><em>no login in this wallet</em></div><div class="setrow"><span>Auto-logout</span><em>never</em></div><div class="setrow"><span>Per-mint unlock</span><em>always · on a trusted device</em></div>'+
   '<div class="sec" style="padding-top:16px">TRUSTED DEVICES · UNLOCK METHODS</div>'+devrows()+
   '<div class="sec" style="padding-top:16px">OUR WALLETS</div><div class="setrow"><span>'+(((RT()&&RT().wallets)||[]).length)+' in the RtrackR feed</span><em>ours</em></div>'+
-  (si.signed_in&&!si.inherited?'<button class="logout" data-a="logout">Log out of ASSM on this '+E(devName())+'</button>':'')+legacy()+nav("settings")}};
+  legacy()+nav("settings")}};
 /* RDRAGON left panel: the existing csp-rwallet layout upgraded in place */
 function panel(){var U=w.RWALLET_UNIFIED,ad=U?U.addresses():[];
   return'<div class="pn"><div class="ttl">Anti Social Social Media</div><div class="ban" style="background-image:url('+E(w.RWALLET_BANNER||"banner.jpg")+')"><img class="crest" src="'+E(w.RWALLET_CREST||"ghostmachine-logo.jpg")+'" alt=""></div>'+
   '<div class="av" style="background-image:url('+E(w.RWALLET_AVATAR||"avatar.jpg")+')"><span class="pill l">✔ Verified</span><span class="pill r" data-a="home">&gt; Wallet</span></div><div class="nm">Rizal the Younger</div><div class="hd">'+HANDLE+'</div>'+
   '<div class="cd"><div class="ch"><span><b>@CHASERIZAL</b> · ЯID-0001</span></div>'+
   '<div class="bl"><div class="n">'+E(rtAmt(RT()&&RT().rtokenTotal))+' <span class="u">Я</span></div><div class="s">R token · '+E(RT()&&!RT().miss(RT().rcoin)?rtAmt(RT().rcoin):"—")+' RCOIN</div></div>'+
-  '<div class="nets">'+netChip()+'<span class="chip">chain #'+(ctx.height!=null?ctx.height-1:"…")+'</span></div>'+
-  '<div class="acts"><div data-a="send">↑ Send</div><div data-a="receive">↓ Receive</div><div class="mint1" data-a="press"><b>Я MINT · SIGN</b><small>one press · '+E(devName())+' · '+E(unlockText())+'</small></div><div style="grid-column:1/3" data-a="legacy">⛓ BOTLATCH</div></div>'+
+  '<div class="acts"><div data-a="send">↑ Send</div><div data-a="receive">↓ Receive</div><div class="mint1" data-a="press"><b>Я MINT · REQUEST</b><small>request only · Face ID on the 17e</small></div><div style="grid-column:1/3" data-a="legacy">⛓ BOTLATCH</div></div>'+
   '<div class="rtr" data-a="rtrackr"><span>▶ RTRACKR</span><em>'+(ctx.next&&ctx.next.kind==="bind"?"#"+ctx.next.index+" pending":"#"+(ctx.height!=null?ctx.height-1:"…"))+'</em></div>'+
   '<div class="msg">'+E(ctx.msg)+'</div>'+
   '<div class="tl">'+(((RT()&&RT().wallets)||[]).length?RT().wallets.map(function(a){return'<div><span>'+E(a.label)+' · ours</span><b>'+E(rtAmt(a.rtoken_ui))+' Я</b></div>'}).join(""):'<div><span>no wallets in the RtrackR feed</span><b>—</b></div>')+'</div></div></div>'}
@@ -151,7 +144,7 @@ function isPanel(m){return m.hasAttribute("data-panel")||(m.getBoundingClientRec
 function render(){var m=mount();if(!m)return;if(st.legacy&&legacyRender){legacyRender();addBack(m);return}
   var p=isPanel(m);if(!p&&!walletOpen(m)&&legacyRender){legacyRender();return}   // profile page with "> Wallet" closed: keep the old header
   var h=p?panel():(SCR[st.scr]||SCR.home)();
-  if(ctx.sheet==="auth"||ctx.sheet==="pw")h+=authSheet();else if(ctx.sheet==="login")ctx.sheet=null;else if(ctx.sheet==="receipt")h+=receiptSheet();else if(ctx.sheet==="link")h+=linkSheet();else if(ctx.sheet==="receive")h+=receiveSheet();
+  if(ctx.sheet==="auth"||ctx.sheet==="pw"||ctx.sheet==="login")ctx.sheet=null;else if(ctx.sheet==="receipt")h+=receiptSheet();else if(ctx.sheet==="link")h+=linkSheet();else if(ctx.sheet==="receive")h+=receiveSheet();
   m.innerHTML='<div class="rw2'+(p?" panel":"")+'">'+h+'</div>';fillBalances(m)}
 function walletOpen(m){if(m.hasAttribute("data-embed"))return true;try{return!!(JSON.parse(localStorage.getItem("rdragon.csp.v2.rwallet"))||{}).w}catch(e){return true}}
 D.addEventListener("click",function(e){if(e.target.closest&&e.target.closest("[data-w]"))setTimeout(render,0)});   // after rwallet-ghost.js toggles "> Wallet"
@@ -162,10 +155,10 @@ function doPress(factor){var u=D.getElementById("rw2-u"),p=D.getElementById("rw2
   ctx.busy=true;ctx.sheet=null;render();return w.RMINT_PRESS.press(o).then(function(r){ctx.busy=false;o.password=null;
     if(r.ok){ctx.receipt=r;ctx.sheet="receipt";ctx.msg="";refresh()}else if(r.gate===false){ctx.msg=r.why;st.scr="home";ctx.sheet=null}else if(r.queued){st.scr="offline";ctx.msg="Sealed · queued"}else{ctx.msg=r.err||(r.errors||[]).join(" ")||"not minted";if(r.locked_s)ctx.msg+=" · locked "+Math.ceil(r.locked_s/60)+" min"}
     save();render()}).catch(function(e){ctx.busy=false;say("not minted: "+e.message)})}
-function onPress(){if(!sessInfo().signed_in){say("Sign on a trusted device");return}
-  w.RMINT_GATE.mintGated().then(function(g){if(!g.ok){ctx.msg=g.why;ctx.sheet=null;st.scr="home";save();render();return}   // gate BEFORE any prompt; no login sheet
-    if(!ctx.factors.length){say("No signer on this page: routing to your trusted phone…");doPress(null);return}
-    ctx.sheet=devName()==="Neo"&&ctx.factors.indexOf("assm")>=0?"pw":"auth";render()})}
+function onPress(){ctx.sheet=null;if(!w.RMINT_GATE||!w.RMINT_PRESS){say("Request only · sign with Face ID on the 17e");return}
+  w.RMINT_GATE.mintGated().then(function(g){if(g&&(g.soft||g.route==="request")){say(g.why||"Request only · sign with Face ID on the 17e");doPress(null);return}
+    if(g&&!g.ok){ctx.msg=g.why;st.scr="home";save();render();return}
+    say("Request only · sign with Face ID on the 17e");doPress(null)})}
 D.addEventListener("click",function(e){var t=e.target.closest&&e.target.closest(".rw2 [data-a]");if(!t)return;var a=t.dataset.a;e.stopPropagation();
   if(SCR[a]&&a!=="untrusted"){st.scr=a;ctx.sheet=null;save();render();return}
   if(t.closest&&t.closest("[data-f]")){var id=t.closest("[data-f]").getAttribute("data-f");if(w.RWALLET_UNIFIED&&w.RWALLET_UNIFIED.run){w.RWALLET_UNIFIED.run(id).then(function(r){ctx.msg=(r&&r.status)||"preview";render()});}return;}

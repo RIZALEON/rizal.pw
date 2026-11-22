@@ -17,8 +17,8 @@ function load(){
      try{localStorage.setItem(KEY,JSON.stringify(c))}catch(e){}return{doc:doc,source:'live · sha256 ✓',ok:true,sha256:got}})})
  .catch(function(e){var c=cached();return c?{doc:c.doc,source:'cached '+c.fetched.slice(0,16)+' ('+e.message+')',ok:false,sha256:c.sha256}:{doc:null,source:'unreachable ('+e.message+')',ok:false}})}
 function render(el,r){var d=r.doc;el.setAttribute('style','display:block;margin-top:6px;border:1px solid #b388ff;background:#000;color:#b388ff;padding:6px 8px;font:11px Menlo,monospace');
- if(!d){el.innerHTML='<b>Я RGHOSTCHAIN</b> · watch-only · '+E(r.source);return}
- el.innerHTML='<b style="letter-spacing:.15em">Я RGHOSTCHAIN</b> · watch-only · '+E(r.source)+'<br>height '+E(d.height)+' · tip '+E(String(d.tip||'').slice(0,16))+'…'+
+ if(!d){el.innerHTML='<b>Я RGHOSTCHAIN</b> · '+E(r.source);return}
+ el.innerHTML='<b style="letter-spacing:.15em">Я RGHOSTCHAIN</b> · '+E(r.source)+'<br>height '+E(d.height)+' · tip '+E(String(d.tip||'').slice(0,16))+'…'+
   (d.verify&&d.verify.ok?' · verified ✓':'')+'<div style="opacity:.85;margin-top:3px">'+(d.blocks||[]).slice().reverse().map(function(b){
    return '#'+E(b.index)+' '+E(b.type)+' '+E(String(b.hash).slice(0,12))+'… '+E(String(b.ts||'').slice(0,16))+((b.payload&&b.payload.label)?' · '+E(b.payload.label):'')}).join('<br>')+
   '</div><a href="/rtrackr/" style="color:#39ff14">▶ RTRACKR</a>'}
