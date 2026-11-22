@@ -1,0 +1,872 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" /><meta name="color-scheme" content="dark" /><link rel="icon" href="data:," /><title>GHOSTMACHINE — Meta Site</title>
+ <style>
+      :root{
+        --g:#39ff14;
+        --g-dim:#1f8a0c;
+        --p:#b388ff;
+        --pp:#8a2be2;
+        --bg:#000;
+        --panel:#050805;
+        --err:#ff5370;
+      }
+      *{box-sizing:border-box}
+      html,body{margin:0;padding:0}
+      body{
+        background:var(--bg);
+        color:var(--g);
+        font:15px/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+        -webkit-text-size-adjust:100%;
+      }
+      main{max-width:920px;margin:0 auto;padding:20px 16px 56px}
+      h1{font-size:26px;line-height:1.2;margin:0 0 2px;font-weight:700;letter-spacing:.02em}
+      h1 .ghost{color:#fff}
+      h2{font-size:16px;margin:0 0 10px;color:var(--p);font-weight:700}
+      .box{
+        border:1px solid var(--g);
+        border-radius:6px;
+        padding:14px;
+        margin:14px 0;
+        background:var(--panel);
+      }
+      label{display:block;margin:10px 0 4px;font-size:13px}
+      input{
+        width:100%;
+        background:#000;
+        color:var(--g);
+        border:1px solid var(--g-dim);
+        border-radius:4px;
+        padding:10px;
+        font:inherit;
+        min-height:44px;
+        margin-top:4px;
+      }
+      input:focus{outline:2px solid var(--p);outline-offset:1px;border-color:var(--p)}
+      .pill{
+        display:inline-block;
+        background:var(--pp);
+        color:#fff;
+        border:1px solid var(--p);
+        border-radius:999px;
+        padding:9px 18px;
+        margin:6px 8px 6px 0;
+        cursor:pointer;
+        font:inherit;
+        font-size:14px;
+        min-height:44px;
+        text-decoration:none;
+      }
+      .pill.sec{background:transparent;color:var(--p)}
+      .pill:disabled{opacity:.4;cursor:not-allowed}
+      .row{display:flex;flex-wrap:wrap;align-items:center;gap:4px}
+      #msg,#dev-msg,#dk-msg{min-height:22px;margin:10px 0;font-size:14px;color:var(--p);white-space:pre-wrap;word-break:break-word}
+      #msg.err,#dev-msg.err,#dk-msg.err{color:var(--err)}
+      #msg.ok,#dev-msg.ok,#dk-msg.ok{color:var(--g)}
+      .devpick{
+        display:block;width:100%;text-align:left;
+        background:transparent;color:var(--g);
+        border:1px solid var(--g-dim);border-radius:6px;
+        padding:10px 12px;margin:6px 0;cursor:pointer;
+        font:inherit;min-height:44px;
+      }
+      .devpick:focus{outline:2px solid var(--p);outline-offset:1px;border-color:var(--p)}
+      .devpick .dp-label{display:block;font-size:15px;color:#fff}
+      .devpick .dp-id{display:block;font-size:12px;word-break:break-all;margin-top:2px}
+      .hint{font-size:13px;color:var(--p);margin:4px 0 8px}
+      .kv{margin:4px 0;word-break:break-word}
+      .kv b{color:var(--p);font-weight:normal}
+      [hidden]{display:none!important}
+      @media (max-width:680px){
+        main{padding:16px 12px 48px}
+        h1{font-size:22px}
+      }
+    </style>
+ </head><body><main><h1><span class="ghost">GHOSTMACHINE</span></h1><section class="box" aria-label="Sign in"><h2>Sign in</h2><div id="signedout"><form id="login-form" autocomplete="on"><label>username
+ <input id="l-user" name="username" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="@chaserizal" /></label><label>password
+ <input id="l-pass" name="password" type="password" autocomplete="current-password" /></label><div class="row"><button class="pill" id="b-login" type="submit">Sign in</button></div></form></div><div id="msg" role="status" aria-live="polite"></div><div id="signedin" hidden><p class="kv"><b>handle</b><span id="s-user">—</span></p><p class="kv"><b>RID</b><span id="s-rid">—</span></p><p class="kv"><b>device</b><span id="s-device">—</span></p><p class="kv"><b>since</b><span id="s-since">—</span></p><div class="row"><button class="pill sec" id="b-logout" type="button">Sign out</button></div></div></section><section class="box" aria-label="This device"><h2>This device</h2><div id="dev-known" hidden><p class="kv"><b>device RID</b><span id="d-rid">—</span></p><p class="kv"><b>kind</b><span id="d-kind">—</span></p><p class="kv"><b>registry</b><span id="d-registry">—</span></p></div><div id="dev-unknown" hidden><p class="kv">this browser does not expose a device RID</p><div id="dev-picker" hidden><p class="hint">pick this device from the trusted-devices registry:</p><div id="dev-picker-list"></div></div><label>device RID
+ <input id="d-input" placeholder="Я-DEVICE-…" autocapitalize="characters" autocorrect="off" spellcheck="false" /></label><p class="hint">from the device's RTOR client or its trusted-devices entry</p><div class="row"><button class="pill" id="b-save-rid" type="button">Save device RID</button></div></div><div id="dev-approve" hidden><div class="row"><button class="pill" id="b-approve" type="button">Approve this device</button></div></div><p class="kv" id="dev-signin-note" hidden>sign in above to approve this device</p><div id="dev-approved" hidden><p class="kv"><b>status</b> approved</p><p class="kv"><b>device RID</b><span id="d-approved-rid">—</span></p><p class="kv"><b>approved at</b><span id="d-approved-at">—</span></p><div class="row"><button class="pill sec" id="b-copy-approval" type="button">Copy approval record</button><button class="pill sec" id="b-remove-approval" type="button">Remove approval</button></div></div><div id="dev-key"><p class="kv"><b>device key</b></p><p class="hint" id="dk-frame-note" hidden>device keys may not work inside an embedded view — open the page in Safari to register</p><p class="kv" id="dk-none" hidden>this browser can't do device keys</p><p class="kv" id="dk-registered" hidden>device key registered on this browser<span id="dk-linked"></span></p><p class="kv" id="dk-verified" hidden>device key verified<span id="dk-verified-rid"></span></p><div class="row" id="dk-actions" hidden><button class="pill" id="b-key-register" type="button" hidden>Register this device</button><button class="pill" id="b-key-confirm" type="button" hidden>Confirm this device</button><button class="pill sec" id="b-key-remove" type="button" hidden>Remove device key</button></div><p class="hint">how this works: the first bind registers a key on the device; on later visits the device proves itself by signing a fresh challenge. The private key never leaves the device — only the public key is kept.</p><p class="hint">the key is bound to this site's address — a key registered here works here; on another site (for example rizal.info) the device must be registered again there.</p><p class="hint">there is no server in this check — the public key lives in this browser next to the record and verification runs locally, so this recognises the device; it does not replace the password sign-in.</p><p class="hint">a brand-new device still needs its one first bind (picker or register) — no system can identify a device it has never seen.</p><div id="dk-msg" role="status" aria-live="polite"></div></div><div id="dev-msg" role="status" aria-live="polite"></div></section></main>
+ <script src="https://rizal.pw/rdragon-cryptosocial/rdragon-config.js"></script>
+ <script src="https://rizal.pw/rdragon-cryptosocial/rsite-auth.js"></script>
+ <script>
+    (function(){
+      "use strict";
+      var $ = function(id){ return document.getElementById(id); };
+      var VAULT_URL = "https://rizal.pw/data/auth/vault.json";
+      var PINNED_PUB = "aYMlpc7bKdjcCUp1bwVdfSx5SeVqHOv91JTTKDG2F8k=";
+      var LS_FAILS = "assm.simple-login.v1";
+      var LS_META = "rmint.session.meta.v1";
+      var LS_PENDING = "rmint.session.pending.v1";
+      var MAX_FAILS = 5, LOCK_MS = 60000;
+
+      /* The config ships a same-origin vault path; this page lives on another
+         origin, so point rsite-auth at the absolute vault URL. The pinned
+         public key stays exactly as published. */
+      try{
+        window.RDRAGON_CONFIG = window.RDRAGON_CONFIG || {};
+        window.RDRAGON_CONFIG.siteAuth = window.RDRAGON_CONFIG.siteAuth || {};
+        window.RDRAGON_CONFIG.siteAuth.url = VAULT_URL;
+        if(!window.RDRAGON_CONFIG.siteAuth.pub) window.RDRAGON_CONFIG.siteAuth.pub = PINNED_PUB;
+      }catch(e){}
+
+      function sitePub(){
+        try{ var p = window.RDRAGON_CONFIG && window.RDRAGON_CONFIG.siteAuth && window.RDRAGON_CONFIG.siteAuth.pub; if(p) return p; }catch(e){}
+        return PINNED_PUB;
+      }
+      function msg(t, cls){
+        var m = $("msg"); m.textContent = t || ""; m.className = cls || "";
+      }
+
+      /* ---------- vault crypto guard ----------
+         Opened as a downloaded file (or any non-secure context), this page
+         has no window.crypto.subtle and the vault code dies with a raw
+         "undefined is not an object (evaluating 'S.importKey')" error.
+         Detect that up front: show one plain message and never attempt the
+         vault fetch / verify / open calls. */
+      var NO_CRYPTO_MSG = "this browser can't run the vault crypto here — open the hosted page link, not the downloaded file";
+      function cryptoOK(){
+        try{ return !!(window.crypto && window.crypto.subtle && typeof window.crypto.subtle.importKey === "function"); }
+        catch(e){ return false; }
+      }
+      var CRYPTO_OK = cryptoOK();
+      function H(h){
+        h = String(h || "").trim().toLowerCase();
+        if(h && h.charAt(0) !== "@") h = "@" + h;
+        return h;
+      }
+
+      /* ---------- device detection: FIXED vs PORTABLE ---------- */
+      function detectDevice(){
+        var id = "";
+        try{ if(window.RMINT_DEVICE_ID) id = String(window.RMINT_DEVICE_ID); }catch(e){}
+        if(!id){
+          try{
+            var ot = window.RMINT_ONETAP;
+            if(ot){
+              var n = ot.node;
+              if(typeof n === "string") id = n;
+              else if(n && typeof n === "object") id = String(n.device_id || n.id || n.node || "");
+            }
+          }catch(e){}
+        }
+        id = id.trim();
+        var ua = navigator.userAgent || "";
+        var mobileUA = /Android|webOS|iPhone|iPad|iPod|Mobile|BlackBerry|IEMobile|Opera Mini/i.test(ua);
+        var low = id.toLowerCase();
+        var kind = "unknown";
+        if(low.indexOf("iphone17e-") === 0 || low.indexOf("moto-") === 0) kind = "PORTABLE";
+        else if(low.indexOf("neo-") === 0) kind = "FIXED";
+        else if(mobileUA) kind = "PORTABLE";
+        else if(/Windows NT|Macintosh|X11|Linux/i.test(ua)) kind = "FIXED";
+        return { id: id, kind: kind, ua: ua, mobileUA: mobileUA };
+      }
+      var DEV = detectDevice();
+
+      /* ---------- this device: RID detection + local approval ---------- */
+      var LS_APPROVED = "assm.device.approved.v1";
+      var LS_RID = "assm.device.rid.v1";
+      var TRUSTED_URL = "https://rizal.pw/rwallet/data/trusted-devices.json";
+      var currentMeta = null;
+      var lastRegistryRid = null;
+
+      function devMsg(t, cls){
+        var m = $("dev-msg"); if(m){ m.textContent = t || ""; m.className = cls || ""; }
+      }
+      function loadApproval(){
+        try{ var v = JSON.parse(localStorage.getItem(LS_APPROVED) || "null"); return (v && v.device_rid) ? v : null; }
+        catch(e){ return null; }
+      }
+      function loadTypedRid(){
+        try{ var v = JSON.parse(localStorage.getItem(LS_RID) || "null"); return (v && v.device_rid) ? String(v.device_rid) : ""; }
+        catch(e){ return ""; }
+      }
+      /* Detection order, first hit wins: shell device id, then the onetap
+         node, then a previously saved approval record, then a RID the user
+         typed and saved here. A RID is never invented or generated. */
+      function detectDeviceRid(){
+        try{ if(window.RMINT_DEVICE_ID){ var a = String(window.RMINT_DEVICE_ID).trim(); if(a) return { rid: a, source: "shell" }; } }catch(e){}
+        try{
+          var ot = window.RMINT_ONETAP;
+          if(ot){
+            var n = ot.node, b = "";
+            if(typeof n === "string") b = n;
+            else if(n && typeof n === "object") b = String(n.device_id || n.id || n.node || "");
+            b = String(b || "").trim();
+            if(b) return { rid: b, source: "shell" };
+          }
+        }catch(e){}
+        var ap = loadApproval();
+        if(ap) return { rid: String(ap.device_rid), source: "restored" };
+        var typed = loadTypedRid();
+        if(typed) return { rid: typed, source: "typed" };
+        return { rid: "", source: "" };
+      }
+      /* Kind for a specific device id (picked or typed), falling back to the
+         browser-level detection when the id says nothing. */
+      function kindForId(id){
+        var low = String(id || "").toLowerCase();
+        if(low.indexOf("iphone") === 0 || low.indexOf("moto-") === 0 || low.indexOf("pixel") === 0) return "PORTABLE";
+        if(low.indexOf("neo-") === 0) return "FIXED";
+        return DEV.kind;
+      }
+      function updateDeviceLine(){
+        if(!currentMeta) return;
+        var det = detectDeviceRid();
+        var label = det.rid || ((currentMeta.device_id && currentMeta.device_id !== "unknown") ? currentMeta.device_id : "unknown");
+        var kind = det.rid ? kindForId(det.rid) : DEV.kind;
+        $("s-device").textContent = label + (kind !== "unknown" ? " · " + kind : "");
+      }
+
+      /* ---------- trusted-devices.json registry lookup ---------- */
+      var trustedPromise = null;
+      function loadTrusted(){
+        if(trustedPromise) return trustedPromise;
+        trustedPromise = fetch(TRUSTED_URL, { cache: "no-cache" })
+          .then(function(r){ if(!r.ok) throw new Error("http " + r.status); return r.json(); })
+          .catch(function(e){ trustedPromise = null; throw e; });
+        return trustedPromise;
+      }
+      function checkRegistry(candidates){
+        var el = $("d-registry");
+        loadTrusted().then(function(data){
+          var devs = (data && data.devices) || [];
+          var hit = null;
+          for(var i = 0; i < devs.length && !hit; i++){
+            var d = devs[i];
+            for(var j = 0; j < candidates.length; j++){
+              var c = String(candidates[j] || "").toLowerCase();
+              if(!c) continue;
+              if(String(d.device_id || "").toLowerCase() === c || String(d.rsd_device_id || "").toLowerCase() === c){ hit = d; break; }
+            }
+          }
+          if(hit){
+            el.textContent = "in trusted-devices.json — tier " + (hit.tier || "?") + " · status " + (hit.status || "?") + (hit.label ? " (" + hit.label + ")" : "");
+          } else {
+            el.textContent = "not in trusted-devices.json — approval here is local to this browser; adding it to the site registry needs a repo change";
+          }
+        }).catch(function(e){
+          el.textContent = "trusted-devices.json could not be loaded (" + (e && e.message || e) + ")";
+        });
+      }
+
+      /* ---------- device picker: choose from the live registry ----------
+         This browser exposes no device identity of its own, so instead of
+         only typing, offer the registry's HARD-tier devices as tappable
+         buttons. Everything rendered comes from the live
+         trusted-devices.json — nothing is hardcoded. Tapping one saves its
+         device_id into the same store the typed RID uses. */
+      var pickerLoaded = false;
+      function renderPicker(){
+        if(pickerLoaded) return;
+        pickerLoaded = true;
+        loadTrusted().then(function(data){
+          var devs = (data && data.devices) || [];
+          var hard = [];
+          for(var i = 0; i < devs.length; i++){
+            if(String(devs[i].tier || "").toLowerCase() === "hard" && devs[i].device_id) hard.push(devs[i]);
+          }
+          if(!hard.length) return;
+          var list = $("dev-picker-list");
+          list.innerHTML = "";
+          hard.forEach(function(d){
+            var b = document.createElement("button");
+            b.type = "button";
+            b.className = "devpick";
+            var t1 = document.createElement("span");
+            t1.className = "dp-label";
+            t1.textContent = d.label || d.device_id;
+            var t2 = document.createElement("span");
+            t2.className = "dp-id";
+            t2.textContent = d.device_id + " · tier " + (d.tier || "?") + (d.status ? " · " + d.status : "");
+            b.appendChild(t1);
+            b.appendChild(t2);
+            b.addEventListener("click", function(){ pickDevice(d); });
+            list.appendChild(b);
+          });
+          $("dev-picker").hidden = false;
+        }).catch(function(){
+          pickerLoaded = false;
+        });
+      }
+      function pickDevice(d){
+        var id = String(d.device_id || "");
+        if(!id) return;
+        try{ localStorage.setItem(LS_RID, JSON.stringify({ device_rid: id, saved_at: new Date().toISOString() })); }catch(e){}
+        lastRegistryRid = null;
+        devMsg("this device set to " + (d.label || id) + " — saved on this device", "ok");
+        renderDevice();
+      }
+
+      /* ---------- automatic device match ----------
+         Runs on page load (signed in or not) and again after sign-in /
+         restored session. When no device is bound yet, work out which
+         device this is without any tap: the live registry holds exactly one
+         HARD device per platform, so match this browser's platform (from
+         the user agent) against the registry's device_id prefixes / labels.
+         Only an exactly-one match binds — zero or several matches bind
+         nothing, so nobody is ever bound to the wrong device by a guess.
+         The id bound always comes from the live registry fetch; nothing is
+         invented. Binding only identifies the device — it never approves;
+         approval still needs the user's tap on "Approve this device".
+         If the registry fetch fails, retry once after 2 seconds; if that
+         fails too, bind nothing and leave the picker and type-in as they
+         are. */
+      var autoMatchTried = false;
+      var autoMatchRetried = false;
+      function browserPlatform(){
+        var ua = navigator.userAgent || "";
+        if(/iPhone|iPad|iPod/i.test(ua)) return "ios";
+        if(/Android/i.test(ua)) return "android";
+        if(/Macintosh|Mac OS X/i.test(ua)) return "macos";
+        return "other";
+      }
+      function devicePlatform(d){
+        var id = String(d.device_id || "").toLowerCase();
+        var label = String(d.label || "").toLowerCase();
+        function has(words){
+          for(var i = 0; i < words.length; i++){
+            if(id.indexOf(words[i]) === 0 || label.indexOf(words[i]) !== -1) return true;
+          }
+          return false;
+        }
+        if(has(["iphone", "ipad"])) return "ios";
+        if(has(["moto", "pixel", "galaxy", "android"])) return "android";
+        if(has(["neo", "mac"])) return "macos";
+        return "other";
+      }
+      function autoMatchDevice(){
+        if(autoMatchTried) return;
+        /* Only when nothing is bound yet: no detected RID from any source
+           (shell, approval, typed) and no approval record. */
+        if(loadApproval()) return;
+        if(detectDeviceRid().rid) return;
+        autoMatchTried = true;
+        var plat = browserPlatform();
+        if(plat === "other") return;
+        loadTrusted().then(function(data){
+          /* Re-check: the user may have bound a device while this loaded. */
+          if(loadApproval() || detectDeviceRid().rid) return;
+          var devs = (data && data.devices) || [];
+          var matches = [];
+          for(var i = 0; i < devs.length; i++){
+            var d = devs[i];
+            if(String(d.tier || "").toLowerCase() !== "hard" || !d.device_id) continue;
+            if(devicePlatform(d) === plat) matches.push(d);
+          }
+          if(matches.length !== 1) return;
+          var m = matches[0];
+          var id = String(m.device_id);
+          try{ localStorage.setItem(LS_RID, JSON.stringify({ device_rid: id, saved_at: new Date().toISOString(), source: "auto" })); }catch(e){}
+          lastRegistryRid = null;
+          renderDevice();
+          devMsg("device detected automatically: " + (m.label || id) + " (matched from this browser)", "ok");
+        }).catch(function(){
+          /* Registry unreachable: retry once after 2 seconds. If the retry
+             also fails, bind nothing and leave the section as-is. */
+          if(!autoMatchRetried){
+            autoMatchRetried = true;
+            setTimeout(function(){
+              autoMatchTried = false;
+              autoMatchDevice();
+            }, 2000);
+          }
+        });
+      }
+
+      function renderDevice(){
+        var det = detectDeviceRid();
+        var ap = loadApproval();
+        if(det.rid){
+          $("dev-known").hidden = false;
+          $("dev-unknown").hidden = true;
+          $("d-rid").textContent = det.rid;
+          $("d-kind").textContent = kindForId(det.rid);
+          if(lastRegistryRid !== det.rid){
+            lastRegistryRid = det.rid;
+            $("d-registry").textContent = "checking trusted-devices.json…";
+            checkRegistry([det.rid, DEV.id]);
+          }
+        } else {
+          $("dev-known").hidden = true;
+          $("dev-unknown").hidden = false;
+          renderPicker();
+        }
+        if(ap){
+          $("dev-approved").hidden = false;
+          $("dev-approve").hidden = true;
+          $("dev-signin-note").hidden = true;
+          $("d-approved-rid").textContent = ap.device_rid || "—";
+          var at = ap.approved_at || "";
+          try{ at = new Date(ap.approved_at).toLocaleString() + " (" + ap.approved_at + ")"; }catch(e){}
+          $("d-approved-at").textContent = at || "—";
+        } else if(det.rid && currentMeta){
+          $("dev-approved").hidden = true;
+          $("dev-approve").hidden = false;
+          $("dev-signin-note").hidden = true;
+        } else if(det.rid){
+          $("dev-approved").hidden = true;
+          $("dev-approve").hidden = true;
+          $("dev-signin-note").hidden = false;
+        } else {
+          $("dev-approved").hidden = true;
+          $("dev-approve").hidden = true;
+          $("dev-signin-note").hidden = true;
+        }
+        updateDeviceLine();
+        if(typeof renderKey === "function") renderKey();
+      }
+
+      $("b-save-rid").addEventListener("click", function(){
+        var v = $("d-input").value.trim().toUpperCase();
+        if(!v){ devMsg("type the device RID first", "err"); return; }
+        try{ localStorage.setItem(LS_RID, JSON.stringify({ device_rid: v, saved_at: new Date().toISOString() })); }catch(e){}
+        devMsg("device RID saved on this device: " + v, "ok");
+        renderDevice();
+      });
+      $("b-approve").addEventListener("click", function(){
+        var det = detectDeviceRid();
+        if(!currentMeta){ devMsg("sign in first, then approve this device", "err"); return; }
+        if(!det.rid){ devMsg("no device RID detected — nothing to approve", "err"); return; }
+        var rec = {
+          device_rid: det.rid,
+          device_id: DEV.id || det.rid,
+          kind: kindForId(det.rid),
+          user: currentMeta.user,
+          rid: currentMeta.rid || "",
+          approved_at: new Date().toISOString(),
+          source: det.source || "shell"
+        };
+        try{ localStorage.setItem(LS_APPROVED, JSON.stringify(rec)); }catch(e){}
+        devMsg("✓ this device is approved — record saved on this device", "ok");
+        renderDevice();
+      });
+      $("b-copy-approval").addEventListener("click", function(){
+        var raw = null;
+        try{ raw = localStorage.getItem(LS_APPROVED); }catch(e){}
+        if(!raw){ devMsg("no approval record to copy", "err"); return; }
+        var done = function(){ devMsg("approval record copied to the clipboard", "ok"); };
+        var fallback = function(){
+          var ta = document.createElement("textarea");
+          ta.value = raw; ta.style.position = "fixed"; ta.style.opacity = "0";
+          document.body.appendChild(ta); ta.select();
+          try{ document.execCommand("copy"); }catch(e){}
+          document.body.removeChild(ta); done();
+        };
+        if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(raw).then(done, fallback);
+        else fallback();
+      });
+      $("b-remove-approval").addEventListener("click", function(){
+        try{ localStorage.removeItem(LS_APPROVED); }catch(e){}
+        lastRegistryRid = null;
+        devMsg("approval removed — only the approval record was deleted", "");
+        renderDevice();
+      });
+
+      /* ---------- device key (WebAuthn / passkey style) ----------
+         How other systems recognise a returning device immediately: the
+         first bind registers a key pair on the device; later visits prove
+         the device by signing a fresh challenge. The private key never
+         leaves the device — this page keeps only the public key, in
+         localStorage next to the record, and verification runs locally.
+         There is no server in this check, and it does not replace the
+         password sign-in. The key is bound to this site's address (rpId):
+         a key registered here works here only. Signing out deliberately
+         does NOT clear the device key — it belongs to the device. */
+      var LS_KEY = "assm.device.key.v1";
+      var WA_OK = false;
+      try{ WA_OK = !!(window.PublicKeyCredential && navigator.credentials && typeof navigator.credentials.create === "function" && typeof navigator.credentials.get === "function"); }catch(e){ WA_OK = false; }
+      var keyVerified = false;
+
+      function dkMsg(t, cls){
+        var m = $("dk-msg"); if(m){ m.textContent = t || ""; m.className = cls || ""; }
+      }
+      /* WebAuthn failures arrive as raw platform text ("The request is not
+         allowed by the user agent or the platform in the current context…").
+         Map them to plain words. A NotAllowedError here almost always means
+         an embedded browser view refused credential creation — the key code
+         is fine, the view is not. */
+      function waPlain(e, prefix){
+        var name = (e && e.name) || "";
+        if(name === "NotAllowedError") return "this browser won't allow device keys here — open this page in Safari and tap Register again";
+        if(name === "NotSupportedError" || name === "SecurityError") return "this browser can't do device keys — open this page in Safari";
+        var m = (e && e.message) ? String(e.message) : String(e || "unknown error");
+        return prefix ? prefix + m : m;
+      }
+      function waBlocked(e){
+        var name = (e && e.name) || "";
+        return name === "NotAllowedError" || name === "NotSupportedError" || name === "SecurityError";
+      }
+      /* Inside an embedded view (an in-app browser frame), WebAuthn
+         credential creation is refused by the platform. Say so up front
+         instead of letting the tap fail. Only shown when actually framed —
+         a top-level page never sees this note. */
+      function showFrameNote(){
+        var framed = false;
+        try{ framed = (window.top !== window.self); }catch(e){}
+        if(framed) $("dk-frame-note").hidden = false;
+      }
+      function loadKey(){
+        try{ var v = JSON.parse(localStorage.getItem(LS_KEY) || "null"); return (v && v.credId && v.pubJwk) ? v : null; }
+        catch(e){ return null; }
+      }
+      function b64urlEncode(buf){
+        var bytes = new Uint8Array(buf), s = "";
+        for(var i = 0; i < bytes.length; i++) s += String.fromCharCode(bytes[i]);
+        return btoa(s).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+      }
+      function b64urlDecode(str){
+        var s = String(str || "").replace(/-/g, "+").replace(/_/g, "/");
+        while(s.length % 4) s += "=";
+        var bin = atob(s), out = new Uint8Array(bin.length);
+        for(var i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+        return out;
+      }
+      function randBytes(n){
+        var b = new Uint8Array(n);
+        window.crypto.getRandomValues(b);
+        return b;
+      }
+      /* WebAuthn hands back an ASN.1 DER ECDSA signature; WebCrypto wants
+         the raw r||s form. Convert; pass anything unrecognised through. */
+      function derToRaw(sigBuf){
+        try{
+          var d = new Uint8Array(sigBuf), i = 0;
+          if(d[i++] !== 0x30) return sigBuf;
+          var len = d[i++];
+          if(len & 0x80){ var nb = len & 0x7f; len = 0; for(var k = 0; k < nb; k++) len = (len << 8) | d[i++]; }
+          function readInt(){
+            if(d[i++] !== 0x02) return null;
+            var l = d[i++];
+            if(l & 0x80){ var n2 = l & 0x7f; l = 0; for(var k = 0; k < n2; k++) l = (l << 8) | d[i++]; }
+            var v = d.subarray(i, i + l); i += l;
+            var s = 0; while(s < v.length - 1 && v[s] === 0) s++;
+            v = v.subarray(s);
+            var out = new Uint8Array(32);
+            var take = Math.min(32, v.length);
+            out.set(v.subarray(v.length - take), 32 - take);
+            return out;
+          }
+          var r = readInt(), s2 = readInt();
+          if(!r || !s2) return sigBuf;
+          var raw = new Uint8Array(64);
+          raw.set(r, 0); raw.set(s2, 32);
+          return raw;
+        }catch(e){ return sigBuf; }
+      }
+
+      function renderKey(){
+        showFrameNote();
+        var rec = loadKey();
+        if(!WA_OK){
+          $("dk-none").hidden = false;
+          $("dk-actions").hidden = true;
+          $("dk-registered").hidden = true;
+          $("dk-verified").hidden = true;
+          return;
+        }
+        $("dk-none").hidden = true;
+        $("dk-actions").hidden = false;
+        if(rec){
+          $("dk-registered").hidden = false;
+          $("dk-linked").textContent = rec.device_rid ? " — linked device: " + rec.device_rid : " — no device id linked yet";
+          $("b-key-register").hidden = true;
+          $("b-key-confirm").hidden = false;
+          $("b-key-remove").hidden = false;
+        } else {
+          $("dk-registered").hidden = true;
+          $("b-key-register").hidden = false;
+          $("b-key-confirm").hidden = true;
+          $("b-key-remove").hidden = true;
+        }
+        if(keyVerified && rec){
+          $("dk-verified").hidden = false;
+          $("dk-verified-rid").textContent = rec.device_rid ? " — this device: " + rec.device_rid : " — no device id linked to this key";
+        } else {
+          $("dk-verified").hidden = true;
+        }
+      }
+
+      $("b-key-register").addEventListener("click", function(){
+        if(!WA_OK){ dkMsg("this browser can't do device keys", "err"); return; }
+        if(!CRYPTO_OK){ dkMsg("this browser can't run the device-key crypto here — open the hosted page link, not the downloaded file", "err"); return; }
+        var uname = (currentMeta && currentMeta.user) ? currentMeta.user : "device";
+        var btn = $("b-key-register");
+        btn.disabled = true;
+        dkMsg("registering a device key on this device…", "");
+        navigator.credentials.create({
+          publicKey: {
+            challenge: randBytes(32),
+            rp: { name: "GHOSTMACHINE" },
+            user: { id: randBytes(16), name: uname, displayName: uname },
+            pubKeyCredParams: [{ type: "public-key", alg: -7 }],
+            authenticatorSelection: { residentKey: "preferred", userVerification: "discouraged" },
+            timeout: 60000
+          }
+        }).then(function(cred){
+          if(!cred || !cred.response || typeof cred.response.getPublicKey !== "function") throw new Error("the authenticator did not return a public key");
+          var spki = cred.response.getPublicKey();
+          if(!spki) throw new Error("the authenticator did not return a public key");
+          return window.crypto.subtle.importKey("spki", spki, { name: "ECDSA", namedCurve: "P-256" }, true, ["verify"])
+            .then(function(key){ return window.crypto.subtle.exportKey("jwk", key); })
+            .then(function(jwk){
+              var det = detectDeviceRid();
+              var rec = {
+                credId: b64urlEncode(cred.rawId),
+                pubJwk: jwk,
+                device_rid: det.rid || "",
+                created_at: new Date().toISOString(),
+                rpId: location.hostname
+              };
+              try{ localStorage.setItem(LS_KEY, JSON.stringify(rec)); }catch(e){}
+              keyVerified = false;
+              dkMsg("✓ device key registered on this browser" + (rec.device_rid ? " — linked to " + rec.device_rid : " — no device id known yet, so nothing is linked"), "ok");
+              renderKey();
+            });
+        }).catch(function(e){
+          dkMsg(waPlain(e, "device key registration failed: "), "err");
+        }).then(function(){ btn.disabled = false; });
+      });
+
+      $("b-key-confirm").addEventListener("click", function(){
+        var rec = loadKey();
+        if(!WA_OK){ dkMsg("this browser can't do device keys", "err"); return; }
+        if(!rec){ dkMsg("no device key registered on this browser", "err"); return; }
+        if(!CRYPTO_OK){ dkMsg("this browser can't run the device-key crypto here — open the hosted page link, not the downloaded file", "err"); return; }
+        var btn = $("b-key-confirm");
+        btn.disabled = true;
+        dkMsg("confirming this device — checking the device key…", "");
+        var challenge = randBytes(32);
+        var challengeB64 = b64urlEncode(challenge);
+        function fail(){
+          dkMsg("device key did not verify", "err");
+          btn.disabled = false;
+        }
+        navigator.credentials.get({
+          publicKey: {
+            challenge: challenge,
+            allowCredentials: [{ id: b64urlDecode(rec.credId), type: "public-key" }],
+            userVerification: "discouraged",
+            timeout: 60000
+          }
+        }).then(function(assertion){
+          if(!assertion || !assertion.response) throw new Error("no assertion");
+          var resp = assertion.response;
+          var clientData = null;
+          try{ clientData = JSON.parse(new TextDecoder().decode(resp.clientDataJSON)); }catch(e){}
+          var expectedOrigin = location.protocol + "//" + location.host;
+          if(!clientData || clientData.challenge !== challengeB64 || clientData.origin !== expectedOrigin){ fail(); return null; }
+          return window.crypto.subtle.digest("SHA-256", resp.clientDataJSON).then(function(hash){
+            var authData = new Uint8Array(resp.authenticatorData);
+            var hashBytes = new Uint8Array(hash);
+            var signed = new Uint8Array(authData.length + hashBytes.length);
+            signed.set(authData, 0);
+            signed.set(hashBytes, authData.length);
+            return window.crypto.subtle.importKey("jwk", rec.pubJwk, { name: "ECDSA", namedCurve: "P-256" }, false, ["verify"])
+              .then(function(key){
+                return window.crypto.subtle.verify({ name: "ECDSA", hash: "SHA-256" }, key, derToRaw(resp.signature), signed);
+              });
+          }).then(function(ok){
+            if(ok){
+              keyVerified = true;
+              dkMsg("✓ device key verified — this device is recognised" + (rec.device_rid ? ": " + rec.device_rid : ""), "ok");
+              renderKey();
+            } else {
+              fail();
+              return;
+            }
+            btn.disabled = false;
+          });
+        }).catch(function(e){
+          if(waBlocked(e)) dkMsg(waPlain(e, ""), "err");
+          else dkMsg("device key did not verify" + ((e && e.message) ? " (" + e.message + ")" : ""), "err");
+          btn.disabled = false;
+        });
+      });
+
+      $("b-key-remove").addEventListener("click", function(){
+        try{ localStorage.removeItem(LS_KEY); }catch(e){}
+        keyVerified = false;
+        dkMsg("device key removed — only the local key record (assm.device.key.v1) was deleted", "");
+        renderKey();
+      });
+
+      /* ---------- rate limiting (fails live in localStorage) ---------- */
+      function loadFails(){
+        try{ var v = JSON.parse(localStorage.getItem(LS_FAILS) || "{}"); return (v && v.fails) || {}; }
+        catch(e){ return {}; }
+      }
+      function saveFails(f){
+        try{ localStorage.setItem(LS_FAILS, JSON.stringify({ fails: f })); }catch(e){}
+      }
+      function lockRemaining(handle){
+        var f = loadFails(), rec = f[handle];
+        if(rec && rec.until && rec.until > Date.now()) return Math.ceil((rec.until - Date.now()) / 1000);
+        if(rec && rec.until && rec.until <= Date.now()){ delete f[handle]; saveFails(f); }
+        return 0;
+      }
+      function noteFail(handle){
+        var f = loadFails(), rec = f[handle] || { n: 0, until: 0 };
+        rec.n = (rec.n || 0) + 1;
+        if(rec.n >= MAX_FAILS){ rec.until = Date.now() + LOCK_MS; }
+        f[handle] = rec; saveFails(f);
+        return rec;
+      }
+      function clearFails(handle){
+        var f = loadFails();
+        if(f[handle]){ delete f[handle]; saveFails(f); }
+      }
+
+      /* ---------- vault: fetch + verify signature once ---------- */
+      var vaultPromise = null;
+      function loadVault(){
+        if(!CRYPTO_OK) return Promise.reject(new Error(NO_CRYPTO_MSG));
+        if(vaultPromise) return vaultPromise;
+        if(!window.RSITEAUTH){
+          vaultPromise = Promise.reject(new Error("rsite-auth.js did not load from rizal.pw"));
+          return vaultPromise;
+        }
+        vaultPromise = fetch(VAULT_URL, { cache: "no-cache" })
+          .then(function(r){ if(!r.ok) throw new Error("vault http " + r.status); return r.json(); })
+          .then(function(v){
+            return window.RSITEAUTH.verify(v, sitePub()).then(function(ok){
+              if(!ok) throw new Error("vault signature/KDF check failed");
+              return v;
+            });
+          })
+          .catch(function(e){
+            vaultPromise = null;
+            throw e;
+          });
+        return vaultPromise;
+      }
+      if(document.readyState === "loading") document.addEventListener("DOMContentLoaded", function(){ loadVault().catch(function(){}); });
+      else loadVault().catch(function(){});
+
+      /* ---------- session markers ---------- */
+      function ridFor(handle, payload){
+        if(handle === "@chaserizal") return "ЯID-0001-3QQS";
+        try{
+          var rec = (payload && payload.rec) || {};
+          return rec.rid || rec.RID || (payload && payload.rid) || "";
+        }catch(e){ return ""; }
+      }
+      function showSignedIn(meta){
+        currentMeta = meta;
+        $("signedout").hidden = true;
+        $("signedin").hidden = false;
+        $("s-user").textContent = meta.user || "—";
+        $("s-rid").textContent = meta.rid || "—";
+        updateDeviceLine();
+        var since = meta.since || "";
+        try{ since = new Date(meta.since).toLocaleString() + " (" + meta.since + ")"; }catch(e){}
+        $("s-since").textContent = since || "—";
+        renderDevice();
+        /* Also runs on page load and on both entry points that reach here —
+           a fresh password sign-in and a session restored from the marker.
+           No-ops when a device is already bound. */
+        autoMatchDevice();
+      }
+      function showSignedOut(){
+        currentMeta = null;
+        $("signedin").hidden = true;
+        $("signedout").hidden = false;
+        renderDevice();
+      }
+      function restoreSession(){
+        try{
+          var raw = localStorage.getItem(LS_META);
+          if(!raw) return;
+          var meta = JSON.parse(raw);
+          if(meta && meta.user){ showSignedIn(meta); msg("signed in as " + meta.user + " (restored from this device's session marker)", "ok"); }
+        }catch(e){}
+      }
+      restoreSession();
+      renderDevice();
+      /* Bind the device by itself on page load, signed in or not. No-ops
+         when a device is already bound (the autoMatchDevice guards and the
+         sign-in / restored-session calls cover the other entry points). */
+      autoMatchDevice();
+      if(!CRYPTO_OK) msg(NO_CRYPTO_MSG, "err");
+
+      function signOut(){
+        try{ localStorage.removeItem(LS_META); }catch(e){}
+        try{ localStorage.removeItem(LS_PENDING); }catch(e){}
+        /* Deliberately NOT removing LS_APPROVED: a device approval belongs
+           to the device, not to the session, and survives sign-out. */
+        /* Deliberately NOT removing LS_KEY either: the device key belongs
+           to the device too, so the device is still recognised on return. */
+        /* Deliberately NOT clearing LS_FAILS: signing out must never reset a
+           wrong-password lockout, or the 60s lock could be bypassed by
+           tapping Sign out. Lockouts expire on their own timer only. */
+        try{ document.dispatchEvent(new CustomEvent("rmint:session", { detail: { signed_in: false }, bubbles: true })); }catch(e){}
+        showSignedOut();
+        msg("signed out — session markers removed from this device", "");
+        var u = $("l-user"); if(u) u.focus();
+      }
+      $("b-logout").addEventListener("click", signOut);
+
+      /* ---------- the real login ---------- */
+      $("login-form").addEventListener("submit", function(ev){
+        ev.preventDefault();
+        var userEl = $("l-user"), passEl = $("l-pass"), btn = $("b-login");
+        var handle = H(userEl.value);
+        var password = passEl.value;
+        /* the password field is cleared on EVERY attempt, before anything async */
+        passEl.value = "";
+        if(!handle || handle === "@"){ msg("type your username first", "err"); return; }
+        if(!password){ msg("type your password", "err"); return; }
+        var left = lockRemaining(handle);
+        if(left > 0){
+          msg("locked: too many wrong passwords for " + handle + " — try again in " + left + "s", "err");
+          return;
+        }
+        if(!CRYPTO_OK){ msg(NO_CRYPTO_MSG, "err"); return; }
+        if(!window.RSITEAUTH){ msg("rsite-auth.js did not load from rizal.pw — cannot verify sign-in from this page", "err"); return; }
+        btn.disabled = true;
+        msg("verifying vault signature, then opening your entry…", "");
+        loadVault()
+          .then(function(vault){
+            return window.RSITEAUTH.open(vault, handle, password).then(function(payload){
+              password = null;
+              if(!payload){
+                var rec = noteFail(handle);
+                if(rec.until && rec.until > Date.now()){
+                  msg("wrong password — that was attempt " + MAX_FAILS + " of " + MAX_FAILS + ". " + handle + " is locked for 60 seconds.", "err");
+                } else {
+                  msg("wrong password or no vault entry for " + handle + " — decryption failed, no record opened. (" + rec.n + "/" + MAX_FAILS + ")", "err");
+                }
+                btn.disabled = false;
+                return;
+              }
+              clearFails(handle);
+              var deviceId = DEV.id || "unknown";
+              var since = new Date().toISOString();
+              var rid = ridFor(handle, payload);
+              var meta = {
+                device_id: deviceId,
+                user: handle,
+                since: since,
+                server: false,
+                store: "assm-simple-login",
+                site_verified: true,
+                rid: rid
+              };
+              var pending = { device_id: deviceId, assm_user: handle, t: Date.now() };
+              try{ localStorage.setItem(LS_META, JSON.stringify(meta)); }catch(e){}
+              try{ localStorage.setItem(LS_PENDING, JSON.stringify(pending)); }catch(e){}
+              try{ document.dispatchEvent(new CustomEvent("rmint:session", { detail: { signed_in: true }, bubbles: true })); }catch(e){}
+              payload = null;
+              showSignedIn(meta);
+              msg("✓ signed in — vault signature verified, entry opened on this device", "ok");
+              btn.disabled = false;
+            });
+          })
+          .catch(function(e){
+            password = null;
+            btn.disabled = false;
+            var em = String((e && e.message) || e || "");
+            if(!CRYPTO_OK || em === NO_CRYPTO_MSG || /importKey/.test(em)) msg(NO_CRYPTO_MSG, "err");
+            else msg("sign-in unavailable: " + em, "err");
+          });
+      });
+    })();
+    </script>
+ </body></html>

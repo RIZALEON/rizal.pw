@@ -1,0 +1,277 @@
+{
+  "version": 1,
+  "mode": "static",
+  "updated": "2026-11-21T19:36:00Z",
+  "live": "https://mixer-morris-feel-purpose.trycloudflare.com",
+  "note": "static discovery. live is the ASSM-RSYNC API (last 24h of entries). Authorization of the dated entry is owner-command (pt59u Go), not a cryptographic signature. | 2026-11-21 pt253u: infused with ASSM/RTOR link details (live URL refreshed, ЯID, devices, profile sha, RTOR space neo.assm ЯID-0027-Z3N5, sync info). Nothing removed. | 2026-11-21 12:36 MT pt257u correction: RTOR is a decentralized mesh of equal peers, not Neo-centric; role/state wording updated, old wording kept in superseded_wording.",
+  "rtor_feed": "/rtor/feed.json",
+  "entries_path": "/api/rsync/entries",
+  "entries": [
+    {
+      "t": "rsync.owner-command",
+      "id": "rsync-20261120-linktest-go-pt59u",
+      "ts": "2026-11-20T17:09:32.188Z",
+      "authorization": "authorized-by-owner-command",
+      "policy": "owner-command-is-signature (GHOSTKEY)",
+      "command_ref": "pt59u",
+      "command_text": "Go",
+      "command_ts": "2026-11-20T10:01:00-07:00",
+      "journal_seq": 3,
+      "journal_hash": "622fa722d81cc1d618c8a93afd91d402855955657857ee9a99fb41e60d4edcb6",
+      "recorded_by": "SCRIBE",
+      "note": "Owner Go (2026-11-20 10:01 AM MT) authorizes the four RTOR/RSYNC link-test fixes. Not a cryptographic signature."
+    },
+    {
+      "t": "rsync.owner-command",
+      "id": "rsync-20261121-assm-link-infuse-pt253u",
+      "ts": "2026-11-21T18:38:39Z",
+      "authorization": "authorized-by-owner-command",
+      "policy": "owner-command-is-signature (GHOSTKEY)",
+      "command_ref": "pt253u",
+      "command_text": "yes go on all except never remove an assm id just infuse it with more details and functionality",
+      "command_ts": "2026-11-21T11:24:00-07:00",
+      "recorded_by": "SCRIBE",
+      "note": "ASSM link entry infused (live URL, ЯID, devices, profile sha, RTOR space neo.assm ЯID-0027-Z3N5, sync). No ASSM ID or field removed. Not a cryptographic signature."
+    },
+    {
+      "t": "rsync.owner-command",
+      "id": "rsync-20261121-mesh-correction-pt257u",
+      "ts": "2026-11-21T19:36:00Z",
+      "authorization": "authorized-by-owner-command",
+      "policy": "owner-command-is-signature (GHOSTKEY)",
+      "command_ref": "pt257u",
+      "command_text": "no rtor is rand decentralized from all devices",
+      "command_ts": "2026-11-21T12:34:00-07:00",
+      "recorded_by": "SCRIBE",
+      "note": "Correction: RTOR runs decentralized on every device; all peers equal. Wording only; no ASSM ID or entry removed. Not a cryptographic signature."
+    }
+  ],
+  "live_history": [
+    {
+      "url": "https://trails-sheet-skirt-travis.trycloudflare.com",
+      "until": "2026-11-21T18:38:39Z",
+      "state": "superseded (quick tunnel restarted)"
+    }
+  ],
+  "assm": {
+    "service": "assm-rsync",
+    "version": "1.0.0",
+    "mode": "live",
+    "trusted_devices": 6,
+    "profile": {
+      "rid": "ЯID-0001-3QQS",
+      "handle": "@chaserizal",
+      "auth_scheme": "pbkdf2-sha256-hmac-v1",
+      "session": "reuse existing app session (ASSMKit / web ЯLOGIN); no token carried"
+    },
+    "endpoints": {
+      "health": "/health",
+      "entries": "/api/rsync/entries",
+      "password_params": "/api/rsync/password/params?user=@chaserizal"
+    },
+    "live_base": "https://mixer-morris-feel-purpose.trycloudflare.com",
+    "origin": "Neo loopback 127.0.0.1:8752 via cloudflared quick tunnel"
+  },
+  "rtor": {
+    "space": {
+      "rid": "ЯID-0027-Z3N5",
+      "space": "neo.assm",
+      "node": "neo.ASSM",
+      "rmail": "rtor-neo-assm@rizal.pw",
+      "status": "confirmed"
+    },
+    "client": "rtor-ghostchain 0.2.3",
+    "peer_port": 4985,
+    "profile_file": {
+      "name": "assm-profile.json",
+      "schema": "rzl.rtor.assm.profile.v1",
+      "sha256": "db3535091e3ec236d96bb28ac7d6b7d0bf6a9e8075e484895af71d023cd39fc1",
+      "size": 648,
+      "manifest_sha256": "eba3e9d2a883c3fac179fdad66fd2e94a91d3b3995618eeb4742787e72cafc46",
+      "manifest_schema": "rzl.rtor.seed.v1"
+    },
+    "sync": {
+      "bridge": "RTOR/tools/rtor-assm-sync.py",
+      "launchd": "info.rizal.rtor-assm-sync",
+      "interval_s": 300,
+      "mode": "ASSM-RSYNC feeds the profile into the RTOR mesh via the neo.assm space when its sha changes; every peer then shares it with every other peer (no hub). Bridge also seeds drops + subscribers.",
+      "fail_closed": true,
+      "loopback_only": true
+    },
+    "subscribers": [
+      "RDRAGON (Neo web /rtor/assm/, Pixel 1.0.6.1 /rtor/assm/)",
+      "RPROFILE (GHOSTMACHINE memory/long/rtor-assm, `rprofile assm`)"
+    ],
+    "feed": "/rtor/feed.json",
+    "topology": "decentralized, bidirectional peer mesh: RTOR runs on every device (Neo, Pixel, Moto, iPhone 17e, and the sites as spaces); every peer sends to and receives from every other peer; all peers equal",
+    "mesh_check": {
+      "at": "2026-11-21T12:34:44-07:00",
+      "union_files": 51,
+      "peers": {
+        "neo": {
+          "rtor": "0.2.4",
+          "files": 51,
+          "missing": 0,
+          "profile_sha_ok": true
+        },
+        "pixel": {
+          "rtor": "0.2.3",
+          "files": 51,
+          "missing": 0,
+          "profile_sha_ok": true
+        },
+        "moto": {
+          "rtor": "0.2.3",
+          "files": 51,
+          "missing": 0,
+          "profile_sha_ok": true
+        }
+      }
+    },
+    "directions_12:38": {
+      "flowing": [
+        "Neo→Pixel",
+        "Pixel→Neo",
+        "Neo→Moto",
+        "Moto→Neo"
+      ],
+      "discovery_only": [
+        "Pixel→Moto",
+        "Moto→Pixel"
+      ],
+      "not_yet": [
+        "17e↔any peer"
+      ],
+      "pending_go": "0.2.4 gossip on Pixel and Moto; RTOR peer listener on the 17e"
+    }
+  },
+  "devices": [
+    {
+      "device": "neo",
+      "role": "RTOR peer (equal) · hosts ASSM-RSYNC",
+      "spaces": [
+        {
+          "rid": "ЯID-0027-Z3N5",
+          "space": "neo.assm",
+          "node": "neo.ASSM",
+          "rmail": "rtor-neo-assm@rizal.pw",
+          "status": "confirmed"
+        }
+      ],
+      "profile_sha256": "db3535091e3e…",
+      "state": "live"
+    },
+    {
+      "device": "pixel (Ubuntu Touch)",
+      "spaces": [
+        {
+          "rid": "ЯID-0026-C7MD",
+          "space": "pixel.rtor",
+          "node": "rklowd.pixel",
+          "rmail": "rtor-pixel-rtor@rizal.pw",
+          "status": "confirmed"
+        },
+        {
+          "rid": "ЯID-0028-9GZ3",
+          "space": "pixel.dragonskull",
+          "node": "rklowd.pixel",
+          "rmail": "rtor-pixel-dragonskull@rizal.pw",
+          "status": "confirmed"
+        }
+      ],
+      "profile_sha256": "db3535091e3e…",
+      "state": "profile in its drop + library, shared with the mesh",
+      "role": "RTOR peer (equal)"
+    },
+    {
+      "device": "moto (Android)",
+      "spaces": [
+        {
+          "rid": "ЯID-0020-CKQK",
+          "space": "moto.dragonskull",
+          "node": "rklowd.moto",
+          "rmail": "rtor-moto-dragonskull@rizal.pw",
+          "status": "unsigned-pending-founder"
+        },
+        {
+          "rid": "ЯID-0021-32CZ",
+          "space": "moto.rcode",
+          "node": "rklowd.moto",
+          "rmail": "rtor-moto-rcode@rizal.pw",
+          "status": "unsigned-pending-founder"
+        },
+        {
+          "rid": "ЯID-0022-ZWHQ",
+          "space": "moto.terraformr",
+          "node": "rklowd.moto",
+          "rmail": "rtor-moto-terraformr@rizal.pw",
+          "status": "unsigned-pending-founder"
+        },
+        {
+          "rid": "ЯID-0023-YM9V",
+          "space": "moto.rboard",
+          "node": "rklowd.moto",
+          "rmail": "rtor-moto-rboard@rizal.pw",
+          "status": "unsigned-pending-founder"
+        }
+      ],
+      "profile_sha256": "db3535091e3e…",
+      "state": "profile in its RTOR library, received from the mesh (sha verified)",
+      "role": "RTOR peer (equal)"
+    },
+    {
+      "device": "iPhone 17e",
+      "spaces": [
+        {
+          "rid": "ЯID-0017-WST7",
+          "space": "17e.dragonskull",
+          "node": "17e.RDRAGON",
+          "rmail": "rtor-17e-dragonskull@rizal.pw",
+          "status": "unsigned-pending-founder"
+        },
+        {
+          "rid": "ЯID-0018-AS6M",
+          "space": "17e.rcode",
+          "node": "17e.RCODE",
+          "rmail": "rtor-17e-rcode@rizal.pw",
+          "status": "unsigned-pending-founder"
+        },
+        {
+          "rid": "ЯID-0019-KCG5",
+          "space": "17e.yabot",
+          "node": "17e.RBOT",
+          "rmail": "rtor-17e-yabot@rizal.pw",
+          "status": "unsigned-pending-founder"
+        }
+      ],
+      "profile_sha256": "db3535091e3e…",
+      "state": "drop copied (read back 2026-11-21 11:03 MT)",
+      "role": "RTOR peer (equal)"
+    }
+  ],
+  "superseded_wording": {
+    "devices_roles_states_11:38": [
+      {
+        "device": "neo",
+        "role": "ASSM origin + RTOR seeder",
+        "state": "live"
+      },
+      {
+        "device": "pixel (Ubuntu Touch)",
+        "role": null,
+        "state": "drop seeded over RTOR"
+      },
+      {
+        "device": "moto (Android)",
+        "role": null,
+        "state": "profile in RTOR library (peer PUT, sha verified)"
+      },
+      {
+        "device": "iPhone 17e",
+        "role": null,
+        "state": "drop copied (read back 2026-11-21 11:03 MT)"
+      }
+    ],
+    "rtor.sync.mode_11:38": "import into RTOR when the profile sha changes, read back via /api/library/raw, seed drops + subscribers"
+  }
+}

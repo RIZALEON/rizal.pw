@@ -1,0 +1,1129 @@
+{
+ "format": ".rzl",
+ "name": "GHOSTMACHINE-RTOR",
+ "version": "20261122-v1",
+ "title": "GHOSTMACHINE build + integrated RTOR systems + all projects — one loadable, unloadable, verifiable .RZL",
+ "owner": "@chaserizal",
+ "created": "2026-11-22T12:50-07:00",
+ "entry": "ghostmachine/index.html",
+ "assm": {
+  "gate": "ghostmachine/login/ — verifies @chaserizal against the live vault at rizal.pw/data/auth/vault.json",
+  "username": "@chaserizal",
+  "password_stored": false,
+  "note": "The password is never stored in this package or anywhere (ASSM law). Only verified-login records are kept on-device. No vault copy, no credential material of any kind is inside."
+ },
+ "verify": "bash VERIFY.sh [--live]",
+ "sums": "SHA256SUMS.txt",
+ "excluded_from_inventory": [
+  "manifest.json",
+  "SHA256SUMS.txt"
+ ],
+ "feed": {
+  "url": "https://rizal.pw/rtor/feed.json",
+  "entries_at_pack": 32,
+  "sha256_at_pack": "7dacec6da67888bf6f84f003fb78cc3c08efd4589dbd620c1cbf152e9fb9821e",
+  "signed": false
+ },
+ "chain": {
+  "height": 5,
+  "tip": "4006b570883c31aff44891971dd1935a3a58a822293f919ace27e59d8cf0bb5b",
+  "export_sha256": "d55fcd36b299726b8558be49dcf9d690e4f71de9accedfac66d6092826b63d1d"
+ },
+ "ghostkey": {
+  "keyId": "e5833fdfbbfe",
+  "public_ring_only": true,
+  "ring_sha256": "0ef6774af772884e"
+ },
+ "parts": [
+  {
+   "path": "README.md",
+   "bytes": 3697,
+   "sha256": "784b7f331b29a0650989fbdbf89aef69dc30c343a918056e089e3aafd8540802"
+  },
+  {
+   "path": "VERIFY.sh",
+   "bytes": 3689,
+   "sha256": "dff3a0d7b937b9996d7742545d4f59b3bb3d84dc474e66dd39b46cd4d6a6aef6"
+  },
+  {
+   "path": "ghostkey/ghostkey.json",
+   "bytes": 4447,
+   "sha256": "0ef6774af772884e9e2c64867f0c8388ad7e5ca2809bc43c8a968d69fc6ae818"
+  },
+  {
+   "path": "ghostmachine/ALL-APPCASTS.json",
+   "bytes": 13837,
+   "sha256": "b780ccf281f73438a219d3eab5e0c8672d5bf1b360d48a8528d9bd6a895b3466"
+  },
+  {
+   "path": "ghostmachine/ALL-APPCASTS.json.sig.json",
+   "bytes": 332,
+   "sha256": "7fd4a35ce7e226b17d17eb370ed3dade3f77ea2dc7126d3a468ef76c768b13dc"
+  },
+  {
+   "path": "ghostmachine/api/rsync/entries",
+   "bytes": 9513,
+   "sha256": "cef42499e49821295c5d8c67d5cf787f8e806993a11b56a5d26f0ed927a0c151"
+  },
+  {
+   "path": "ghostmachine/api/rsync/entries.json",
+   "bytes": 9513,
+   "sha256": "cef42499e49821295c5d8c67d5cf787f8e806993a11b56a5d26f0ed927a0c151"
+  },
+  {
+   "path": "ghostmachine/ghostmachine/index.html",
+   "bytes": 44437,
+   "sha256": "a5c36bd29b38789bee7047444866d675a4bd6808d9be058304a6a73bc279072c"
+  },
+  {
+   "path": "ghostmachine/index.html",
+   "bytes": 4455,
+   "sha256": "e1e6be598079455d4ef4677976f88af7f3f3a77637b7e07b4bf5b5ef91ade113"
+  },
+  {
+   "path": "ghostmachine/login/index.html",
+   "bytes": 2974,
+   "sha256": "2437f74a0039d250b8f69d4571de44a4adf26b9c82de046811853da03e6c25d6"
+  },
+  {
+   "path": "ghostmachine/login/options/index.html",
+   "bytes": 8491,
+   "sha256": "c926d09406c0fdd8c22f224802073ba81afbeb776c14f7172559801d243ab9a6"
+  },
+  {
+   "path": "ghostmachine/manifest.webmanifest",
+   "bytes": 148,
+   "sha256": "d3344e2db075c996208435f93c4dcd20949ad65851c637e3f78c5fb0e499202a"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/assets/avatar.webp",
+   "bytes": 982,
+   "sha256": "4b3f509965cfe13921e331715fa821e37315d1e2a968761fb7bcad1fded6c413"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/assets/banner.webp",
+   "bytes": 7320,
+   "sha256": "445c1713bad3a5d52dffa89d8584f80c3785397bf45b02b70f426dde5237ba3e"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/assets/botlatch/activity.webp",
+   "bytes": 62230,
+   "sha256": "ad3e3e32905dab87e099e7750559c1a3c4df1f61185f5226aa988b341c5a2d33"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/assets/botlatch/banner-mobile.webp",
+   "bytes": 86462,
+   "sha256": "27c458bf9aac8eeb64a53ab8a7c06c5569dc5e3edda0d414983643b631c5501f"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/assets/botlatch/banner.webp",
+   "bytes": 134854,
+   "sha256": "932f4f16d938c0922d3e3cd01d4b15df4c41a44f7c150608d488cc754bca8557"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/assets/botlatch/exchange.webp",
+   "bytes": 118646,
+   "sha256": "2d25120ca937acde5834a295d4a0751901031c0b709c9d3efe5b9167384171b1"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/assets/botlatch/tracker.webp",
+   "bytes": 98930,
+   "sha256": "2c300f450342b05dde7eb4416d857af83c572f20a1d9ee010ecc321ff536f5fc"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/assets/first-video.webp",
+   "bytes": 45694,
+   "sha256": "4dcc4b719685d8d6dfeaddc5b53d1b973f70bc49fa0a928204b618ccc7eee7b6"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/assets/ghostmachine-logo.webp",
+   "bytes": 13310,
+   "sha256": "b46dba1d08ac2bc16afc13f5f8647ab352d02699730e52ede4828cd81468edd6"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/assets/og-default.webp",
+   "bytes": 8178,
+   "sha256": "d177dc255a064f0ac329b1e22041dfff4481968b768074a3d98fef247160c840"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/assets/post.webp",
+   "bytes": 9380,
+   "sha256": "4c13969d214807fba1d65d9c952018bb68073e78d54780047bb7d6a03a19188c"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/assets/teraformr/banner.webp",
+   "bytes": 19342,
+   "sha256": "ef455ac908bd4e2d8e69507fd6b6449c01029977e456fdb1e1da3f6102f062e3"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/assets/teraformr/v5-title.webp",
+   "bytes": 67824,
+   "sha256": "4c79c408d55af59e0e0d009f4debed735d4cef66ff8b9dfe6bf186f9806ad0e2"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/assets/teraformr/v6-crafting.webp",
+   "bytes": 83836,
+   "sha256": "94dedf64fb3355cd3bbccaa55b568c31e5a34c884cc7472f2ecc02bd672ec4bf"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/assets/teraformr/v6-flora-forest.webp",
+   "bytes": 72552,
+   "sha256": "28cd051e2c5fb760df802c152b2dbbb9e8cf6868cefe4eeea6b87715db58894e"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/assets/teraformr/v6-wildlife-rainforest.webp",
+   "bytes": 70374,
+   "sha256": "9b46ce994296a2901a44f487a86aeb7cf508a298cc34a77fed4eb74de3c2667f"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/assets/verified.webp",
+   "bytes": 666,
+   "sha256": "4731ce62da42de74831f8d6518298eab9a95c1733c5cb35b73d9e205be6dddfb"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/chaserizal-articles.js",
+   "bytes": 418872,
+   "sha256": "80e47718ee3e5b9000441c4f4eec285dfebedd9c2a60c73fef2324e46dae9ce9"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/chaserizal-tweets.js",
+   "bytes": 2513,
+   "sha256": "807b44e8cff16e18470bc41967774e13f9b7ca77fefad481565d92955ddae615"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/csp-rwallet.js",
+   "bytes": 2783,
+   "sha256": "5623a10be3b10359a87acb185a9fa20c8d152b2f81695278eea7deee75812b2e"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/engine/answers.json",
+   "bytes": 12863,
+   "sha256": "018283058d7fb9331a19bca38341a882166a9d6ac049684070fba054fc98e1cb"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/engine/intent-card-map.json",
+   "bytes": 1852,
+   "sha256": "f658596e2a0aa360dfaf50592601c2258a8e1093b54385bf8746c65e21f3d3d9"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/engine/lessons-public.json",
+   "bytes": 219,
+   "sha256": "0c0bf1397219bad1b349e6f101baaa7eee828571139f44dc3460a22d7f64c082"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/engine/rdragon-card.json",
+   "bytes": 3861,
+   "sha256": "3ce29bc1b23662a593665cf0c31cc7ad251e06a2562da6d42b27d65530525623"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/engine/rdragon-engine.js",
+   "bytes": 11692,
+   "sha256": "3f83dafdd904a923a31404d60aa5c148aa7f4555dae6dfb19a17d418db90380a"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/engine/rdragon-learn.js",
+   "bytes": 8206,
+   "sha256": "b955ba8b36e6c3c85fc3d481b19e689910ded2b8dea9dc0a47b4563c1af28317"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/engine/rdragon-mind.js",
+   "bytes": 14283,
+   "sha256": "72c879f25229899c1c862b64e3918dfe0b0b02577ac5d549b339dea267cd2a0c"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/engine/rdragon-open.js",
+   "bytes": 15484,
+   "sha256": "7f03e31bcf3edd0c325bdb7db0f24cb94c0927978a13fc15dc7594687d8554e9"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/engine/rdragon-prompt.json",
+   "bytes": 2766,
+   "sha256": "551f186b23e80675dd8625f3a6d569d66f6245c5b367e99a804d5e363549d896"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/engine/rdragon-quick.js",
+   "bytes": 3661,
+   "sha256": "86f954f5c27a186eadab4fb5bcf7e1c3e044ca004be310b0da78093b6997aeb0"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/engine/vendor/nostr-tools.bundle.js",
+   "bytes": 140643,
+   "sha256": "e526bef4d35616bea83b53b3ffedd7a14cbdf1f0319d7fe8c5d1c93acf135eb3"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/rassm-backend.rzl.js",
+   "bytes": 10505,
+   "sha256": "a83324588e1512781bb26a859d1c5fc8d11032f2e8e15e005ecb1b79c1a72389"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/rassm.js",
+   "bytes": 1132,
+   "sha256": "377a63234e4ef1f08ea281e3046e3e544384eb4d7a1c783299329c3c3ed8455f"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/rbiosource.js",
+   "bytes": 4162,
+   "sha256": "4c2b38d8bb7fb7b2300868ac36f806170aa1a2f2f10824f79ee89e78328676d8"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/rdiag.js",
+   "bytes": 14994,
+   "sha256": "4fd06eb565d0e4e4b1e61ed6629aa252cd7783740d797b4706e5865617b3cfdc"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/rdragon-bundle-shim.js",
+   "bytes": 7489,
+   "sha256": "064f0383de0e8e143bcc053e47b53bbc358f655c3bbb9968f1e4525636758ea2"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/rdragon-components.js",
+   "bytes": 21248,
+   "sha256": "060ea11d53839a9ab4d05b6753856b35a0e49465978a5acb150e320cc665a40c"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/rdragon-config.js",
+   "bytes": 3448,
+   "sha256": "a6f31d28b6394d68db9e9c9c302e3c958c9bc30862eec9661eed73743e1e9833"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/rdragon-cryptosocial.css",
+   "bytes": 15576,
+   "sha256": "262e55bcde965001acbbc3599559ae23f4fa39be703bae34adad9fa0172182eb"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/rdragon-cryptosocial.js",
+   "bytes": 119158,
+   "sha256": "322944f369755926dd8d16477a997f21603f4c6b5cd48c14c96e52a03fcbd12c"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/rdragon-reply.rzl.js",
+   "bytes": 6287,
+   "sha256": "cc0adf84529e31ff9179fa23fbb265c872f9b255985a2b08beeabc82a3657311"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/rfounder.js",
+   "bytes": 5300,
+   "sha256": "cf52f7996a0726a6914af11506a3c1a80193b541ff66126d4ed3b240520a3c00"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/rkrypt.rzl.js",
+   "bytes": 97238,
+   "sha256": "a055dd728af80d5ff53f58f2268b47d8efafa234faaaa1cb5132555c7852fd64"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/rlogin-page.js",
+   "bytes": 26572,
+   "sha256": "c5ddd4606b2d06a5b901806248c5a78fe26da66cbd2e1a0efcc95beedbaf4f4c"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/rmail-mailboxes.json",
+   "bytes": 6766,
+   "sha256": "82d4e13f6242cef677ea1b977c7a183d77e60c79b9438da207f218e0c6ac0b4f"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/rmail-rizal-mail.js",
+   "bytes": 6364,
+   "sha256": "d3d9ea959333cf24136cf08f176fde56374372167958ba6653bd898227b341de"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/rmail-ui.css",
+   "bytes": 3009,
+   "sha256": "b98a95736dc59283377661850144563fe84b18315c7831066c51631d1504a306"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/rmail-ui.js",
+   "bytes": 8412,
+   "sha256": "1ba0db5928c11694e65501941d8129635a241130dd6a0e0b0c42e5e92d614011"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/rplayer.rzl.css",
+   "bytes": 3233,
+   "sha256": "ac7dcda055184e176640bfe21ae15257bed41d083b7e83acc37d3a29f6a7d3f6"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/rplayer.rzl.js",
+   "bytes": 10131,
+   "sha256": "08e776384da0822ca6e538cd7c0a9a7f553d7d1f40d2c0aa753edbac4c354663"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/rpostmenu.css",
+   "bytes": 1388,
+   "sha256": "7516c6b203cc8ca9097530e8151b3304e5d8c969a5f656cdf4f5d278f372cdbd"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/rpostmenu.js",
+   "bytes": 5819,
+   "sha256": "086c4e38daed8126fc5017b7c63995aa595a673308c7131b3d0aa435d641ed7b"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/rpublic-profile.rzl.js",
+   "bytes": 2077,
+   "sha256": "c627a213a4c3b36cae27bd0934d92a9e2184f920d8f85003f5b96c0a8cc0393c"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/rrelay.js",
+   "bytes": 9503,
+   "sha256": "e0aff2ec903d664dc80e4aa1f3c32f73e6b18e691702a8776a1fbcde129726c9"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/rsite-auth.js",
+   "bytes": 3716,
+   "sha256": "868cd85c2667e7da6bf711eb0dd9c1e7f0194145d27d7f942257e4e6c54ca937"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/rsocial-rmail.js",
+   "bytes": 7331,
+   "sha256": "9ba80cc7822bdd4a12c561df12222256f21d76b7adf3f0fc5d80bb69165bce3a"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/rstore.js",
+   "bytes": 2473,
+   "sha256": "d1fe2add85559407a36da3419ad45b0439ef8bb48b3181a2d4e36c6920f463ea"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/rsync-core.js",
+   "bytes": 27059,
+   "sha256": "966fe3d76a4c33c2dfdeb6c484d656c5e26e6d4391c0c72031351e2a41714e63"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/rsync-default-off.js",
+   "bytes": 251,
+   "sha256": "b866e2b818b144e27358754c0f8a18c05a85c7298fe8f530969d79a54fac392a"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/rsync-qr.js",
+   "bytes": 18627,
+   "sha256": "38b7c81d4db6136b6cd56d644a8b7df6d742e35133d132497672b94793568fd5"
+  },
+  {
+   "path": "ghostmachine/rdragon-cryptosocial/site-posts.json",
+   "bytes": 7447,
+   "sha256": "00d9515b3defd65ddc179f86786dbae75a10e5fd930d4f8fe4c483860ee0a104"
+  },
+  {
+   "path": "ghostmachine/rdragon-version.json",
+   "bytes": 2386,
+   "sha256": "44e2f1d203301d95ac2848038681365125a0573dc6302b3ded3a0aa9a6a9b5ca"
+  },
+  {
+   "path": "ghostmachine/rdragon-version.json.sig.json",
+   "bytes": 335,
+   "sha256": "b846b503e33a2309c261260545da19d93a705c534623e37fd3a4287cfea1e2bd"
+  },
+  {
+   "path": "ghostmachine/rtor/feed.json",
+   "bytes": 13942,
+   "sha256": "ed7661ee1bacce9a48058813f2f99487b92cbf256ad3bfa4ea7d20e17145bf06"
+  },
+  {
+   "path": "ghostmachine/rtor/feed.json.sig.json",
+   "bytes": 320,
+   "sha256": "a8f54dd16cc68f5597b081a70a5dbe783d7f3a2845d2eab6180fb43783bad142"
+  },
+  {
+   "path": "ghostmachine/rtor/ghostkey.json",
+   "bytes": 4447,
+   "sha256": "0ef6774af772884e9e2c64867f0c8388ad7e5ca2809bc43c8a968d69fc6ae818"
+  },
+  {
+   "path": "ghostmachine/rtor/index.html",
+   "bytes": 8572,
+   "sha256": "ecfea121d35a9935c30ce7cde0e621f736cd48a5da6a831dd71fc7a253132b96"
+  },
+  {
+   "path": "ghostmachine/rtor/join/index.html",
+   "bytes": 5690,
+   "sha256": "c3ff1fd8aa3fef7976c05d561ee70b1156570fffea31848d48c6f36ec2fcf1a1"
+  },
+  {
+   "path": "ghostmachine/rtor/owner-commands.json",
+   "bytes": 1150,
+   "sha256": "cc1811f9045a6b68ec264229d2b8cf33cd4fb5a5798aca75da48199c46bdf818"
+  },
+  {
+   "path": "ghostmachine/rtor/policy/owner-command-is-signature.json",
+   "bytes": 508,
+   "sha256": "e8e4944dad4ba90f9fda47499d91153732fc536f09e5868409d0bda7329a7cb5"
+  },
+  {
+   "path": "ghostmachine/rtor/policy/owner-command-is-signature.json.sig.json",
+   "bytes": 341,
+   "sha256": "8ff6b8f79ca2e5f9c423db466a678e7d9dba0fbbde9290175f8c0c64481a3087"
+  },
+  {
+   "path": "ghostmachine/rtor/rtor-devices.json",
+   "bytes": 247,
+   "sha256": "43e7948383d95196853fd13d279bb651790176421c6a24ded196e684ea1f0c7a"
+  },
+  {
+   "path": "ghostmachine/rtor/rtor-feeds.js",
+   "bytes": 2342,
+   "sha256": "4b32f256acb2907c357f58b3139bba1fed4af263b9775e3e90850f479dc432f5"
+  },
+  {
+   "path": "ghostmachine/rtor/rtor-verify.js",
+   "bytes": 10490,
+   "sha256": "68793a84440458d83cc8d246cf788a2b7fb988ff6bf75c4936791f86a33896de"
+  },
+  {
+   "path": "ghostmachine/rtor/seed.json",
+   "bytes": 11184,
+   "sha256": "2dd85f7ee5448e5a8b2313a8cae2b4a5a3cd30d21fb5317f87b5fde23788540f"
+  },
+  {
+   "path": "ghostmachine/rtor/tracker-status.json",
+   "bytes": 1030,
+   "sha256": "8a844494e2669911e2c84d05c19a6a71f9c5761e71e93aca03b313cee95e17a4"
+  },
+  {
+   "path": "ghostmachine/rtrackr/data/SHA256SUMS",
+   "bytes": 808,
+   "sha256": "387a4cffd0de3ab63777fac61f2860c436e16223be76225fc454eca4ad4b0640"
+  },
+  {
+   "path": "ghostmachine/rtrackr/data/economy-rates.json",
+   "bytes": 3254,
+   "sha256": "a400608635b3030ecca04c91b52d1b6231316502c5379b6598a79420d94fd418"
+  },
+  {
+   "path": "ghostmachine/rtrackr/data/economy-rates.json.sig.json",
+   "bytes": 338,
+   "sha256": "6fa03340c099163a7e2d9f31347560ee25bef2fe169cf3337b472f159ff22955"
+  },
+  {
+   "path": "ghostmachine/rtrackr/data/pairs.json",
+   "bytes": 1798,
+   "sha256": "c28f8a27fc1e21e40fa96f7bb098f131b25052670fb6dcc1055a10dd0c985067"
+  },
+  {
+   "path": "ghostmachine/rtrackr/data/pools.json",
+   "bytes": 1363,
+   "sha256": "018dbad9390cd88238365a879a7228a5419e2926a735785a24a0edc60ebb28a3"
+  },
+  {
+   "path": "ghostmachine/rtrackr/data/rgamechain-listings.json",
+   "bytes": 1248,
+   "sha256": "6710e5b4d9acf6f2284d402f49d06024324e47a678582010440d146836f9040d"
+  },
+  {
+   "path": "ghostmachine/rtrackr/data/rgamechain.json",
+   "bytes": 3766,
+   "sha256": "209434d45d58d23a68a170e7355c3c2acb1e923641eceaac63744e8b3b9a9302"
+  },
+  {
+   "path": "ghostmachine/rtrackr/data/rghostchain.json.sig.json",
+   "bytes": 337,
+   "sha256": "a28e7e982fb1f0b6a0250eff38d5b8c31530d1c45997a5215c6697a48fbff669"
+  },
+  {
+   "path": "ghostmachine/rtrackr/data/rtoken.json",
+   "bytes": 10385,
+   "sha256": "a7b44d624d5212731aa7bbed1d4af1c2714e7c7349405537e68cc8bb5003483d"
+  },
+  {
+   "path": "ghostmachine/rtrackr/data/rtoken.json.sig.json",
+   "bytes": 325,
+   "sha256": "93d353ae3fd0d0fd33612fa8dc22b1263d44343da516ca5214675d5831dc6c37"
+  },
+  {
+   "path": "ghostmachine/rtrackr/data/rtor-assm.json",
+   "bytes": 11480,
+   "sha256": "101cfba8d59e6951413662bd925d515372fd22879600331cafea589841ad0762"
+  },
+  {
+   "path": "ghostmachine/rtrackr/data/rtor-live.json",
+   "bytes": 70026,
+   "sha256": "f72d8d436ffcccfda9aaa729bcc35aa611d8206597bd017330f4bb54ba91bce1"
+  },
+  {
+   "path": "ghostmachine/rtrackr/data/token-pool.json",
+   "bytes": 2803,
+   "sha256": "dc382c767f04fdb5efb283e0abaa23937e71866a1d7190fc7477ded32c80369d"
+  },
+  {
+   "path": "ghostmachine/rtrackr/data/token-pool.json.sig.json",
+   "bytes": 332,
+   "sha256": "129b9a4a5a693e9ebc03dd8330cf3775f29f4fffc46d7d2b8791998cfbf5a502"
+  },
+  {
+   "path": "ghostmachine/rtrackr/data/token-wallets.json",
+   "bytes": 3176,
+   "sha256": "9d253cda0515db79912f83450de410e638108d4f4a3de4cbc149acd9754d228e"
+  },
+  {
+   "path": "ghostmachine/rtrackr/data/wallets.json",
+   "bytes": 2276,
+   "sha256": "d5e34e569654175ac529410ee9584e28bfd3b1bafb5d3d7fedcebbee93479025"
+  },
+  {
+   "path": "ghostmachine/rtrackr/ghostchain-loader.js",
+   "bytes": 17458,
+   "sha256": "198fc4f2ae4a13c80dad9e5cdeb77c2f8ecd6e567953eadcd6ac3d07ed37c260"
+  },
+  {
+   "path": "ghostmachine/rtrackr/index.html",
+   "bytes": 1866,
+   "sha256": "a01a4f2db7af2a1d9c26fa0f8d3233eb287b761b71182e1bd303fc1832db8155"
+  },
+  {
+   "path": "ghostmachine/rtrackr/rtor-assm.js",
+   "bytes": 5006,
+   "sha256": "25134f22aa25a20b7f996bedac0ff9a0e741cf006fd923735cc0929dd7f13d81"
+  },
+  {
+   "path": "ghostmachine/rtrackr/rtor-live.js",
+   "bytes": 10959,
+   "sha256": "57deb62fe567b064e5ca98e0f4e67753f5c9ad6786ebd44fcdb82515a9dcdd7a"
+  },
+  {
+   "path": "ghostmachine/rtrackr/rtor/index.html",
+   "bytes": 1177,
+   "sha256": "161c73361405b458aaab2f1acd4ae2d51c4abc1a879810c7eaca9a887266d5d2"
+  },
+  {
+   "path": "ghostmachine/rtrackr/rtrackr.css",
+   "bytes": 5814,
+   "sha256": "7f0ef96e6e1b40dc108711999c1275336b4be6629f79bea92ad367e0229a3b90"
+  },
+  {
+   "path": "ghostmachine/rtrackr/rtrackr.js",
+   "bytes": 31513,
+   "sha256": "b5ed3d1344e5e703dbe17c82f8fc4738f04e8bca2df8c93e60b33f9ae38f857c"
+  },
+  {
+   "path": "ghostmachine/rwallet/RWALLET.sha256",
+   "bytes": 2287,
+   "sha256": "cae494ba110c7b780bb0489fceb470cf8b8cb2d479f627c3d4346fadc5762080"
+  },
+  {
+   "path": "ghostmachine/rwallet/RWALLET.version",
+   "bytes": 6,
+   "sha256": "8a3dad16d348c163566a456fcf650d85d7aeeda5e53d01ee1fa8dc15212915a7"
+  },
+  {
+   "path": "ghostmachine/rwallet/assets.json",
+   "bytes": 1378,
+   "sha256": "91eb1c2da33f40e548f75e1274d6b3d7768e55020561f5208e89d6bfbaa34c62"
+  },
+  {
+   "path": "ghostmachine/rwallet/avatar.jpg",
+   "bytes": 2541,
+   "sha256": "d06b7e1db4ad3aa30d3e1a0492123ad767986a08f94e40397f2ae1b92f84f276"
+  },
+  {
+   "path": "ghostmachine/rwallet/banner.jpg",
+   "bytes": 31694,
+   "sha256": "168ed33d39977565b6b74044cc7c30734d0abf0c3f81b849ef79d3ced2cecddf"
+  },
+  {
+   "path": "ghostmachine/rwallet/data/ChainSource.json",
+   "bytes": 3083,
+   "sha256": "a6ec75974c43d5d50e4d47a697a680de0eb912cf6d646356bfbbea1a6a38f532"
+  },
+  {
+   "path": "ghostmachine/rwallet/data/DeviceWalletSeat.json",
+   "bytes": 606,
+   "sha256": "a94442477f2eb815285c93498bea9658e86f4caf393144be3e5d72db7c20d9d3"
+  },
+  {
+   "path": "ghostmachine/rwallet/data/WalletCard.json",
+   "bytes": 3314,
+   "sha256": "a328b1dd7d708882d427cdc22bc084ccfa7cf197ae99b3b097961e88fe5aa8a4"
+  },
+  {
+   "path": "ghostmachine/rwallet/data/balances.cache.json",
+   "bytes": 3790,
+   "sha256": "5f9503db4bb0ffd679c6bb1c98aeb4750ee572222a330c6c629e1184533079e6"
+  },
+  {
+   "path": "ghostmachine/rwallet/data/ledger/index.json",
+   "bytes": 273,
+   "sha256": "bdbabc6f734158129441cbeff33a0b0d928e256618fb71b495b762ed6caced8d"
+  },
+  {
+   "path": "ghostmachine/rwallet/data/rtrackr-feed/FEED.json",
+   "bytes": 957,
+   "sha256": "b35e31e4f973eaaef5dc73b81e6efa0dd6055f9e2cdfadf8b4f48ef467baf186"
+  },
+  {
+   "path": "ghostmachine/rwallet/data/rtrackr-feed/SHA256SUMS",
+   "bytes": 561,
+   "sha256": "ccab2d14a48995e90d1ca05e52a35350b70e516d2286a2109f2765935de49f41"
+  },
+  {
+   "path": "ghostmachine/rwallet/data/rtrackr-feed/economy-rates.json",
+   "bytes": 3254,
+   "sha256": "a400608635b3030ecca04c91b52d1b6231316502c5379b6598a79420d94fd418"
+  },
+  {
+   "path": "ghostmachine/rwallet/data/rtrackr-feed/pairs.json",
+   "bytes": 1798,
+   "sha256": "c28f8a27fc1e21e40fa96f7bb098f131b25052670fb6dcc1055a10dd0c985067"
+  },
+  {
+   "path": "ghostmachine/rwallet/data/rtrackr-feed/pools.json",
+   "bytes": 1363,
+   "sha256": "018dbad9390cd88238365a879a7228a5419e2926a735785a24a0edc60ebb28a3"
+  },
+  {
+   "path": "ghostmachine/rwallet/data/rtrackr-feed/token-pool.json",
+   "bytes": 2803,
+   "sha256": "dc382c767f04fdb5efb283e0abaa23937e71866a1d7190fc7477ded32c80369d"
+  },
+  {
+   "path": "ghostmachine/rwallet/data/rtrackr-feed/token-wallets.json",
+   "bytes": 3176,
+   "sha256": "9d253cda0515db79912f83450de410e638108d4f4a3de4cbc149acd9754d228e"
+  },
+  {
+   "path": "ghostmachine/rwallet/data/rtrackr-feed/wallets.json",
+   "bytes": 2276,
+   "sha256": "d5e34e569654175ac529410ee9584e28bfd3b1bafb5d3d7fedcebbee93479025"
+  },
+  {
+   "path": "ghostmachine/rwallet/data/trusted-devices.json",
+   "bytes": 3556,
+   "sha256": "2f1c032d17886492c79e01ef44766fc972b6b7814a1a56726af2372f59f05860"
+  },
+  {
+   "path": "ghostmachine/rwallet/ghostmachine-logo.jpg",
+   "bytes": 77514,
+   "sha256": "6c29c1b06ad7fff28bfd4e4ba9999a97de3bdf3555902b70033ce13a3947bf9b"
+  },
+  {
+   "path": "ghostmachine/rwallet/index.html",
+   "bytes": 1556,
+   "sha256": "8161e58996fc2e9f29405ee3d62f6629f77e8b3dd0befa76888b440cf97b7ed8"
+  },
+  {
+   "path": "ghostmachine/rwallet/rgen-assets.js",
+   "bytes": 2973,
+   "sha256": "1bdbb380fce1db8366bec1eaef635280e676bf7db26531777ef3bdc262827a10"
+  },
+  {
+   "path": "ghostmachine/rwallet/rgenerator/data/rid-tags.json",
+   "bytes": 428,
+   "sha256": "aec7fc9cfc8684c5ac5279c0a65ee098375eefd17f3a67308be25e1f9ba73e56"
+  },
+  {
+   "path": "ghostmachine/rwallet/rgenerator/rgenerator-ridtags.js",
+   "bytes": 4722,
+   "sha256": "2c34c6338ec24ac9a680c4c1ad4069cc6478cbd18d63a708f10ebebae79bbf9d"
+  },
+  {
+   "path": "ghostmachine/rwallet/rgenerator/rid.js",
+   "bytes": 2833,
+   "sha256": "232cc507949bc002e90938ff1057722970f8dfa39f02302793b72ecb630bac40"
+  },
+  {
+   "path": "ghostmachine/rwallet/rghostchain-view.js",
+   "bytes": 3384,
+   "sha256": "542e6e48e5cef56fc720ac95045783f0508360a27a07644631c940a77bfdf58c"
+  },
+  {
+   "path": "ghostmachine/rwallet/rghostkey-api.js",
+   "bytes": 5156,
+   "sha256": "a72ceb6be660cbaa3d3e9dab8b39d7ebf7aa19c026f21ff839529822dd376107"
+  },
+  {
+   "path": "ghostmachine/rwallet/rid-link.js",
+   "bytes": 655,
+   "sha256": "82857d14bb997047fc21618082d5956107583d0f4dca19ca6deaf4efca602418"
+  },
+  {
+   "path": "ghostmachine/rwallet/rmint-cast.js",
+   "bytes": 6488,
+   "sha256": "b03e680bd7ac2c0cefe5abc197846f95b5c68f28b2ef24ceafac2bc98bbbfdf9"
+  },
+  {
+   "path": "ghostmachine/rwallet/rmint-gate.js",
+   "bytes": 5240,
+   "sha256": "43ffefbbf095f9a4fa56473fdc9df2875b75fe5b464ef2cbb3fa1783dca0ce53"
+  },
+  {
+   "path": "ghostmachine/rwallet/rmint-onetap.js",
+   "bytes": 9334,
+   "sha256": "d911ac2c94d4b8319b29acdbf537e14b84893387a5f4cedde24bfe7559cc6f08"
+  },
+  {
+   "path": "ghostmachine/rwallet/rmint-press.js",
+   "bytes": 7087,
+   "sha256": "7b768054ec6adf36a83d1c97d6f4d117735280aceceafce907ae1ab32fa5b06a"
+  },
+  {
+   "path": "ghostmachine/rwallet/rmint-session.js",
+   "bytes": 6016,
+   "sha256": "206730f71facf8c4d19dc6983149652e05c35c602df5348354fb1ba27f574a3f"
+  },
+  {
+   "path": "ghostmachine/rwallet/rmint-transport.js",
+   "bytes": 8500,
+   "sha256": "6a11e09c4189e4774dfb0eeb629cdd4a87cd27b75b6634e8677b6c4932a3cade"
+  },
+  {
+   "path": "ghostmachine/rwallet/rtrackr-button.js",
+   "bytes": 657,
+   "sha256": "198ee8bb3b5d2132da1194051a2fa73c57772381453b67d340b382faee071e85"
+  },
+  {
+   "path": "ghostmachine/rwallet/rwallet-drift.js",
+   "bytes": 2744,
+   "sha256": "e69507d10207f95189ca30ed4af96c711355c7fe01572eb3a1ae9f79d712e1de"
+  },
+  {
+   "path": "ghostmachine/rwallet/rwallet-ghost.css",
+   "bytes": 4543,
+   "sha256": "8325a11da2c6c5a17d1693909ebb37190a9fccc97c99e43034f03e94f5e0c294"
+  },
+  {
+   "path": "ghostmachine/rwallet/rwallet-ghost.js",
+   "bytes": 14245,
+   "sha256": "fe9f56399f39da7edcb7e3e7276630ce7ab60bdbf614616dbbfc03bf8aabf457"
+  },
+  {
+   "path": "ghostmachine/rwallet/rwallet-ghost2.css",
+   "bytes": 30866,
+   "sha256": "584c53c0069538f8dca2f585d5d252bacbeadd4bf1b090c51b088a8c2e4b1c73"
+  },
+  {
+   "path": "ghostmachine/rwallet/rwallet-ghost2.js",
+   "bytes": 26717,
+   "sha256": "3f93d4e7910849e6c83ca59f35ce1c0d2a1c5a06c615d4ca7582eef4bc50d392"
+  },
+  {
+   "path": "ghostmachine/rwallet/rwallet-intent.js",
+   "bytes": 4639,
+   "sha256": "6d7573d84cfd02a3035d79c9a8f256f10a42cf68aeb37798337c4fcfc854c681"
+  },
+  {
+   "path": "ghostmachine/rwallet/rwallet-linked.js",
+   "bytes": 5767,
+   "sha256": "6c519ca8dbe823c68dbf64794449926d1c8595e112eff726907982369f88280a"
+  },
+  {
+   "path": "ghostmachine/rwallet/rwallet-pair.js",
+   "bytes": 7316,
+   "sha256": "040a133a5d0a427aa565494229c132b2e8a72e1200e83a930039b4774f8cfa40"
+  },
+  {
+   "path": "ghostmachine/rwallet/rwallet-rmail-card.js",
+   "bytes": 2162,
+   "sha256": "f50e3fd2054f7f72aba733a6a972fc5f8d2ffcb3d08ab39cd2490047dddc37ba"
+  },
+  {
+   "path": "ghostmachine/rwallet/rwallet-rtdata-embed.js",
+   "bytes": 13676,
+   "sha256": "a5f1e0ed1544f38870c9f7d464a05d10b7cc9d11d310ae6f856a7f16400de16d"
+  },
+  {
+   "path": "ghostmachine/rwallet/rwallet-rtdata.js",
+   "bytes": 2806,
+   "sha256": "32be43d495181d198b20e89f67f238177504eb33dc322747228cc2dd46a8963a"
+  },
+  {
+   "path": "ghostmachine/rwallet/rwallet-unified.js",
+   "bytes": 14322,
+   "sha256": "bcf1330e20d5d04ae7d786639ed22dce32786783a807252423870a5bb57c9aa9"
+  },
+  {
+   "path": "ghostmachine/signals/index.html",
+   "bytes": 45712,
+   "sha256": "75af453c27a731e14fd4f4c4fc0f6db96dfcd4a674cd67f71a1d6d7ab0385025"
+  },
+  {
+   "path": "ghostmachine/simple-login/index.html",
+   "bytes": 25433,
+   "sha256": "266ea3e73143458673c5fea3bf69fff9454aac35255b17cdae5844ac614c30f2"
+  },
+  {
+   "path": "ghostmachine/sw-precache.json",
+   "bytes": 3936,
+   "sha256": "aa8ff421fd6de79ae4cfa9988163a114d61a0306ddd613a17c5a01c0a5e9e9c8"
+  },
+  {
+   "path": "ghostmachine/sw-register.js",
+   "bytes": 384,
+   "sha256": "28d6589809a8e86760ac6a8bfde980c2dd801aacd8459924d134df1f55f3a605"
+  },
+  {
+   "path": "ghostmachine/sw.js",
+   "bytes": 2399,
+   "sha256": "41490b53897194c9a51241a64d48461e70c11b2349f47ca07486f6aee7e82b75"
+  },
+  {
+   "path": "ghostmachine/torrent/index.html",
+   "bytes": 67894,
+   "sha256": "8111bf018d34ec356082a32837c902c0b0344fe8e9af7e0daef90b4edf3a90c0"
+  },
+  {
+   "path": "projects/PROJECTS.json",
+   "bytes": 5689,
+   "sha256": "157692b32f384f53d8b9d8ca820a442a61215b8a68120b594ae11c378cd830e8"
+  },
+  {
+   "path": "projects/RFONE-SPEC-2026-11-21.md",
+   "bytes": 4876,
+   "sha256": "93cadf5a0112b86b4c87af6abbd3249996a4f368683cc7157cd01de757259f16"
+  },
+  {
+   "path": "projects/TOE-SYSTEM-FULL-SUMMARY-2026-11-22.md",
+   "bytes": 14299,
+   "sha256": "5046b149eb74e6dac38c30762ec4ee0ae97d37a7bf8af7d4adb9925525217d0c"
+  },
+  {
+   "path": "projects/UBK-UNITED-BOT-KARD.md",
+   "bytes": 136423,
+   "sha256": "081393a162e7c33618b9c4272e0d7c11f68ea9ed7e8feb28143ef158b01855a4"
+  },
+  {
+   "path": "renjin/model/CITATION.md",
+   "bytes": 753,
+   "sha256": "48a45964fe3195c2f177ab8650f68aa4813bcdfdf79b7fab2c6912aecec8534e"
+  },
+  {
+   "path": "renjin/model/LIVE-STATS.md",
+   "bytes": 4495,
+   "sha256": "4ee16f9c0168dccb04f52cb393716b490ea6ab6ffd1dde077be913da50db805e"
+  },
+  {
+   "path": "renjin/model/README.md",
+   "bytes": 6192,
+   "sha256": "04da2a3a075d6f7d1a426d050e61cd29fc26bd0164d0e20d3c38cc920d4136ac"
+  },
+  {
+   "path": "renjin/model/RZL-FILE-FORMAT.md",
+   "bytes": 7860,
+   "sha256": "9afe42ca57635a9354f8098747294734a359257451bf9d76844c86662c100ccb"
+  },
+  {
+   "path": "renjin/model/adapters/RCODE-ADAPTER.md",
+   "bytes": 3112,
+   "sha256": "bc8b2f8ecf2b5b0dd4fee35f82d736774c513d87d5e6cda14ec792746c031a6e"
+  },
+  {
+   "path": "renjin/model/adapters/RCodeHostBridge.swift",
+   "bytes": 3279,
+   "sha256": "86f9617f8a22b6cc526419dcaf9bdabff71b9675ff111ab2d08e8f456bece376"
+  },
+  {
+   "path": "renjin/model/adapters/RKLOWD-INTEGRATION.md",
+   "bytes": 3993,
+   "sha256": "a10183db01c52539d55c7e1f3752104b48ab51d5f19d99a9080fc58e2e1d7754"
+  },
+  {
+   "path": "renjin/model/adapters/linux/RCODE-LINUX-SEAT.md",
+   "bytes": 5499,
+   "sha256": "dd4effdb349812d57cb7297c327d0f38f5cee25623a6a7af7970653bd6f329a2"
+  },
+  {
+   "path": "renjin/model/adapters/linux/rcode-linux-host.js",
+   "bytes": 5612,
+   "sha256": "849f434e340af7b28bd5f9e2285b6778c3c2c02a74589b5e07a2b758b4d2422a"
+  },
+  {
+   "path": "renjin/model/adapters/linux/rcode-linux-shell.js",
+   "bytes": 5805,
+   "sha256": "eba20d71a2e37d1a368ebb71f41b8a5151218c9be269ea573ebdaac9fdc9a8ae"
+  },
+  {
+   "path": "renjin/model/adapters/linux/run.sh",
+   "bytes": 727,
+   "sha256": "003ea1837970fec1fa0e7e899b9de8f9cf88eaf20bf060b1d1765765b401ab0a"
+  },
+  {
+   "path": "renjin/model/adapters/linux/test-linux-seat.js",
+   "bytes": 6300,
+   "sha256": "eb478e608338ee98eda3675ae759c9f1d3ffaff9725b1ab13dd340e0bceec2f1"
+  },
+  {
+   "path": "renjin/model/adapters/rcode-bridge-plugin.js",
+   "bytes": 2850,
+   "sha256": "c9ec9819f70bea3a0a28d77cd39d314ded8dd99491a38cf0f00abaff29a14ad0"
+  },
+  {
+   "path": "renjin/model/adapters/rcode-host-adapter.js",
+   "bytes": 4252,
+   "sha256": "b4a3f2b7d7c2b3ec3034941ae608bdf71204755735a8ad567c52b18f921cc1df"
+  },
+  {
+   "path": "renjin/model/adapters/test-rcode-adapter.js",
+   "bytes": 2480,
+   "sha256": "235cc6e0c0e4ef15fd60c931f8b2dda1c71092adc426cf3bb2db0e3928a6bc3a"
+  },
+  {
+   "path": "renjin/model/build-ask-v3.js",
+   "bytes": 2237,
+   "sha256": "c5388062de84ed8fcbd87335f76e18c3a8b98af3452d33cb68e2f1360256493b"
+  },
+  {
+   "path": "renjin/model/build-core-v3-chain.js",
+   "bytes": 8175,
+   "sha256": "ab7c84d027970321691b6cdd87aff3622f5c396afc9fbeb50a2fb51ed940a5b4"
+  },
+  {
+   "path": "renjin/model/build-core-v3-persist.js",
+   "bytes": 4655,
+   "sha256": "ab110ab93d72f0a1386832eea73f32ad288c153383f4451e01d0fca1e95f503e"
+  },
+  {
+   "path": "renjin/model/build-core-v3.js",
+   "bytes": 7664,
+   "sha256": "3349865ac27545b98438ff27e55de02f9250acf7539c9ef1d1afc070f377a59d"
+  },
+  {
+   "path": "renjin/model/build-log-ask-v3.txt",
+   "bytes": 194,
+   "sha256": "09ddb389ba4b405e506cf9892d99b5341aa5a8815612d8030cf1fab53ed1a8be"
+  },
+  {
+   "path": "renjin/model/build-log-v3-chain.txt",
+   "bytes": 2987,
+   "sha256": "5706bd5834bd0c93fb86447501971d18f0affabbb1d010f4b043f92387f7137e"
+  },
+  {
+   "path": "renjin/model/build-log-v3-metrics.txt",
+   "bytes": 3002,
+   "sha256": "49923a81676a6ecf9347a7d89f2bb72d1aafc77981afa1486afe2ea41c6c8a03"
+  },
+  {
+   "path": "renjin/model/build-log-v3-persist-verify.txt",
+   "bytes": 633,
+   "sha256": "a649c2c6028e0c3e655717ae5999105fceaf253a404b6a5e35a5fdba3bf77b00"
+  },
+  {
+   "path": "renjin/model/build-log-v3-persist.txt",
+   "bytes": 478,
+   "sha256": "671f1f79881a073e38bcc2248dc35510a56833796e70af494c785949e2866702"
+  },
+  {
+   "path": "renjin/model/build-log-v3.txt",
+   "bytes": 2182,
+   "sha256": "d05cb1958ba36984d43f3e038bb786afe13f14a42eecf5598618aa7420cbbc16"
+  },
+  {
+   "path": "renjin/model/build-log.txt",
+   "bytes": 885,
+   "sha256": "6d6ab3916244e753bab4a72f0ad0dd6af5fed883024ad1f19dd283fccbc0f884"
+  },
+  {
+   "path": "renjin/model/build-model-v2.js",
+   "bytes": 3928,
+   "sha256": "abc638d03281e992f3850978356604ec1bccdf571330cee9ba9144fe5f04a9af"
+  },
+  {
+   "path": "renjin/model/build-rshell-single.js",
+   "bytes": 28552,
+   "sha256": "d6557e57e284a7ae7eaeb121dc9b2ddc7345d818d1d3ca6eeb90bdd5eebed14f"
+  },
+  {
+   "path": "renjin/model/check-purity.js",
+   "bytes": 1439,
+   "sha256": "246f1f3ed24832b9cb56f14ab9e48062e91688a7a0c87baa5eefd8f0d12f52ca"
+  },
+  {
+   "path": "renjin/model/src/Tokenizer.swift",
+   "bytes": 5625,
+   "sha256": "e8ea00600265ae47c9b6502b41e739eb69fb627040cf6a9d41f24e8c80a42a55"
+  },
+  {
+   "path": "renjin/model/src/corpus-v1.txt",
+   "bytes": 6898,
+   "sha256": "3a6a00419021564ab5c88eb27c64e76d6caafeeceb7f3930b61ceee4a348a77e"
+  },
+  {
+   "path": "renjin/model/src/corpus-v2.txt",
+   "bytes": 14277,
+   "sha256": "a26ae8e92ca54807dee54949b347ec423e60df706875f706b888990811ddc56d"
+  },
+  {
+   "path": "renjin/model/src/egg-version.js",
+   "bytes": 578,
+   "sha256": "1ade0e958752722b086001df122cede894281eabf5ee3fbd0cf8ebaabf603662"
+  },
+  {
+   "path": "renjin/model/src/model-config-v2.js",
+   "bytes": 1052,
+   "sha256": "6393dd110e58bf01168c2ccf908ec2d849b062f858415cf2302fb1ec696b1127"
+  },
+  {
+   "path": "renjin/model/src/rzl-ask.js",
+   "bytes": 5613,
+   "sha256": "edd525b5cb9f87c5832629d4d7bc47cae4462f2c03aa6fab7f5ec7e05dc8d156"
+  },
+  {
+   "path": "renjin/model/src/rzl-embed.js",
+   "bytes": 2675,
+   "sha256": "64d09a0aae2f6738bd3b386c43431d94abcbc2255f8f77d75317ea8028cc8808"
+  },
+  {
+   "path": "renjin/model/src/store-v3.json",
+   "bytes": 549222,
+   "sha256": "e2fb3c5ccb0fc57189a4f52501a206fb4dfc65b513678fb0b0ebfca43a9c53d7"
+  },
+  {
+   "path": "renjin/model/src/yaseed-core-v2.js",
+   "bytes": 77027,
+   "sha256": "d5274d70e24b3455bcf2a2e61e6c6ce74ca03f879c7c377514eb0cdd90835c94"
+  },
+  {
+   "path": "renjin/model/src/yaseed-core-v3.js",
+   "bytes": 78999,
+   "sha256": "eae95a9776fd4f5d46568c3f62643b4cfbb9a127a0d18cf369f98843d1b556c9"
+  },
+  {
+   "path": "renjin/model/tests/run-tests.js",
+   "bytes": 2295,
+   "sha256": "16a1a50cf9d09381fe9ee2382067501abaf61519c2705b0107ebbf294460c543"
+  },
+  {
+   "path": "renjin/model/tests/test-log.txt",
+   "bytes": 394,
+   "sha256": "81a504a705518a0a929c0ca1e60e2a03fc4172b4425da0e11d9a9ff98203f622"
+  },
+  {
+   "path": "renjin/shell/RSHELL-RENJIN-MIN.html",
+   "bytes": 706318,
+   "sha256": "dfc4f980fa2596b4987255c325a5c6c93be2a2f8a65b20cc8b65c54cbacdd7d1"
+  },
+  {
+   "path": "renjin/shell/RSHELL-RENJIN.html",
+   "bytes": 753708,
+   "sha256": "7e1c263e7ee40fa17e8e30ed098d37af88e81f619ec692602e007f5b13900e5e"
+  },
+  {
+   "path": "rtor/INTEGRATION.md",
+   "bytes": 2742,
+   "sha256": "38586b872eb5ac961d3d080060e4229ac02243c093f07a53f1c2e130dc743c66"
+  },
+  {
+   "path": "rtor/RPULL-README.md",
+   "bytes": 1921,
+   "sha256": "9b82ae36ff869062750559fce6d9a56aece35ddabe5c140dcec383c339e49a4c"
+  },
+  {
+   "path": "rtor/RTOR-LOAD-INSTRUCTIONS-2026-11-22.md",
+   "bytes": 5942,
+   "sha256": "ad4896bbe20d1524f7f91f8f9aa8bff007dda5602321e34e7875891711b623b4"
+  },
+  {
+   "path": "rtor/feed-snapshot-32.json",
+   "bytes": 18926,
+   "sha256": "7dacec6da67888bf6f84f003fb78cc3c08efd4589dbd620c1cbf152e9fb9821e"
+  },
+  {
+   "path": "rtor/ghostchain-loader.js",
+   "bytes": 17458,
+   "sha256": "198fc4f2ae4a13c80dad9e5cdeb77c2f8ecd6e567953eadcd6ac3d07ed37c260"
+  },
+  {
+   "path": "rtor/rpull.sh",
+   "bytes": 3812,
+   "sha256": "860db49ac07e5bc24d81ddb7e6c9271b5c1c7b07831a3ceceb14c52ac0164ade"
+  },
+  {
+   "path": "rtor/rsync-rtor.sh",
+   "bytes": 2146,
+   "sha256": "d5202bae49b394b1663ad534d73d900ea7014e19b8e8ee1fb71d489714d298a6"
+  }
+ ]
+}

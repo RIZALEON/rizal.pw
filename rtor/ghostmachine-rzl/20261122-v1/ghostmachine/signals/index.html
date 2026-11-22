@@ -1,0 +1,505 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" /><meta name="color-scheme" content="light dark" /><link rel="icon" href="data:," /><title>RTOR Signals</title>
+ <style>
+      button, [role="button"], select, summary, input:not([type="checkbox"], [type="radio"]) { min-height: 2rem; }
+    </style>
+ <style>
+      :root{
+        --bg:#07070d; --bg2:#0d0d1a; --panel:#101024; --panel2:#151532;
+        --line:#2a2a52; --ink:#eef0ff; --muted:#a7aad0; --faint:#7c80a8;
+        --green:#2bff62; --green-dim:#0e3d1e;
+        --purple:#7c4dff; --purple-soft:#b39dff;
+        --amber:#ffd740; --red:#ff6b6b; --cyan:#4dd0e1; --teal:#2ee6a8; --orange:#ffab40; --gray:#9aa0b5;
+        --chip:#171736;
+        --shadow:0 10px 30px rgba(0,0,0,.45);
+      }
+      @media (prefers-color-scheme: light){
+        :root{
+          --bg:#f2f2fa; --bg2:#e9e9f6; --panel:#ffffff; --panel2:#f4f4fd;
+          --line:#cfcfe8; --ink:#14142b; --muted:#4a4e73; --faint:#6d7194;
+          --green:#0a8a34; --green-dim:#dff7e7;
+          --purple:#5b2ee5; --purple-soft:#5b2ee5;
+          --amber:#8a6100; --red:#c62828; --cyan:#00707e; --teal:#00795a; --orange:#9a5200; --gray:#5a5f75;
+          --chip:#ececf8;
+          --shadow:0 10px 24px rgba(30,30,80,.12);
+        }
+      }
+      *{box-sizing:border-box}
+      html{-webkit-text-size-adjust:100%}
+      body{
+        margin:0; background:var(--bg); color:var(--ink);
+        font-family:"Avenir Next",Avenir,"Segoe UI",system-ui,-apple-system,sans-serif;
+        line-height:1.5;
+      }
+      .mono{font-family:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace}
+      main{max-width:1060px;margin:0 auto;padding:28px 18px 64px}
+      h1{font-size:clamp(28px,5vw,42px);line-height:1.08;margin:0 0 6px;letter-spacing:-.01em}
+      h1 .prompt{color:var(--green)}
+      h2{font-size:21px;margin:0 0 6px;letter-spacing:-.01em}
+      h3{font-size:15px;margin:0 0 4px}
+      p{margin:0 0 10px}
+      .lede{font-size:16.5px;color:var(--muted);max-width:68ch}
+      .snapshot{
+        margin:18px 0 0;padding:12px 14px;border:1px solid var(--line);border-radius:10px;
+        background:var(--panel);font-size:13.5px;color:var(--muted);
+      }
+      .snapshot b{color:var(--ink)}
+      section{margin-top:38px}
+      .sec-note{color:var(--muted);font-size:14px;max-width:70ch}
+
+      /* headline finding */
+      .finding{
+        margin-top:22px;border:1px solid var(--purple);border-radius:14px;background:var(--panel);
+        padding:18px;box-shadow:var(--shadow);
+      }
+      .finding h2{color:var(--purple-soft)}
+      .finding .big{font-size:17px}
+      .finding .big b{color:var(--green)}
+      .finding .big .bad{color:var(--red)}
+
+      /* stat tiles */
+      .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px}
+      .stat{border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:14px}
+      .stat .n{font-size:30px;font-weight:700;line-height:1;font-family:ui-monospace,Menlo,monospace}
+      .stat .l{font-size:12.5px;color:var(--muted);margin-top:6px}
+      @media (max-width:640px){.stats{grid-template-columns:repeat(2,1fr)}}
+
+      /* type legend */
+      .types{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px;margin-top:14px}
+      .type-card{border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:12px 14px}
+      .type-card p{font-size:13.5px;color:var(--muted);margin:6px 0 0}
+      .badge{
+        display:inline-flex;align-items:center;gap:6px;font-family:ui-monospace,Menlo,monospace;
+        font-size:11.5px;font-weight:700;letter-spacing:.06em;padding:3px 9px;border-radius:999px;
+        border:1px solid currentColor;white-space:nowrap;
+      }
+      .badge::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+      .t-CHAIN{color:var(--purple-soft)} .t-HEARTBEAT{color:var(--cyan)} .t-SWARM{color:var(--green)}
+      .t-RMAIL{color:var(--amber)} .t-STATUS{color:var(--orange)} .t-VERIFY{color:var(--teal)}
+      .t-REGISTRATION{color:var(--purple-soft)} .t-VERSION{color:var(--gray)} .t-UNREAD{color:var(--red)}
+
+      /* charts */
+      .charts{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;align-items:start}
+      @media (max-width:820px){.charts{grid-template-columns:1fr}}
+      .card{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:16px;box-shadow:var(--shadow)}
+      .card .sub{font-size:13px;color:var(--muted);margin-bottom:10px}
+      .card svg{width:100%;height:auto;display:block}
+      .card.wide{grid-column:1/-1}
+      .axis-note{font-size:12px;color:var(--faint);margin-top:8px}
+      .takeaway{font-size:14px;margin-top:10px}
+      .takeaway b{color:var(--green)}
+
+      /* filters */
+      .filters{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 6px}
+      .filters button{
+        font:inherit;font-size:13.5px;padding:8px 14px;border-radius:999px;cursor:pointer;
+        border:1px solid var(--line);background:var(--panel);color:var(--ink);min-height:36px;
+      }
+      .filters button[aria-pressed="true"]{border-color:var(--green);color:var(--green);background:var(--green-dim)}
+      .count-line{font-size:13px;color:var(--faint);margin:4px 0 12px}
+
+      /* signal list */
+      .group-head{
+        display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 14px;margin:26px 0 10px;
+        padding-bottom:8px;border-bottom:2px solid var(--line);
+      }
+      .group-head h3{font-size:17px}
+      .group-head .gsub{font-size:13px;color:var(--muted)}
+      .signal{
+        border:1px solid var(--line);border-radius:12px;background:var(--panel);
+        padding:14px 16px;margin-bottom:10px;
+      }
+      .signal-top{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px}
+      .status{
+        font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:700;letter-spacing:.05em;
+        padding:3px 8px;border-radius:6px;background:var(--chip);color:var(--muted);border:1px solid var(--line);
+      }
+      .status.ok{color:var(--green);border-color:var(--green)}
+      .status.warn{color:var(--amber);border-color:var(--amber)}
+      .status.down{color:var(--red);border-color:var(--red)}
+      .signal .time{margin-left:auto;font-size:12.5px;color:var(--faint);font-family:ui-monospace,Menlo,monospace}
+      .signal h4{margin:0 0 4px;font-size:15.5px;line-height:1.35}
+      .signal p{font-size:14px;color:var(--muted);margin:0}
+      .stamp{
+        margin-top:10px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;
+        border-top:1px dashed var(--line);padding-top:10px;
+      }
+      .stamp .stamp-label{font-size:11px;letter-spacing:.08em;color:var(--faint);font-weight:700}
+      .rid{
+        font-family:ui-monospace,Menlo,monospace;font-size:13px;font-weight:700;color:var(--purple-soft);
+        border:1.5px dashed var(--purple);border-radius:8px;padding:4px 10px;background:var(--panel2);
+      }
+      .rid.none{color:var(--red);border-color:var(--red)}
+      .rid.node{color:var(--cyan);border-color:var(--cyan)}
+      .stamp .stamp-note{font-size:12.5px;color:var(--faint)}
+
+      /* registry */
+      .registry{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;margin-top:14px}
+      .reg{border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:12px 14px}
+      .reg .who{font-size:14px;font-weight:600;margin-top:6px}
+      .reg .meta{font-size:12.5px;color:var(--faint)}
+      .gaps{border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:16px 18px;margin-top:14px}
+      .gaps li{margin-bottom:8px;font-size:14.5px}
+      .gaps ul{margin:8px 0 0;padding-left:20px}
+      footer{margin-top:44px;font-size:13px;color:var(--faint);border-top:1px solid var(--line);padding-top:16px}
+      a{color:var(--green)}
+    </style>
+ </head><body><main><h1><span class="prompt">R:&gt;</span> RTOR Signals</h1><p class="lede">Every signal pulled from the sites and the devices, sorted by what kind of signal it actually is — chain, heartbeat, swarm, mail, status, verification, registration, version, unread — and each one stamped with the RID of the device, app, or site that reported it.</p><div class="snapshot"><b>Snapshot, not a live feed.</b> Built from the reports gathered <b>Nov 20, 2026, 11:18 PM – 11:46 PM MST</b>: the device watch run, RTRACKR at rizal.pw, both renjin pages, and Chase's screenshots of the Pixel (11:37 PM / 11:43 PM) and the 17e (11:38 PM / 11:46 PM), plus the device watch of <b>Nov 21, 2026, 12:48 PM MST</b> — its live entries pulled from rtor-assm.json (published 12:40 PM MST that day) and its device-local values labeled “last reported” with the exact times they were reported. <b>Last checked Nov 21, 2026, 1:18 PM MST</b> — that check added one feed-derived signal from rtor-live.json (first observed 2026-11-21T13:17:33-07:00) and the RTRACKR live page; no new device-local report arrived, so the “last reported” values stand unchanged. Nothing on this page updates itself — a signal's state is its state at the moment it was reported.
+ </div><div class="finding"><h2>The headline split</h2><p class="big">The Pixel's local GHOST CHAIN reads <b>height 11</b> while RTRACKR still publishes <b>height 5</b>. The six-block gap is not lost — it is sitting in the Pixel's RMAIL outbox: <span class="bad">10 pending, 0 sent</span> over relay_8797. Two true signals, two different places, and the mail between them is the part that hasn't landed.</p></div><div class="stats" id="stats"></div><section><h2>Nine kinds of signal</h2><p class="sec-note">“Signals” were arriving as one mixed stream. Separated, they are nine different things — a chain height is not a heartbeat, a queued mail is not a landed block, and a page showing an old version is a signal about the page, not the client.</p><div class="types" id="types"></div></section><section><h2>Charts</h2><p class="sec-note">Every bar is stamped with the RID of the peer it measures. Speeds are the measured RTOR 0.2.3 figures reported Nov 20, 2026 — real bytes moved, not estimates.</p><div class="charts"><div class="card"><h3>Measured peer speed — KB/s each way</h3><p class="sub">RTOR 0.2.3 peers, reported 11:11 PM MST, Nov 20, 2026. The 17e figure is its per-file rate (~1.5 KB/s on nearly every file at 11:46 PM).</p><div id="chart-speed"></div><p class="axis-note">Scale 0–5 KB/s, bars start at zero. Keepalive floor across the swarm: at least 1 KB/s each way per file.</p><p class="takeaway">Fastest measured peer: <b>Neo at ~4.5 KB/s</b> — at measurement time it was the one peer with no RID on record; the Nov 21 stream has since confirmed its space RID, <b>ЯID-0027-Z3N5</b> (neo.assm).</p></div><div class="card"><h3>GHOSTCHAIN height — by who is reporting</h3><p class="sub">Same chain, two reports, Nov 20, 2026. RTRACKR's snapshot is stamped 2:43:28 PM MT; the Pixel's panel was read at 11:37 PM.</p><div id="chart-chain"></div><p class="axis-note">Scale 0–12 blocks, bars start at zero.</p><p class="takeaway">Gap: <b>6 blocks</b> — the Pixel's head <span class="mono">2c64d32a…</span> is queued as RMAIL to RTRACKR and has not landed. RTRACKR's tip is still <span class="mono">4006b57088…f0bb5b</span>.</p></div><div class="card wide"><h3>Signal mix — how many of each kind</h3><p class="sub">Counts computed from the full signal list below — registrations dominate because the watch's first run caught nine space RIDs and three device-RID mints in one pass, and the Nov 21 stream confirmed five more registrations.</p><div id="chart-mix"></div></div></div></section><section><h2>The signal list</h2><p class="sec-note">Grouped by the source that reported it. The dashed stamp on every entry is that source's RID — or an honest marker where no RID exists or none was read.</p><div class="filters" id="filters" role="group" aria-label="Filter signals by kind"></div><p class="count-line" id="count-line"></p><div id="list"></div></section><section><h2>RID registry — every stamp used on this page</h2><p class="sec-note">Space RIDs 0017–0028 and the device RIDs behind them, in sequence order. Parent for the device mints: ЯID-0001-3QQS (Rizal). All mints are authorized-by-owner-command, not cryptographic signatures.</p><div class="registry" id="registry"></div></section><section><h2>What the signals don't say</h2><div class="gaps"><ul><li><b>The 17e's own space RID is unread.</b> SPACE-RID.json sits on the 17e (670 B, 3/3) but its contents were never read, so 17e signals are stamped with its RTOR node ID, 66413c3f — not a guessed RID.</li><li><b>RTRACKR still has no RID.</b> Its signals carry a “no RID on record” stamp instead of an invented one. The Neo's space RID (ЯID-0027-Z3N5, neo.assm) exists only in the stream — there is no SPACE-RID.json on the Neo itself to confirm it locally.</li><li><b>The 0026 suffix conflict is unresolved.</b> rtor-assm.json confirms pixel.rtor as ЯID-0026-C7MD; the Pixel's own panel read RID-0026-C7YD on Nov 20, 2026. Both stay on this page — C7MD stream-confirmed, C7YD in question — until the device is re-read.</li><li><b>No entry times for space RIDs 0017–0025.</b> The renjin pages show no time for them; the list records that as not recorded rather than guessing.</li><li><b>Two stale displays.</b> The /rtor/client/ pages still show version 0.2.2 while every device runs 0.2.3, and the Pixel client's own RGHOSTCHAIN FILE note still says “no measured RTOR speed yet” directly under live measured speeds.</li><li><b>RE-SEED is still open.</b> It clears only when the sealed, signed RGHOSTKEY block 6 is on-chain — and there is no block 6 on the published chain yet.</li></ul></div></section><footer>
+ Sources: RTRACKR (rizal.pw/rtrackr), the renjin pages on rizal.pw and rizal.info, the /rtor/client/ pages, the RTOR device watch run of Nov 20, 2026 11:18 PM MST, device screenshots timed 11:37–11:46 PM MST the same night, and the device watch of Nov 21, 2026 12:48 PM MST with the rtor-assm.json feed it pulled (published 12:40 PM MST that day), and the device watch check of Nov 21, 2026 1:18 PM MST with rtor-live.json (first observed 2026-11-21T13:17:33-07:00) and the RTRACKR live page (13:19:40 MT). Speeds are measured from real bytes moved over a 10 s window, as the client itself reports.
+ </footer></main>
+ <script>
+      // ---- Single source of data: every count, chart and list row derives from these arrays. ----
+      var TYPES = {
+        "CHAIN":       "A GHOSTCHAIN state report — height, head or tip hash, block count. Only counts as landed when the tracker itself publishes it.",
+        "HEARTBEAT":   "A device checking in on its own — proof that device was alive at that exact time, from that device only.",
+        "SWARM":       "Measured file movement — seeding and leeching rates from real bytes moved, per file and per peer.",
+        "RMAIL":       "The relay_8797 mail queue — what is staged, pending, or sent between devices and RTRACKR. Queued is not delivered.",
+        "STATUS":      "A device's own health panel — signing, wallet, Heart, progress — as that device sees itself.",
+        "VERIFY":      "A check that came back clean — SHA-256 install checks and file hashes that matched.",
+        "REGISTRATION":"A new identity entering the registry — a space RID first seen, or a device RID minted and verified.",
+        "VERSION":     "What build a surface claims to serve — a signal about the page or client showing it, not about the swarm.",
+        "UNREAD":      "A file or record seen on a device but never opened. Its presence is the whole signal — nothing inside it is claimed, counted, or registered."
+      };
+
+      var SIGNALS = [
+        // ---- Pixel ----
+        {type:"CHAIN", source:"Pixel — Renjin Torrent client", time:"Nov 20, 2026 · 11:37 PM MST",
+         title:"Pixel's local GHOST CHAIN reads height 11",
+         detail:"Head 2c64d32a… — up from height 9 at 10:22 PM the same night. This chain exists on the Pixel; RTRACKR does not publish it.",
+         status:"LAST REPORTED — NOT ON RTRACKR", cls:"warn",
+         rid:"RID-0026-C7YD", ridKind:"", note:"space pixel.rtor · RKLOWD node rklowd.pixel"},
+        {type:"HEARTBEAT", source:"Pixel — Renjin Torrent client", time:"2026-11-20T23:35:25-07:00",
+         title:"Pixel heartbeat received",
+         detail:"Last heartbeat 2026-11-20T23:35:25-07:00, reported by the Pixel itself — detection is per-device; no other device reports for it.",
+         status:"LAST REPORTED", cls:"warn",
+         rid:"RID-0026-C7YD", ridKind:"", note:"RMAIL rtor-pixel-rtor@rizal.pw"},
+        {type:"RMAIL", source:"Pixel — Renjin Torrent client", time:"Nov 20, 2026 · 11:37 PM MST",
+         title:"RMAIL outbox: 10 pending, 0 sent",
+         detail:"relay_8797 outbox grew from 2 pending at 9:44 PM to 10 pending at 11:37 PM, with 0 sent. The Pixel's chain head is queued as RMAIL to RTRACKR and has not landed — this queue is the reason for the height gap.",
+         status:"QUEUED — NOT DELIVERED", cls:"warn",
+         rid:"RID-0026-C7YD", ridKind:"", note:"routes via relay_8797 to RTRACKR"},
+        {type:"SWARM", source:"Pixel — Renjin Torrent client", time:"Nov 20, 2026 · 10:22 PM MST",
+         title:"Pixel is seeding the GHOSTCHAIN files",
+         detail:"Seeding RGHOSTCHAIN-RECORD.md (1.3 KB) and RGHOSTCHAIN.rzl (3.6 KB) — the .rzl's SHA 92d1572a… matches the published fingerprint.",
+         status:"SEEDING", cls:"ok",
+         rid:"RID-0026-C7YD", ridKind:"", note:"drops under /home/phablet/.local/share/rtor.rizal/"},
+        {type:"VERIFY", source:"Pixel — Renjin Torrent client", time:"Nov 20, 2026 · 9:44 PM MST",
+         title:"Install check SHA256 OK on the Pixel",
+         detail:"Both .rzl files check out: RENJIN-COMPONENT.rzl 67a8c186… and RENJIN-KUBO.rzl 04b7b1e2… — the same fingerprints the sites publish.",
+         status:"VERIFIED", cls:"ok",
+         rid:"RID-0026-C7YD", ridKind:"", note:"install check on device"},
+        {type:"STATUS", source:"Pixel — Renjin Torrent client", time:"Nov 20, 2026 · 11:37 PM MST",
+         title:"RE-SEED still waiting on the Pixel",
+         detail:"“Waiting for Rizal's RGHOSTKEY tap on the trusted device.” The client holds no key and no seed; signing happens only on the owner's tap. No block 6 on chain yet.",
+         status:"WAITING — OWNER TAP", cls:"warn",
+         rid:"RID-0026-C7YD", ridKind:"", note:"RE-SEED panel, Pixel client"},
+
+        // ---- 17e ----
+        {type:"SWARM", source:"17e — RTOR 0.2.3 · iOS RTORKit", time:"Nov 20, 2026 · 11:46 PM MST",
+         title:"17e is seeding and leeching every file",
+         detail:"Live per-file rates, mostly ~1.5 KB/s both ways — and the numbers differ between the two 11:46 PM shots, so it is measured movement, not a frozen display. ThundR · awake.",
+         status:"LIVE — MEASURED", cls:"ok",
+         rid:"node 66413c3f", ridKind:"node", note:"17e RTOR node ID — its SPACE-RID value was not read"},
+        {type:"SWARM", source:"17e — RTOR 0.2.3 · iOS RTORKit", time:"Nov 20, 2026 · 11:46 PM MST",
+         title:"The .rzl files are moving on the 17e",
+         detail:"RENJIN-KUBO.rzl 911K 3/3 ↑1.50K ↓1.50K · RENJIN-COMPONENT.rzl 901K 3/3 ↑1.50K ↓1.50K · fused .rzl 796K 2/2 ↑1.50K ↓1.50K · R OS .rzl 818K 2/2 · RGHOSTCHAIN.rzl 4K 3/3 ↑1.48K ↓1.43K · R-SHELL-MERGED.html 950K 2/2.",
+         status:"LIVE — MEASURED", cls:"ok",
+         rid:"node 66413c3f", ridKind:"node", note:"per-file rates from the 17e's own FILES panel"},
+        {type:"STATUS", source:"17e — RTOR 0.2.3 · iOS RTORKit", time:"Nov 20, 2026 · 11:38 PM MST",
+         title:"Heart :4879 is DOWN on the 17e's view",
+         detail:"Status box: ALL 4/12 done 72% · Rizal·Signing 80% · Rizal·rizal.pw RWALLET 80% · Heart :4879 down 20%. The Heart answers normally on the Neo itself — this is the 17e's view of it.",
+         status:"LAST REPORTED — DOWN (17E VIEW)", cls:"down",
+         rid:"node 66413c3f", ridKind:"node", note:"17e status panel"},
+        {type:"VERIFY", source:"17e — RTOR 0.2.3 · iOS RTORKit", time:"Nov 20, 2026 · 11:38 PM MST",
+         title:"17e files SHA-verified",
+         detail:"peers.json (162 B) a19377b6… · RTORView.swift (13.4 KB) c37ee33d… · RTORTransfer.swift (4.2 KB) 101e627e… · RTORSpace.swift (2.8 KB) a3b5d07f… — hashes shown on the device itself.",
+         status:"VERIFIED", cls:"ok",
+         rid:"node 66413c3f", ridKind:"node", note:"FILES panel, 17e"},
+        {type:"UNREAD", source:"17e — RTOR 0.2.3 · iOS RTORKit", time:"Nov 20, 2026 · 11:46 PM MST",
+         title:"SPACE-RID.json exists on the 17e — unread",
+         detail:"SPACE-RID.json (670 B, 3/3, ↑221B ↓1.44K) is in the 17e's file list. Its contents were not read, so no RID value is claimed for it here.",
+         status:"PRESENT — VALUE NOT READ", cls:"warn",
+         rid:"node 66413c3f", ridKind:"node", note:"honest gap: file seen, contents unseen"},
+
+        // ---- RTRACKR / sites ----
+        {type:"CHAIN", source:"RTRACKR — rizal.pw/rtrackr", time:"Snapshot Nov 20, 2026 · 2:43:28 PM MT",
+         title:"RTRACKR publishes GHOSTCHAIN height 5",
+         detail:"6 blocks · tip 4006b57088…f0bb5b · chain verify (Neo) OK · prev_hash links OK · last block Nov 19, 2026 11:43:41 PM MT. Unchanged across every re-pull that night. Source: Neo RMINT hybrid live export, republished on every new block.",
+         status:"PUBLISHED — UNCHANGED", cls:"ok",
+         rid:"NO RID ON RECORD", ridKind:"none", note:"RTRACKR itself has no RID yet — it is published on rizal.pw, whose space RID is ЯID-0024-WQTJ"},
+        {type:"VERSION", source:"Sites — /rtor/client/ pages", time:"Pulled Nov 20, 2026 · 11:27 PM MST",
+         title:"Client pages still show 0.2.2 — devices run 0.2.3",
+         detail:"Both rizal.pw and rizal.info /rtor/client/ pages still serve 0.2.2 unsigned builds (APK 8.4 MB, SHA 108c6664…), while the signed 0.2.3 APK is on both sites' renjin pages and every device runs 0.2.3. A signal about the page, not the client.",
+         status:"STALE PAGE", cls:"warn",
+         rid:"ЯID-0025-R0EG", ridKind:"", note:"site.rizal.info · same state on ЯID-0024-WQTJ (rizal.pw)"},
+
+        // ---- Moto ----
+        {type:"SWARM", source:"Moto — RTOR 0.2.3", time:"Reported Nov 20, 2026 · 11:11 PM MST",
+         title:"Moto peer live at ~1.5 KB/s each way",
+         detail:"RTOR 0.2.3 installed over wireless debugging, starts on its own, Files at the top, signed with the new RTOR release key — no Face ID step. Peering with the Neo at about 1.5 KB/s each way from measured bytes.",
+         status:"LIVE — MEASURED", cls:"ok",
+         rid:"Я-DEVICE-BV2ASTPX0C-TV", ridKind:"", note:"Moto device RID · seq 20 · verify ok"},
+
+        // ---- Neo ----
+        {type:"SWARM", source:"Neo — RTOR 0.2.3 hub peer", time:"Reported Nov 20, 2026 · 11:11 PM MST",
+         title:"Neo is the fastest measured peer — ~4.5 KB/s",
+         detail:"All three 0.2.3 peers seed and leech above 1 KB/s; the Neo measures ~4.5 KB/s each way. Peer path on the LAN: Neo (RTRACKR backside) → Pixel → Moto on port 4985.",
+         status:"LIVE — MEASURED", cls:"ok",
+         rid:"NO RID ON RECORD", ridKind:"none", note:"no RID on record at report time — ЯID-0027-Z3N5 (neo.assm) was confirmed by the Nov 21 stream"},
+
+        // ---- Space RID registrations (renjin pages) ----
+        {type:"REGISTRATION", source:"Renjin pages — device watch", time:"First seen Nov 20, 2026 · 11:18 PM MST run",
+         title:"Space RID registered: 17e.dragonskull", detail:"First seen on the renjin pages in the watch's first run. Entry time is not shown on the pages — recorded as not recorded.",
+         status:"REGISTERED", cls:"ok", rid:"ЯID-0017-WST7", ridKind:"", note:"space 17e.dragonskull"},
+        {type:"REGISTRATION", source:"Renjin pages — device watch", time:"First seen Nov 20, 2026 · 11:18 PM MST run",
+         title:"Space RID registered: 17e.rcode", detail:"First seen on the renjin pages in the watch's first run. Entry time is not shown on the pages — recorded as not recorded.",
+         status:"REGISTERED", cls:"ok", rid:"ЯID-0018-AS6M", ridKind:"", note:"space 17e.rcode"},
+        {type:"REGISTRATION", source:"Renjin pages — device watch", time:"First seen Nov 20, 2026 · 11:18 PM MST run",
+         title:"Space RID registered: 17e.yabot", detail:"First seen on the renjin pages in the watch's first run. Entry time is not shown on the pages — recorded as not recorded.",
+         status:"REGISTERED", cls:"ok", rid:"ЯID-0019-KCG5", ridKind:"", note:"space 17e.yabot"},
+        {type:"REGISTRATION", source:"Renjin pages — device watch", time:"First seen Nov 20, 2026 · 11:18 PM MST run",
+         title:"Space RID registered: moto.dragonskull", detail:"First seen on the renjin pages in the watch's first run. Entry time is not shown on the pages — recorded as not recorded.",
+         status:"REGISTERED", cls:"ok", rid:"ЯID-0020-CKQK", ridKind:"", note:"space moto.dragonskull"},
+        {type:"REGISTRATION", source:"Renjin pages — device watch", time:"First seen Nov 20, 2026 · 11:18 PM MST run",
+         title:"Space RID registered: moto.rcode", detail:"First seen on the renjin pages in the watch's first run. Entry time is not shown on the pages — recorded as not recorded.",
+         status:"REGISTERED", cls:"ok", rid:"ЯID-0021-32CZ", ridKind:"", note:"space moto.rcode"},
+        {type:"REGISTRATION", source:"Renjin pages — device watch", time:"First seen Nov 20, 2026 · 11:18 PM MST run",
+         title:"Space RID registered: moto.terraformr", detail:"First seen on the renjin pages in the watch's first run. Entry time is not shown on the pages — recorded as not recorded.",
+         status:"REGISTERED", cls:"ok", rid:"ЯID-0022-ZWHQ", ridKind:"", note:"space moto.terraformr"},
+        {type:"REGISTRATION", source:"Renjin pages — device watch", time:"First seen Nov 20, 2026 · 11:18 PM MST run",
+         title:"Space RID registered: moto.rboard", detail:"First seen on the renjin pages in the watch's first run. Entry time is not shown on the pages — recorded as not recorded.",
+         status:"REGISTERED", cls:"ok", rid:"ЯID-0023-YM9V", ridKind:"", note:"space moto.rboard"},
+        {type:"REGISTRATION", source:"Renjin pages — device watch", time:"First seen Nov 20, 2026 · 11:18 PM MST run",
+         title:"Space RID registered: site.rizal.pw", detail:"The rizal.pw side of the RTOR drop site: space space.rizal.pw · RKLOWD klowd.rizal.pw · RMAIL rtor-rizal-pw@rizal.pw.",
+         status:"REGISTERED", cls:"ok", rid:"ЯID-0024-WQTJ", ridKind:"", note:"space site.rizal.pw"},
+        {type:"REGISTRATION", source:"Renjin pages — device watch", time:"First seen Nov 20, 2026 · 11:18 PM MST run",
+         title:"Space RID registered: site.rizal.info", detail:"The rizal.info side: space site.rizal.info · node site.rizal.info · RMAIL rtor-rizal-info@rizal.pw · aliases ghost@rizal.pw, founder@rizal.pw. Drop-site status: unsigned-pending-founder.",
+         status:"REGISTERED", cls:"ok", rid:"ЯID-0025-R0EG", ridKind:"", note:"space site.rizal.info"},
+        {type:"REGISTRATION", source:"Pixel — seen live on the device", time:"Seen Nov 20, 2026 · 10:22 PM MST",
+         title:"Space RID registered: pixel.rtor", detail:"Seen live on the Pixel itself — SPACE · RID panel: space pixel.rtor · RKLOWD node rklowd.pixel · RMAIL rtor-pixel-rtor@rizal.pw. Not on the renjin pages.",
+         status:"REGISTERED — ON DEVICE", cls:"ok", rid:"RID-0026-C7YD", ridKind:"", note:"space pixel.rtor"},
+
+        // ---- Device RID mints (17e apps) ----
+        {type:"REGISTRATION", source:"RID registry — 17e app mints", time:"Recorded Nov 20, 2026 · 11:18 PM MST run",
+         title:"Device RID minted: 17e ЯBOT", detail:"rid.v1 · seq 21 · minted by RGENERATR 2.1.9 · parent ЯID-0001-3QQS · verify ok. ЯBOT 2.2.0 on the 17e.",
+         status:"MINTED — VERIFY OK", cls:"ok", rid:"Я-DEVICE-0TQ386QSWQ-J7", ridKind:"", note:"17e · ЯBOT · seq 21"},
+        {type:"REGISTRATION", source:"RID registry — 17e app mints", time:"Recorded Nov 20, 2026 · 11:18 PM MST run",
+         title:"Device RID minted: 17e Dragon Skull", detail:"rid.v1 · seq 22 · minted by RGENERATR 2.1.9 · parent ЯID-0001-3QQS · verify ok. RDRAGON build 59 on the 17e.",
+         status:"MINTED — VERIFY OK", cls:"ok", rid:"Я-DEVICE-ZTS36KG6QF-SK", ridKind:"", note:"17e · Dragon Skull · seq 22"},
+        {type:"REGISTRATION", source:"RID registry — 17e app mints", time:"Recorded Nov 20, 2026 · 11:18 PM MST run",
+         title:"Device RID minted: 17e RCODE", detail:"rid.v1 · seq 23 · minted by RGENERATR 2.1.9 · parent ЯID-0001-3QQS · verify ok. RCODE build 15 on the 17e. Next RID sequence after these mints: 24.",
+         status:"MINTED — VERIFY OK", cls:"ok", rid:"Я-DEVICE-JH0F4MTHE1-CD", ridKind:"", note:"17e · RCODE · seq 23"},
+
+        // ---- Nov 21, 2026 watch — live, pulled from the feed (rtor-assm.json) ----
+        {type:"REGISTRATION", source:"RTOR feed — rtor-assm.json", time:"Feed published Nov 21, 2026 · 12:40 PM MST",
+         title:"Space RID confirmed: pixel.rtor",
+         detail:"Confirmed in rtor-assm.json, published 2026-11-21T12:40:00-07:00 — source: Decider Rizal pt250u–pt256u, published by Grok Bot. The stream also shows pixel.rtor holding device RID Я-DEVICE-BV2ASTPX0C-TV (seq 20). The C7MD suffix conflicts with the C7YD read off the device on Nov 20 — flagged below.",
+         status:"STREAM-CONFIRMED", cls:"ok",
+         rid:"ЯID-0026-C7MD", ridKind:"", note:"space pixel.rtor · confirmed in the feed, not read off the device"},
+        {type:"REGISTRATION", source:"RTOR feed — rtor-assm.json", time:"Feed published Nov 21, 2026 · 12:40 PM MST",
+         title:"Space RID confirmed: neo.assm",
+         detail:"Confirmed in rtor-assm.json, published 2026-11-21T12:40:00-07:00 (Decider Rizal pt250u–pt256u, published by Grok Bot). The Neo's first space RID on record — it comes from the stream; the Neo itself carries no SPACE-RID.json.",
+         status:"STREAM-CONFIRMED", cls:"ok",
+         rid:"ЯID-0027-Z3N5", ridKind:"", note:"space neo.assm · the Neo previously had no RID on record"},
+        {type:"REGISTRATION", source:"RTOR feed — rtor-assm.json", time:"Feed published Nov 21, 2026 · 12:40 PM MST",
+         title:"Space RID confirmed: pixel.dragonskull",
+         detail:"Confirmed in rtor-assm.json, published 2026-11-21T12:40:00-07:00 (Decider Rizal pt250u–pt256u, published by Grok Bot). A second space on the Pixel, alongside pixel.rtor.",
+         status:"STREAM-CONFIRMED", cls:"ok",
+         rid:"ЯID-0028-9GZ3", ridKind:"", note:"space pixel.dragonskull · confirmed in the feed"},
+        {type:"REGISTRATION", source:"RTOR feed — rtor-assm.json", time:"Feed published Nov 21, 2026 · 12:40 PM MST",
+         title:"Device RID confirmed: neo.assm",
+         detail:"New device RID in the stream — seq 24, confirmed in rtor-assm.json, published 2026-11-21T12:40:00-07:00.",
+         status:"STREAM-CONFIRMED", cls:"ok",
+         rid:"Я-DEVICE-ZX5PV8PZ3Z-JX", ridKind:"", note:"neo.assm · device RID · seq 24"},
+        {type:"REGISTRATION", source:"RTOR feed — rtor-assm.json", time:"Feed published Nov 21, 2026 · 12:40 PM MST",
+         title:"Device RID confirmed: pixel.dragonskull",
+         detail:"New device RID in the stream — seq 25, confirmed in rtor-assm.json, published 2026-11-21T12:40:00-07:00. Next RID sequence after this mint: 26.",
+         status:"STREAM-CONFIRMED", cls:"ok",
+         rid:"Я-DEVICE-82T0T8BDY9-0T", ridKind:"", note:"pixel.dragonskull · device RID · seq 25"},
+        {type:"CHAIN", source:"RTOR feed — rtor-assm.json", time:"Checked Nov 21, 2026 · 12:48 PM MST watch",
+         title:"GHOSTCHAIN unchanged — still height 5",
+         detail:"Height 5 · 6 blocks · tip 4006b570883c…f0bb5b · snapshot Nov 20, 2026 2:43:28 PM MT. No new blocks since the Nov 20 pull — the published chain has not moved.",
+         status:"UNCHANGED — NO NEW BLOCKS", cls:"ok",
+         rid:"NO RID ON RECORD", ridKind:"none", note:"as published by RTRACKR, which still has no RID of its own"},
+        {type:"STATUS", source:"RTOR feed — rtor-assm.json", time:"Flagged Nov 21, 2026 · 12:48 PM MST watch",
+         title:"FLAG — 0026 suffix conflict: C7MD vs C7YD",
+         detail:"The stream confirms pixel.rtor as ЯID-0026-C7MD. The earlier on-device reading (Pixel, Nov 20, 2026 · 10:22 PM MST) showed RID-0026-C7YD. Both stay on this page: C7MD is stream-confirmed; C7YD is in question until the device is re-read.",
+         status:"CONFLICT — UNRESOLVED", cls:"warn",
+         rid:"ЯID-0026-C7MD / RID-0026-C7YD", ridKind:"", note:"C7MD stream-confirmed · C7YD in question"},
+
+        // ---- Nov 21, 2026 watch — device-local, last reported (never live) ----
+        {type:"CHAIN", source:"Device watch — Nov 21, 2026", time:"Last reported · heartbeat 2026-11-21T00:01:20-07:00",
+         title:"Neo local chain reads height 16 — last reported",
+         detail:"The Neo's own device-local chain, unchanged this run. It is not the published chain — RTRACKR still shows height 5. There is no SPACE-RID.json on the Neo; its space RID comes from the stream.",
+         status:"LAST REPORTED — LOCAL ONLY", cls:"warn",
+         rid:"ЯID-0027-Z3N5", ridKind:"", note:"space neo.assm · device-local value, not a live feed"},
+        {type:"HEARTBEAT", source:"Device watch — Nov 21, 2026", time:"2026-11-21T00:01:20-07:00",
+         title:"Neo heartbeat — last reported",
+         detail:"The Neo's own check-in at 2026-11-21T00:01:20-07:00, unchanged this run — proof the Neo was alive at that moment, from that device only. A last-reported value, not a live one.",
+         status:"LAST REPORTED", cls:"warn",
+         rid:"ЯID-0027-Z3N5", ridKind:"", note:"space neo.assm · reported by the Neo itself"},
+        {type:"RMAIL", source:"Device watch — Nov 21, 2026", time:"Last reported · Nov 21, 2026 watch",
+         title:"RMAIL outbox: 15 pending, 0 sent — last reported",
+         detail:"The Pixel client's relay_8797 outbox as last reported — up from the 10 pending read at 11:37 PM on Nov 20, still 0 sent. Device-local, unchanged this run. Queued is not delivered.",
+         status:"LAST REPORTED — QUEUED", cls:"warn",
+         rid:"ЯID-0026-C7MD", ridKind:"", note:"space pixel.rtor · stream-confirmed stamp; the device read C7YD"},
+
+        // ---- Nov 21, 2026 watch 13:18 MST — client version, feed-derived (rtor-live.json) ----
+        {type:"VERSION", source:"RTOR feed — rtor-live.json", time:"First observed 2026-11-21T13:17:33-07:00",
+         title:"RTOR GHOSTCHAIN cryptoclient 0.2.5 live on Neo and Pixel",
+         detail:"Feed-derived, from rtor-live.json (peers checked 13:17:30) — the latest recorded signal on this page. The RTRACKR live page showed the same at 13:19:40 MT, marked “up 20m”. Stamped Я-DEVICE-WAZREK679W-C9 (seq 26, Neo) and Я-DEVICE-MA7K9XAS4T-CN (seq 27, Pixel). No new device-local report arrived this run.",
+         status:"LIVE — FEED-DERIVED", cls:"ok",
+         rid:"Я-DEVICE-WAZREK679W-C9 · Я-DEVICE-MA7K9XAS4T-CN", ridKind:"", note:"Neo device RID seq 26 · Pixel device RID seq 27 · source rtor-live.json"}
+      ];
+
+      var SPEED = [
+        {label:"Neo — hub peer", rid:"ЯID-0027-Z3N5", v:4.5, color:"var(--red)"},
+        {label:"Pixel", rid:"RID-0026-C7YD", v:3.0, color:"var(--green)"},
+        {label:"Moto", rid:"Я-DEVICE-BV2ASTPX0C-TV", v:1.5, color:"var(--green)"},
+        {label:"17e — per file", rid:"node 66413c3f", v:1.5, color:"var(--cyan)"}
+      ];
+      var CHAINH = [
+        {label:"Pixel — local chain", rid:"RID-0026-C7YD", v:11, color:"var(--amber)"},
+        {label:"RTRACKR — published", rid:"no RID on record", v:5, color:"var(--green)"}
+      ];
+      var REGISTRY = [
+        {rid:"ЯID-0017-WST7", who:"17e.dragonskull", meta:"space RID · first seen Nov 20, 11:18 PM run"},
+        {rid:"ЯID-0018-AS6M", who:"17e.rcode", meta:"space RID · first seen Nov 20, 11:18 PM run"},
+        {rid:"ЯID-0019-KCG5", who:"17e.yabot", meta:"space RID · first seen Nov 20, 11:18 PM run"},
+        {rid:"ЯID-0020-CKQK", who:"moto.dragonskull", meta:"space RID · first seen Nov 20, 11:18 PM run"},
+        {rid:"ЯID-0021-32CZ", who:"moto.rcode", meta:"space RID · first seen Nov 20, 11:18 PM run"},
+        {rid:"ЯID-0022-ZWHQ", who:"moto.terraformr", meta:"space RID · first seen Nov 20, 11:18 PM run"},
+        {rid:"ЯID-0023-YM9V", who:"moto.rboard", meta:"space RID · first seen Nov 20, 11:18 PM run"},
+        {rid:"ЯID-0024-WQTJ", who:"site.rizal.pw", meta:"space RID · RTOR drop site, rizal.pw side"},
+        {rid:"ЯID-0025-R0EG", who:"site.rizal.info", meta:"space RID · RTOR drop site, rizal.info side"},
+        {rid:"RID-0026-C7YD", who:"pixel.rtor", meta:"space RID · read on the Pixel, Nov 20, 10:22 PM — IN QUESTION: the Nov 21 stream confirms C7MD"},
+        {rid:"ЯID-0026-C7MD", who:"pixel.rtor", meta:"space RID · stream-confirmed in rtor-assm.json, Nov 21, 12:40 PM MST"},
+        {rid:"ЯID-0027-Z3N5", who:"neo.assm", meta:"space RID · stream-confirmed Nov 21 · no SPACE-RID.json on the device"},
+        {rid:"ЯID-0028-9GZ3", who:"pixel.dragonskull", meta:"space RID · stream-confirmed Nov 21"},
+        {rid:"Я-DEVICE-BV2ASTPX0C-TV", who:"Moto (device)", meta:"device RID · seq 20 · verify ok · the Nov 21 stream attributes this RID to pixel.rtor"},
+        {rid:"Я-DEVICE-0TQ386QSWQ-J7", who:"17e ЯBOT", meta:"device RID · seq 21 · verify ok"},
+        {rid:"Я-DEVICE-ZTS36KG6QF-SK", who:"17e Dragon Skull", meta:"device RID · seq 22 · verify ok"},
+        {rid:"Я-DEVICE-JH0F4MTHE1-CD", who:"17e RCODE", meta:"device RID · seq 23 · verify ok"},
+        {rid:"Я-DEVICE-ZX5PV8PZ3Z-JX", who:"Neo — neo.assm", meta:"device RID · seq 24 · stream-confirmed Nov 21"},
+        {rid:"Я-DEVICE-82T0T8BDY9-0T", who:"Pixel — pixel.dragonskull", meta:"device RID · seq 25 · stream-confirmed Nov 21"},
+        {rid:"Я-DEVICE-WAZREK679W-C9", who:"Neo — RTOR cryptoclient 0.2.5", meta:"device RID · seq 26 · first observed 2026-11-21T13:17:33-07:00 in rtor-live.json"},
+        {rid:"Я-DEVICE-MA7K9XAS4T-CN", who:"Pixel — RTOR cryptoclient 0.2.5", meta:"device RID · seq 27 · first observed 2026-11-21T13:17:33-07:00 in rtor-live.json"},
+        {rid:"Я-DEVICE-1PYZ7VG0Z1-ZE", who:"Gizmo (in RGENERATR 2.1.9)", meta:"device RID · seq 16 · Moto · verified ok"},
+        {rid:"ЯID-0014-KREH", who:"ThundR", meta:"cryptobot RID · on chain, blocks 2–3 · “ThundR · awake” on both devices"},
+        {rid:"ЯID-0001-3QQS", who:"Rizal — owner", meta:"parent RID for the device mints · GAME-MINTED GENESIS, block 1"}
+      ];
+
+      function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;");}
+      function cssVar(n){return getComputedStyle(document.documentElement).getPropertyValue(n).trim();}
+
+      // ---- stats (computed from SIGNALS) ----
+      (function(){
+        var sources = {};
+        SIGNALS.forEach(function(s){ sources[s.source.split(" — ")[0]] = true; });
+        var stamped = SIGNALS.filter(function(s){return s.ridKind !== "none";}).length;
+        var tiles = [
+          {n: SIGNALS.length, l:"signals, differentiated"},
+          {n: Object.keys(TYPES).length, l:"kinds of signal"},
+          {n: Object.keys(sources).length, l:"reporting sources"},
+          {n: stamped + " / " + SIGNALS.length, l:"stamped with an RID or node ID — the rest say so plainly"}
+        ];
+        document.getElementById("stats").innerHTML = tiles.map(function(t){
+          return '<div class="stat"><div class="n">'+t.n+'</div><div class="l">'+t.l+'</div></div>';
+        }).join("");
+      })();
+
+      // ---- type legend (counts computed) ----
+      (function(){
+        var counts = {};
+        SIGNALS.forEach(function(s){ counts[s.type] = (counts[s.type]||0)+1; });
+        document.getElementById("types").innerHTML = Object.keys(TYPES).map(function(t){
+          return '<div class="type-card"><span class="badge t-'+t+'">'+t+'</span>' +
+                 '<span class="mono" style="float:right;color:var(--faint);font-size:13px">× '+counts[t]+'</span>' +
+                 '<p>'+TYPES[t]+'</p></div>';
+        }).join("");
+      })();
+
+      // ---- horizontal bar chart builder (zero baseline, labeled ticks) ----
+      function hbar(elId, rows, max, ticks, unit){
+        var W=640, rowH=64, top=8, bottom=30, labelW=0, plotX=170, plotW=W-plotX-56;
+        var H = top + rows.length*rowH + bottom;
+        var s = '<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="bar chart">';
+        // gridlines + tick labels
+        ticks.forEach(function(t){
+          var x = plotX + plotW*(t/max);
+          s += '<line x1="'+x+'" y1="'+top+'" x2="'+x+'" y2="'+(H-bottom)+'" stroke="'+cssVar("--line")+'" stroke-width="1"/>';
+          s += '<text x="'+x+'" y="'+(H-8)+'" text-anchor="middle" font-size="12" fill="'+cssVar("--faint")+'" font-family="ui-monospace,Menlo,monospace">'+t+'</text>';
+        });
+        s += '<text x="0" y="'+(H-8)+'" text-anchor="start" font-size="11" fill="'+cssVar("--faint")+'">'+unit+'</text>';
+        rows.forEach(function(r,i){
+          var y = top + i*rowH;
+          var w = Math.max(2, plotW*(r.v/max));
+          var col = r.color.indexOf("var(")===0 ? cssVar(r.color.slice(4,-1)) : r.color;
+          s += '<text x="0" y="'+(y+20)+'" font-size="14.5" font-weight="600" fill="'+cssVar("--ink")+'">'+esc(r.label)+'</text>';
+          s += '<text x="0" y="'+(y+38)+'" font-size="11.5" fill="'+cssVar("--faint")+'" font-family="ui-monospace,Menlo,monospace">'+esc(r.rid)+'</text>';
+          s += '<rect x="'+plotX+'" y="'+(y+6)+'" width="'+w+'" height="26" rx="5" fill="'+col+'"/>';
+          s += '<text x="'+(plotX+w+9)+'" y="'+(y+25)+'" font-size="14" font-weight="700" fill="'+cssVar("--ink")+'" font-family="ui-monospace,Menlo,monospace">'+r.v+'</text>';
+        });
+        s += '</svg>';
+        document.getElementById(elId).innerHTML = s;
+      }
+      function drawCharts(){
+        hbar("chart-speed", SPEED, 5, [0,1,2,3,4,5], "KB/s");
+        hbar("chart-chain", CHAINH, 12, [0,3,6,9,12], "blocks");
+        var counts = {};
+        SIGNALS.forEach(function(s){ counts[s.type]=(counts[s.type]||0)+1; });
+        var rows = Object.keys(counts).map(function(t){
+          return {label:t, rid:counts[t]+" signals", v:counts[t], color:"var(--purple)"};
+        }).sort(function(a,b){return b.v-a.v;});
+        rows.forEach(function(r){ if(r.label==="SWARM") r.color="var(--green)"; if(r.label==="CHAIN") r.color="var(--purple)"; });
+        hbar("chart-mix", rows, 20, [0,10,20], "signals");
+      }
+      drawCharts();
+      if (window.matchMedia) {
+        var mq = window.matchMedia("(prefers-color-scheme: dark)");
+        if (mq.addEventListener) mq.addEventListener("change", drawCharts);
+      }
+
+      // ---- signal list with type filter ----
+      var activeFilter = "ALL";
+      function renderFilters(){
+        var counts = {};
+        SIGNALS.forEach(function(s){ counts[s.type]=(counts[s.type]||0)+1; });
+        var names = ["ALL"].concat(Object.keys(TYPES));
+        document.getElementById("filters").innerHTML = names.map(function(t){
+          var label = t==="ALL" ? "All ("+SIGNALS.length+")" : t+" ("+counts[t]+")";
+          return '<button type="button" data-f="'+t+'" aria-pressed="'+(activeFilter===t)+'">'+label+'</button>';
+        }).join("");
+        Array.prototype.forEach.call(document.querySelectorAll("#filters button"), function(b){
+          b.addEventListener("click", function(){ activeFilter = b.getAttribute("data-f"); renderFilters(); renderList(); });
+        });
+      }
+      function renderList(){
+        var shown = SIGNALS.filter(function(s){ return activeFilter==="ALL" || s.type===activeFilter; });
+        document.getElementById("count-line").textContent = "Showing "+shown.length+" of "+SIGNALS.length+" signals" + (activeFilter==="ALL" ? "" : " — kind: "+activeFilter);
+        var html = "", lastSource = null;
+        shown.forEach(function(s){
+          if (s.source !== lastSource){
+            lastSource = s.source;
+            html += '<div class="group-head"><h3>'+esc(s.source)+'</h3></div>';
+          }
+          html += '<article class="signal">' +
+            '<div class="signal-top"><span class="badge t-'+s.type+'">'+s.type+'</span>' +
+            '<span class="status '+s.cls+'">'+esc(s.status)+'</span>' +
+            '<span class="time">'+esc(s.time)+'</span></div>' +
+            '<h4>'+esc(s.title)+'</h4><p>'+esc(s.detail)+'</p>' +
+            '<div class="stamp"><span class="stamp-label">RID STAMP</span>' +
+            '<span class="rid '+s.ridKind+'">'+esc(s.rid)+'</span>' +
+            '<span class="stamp-note">'+esc(s.note)+'</span></div></article>';
+        });
+        document.getElementById("list").innerHTML = html;
+      }
+      renderFilters();
+      renderList();
+
+      // ---- registry ----
+      document.getElementById("registry").innerHTML = REGISTRY.map(function(r){
+        return '<div class="reg"><span class="rid">'+esc(r.rid)+'</span><div class="who">'+esc(r.who)+'</div><div class="meta">'+esc(r.meta)+'</div></div>';
+      }).join("");
+    </script>
+ </body></html>

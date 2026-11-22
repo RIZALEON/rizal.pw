@@ -1,0 +1,239 @@
+{
+ "schema": "rklowd.mailboxes.v1",
+ "ok": true,
+ "node": "rklowd.pw",
+ "updated": "2026-11-21T10:56:00-07:00",
+ "note": "Single source of truth for @rizal.pw mailboxes. Canonical: RKLOWD nodes/pw/mailboxes/index.json. RMAIL, rizal.pw ASSM and RDRAGON carry byte-identical mirrors. Public values only: no keys, no ports, no machine addresses. Decider t177u/t178u: @chaserizal and ghost@rizal.pw are one person and share one inbox. @chaserizal is the direct-message handle; ghost@rizal.pw is the traditional email. Service and RTOR drop boxes have their own inboxes.",
+ "mailboxes": {
+  "ghost": {
+   "address": "ghost@rizal.pw",
+   "owner": "@chaserizal",
+   "kind": "email",
+   "role": "traditional-email",
+   "fused_with": "@chaserizal",
+   "rklowd_path": "nodes/pw/mailboxes/ghost",
+   "folders": [
+    "inbox",
+    "sent"
+   ],
+   "created": "2026-11-14T19:36:53-07:00",
+   "note": "Same person and same inbox as the @chaserizal direct-message handle (Decider t177u/t178u)."
+  },
+  "rtrackr": {
+   "address": "rtrackr@rizal.pw",
+   "kind": "service",
+   "role": "service",
+   "label": "RTRACKR service mailbox",
+   "rklowd_path": "nodes/pw/mailboxes/rtrackr",
+   "folders": [
+    "inbox",
+    "sent"
+   ],
+   "created": "2026-11-21T10:56:00-07:00"
+  },
+  "thundr": {
+   "address": "thundr@rizal.pw",
+   "kind": "service",
+   "role": "service",
+   "label": "ThundR bot mailbox",
+   "rklowd_path": "nodes/pw/mailboxes/thundr",
+   "folders": [
+    "inbox",
+    "sent"
+   ],
+   "created": "2026-11-21T10:56:00-07:00"
+  },
+  "gizmo": {
+   "address": "gizmo@rizal.pw",
+   "kind": "service",
+   "role": "service",
+   "label": "GIZMO bot mailbox",
+   "rklowd_path": "nodes/pw/mailboxes/gizmo",
+   "folders": [
+    "inbox",
+    "sent"
+   ],
+   "created": "2026-11-21T10:56:00-07:00"
+  },
+  "batibabot": {
+   "address": "batibabot",
+   "kind": "service",
+   "role": "service",
+   "label": "batibabot mailbox",
+   "rklowd_path": "nodes/pw/mailboxes/batibabot",
+   "folders": [
+    "inbox",
+    "sent"
+   ],
+   "created": "2026-11-21T10:56:00-07:00"
+  },
+  "guest-e2e": {
+   "address": "guest-e2e",
+   "kind": "service",
+   "role": "service",
+   "label": "guest-e2e test mailbox",
+   "rklowd_path": "nodes/pw/mailboxes/guest-e2e",
+   "folders": [
+    "inbox",
+    "sent"
+   ],
+   "created": "2026-11-21T10:56:00-07:00"
+  },
+  "rtor-17e-dragonskull": {
+   "address": "rtor-17e-dragonskull@rizal.pw",
+   "kind": "rtor-drop",
+   "role": "device-drop",
+   "space": "17e.dragonskull",
+   "rklowd_path": "nodes/pw/mailboxes/rtor-17e-dragonskull",
+   "folders": [
+    "inbox",
+    "sent"
+   ],
+   "created": "2026-11-21T10:56:00-07:00",
+   "note": "Own drop box; not an alias of ghost@rizal.pw (Decider t177u)."
+  },
+  "rtor-17e-rcode": {
+   "address": "rtor-17e-rcode@rizal.pw",
+   "kind": "rtor-drop",
+   "role": "device-drop",
+   "space": "17e.rcode",
+   "rklowd_path": "nodes/pw/mailboxes/rtor-17e-rcode",
+   "folders": [
+    "inbox",
+    "sent"
+   ],
+   "created": "2026-11-21T10:56:00-07:00",
+   "note": "Own drop box; not an alias of ghost@rizal.pw (Decider t177u)."
+  },
+  "rtor-17e-yabot": {
+   "address": "rtor-17e-yabot@rizal.pw",
+   "kind": "rtor-drop",
+   "role": "device-drop",
+   "space": "17e.yabot",
+   "rklowd_path": "nodes/pw/mailboxes/rtor-17e-yabot",
+   "folders": [
+    "inbox",
+    "sent"
+   ],
+   "created": "2026-11-21T10:56:00-07:00",
+   "note": "Own drop box; not an alias of ghost@rizal.pw (Decider t177u)."
+  },
+  "rtor-moto-dragonskull": {
+   "address": "rtor-moto-dragonskull@rizal.pw",
+   "kind": "rtor-drop",
+   "role": "device-drop",
+   "space": "moto.dragonskull",
+   "rklowd_path": "nodes/pw/mailboxes/rtor-moto-dragonskull",
+   "folders": [
+    "inbox",
+    "sent"
+   ],
+   "created": "2026-11-21T10:56:00-07:00",
+   "note": "Own drop box; not an alias of ghost@rizal.pw (Decider t177u)."
+  },
+  "rtor-moto-rcode": {
+   "address": "rtor-moto-rcode@rizal.pw",
+   "kind": "rtor-drop",
+   "role": "device-drop",
+   "space": "moto.rcode",
+   "rklowd_path": "nodes/pw/mailboxes/rtor-moto-rcode",
+   "folders": [
+    "inbox",
+    "sent"
+   ],
+   "created": "2026-11-21T10:56:00-07:00",
+   "note": "Own drop box; not an alias of ghost@rizal.pw (Decider t177u)."
+  },
+  "rtor-moto-terraformr": {
+   "address": "rtor-moto-terraformr@rizal.pw",
+   "kind": "rtor-drop",
+   "role": "device-drop",
+   "space": "moto.terraformr",
+   "rklowd_path": "nodes/pw/mailboxes/rtor-moto-terraformr",
+   "folders": [
+    "inbox",
+    "sent"
+   ],
+   "created": "2026-11-21T10:56:00-07:00",
+   "note": "Own drop box; not an alias of ghost@rizal.pw (Decider t177u)."
+  },
+  "rtor-moto-rboard": {
+   "address": "rtor-moto-rboard@rizal.pw",
+   "kind": "rtor-drop",
+   "role": "device-drop",
+   "space": "moto.rboard",
+   "rklowd_path": "nodes/pw/mailboxes/rtor-moto-rboard",
+   "folders": [
+    "inbox",
+    "sent"
+   ],
+   "created": "2026-11-21T10:56:00-07:00",
+   "note": "Own drop box; not an alias of ghost@rizal.pw (Decider t177u)."
+  },
+  "rtor-rizal-pw": {
+   "address": "rtor-rizal-pw@rizal.pw",
+   "kind": "rtor-drop",
+   "role": "device-drop",
+   "space": "site.rizal.pw",
+   "rklowd_path": "nodes/pw/mailboxes/rtor-rizal-pw",
+   "folders": [
+    "inbox",
+    "sent"
+   ],
+   "created": "2026-11-21T10:56:00-07:00",
+   "note": "Own drop box; not an alias of ghost@rizal.pw (Decider t177u)."
+  },
+  "rtor-rizal-info": {
+   "address": "rtor-rizal-info@rizal.pw",
+   "kind": "rtor-drop",
+   "role": "device-drop",
+   "space": "site.rizal.info",
+   "rklowd_path": "nodes/pw/mailboxes/rtor-rizal-info",
+   "folders": [
+    "inbox",
+    "sent"
+   ],
+   "created": "2026-11-21T10:56:00-07:00",
+   "note": "Own drop box; not an alias of ghost@rizal.pw (Decider t177u)."
+  },
+  "rtor-pixel-rtor": {
+   "address": "rtor-pixel-rtor@rizal.pw",
+   "kind": "rtor-drop",
+   "role": "device-drop",
+   "space": "pixel.rtor",
+   "rklowd_path": "nodes/pw/mailboxes/rtor-pixel-rtor",
+   "folders": [
+    "inbox",
+    "sent"
+   ],
+   "created": "2026-11-21T10:56:00-07:00",
+   "note": "Own drop box; not an alias of ghost@rizal.pw (Decider t177u)."
+  }
+ },
+ "identities": [
+  {
+   "kind": "person",
+   "id": "owner",
+   "label": "@chaserizal / ghost@rizal.pw",
+   "mailbox": "ghost@rizal.pw",
+   "rklowd_path": "nodes/pw/mailboxes/ghost",
+   "note": "One person, one inbox. @chaserizal is the direct-message handle; ghost@rizal.pw is the traditional email. Both deliver to this mailbox (Decider t177u/t178u).",
+   "entries": [
+    {
+     "kind": "messenger",
+     "id": "@chaserizal",
+     "label": "Direct message @chaserizal",
+     "role": "direct-message",
+     "mailbox": "ghost@rizal.pw"
+    },
+    {
+     "kind": "email",
+     "id": "ghost@rizal.pw",
+     "label": "Email ghost@rizal.pw",
+     "role": "traditional-email",
+     "mailbox": "ghost@rizal.pw"
+    }
+   ]
+  }
+ ]
+}

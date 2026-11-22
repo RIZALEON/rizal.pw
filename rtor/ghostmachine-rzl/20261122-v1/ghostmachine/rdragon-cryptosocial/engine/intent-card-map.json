@@ -1,0 +1,48 @@
+{
+  "v": 1,
+  "kind": "rdragon.intent-card-map",
+  "version": "race-pack-20261028",
+  "note": "Intent phrases → card keys (looked up in rdragon-card.json). Strong-hit only (PR #22): no bare ghost/chain. Hits run DENY/qcheck before any model tier. GHOSTMACHINE fan-out may extend this map later.",
+  "intents": [
+    {
+      "id": "ghostchain",
+      "q": ["ghost chain", "ghostchain", "ghost-chain", "я ghost", "what is the ghost chain", "explain ghostchain"],
+      "cardKeys": ["ghostchain", "ghost chain", "ghost-chain", "я ghost"]
+    },
+    {
+      "id": "wallet",
+      "q": ["rwallet", "rkrypt", "my wallet", "rtoken", "rtoken balance", "what is rkrypt", "what is rwallet"],
+      "cardKeys": ["rkrypt", "rwallet", "wallet", "rtoken"]
+    },
+    {
+      "id": "casket",
+      "q": ["яcasket", "rcasket", "casket", "key casket", "what is ycasket"],
+      "cardKeys": ["casket", "rcasket", "яcasket"]
+    },
+    {
+      "id": "batibabox",
+      "q": ["batibabox", "/batibabox", "long-term memory", "what is batibabox", "memory organ"],
+      "cardKeys": ["batibabox", "memory", "recall", "rag"]
+    },
+    {
+      "id": "thundr",
+      "q": ["thundr", "thunder", "cryptobot", "/thundr", "what is thundr"],
+      "cardKeys": ["thundr", "thunder", "cryptobot"]
+    },
+    {
+      "id": "rprompt",
+      "q": ["r:\\", "r:", "bootloader", "dos prompt", "command line"],
+      "cardKeys": ["r:\\", "r:", "command line", "bootloader"]
+    },
+    {
+      "id": "rizalpw",
+      "q": ["rizal.pw", "rizalpw", "cryptosocial", "ghostmachine feed"],
+      "cardKeys": ["rizal.pw", "rizalpw", "cryptosocial", "feed"]
+    },
+    {
+      "id": "backup",
+      "q": ["/forget-view", "machine mind", "rscribe", "transcripts", "where are backups"],
+      "cardKeys": ["backup", "backups", "transcripts", "rscribe", "machine mind", "machine-mind"]
+    }
+  ]
+}

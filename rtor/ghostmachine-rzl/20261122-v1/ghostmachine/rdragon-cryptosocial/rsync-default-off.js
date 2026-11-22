@@ -1,0 +1,1 @@
+!function(w){"use strict";var on=!1;try{on="1"===w.localStorage.getItem("rsync.enabled")}catch(e){}var c=w.RDRAGON_CONFIG=w.RDRAGON_CONFIG||{};c.rsyncEnabled=on,on||(c.peers=[],c.localPeers=[],c.privatePeersUrl="",w.RDRAGON_PRIVATE_PEERS=[])}(window);

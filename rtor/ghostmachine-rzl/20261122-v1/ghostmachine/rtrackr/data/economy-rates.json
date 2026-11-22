@@ -1,0 +1,80 @@
+{
+ "schema": "rzl.economy.rates.v2",
+ "recorded": "2026-11-14T22:15:00-07:00",
+ "status": "ACTIVE · Rizal GO 2026-11-14 9:15 PM MT: \"Make it 100 Rcoin for 1 Rtoken then add that CRYPTOGAME trading pair integrated into the game RWALET RTRACKER and the manual now\"",
+ "rcoin_to_rtoken": {
+  "rate": "100 Rcoins = 1 Rtoken",
+  "rcoins_per_rtoken": 100,
+  "pair": "CRYPTOGAME:RCOIN/Я",
+  "cap": "100 Rtoken per person per local day (counts every convert block for that user since local midnight)",
+  "minimum": "fewer than 100 Rcoins is refused",
+  "rounding": "floor: rtoken = min(rcoins // 100, 100 - used_today); only rtoken*100 Rcoins are consumed; leftover Rcoins stay",
+  "ledger": "local RGHOSTCHAIN `convert` block, onchain:false; payload {user, rcoins, rtoken, rate, cap_day:100, used_before, onchain:false}",
+  "onchain": false,
+  "effective": "2026-11-14T21:15:00-07:00",
+  "sources": [
+   "AUTOMANUAL §2.4.9.14 (U35, 2026-11-14)",
+   "cryptoapp/RWALLET/rgenerator/rgen.py: RATE=100; CAP=100",
+   "GHOSTMACHINE/RGHOSTCHAIN/rghostchain.py derive(): rate='100 Rcoins = 1 Rtoken'",
+   "TerraformЯ MANUAL §14 (updated 2026-11-14)",
+   "SCROLLS/RGHOSTCHAIN-PUBLIC-GUIDE.md",
+   "GHOSTMACHINE/RGHOSTCHAIN/rtrackr/pairs.json"
+  ]
+ },
+ "pair": {
+  "pair_id": "CRYPTOGAME:RCOIN/Я",
+  "label": "CRYPTOGAME pair Rcoin/Я",
+  "base": {
+   "symbol": "RCOIN",
+   "name": "Rcoin",
+   "kind": "in-game currency (TerraformЯ / CRYPTOGAME)",
+   "ledger": "local RGHOSTCHAIN"
+  },
+  "quote": {
+   "symbol": "RTOKEN",
+   "name": "Rtoken",
+   "kind": "local Rtoken linked to the on-chain Я (Solana SPL)",
+   "mint": "BB9uA5BuacDnWyDf5Npc9nMb9yFbyThsNrQPBYJ5Q1Lv",
+   "cluster": "mainnet-beta"
+  },
+  "rate": {
+   "rcoins_per_rtoken": 100,
+   "text": "100 Rcoins = 1 Rtoken",
+   "rounding": "floor",
+   "minimum_rcoins": 100,
+   "cap_rtoken_per_person_per_day": 100
+  },
+  "effective": "2026-11-14T21:15:00-07:00",
+  "authorized_by": "Rizal GO 2026-11-14 9:15 PM MT: \"Make it 100 Rcoin for 1 Rtoken then add that CRYPTOGAME trading pair integrated into the game RWALET RTRACKER and the manual now\"",
+  "supersedes": {
+   "text": "10 Rcoins = 1 Rtoken",
+   "since": "2026-10-29 (AUTOMANUAL §2.4.9.1, U30)"
+  },
+  "reference_market": {
+   "note": "Я/SOL market price for reference only; there is no published Я↔SOL or Я↔USD rate",
+   "pool": "HSroUxVkVKv6kX9e7dpoJtbFqKcL76BzrkuuRfAGxs9s",
+   "dex": "Orca Whirlpool",
+   "snapshot": "rtrackr/data/token-pool.json",
+   "live": "https://rizal.pw/rtrackr/#pool"
+  },
+  "onchain": false,
+  "conversion_ledger": "local RGHOSTCHAIN `convert` block (onchain:false); rgen.py convert",
+  "status": "registry-only · no block · no seal · unsigned",
+  "registered_by": "RBOT (Grok Bot), metadata only"
+ },
+ "superseded": [
+  {
+   "rate": "10 Rcoins = 1 Rtoken",
+   "from": "2026-10-29 (U30)",
+   "until": "2026-11-14T21:15:00-07:00",
+   "note": "Earlier convert blocks keep their recorded 10:1 payloads"
+  },
+  {
+   "rate": "10 points = 1 local R, cap 100 R/day",
+   "note": "AUTOMANUAL §2.4.9 parent bullet, kept per REQ-23; superseded by U30 then U35"
+  }
+ ],
+ "not_defined": [
+  "No rate between Я and SOL/USD in any manual; market price only from the Orca pool (see token-pool.json, tracking only)."
+ ]
+}

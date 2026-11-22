@@ -1,0 +1,88 @@
+{
+ "schema": "rzl.rtrackr.wallets.snapshot.v1",
+ "fetched_at": "2026-11-14T21:05:14-07:00",
+ "chain": "solana-mainnet",
+ "mint": "BB9uA5BuacDnWyDf5Npc9nMb9yFbyThsNrQPBYJ5Q1Lv",
+ "note": "Every Я (R token) wallet: lab-labelled roster plus on-chain holders. Public addresses only, watch-only, no keys.",
+ "ghostchain": {
+  "registry": "RGHOSTCHAIN/rtrackr/wallets.json",
+  "sealed": false
+ },
+ "holder_discovery": true,
+ "onchain_token_accounts": 5,
+ "total_rtoken_ui": 1000000.0,
+ "wallets": [
+  {
+   "label": "Crown wallet",
+   "role": "mint authority · LP position NFT holder",
+   "status": "current",
+   "address": "BwpVNk1Rtncpv5HMTLwxB4Yfjkfv6mFaBQUTpjneH1F9",
+   "token_account": "8bCnr63CTdC2YbELK3x4vxJYNt6cueGBbEvRURFZc9Q1",
+   "rid": "ЯID-0001-3QQS",
+   "rtoken_ui": "899989.000002178",
+   "rtoken_raw": "899989000002178",
+   "sol": 0.007194044,
+   "solscan": "https://solscan.io/account/BwpVNk1Rtncpv5HMTLwxB4Yfjkfv6mFaBQUTpjneH1F9"
+  },
+  {
+   "label": "Orca Я/SOL pool vault",
+   "role": "pool reserve (owned by whirlpool HSroUxVk…xs9s)",
+   "status": "pool",
+   "address": "HSroUxVkVKv6kX9e7dpoJtbFqKcL76BzrkuuRfAGxs9s",
+   "token_account": "8uYFzTDTDq18z1gPFgjaNRAxmZ3c52tbVHGBLN2CVF3G",
+   "program_owned": true,
+   "rtoken_ui": "67413.195901945",
+   "rtoken_raw": "67413195901945",
+   "sol": 0.00396748,
+   "solscan": "https://solscan.io/account/HSroUxVkVKv6kX9e7dpoJtbFqKcL76BzrkuuRfAGxs9s"
+  },
+  {
+   "label": "Watched holder · OpenSea Я holdings",
+   "role": "watched holder (owner not attributed)",
+   "status": "current",
+   "address": "12872Chwv88d9JcNnPPThtSQWJM296kpkDqm7tpBWB28",
+   "token_account": "BNFLK9bU7CJ4mY87DHpgZ8wj4a1atxwRVpmSuxBUsG8Z",
+   "rtoken_ui": "32586.804095877",
+   "rtoken_raw": "32586804095877",
+   "sol": 0.002958055,
+   "solscan": "https://solscan.io/account/12872Chwv88d9JcNnPPThtSQWJM296kpkDqm7tpBWB28"
+  },
+  {
+   "label": "Previous RBOT desktop seat",
+   "role": "previous RBOT desktop (Mac seat)",
+   "status": "previous",
+   "address": "3gLUfDdw1etDGeJ2PnqUtitam5TwZAsC3BhXCQYx2Gfk",
+   "token_account": "3HHKmD1RT4mrL7iGfydu8jc9rceZbkoLQmWpUfbe6Cvx",
+   "rid": "ЯID-0001-3QQS",
+   "rtoken_ui": "9",
+   "rtoken_raw": "9000000000",
+   "sol": 0.009995,
+   "solscan": "https://solscan.io/account/3gLUfDdw1etDGeJ2PnqUtitam5TwZAsC3BhXCQYx2Gfk"
+  },
+  {
+   "label": "Previous RBOT mobile seat (17e)",
+   "role": "previous RBOT mobile 17e",
+   "status": "previous",
+   "address": "E611TFJh9y2eipt984hhBjhUQ1EsrUDodbLsrpN9Zmhn",
+   "token_account": "FyHLAiaFkQMvBRe2RUoMkH1wBk4M51E9ntoWDQrnvR9j",
+   "rid": "ЯID-0001-3QQS",
+   "rtoken_ui": "2",
+   "rtoken_raw": "2000000000",
+   "sol": 0.003,
+   "solscan": "https://solscan.io/account/E611TFJh9y2eipt984hhBjhUQ1EsrUDodbLsrpN9Zmhn"
+  },
+  {
+   "label": "Previous Desktop / Boomerang wallet",
+   "role": "previous Desktop / Boomerang (no Я token account)",
+   "status": "previous",
+   "address": "2E4eAKWUU5akXTUfP7ZrgjebE3TPUhzZZfaRkQUpwyaj",
+   "token_account": null,
+   "rid": "ЯID-0001-3QQS",
+   "rtoken_ui": "0",
+   "rtoken_raw": null,
+   "sol": null,
+   "solscan": "https://solscan.io/account/2E4eAKWUU5akXTUfP7ZrgjebE3TPUhzZZfaRkQUpwyaj"
+  }
+ ],
+ "errors": []
+}

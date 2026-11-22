@@ -1,0 +1,10 @@
+{
+ "kind": "web",
+ "id": "rtor-feed.rizal.pw",
+ "version": "20261118-5",
+ "name": "feed.json",
+ "size": 13858,
+ "sha256": "f54159f9141b5ec9e4e7db00ed3159430166465ca5fbacfe041e3995e58db402",
+ "ed25519": "DQhHl/MctuCBEzvbY3/QboAURPXGkDf7oMqq6ThutE1gQeZwc9PDA/ZfxdSavEdiw8kVsNM+qhu8P/8ysyOEDw==",
+ "keyId": "e5833fdfbbfe"
+}

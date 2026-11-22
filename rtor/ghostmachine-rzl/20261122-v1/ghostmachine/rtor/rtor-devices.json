@@ -1,0 +1,6 @@
+{
+ "schema": "alias",
+ "alias_of": "/rtor/ghostkey.json",
+ "note": "Renamed 2026-11-18 (Rizal t177u): the device allowlist is now the GHOSTKEY ring. Loaders read ghostkey.json and fall back to this name.",
+ "members_field": "members (was keys)"
+}

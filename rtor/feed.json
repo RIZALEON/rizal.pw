@@ -499,6 +499,25 @@
    "keyId": "e5833fdfbbfe",
    "signed": false,
    "status": "unsigned (owner signing pass pending, as for this whole feed version)"
+  },
+  {
+   "kind": "site",
+   "id": "ghostmachine-rtor-rzl",
+   "version": "20261122-v1",
+   "name": "GHOSTMACHINE-RTOR.rzl — GHOSTMACHINE build + integrated RTOR systems + all projects",
+   "size": 2575480,
+   "files": 220,
+   "sha256": "64f3947283758aba52bd2e870184e366ebf8009fcd9a26e517ae789a42cd78a1",
+   "url": "/rtor/ghostmachine-rzl/20261122-v1/manifest.json",
+   "role": "One .RZL folder (folder-is-the-app): the current GHOSTMACHINE build (161 files — framed site behind the one ASSM login, RMAIL + RWALLET integrated, magnetized GHOSTCHAIN RTOR loader seated so it auto-updates with the UD file and the rizal.info RTOR file), the RTOR systems (RPULL, rsync-rtor.sh, ghostchain-loader.js, load/unload instructions, feed snapshot at 32 entries), the RENJIN Core v3 seat + current shells (byte-identical to GitHub main), the RGHOSTKEY PUBLIC ring only (keyId e5833fdfbbfe), and projects/PROJECTS.json indexing every project in-bundle or by verified hash pin. The ASSM gate is inside (ghostmachine/login, entry ghostmachine/index.html): sign-in is simply the @chaserizal username + password, verified against the live vault at rizal.pw — the password is never stored in the package or anywhere. Seated here file-by-file: 200 text parts ride the connector lane; the 20 image binaries (1,012,329 B of .webp/.jpg site assets) cannot ride this lane and are NOT in the webseed seat — each is named with its sha256 in the seated manifest.json parts list so their absence is detectable, and the complete folder is the zip of record (sha256 above, 2,575,480 B, delivered to the owner in chat 2026-11-22), which rides the IPFS/device lanes whole. Verify anywhere: bash VERIFY.sh --live inside the package.",
+   "verified": {
+    "by": "ThundR — VERIFY.sh local + live, run from a clean unpack of the zip of record",
+    "at": "2026-11-22T12:50-07:00",
+    "checks": "218/218 inventoried files match SHA256SUMS.txt; manifest identity + ASSM password_stored=false asserted; no private-key material in the payload; live checks during the run: feed 32 entries, GHOSTCHAIN sums match + linkage OK"
+   },
+   "keyId": "e5833fdfbbfe",
+   "signed": false,
+   "status": "unsigned (owner signing pass pending, as for this whole feed version)"
   }
  ]
 }

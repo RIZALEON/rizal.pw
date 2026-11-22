@@ -1,0 +1,352 @@
+{
+ "schema": "rzl.rtrackr.rtor-assm.v1",
+ "title": "RTOR ↔ ASSM · decentralized peer mesh",
+ "updated_at": "2026-11-21T12:40:00-07:00",
+ "updated_mt": "Nov 21, 2026, 12:40 PM MT",
+ "source": "Decider Rizal pt250u–pt256u (2026-11-21); published by Grok Bot on request, RTRACKR writer ЯBEE notified in SCROLL RTOR-ASSM.md",
+ "note": "Read-only snapshot. Public fields only: no keys, tokens, salts, private IPs or filesystem paths. No GhostChain block or mint is created by this panel. Mesh counts are per-peer announcements (union = mesh library).",
+ "profile": {
+  "handle": "@chaserizal",
+  "rid": "ЯID-0001-3QQS",
+  "file": "assm-profile.json",
+  "schema": "rzl.rtor.assm.profile.v1",
+  "sha256": "db3535091e3ec236d96bb28ac7d6b7d0bf6a9e8075e484895af71d023cd39fc1",
+  "size": 648,
+  "session": "existing app login reused; no token carried",
+  "matches": [
+   {
+    "device": "Neo",
+    "where": "its neo.assm drop + RTOR library",
+    "sha_ok": true,
+    "checked": "12:34 PM MT"
+   },
+   {
+    "device": "iPhone 17e",
+    "where": "RDRAGON 55 drop (nodes/17e)",
+    "sha_ok": true,
+    "checked": "12:29 PM MT"
+   },
+   {
+    "device": "Pixel",
+    "where": "pixel.dragonskull drop + RDRAGON 1.0.6.1 /rtor/assm/",
+    "sha_ok": true,
+    "checked": "12:34 PM MT"
+   },
+   {
+    "device": "Moto",
+    "where": "its RTOR library (received from the mesh, sha verified)",
+    "sha_ok": true,
+    "checked": "12:34 PM MT"
+   }
+  ]
+ },
+ "assm": {
+  "service": "ASSM-RSYNC",
+  "version": "1.0.0",
+  "mode": "live",
+  "trusted_devices": 6,
+  "link": "/api/rsync/entries",
+  "sync": "ASSM-RSYNC (hosted on Neo) feeds the profile into the RTOR mesh through the neo.assm space (ЯID-0027-Z3N5) every 5 min when its sha changes; from there every peer shares it with every other peer. Fail-closed, loopback-only bridge."
+ },
+ "spaces": [
+  {
+   "rid": "ЯID-0027-Z3N5",
+   "space": "neo.assm",
+   "node": "neo.ASSM",
+   "rmail": "rtor-neo-assm@rizal.pw",
+   "status": "confirmed",
+   "note": "ASSM space (where ASSM-RSYNC enters the mesh; one peer space among equals)"
+  },
+  {
+   "rid": "ЯID-0026-C7MD",
+   "space": "pixel.rtor",
+   "node": "rklowd.pixel",
+   "rmail": "rtor-pixel-rtor@rizal.pw",
+   "status": "confirmed",
+   "note": "confirmed 2026-11-21"
+  },
+  {
+   "rid": "ЯID-0028-9GZ3",
+   "space": "pixel.dragonskull",
+   "node": "rklowd.pixel",
+   "rmail": "rtor-pixel-dragonskull@rizal.pw",
+   "status": "confirmed",
+   "note": "RDRAGON Pixel drop"
+  },
+  {
+   "rid": "ЯID-0017-WST7",
+   "space": "17e.dragonskull",
+   "node": "17e.RDRAGON",
+   "rmail": "rtor-17e-dragonskull@rizal.pw",
+   "status": "unsigned-pending-founder"
+  },
+  {
+   "rid": "ЯID-0018-AS6M",
+   "space": "17e.rcode",
+   "node": "17e.RCODE",
+   "rmail": "rtor-17e-rcode@rizal.pw",
+   "status": "unsigned-pending-founder"
+  },
+  {
+   "rid": "ЯID-0019-KCG5",
+   "space": "17e.yabot",
+   "node": "17e.RBOT",
+   "rmail": "rtor-17e-yabot@rizal.pw",
+   "status": "unsigned-pending-founder"
+  },
+  {
+   "rid": "ЯID-0020-CKQK",
+   "space": "moto.dragonskull",
+   "node": "rklowd.moto",
+   "rmail": "rtor-moto-dragonskull@rizal.pw",
+   "status": "unsigned-pending-founder"
+  },
+  {
+   "rid": "ЯID-0021-32CZ",
+   "space": "moto.rcode",
+   "node": "rklowd.moto",
+   "rmail": "rtor-moto-rcode@rizal.pw",
+   "status": "unsigned-pending-founder"
+  },
+  {
+   "rid": "ЯID-0022-ZWHQ",
+   "space": "moto.terraformr",
+   "node": "rklowd.moto",
+   "rmail": "rtor-moto-terraformr@rizal.pw",
+   "status": "unsigned-pending-founder"
+  },
+  {
+   "rid": "ЯID-0023-YM9V",
+   "space": "moto.rboard",
+   "node": "rklowd.moto",
+   "rmail": "rtor-moto-rboard@rizal.pw",
+   "status": "unsigned-pending-founder"
+  },
+  {
+   "rid": "ЯID-0024-WQTJ",
+   "space": "site.rizal.pw",
+   "node": "site.rizal.pw",
+   "rmail": "rtor-rizal-pw@rizal.pw",
+   "status": "unsigned-pending-founder",
+   "note": "site as a mesh space"
+  },
+  {
+   "rid": "ЯID-0025-R0EG",
+   "space": "site.rizal.info",
+   "node": "site.rizal.info",
+   "rmail": "rtor-rizal-info@rizal.pw",
+   "status": "unsigned-pending-founder",
+   "note": "site as a mesh space"
+  }
+ ],
+ "devices": [
+  {
+   "device": "Neo",
+   "role": "RTOR peer · hosts ASSM-RSYNC",
+   "apps": "rtor-ghostchain 0.2.4 (gossip: offers files to peers missing them) · ASSM-RSYNC 1.0.0",
+   "files": 51,
+   "assm": "db3535… in its drop + library"
+  },
+  {
+   "device": "Pixel (Ubuntu Touch)",
+   "role": "RTOR peer · RDRAGON",
+   "apps": "RDRAGON 1.0.6.1 (ASSM via RTOR reader) · RTOR 0.2.3",
+   "files": 51,
+   "assm": "db3535… in drop + app"
+  },
+  {
+   "device": "iPhone 17e",
+   "role": "RTOR peer (RDRAGON drop space)",
+   "apps": "RDRAGON 55 1.0.6.8 b70 · RCODE 17 · ЯBOT 2026112003",
+   "files": null,
+   "assm": "db3535… in drop"
+  },
+  {
+   "device": "Moto (Android)",
+   "role": "RTOR peer",
+   "apps": "RTOR Android 0.2.3",
+   "files": 51,
+   "assm": "db3535… in its library"
+  }
+ ],
+ "sites": [
+  {
+   "item": "rizal.info /rtor/feed.json",
+   "value": "20261120-2 (sha ed7661ee1bac…), matches rizal.pw; 20261118-5 kept as /rtor/feed-20261118-5.json"
+  },
+  {
+   "item": "rizal.pw ASSM link /api/rsync/entries",
+   "value": "infused: live URL, ЯID, devices, profile sha, neo.assm ЯID-0027-Z3N5, sync info; nothing removed"
+  },
+  {
+   "item": "ЯWALLET :8760 / :8761 (Neo, loopback)",
+   "value": "permanent LaunchAgents info.rizal.rwallet-8760 (unified FULL) + info.rizal.rwallet-8761 (unified ALL)"
+  }
+ ],
+ "ghostchain": {
+  "height": 5,
+  "tip": "4006b570883c…f0bb5b",
+  "note": "unchanged; no new blocks or mints"
+ },
+ "topology": {
+  "model": "decentralized peer mesh",
+  "summary": "RTOR runs on every device. Each peer (Neo, Pixel, Moto, iPhone 17e, and the sites as spaces) is an equal peer, and the mesh is bidirectional: every peer is meant to both send to and receive from every other peer, Neo included. There is no hub and no source device.",
+  "mesh_library": {
+   "union_files": 51,
+   "checked": "12:34 PM MT",
+   "how": "union of the file lists every reachable peer announces in /peer/v1/hello"
+  }
+ },
+ "mesh_peers": [
+  {
+   "peer": "Neo",
+   "kind": "desktop",
+   "rtor": "0.2.4",
+   "files": 51,
+   "mesh_union": 51,
+   "missing": [],
+   "profile_sha_ok": true,
+   "gossip": "0.2.4: offers each file to any peer not announcing it yet, then rotates passes across peers; receives from any peer",
+   "checked": "12:34 PM MT"
+  },
+  {
+   "peer": "Pixel (Ubuntu Touch)",
+   "kind": "ubuntu-touch",
+   "rtor": "0.2.3",
+   "files": 51,
+   "mesh_union": 51,
+   "missing": [],
+   "profile_sha_ok": true,
+   "gossip": "0.2.3: sends keepalive passes to the first reachable peer in its list (Neo); receives from any peer that sends to it",
+   "checked": "12:34 PM MT"
+  },
+  {
+   "peer": "Moto (Android)",
+   "kind": "android",
+   "rtor": "0.2.3",
+   "files": 51,
+   "mesh_union": 51,
+   "missing": [],
+   "profile_sha_ok": true,
+   "gossip": "0.2.3: sends keepalive passes to the first reachable peer in its list (Neo); receives from any peer that sends to it",
+   "checked": "12:34 PM MT"
+  },
+  {
+   "peer": "iPhone 17e",
+   "kind": "ios",
+   "rtor": "RDRAGON 55 1.0.6.8 b70 (RTOR tab)",
+   "files": null,
+   "mesh_union": 51,
+   "missing": null,
+   "profile_sha_ok": true,
+   "gossip": "not announcing on the LAN peer port yet; the profile reached its drop space (17e.dragonskull ЯID-0017-WST7), sha matches",
+   "checked": "12:29 PM MT"
+  }
+ ],
+ "superseded_wording": {
+  "devices_12:30": [
+   {
+    "device": "Neo",
+    "role": "ASSM origin · RTOR seeder",
+    "apps": "rtor-ghostchain 0.2.4 (peer fill: every peer gets every file) · ASSM-RSYNC 1.0.0",
+    "files": 49,
+    "assm": "origin"
+   },
+   {
+    "device": "Pixel (Ubuntu Touch)",
+    "role": "RTOR peer · RDRAGON",
+    "apps": "RDRAGON 1.0.6.1 (ASSM via RTOR reader) · RTOR 0.2.3",
+    "files": 49,
+    "assm": "db3535… in drop + app"
+   },
+   {
+    "device": "iPhone 17e",
+    "role": "RDRAGON drop",
+    "apps": "RDRAGON 55 1.0.6.8 b70 · RCODE 17 · ЯBOT 2026112003",
+    "files": null,
+    "assm": "db3535… in drop"
+   },
+   {
+    "device": "Moto (Android)",
+    "role": "RTOR peer",
+    "apps": "RTOR Android 0.2.3, synced by Neo 0.2.4 peer fill (36/36 at 12:03 PM MT; 48/49 at 12:29 PM MT, still filling as the library grows)",
+    "files": 48,
+    "assm": "db3535… in library"
+   }
+  ],
+  "assm.sync_12:30": "Neo bridge rtor-assm-sync every 5 min: imports the profile into RTOR when its sha changes, seeds drops + RDRAGON/RPROFILE subscribers; fail-closed, loopback-only",
+  "space_0027_note_12:30": "ASSM space (origin)"
+ },
+ "corrections": [
+  {
+   "at": "2026-11-21T12:36:00-07:00",
+   "by": "Decider pt257u (\"no rtor is run decentralized from all devices\")",
+   "note": "12:30 PM MT wording was Neo-centric (\"Neo pushes\", \"Neo library\"). RTOR is a decentralized mesh of equal peers; wording changed to \"mesh library\" and per-peer gossip. Old wording kept under superseded_wording."
+  },
+  {
+   "at": "2026-11-21T12:40:00-07:00",
+   "by": "Decider pt257u follow-up (\"and visa versa\")",
+   "note": "Mesh is bidirectional between every pair of peers; per-pair direction table and symmetry gaps added."
+  }
+ ],
+ "directions": {
+  "observed": "12:37–12:38 PM MT",
+  "how": "live TCP sessions on the RTOR peer port (4985) sampled on Neo and the Pixel for 12 s, plus each peer's own keepalive status; LAN addresses are not published",
+  "pairs": [
+   {
+    "from": "Neo",
+    "to": "Pixel",
+    "state": "flowing",
+    "evidence": "Neo keepalive seed passes to Pixel verified by SHA-256"
+   },
+   {
+    "from": "Pixel",
+    "to": "Neo",
+    "state": "flowing",
+    "evidence": "Neo receives (leech) full passes from Pixel, SHA-256 re-verified; Pixel holds sessions to Neo"
+   },
+   {
+    "from": "Neo",
+    "to": "Moto",
+    "state": "flowing",
+    "evidence": "Neo seed passes to Moto verified by SHA-256 (Moto 51/51)"
+   },
+   {
+    "from": "Moto",
+    "to": "Neo",
+    "state": "flowing",
+    "evidence": "Moto holds many sessions into Neo's peer port (its 0.2.3 keepalive sends to the first peer in its list)"
+   },
+   {
+    "from": "Pixel",
+    "to": "Moto",
+    "state": "discovery only",
+    "evidence": "only the 15 s hello session; Pixel 0.2.3 sends files to the first reachable peer in its list (Neo)"
+   },
+   {
+    "from": "Moto",
+    "to": "Pixel",
+    "state": "discovery only",
+    "evidence": "only the hello session; Moto 0.2.3 sends to the first peer in its list (Neo)"
+   },
+   {
+    "from": "iPhone 17e",
+    "to": "any peer",
+    "state": "not yet",
+    "evidence": "17e is not announcing on the LAN peer port; the profile reached its drop space by a direct copy"
+   },
+   {
+    "from": "any peer",
+    "to": "iPhone 17e",
+    "state": "not yet",
+    "evidence": "same: no live RTOR peer session with the 17e yet"
+   }
+  ],
+  "note": "Pixel↔Moto files currently travel through a third peer instead of directly; all four devices end with the same mesh library (51/51 on the three LAN peers)."
+ },
+ "symmetry_gaps": [
+  "Pixel ↔ Moto direct file flow (both ways): only discovery today. Needs the 0.2.4 gossip logic on Pixel and Moto (pending Rizal GO; no binaries changed).",
+  "iPhone 17e ↔ every peer (both ways): no live RTOR peer session yet; needs a peer listener/gossip in the 17e RTOR tab (pending GO; RDRAGON 55 build lane belongs to ThundR).",
+  "Neo receiving from Moto: Neo's downloads pick the first peer that has a file (Pixel), so Moto→Neo flow is by Moto's sends only (pending GO if source rotation is wanted)."
+ ]
+}

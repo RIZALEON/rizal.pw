@@ -1,0 +1,403 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" /><meta name="color-scheme" content="dark" /><link rel="icon" href="data:," /><title>ASSM Simple Sign-In</title>
+ <style>
+      :root{
+        --g:#39ff14;
+        --g-dim:#1f8a0c;
+        --p:#b388ff;
+        --pp:#8a2be2;
+        --bg:#000;
+        --panel:#050805;
+        --err:#ff5370;
+        --amber:#ffd54a;
+      }
+      *{box-sizing:border-box}
+      html,body{margin:0;padding:0}
+      body{
+        background:var(--bg);
+        color:var(--g);
+        font:15px/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+        -webkit-text-size-adjust:100%;
+      }
+      main{max-width:920px;margin:0 auto;padding:20px 16px 56px}
+      h1{font-size:22px;line-height:1.25;margin:0 0 4px;font-weight:700}
+      h1 .ya{color:var(--p)}
+      h2{font-size:16px;margin:0 0 10px;color:var(--p);font-weight:700}
+      h3{font-size:14px;margin:18px 0 6px;color:var(--p)}
+      p{margin:8px 0}
+      a{color:var(--p)}
+      .dim{opacity:.68;font-size:13px}
+      .small{font-size:13px}
+      .box{
+        border:1px solid var(--g);
+        border-radius:6px;
+        padding:14px;
+        margin:14px 0;
+        background:var(--panel);
+      }
+      .box.purple{border-color:var(--p)}
+      label{display:block;margin:10px 0 4px;font-size:13px}
+      input{
+        width:100%;
+        background:#000;
+        color:var(--g);
+        border:1px solid var(--g-dim);
+        border-radius:4px;
+        padding:10px;
+        font:inherit;
+        min-height:44px;
+        margin-top:4px;
+      }
+      input:focus{outline:2px solid var(--p);outline-offset:1px;border-color:var(--p)}
+      .pill{
+        display:inline-block;
+        background:var(--pp);
+        color:#fff;
+        border:1px solid var(--p);
+        border-radius:999px;
+        padding:9px 18px;
+        margin:6px 8px 6px 0;
+        cursor:pointer;
+        font:inherit;
+        font-size:14px;
+        min-height:40px;
+        text-decoration:none;
+      }
+      .pill.sec{background:transparent;color:var(--p)}
+      .pill:disabled{opacity:.4;cursor:not-allowed}
+      .row{display:flex;flex-wrap:wrap;align-items:center;gap:4px}
+      #msg{min-height:22px;margin:10px 0;font-size:14px;color:var(--p);white-space:pre-wrap;word-break:break-word}
+      #msg.err{color:var(--err)}
+      #msg.ok{color:var(--g)}
+      .kv{margin:4px 0;word-break:break-word}
+      .kv b{color:var(--p);font-weight:normal}
+      .badge{
+        display:inline-block;border:1px solid var(--g);border-radius:4px;
+        padding:2px 8px;font-size:12px;margin-left:8px;vertical-align:middle;
+      }
+      .badge.portable{border-color:var(--amber);color:var(--amber)}
+      .badge.fixed{border-color:var(--g);color:var(--g)}
+      .badge.unknown{border-color:#888;color:#aaa}
+      .statusline{font-size:13px;margin:6px 0;word-break:break-word}
+      .warn{color:var(--amber)}
+      [hidden]{display:none!important}
+
+      /* comparison table */
+      .tblwrap{overflow:visible}
+      table{width:100%;border-collapse:collapse;font-size:13.5px;margin:8px 0}
+      th,td{border:1px solid #2a4d1f;padding:9px 10px;text-align:left;vertical-align:top}
+      th{color:var(--p);border-color:var(--p);font-weight:700;background:#0a0614}
+      td.tool{color:#fff;font-weight:700;white-space:nowrap}
+      code{background:#101408;border:1px solid #2a4d1f;border-radius:3px;padding:1px 5px;font-size:12.5px;word-break:break-all}
+      ol.best{margin:8px 0;padding-left:22px}
+      ol.best li{margin:10px 0}
+      ol.best b{color:#fff}
+      ul.notes{margin:8px 0;padding-left:20px}
+      ul.notes li{margin:6px 0}
+      .tag{
+        display:inline-block;font-size:11px;border:1px solid var(--amber);color:var(--amber);
+        border-radius:3px;padding:1px 6px;margin-left:6px;vertical-align:middle;
+      }
+      .tag.prop{border-color:var(--p);color:var(--p)}
+      footer{margin-top:28px}
+
+      @media (max-width:680px){
+        main{padding:16px 12px 48px}
+        h1{font-size:19px}
+        table,thead,tbody,tr,td{display:block;width:100%}
+        thead{display:none}
+        tr{border:1px solid var(--p);border-radius:6px;margin:0 0 12px;padding:6px 4px;background:var(--panel)}
+        td{border:none;padding:5px 10px}
+        td::before{
+          content:attr(data-label);
+          display:block;color:var(--p);font-size:11px;letter-spacing:.04em;margin-bottom:2px;
+        }
+        td.tool{font-size:15px}
+        td.tool::before{display:none}
+      }
+    </style>
+ </head><body><main><h1><span class="ya">ASSM</span> Simple Sign-In</h1><p class="dim">One basic login device for FIXED and PORTABLE ASSM systems. Verifies against the live site vault on rizal.pw — the password is checked here, on this device, and is never stored, logged or sent anywhere.</p><p class="small"><a href="https://rizal.pw/login/">ЯLOGIN (full)</a><span class="dim">— auto-login, device approval, founder recovery and the other methods live there.</span></p><p class="small">Also on: <a href="https://rizal.info/login/simple/">rizal.info/login/simple/</a><span class="dim">·</span><a href="https://rizal.pw/login/simple/">rizal.pw/login/simple/</a><span class="dim">·</span><a href="https://github.com/RIZALEON/rizal.info">GitHub — RIZALEON/rizal.info</a><span class="dim">·</span><a href="https://github.com/RIZALEON/rizal.pw">GitHub — RIZALEON/rizal.pw</a></p><section class="box" aria-label="Sign in"><h2>Sign in</h2><div id="signedout"><form id="login-form" autocomplete="on"><label>username
+ <input id="l-user" name="username" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="@chaserizal" /></label><label>password
+ <input id="l-pass" name="password" type="password" autocomplete="current-password" /></label><div class="row"><button class="pill" id="b-login" type="submit">Sign in</button></div></form><p class="dim">Method: site vault → Ed25519 signature checked against the pinned site key → your entry is opened with PBKDF2-SHA256 (600k) + AES-GCM. A wrong password simply fails to decrypt — there is no record to fall back to. 5 wrong passwords lock that handle for 60 seconds — and signing out does not reset the lock; it expires on its own timer.</p></div><div id="msg" role="status" aria-live="polite"></div><div id="signedin" hidden><p class="kv"><b>handle</b><span id="s-user">—</span></p><p class="kv"><b>RID</b><span id="s-rid">—</span></p><p class="kv"><b>device</b><span id="s-device">—</span></p><p class="kv"><b>since</b><span id="s-since">—</span></p><p class="statusline">site-verified · offline · server session pending — sealing still needs Face ID on a HARD device</p><div class="row"><button class="pill sec" id="b-logout" type="button">Sign out</button></div></div><p class="statusline dim" id="vault-status">vault: loading rsite-auth from rizal.pw…</p></section><section class="box" aria-label="This device"><h2>This device</h2><p class="kv"><b>device_id</b><span id="d-id">unknown</span><span id="d-kind" class="badge unknown">UNKNOWN</span></p><p class="kv"><b>kind</b><span id="d-kind-text">—</span></p><p class="kv"><b>trusted registry</b><span id="d-trust">checking trusted-devices.json…</span></p><p class="kv"><b>user agent</b><span id="d-ua" class="dim">—</span></p><div class="row"><button class="pill sec" id="b-gate" type="button">Check mint gate</button></div><p class="statusline" id="gate-result"></p></section><section aria-label="Signing capability comparison"><h2 style="margin-top:26px">Signing capability comparison</h2><p class="dim">Signing iOS apps without a Mac — what each tool actually does today. Facts checked 2026-11-21 against each project's own repo and docs.</p><div class="tblwrap"><table><thead><tr><th>Tool</th><th>Host OS</th><th>Integrated signing</th><th>Signing target / notes</th></tr></thead><tbody><tr><td class="tool" data-label="Tool">xcross</td><td data-label="Host OS">Linux, Windows</td><td data-label="Integrated signing">Yes — Apple ID (free) or App Store Connect key; in-process signing; offline after initial setup</td><td data-label="Signing target / notes">Flutter &amp; Compose apps on a physical iPhone, iOS 17+. README claims debug JIT plus profile/release AOT device apps, but its site notes release still needs a Mac. <span class="warn">Apple may lock the Apple ID used — use a spare.</span> Repo: arxdeus/xcross.</td></tr><tr><td class="tool" data-label="Tool">xtool</td><td data-label="Host OS">Linux, Windows (via WSL), macOS</td><td data-label="Integrated signing">Yes — Apple Developer Services; Apple ID password or ASC API key</td><td data-label="Signing target / notes">Builds SwiftPM apps and signs + installs on a USB iPhone in one <code>xtool dev</code>. Needs Swift 6.4 + Xcode.xip for the SDK. Free-ID sideloads expire after 7 days. Sign-in broke repeatedly in Oct 2026 with 2FA issues on 1.24.0. ~14k stars, MIT. Repo: xtool-org/xtool.</td></tr><tr><td class="tool" data-label="Tool">CrossCode</td><td data-label="Host OS">Linux, Windows</td><td data-label="Integrated signing">Signing moved out — sign via the standalone <code>isideload</code> package</td><td data-label="Signing target / notes">Alpha Tauri + React IDE. Swift 6.2 + SPM; Darwin SDK comes from a user-provided Xcode 26. Its signing code was moved out of the IDE into <code>isideload</code>, so signing is done through that package, not in CrossCode itself. Repo: nab138/CrossCode.</td></tr><tr><td class="tool" data-label="Tool">zsign</td><td data-label="Host OS">Linux, Windows, macOS, Android, FreeBSD</td><td data-label="Integrated signing">Signing engine, CLI — re-signs only, with an existing cert + provisioning profile</td><td data-label="Signing target / notes">C++ CLI for iOS IPA / app re-signing: <code>zsign -k key.pem -m dev.prov -o out.ipa app.ipa</code>. It does no provisioning of its own — you bring the certificate and profile. ~2k stars. Repo: zhlynn/zsign.</td></tr><tr><td class="tool" data-label="Tool">isim</td><td data-label="Host OS">Linux</td><td data-label="Integrated signing">No — simulator + toolchain only</td><td data-label="Signing target / notes">iOS development (simulator). Its own status table says device build / signing / .ipa is BLOCKED, and there is no TestFlight from Linux. Repo: kolabs-dev/isim.</td></tr></tbody></table></div><h3>Also in the field</h3><ul class="notes"><li><b>ipeddle</b> — Linux; builds an <i>unsigned</i> IPA, no signing at all — sign afterwards via Sideloadly or AltStore.</li><li><b>isign</b> — old Python re-signer, last release 2016; needs credentials exported from a Mac.</li></ul><h3>Best choices</h3><ol class="best"><li><b>xcross — best automated iOS signing from Linux/Windows.</b> Signing using an Apple ID or App Store Connect credentials, provisioning, installing on physical iPhones, and offline signing after the initial setup.</li><li><b>xtool — best general Swift/iOS development workflow.</b> Integrated Apple Developer Services, builds, signing, device installation, and certificate-based workflows across host operating systems.</li><li><b>zsign — best standalone signing engine.</b> Slots into automated pipelines for re-signing iOS packages across multiple operating systems.</li></ol><div class="box purple"><h2>GHOSTSIGN / RKCRYPT <span class="tag prop">PROPOSAL — NOT BUILT</span></h2><p>One system signing releases for Windows, Linux, macOS, Android <i>and</i> iOS is a different architecture from any single tool above: a universal signing pipeline with a platform-specific signing backend behind each target, rather than Xcode alternatives alone.</p><p>For GHOSTMACHINE, that would be a unified GHOSTSIGN / RKCRYPT signing service integrated with RTOR, GitHub, the build bots, and device deployment. This is a proposal only — no such service exists yet.</p></div></section><footer><p class="dim">ASSM Simple Sign-In · vault + auth code served from rizal.pw · nothing about your password leaves this page.</p></footer></main>
+ <script src="https://rizal.pw/rdragon-cryptosocial/rdragon-config.js"></script>
+ <script src="https://rizal.pw/rdragon-cryptosocial/rsite-auth.js"></script>
+ <script>
+    (function(){
+      "use strict";
+      var $ = function(id){ return document.getElementById(id); };
+      var VAULT_URL = "https://rizal.pw/data/auth/vault.json";
+      var TRUST_URL = "https://rizal.pw/rwallet/data/trusted-devices.json";
+      var PINNED_PUB = "aYMlpc7bKdjcCUp1bwVdfSx5SeVqHOv91JTTKDG2F8k=";
+      var LS_FAILS = "assm.simple-login.v1";
+      var LS_META = "rmint.session.meta.v1";
+      var LS_PENDING = "rmint.session.pending.v1";
+      var MAX_FAILS = 5, LOCK_MS = 60000;
+
+      /* The config ships a same-origin vault path; this page lives on another
+         origin, so point rsite-auth at the absolute vault URL. The pinned
+         public key stays exactly as published. */
+      try{
+        window.RDRAGON_CONFIG = window.RDRAGON_CONFIG || {};
+        window.RDRAGON_CONFIG.siteAuth = window.RDRAGON_CONFIG.siteAuth || {};
+        window.RDRAGON_CONFIG.siteAuth.url = VAULT_URL;
+        if(!window.RDRAGON_CONFIG.siteAuth.pub) window.RDRAGON_CONFIG.siteAuth.pub = PINNED_PUB;
+      }catch(e){}
+
+      function sitePub(){
+        try{ var p = window.RDRAGON_CONFIG && window.RDRAGON_CONFIG.siteAuth && window.RDRAGON_CONFIG.siteAuth.pub; if(p) return p; }catch(e){}
+        return PINNED_PUB;
+      }
+      function msg(t, cls){
+        var m = $("msg"); m.textContent = t || ""; m.className = cls || "";
+      }
+      function H(h){
+        h = String(h || "").trim().toLowerCase();
+        if(h && h.charAt(0) !== "@") h = "@" + h;
+        return h;
+      }
+
+      /* ---------- device detection: FIXED vs PORTABLE ---------- */
+      function detectDevice(){
+        var id = "";
+        try{ if(window.RMINT_DEVICE_ID) id = String(window.RMINT_DEVICE_ID); }catch(e){}
+        if(!id){
+          try{
+            var ot = window.RMINT_ONETAP;
+            if(ot){
+              var n = ot.node;
+              if(typeof n === "string") id = n;
+              else if(n && typeof n === "object") id = String(n.device_id || n.id || n.node || "");
+            }
+          }catch(e){}
+        }
+        id = id.trim();
+        var ua = navigator.userAgent || "";
+        var mobileUA = /Android|webOS|iPhone|iPad|iPod|Mobile|BlackBerry|IEMobile|Opera Mini/i.test(ua);
+        var low = id.toLowerCase();
+        var kind = "unknown";
+        if(low.indexOf("iphone17e-") === 0 || low.indexOf("moto-") === 0) kind = "PORTABLE";
+        else if(low.indexOf("neo-") === 0) kind = "FIXED";
+        else if(mobileUA) kind = "PORTABLE";
+        else if(/Windows NT|Macintosh|X11|Linux/i.test(ua)) kind = "FIXED";
+        return { id: id, kind: kind, ua: ua, mobileUA: mobileUA };
+      }
+      var DEV = detectDevice();
+
+      function renderDevice(){
+        $("d-id").textContent = DEV.id || "unknown";
+        var b = $("d-kind");
+        b.textContent = DEV.kind;
+        b.className = "badge " + (DEV.kind === "PORTABLE" ? "portable" : DEV.kind === "FIXED" ? "fixed" : "unknown");
+        $("d-kind-text").textContent =
+          DEV.kind === "FIXED" ? "FIXED — a stationary ASSM system (desktop-class host)." :
+          DEV.kind === "PORTABLE" ? "PORTABLE — a hand-carried ASSM system (phone-class host)." :
+          "unknown — no device id exposed and the user agent does not settle it.";
+        $("d-ua").textContent = DEV.ua || "—";
+      }
+      renderDevice();
+
+      /* ---------- trusted-devices lookup ---------- */
+      function renderTrust(){
+        var el = $("d-trust");
+        if(!DEV.id){ el.textContent = "no device id on this page — not in trusted_devices.json"; return; }
+        fetch(TRUST_URL, { cache: "no-cache" })
+          .then(function(r){ if(!r.ok) throw new Error("http " + r.status); return r.json(); })
+          .then(function(reg){
+            var list = (reg && reg.devices) || [];
+            var hit = null;
+            for(var i = 0; i < list.length; i++){ if(list[i].device_id === DEV.id){ hit = list[i]; break; } }
+            if(!hit){ el.textContent = "not in trusted_devices.json"; return; }
+            el.textContent = "tier " + (hit.tier || "?") + " · status " + (hit.status || "?") + (hit.label ? " · " + hit.label : "");
+          })
+          .catch(function(e){ el.textContent = "lookup failed (" + (e && e.message || e) + ")"; });
+      }
+      renderTrust();
+
+      /* ---------- mint gate ---------- */
+      $("b-gate").addEventListener("click", function(){
+        var out = $("gate-result");
+        var gate = null;
+        try{ gate = window.RMINT_GATE; }catch(e){}
+        if(!gate || typeof gate.mintGated !== "function"){
+          out.textContent = "mint gate: RMINT_GATE is not loaded on this page — the gate lives in the GHOSTMACHINE shell, not here.";
+          return;
+        }
+        out.textContent = "mint gate: checking…";
+        Promise.resolve()
+          .then(function(){ return gate.mintGated(); })
+          .then(function(r){
+            if(r && typeof r === "object"){
+              out.textContent = "mint gate: ok = " + (r.ok === true) + (r.why ? " · " + r.why : "") ;
+            } else {
+              out.textContent = "mint gate: ok = " + (r === true);
+            }
+          })
+          .catch(function(e){ out.textContent = "mint gate: error — " + (e && e.message || e); });
+      });
+
+      /* ---------- rate limiting (fails live in localStorage) ---------- */
+      function loadFails(){
+        try{ var v = JSON.parse(localStorage.getItem(LS_FAILS) || "{}"); return (v && v.fails) || {}; }
+        catch(e){ return {}; }
+      }
+      function saveFails(f){
+        try{ localStorage.setItem(LS_FAILS, JSON.stringify({ fails: f })); }catch(e){}
+      }
+      function lockRemaining(handle){
+        var f = loadFails(), rec = f[handle];
+        if(rec && rec.until && rec.until > Date.now()) return Math.ceil((rec.until - Date.now()) / 1000);
+        if(rec && rec.until && rec.until <= Date.now()){ delete f[handle]; saveFails(f); }
+        return 0;
+      }
+      function noteFail(handle){
+        var f = loadFails(), rec = f[handle] || { n: 0, until: 0 };
+        rec.n = (rec.n || 0) + 1;
+        if(rec.n >= MAX_FAILS){ rec.until = Date.now() + LOCK_MS; }
+        f[handle] = rec; saveFails(f);
+        return rec;
+      }
+      function clearFails(handle){
+        var f = loadFails();
+        if(f[handle]){ delete f[handle]; saveFails(f); }
+      }
+
+      /* ---------- vault: fetch + verify signature once, show status ---------- */
+      var vaultPromise = null;
+      function loadVault(){
+        if(vaultPromise) return vaultPromise;
+        var status = $("vault-status");
+        if(!window.RSITEAUTH){
+          vaultPromise = Promise.reject(new Error("rsite-auth.js did not load from rizal.pw"));
+          status.textContent = "vault: rsite-auth.js did not load from rizal.pw — sign-in unavailable from this page right now.";
+          status.className = "statusline warn";
+          return vaultPromise;
+        }
+        vaultPromise = fetch(VAULT_URL, { cache: "no-cache" })
+          .then(function(r){ if(!r.ok) throw new Error("vault http " + r.status); return r.json(); })
+          .then(function(v){
+            return window.RSITEAUTH.verify(v, sitePub()).then(function(ok){
+              if(!ok) throw new Error("vault signature/KDF check failed");
+              status.textContent = "vault: signature verified against the pinned site key · " + (v.entries ? v.entries.length : 0) + " entr" + (v.entries && v.entries.length === 1 ? "y" : "ies") + " · ciphertext only";
+              status.className = "statusline dim";
+              return v;
+            });
+          })
+          .catch(function(e){
+            vaultPromise = null;
+            status.textContent = "vault: " + (e && e.message || e) + " — sign-in unavailable until the vault loads and verifies.";
+            status.className = "statusline warn";
+            throw e;
+          });
+        return vaultPromise;
+      }
+      if(document.readyState === "loading") document.addEventListener("DOMContentLoaded", function(){ loadVault().catch(function(){}); });
+      else loadVault().catch(function(){});
+
+      /* ---------- session markers ---------- */
+      function ridFor(handle, payload){
+        if(handle === "@chaserizal") return "ЯID-0001-3QQS";
+        try{
+          var rec = (payload && payload.rec) || {};
+          return rec.rid || rec.RID || (payload && payload.rid) || "";
+        }catch(e){ return ""; }
+      }
+      function showSignedIn(meta){
+        $("signedout").hidden = true;
+        $("signedin").hidden = false;
+        $("s-user").textContent = meta.user || "—";
+        $("s-rid").textContent = meta.rid || "—";
+        $("s-device").textContent = (meta.device_id || "unknown") + (DEV.kind !== "unknown" ? " · " + DEV.kind : "");
+        var since = meta.since || "";
+        try{ since = new Date(meta.since).toLocaleString() + " (" + meta.since + ")"; }catch(e){}
+        $("s-since").textContent = since || "—";
+      }
+      function showSignedOut(){
+        $("signedin").hidden = true;
+        $("signedout").hidden = false;
+      }
+      function restoreSession(){
+        try{
+          var raw = localStorage.getItem(LS_META);
+          if(!raw) return;
+          var meta = JSON.parse(raw);
+          if(meta && meta.user){ showSignedIn(meta); msg("signed in as " + meta.user + " (restored from this device's session marker)", "ok"); }
+        }catch(e){}
+      }
+      restoreSession();
+
+      function signOut(){
+        try{ localStorage.removeItem(LS_META); }catch(e){}
+        try{ localStorage.removeItem(LS_PENDING); }catch(e){}
+        /* Deliberately NOT clearing LS_FAILS: signing out must never reset a
+           wrong-password lockout, or the 60s lock could be bypassed by
+           tapping Sign out. Lockouts expire on their own timer only. */
+        try{ document.dispatchEvent(new CustomEvent("rmint:session", { detail: { signed_in: false }, bubbles: true })); }catch(e){}
+        showSignedOut();
+        msg("signed out — session markers removed from this device", "");
+        var u = $("l-user"); if(u) u.focus();
+      }
+      $("b-logout").addEventListener("click", signOut);
+
+      /* ---------- the real login ---------- */
+      $("login-form").addEventListener("submit", function(ev){
+        ev.preventDefault();
+        var userEl = $("l-user"), passEl = $("l-pass"), btn = $("b-login");
+        var handle = H(userEl.value);
+        var password = passEl.value;
+        /* the password field is cleared on EVERY attempt, before anything async */
+        passEl.value = "";
+        if(!handle || handle === "@"){ msg("type your username first", "err"); return; }
+        if(!password){ msg("type your password", "err"); return; }
+        var left = lockRemaining(handle);
+        if(left > 0){
+          msg("locked: too many wrong passwords for " + handle + " — try again in " + left + "s", "err");
+          return;
+        }
+        if(!window.RSITEAUTH){ msg("rsite-auth.js did not load from rizal.pw — cannot verify sign-in from this page", "err"); return; }
+        btn.disabled = true;
+        msg("verifying vault signature, then opening your entry…", "");
+        loadVault()
+          .then(function(vault){
+            return window.RSITEAUTH.open(vault, handle, password).then(function(payload){
+              password = null;
+              if(!payload){
+                var rec = noteFail(handle);
+                if(rec.until && rec.until > Date.now()){
+                  msg("wrong password — that was attempt " + MAX_FAILS + " of " + MAX_FAILS + ". " + handle + " is locked for 60 seconds.", "err");
+                } else {
+                  msg("wrong password or no vault entry for " + handle + " — decryption failed, no record opened. (" + rec.n + "/" + MAX_FAILS + ")", "err");
+                }
+                btn.disabled = false;
+                return;
+              }
+              clearFails(handle);
+              var deviceId = DEV.id || "unknown";
+              var since = new Date().toISOString();
+              var rid = ridFor(handle, payload);
+              var meta = {
+                device_id: deviceId,
+                user: handle,
+                since: since,
+                server: false,
+                store: "assm-simple-login",
+                site_verified: true,
+                rid: rid
+              };
+              var pending = { device_id: deviceId, assm_user: handle, t: Date.now() };
+              try{ localStorage.setItem(LS_META, JSON.stringify(meta)); }catch(e){}
+              try{ localStorage.setItem(LS_PENDING, JSON.stringify(pending)); }catch(e){}
+              try{ document.dispatchEvent(new CustomEvent("rmint:session", { detail: { signed_in: true }, bubbles: true })); }catch(e){}
+              payload = null;
+              showSignedIn(meta);
+              msg("✓ signed in — vault signature verified, entry opened on this device", "ok");
+              btn.disabled = false;
+            });
+          })
+          .catch(function(e){
+            password = null;
+            btn.disabled = false;
+            msg("sign-in unavailable: " + (e && e.message || e), "err");
+          });
+      });
+    })();
+    </script>
+ </body></html>
