@@ -2,10 +2,10 @@
  * carry the mint immediately"). ONE script for /rtrackr/ (badge strip + #game view), /rtrackr/rtor/ (Live RTOR TrackR row)
  * and /rtor/ (feed page card). Read-only: live-reads the files RMINT's rtrackr_publish.py game writes on every game block:
  *   https://rizal.pw/rtrackr/data/rgamechain.json  ·  https://rizal.pw/rtrackr/data/rgamechain-listings.json
- * no-store + cache-busting query (the JSON is served with max-age=600), polled every 30 s. No keys, no writes, textContent only. */
+ * no-store + cache-busting query (the JSON is served with max-age=600), polled every 10 s. No keys, no writes, textContent only. */
 (function(){
 'use strict';
-var ORIGIN='https://rizal.pw',DATA='/rtrackr/data/',CHAIN=ORIGIN+DATA+'rgamechain.json',LIST=ORIGIN+DATA+'rgamechain-listings.json',VIEW=ORIGIN+'/rtrackr/#game',POLL=30000;
+var ORIGIN='https://rizal.pw',DATA='/rtrackr/data/',CHAIN=ORIGIN+DATA+'rgamechain.json',LIST=ORIGIN+DATA+'rgamechain-listings.json',VIEW=ORIGIN+'/rtrackr/#game',POLL=10000;
 var P=location.pathname,KIND=/^\/rtrackr\/rtor\//.test(P)?'rtortrackr':/^\/rtrackr\//.test(P)?'rtrackr':/^\/rtor\//.test(P)?'rtor':'other';
 var chain=null,list=null,seen=null,box=null,view=null;
 function el(t,c,x,css){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=String(x);if(css)e.style.cssText=css;return e}
