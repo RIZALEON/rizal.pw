@@ -1,7 +1,7 @@
 {
  "schema": "rzl.rtrackr.rtor-live.v2",
- "updated_at": "2026-11-24T09:18:02-07:00",
- "updated_at_mt": "Nov 24, 2026, 9:18:02 AM MT",
+ "updated_at": "2026-11-24T09:20:19-07:00",
+ "updated_at_mt": "Nov 24, 2026, 9:20:19 AM MT",
  "timezone": "America/Denver",
  "stale_after_s": 1200,
  "ghostchain": {
@@ -14,6 +14,8 @@
   "listener": {
    "status": "up",
    "service": "rtor-lan-listener",
+   "version": "1.0.0",
+   "ok": true,
    "chain_height": 5,
    "chain_tip": "4006b570883c31aff44891971dd1935a3a58a822293f919ace27e59d8cf0bb5b",
    "chain_target": "live",
@@ -27,8 +29,15 @@
    "swarm": "down"
   },
   "seeder": {
-   "status": "down",
-   "detail": "unreachable"
+   "status": "seeding",
+   "schema": "rtor-seed-v1",
+   "files": 199,
+   "bytes": 14264625,
+   "info_hash": "bc33918fdabe563f12e874318513c3c35b1dbfe4",
+   "http_port": 8977,
+   "torrent_port": 8978,
+   "magnet": "magnet:?xt=urn:btih:bc33918fdabe563f12e874318513c3c35b1dbfe4&dn=SEED",
+   "started": "2026-11-23T05:31:48.736Z"
   }
  },
  "files": [],
@@ -42,8 +51,8 @@
    "app": "rtor-live-report",
    "version": "1",
    "status": "live",
-   "reported_at": "2026-11-24T09:18:11-07:00",
-   "reported_at_mt": "Nov 24, 2026, 9:18:11 AM MT",
+   "reported_at": "2026-11-24T09:20:19-07:00",
+   "reported_at_mt": "Nov 24, 2026, 9:20:19 AM MT",
    "rtor": {
     "status": "down"
    },
@@ -102,7 +111,7 @@
   "device_id": "neo",
   "device_name": "Neo",
   "role": "primary",
-  "lease_until": "2026-11-24T09:33:02-07:00",
+  "lease_until": "2026-11-24T09:35:19-07:00",
   "lease_s": 900,
   "failover": "Neo is primary. If this snapshot is older than stale_after_s, the next live device that holds a local publish mark and gh auth (LINUX-RIZAL when restored) takes the lease and writes rizal.pw. Phones report over RTOR only and never receive a publish token."
  },
