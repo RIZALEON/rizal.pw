@@ -26,7 +26,7 @@ function imgOf(x){let h=x.header;const m=/^data:image\/(jpeg|png|webp);base64,([
  const first=(x.media||[]).find(z=>z.type==='image'&&/^(\/|https:)/.test(z.src||''));return h||x.poster||(first&&first.src)||FALLBACK}
 function paras(t){return String(t).split(/\n{2,}/).map(p=>'<p>'+E(p).replace(/\n/g,'<br>')+'</p>').join('\n')}
 const BOTS='bot|crawl|spider|slurp|facebookexternalhit|facebot|twitterbot|slackbot|discordbot|whatsapp|telegram|linkedin|embedly|quora|pinterest|vkshare|w3c_validator|redditbot|applebot|google|bing|yandex|duckduck|headless|preview|grok|xai|gpt|claude|perplexity|curl|wget|python|node';
-const css='body{margin:0;background:#000;color:#ddd;font:16px/1.55 system-ui,sans-serif}main{max-width:720px;margin:0 auto;padding:16px}h1{font-size:1.5em;line-height:1.25;color:#fff}a{color:#9f9}img.hdr{width:100%;max-height:420px;object-fit:cover;border-radius:8px}video{width:100%;background:#000;border-radius:8px}.meta{opacity:.7;font-size:13px}footer{opacity:.6;font-size:12px;margin-top:2em}';
+const css='body{margin:0;background:#000;color:#ddd;font:16px/1.55 RIZAL,RFONT,system-ui,sans-serif}main{max-width:720px;margin:0 auto;padding:16px}h1{font-size:1.5em;line-height:1.25;color:#fff}a{color:#9f9}img.hdr{width:100%;max-height:420px;object-fit:cover;border-radius:8px}video{width:100%;background:#000;border-radius:8px}.meta{opacity:.7;font-size:13px}footer{opacity:.6;font-size:12px;margin-top:2em}';
 function rm(d){fs.rmSync(d,{recursive:true,force:true})}
 const live=Object.values(items).filter(x=>!x.deleted);
 // clean pages for removed items (deleted or no longer published)

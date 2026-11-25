@@ -21,7 +21,7 @@ function check(x){
  return '';}
 function card(x,bad){
  var host=document.getElementById(w.RWALLET_MOUNT||'rw')||document.body,d=document.getElementById('rw-intent')||document.createElement('div');
- d.id='rw-intent';d.style.cssText='border:2px solid #ffd23f;margin:10px 0;padding:10px;font:12px Menlo,monospace;color:#ffd23f;background:#0b0b0b';
+ d.id='rw-intent';d.style.cssText='border:2px solid #ffd23f;margin:10px 0;padding:10px;font:12px RIZAL,RFONT,Menlo,monospace;color:#ffd23f;background:#0b0b0b';
  var r=(x&&x.record)||{};
  d.innerHTML='<b style="letter-spacing:.15em">RGHOSTCHAIN · MARKET HAND-OFF</b> <span style="color:#9ac438">DRY-RUN</span>'+
   (bad?'<div style="color:#ff6b6b;margin-top:6px">'+E(bad)+'</div>':

@@ -1,0 +1,96 @@
+/* rfont.css — generated from /fonts/rfont-feed.json by tools/rfont-publish.py
+   Staging only. Do not publish without the Decider's GO.
+   Primary: RFONT 1.300 (RIZAL, RIZAL Mono, RFONT).
+   URLs are versioned so a feed bump cache-busts automatically.
+*/
+@font-face {
+  font-family: "RIZAL";
+  src: url("/fonts/1.300/RIZAL-Regular.woff2") format("woff2"),
+       url("/fonts/1.300/RIZAL-Regular.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "RIZAL Mono";
+  src: url("/fonts/1.300/RIZAL-Regular.woff2") format("woff2"),
+       url("/fonts/1.300/RIZAL-Regular.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "RFONT";
+  src: url("/fonts/1.300/RIZAL-Regular.woff2") format("woff2"),
+       url("/fonts/1.300/RIZAL-Regular.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "RIZAL";
+  src: url("/fonts/RIZAL-POLYCODE-placeholders.woff2") format("woff2"),
+       url("/fonts/RIZAL-POLYCODE-placeholders.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+F0000-U+F00FF;
+}
+@font-face {
+  font-family: "RFONT";
+  src: url("/fonts/RIZAL-POLYCODE-placeholders.woff2") format("woff2"),
+       url("/fonts/RIZAL-POLYCODE-placeholders.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+F0000-U+F00FF;
+}
+@font-face {
+  font-family: "RIZAL Mono";
+  src: url("/fonts/RIZALMono-POLYCODE-placeholders.woff2") format("woff2"),
+       url("/fonts/RIZALMono-POLYCODE-placeholders.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+F0000-U+F00FF;
+}
+@font-face {
+  font-family: "Noto Sans Tagalog";
+  src: url("/fonts/NotoSansTagalog-Regular.woff2") format("woff2"),
+       url("/fonts/NotoSansTagalog-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+1700-171F, U+1735-1736;
+}
+@font-face {
+  font-family: "Noto Sans Mayan Numerals";
+  src: url("/fonts/NotoSansMayanNumerals-Regular.woff2") format("woff2"),
+       url("/fonts/NotoSansMayanNumerals-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+1D2E0-1D2F3;
+}
+@font-face {
+  font-family: "BabelStone Mayan Numerals";
+  src: url("/fonts/BabelStoneMayanNumerals.woff2") format("woff2"),
+       url("/fonts/BabelStoneMayanNumerals.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+1D2E0-1D2F3;
+}
+
+:root {
+  --rfont-sans: RIZAL, RFONT, "Noto Sans Tagalog", "Noto Sans Mayan Numerals", "BabelStone Mayan Numerals", system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --rfont-mono: "RIZAL Mono", RIZAL, RFONT, "Noto Sans Tagalog", "Noto Sans Mayan Numerals", "BabelStone Mayan Numerals", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --gm-font: "RIZAL Mono", RIZAL, RFONT, "Noto Sans Tagalog", "Noto Sans Mayan Numerals", "BabelStone Mayan Numerals", "Menlo", "SF Mono", ui-monospace, "Consolas", "Courier New", monospace;
+}
+
+html {
+  font-family: RIZAL, RFONT, "Noto Sans Tagalog", "Noto Sans Mayan Numerals", "BabelStone Mayan Numerals", system-ui, -apple-system, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+code, kbd, samp, tt, pre {
+  font-family: "RIZAL Mono", RIZAL, RFONT, "Noto Sans Tagalog", "Noto Sans Mayan Numerals", "BabelStone Mayan Numerals", ui-monospace, Menlo, Consolas, monospace;
+}

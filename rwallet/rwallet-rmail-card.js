@@ -7,7 +7,7 @@ function E(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"
 function q(){var T=w.RMINT_TRANSPORT;if(T&&T.call)return T.call("/rmint/queue","GET");
  return fetch("http://127.0.0.1:8741/rmint/queue",{cache:"no-store"}).then(function(r){return r.json()})}
 function paint(host,items,note){var c=D.getElementById(ID);if(!c){c=D.createElement("div");c.id=ID;host.appendChild(c)}
- c.style.cssText="margin:10px 0;border:1px solid #8a2be2;border-radius:14px;padding:8px 10px;font:11px Menlo,ui-monospace,monospace;color:#ddd;background:#000";
+ c.style.cssText="margin:10px 0;border:1px solid #8a2be2;border-radius:14px;padding:8px 10px;font:11px RIZAL,RFONT,Menlo,ui-monospace,monospace;color:#ddd;background:#000";
  c.innerHTML='<div style="color:#39ff14;letter-spacing:1px;margin-bottom:4px">ЯWALLET · requests waiting for a HARD device</div>'+
   (items&&items.length?items.slice(0,6).map(function(x){return'<div>'+E(x.id)+' · from '+E(x.from_device)+' ('+E(x.from_tier)+') · '+E(x.reason)+'</div>'}).join(""):'<div style="color:#1f8f0f">'+E(note||"none queued")+'</div>')+
   '<a href="/rwallet/" style="display:inline-block;margin-top:6px;border:1.5px solid #39ff14;border-radius:999px;padding:3px 10px;color:#39ff14;text-decoration:none">open ЯWALLET ›</a>'+

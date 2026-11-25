@@ -200,7 +200,7 @@
     return Promise.resolve(recv(m)).then(function (x) { return x; }, function () { return null; });
   }
   function bannerHTML() {
-    return '<div id="rmail-nokey-banner" style="margin:8px 0 10px;padding:8px 10px;border:1px solid #3a4555;border-radius:10px;background:#121821;color:#c9d4e0;font:12px -apple-system,system-ui,sans-serif">'
+    return '<div id="rmail-nokey-banner" style="margin:8px 0 10px;padding:8px 10px;border:1px solid #3a4555;border-radius:10px;background:#121821;color:#c9d4e0;font:12px RIZAL,RFONT,-apple-system,system-ui,sans-serif">'
       + '<b style="color:#ffd28a">NOKEY</b> · ' + STATE.detail
       + ' · authority=<b>false</b> · enroll=<b>false</b> · signable=<b>false</b>'
       + '<br><span style="opacity:.85">local ' + STATE.local + ' · synced ' + STATE.synced

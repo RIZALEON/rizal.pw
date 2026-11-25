@@ -1,0 +1,11 @@
+{
+  "schema": "rfont-feed-sig-v1",
+  "status": "unsigned",
+  "version": "1.300",
+  "feed": "/fonts/rfont-feed.json",
+  "feed_sha256": "093a9758187e09aca74c602125be0f775073d40031c355e1ac20992247444d12",
+  "alg": null,
+  "pub": null,
+  "sig": null,
+  "note": "UNSIGNED slot. Bots never sign. Rizal signs later with his owner key."
+}

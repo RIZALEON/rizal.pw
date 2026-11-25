@@ -1,12 +1,12 @@
 /* ЯLAB · Import X/Twitter archive panel (fusable). Mount: TBI_PANEL.mount(el)  ·  R:\IMPORT TWEETBACK
    Needs tbi-core.js first. Everything runs in this page; nothing is uploaded. */
 (function(){"use strict";const T=window.TBI;let last=null,urls={};
-const CSS=`.tbi{font:12.5px/1.5 Menlo,Consolas,"Courier New",monospace;color:#39ff14;background:#000;border:1px solid #39ff14;border-radius:0;padding:8px;max-width:720px}
+const CSS=`.tbi{font:12.5px/1.5 RIZAL,RFONT,Menlo,Consolas,"Courier New",monospace;color:#39ff14;background:#000;border:1px solid #39ff14;border-radius:0;padding:8px;max-width:720px}
 .tbi h2{margin:0 0 10px;display:flex;gap:10px;align-items:center;font-size:15px;color:#39ff14}.tbi .tile{width:40px;height:40px}
-.tbi button{background:#000;color:#39ff14;border:1px solid #39ff14;border-radius:0;padding:2px 8px;font:11px Menlo,Consolas,"Courier New",monospace;cursor:pointer;margin:4px 4px 4px 0}.tbi button:hover{border-color:#8a2be2;color:#b388ff}.tbi button.alt{border-color:#c9a227;color:#c9a227}.tbi button:disabled{color:#c9a227;border-color:#c9a227;cursor:not-allowed}
+.tbi button{background:#000;color:#39ff14;border:1px solid #39ff14;border-radius:0;padding:2px 8px;font:11px RIZAL,RFONT,Menlo,Consolas,"Courier New",monospace;cursor:pointer;margin:4px 4px 4px 0}.tbi button:hover{border-color:#8a2be2;color:#b388ff}.tbi button.alt{border-color:#c9a227;color:#c9a227}.tbi button:disabled{color:#c9a227;border-color:#c9a227;cursor:not-allowed}
 .tbi .drop{border:1px dashed #39ff14;border-radius:0;padding:16px;text-align:center;margin:8px 0}.tbi .drop.on{background:#0a1f05}
 .tbi textarea{width:100%;box-sizing:border-box;background:#000;color:#39ff14;border:1px solid #39ff14;border-radius:0;font:inherit;min-height:48px}
-.tbi pre{background:#000;color:#39ff14;border:1px solid #39ff14;max-height:140px;overflow:auto;padding:6px;font:11px Menlo,Consolas,monospace}.tbi .post{border-left:1px solid #39ff14;padding:6px 10px;margin:8px 0}.tbi .post .post{margin-left:12px}
+.tbi pre{background:#000;color:#39ff14;border:1px solid #39ff14;max-height:140px;overflow:auto;padding:6px;font:11px RIZAL,RFONT,Menlo,Consolas,monospace}.tbi .post{border-left:1px solid #39ff14;padding:6px 10px;margin:8px 0}.tbi .post .post{margin-left:12px}
 .tbi img,.tbi video{max-width:100%;max-height:240px;border:1px solid #39ff14}.tbi .hd{display:flex;gap:10px;align-items:center}.tbi .av{width:56px;height:56px;border:2px solid #39ff14;object-fit:cover}.tbi small{color:#39ff14;opacity:.8}.tbi b{color:#c9a227}`;
 const TILE=`<svg class="tile" viewBox="0 0 40 40"><rect x=".5" y=".5" width="39" height="39" fill="#000" stroke="#39ff14"/><text x="20" y="27" font-size="20" text-anchor="middle" fill="#39ff14" font-weight="900" font-family="Menlo,monospace">Я</text><path d="M26 9l6 0-6 6z" fill="#39ff14"/></svg>`;
 function mount(root){if(typeof root==="string")root=document.querySelector(root);if(!document.getElementById("tbi-css")){const s=document.createElement("style");s.id="tbi-css";s.textContent=CSS;document.head.appendChild(s)}

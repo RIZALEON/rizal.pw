@@ -9,7 +9,7 @@ function scrub(t){return String(t).replace(/[0-9a-fA-F]{40,}|[1-9A-HJ-NP-Za-km-z
 function mount(){
  if(document.getElementById('rw-rvault'))return;
  var host=document.getElementById(w.RWALLET_MOUNT||'rw'),d=document.createElement('div');d.id='rw-rvault';
- d.style.cssText='border:2px solid #b388ff;margin:10px 0;padding:10px;font:12px Menlo,monospace;color:#b388ff;background:#0b0b0b';
+ d.style.cssText='border:2px solid #b388ff;margin:10px 0;padding:10px;font:12px RIZAL,RFONT,Menlo,monospace;color:#b388ff;background:#0b0b0b';
  d.innerHTML='<b style="letter-spacing:.2em">Я RVAULT</b> <span style="color:#9ac438">SEALED</span>'+
   '<div style="margin:6px 0;color:#eee">Keys stay behind biometrics · never shown, copied or exported here · unlock/sign only through ЯCASKET (Face ID)</div>'+
   '<div>status: <span id="rwv-st">not checked</span></div>'+
