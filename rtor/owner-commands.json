@@ -23,6 +23,51 @@
     "ref": "Rizal 2026-11-18 15:35 MT: No Face ID is needed for updates just do it",
     "sha256": "efdc8ef469a993f0e9a3cf91106322b2555ed4f6e42a52c54e42dd4d36ca8584"
    }
+  },
+  {
+   "kind": "web",
+   "id": "rizal.pw-version",
+   "name": "rdragon-version.json",
+   "url": "/rdragon-version.json",
+   "size": 2420,
+   "sha256": "7736047f12c834c125eb5a499be1ac25a1dd60b02ce20da2f0484978e576d8ec",
+   "authorization": "owner-command",
+   "ref": "Rizal t226u 2026-11-25 14:49 MT: my command is my signature",
+   "alias": "owner-command authorization; not a cryptographic signature",
+   "recorded": "2026-11-25T14:51:50-07:00",
+   "version": "rtoken20261105-race-pack-rfont-feed-1.300",
+   "owner_signature": "RZL111682",
+   "citation": "Prof. Marcum,C.A.,III (26,Nov 19) .RZL AI CRYPTOBOT ENJIN MODEL, RIZAL.PW, MAPS (MASTER of American Asia Pacific Systems) TECH Series, Aetaneo Rizal . Chase Rizal."
+  },
+  {
+   "kind": "web",
+   "id": "rfont-feed.rizal.pw",
+   "name": "rfont-feed.json",
+   "url": "/fonts/rfont-feed.json",
+   "size": 5637,
+   "sha256": "093a9758187e09aca74c602125be0f775073d40031c355e1ac20992247444d12",
+   "authorization": "owner-command",
+   "ref": "Rizal t226u 2026-11-25 14:49 MT: my command is my signature",
+   "alias": "owner-command authorization; not a cryptographic signature",
+   "recorded": "2026-11-25T14:51:50-07:00",
+   "version": "1.300",
+   "owner_signature": "RZL111682",
+   "citation": "Prof. Marcum,C.A.,III (26,Nov 19) .RZL AI CRYPTOBOT ENJIN MODEL, RIZAL.PW, MAPS (MASTER of American Asia Pacific Systems) TECH Series, Aetaneo Rizal . Chase Rizal."
+  },
+  {
+   "kind": "web",
+   "id": "rtor-feed.rizal.pw",
+   "name": "feed.json",
+   "url": "/rtor/feed.json",
+   "size": 24431,
+   "sha256": "d0b83dc5d016aab7766e2064c12b7d7cc3a450271a30abcf601f0755143695ed",
+   "authorization": "owner-command",
+   "ref": "Rizal t226u 2026-11-25 14:49 MT: my command is my signature",
+   "alias": "owner-command authorization; not a cryptographic signature",
+   "recorded": "2026-11-25T14:52:03-07:00",
+   "version": "20261125-1",
+   "owner_signature": "RZL111682",
+   "citation": "Prof. Marcum,C.A.,III (26,Nov 19) .RZL AI CRYPTOBOT ENJIN MODEL, RIZAL.PW, MAPS (MASTER of American Asia Pacific Systems) TECH Series, Aetaneo Rizal . Chase Rizal."
   }
  ]
 }

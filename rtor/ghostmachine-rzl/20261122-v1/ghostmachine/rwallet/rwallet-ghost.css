@@ -1,5 +1,5 @@
 /* RWALLET · GHOSTMACHINE style · 20261026 · staged UI only */
-:root{--gm-bg:#000;--gm-fg:#39ff14;--gm-dim:#1f8f0f;--gm-ac:#8a2be2;--gm-ac2:#b388ff;--gm-tx:#ddd;--gm-link:#7fb3ff;--gm-warn:#ff5470;--gm-gold:#c9a227;--gm-line:#333;--gm-font:"Menlo","Consolas","Courier New",monospace;--gm-fs:12.5px;--gm-pad:10px}
+:root{--gm-bg:#000;--gm-fg:#39ff14;--gm-dim:#1f8f0f;--gm-ac:#8a2be2;--gm-ac2:#b388ff;--gm-tx:#ddd;--gm-link:#7fb3ff;--gm-warn:#ff5470;--gm-gold:#c9a227;--gm-line:#333;--gm-font:"RIZAL Mono",RIZAL,RFONT,"Noto Sans Tagalog","Noto Sans Mayan Numerals","BabelStone Mayan Numerals","Menlo","Consolas","Courier New",monospace;--gm-fs:12.5px;--gm-pad:10px}
 #rw{background:var(--gm-bg);color:var(--gm-fg);font:var(--gm-fs)/1.5 var(--gm-font);width:340px;max-width:100%;box-sizing:border-box;border-top:1px solid var(--gm-fg)}
 #rw *{box-sizing:border-box}
 .rw-top{display:flex;align-items:center;gap:8px;padding:8px var(--gm-pad);border-bottom:1px solid var(--gm-fg)}

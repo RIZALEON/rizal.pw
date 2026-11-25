@@ -5,7 +5,7 @@
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   async function mount() {
     var T = window.RGEN_RIDTAGS; if (!T) return; var host = document.getElementById('rw') || document.body;
-    var box = document.createElement('div'); box.id = 'rw-ridtags'; box.style.cssText = 'margin-top:10px;border:1px solid #39ff14;padding:6px;font:11px Menlo,RIZAL Mono,Noto Sans Tagalog,Noto Sans Mayan Numerals,monospace;color:#39ff14';
+    var box = document.createElement('div'); box.id = 'rw-ridtags'; box.style.cssText = 'margin-top:10px;border:1px solid #39ff14;padding:6px;font:11px RIZAL,RFONT,Menlo,RIZAL Mono,Noto Sans Tagalog,Noto Sans Mayan Numerals,monospace;color:#39ff14';
     host.appendChild(box); var L = await T.loadBrowser(LEDGER_URL);
     function draw(msg) {
       var rows = T.list(L).map(function (t) { return '<tr><td>' + esc(t.rid) + '</td><td>' + esc(t.kind) + '</td><td>' + esc(t.name) + (t.symbol ? ' (' + esc(t.symbol) + ')' : '') + '</td><td>' + esc(t.status) + '</td></tr>'; }).join('');

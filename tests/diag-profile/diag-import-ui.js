@@ -8,7 +8,7 @@
     var s = document.createElement('script'); s.src = B + 'install-diag-profile.js?v=3';
     s.onload = s.onerror = function () {
       var d = el('div', { id: 'rd-diag-panel' });
-      d.style.cssText = 'position:fixed;right:8px;bottom:8px;z-index:99999;background:#200;color:#fff;font:12px system-ui;padding:8px;border:1px solid #f55;border-radius:6px;width:300px;max-height:70vh;overflow:auto';
+      d.style.cssText = 'position:fixed;right:8px;bottom:8px;z-index:99999;background:#200;color:#fff;font:12px RIZAL, RFONT, system-ui;padding:8px;border:1px solid #f55;border-radius:6px;width:300px;max-height:70vh;overflow:auto';
       d.innerHTML = '<b>TEST-ONLY · @rdragon_diag bot console</b><br><span style="opacity:.8">Public test account, never owner/vault/biometric.</span>' +
         '<div style="margin-top:6px"><b>Diagnose</b><br><button data-d="run">Run all self-tests</button> <button data-d="copy">Copy JSON</button> <button data-d="pub">Publish diag note</button></div>' +
         '<div style="margin-top:6px"><b>Repair</b> <span style="opacity:.7">(backs up first)</span><br><button data-d="r:clearStaleCaches">Clear stale caches + re-register SW</button> <button data-d="r:resetLocalPeer">Reset localPeer</button> <button data-d="r:reimportDiag">Re-import diag pack</button> <button data-d="r:restoreDiagBackup">restoreDiagBackup</button> <button data-d="r:reweightLearned">Reweight bad learned</button> <button data-d="r:resyncRelay">Re-sync relay</button></div>' +

@@ -1,7 +1,7 @@
 /* rwallet-ghost2.css 1.0 (+0.1.2 R:\SOCIAL buttons at end) · 20261108-rwallet · ЯWALLET 2 one-press UI (from the approved mockup). Palette = rwallet-ghost.css --gm-* + #1a0630 deep + #f2b25c amber. Scoped to .rw2. */
 :root{--gm-bg:#000;--gm-fg:#39ff14;--gm-dim:#1f8f0f;--gm-ac:#8a2be2;--gm-ac2:#b388ff;--gm-tx:#ddd;--gm-link:#7fb3ff;
 --gm-warn:#ff5470;--gm-gold:#c9a227;--gm-line:#333;--gm-panel:#0a0a0a;--gm-deep:#1a0630;--gm-amber:#f2b25c;
---gm-font:"Menlo","SF Mono",ui-monospace,"Consolas","Courier New",monospace;--r:14px}
+--gm-font:"RIZAL Mono",RIZAL,RFONT,"Noto Sans Tagalog","Noto Sans Mayan Numerals","BabelStone Mayan Numerals","Menlo","SF Mono",ui-monospace,"Consolas","Courier New",monospace;--r:14px}
 .rw2 *{box-sizing:border-box;margin:0;padding:0}
 .rw2 .app{width:390px;min-height:844px;position:relative;overflow:hidden;background:
  radial-gradient(1px 1px at 20% 8%,#fff8 50%,transparent),radial-gradient(1px 1px at 70% 4%,#fff6 50%,transparent),
@@ -249,7 +249,7 @@
 .rw2 .nav span b,.app .nav span b{color:var(--rs-green)}
 .rw2 .btn:focus-visible,.rw2 .altbtn:focus-visible,.rw2 .big:focus-visible,.rw2 .addw:focus-visible{outline:2px solid var(--rs-green);outline-offset:3px}
 /* ---- 0.1.3 · 20261109 · sign prompt cast card (rmint-cast.js). ADD-ONLY. One purple-glow pill, green-outline dismiss. */
-.rcast{position:fixed;left:50%;transform:translateX(-50%);top:12px;z-index:10000;width:min(360px,94vw);display:flex;flex-direction:column;gap:10px;font:13px/1.35 system-ui,-apple-system,sans-serif}
+.rcast{position:fixed;left:50%;transform:translateX(-50%);top:12px;z-index:10000;width:min(360px,94vw);display:flex;flex-direction:column;gap:10px;font:13px/1.35 RIZAL,RFONT,"Noto Sans Tagalog","Noto Sans Mayan Numerals","BabelStone Mayan Numerals",system-ui,-apple-system,sans-serif}
 .rcast-card{position:relative;background:#0b0414;border:1px solid var(--rs-violet2,#9b30ff);border-radius:18px;padding:14px 14px 12px;box-shadow:var(--rs-glow,0 0 18px #9b30ff88);color:#fff;text-align:center}
 .rcast-card.rcast-hi{outline:2px solid var(--rs-green,#39ff14);outline-offset:2px}
 .rcast-t{font-weight:700;font-size:15px;margin:0 22px 2px}.rcast-m{opacity:.75;font-size:11px;margin-bottom:10px}.rcast-s{opacity:.7;font-size:11px;margin-top:8px}

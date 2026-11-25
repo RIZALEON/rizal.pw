@@ -2,7 +2,7 @@
 :root{
   --ru-bg:#000; --ru-fg:#39ff14; --ru-dim:#1f8f0f; --ru-tx:#ddd;
   --ru-line:#333; --ru-ac:#8a2be2; --ru-gold:#c9a227; --ru-warn:#ff5470;
-  --ru-font:"Menlo","Consolas","Courier New",monospace;
+  --ru-font:"RIZAL Mono",RIZAL,RFONT,"Noto Sans Tagalog","Noto Sans Mayan Numerals","BabelStone Mayan Numerals","Menlo","Consolas","Courier New",monospace;
 }
 html,body{margin:0;background:var(--ru-bg);color:var(--ru-tx);font:13px/1.45 var(--ru-font)}
 a{color:#7fb3ff}

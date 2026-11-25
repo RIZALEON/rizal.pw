@@ -1,10 +1,10 @@
 /* RDRAGON · CRYPTO SIDE PANEL — CryptoSocial profile structure INSIDE RDRAGON left slot (#roster). Unsigned pack 20261025. */
 body:has(#roster #csp-panel:not(.csp-off)){--ds-side:360px}
-#csp-panel{position:relative;width:auto;box-sizing:border-box;background:#000;color:#39ff14;font:12.5px/1.5 "Menlo","Consolas","Courier New",monospace;border-top:2px solid #39ff14;margin-top:8px}
+#csp-panel{position:relative;width:auto;box-sizing:border-box;background:#000;color:#39ff14;font:12.5px/1.5 "RIZAL Mono",RIZAL,RFONT,"Noto Sans Tagalog","Noto Sans Mayan Numerals","BabelStone Mayan Numerals","Menlo","Consolas","Courier New",monospace;border-top:2px solid #39ff14;margin-top:8px}
 #csp-panel *{box-sizing:border-box}
 body>#csp-panel{position:fixed;left:0;top:0;bottom:0;width:340px;z-index:900;overflow:auto}
 #csp-panel button,#csp-panel [data-a]{cursor:pointer}
-#csp-panel button{background:#000;color:#39ff14;border:1px solid #39ff14;font:11px monospace;padding:2px 8px}
+#csp-panel button{background:#000;color:#39ff14;border:1px solid #39ff14;font:11px "RIZAL Mono", RIZAL, RFONT, "Noto Sans Tagalog", "Noto Sans Mayan Numerals", "BabelStone Mayan Numerals", monospace;padding:2px 8px}
 #csp-panel button:hover{border-color:#8a2be2;color:#b388ff}
 #csp-panel a{color:#7fb3ff;text-decoration:none}#csp-panel a:hover{text-decoration:underline}
 .csp-top{text-align:center;font-size:12px;padding:6px 26px;position:relative}
@@ -31,7 +31,7 @@ body>#csp-panel{position:fixed;left:0;top:0;bottom:0;width:340px;z-index:900;ove
 .csp-img{border:2px solid #39ff14;margin-top:4px;height:150px;background:#000 center/cover no-repeat}
 .csp-eng{display:flex;justify-content:space-between;padding:4px 4px 2px;font-size:12px}
 .csp-eng span.on{color:#ff3355}.csp-eng span.rp.on{color:#b388ff}
-.csp-in{width:100%;background:#000;color:#39ff14;border:1px solid #39ff14;font:12px monospace;padding:4px;margin:4px 0}
+.csp-in{width:100%;background:#000;color:#39ff14;border:1px solid #39ff14;font:12px "RIZAL Mono", RIZAL, RFONT, "Noto Sans Tagalog", "Noto Sans Mayan Numerals", "BabelStone Mayan Numerals", monospace;padding:4px;margin:4px 0}
 .csp-row{display:flex;justify-content:space-between;align-items:center;gap:6px;padding:3px 0;border-bottom:1px dotted #1f3f1f}
 .csp-dim{color:#1f8f0f}
 .csp-nav{display:flex;justify-content:space-around;font-size:18px;padding:8px 0;border-top:1px solid #333}
@@ -92,7 +92,7 @@ body>#csp-panel{position:fixed;left:0;top:0;bottom:0;width:340px;z-index:900;ove
 
 #csp-panel .csp-metarow{display:flex;align-items:center;justify-content:space-between;gap:10px}
 #csp-panel .csp-pbtns{display:flex;gap:8px;flex:0 0 auto}
-#csp-panel .csp-pill{border-radius:999px;padding:7px 16px;font:bold 13px monospace;cursor:pointer;min-width:104px;letter-spacing:.5px}
+#csp-panel .csp-pill{border-radius:999px;padding:7px 16px;font:bold 13px "RIZAL Mono", RIZAL, RFONT, "Noto Sans Tagalog", "Noto Sans Mayan Numerals", "BabelStone Mayan Numerals", monospace;cursor:pointer;min-width:104px;letter-spacing:.5px}
 #csp-panel .csp-msgbtn{background:#000;color:#39ff14;border:1px solid #39ff14}
 #csp-panel .csp-msgbtn:hover{background:#0a1a0a}
 #csp-panel .csp-follow{background:#8a2be2;color:#fff;border:1px solid #b388ff;box-shadow:0 0 8px #8a2be2}
@@ -131,7 +131,7 @@ body>#csp-panel{position:fixed;left:0;top:0;bottom:0;width:340px;z-index:900;ove
 #csp-panel .rc-top{transform:rotateX(90deg) translateZ(calc(var(--s)/2))}#csp-panel .rc-bottom{transform:rotateX(-90deg) translateZ(calc(var(--s)/2))}
 #csp-panel .rc-code{position:absolute;inset:10px;width:calc(100% - 20px);height:calc(100% - 20px);fill:#39ff14;opacity:.28}
 #csp-panel .rc-fill .rc-code{fill:#b388ff}
-#csp-panel .rc-glyph{position:relative;font:bold 54px/1 monospace;color:#39ff14;text-shadow:0 0 8px #39ff14}
+#csp-panel .rc-glyph{position:relative;font:bold 54px/1 "RIZAL Mono", RIZAL, RFONT, "Noto Sans Tagalog", "Noto Sans Mayan Numerals", "BabelStone Mayan Numerals", monospace;color:#39ff14;text-shadow:0 0 8px #39ff14}
 #csp-panel .rc-h{position:relative;font-size:10px;max-width:90%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;background:#000;padding:1px 4px;margin-top:6px;color:#fff}
 #csp-panel .rc-ctl{display:flex;justify-content:center;gap:10px;margin-bottom:10px}#csp-panel .rc-ctl span{cursor:pointer;border:1px solid #39ff14;border-radius:4px;padding:2px 8px;font-size:12px}
 #csp-panel .rc-title{font-weight:bold;margin-bottom:6px}#csp-panel .rc-badge{font-size:10px;border-radius:10px;padding:1px 7px;border:1px solid}#csp-panel .rc-badge.ok{color:#39ff14}#csp-panel .rc-badge.bad{color:#ff5470}
@@ -146,7 +146,7 @@ body>#csp-panel{position:fixed;left:0;top:0;bottom:0;width:340px;z-index:900;ove
 .rs-dev{border:1px solid #6f3cff;border-radius:10px;padding:10px;margin:8px 0;font-size:12px;display:flex;flex-direction:column;gap:6px;background:#0a0614}
 .rs-code{font-size:28px;letter-spacing:4px;color:#39ff14;font-weight:bold;text-align:center}
 .rs-qr{display:block;margin:4px auto;max-width:70vw;height:auto;border-radius:6px}
-.rs-req,.rs-in{width:100%;box-sizing:border-box;min-height:46px;background:#000;color:#39ff14;border:1px solid #333;font:11px monospace;border-radius:6px}
+.rs-req,.rs-in{width:100%;box-sizing:border-box;min-height:46px;background:#000;color:#39ff14;border:1px solid #333;font:11px "RIZAL Mono", RIZAL, RFONT, "Noto Sans Tagalog", "Noto Sans Mayan Numerals", "BabelStone Mayan Numerals", monospace;border-radius:6px}
 .rs-tab{width:100%;border-collapse:collapse}.rs-tab td,.rs-tab th{padding:3px 4px;border-bottom:1px solid #222;text-align:left}
 .rs-rv td{opacity:.5;text-decoration:line-through}.rs-q{color:#ffd166}
 #csp-panel .rs-lo{margin:6px 0}#csp-panel a.rs-b{text-decoration:none}

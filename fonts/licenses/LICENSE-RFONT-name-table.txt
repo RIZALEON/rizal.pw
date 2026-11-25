@@ -1,0 +1,23 @@
+Extracted from the current RFONT 1.2 name records (this is the font's own text).
+
+Copyright:
+Copyright © 2026 Chase Rizal (@chaserizal) · ЯID-0001-3QQS. All rights reserved.
+
+Trademark:
+IBM Plex(r) is a trademark of IBM Corp, registered in many jurisdictions worldwide.
+
+Manufacturer:
+Chase Rizal (@chaserizal)
+
+Designer:
+Chase Rizal (@chaserizal) · ЯID-0001-3QQS
+
+Description:
+RFONT — the official typeface of the Rizal stack (RENJIN · GHOSTMACHINE · ASSM · R OS). One fused face carrying Latin + Cyrillic, Baybayin (Tagalog block), Mayan Numerals, Old Italic, and the reversed-R letters ᴙ and ɿ. Citation: Chase Rizal, @chaserizal, ЯID-0001-3QQS, rizal.pw · rizal.info.
+
+License:
+RFONT is a fused build. It contains glyphs derived from OFL-licensed typefaces - IBM Plex Mono, Noto Sans Tagalog, Noto Sans Mayan Numerals, Noto Sans Old Italic, DejaVu Sans, and the RFONT Hybrid faces (BabelStone Mayan Numerals among their ingredients) - each under its own SIL Open Font License terms.
+
+License URL:
+http://scripts.sil.org/OFL
+

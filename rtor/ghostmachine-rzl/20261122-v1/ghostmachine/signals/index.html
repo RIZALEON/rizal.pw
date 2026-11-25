@@ -27,10 +27,10 @@
       html{-webkit-text-size-adjust:100%}
       body{
         margin:0; background:var(--bg); color:var(--ink);
-        font-family:"Avenir Next",Avenir,"Segoe UI",system-ui,-apple-system,sans-serif;
+        font-family:RIZAL,RFONT,"Noto Sans Tagalog","Noto Sans Mayan Numerals","BabelStone Mayan Numerals","Avenir Next",Avenir,"Segoe UI",system-ui,-apple-system,sans-serif;
         line-height:1.5;
       }
-      .mono{font-family:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace}
+      .mono{font-family:"RIZAL Mono",RIZAL,RFONT,"Noto Sans Tagalog","Noto Sans Mayan Numerals","BabelStone Mayan Numerals",ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace}
       main{max-width:1060px;margin:0 auto;padding:28px 18px 64px}
       h1{font-size:clamp(28px,5vw,42px);line-height:1.08;margin:0 0 6px;letter-spacing:-.01em}
       h1 .prompt{color:var(--green)}
@@ -59,7 +59,7 @@
       /* stat tiles */
       .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px}
       .stat{border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:14px}
-      .stat .n{font-size:30px;font-weight:700;line-height:1;font-family:ui-monospace,Menlo,monospace}
+      .stat .n{font-size:30px;font-weight:700;line-height:1;font-family:"RIZAL Mono",RIZAL,RFONT,"Noto Sans Tagalog","Noto Sans Mayan Numerals","BabelStone Mayan Numerals",ui-monospace,Menlo,monospace}
       .stat .l{font-size:12.5px;color:var(--muted);margin-top:6px}
       @media (max-width:640px){.stats{grid-template-columns:repeat(2,1fr)}}
 
@@ -68,7 +68,7 @@
       .type-card{border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:12px 14px}
       .type-card p{font-size:13.5px;color:var(--muted);margin:6px 0 0}
       .badge{
-        display:inline-flex;align-items:center;gap:6px;font-family:ui-monospace,Menlo,monospace;
+        display:inline-flex;align-items:center;gap:6px;font-family:"RIZAL Mono",RIZAL,RFONT,"Noto Sans Tagalog","Noto Sans Mayan Numerals","BabelStone Mayan Numerals",ui-monospace,Menlo,monospace;
         font-size:11.5px;font-weight:700;letter-spacing:.06em;padding:3px 9px;border-radius:999px;
         border:1px solid currentColor;white-space:nowrap;
       }
@@ -110,13 +110,13 @@
       }
       .signal-top{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px}
       .status{
-        font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:700;letter-spacing:.05em;
+        font-family:"RIZAL Mono",RIZAL,RFONT,"Noto Sans Tagalog","Noto Sans Mayan Numerals","BabelStone Mayan Numerals",ui-monospace,Menlo,monospace;font-size:11px;font-weight:700;letter-spacing:.05em;
         padding:3px 8px;border-radius:6px;background:var(--chip);color:var(--muted);border:1px solid var(--line);
       }
       .status.ok{color:var(--green);border-color:var(--green)}
       .status.warn{color:var(--amber);border-color:var(--amber)}
       .status.down{color:var(--red);border-color:var(--red)}
-      .signal .time{margin-left:auto;font-size:12.5px;color:var(--faint);font-family:ui-monospace,Menlo,monospace}
+      .signal .time{margin-left:auto;font-size:12.5px;color:var(--faint);font-family:"RIZAL Mono",RIZAL,RFONT,"Noto Sans Tagalog","Noto Sans Mayan Numerals","BabelStone Mayan Numerals",ui-monospace,Menlo,monospace}
       .signal h4{margin:0 0 4px;font-size:15.5px;line-height:1.35}
       .signal p{font-size:14px;color:var(--muted);margin:0}
       .stamp{
@@ -125,7 +125,7 @@
       }
       .stamp .stamp-label{font-size:11px;letter-spacing:.08em;color:var(--faint);font-weight:700}
       .rid{
-        font-family:ui-monospace,Menlo,monospace;font-size:13px;font-weight:700;color:var(--purple-soft);
+        font-family:"RIZAL Mono",RIZAL,RFONT,"Noto Sans Tagalog","Noto Sans Mayan Numerals","BabelStone Mayan Numerals",ui-monospace,Menlo,monospace;font-size:13px;font-weight:700;color:var(--purple-soft);
         border:1.5px dashed var(--purple);border-radius:8px;padding:4px 10px;background:var(--panel2);
       }
       .rid.none{color:var(--red);border-color:var(--red)}
@@ -143,7 +143,7 @@
       footer{margin-top:44px;font-size:13px;color:var(--faint);border-top:1px solid var(--line);padding-top:16px}
       a{color:var(--green)}
     </style>
- </head><body><main><h1><span class="prompt">R:&gt;</span> RTOR Signals</h1><p class="lede">Every signal pulled from the sites and the devices, sorted by what kind of signal it actually is — chain, heartbeat, swarm, mail, status, verification, registration, version, unread — and each one stamped with the RID of the device, app, or site that reported it.</p><div class="snapshot"><b>Snapshot, not a live feed.</b> Built from the reports gathered <b>Nov 20, 2026, 11:18 PM – 11:46 PM MST</b>: the device watch run, RTRACKR at rizal.pw, both renjin pages, and Chase's screenshots of the Pixel (11:37 PM / 11:43 PM) and the 17e (11:38 PM / 11:46 PM), plus the device watch of <b>Nov 21, 2026, 12:48 PM MST</b> — its live entries pulled from rtor-assm.json (published 12:40 PM MST that day) and its device-local values labeled “last reported” with the exact times they were reported. <b>Last checked Nov 21, 2026, 1:18 PM MST</b> — that check added one feed-derived signal from rtor-live.json (first observed 2026-11-21T13:17:33-07:00) and the RTRACKR live page; no new device-local report arrived, so the “last reported” values stand unchanged. Nothing on this page updates itself — a signal's state is its state at the moment it was reported.
+ <link rel="stylesheet" href="/rfont.css"><script src="/rfont-auto.js" defer></script></head><body><main><h1><span class="prompt">R:&gt;</span> RTOR Signals</h1><p class="lede">Every signal pulled from the sites and the devices, sorted by what kind of signal it actually is — chain, heartbeat, swarm, mail, status, verification, registration, version, unread — and each one stamped with the RID of the device, app, or site that reported it.</p><div class="snapshot"><b>Snapshot, not a live feed.</b> Built from the reports gathered <b>Nov 20, 2026, 11:18 PM – 11:46 PM MST</b>: the device watch run, RTRACKR at rizal.pw, both renjin pages, and Chase's screenshots of the Pixel (11:37 PM / 11:43 PM) and the 17e (11:38 PM / 11:46 PM), plus the device watch of <b>Nov 21, 2026, 12:48 PM MST</b> — its live entries pulled from rtor-assm.json (published 12:40 PM MST that day) and its device-local values labeled “last reported” with the exact times they were reported. <b>Last checked Nov 21, 2026, 1:18 PM MST</b> — that check added one feed-derived signal from rtor-live.json (first observed 2026-11-21T13:17:33-07:00) and the RTRACKR live page; no new device-local report arrived, so the “last reported” values stand unchanged. Nothing on this page updates itself — a signal's state is its state at the moment it was reported.
  </div><div class="finding"><h2>The headline split</h2><p class="big">The Pixel's local GHOST CHAIN reads <b>height 11</b> while RTRACKR still publishes <b>height 5</b>. The six-block gap is not lost — it is sitting in the Pixel's RMAIL outbox: <span class="bad">10 pending, 0 sent</span> over relay_8797. Two true signals, two different places, and the mail between them is the part that hasn't landed.</p></div><div class="stats" id="stats"></div><section><h2>Nine kinds of signal</h2><p class="sec-note">“Signals” were arriving as one mixed stream. Separated, they are nine different things — a chain height is not a heartbeat, a queued mail is not a landed block, and a page showing an old version is a signal about the page, not the client.</p><div class="types" id="types"></div></section><section><h2>Charts</h2><p class="sec-note">Every bar is stamped with the RID of the peer it measures. Speeds are the measured RTOR 0.2.3 figures reported Nov 20, 2026 — real bytes moved, not estimates.</p><div class="charts"><div class="card"><h3>Measured peer speed — KB/s each way</h3><p class="sub">RTOR 0.2.3 peers, reported 11:11 PM MST, Nov 20, 2026. The 17e figure is its per-file rate (~1.5 KB/s on nearly every file at 11:46 PM).</p><div id="chart-speed"></div><p class="axis-note">Scale 0–5 KB/s, bars start at zero. Keepalive floor across the swarm: at least 1 KB/s each way per file.</p><p class="takeaway">Fastest measured peer: <b>Neo at ~4.5 KB/s</b> — at measurement time it was the one peer with no RID on record; the Nov 21 stream has since confirmed its space RID, <b>ЯID-0027-Z3N5</b> (neo.assm).</p></div><div class="card"><h3>GHOSTCHAIN height — by who is reporting</h3><p class="sub">Same chain, two reports, Nov 20, 2026. RTRACKR's snapshot is stamped 2:43:28 PM MT; the Pixel's panel was read at 11:37 PM.</p><div id="chart-chain"></div><p class="axis-note">Scale 0–12 blocks, bars start at zero.</p><p class="takeaway">Gap: <b>6 blocks</b> — the Pixel's head <span class="mono">2c64d32a…</span> is queued as RMAIL to RTRACKR and has not landed. RTRACKR's tip is still <span class="mono">4006b57088…f0bb5b</span>.</p></div><div class="card wide"><h3>Signal mix — how many of each kind</h3><p class="sub">Counts computed from the full signal list below — registrations dominate because the watch's first run caught nine space RIDs and three device-RID mints in one pass, and the Nov 21 stream confirmed five more registrations.</p><div id="chart-mix"></div></div></div></section><section><h2>The signal list</h2><p class="sec-note">Grouped by the source that reported it. The dashed stamp on every entry is that source's RID — or an honest marker where no RID exists or none was read.</p><div class="filters" id="filters" role="group" aria-label="Filter signals by kind"></div><p class="count-line" id="count-line"></p><div id="list"></div></section><section><h2>RID registry — every stamp used on this page</h2><p class="sec-note">Space RIDs 0017–0028 and the device RIDs behind them, in sequence order. Parent for the device mints: ЯID-0001-3QQS (Rizal). All mints are authorized-by-owner-command, not cryptographic signatures.</p><div class="registry" id="registry"></div></section><section><h2>What the signals don't say</h2><div class="gaps"><ul><li><b>The 17e's own space RID is unread.</b> SPACE-RID.json sits on the 17e (670 B, 3/3) but its contents were never read, so 17e signals are stamped with its RTOR node ID, 66413c3f — not a guessed RID.</li><li><b>RTRACKR still has no RID.</b> Its signals carry a “no RID on record” stamp instead of an invented one. The Neo's space RID (ЯID-0027-Z3N5, neo.assm) exists only in the stream — there is no SPACE-RID.json on the Neo itself to confirm it locally.</li><li><b>The 0026 suffix conflict is unresolved.</b> rtor-assm.json confirms pixel.rtor as ЯID-0026-C7MD; the Pixel's own panel read RID-0026-C7YD on Nov 20, 2026. Both stay on this page — C7MD stream-confirmed, C7YD in question — until the device is re-read.</li><li><b>No entry times for space RIDs 0017–0025.</b> The renjin pages show no time for them; the list records that as not recorded rather than guessing.</li><li><b>Two stale displays.</b> The /rtor/client/ pages still show version 0.2.2 while every device runs 0.2.3, and the Pixel client's own RGHOSTCHAIN FILE note still says “no measured RTOR speed yet” directly under live measured speeds.</li><li><b>RE-SEED is still open.</b> It clears only when the sealed, signed RGHOSTKEY block 6 is on-chain — and there is no block 6 on the published chain yet.</li></ul></div></section><footer>
  Sources: RTRACKR (rizal.pw/rtrackr), the renjin pages on rizal.pw and rizal.info, the /rtor/client/ pages, the RTOR device watch run of Nov 20, 2026 11:18 PM MST, device screenshots timed 11:37–11:46 PM MST the same night, and the device watch of Nov 21, 2026 12:48 PM MST with the rtor-assm.json feed it pulled (published 12:40 PM MST that day), and the device watch check of Nov 21, 2026 1:18 PM MST with rtor-live.json (first observed 2026-11-21T13:17:33-07:00) and the RTRACKR live page (13:19:40 MT). Speeds are measured from real bytes moved over a 10 s window, as the client itself reports.
  </footer></main>

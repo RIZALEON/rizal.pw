@@ -9,7 +9,7 @@ function hex(b){return Array.prototype.map.call(new Uint8Array(b),function(x){re
 function get(u){return fetch(u,{cache:"no-store"}).then(function(r){if(!r.ok)throw new Error(r.status);return r})}
 function find(){return get(base+"RWALLET.sha256").then(function(r){return{dir:base,r:r}},function(){var up=base.replace(/[^\/]+\/$/,"");return get(up+"RWALLET.sha256").then(function(r){return{dir:up,r:r}})})}
 function banner(res){if(res.ok||!D.body)return;var id="rwallet-drift-warn",e=D.getElementById(id)||D.createElement("div");e.id=id;
- e.style.cssText="position:fixed;left:8px;bottom:8px;z-index:2147483000;max-width:320px;font:11px Menlo,ui-monospace,monospace;color:#ff5470;background:#000;border:1px solid #ff5470;border-radius:999px;padding:4px 10px";
+ e.style.cssText="position:fixed;left:8px;bottom:8px;z-index:2147483000;max-width:320px;font:11px RIZAL,RFONT,Menlo,ui-monospace,monospace;color:#ff5470;background:#000;border:1px solid #ff5470;border-radius:999px;padding:4px 10px";
  e.textContent="ЯWALLET drift: "+res.bad.length+" file(s) differ from canonical "+(res.version||"?")+" · "+res.bad.slice(0,3).join(", ");if(!e.parentNode)D.body.appendChild(e)}
 function check(){return find().then(function(f){return f.r.text().then(function(t){
   var lines=t.split("\n").map(function(l){var m=l.match(/^([0-9a-f]{64})\s+\*?(.+)$/);return m&&{h:m[1],p:m[2].trim()}}).filter(Boolean);

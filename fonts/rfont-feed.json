@@ -1,0 +1,184 @@
+{
+  "schema": "rfont-feed-v1",
+  "version": "1.300",
+  "folder": "/fonts/1.300/",
+  "updated": "2026-11-25T14:25:02-07:00",
+  "families": [
+    "RIZAL",
+    "RIZAL Mono",
+    "RFONT"
+  ],
+  "coverage": {
+    "notes": "RFONT Version 1.300: 7604 codepoints, 7885 glyphs, monospaced=True. Latin / Cyrillic / Baybayin / Mayan numerals as present in the face. POLYCODE U+F0000–U+F00FF is not in this face; placeholder glyphs come from the fallback range face.",
+    "codepoints": 7604,
+    "glyphs": 7885,
+    "latin_basic": 95,
+    "baybayin_block": 23,
+    "mayan_numerals": 20,
+    "polycode_p15": 0,
+    "isFixedPitch": true,
+    "source_family": "RFONT",
+    "source_version": "Version 1.300"
+  },
+  "files": [
+    {
+      "name": "RIZAL-Regular.woff2",
+      "role": "primary",
+      "format": "woff2",
+      "size": 732744,
+      "sha256": "6641c77195fb849971a7331fe443b2a1829cee2ffa1faa53ef13510d0b6257aa",
+      "url": "/fonts/1.300/RIZAL-Regular.woff2",
+      "families": [
+        "RIZAL",
+        "RIZAL Mono",
+        "RFONT"
+      ]
+    },
+    {
+      "name": "RIZAL-Regular.ttf",
+      "role": "primary",
+      "format": "truetype",
+      "size": 1752012,
+      "sha256": "f35658883d5a8ed8214a554c50befa2b566f8603edc82ff7758afc75a8c7e74e",
+      "url": "/fonts/1.300/RIZAL-Regular.ttf",
+      "families": [
+        "RIZAL",
+        "RIZAL Mono",
+        "RFONT"
+      ]
+    }
+  ],
+  "fallbacks": [
+    {
+      "name": "RIZAL-POLYCODE-placeholders",
+      "role": "polycode-placeholder",
+      "families": [
+        "RIZAL",
+        "RFONT"
+      ],
+      "unicode_range": "U+F0000-U+F00FF",
+      "files": [
+        {
+          "name": "RIZAL-POLYCODE-placeholders.woff2",
+          "format": "woff2",
+          "size": 68120,
+          "sha256": "e96016f73991e9ad31b17c73cef37f70c77695f8a738ac6f8291916257745524",
+          "url": "/fonts/RIZAL-POLYCODE-placeholders.woff2"
+        },
+        {
+          "name": "RIZAL-POLYCODE-placeholders.ttf",
+          "format": "truetype",
+          "size": 265712,
+          "sha256": "fd724273628a71457ff141881ba033a8088cc66ba8b220c845f0bac4f234f505",
+          "url": "/fonts/RIZAL-POLYCODE-placeholders.ttf"
+        }
+      ]
+    },
+    {
+      "name": "RIZALMono-POLYCODE-placeholders",
+      "role": "polycode-placeholder",
+      "families": [
+        "RIZAL Mono"
+      ],
+      "unicode_range": "U+F0000-U+F00FF",
+      "files": [
+        {
+          "name": "RIZALMono-POLYCODE-placeholders.woff2",
+          "format": "woff2",
+          "size": 65084,
+          "sha256": "52f9fe4563febc39766fdd598469d140991c0c41944af964d3c960c2f618b850",
+          "url": "/fonts/RIZALMono-POLYCODE-placeholders.woff2"
+        },
+        {
+          "name": "RIZALMono-POLYCODE-placeholders.ttf",
+          "format": "truetype",
+          "size": 278964,
+          "sha256": "552f22ed339df7b2eff5c3ffbfcfbd45ab3532507be90d63c8763daed6275fd3",
+          "url": "/fonts/RIZALMono-POLYCODE-placeholders.ttf"
+        }
+      ]
+    },
+    {
+      "name": "NotoSansTagalog-Regular",
+      "role": "baybayin-fallback",
+      "families": [
+        "Noto Sans Tagalog"
+      ],
+      "unicode_range": "U+1700-171F, U+1735-1736",
+      "files": [
+        {
+          "name": "NotoSansTagalog-Regular.woff2",
+          "format": "woff2",
+          "size": 23948,
+          "sha256": "92c9b97f9cf1d3b6477bd241247f95b262726af2a75e6d7cf67534728a184f8e",
+          "url": "/fonts/NotoSansTagalog-Regular.woff2"
+        },
+        {
+          "name": "NotoSansTagalog-Regular.ttf",
+          "format": "truetype",
+          "size": 53012,
+          "sha256": "871a66319d10d1a027eee889f75ea49be0b7d2a4e97acd6bf7f7a0ed1d741aac",
+          "url": "/fonts/NotoSansTagalog-Regular.ttf"
+        }
+      ],
+      "css_family": "Noto Sans Tagalog"
+    },
+    {
+      "name": "NotoSansMayanNumerals-Regular",
+      "role": "mayan-fallback",
+      "families": [
+        "Noto Sans Mayan Numerals"
+      ],
+      "unicode_range": "U+1D2E0-1D2F3",
+      "files": [
+        {
+          "name": "NotoSansMayanNumerals-Regular.woff2",
+          "format": "woff2",
+          "size": 21352,
+          "sha256": "a7377dcb11f87f399e78d06ef356e4a7e90a207d6b20db7581249a469e078df6",
+          "url": "/fonts/NotoSansMayanNumerals-Regular.woff2"
+        },
+        {
+          "name": "NotoSansMayanNumerals-Regular.ttf",
+          "format": "truetype",
+          "size": 50672,
+          "sha256": "b073279ae1eabfbe8bd4232f5f83fdaeb439267f5580a7849ed9c4a04cf35d34",
+          "url": "/fonts/NotoSansMayanNumerals-Regular.ttf"
+        }
+      ],
+      "css_family": "Noto Sans Mayan Numerals"
+    },
+    {
+      "name": "BabelStoneMayanNumerals",
+      "role": "mayan-fallback",
+      "families": [
+        "BabelStone Mayan Numerals"
+      ],
+      "unicode_range": "U+1D2E0-1D2F3",
+      "files": [
+        {
+          "name": "BabelStoneMayanNumerals.woff2",
+          "format": "woff2",
+          "size": 10996,
+          "sha256": "706c02124ef785241c1b0d38c9511426eb4232d16c918dfea5954ce0c84f31d2",
+          "url": "/fonts/BabelStoneMayanNumerals.woff2"
+        },
+        {
+          "name": "BabelStoneMayanNumerals.ttf",
+          "format": "truetype",
+          "size": 32400,
+          "sha256": "c2c178728af8161fc0cdfbfd8e11fc308f9ff5b3e1c3d046de47b62281a282e9",
+          "url": "/fonts/BabelStoneMayanNumerals.ttf"
+        }
+      ],
+      "css_family": "BabelStone Mayan Numerals"
+    }
+  ],
+  "css": "/rfont.css",
+  "auto": "/rfont-auto.js",
+  "signature": {
+    "status": "unsigned",
+    "url": "/fonts/rfont-feed.json.sig.json",
+    "note": "Bots never sign. Rizal signs this later with his owner key."
+  }
+}

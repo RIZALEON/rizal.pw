@@ -1,4 +1,4 @@
-body{margin:0;background:#000;color:#cfc;font:13px Menlo,Consolas,monospace}a{color:#39ff14}
+body{margin:0;background:#000;color:#cfc;font:13px "RIZAL Mono",RIZAL,RFONT,"Noto Sans Tagalog","Noto Sans Mayan Numerals","BabelStone Mayan Numerals",Menlo,Consolas,monospace}a{color:#39ff14}
 header{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid #39ff14;background:#050505}
 .logo{font-weight:700;font-size:18px;text-decoration:none}.sub{color:#b388ff;font-size:11px}
 #q{margin-left:auto;display:flex;gap:4px}#qi{width:300px;max-width:60vw;background:#000;color:#fff;border:1px solid #39ff14;padding:5px;font:inherit}
@@ -18,7 +18,7 @@ table.upd td:first-child{color:#7fd7ff}
 .rt-links{display:flex;flex-direction:column;gap:8px;margin:10px 0}
 .rt-row{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
 .rt-lab{color:#b388ff;min-width:64px;font-size:11px;text-transform:uppercase}
-.rt-btn{display:inline-block;border:1px solid #39ff14;color:#39ff14;background:#000;padding:5px 9px;border-radius:8px;text-decoration:none;font:11px Menlo,Consolas,monospace}
+.rt-btn{display:inline-block;border:1px solid #39ff14;color:#39ff14;background:#000;padding:5px 9px;border-radius:8px;text-decoration:none;font:11px "RIZAL Mono",RIZAL,RFONT,"Noto Sans Tagalog","Noto Sans Mayan Numerals","BabelStone Mayan Numerals",Menlo,Consolas,monospace}
 .rt-btn:hover{background:#0a1a0a}
 .rtoken code{color:#fff;font-size:11px}
 #rt-events{margin-top:4px}
