@@ -74,13 +74,18 @@
    "id": "appcast.rthundr.macos",
    "name": "appcast.json",
    "url": "/rthundr/macos/appcast.json",
-   "size": 2004,
-   "sha256": "c723b3dc8be3a949b8fab6adf3b07e933924d3b4057b7aabd36edf4d2594c85f",
+   "size": 2261,
+   "sha256": "e9cf052ffd007ad4acac3f42c43734290cedc04a59653ccd5d7cffb9962cee03",
    "authorization": "owner-command",
-   "ref": "Rizal t146u/t147u 2026-11-25 21:46 MT: Yes go the command is my signature (sign+install RTHUNDR 1.2.2 (6)); No need my command is enough just do it",
+   "ref": "Rizal t149u/t150u 2026-11-25 22:08 MT: use that to fine tune thundr … since its made with the new rfont now it should know all about it (standing go t146u/t147u: the command is my signature)",
    "alias": "owner-command authorization; not a cryptographic signature",
-   "recorded": "2026-11-25T22:05:00-07:00",
-   "version": "1.2.2 (6)"
+   "recorded": "2026-11-25T23:00:00-07:00",
+   "version": "1.2.3 (7)",
+   "previous": {
+    "ref": "Rizal t146u/t147u 2026-11-25 21:46 MT: Yes go the command is my signature (sign+install RTHUNDR 1.2.2 (6)); No need my command is enough just do it",
+    "sha256": "c723b3dc8be3a949b8fab6adf3b07e933924d3b4057b7aabd36edf4d2594c85f",
+    "version": "1.2.2 (6)"
+   }
   }
  ]
 }
