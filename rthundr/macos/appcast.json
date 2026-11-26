@@ -1,0 +1,27 @@
+{
+ "product": "RTHUNDR",
+ "id": "rthundr-macos",
+ "platform": "macos",
+ "bundleId": "info.rizal.rthundr",
+ "lineVersion": "1.2",
+ "latest": {
+  "version": "1.2.2",
+  "build": 6,
+  "appTreeSha256": "bfb51491cced997c154911b8439ccbeb62afd079db1982762c7d0241786b719c",
+  "appTreeFiles": 280,
+  "appTreeMethod": "sha256 over lines '<sha256>  <relative path>\\n' of every file in RTHUNDR.app sorted by path, excluding Contents/_CodeSignature and Contents/Resources/www/thundr/pointer/status.json (rewritten at runtime by the pointer helper)",
+  "binarySha256": "ac364b639a51cffd3e297617043c7da357107bb358e6448613f733d51496cc3e",
+  "modelSha256": "061b54daade076b5d3362dac252678d17da8c68f07560be70818cace6590cb1a",
+  "model": "Qwen3-1.7B-Q8_0.gguf (unchanged, offline)",
+  "repo": "local: R/ЯLAB/RCRYPTOFORGE/cryptoapp/ThundR/RTHUNDR-APP (no git repo; history via .bak chain)",
+  "notes": "1.2.2 (6) fusion of live 1.2.0 (4) and 1.2.1 (5): ThundR FLY command set (pointer/Dock flight, mood fly, RVM-LAB bar dive; core build 16), converse 0.3.2-neo, rmint-transport v1.1 overlay, BOTDECK knowledge path fix, RFONT 1.1/1.2/1.3.1 bundled (web default 1.3.1). status.json option C (helper rewrites it, so codesign seal reports invalid while the pointer helper runs). Entitlements: sandbox, user-selected + Downloads read-write, network.client."
+ },
+ "install": {
+  "method": "local only: built with xcodebuild (unsigned), signed on the Neo with the lab's THUNDR-FLOAT Local Signing identity, replaced in place at cryptoapp/ThundR/RTHUNDR.app (same bundle id). No binary is published and no remote install is offered.",
+  "installedAt": "2026-11-25T21:50:00-07:00"
+ },
+ "signed": false,
+ "note": "No cryptographic signature (none was made or faked). Authorized by owner command; the feed entry carries this file's exact size and sha256. The macOS code signature on the app is the local THUNDR-FLOAT identity, not the owner Ed25519 key.",
+ "updated": "2026-11-25T22:05:00-07:00",
+ "authorization": "owner-command"
+}
