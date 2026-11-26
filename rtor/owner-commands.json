@@ -68,6 +68,19 @@
    "version": "20261125-1",
    "owner_signature": "RZL111682",
    "citation": "Prof. Marcum,C.A.,III (26,Nov 19) .RZL AI CRYPTOBOT ENJIN MODEL, RIZAL.PW, MAPS (MASTER of American Asia Pacific Systems) TECH Series, Aetaneo Rizal . Chase Rizal."
+  },
+  {
+   "kind": "appcast",
+   "id": "appcast.rthundr.macos",
+   "name": "appcast.json",
+   "url": "/rthundr/macos/appcast.json",
+   "size": 2004,
+   "sha256": "c723b3dc8be3a949b8fab6adf3b07e933924d3b4057b7aabd36edf4d2594c85f",
+   "authorization": "owner-command",
+   "ref": "Rizal t146u/t147u 2026-11-25 21:46 MT: Yes go the command is my signature (sign+install RTHUNDR 1.2.2 (6)); No need my command is enough just do it",
+   "alias": "owner-command authorization; not a cryptographic signature",
+   "recorded": "2026-11-25T22:05:00-07:00",
+   "version": "1.2.2 (6)"
   }
  ]
 }
