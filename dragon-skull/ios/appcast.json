@@ -6,11 +6,13 @@
  "lineVersion": "1.0.6.8",
  "latest": {
   "version": "1.0.6.8",
-  "build": "55",
-  "source": "RDRAGONSKULL/source/ios (Neo, not in git)",
-  "appTreeSha256": "2ab085561f2d44099fce3eb3d7f2c24133dcf1abe7fd194c477e004f986574a0",
-  "appTreeFiles": 1675,
-  "notes": "Build 55: SelfUpdate (web overlay) now requires GHOSTKEY: Rtor 1.2 GHOSTKEY: updates accepted only when signed by the GHOSTKEY root e5833fdfbbfe or an ACTIVE ring member (iPhone 17e, MacBook Neo, Moto Android; /rtor/ghostkey.json 2026-11-18.2) for seed/leech/send/receive. Unsigned, label-only, unknown, revoked and tampered items are refused. Replaces the 2026-11-16 unsigned-egg allowance; size + sha256 still checked. Otherwise identical to build 54.",
+  "build": "87",
+  "source": "RDRAGONSKULL/source/ios (Neo, not in git) · spec project-rwallet042.yml / DragonSkullRW042.xcodeproj",
+  "appTreeSha256": "370774e5bbd27de76a8c95f2e6f9988c2ad6990b364787df758d5176e6f2cf14",
+  "appTreeFiles": 1726,
+  "appTreeMethod": "sha256 over lines '<sha256>  <relative path>\\n' of every file in DRAGON SKULL.app sorted by path, excluding _CodeSignature",
+  "binarySha256": "33a6c0990be316433d83a43927cb6cc01ec1b548e95e0c77cf08390b26127b7b",
+  "notes": "Build 87 (Rizal t157u 2026-11-26: Make sure this ThundR is integrated into all our 17e apps): ThundR chat in RDRGN now runs the shared RTHUNDR 1.2.3 brain (APPS/SHARED/THUNDR-BRAIN, same ThundRTune + Knowledge as RTHUNDR.app 1.2.3 (7)): 4-turn conversation context to Apple on-device and the backup RLM, pronoun/follow-up and typo repair, direct RFONT answers (bundled thundr-know/RFONT.md), look-before-deny, tuned system prompt; Neo replies join the context. Includes build 86 (type out maya zero, rfont-maya.js 1.1). ThundR core build 16 unchanged; desktop FLY stays a Mac-helper stub on iOS.",
   "trust": {
    "ring": "/rtor/ghostkey.json",
    "ringVersion": "2026-11-18.2",
@@ -26,9 +28,17 @@
  },
  "install": {
   "method": "devicectl from the Neo seeder (iOS apps cannot replace themselves)",
-  "itms-services": "none (no OTA manifest exists)"
+  "itms-services": "none (no OTA manifest exists)",
+  "installedAt": "2026-11-26T00:36:46-07:00",
+  "signing": "Apple Development (team 7D3P5F4V9M, automatic; existing profile, expires 2026-11-29 11:31 AM MST)"
  },
  "signed": false,
  "note": "Listing only: no cryptographic signature (none was made or faked) and no download is offered. The app's own signed feeds are unchanged.",
- "updated": "2026-11-18T18:30:00-07:00"
+ "updated": "2026-11-26T00:45:00-07:00",
+ "previous": {
+  "version": "1.0.6.8",
+  "build": "55",
+  "appTreeSha256": "2ab085561f2d44099fce3eb3d7f2c24133dcf1abe7fd194c477e004f986574a0"
+ },
+ "authorization": "owner-command"
 }

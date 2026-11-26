@@ -86,6 +86,19 @@
     "sha256": "c723b3dc8be3a949b8fab6adf3b07e933924d3b4057b7aabd36edf4d2594c85f",
     "version": "1.2.2 (6)"
    }
+  },
+  {
+   "kind": "appcast",
+   "id": "appcast.dragon-skull.ios",
+   "name": "appcast.json",
+   "url": "/dragon-skull/ios/appcast.json",
+   "size": 2180,
+   "sha256": "0baf2791a7c6f709d1b2ac8da0c76d1e2ea5b20193f830e73593a7a4f5eedc20",
+   "authorization": "owner-command",
+   "ref": "Rizal t156u/t157u 2026-11-26 MT: Yes; Make sure this ThundR is integrated into all our 17e apps (standing go t146u/t147u: the command is my signature)",
+   "alias": "owner-command authorization; not a cryptographic signature",
+   "recorded": "2026-11-26T00:45:00-07:00",
+   "version": "1.0.6.8 (87)"
   }
  ]
 }

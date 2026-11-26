@@ -28,7 +28,7 @@ const fs = require('fs'), path = require('path'), crypto = require('crypto');
 const ROOT = path.join(__dirname, '..', '..');
 const HOST = fs.existsSync(path.join(ROOT, 'CNAME')) ? fs.readFileSync(path.join(ROOT, 'CNAME'), 'utf8').trim() : 'rizal.pw';
 const PEER = HOST === 'rizal.pw' ? 'rizal.info' : 'rizal.pw';
-const FEED_VERSION = '20261125-3'; // bump by hand when the feed content changes (entries, seeder claim, anything); every bump needs a new feed.json.sig.json
+const FEED_VERSION = '20261126-1'; // bump by hand when the feed content changes (entries, seeder claim, anything); every bump needs a new feed.json.sig.json
 const KEY_ID = 'e5833fdfbbfe';
 const PUBKEY_B64 = 'zs7M4OOB0zQhWOQw3SHpAY+XYxbZJvcPESy1y400Ti0='; // pinned owner Ed25519 public key (same as rtor/rtor-verify.js)
 const FEED_ID = 'rtor-feed.rizal.pw';
