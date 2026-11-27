@@ -15,6 +15,10 @@
  *   the web counts only via ringFromSigned(ringBytes, rootSidecar) (root-signed); otherwise the PINNED ring is used.
  *   The authorization label 'owner-command' / 'authorized-by-owner-command' is renamed 'ghostkey' / 'authorized-by-ghostkey'
  *   (old names = read-only aliases). Any label without a real signature + size/sha256 is REFUSED.
+ * 1.3 (b26, Rizal t47u option c): pinned ROOT SET = old e5833fdfbbfe (ed25519, SUPERSEDED, still accepted, never deleted)
+ *   OR the NEW root (Secure Enclave P-256 on the iPhone 17e, command approval, label "ASSM GHOSTMACHINE @chaserizal INDIGHOST
+ *   KEY RZL111682"). New-root sidecars carry rootP256 (ECDSA P-256/SHA-256, DER or raw) over the same rlab-update-v1 message and
+ *   keyId = sha256(X9.63 pub)[:12]. Until rtor-root-fill-in replaces the placeholders the new root accepts NOTHING.
  */
 (function (root, factory) {
   if (typeof module === 'object' && module.exports) module.exports = factory();
@@ -23,6 +27,10 @@
   'use strict';
   var KEY_ID = 'e5833fdfbbfe';
   var PUBKEY_B64 = 'zs7M4OOB0zQhWOQw3SHpAY+XYxbZJvcPESy1y400Ti0=';
+  // RTOR-NEW-ROOT-PIN (rtor-root-fill-in replaces the two values below; nothing else)
+  var NEW_ROOT_KEY_ID = '7c843e232d28';
+  var NEW_ROOT_PUB_B64 = 'BNfuWTA+Fjc2YXH6lsaM3iQdEw98KneAy/Km0sjSLLmrSFZNaqY8oQUUz+La6TlOG3O5cUCcw25oPxLCbIPhlgU=';
+  var ROOT_LABEL = 'ASSM GHOSTMACHINE @chaserizal INDIGHOST KEY RZL111682';
   var subtle = (typeof crypto !== 'undefined' && crypto.subtle) ? crypto.subtle : null;
   var te = new TextEncoder();
   function b64d(s) { if (typeof atob === 'function') { var b = atob(s), u = new Uint8Array(b.length); for (var i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); return u; } return new Uint8Array(Buffer.from(s, 'base64')); }
@@ -64,6 +72,24 @@
     if (!i.ed25519) return 'UNSIGNED - refused';
     return null;
   }
+  // ---- 1.3 NEW root (b26, t47u) ----
+  function newRootFilled() { return NEW_ROOT_KEY_ID.length === 12 && NEW_ROOT_KEY_ID.indexOf('__') < 0 && NEW_ROOT_PUB_B64.indexOf('__') < 0; }
+  function rootPins() {
+    var p = [{ keyId: KEY_ID, alg: 'ed25519', pub: PUBKEY_B64, status: 'SUPERSEDED' }];
+    if (newRootFilled()) p.push({ keyId: NEW_ROOT_KEY_ID, alg: 'p256', pub: NEW_ROOT_PUB_B64, status: 'ACTIVE', label: ROOT_LABEL });
+    return p;
+  }
+  /** New-root signature (rootP256). opts.rootP256PubB64 is for TEST fixtures only. Resolves {ok, why}. */
+  function verifyRootP256(i, opts) {
+    var bad = checkItemShape(Object.assign({}, i, { ed25519: 'x' })); if (bad) return Promise.resolve({ ok: false, why: bad });
+    var pub = (opts && opts.rootP256PubB64) || (newRootFilled() ? NEW_ROOT_PUB_B64 : null);
+    if (!pub) return Promise.resolve({ ok: false, why: 'new root not pinned yet (placeholder) - refused' });
+    var raw; try { raw = b64d(pub); } catch (e) { return Promise.resolve({ ok: false, why: 'bad pinned key' }); }
+    return sha256Hex(raw).then(function (h) {
+      if (h.slice(0, 12) !== i.keyId) return { ok: false, why: 'keyId mismatch' };
+      return p256Verify(pub, message(i), i.rootP256).then(function (ok) { return ok ? { ok: true } : { ok: false, why: 'new-root signature invalid - refused' }; });
+    });
+  }
   // ---- 1.1 lab-device sources (t176u) ----
   var OPS = ['seed', 'leech', 'send', 'receive'];
   var DEVICES = [{"device": "moto-android", "name": "Moto Android (moto g 5G 2024)", "alg": "p256", "fp": "da2a35874ca0", "pub": "BJ2gcujdupTUPkYwWIkOtoSmCawEMsJUa1FZpLOMMhJWmXnnB3jQ8FOchLUYkMo5hSLsQY76/zsviS015sArJw8=", "ops": ["seed", "leech", "send", "receive"], "status": "ACTIVE"}, {"device": "iphone-17e", "name": "iPhone 17e", "alg": "p256", "fp": "772af9d72bb8", "pub": "BNgvRd5vEs5IY99EYQJEw8gRjyBzXzKVd+mqXWZ4O5jC30WUZPzN61OlrCkS5zlkqrBFUrmbwcy2y4XwrlL42E0=", "ops": ["seed", "leech", "send", "receive"], "status": "ACTIVE"}, {"device": "macbook-neo", "name": "MacBook Neo", "alg": "p256", "fp": "f905b7901a31", "pub": "BOoPUkxxeAbH6dEckSD/5Yd8oITBeMcFv4U93YMjskOS4MUdrSWKN3SslcKtlOgOGZ1f1XzcR1JPPLV1nO7+nZo=", "ops": ["seed", "leech", "send", "receive"], "status": "ACTIVE"}, {"device": "iphone-17e", "name": "RCODE iPhone 17e", "alg": "p256", "fp": "cd8e3026fe33", "pub": "BCcy7Y8Lj/r+1RbjCd63/bT6jgfh4RMEPfodtyu+ChLyNT1ExNpfKRTENXf2MkItuP6aOdFYCTmtc1Gn1t/c7Mo=", "ops": ["seed", "leech", "send", "receive"], "status": "ACTIVE"}, {"device": "macbook-neo", "name": "RCODE MacBook Neo", "alg": "p256", "fp": "75b0428a4d67", "pub": "BEH5Ycewp3ijwMS8lRudQRdzar8ZDfQC8da3Im8VRGdGKKPokdb+fqXSuhX21xJppFmes+kLnYAilGLpSTTCYiM=", "ops": ["seed", "leech", "send", "receive"], "status": "ACTIVE"}, {"device": "macbook-neo", "name": "RCODE MacBook Neo approver", "alg": "p256", "fp": "5e110f5d1b4c", "pub": "BFXXdb55AHC7g9se6/z07WMClqN8qJySo+O9b5gKM2JOWyO0N9UpcKeNdkHFDQiCRIrBltsUGExYkuFphOKJLV0=", "ops": ["seed", "leech", "send", "receive"], "status": "ACTIVE"}];   // PINNED GHOSTKEY ring members: PUBLIC keys only (ghostkey.json 2026-11-18.2, was rtor-devices.json)
@@ -91,6 +117,10 @@
   function verifyItemFrom(i, op, opts) {
     if (OPS.indexOf(op) < 0) return refuse('unknown op ' + op + ' - refused');
     var bad = shapeOnly(i); if (bad) return refuse(bad);
+    if (!i.ed25519 && i.rootP256) return verifyRootP256(i, opts).then(function (r) {   // 1.3 NEW root (old OR new pinned)
+      if (r.ok) return { ok: true, signer: 'GHOSTKEY root ' + NEW_ROOT_KEY_ID + ' (new)', op: op, authorization: authOf(i) };
+      return i.p256 ? verifyItemFrom(Object.assign({}, i, { rootP256: null }), op, opts) : r;
+    });
     var owner = i.ed25519 ? verifyItem(i, opts) : Promise.resolve({ ok: false, why: 'UNSIGNED - refused' });
     return owner.then(function (r) {
       if (r.ok) return { ok: true, signer: 'GHOSTKEY root ' + KEY_ID, op: op, authorization: authOf(i) };
@@ -135,6 +165,7 @@
   }
   /** Verify the owner signature on an item. opts.pubKeyB64 is for TEST fixtures only. Resolves {ok, why}. */
   function verifyItem(i, opts) {
+    if (i && typeof i === 'object' && !i.ed25519 && i.rootP256) return verifyRootP256(i, opts);   // 1.3 NEW root
     var bad = checkItemShape(i); if (bad) return Promise.resolve({ ok: false, why: bad });
     if (i.keyId && i.keyId !== KEY_ID && !(opts && opts.pubKeyB64)) return Promise.resolve({ ok: false, why: 'keyId mismatch' });
     var sig; try { sig = b64d(i.ed25519); } catch (e) { return Promise.resolve({ ok: false, why: 'bad signature encoding' }); }
@@ -158,5 +189,5 @@
       .then(function (x) { if (!Array.isArray(x)) return x; var bytes = new Uint8Array(x[0]); return verifyItemBytes(x[1], bytes, opts).then(function (r) { r.bytes = r.ok ? bytes : null; r.entry = x[1]; return r; }); })
       .catch(function (e) { return { ok: false, why: 'verify error: ' + (e && e.message) }; });
   }
-  return { VERSION: '1.2', KEY_ID: KEY_ID, PUBKEY_B64: PUBKEY_B64, OPS: OPS, DEVICES: DEVICES, GHOSTKEY: GHOSTKEY, AUTH_ALIASES: AUTH_ALIASES, authOf: authOf, ringFromSigned: ringFromSigned, verifyGhostkey: verifyGhostkey, verifyGhostkeyBytes: verifyGhostkeyBytes, message: message, deviceMessage: deviceMessage, verifyItem: verifyItem, verifyItemBytes: verifyItemBytes, verifyItemFrom: verifyItemFrom, verifyItemBytesFrom: verifyItemBytesFrom, fetchVerified: fetchVerified, _pureVerify: pureVerify };
+  return { VERSION: '1.2', KEY_ID: KEY_ID, PUBKEY_B64: PUBKEY_B64, OPS: OPS, DEVICES: DEVICES, GHOSTKEY: GHOSTKEY, AUTH_ALIASES: AUTH_ALIASES, authOf: authOf, ringFromSigned: ringFromSigned, rootPins: rootPins, verifyRootP256: verifyRootP256, NEW_ROOT_KEY_ID: NEW_ROOT_KEY_ID, ROOT_LABEL: ROOT_LABEL, verifyGhostkey: verifyGhostkey, verifyGhostkeyBytes: verifyGhostkeyBytes, message: message, deviceMessage: deviceMessage, verifyItem: verifyItem, verifyItemBytes: verifyItemBytes, verifyItemFrom: verifyItemFrom, verifyItemBytesFrom: verifyItemBytesFrom, fetchVerified: fetchVerified, _pureVerify: pureVerify };
 }));

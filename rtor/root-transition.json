@@ -42,5 +42,5 @@
   }
  },
  "signed": false,
- "note": "UNSIGNED DRAFT. Public keys only. New-root values are placeholders until rtor-root-fill-in reads the phone's root record."
+ "note": "Ring 2026-11-26.1 is signed by the new GHOSTKEY root 7c843e232d28. Public keys only."
 }
