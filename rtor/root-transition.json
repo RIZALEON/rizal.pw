@@ -1,0 +1,46 @@
+{
+ "schema": "rtor-root-transition-v1",
+ "label": "ASSM GHOSTMACHINE @chaserizal INDIGHOST KEY RZL111682",
+ "version": "2026-11-26.1",
+ "ordered_by": [
+  "Rizal t47u 2026-11-26 ~7:20 PM MT (card, option c): \"Make a new root key with command approval and re-pin all apps\"",
+  "Rizal t48u: label \"ASSM GHOSTMACHINE @chaserizal INDIGHOST KEY RZL111682\" (informational signature label, not a password, not key material)"
+ ],
+ "from": {
+  "keyId": "e5833fdfbbfe",
+  "alg": "ed25519",
+  "pub": "zs7M4OOB0zQhWOQw3SHpAY+XYxbZJvcPESy1y400Ti0=",
+  "status": "SUPERSEDED",
+  "deleted": false,
+  "prime_rule": "never deleted; everything it signed stays valid; every re-pinned app still accepts it (pinned set = old OR new)"
+ },
+ "to": {
+  "keyId": "7c843e232d28",
+  "alg": "p256",
+  "pub": "BNfuWTA+Fjc2YXH6lsaM3iQdEw98KneAy/Km0sjSLLmrSFZNaqY8oQUUz+La6TlOG3O5cUCcw25oPxLCbIPhlgU=",
+  "label": "ASSM GHOSTMACHINE @chaserizal INDIGHOST KEY RZL111682",
+  "approval": "command",
+  "keyStore": "secure-enclave (iPhone 17e, RCODE `rtor root create`)",
+  "accessControl": [
+   "privateKeyUsage"
+  ],
+  "accessible": "WhenUnlockedThisDeviceOnly",
+  "biometry": false,
+  "keyId_rule": "first 12 hex of sha256(X9.63 public point)",
+  "signature_field": "rootP256 (ECDSA P-256 / SHA-256 over rlab-update-v1)"
+ },
+ "pinned_set": "old OR new",
+ "signatures": {
+  "new_root_command": {
+   "status": "PENDING",
+   "sidecar": "/rtor/root-transition.json.sig.json",
+   "how": "typed `rtor sign` on the 17e (not wired for this kind yet; ring signing is)"
+  },
+  "old_root_faceid_cross_sign": {
+   "status": "OPTIONAL - not requested",
+   "how": "ЯCASKET Face ID over kind root-transition / id rtor-root-transition / name root-transition.json; proves the old root endorsed the new one to verifiers that only know the old root"
+  }
+ },
+ "signed": false,
+ "note": "UNSIGNED DRAFT. Public keys only. New-root values are placeholders until rtor-root-fill-in reads the phone's root record."
+}
