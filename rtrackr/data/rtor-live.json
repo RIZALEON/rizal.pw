@@ -1,7 +1,7 @@
 {
  "schema": "rzl.rtrackr.rtor-live.v2",
- "updated_at": "2026-11-27T13:02:47-07:00",
- "updated_at_mt": "Nov 27, 2026, 1:02:47 PM MT",
+ "updated_at": "2026-11-27T16:51:21-07:00",
+ "updated_at_mt": "Nov 27, 2026, 4:51:21 PM MT",
  "timezone": "America/Denver",
  "stale_after_s": 1200,
  "ghostchain": {
@@ -29,7 +29,7 @@
    "device": "rtor-neo-rtrackr-backside",
    "os": "darwin/arm64",
    "library_items": 1297,
-   "uptime_s": 3281,
+   "uptime_s": 16998,
    "magnet_ok": true,
    "filechain_height": 1359,
    "filechain_head": "60a35d35515e3efe7e7136a62d4c9ec53c11febf880a50faa66a3610333d2e22",
@@ -37,9 +37,7 @@
    "reseed": {
     "state": "waiting",
     "text": "Waiting for Rizal's RGHOSTKEY tap on the trusted device.",
-    "official_height": 5,
-    "official_tip": "4006b570883c31aff44891971dd1935a3a58a822293f919ace27e59d8cf0bb5b",
-    "source": "https://rizal.pw/rtrackr/data/rghostchain.json",
+    "official_height": 0,
     "unmet": [
      "no block 6 on the chain yet"
     ]
@@ -15637,13 +15635,13 @@
    "name": "moto",
    "reachable": false,
    "files": 0,
-   "checked": "2026-11-27T12:59:02-07:00"
+   "checked": "2026-11-27T16:47:41-07:00"
   },
   {
    "name": "pixel",
    "reachable": false,
    "files": 0,
-   "checked": "2026-11-27T12:59:04-07:00"
+   "checked": "2026-11-27T16:47:43-07:00"
   }
  ],
  "devices": [
@@ -15655,8 +15653,8 @@
    "app": "rtor-live-report",
    "version": "1",
    "status": "live",
-   "reported_at": "2026-11-27T13:02:48-07:00",
-   "reported_at_mt": "Nov 27, 2026, 1:02:48 PM MT",
+   "reported_at": "2026-11-27T16:51:29-07:00",
+   "reported_at_mt": "Nov 27, 2026, 4:51:29 PM MT",
    "rtor": {
     "status": "up",
     "client": "RTOR GHOSTCHAIN cryptoclient 0.2.6.2",
@@ -15719,7 +15717,7 @@
   "device_id": "neo",
   "device_name": "Neo",
   "role": "primary",
-  "lease_until": "2026-11-27T13:17:47-07:00",
+  "lease_until": "2026-11-27T17:06:21-07:00",
   "lease_s": 900,
   "failover": "Neo is primary. If this snapshot is older than stale_after_s, the next live device that holds a local publish mark and gh auth (LINUX-RIZAL when restored) takes the lease and writes rizal.pw. Phones report over RTOR only and never receive a publish token."
  },
