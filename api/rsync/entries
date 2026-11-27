@@ -1,8 +1,8 @@
 {
   "version": 1,
   "mode": "static",
-  "updated": "2026-11-21T19:36:00Z",
-  "live": "https://mixer-morris-feel-purpose.trycloudflare.com",
+  "updated": "2026-11-27T17:40:59Z",
+  "live": "https://understand-twenty-oval-there.trycloudflare.com",
   "note": "static discovery. live is the ASSM-RSYNC API (last 24h of entries). Authorization of the dated entry is owner-command (pt59u Go), not a cryptographic signature. | 2026-11-21 pt253u: infused with ASSM/RTOR link details (live URL refreshed, ЯID, devices, profile sha, RTOR space neo.assm ЯID-0027-Z3N5, sync info). Nothing removed. | 2026-11-21 12:36 MT pt257u correction: RTOR is a decentralized mesh of equal peers, not Neo-centric; role/state wording updated, old wording kept in superseded_wording.",
   "rtor_feed": "/rtor/feed.json",
   "entries_path": "/api/rsync/entries",
@@ -50,6 +50,11 @@
     {
       "url": "https://trails-sheet-skirt-travis.trycloudflare.com",
       "until": "2026-11-21T18:38:39Z",
+      "state": "superseded (quick tunnel restarted)"
+    },
+    {
+      "url": "https://mixer-morris-feel-purpose.trycloudflare.com",
+      "until": "2026-11-27T17:40:59Z",
       "state": "superseded (quick tunnel restarted)"
     }
   ],
