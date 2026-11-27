@@ -41,6 +41,6 @@
    "how": "ЯCASKET Face ID over kind root-transition / id rtor-root-transition / name root-transition.json; proves the old root endorsed the new one to verifiers that only know the old root"
   }
  },
- "signed": false,
+ "signed": true,
  "note": "Ring 2026-11-26.1 is signed by the new GHOSTKEY root 7c843e232d28. Public keys only."
 }
