@@ -1,0 +1,23 @@
+{
+  "accessControl" : [
+    "privateKeyUsage"
+  ],
+  "accessible" : "WhenUnlockedThisDeviceOnly",
+  "alg" : "p256",
+  "app" : "rcode",
+  "approval" : "command",
+  "biometry" : false,
+  "created" : "2026-11-27T08:28:25Z",
+  "device" : "iphone-17e",
+  "keyId" : "7c843e232d28",
+  "keyStore" : "secure-enclave",
+  "label" : "ASSM GHOSTMACHINE @chaserizal INDIGHOST KEY RZL111682",
+  "note" : "Public key only. Apps accept this root only after rtor-root-fill-in pins it (old OR new). Not a signature.",
+  "oldRootStatus" : "SUPERSEDED — kept, still accepted, never deleted (PRIME RULE)",
+  "pub" : "BNfuWTA+Fjc2YXH6lsaM3iQdEw98KneAy\/Km0sjSLLmrSFZNaqY8oQUUz+La6TlOG3O5cUCcw25oPxLCbIPhlgU=",
+  "role" : "GHOSTKEY root (new)",
+  "schema" : "rzl.rtor.root.v1",
+  "signed" : false,
+  "status" : "PENDING-PIN",
+  "supersedes" : "e5833fdfbbfe"
+}
