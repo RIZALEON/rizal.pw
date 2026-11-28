@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RKAST · website → devices</title>
+<!-- STAGED 20261114 (pt345u) on branch web-rkast-rtrackr-mint-20261114. Not deployed. Display only. ThundR look: black, #39ff14, Menlo. -->
+<link rel="stylesheet" href="/rtrackr/rtrackr.css">
+<style>.m{border:1px solid #133;padding:8px;margin:6px 0;background:#050505}.m b{color:#fff}.kind{color:#b388ff;font-size:11px;text-transform:uppercase}.dry{border-color:#fc0}.src{color:#555;font-size:10px}</style>
+</head><body>
+<header><a class="logo" href="/rkast/">▶ RKAST</a><span class="sub">website → own relays → your devices · Neo optional · display only</span>
+<span id="q"><button id="poll">POLL NOW</button></span></header>
+<div id="badge" class="badge pend">loading…</div>
+<main><div class="stats" id="stats"></div><h2>Messages</h2><div id="list"></div></main>
+<footer>RKAST 1.0 · feed <a href="/rkast/feed.json">/rkast/feed.json</a> (rsync.bundle.v1) · RTRACKR <a href="/rtrackr/">/rtrackr/</a> · nothing here signs, mints or installs.</footer>
+<script src="/rdragon-cryptosocial/rsync-core.js"></script>
+<script src="/rkast/rkast-core.js"></script>
+<script src="/rkast/rkast-listen.js"></script>
+<script>
+(function(){"use strict";var L=document.getElementById("list"),B=document.getElementById("badge"),S=document.getElementById("stats"),n=0;
+function E(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+var R=RKAST_LISTEN.create({onMsg:function(m){n++;var d=document.createElement("div");d.className="m"+(m.dry?" dry":"");
+ d.innerHTML='<span class="kind">'+E(m.kind)+(m.dry?" · DRY, NOT MINTED":"")+'</span><br><b>'+E(m.title)+'</b><br>'+E(m.text)+(m.ref?'<br><a href="'+E(m.ref)+'">'+E(m.ref)+'</a>':'')+'<div class="src">'+E(m.ts)+' · '+E(m._from)+'</div>';L.insertBefore(d,L.firstChild)}});
+function show(){var s=R.status();B.className="badge"+(Object.keys(s.errors).length&&!s.received?" bad":"");B.textContent="RKAST · "+s.received+" messages · "+Object.keys(s.bySource).length+" source(s) · nostr backup "+s.nostr;
+ S.innerHTML=R.sources().map(function(x){return'<div class="st"><span>'+E(x.name)+'</span><b>'+E(x.url)+'</b>'+(s.errors[x.url]?'<br><span class="no">'+E(s.errors[x.url])+'</span>':'')+'</div>'}).join("")}
+document.getElementById("poll").onclick=function(){R.poll().then(show)};R.poll().then(show);setInterval(function(){R.poll().then(show)},60000)})();
+</script></body></html>
