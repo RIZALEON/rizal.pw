@@ -99,6 +99,53 @@
    "alias": "owner-command authorization; not a cryptographic signature",
    "recorded": "2026-11-26T00:45:00-07:00",
    "version": "1.0.6.8 (87)"
+  },
+  {
+   "kind": "web",
+   "id": "rizal.pw-version",
+   "name": "rdragon-version.json",
+   "url": "/rdragon-version.json",
+   "size": 2420,
+   "sha256": "7736047f12c834c125eb5a499be1ac25a1dd60b02ce20da2f0484978e576d8ec",
+   "authorization": "owner-command",
+   "policy": "owner-command-is-signature (GHOSTKEY)",
+   "root": "7c843e232d28",
+   "ref": "Rizal t658u 2026-11-28 11:23 MT: Sign them already my command is my signature",
+   "command_ref": "t658u",
+   "command_text": "Sign them already my command is my signature",
+   "command_ts": "2026-11-28T11:23:00-07:00",
+   "journal_seq": 4,
+   "journal_hash": "581a313affd2645770f51baa9c4d7fbea28c3114a22e0264e35e1b47b6c22928",
+   "alias": "GHOSTKEY (owner-command authorization; not a cryptographic signature)",
+   "recorded": "2026-11-28T11:26:02-07:00",
+   "previous": {
+    "ref": "Rizal t226u 2026-11-25 14:49 MT: my command is my signature",
+    "sha256": "7736047f12c834c125eb5a499be1ac25a1dd60b02ce20da2f0484978e576d8ec"
+   }
+  },
+  {
+   "kind": "appcast",
+   "id": "appcast.dragon-skull.ios",
+   "name": "appcast.json",
+   "url": "/dragon-skull/ios/appcast.json",
+   "size": 2180,
+   "sha256": "0baf2791a7c6f709d1b2ac8da0c76d1e2ea5b20193f830e73593a7a4f5eedc20",
+   "authorization": "owner-command",
+   "policy": "owner-command-is-signature (GHOSTKEY)",
+   "root": "7c843e232d28",
+   "ref": "Rizal t658u 2026-11-28 11:23 MT: Sign them already my command is my signature",
+   "command_ref": "t658u",
+   "command_text": "Sign them already my command is my signature",
+   "command_ts": "2026-11-28T11:23:00-07:00",
+   "journal_seq": 4,
+   "journal_hash": "581a313affd2645770f51baa9c4d7fbea28c3114a22e0264e35e1b47b6c22928",
+   "alias": "GHOSTKEY (owner-command authorization; not a cryptographic signature)",
+   "recorded": "2026-11-28T11:26:02-07:00",
+   "previous": {
+    "ref": "Rizal t156u/t157u 2026-11-26 MT: Yes; Make sure this ThundR is integrated into all our 17e apps (standing go t146u/t147u: the command is my signature)",
+    "sha256": "0baf2791a7c6f709d1b2ac8da0c76d1e2ea5b20193f830e73593a7a4f5eedc20"
+   }
   }
- ]
+ ],
+ "updated": "2026-11-28T11:26:02-07:00"
 }
