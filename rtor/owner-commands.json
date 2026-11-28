@@ -145,7 +145,85 @@
     "ref": "Rizal t156u/t157u 2026-11-26 MT: Yes; Make sure this ThundR is integrated into all our 17e apps (standing go t146u/t147u: the command is my signature)",
     "sha256": "0baf2791a7c6f709d1b2ac8da0c76d1e2ea5b20193f830e73593a7a4f5eedc20"
    }
+  },
+  {
+   "kind": "build",
+   "id": "rcode-42.9.2",
+   "name": "rcode-42.9.2-manifest.json",
+   "url": "/rtor/rcode/rcode-42.9.2-manifest.json",
+   "size": 1116,
+   "sha256": "5cb75e539898d00fd01887aeae034bbadaf18a684a543399ea09ddb5b5fc66c8",
+   "authorization": "owner-command",
+   "policy": "owner-command-is-signature (GHOSTKEY)",
+   "root": "7c843e232d28",
+   "ref": "Rizal t666u 2026-11-28 12:31 MT: push the updates out now i already signed via my command",
+   "command_ref": "t666u",
+   "command_refs": [
+    "t666u",
+    "t658u"
+   ],
+   "command_text": "push the updates out now i already signed via my command",
+   "command_ts": "2026-11-28T12:31:00-07:00",
+   "journal_seq": 5,
+   "journal_hash": "f943c4e629c764f29b3a0a920b9196abd5cacc150b16a0983d32753f14ffafbe",
+   "alias": "GHOSTKEY (owner-command authorization; not a cryptographic signature)",
+   "recorded": "2026-11-28T12:34:07-07:00",
+   "previous": null
+  },
+  {
+   "kind": "web",
+   "id": "rizal.pw-version",
+   "name": "rdragon-version.json",
+   "url": "/rdragon-version.json",
+   "size": 2420,
+   "sha256": "7736047f12c834c125eb5a499be1ac25a1dd60b02ce20da2f0484978e576d8ec",
+   "authorization": "owner-command",
+   "policy": "owner-command-is-signature (GHOSTKEY)",
+   "root": "7c843e232d28",
+   "ref": "Rizal t666u 2026-11-28 12:31 MT: push the updates out now i already signed via my command",
+   "command_ref": "t666u",
+   "command_refs": [
+    "t666u",
+    "t658u"
+   ],
+   "command_text": "push the updates out now i already signed via my command",
+   "command_ts": "2026-11-28T12:31:00-07:00",
+   "journal_seq": 5,
+   "journal_hash": "f943c4e629c764f29b3a0a920b9196abd5cacc150b16a0983d32753f14ffafbe",
+   "alias": "GHOSTKEY (owner-command authorization; not a cryptographic signature)",
+   "recorded": "2026-11-28T12:34:07-07:00",
+   "previous": {
+    "ref": "Rizal t658u 2026-11-28 11:23 MT: Sign them already my command is my signature",
+    "sha256": "7736047f12c834c125eb5a499be1ac25a1dd60b02ce20da2f0484978e576d8ec"
+   }
+  },
+  {
+   "kind": "appcast",
+   "id": "appcast.dragon-skull.ios",
+   "name": "appcast.json",
+   "url": "/dragon-skull/ios/appcast.json",
+   "size": 2180,
+   "sha256": "0baf2791a7c6f709d1b2ac8da0c76d1e2ea5b20193f830e73593a7a4f5eedc20",
+   "authorization": "owner-command",
+   "policy": "owner-command-is-signature (GHOSTKEY)",
+   "root": "7c843e232d28",
+   "ref": "Rizal t666u 2026-11-28 12:31 MT: push the updates out now i already signed via my command",
+   "command_ref": "t666u",
+   "command_refs": [
+    "t666u",
+    "t658u"
+   ],
+   "command_text": "push the updates out now i already signed via my command",
+   "command_ts": "2026-11-28T12:31:00-07:00",
+   "journal_seq": 5,
+   "journal_hash": "f943c4e629c764f29b3a0a920b9196abd5cacc150b16a0983d32753f14ffafbe",
+   "alias": "GHOSTKEY (owner-command authorization; not a cryptographic signature)",
+   "recorded": "2026-11-28T12:34:07-07:00",
+   "previous": {
+    "ref": "Rizal t658u 2026-11-28 11:23 MT: Sign them already my command is my signature",
+    "sha256": "0baf2791a7c6f709d1b2ac8da0c76d1e2ea5b20193f830e73593a7a4f5eedc20"
+   }
   }
  ],
- "updated": "2026-11-28T11:26:02-07:00"
+ "updated": "2026-11-28T12:34:07-07:00"
 }

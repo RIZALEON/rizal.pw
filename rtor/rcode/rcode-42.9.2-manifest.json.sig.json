@@ -1,0 +1,25 @@
+{
+ "kind": "build",
+ "id": "rcode-42.9.2",
+ "version": "42.9.2",
+ "name": "rcode-42.9.2-manifest.json",
+ "size": 1116,
+ "sha256": "5cb75e539898d00fd01887aeae034bbadaf18a684a543399ea09ddb5b5fc66c8",
+ "keyId": "7c843e232d28",
+ "signed": false,
+ "authorization": "owner-command",
+ "status": "authorized-by-owner-command",
+ "policy": "owner-command-is-signature (GHOSTKEY)",
+ "command_ref": "t666u",
+ "command_refs": [
+  "t666u",
+  "t658u"
+ ],
+ "command_text": "push the updates out now i already signed via my command",
+ "command_ts": "2026-11-28T12:31:00-07:00",
+ "journal_seq": 5,
+ "journal_hash": "f943c4e629c764f29b3a0a920b9196abd5cacc150b16a0983d32753f14ffafbe",
+ "message": "rlab-update-v1\nbuild\nrcode-42.9.2\n42.9.2\nrcode-42.9.2-manifest.json\n1116\n5cb75e539898d00fd01887aeae034bbadaf18a684a543399ea09ddb5b5fc66c8",
+ "note": "Owner-command authorization for exactly these bytes (size + sha256). Not a cryptographic signature: rootP256 is added only by the Decider's typed GHOSTKEY sign on the iPhone 17e.",
+ "previous_sidecar": null
+}
