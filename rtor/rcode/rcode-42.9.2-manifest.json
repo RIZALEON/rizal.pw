@@ -1,0 +1,33 @@
+{
+ "artifacts": [
+  {
+   "built": "2026-11-28T12:13-07:00",
+   "file": "RCODE-android-42.9.2-debug.apk",
+   "platform": "android",
+   "sha256": "c1eb5b11e4607ba24a82793fcef5394c16034566e0052ae61d54a4751442d0ce",
+   "size": 51766288,
+   "versionCode": 4292
+  },
+  {
+   "build": "42.9.2",
+   "file": "RCODE.app (tree)",
+   "platform": "macos",
+   "tree_sha256": "83a81a4448d16ad17898f57b0746d946f5f7a3debc65a2cd96a053349bd71ec9"
+  },
+  {
+   "build": "42.9.2",
+   "file": "RCODE.app (tree)",
+   "platform": "ios",
+   "tree_sha256": "d79216ad5b0e64e8b71cd6fa4529b56dac1c65a98df289368d9e294626c2810f"
+  }
+ ],
+ "built": "2026-11-28",
+ "note": "RCODE 42.9.2 unified update (iOS 17e, Mac Neo, Android Moto), already installed in place on all three. Authorized by owner-command t666u (+t658u); not a cryptographic signature.",
+ "schema": "rcode-release-manifest-v1",
+ "signed": false,
+ "supersedes": {
+  "sha256": "c706a0c274ee1fd18d713f0bba4f0be518f8ddb4ef8cbb64adbcce4e5a66a0b0",
+  "why": "staged 12:11 MT from the pre-12:13 builds (APK 7d4fa7e7); the installed/proven builds are the 12:13 ones"
+ },
+ "version": "42.9.2"
+}
