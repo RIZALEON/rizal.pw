@@ -1,11 +1,11 @@
 {
  "kind": "ghostkey",
  "id": "ghostkey-ring",
- "version": "2026-11-26.1",
+ "version": "2026-11-27.1",
  "name": "ghostkey.json",
- "size": 6602,
- "sha256": "6ada616fa9b06884bb8d5307bd523720df3ef6454d0f70cd2f06c803f9ea8cf6",
- "rootP256": "MEYCIQD7TjIqbt5CUPeXbq07hq2alxCyBsyVVzuYiO7AK2IumQIhAMYkQ6+siyMDVCwZfh74LmsQv17g51NVCvBOks4Q2aDj",
+ "size": 6569,
+ "sha256": "380479169a56d8f853c237eba5b5fa19b4f7b286d0460ffef22d1beff61cdee5",
+ "rootP256": "MEYCIQC9WUZ7ZlOjEimym4XC6KNhaWPGi+xE5PpBuaM81ZWhvQIhALBsCgR5PUAPDSrcQ+q3QgRymAT95HVoCgJh9uo7yQew",
  "keyId": "7c843e232d28",
  "label": "ASSM GHOSTMACHINE @chaserizal INDIGHOST KEY RZL111682"
 }

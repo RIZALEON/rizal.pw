@@ -1,12 +1,12 @@
 {
  "schema": "ghostkey-ring-v1",
  "name": "GHOSTKEY",
- "version": "2026-11-26.1",
+ "version": "2026-11-27.1",
  "ordered_by": [
   "Rizal t176u 2026-11-18 4:39 PM MT: updates with a source from one of our three devices are accepted for seed, leech, send and receive",
   "Rizal t177u 2026-11-18 4:54 PM MT: Change owner command to Ghostkey and integrate all keys into that one",
-  "Rizal t45u/t46u 2026-11-26 ~7 PM MT: \"Those are the blue rings I officially sign now\" — add the RCODE iPhone 17e GHOSTKEY device key dc56e85e4bdc (Secure Enclave, command approval) to the super real true anti nuclear polygamy ring. DRAFT: unsigned until the root e5833fdfbbfe signs this file.",
-  "Rizal t47u 2026-11-26 ~7:20 PM MT (card, option c): \"Make a new root key with command approval and re-pin all apps\" — roots[] = old e5833fdfbbfe SUPERSEDED (kept, never deleted) + the NEW Secure Enclave P-256 root (typed-command approval). DRAFT: new root pins are placeholders until rtor-root-fill-in."
+  "Rizal t45u/t46u 2026-11-26 ~7 PM MT: \"Those are the blue rings I officially sign now\" — add the RCODE iPhone 17e GHOSTKEY device key dc56e85e4bdc (Secure Enclave, command approval) to the super real true anti nuclear polygamy ring. polyrings ghostkey real true verified fresh certified.",
+  "Rizal t47u 2026-11-26 ~7:20 PM MT (card, option c): \"Make a new root key with command approval and re-pin all apps\" — roots[] = old e5833fdfbbfe SUPERSEDED (kept, never deleted) + the NEW Secure Enclave P-256 root (typed-command approval). polyrings ghostkey real true verified fresh certified · root 7c843e232d28."
  ],
  "what": "GHOSTKEY is ONE trust root + keyring (RGHOSTKEY · ЯWALLET · RTRACKR · ASSM, the lab's ROS signing method). Private keys are never merged or moved: 'signed by GHOSTKEY' = signed by the root key OR by an ACTIVE member key of a ring the root signed, for the op requested.",
  "rule": "Root: ed25519 over 'rlab-update-v1\\n<kind>\\n<id>\\n<version>\\n<name>\\n<size>\\n<sha256>' (field ed25519). Member: P-256 ECDSA-SHA256 (field p256, raw r||s or DER) over 'rlab-device-update-v1\\n<fp>\\n<kind>\\n<id>\\n<version>\\n<name>\\n<size>\\n<sha256>' with field device=<fp>. Size + sha256 always checked. A label ('ghostkey', 'owner-command', 'source', 'device') without a signature is REFUSED.",
@@ -38,7 +38,7 @@
   "name": "GHOSTKEY root (Rizal owner key, ЯCASKET / Face ID)"
  },
  "ring_signature": {
-  "status": "PENDING: Rizal signs this ring once with the root e5833fdfbbfe (sidecar ghostkey.json.sig.json, kind 'ghostkey', id 'ghostkey-ring', name 'ghostkey.json'). Until then apps use the ring PINNED in their verifier.",
+  "status": "CERTIFIED: polyrings ghostkey real · signed by root 7c843e232d28 (sidecar ghostkey.json.sig.json, kind 'ghostkey', id 'ghostkey-ring', name 'ghostkey.json').",
   "sidecar": "/rtor/ghostkey.json.sig.json",
   "label": "ASSM GHOSTMACHINE @chaserizal INDIGHOST KEY RZL111682",
   "label_note": "Rizal t48u 2026-11-26: informational signature label only — not a password, not key material, not a signature."
@@ -151,7 +151,7 @@
    "ring": "blue",
    "ring_label": "super real true anti nuclear polygamy ring",
    "ring_statement": "Those are the blue rings I officially sign now",
-   "ring_label_by": "Rizal t45u 2026-11-26 (label added to the UNSIGNED pending record; not a signature)",
+   "ring_label_by": "Rizal t45u 2026-11-26 (label added to the certified polyrings ghostkey record; not a signature)",
    "app": "rcode",
    "keyStore": "secure-enclave",
    "approval": "command"
