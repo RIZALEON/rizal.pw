@@ -1,10 +1,30 @@
 {
  "kind": "web",
  "id": "rizal.pw-version",
- "version": "20261117-bac2a66",
+ "version": "rtoken20261105-race-pack-rfont-feed-1.300",
  "name": "rdragon-version.json",
- "size": 2386,
- "sha256": "44e2f1d203301d95ac2848038681365125a0573dc6302b3ded3a0aa9a6a9b5ca",
- "ed25519": "ESVA69gsqZUdrnqIYAa5FeWP7my45yvBMxPb6z+mRj2+7fx6LwbQ/UCN3ZqasxiFZLks1PRJSeaVits4MjhfAg==",
- "keyId": "e5833fdfbbfe"
+ "size": 2420,
+ "sha256": "7736047f12c834c125eb5a499be1ac25a1dd60b02ce20da2f0484978e576d8ec",
+ "keyId": "7c843e232d28",
+ "signed": false,
+ "authorization": "owner-command",
+ "status": "authorized-by-owner-command",
+ "policy": "owner-command-is-signature (GHOSTKEY)",
+ "command_ref": "t658u",
+ "command_text": "Sign them already my command is my signature",
+ "command_ts": "2026-11-28T11:23:00-07:00",
+ "journal_seq": 4,
+ "journal_hash": "581a313affd2645770f51baa9c4d7fbea28c3114a22e0264e35e1b47b6c22928",
+ "message": "rlab-update-v1\nweb\nrizal.pw-version\nrtoken20261105-race-pack-rfont-feed-1.300\nrdragon-version.json\n2420\n7736047f12c834c125eb5a499be1ac25a1dd60b02ce20da2f0484978e576d8ec",
+ "note": "Owner-command authorization for exactly these bytes (size + sha256). Not a cryptographic signature: rootP256 is added only by the Decider's typed GHOSTKEY sign on the iPhone 17e.",
+ "previous_sidecar": {
+  "kind": "web",
+  "id": "rizal.pw-version",
+  "version": "20261117-bac2a66",
+  "name": "rdragon-version.json",
+  "size": 2386,
+  "sha256": "44e2f1d203301d95ac2848038681365125a0573dc6302b3ded3a0aa9a6a9b5ca",
+  "ed25519": "ESVA69gsqZUdrnqIYAa5FeWP7my45yvBMxPb6z+mRj2+7fx6LwbQ/UCN3ZqasxiFZLks1PRJSeaVits4MjhfAg==",
+  "keyId": "e5833fdfbbfe"
+ }
 }
